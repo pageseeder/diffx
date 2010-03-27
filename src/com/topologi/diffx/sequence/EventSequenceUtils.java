@@ -1,3 +1,10 @@
+/*
+ * This file is part of the DiffX library.
+ *
+ * For licensing information please see the file license.txt included in the release.
+ * A copy of this licence can also be found at 
+ *   http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 package com.topologi.diffx.sequence;
 
 import java.util.Stack;
@@ -5,7 +12,6 @@ import java.util.Stack;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.CloseElementEvent;
-
 
 /**
  * A utility class for event sequences.
