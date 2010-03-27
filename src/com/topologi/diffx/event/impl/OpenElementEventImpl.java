@@ -22,7 +22,7 @@ import com.topologi.diffx.xml.XMLWriter;
  * <p>This implementation is not namespace aware.
  * 
  * @author Christophe Lauret
- * @version 17 May 2005
+ * @version 27 March 2010
  */
 public final class OpenElementEventImpl extends DiffXEventBase implements OpenElementEvent {
 
@@ -30,6 +30,11 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
    * The local name of the element.
    */
   private final String name;
+
+  /**
+   * Hashcode value for this event.
+   */
+  private final int hashCode;
 
   /**
    * Creates a new open element event.
@@ -42,6 +47,7 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
     if (name == null)
       throw new NullPointerException("Element must have a name.");
     this.name = name;
+    this.hashCode = toHashCode(name);
   }
 
   /**
@@ -52,7 +58,7 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
   }
 
   /**
-   * @return Returns the uri.
+   * @return Returns the Namespace URI.
    */
   public String getURI() {
     return Constants.DEFAULT_URI;
@@ -62,7 +68,7 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.name.hashCode();
+    return this.hashCode;
   }
 
   /**
@@ -104,4 +110,13 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
     return xml.append('<').append(this.name).append('>');
   }
 
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param s String from which the hashcode is calculated.
+   * @return a number suitable as a hashcode.
+   */
+  private static final int toHashCode(String s) {
+    return 11 * 41 + (s != null? s.hashCode() : 0);
+  }
 }

@@ -16,14 +16,14 @@ import com.topologi.diffx.xml.XMLWriter;
 /**
  * A particular type of event reserved for ignored white spaces.
  * 
- * <p>This class can be used to ignore whitespaces for processing but preserve
- * them for formatting. This event keeps the exact formatting of the white space
- * henceby preserving it, but will consider any instances of this class to be 
- * equal regardless of their actual formatting so that the algorithm ignores the
- * differences.
+ * <p>
+ * This class can be used to ignore whitespaces for processing but preserve them for formatting.
+ * This event keeps the exact formatting of the white space henceby preserving it, but will consider
+ * any instances of this class to be equal regardless of their actual formatting so that the
+ * algorithm ignores the differences.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 7 April 2005
+ * @author Christophe Lauret
+ * @version 28 March 2010
  */
 public final class IgnorableSpaceEvent implements TextEvent {
 
@@ -37,7 +37,7 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * 
    * @param seq The char sequence.
    * 
-   * @throws NullPointerException If the given String is <code>null</code>. 
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
   public IgnorableSpaceEvent(CharSequence seq) throws NullPointerException {
     if (seq == null)
@@ -58,12 +58,12 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * {@inheritDoc}
    */
   public int hashCode() {
-    return 0;
+    return 71;
   }
 
   /**
-   * Returns <code>true</code> if the event is an ignorable white space, regardless
-   * of the characters that it matches.  
+   * Returns <code>true</code> if the event is an ignorable white space, regardless of the
+   * characters that it matches.
    * 
    * @param e The event to compare with this event.
    * 
@@ -71,17 +71,20 @@ public final class IgnorableSpaceEvent implements TextEvent {
    *         <code>false</code> otherwise.
    */
   public boolean equals(DiffXEvent e) {
-    if (this == e) return true;
-    if (e.getClass() != this.getClass()) return false;
-    // all return true if it is an 
+    if (this == e)
+      return true;
+    if (e.getClass() != this.getClass())
+      return false;
+    // always return true
     return true;
   }
 
   /**
    * Returns the characters that this event represents.
    * 
-   * <p>Note: this method will return the characters as used by Java (ie. Unicode), they
-   * may not be suitable for writing to an XML string.
+   * <p>
+   * Note: this method will return the characters as used by Java (ie. Unicode), they may not be
+   * suitable for writing to an XML string.
    * 
    * @return The characters that this event represents.
    */
@@ -112,7 +115,6 @@ public final class IgnorableSpaceEvent implements TextEvent {
     return xml;
   }
 
-  
   /**
    * {@inheritDoc}
    */

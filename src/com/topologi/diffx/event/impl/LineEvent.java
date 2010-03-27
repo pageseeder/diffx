@@ -17,10 +17,9 @@ import com.topologi.diffx.xml.XMLWriter;
  * An interface for any data that comes from a text node.
  * 
  * @author Christophe Lauret
- * @version 10 March 2005
+ * @version 27 March 2010
  */
-public final class LineEvent extends DiffXEventBase
-                             implements TextEvent {
+public final class LineEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * The characters for this event.
@@ -31,6 +30,11 @@ public final class LineEvent extends DiffXEventBase
    * The line number.
    */
   private final int lineNumber;
+
+  /**
+   * Hashcode value for this class
+   */
+  private final int hashCode;
 
   /**
    * Creates a new line event.
@@ -45,6 +49,7 @@ public final class LineEvent extends DiffXEventBase
       throw new NullPointerException("The line cannot be null, use \"\"");
     this.characters = line;
     this.lineNumber = lineNumber;
+    this.hashCode = toHashCode(line);
   }
 
   /**
@@ -58,7 +63,7 @@ public final class LineEvent extends DiffXEventBase
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.characters.hashCode();
+    return this.hashCode;
   }
 
   /**
@@ -111,6 +116,16 @@ public final class LineEvent extends DiffXEventBase
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append(this.characters);
     return xml;
+  }
+
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param comment The comment string.
+   * @return a number suitable as a hashcode.
+   */
+  private int toHashCode(CharSequence text) {
+    return text != null? 29*59 + text.hashCode() : 29*59;
   }
 
 }

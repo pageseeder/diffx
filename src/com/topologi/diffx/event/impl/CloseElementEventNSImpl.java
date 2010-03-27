@@ -9,17 +9,17 @@ package com.topologi.diffx.event.impl;
 
 import java.io.IOException;
 
-import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.CloseElementEvent;
+import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
+import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.xml.XMLWriter;
-
 
 /**
  * The event corresponding to the <code>startElement</code> SAX event.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 12 May 2005
+ * @author Christophe Lauret
+ * @version 28 March 2010
  */
 public final class CloseElementEventNSImpl extends DiffXEventBase implements CloseElementEvent {
 
@@ -80,7 +80,7 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
   }
 
   /**
-   * @return Returns the uri.
+   * @return Returns the namespace URI.
    */
   public String getURI() {
     return this.open.getURI();
@@ -107,7 +107,7 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
    * {@inheritDoc}
    */
   public int hashCode() {
-    return 1 + this.open.hashCode();
+    return 89 + this.open.hashCode();
   }
 
   /**

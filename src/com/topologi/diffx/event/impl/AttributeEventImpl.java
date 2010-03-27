@@ -16,10 +16,12 @@ import com.topologi.diffx.xml.XMLWriter;
 /**
  * A basic implementation of the attribute event.
  * 
- * <p>This implementation is not namespace aware.
+ * <p>
+ * This implementation is not namespace aware.
  * 
- * @author Christophe Lauret, Jean-Baptiste Reure
- * @version 3 April 2005
+ * @author Christophe Lauret
+ * @author Jean-Baptiste Reure
+ * @version 28 March 2010
  */
 public final class AttributeEventImpl extends DiffXEventBase implements AttributeEvent {
 
@@ -34,9 +36,14 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   private final String value;
 
   /**
+   * A suitable hashcode value.
+   */
+  private final int hashCode;
+
+  /**
    * Creates a new attribute event.
-   *
-   * @param name  The local name of the attribute.
+   * 
+   * @param name The local name of the attribute.
    * @param value The value of the attribute.
    * 
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -48,6 +55,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
       throw new NullPointerException("The attribute value cannot be null, use \"\".");
     this.name = name;
     this.value = value;
+    this.hashCode = toHashCode(name, value);
   }
 
   /**
@@ -77,11 +85,11 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.name.hashCode() + this.value.hashCode();
+    return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a  
+   * Returns <code>true</code> if the event is a
    * 
    * @param e The event to compare with this event.
    * 
@@ -89,17 +97,17 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
    *         <code>false</code> otherwise.
    */
   public boolean equals(DiffXEvent e) {
-    if (e.getClass() != this.getClass()) return false;
-    AttributeEventImpl bae = (AttributeEventImpl)e;
-    return (bae.name.equals(this.name)
-         && bae.value.equals(this.value));
+    if (e.getClass() != this.getClass())
+      return false;
+    AttributeEventImpl bae = (AttributeEventImpl) e;
+    return (bae.name.equals(this.name) && bae.value.equals(this.value));
   }
 
   /**
    * {@inheritDoc}
    */
   public String toString() {
-    return "attribute: "+this.name+"="+this.value;
+    return "attribute: " + this.name + "=" + this.value;
   }
 
   /**
@@ -119,6 +127,20 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
     xml.append(ESC.toAttributeValue(this.value));
     xml.append('"');
     return xml;
+  }
+
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param name The attribute name.
+   * @param value The attribute value.
+   * @return a number suitable as a hashcode.
+   */
+  private static final int toHashCode(String name, String value) {
+    int hash = 23;
+    hash = hash * 37 + name != null ? name.hashCode() : 0;
+    hash = hash * 37 + value != null ? value.hashCode() : 0;
+    return hash;
   }
 
 }

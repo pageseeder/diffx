@@ -12,11 +12,10 @@ import com.topologi.diffx.event.TextEvent;
 /**
  * A particular type of event reserved for white spaces.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 23 December 2004
+ * @author Christophe Lauret
+ * @version 27 March 2010
  */
-public final class SpaceEvent extends CharactersEventBase
-                              implements TextEvent {
+public final class SpaceEvent extends CharactersEventBase implements TextEvent {
 
   /**
    * A static instance for the single whitespaces.

@@ -12,11 +12,10 @@ import com.topologi.diffx.event.TextEvent;
 /**
  * A text event representing a word.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 23 December 2004
+ * @author Christophe Lauret
+ * @version 27 March 2010
  */
-public final class WordEvent extends CharactersEventBase
-                             implements TextEvent {
+public final class WordEvent extends CharactersEventBase implements TextEvent {
 
   /**
    * Creates a new word event.

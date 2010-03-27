@@ -18,10 +18,9 @@ import com.topologi.diffx.xml.XMLWriter;
  * The event corresponding to the <code>startElement</code> SAX event.
  * 
  * @author Christophe Lauret
- * @version 17 May 2005
+ * @version 27 March 2010
  */
-public final class OpenElementEventNSImpl extends DiffXEventBase
-                                    implements DiffXEvent, OpenElementEvent {
+public final class OpenElementEventNSImpl extends DiffXEventBase implements DiffXEvent, OpenElementEvent {
 
   /**
    * The namespace URI of the element.
@@ -32,6 +31,11 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
    * The local name of the element.
    */
   private final String name;
+
+  /**
+   * Hashcode value for this event.
+   */
+  private final int hashCode;
 
   /**
    * Creates a new open element event with the default URI.
@@ -47,6 +51,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
       throw new NullPointerException("Element must have a name.");
     this.uri = Constants.DEFAULT_URI;
     this.name = name;
+    this.hashCode = toHashCode(Constants.DEFAULT_URI, name);
   }
 
   /**
@@ -64,6 +69,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
       throw new NullPointerException("Element must have a name.");
     this.uri = uri;
     this.name = name;
+    this.hashCode = toHashCode(uri, name);
   }
 
   /**
@@ -74,7 +80,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
   }
 
   /**
-   * @return Returns the uri.
+   * @return Returns the namespace URI.
    */
   public String getURI() {
     return this.uri;
@@ -84,7 +90,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.uri.hashCode() + this.name.hashCode();
+    return this.hashCode;
   }
 
   /**
@@ -128,6 +134,19 @@ public final class OpenElementEventNSImpl extends DiffXEventBase
   public StringBuffer toXML(StringBuffer xml) {
     // TODO: handle namespaces
     return xml.append('<').append(this.name).append('>');
+  }
+
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param comment The comment string.
+   * @return a number suitable as a hashcode.
+   */
+  private int toHashCode(String uri, String name) {
+    int hash = 107;
+    hash = hash * 13 + uri != null? uri.hashCode() : 0;
+    hash = hash * 13 + name != null? name.hashCode() : 0;
+    return hash;
   }
 
 }

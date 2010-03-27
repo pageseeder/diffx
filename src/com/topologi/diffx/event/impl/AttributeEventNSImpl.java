@@ -16,8 +16,9 @@ import com.topologi.diffx.xml.XMLWriter;
 /**
  * A namespace aware implementation of the attribute event.
  * 
- * @author Christophe Lauret, Jean-Baptiste Reure
- * @version 7 April 2005
+ * @author Christophe Lauret
+ * @author Jean-Baptiste Reure
+ * @version 28 March 2010
  */
 public final class AttributeEventNSImpl extends DiffXEventBase implements AttributeEvent {
 
@@ -37,9 +38,14 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   private final String value;
 
   /**
+   * A suitable hashcode value.
+   */
+  private final int hashCode;
+
+  /**
    * Creates a new attribute event.
-   *
-   * @param name  The local name of the attribute.
+   * 
+   * @param name The local name of the attribute.
    * @param value The value of the attribute.
    * 
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -52,13 +58,14 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     this.name = name;
     this.value = value;
     this.uri = null;
+    this.hashCode = toHashCode(uri, name, value);
   }
 
   /**
    * Creates a new attribute event.
-   *
-   * @param uri  The uri of the attribute.
-   * @param name  The local name of the attribute.
+   * 
+   * @param uri The uri of the attribute.
+   * @param name The local name of the attribute.
    * @param value The value of the attribute.
    * 
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -71,6 +78,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     this.name = name;
     this.value = value;
     this.uri = uri;
+    this.hashCode = toHashCode(uri, name, value);
   }
 
   /**
@@ -98,11 +106,11 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.name.hashCode() + this.value.hashCode();
+    return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a  
+   * Returns <code>true</code> if the event is a
    * 
    * @param e The event to compare with this event.
    * 
@@ -110,11 +118,15 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    *         <code>false</code> otherwise.
    */
   public boolean equals(DiffXEvent e) {
-    if (e.getClass() != this.getClass()) return false;
-    AttributeEventNSImpl ae = (AttributeEventNSImpl)e;
-    if (!ae.name.equals(this.name)) return false;
-    if (!equals(ae.uri, this.uri)) return false;
-    if (!ae.value.equals(this.value)) return false;
+    if (e.getClass() != this.getClass())
+      return false;
+    AttributeEventNSImpl ae = (AttributeEventNSImpl) e;
+    if (!ae.name.equals(this.name))
+      return false;
+    if (!equals(ae.uri, this.uri))
+      return false;
+    if (!ae.value.equals(this.value))
+      return false;
     return true;
   }
 
@@ -122,7 +134,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * {@inheritDoc}
    */
   public String toString() {
-    return "attribute: "+this.name+"="+this.value+" ["+this.uri+"]";
+    return "attribute: " + this.name + "=" + this.value + " [" + this.uri + "]";
   }
 
   /**
@@ -146,19 +158,35 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   }
 
   /**
-   * Returns <code>true</code> if both namespace URI are <code>null</code>
-   * or equal.
+   * Returns <code>true</code> if both namespace URI are <code>null</code> or equal.
    * 
    * @param uri1 The first namespace URI.
    * @param uri2 The second namespace URI.
    * 
-   * @return <code>true</code> if both <code>null</code> or equal;
-   *         <code>false</code> otherwise.
+   * @return <code>true</code> if both <code>null</code> or equal; <code>false</code> otherwise.
    */
   private static boolean equals(String uri1, String uri2) {
-    if (uri1 == null && uri2 == null) return true;
-    if (uri1 == null || uri2 == null) return false;
+    if (uri1 == null && uri2 == null)
+      return true;
+    if (uri1 == null || uri2 == null)
+      return false;
     return uri1.equals(uri2);
+  }
+
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param uri The URI.
+   * @param name The attribute name.
+   * @param value The attribute value.
+   * @return a number suitable as a hashcode.
+   */
+  private static final int toHashCode(String uri, String name, String value) {
+    int hash = 17;
+    hash = hash * 31 + uri != null ? uri.hashCode() : 0;
+    hash = hash * 31 + name != null ? name.hashCode() : 0;
+    hash = hash * 31 + value != null ? value.hashCode() : 0;
+    return hash;
   }
 
 }

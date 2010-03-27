@@ -7,7 +7,6 @@
  */
 package com.topologi.diffx.event.impl;
 
-
 import java.io.IOException;
 
 import com.topologi.diffx.event.DiffXEvent;
@@ -17,10 +16,9 @@ import com.topologi.diffx.xml.XMLWriter;
  * A processing instruction event.
  * 
  * @author Christophe Lauret
- * @version 4 April 2005
+ * @version 27 March 2010
  */
-public final class ProcessingInstructionEvent extends DiffXEventBase
-                                              implements DiffXEvent {
+public final class ProcessingInstructionEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * The target of the processing instruction.
@@ -33,6 +31,11 @@ public final class ProcessingInstructionEvent extends DiffXEventBase
   private final String data;
 
   /**
+   * Hashcode value for this event.
+   */
+  private final int hashCode;
+
+  /**
    * Creates a new processing instruction event.
    *
    * @param target The target of the processing instruction.
@@ -43,6 +46,7 @@ public final class ProcessingInstructionEvent extends DiffXEventBase
   public ProcessingInstructionEvent(String target, String data) throws NullPointerException {
     this.target = target;
     this.data = data;
+    this.hashCode = toHashCode(target, data);
   }
 
   /**
@@ -67,7 +71,7 @@ public final class ProcessingInstructionEvent extends DiffXEventBase
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.target.hashCode() + this.data.hashCode();
+    return this.hashCode;
   }
 
   /**
@@ -110,6 +114,20 @@ public final class ProcessingInstructionEvent extends DiffXEventBase
     xml.append(this.data);
     xml.append("?>");
     return xml;
+  }
+
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param s1 A string to calculate the value from.
+   * @param s1 Another string to calculate the value from.
+   * @return a number suitable as a hashcode.
+   */
+  private static final int toHashCode(String s1, String s2) {
+    int hash = 7;
+    hash = hash * 103 + s1 != null? s1.hashCode() : 0;
+    hash = hash * 103 + s2 != null? s2.hashCode() : 0;
+    return hash;
   }
 
 }

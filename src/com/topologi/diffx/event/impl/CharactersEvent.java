@@ -10,12 +10,12 @@ package com.topologi.diffx.event.impl;
 /**
  * An event corresponds to the "characters" SAX event.
  * 
- * <p>This event can be used to represent the text content of entire element.
- * Typically, this would happen when there is no need to examine the text content of
- * the node.
+ * <p>
+ * This event can be used to represent the text content of entire element. Typically, this would
+ * happen when there is no need to examine the text content of the node.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 10 December 2004
+ * @author Christophe Lauret
+ * @version 28 March 2010
  */
 public final class CharactersEvent extends CharactersEventBase {
 

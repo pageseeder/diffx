@@ -14,9 +14,9 @@ import com.topologi.diffx.xml.esc.XMLEscapeUTF8;
 /**
  * A base class for DiffX events.
  * 
- * <p>This class is purely provided for convenience and consistency, it is best,
- * althouhg not strictly required, that most <code>DiffXEvent</code> implementations
- * extend this class.
+ * <p>
+ * This class is purely provided for convenience and consistency, it is best, althouhg not strictly
+ * required, that most <code>DiffXEvent</code> implementations extend this class.
  * 
  * @author Christophe Lauret
  * @version 3 February 2005
@@ -24,14 +24,14 @@ import com.topologi.diffx.xml.esc.XMLEscapeUTF8;
 abstract class DiffXEventBase implements DiffXEvent {
 
   /**
-   * For use by the events to escape XML chars. 
+   * For use by the events to escape XML chars.
    */
-  static final XMLEscape ESC = XMLEscapeUTF8.UTF8_ESCAPE; 
+  static final XMLEscape ESC = XMLEscapeUTF8.UTF8_ESCAPE;
 
   /**
    * 
    */
-  int weight = 1; 
+  int weight = 1;
 
   /**
    * {@inheritDoc}
@@ -44,8 +44,8 @@ abstract class DiffXEventBase implements DiffXEvent {
   public abstract boolean equals(DiffXEvent e);
 
   /**
-   * Invokes the {@link DiffXEvent#equals(DiffXEvent)} method if the specified
-   * object if not <code>null</code> and is an instance of {@link DiffXEvent}.
+   * Invokes the {@link DiffXEvent#equals(DiffXEvent)} method if the specified object if not
+   * <code>null</code> and is an instance of {@link DiffXEvent}.
    * 
    * @param o The object to compare.
    * 
@@ -53,9 +53,11 @@ abstract class DiffXEventBase implements DiffXEvent {
    *         <code>false</code> otherwise.
    */
   public final boolean equals(Object o) {
-    if (o == null) return false;
-    if (!(o instanceof DiffXEvent)) return false;
-    return equals((DiffXEvent)o);
+    if (o == null)
+      return false;
+    if (!(o instanceof DiffXEvent))
+      return false;
+    return equals((DiffXEvent) o);
   }
 
   /**
@@ -65,7 +67,6 @@ abstract class DiffXEventBase implements DiffXEvent {
     return this.toXML(new StringBuffer()).toString();
   }
 
-  
   /**
    * {@inheritDoc}
    */

@@ -16,11 +16,10 @@ import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.xml.XMLWriter;
 
-
 /**
  * A basic implementation of the close element event.
  * 
- * <p>It corresponds to the <code>startElement</code> SAX event.
+ * <p>It corresponds to the <code>endElement</code> SAX event.
  * 
  * <p>This implementation is not namespace aware.
  * 
@@ -100,7 +99,7 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
    * {@inheritDoc}
    */
   public int hashCode() {
-    return 1 + this.open.hashCode();
+    return 53 + this.open.hashCode();
   }
 
   /**

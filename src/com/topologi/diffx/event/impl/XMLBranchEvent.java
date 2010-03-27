@@ -18,10 +18,10 @@ import com.topologi.diffx.xml.XMLWriter;
  * <p>A branch of XML data must start and end with the same element.
  * 
  * <p>Implementation note: this class wraps an array of DiffX events and does not give
- * access to this array, so it can be considered immutable. 
+ * access to this array, so it can be considered immutable.
  * 
  * @author Christophe Lauret
- * @version 4 April 2005
+ * @version 27 March 2010
  */
 public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
 
@@ -31,7 +31,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
   private final DiffXEvent[] branch;
 
   /**
-   * Precalculated hashcode to speed up equal comparison.
+   * Pre-calculated hashcode to speed up equal comparison.
    */
   private final int hashCode;
 

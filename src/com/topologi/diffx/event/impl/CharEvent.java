@@ -12,12 +12,11 @@ import java.io.IOException;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.xml.XMLWriter;
 
-
 /**
  * Event corresponding to a single character.
  * 
- * @author Christophe Lauret (Allette Systems)
- * @version 10 December 2004
+ * @author Christophe Lauret
+ * @version 28 March 2010
  */
 public final class CharEvent extends DiffXEventBase {
 
@@ -39,7 +38,7 @@ public final class CharEvent extends DiffXEventBase {
    * {@inheritDoc}
    */
   public int hashCode() {
-    return this.c;
+    return 79 + this.c;
   }
 
   /**
