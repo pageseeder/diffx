@@ -16,7 +16,7 @@ package com.topologi.diffx;
  * @author Christophe Lauret
  * @version 27 March 2010
  */
-public abstract class DiffXException extends Exception {
+public class DiffXException extends Exception {
 
   /** As per requirement by the Serializable interface. */
   private static final long serialVersionUID = 3572025323967229569L;
