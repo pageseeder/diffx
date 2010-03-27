@@ -42,10 +42,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
    */
   public XMLBranchEvent(DiffXEvent[] events) {
     this.branch = events;
-    int tmpHash = 0;
-    for (int i = 0; i < events.length; i++)
-      tmpHash += events[i].hashCode();
-    this.hashCode = tmpHash;
+    this.hashCode = toHashCode(events);
   }
 
   /**
@@ -93,4 +90,17 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
     return xml;
   }
 
+  /**
+   * Calculates the hashcode for this event.
+   * 
+   * @param events Events to calculate the value from.
+   * @return a number suitable as a hashcode.
+   */
+  private static final int toHashCode(DiffXEvent[] events) {
+    int hash = 17;
+    for (DiffXEvent e : events) {
+      hash = hash * 13 + (e != null? e.hashCode() : 0);
+    }
+    return hash;
+  }
 }
