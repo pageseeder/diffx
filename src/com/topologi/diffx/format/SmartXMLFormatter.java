@@ -92,10 +92,10 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    */
   public SmartXMLFormatter(Writer w) throws IOException {
     this.xml = new XMLWriterNSImpl(w, false);
-	if (writeXMLDeclaration) {
+    if (writeXMLDeclaration) {
       this.xml.xmlDecl();
-	  this.writeXMLDeclaration = false;
-	}
+	    this.writeXMLDeclaration = false;
+	  }
     this.xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
     this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
     this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
