@@ -18,14 +18,14 @@ import com.topologi.diffx.event.TextEvent;
 public final class SpaceEvent extends CharactersEventBase implements TextEvent {
 
   /**
-   * A static instance for the single whitespaces.
+   * A static instance for the single white spaces.
    * 
    * <p>Use this constant instead of creating new instances
    */
   public static final SpaceEvent SINGLE_WHITESPACE = new SpaceEvent(" ");
 
   /**
-   * A static instance for the double whitespaces.
+   * A static instance for the double white spaces.
    * 
    * <p>Use this constant instead of creating new instances
    */
@@ -78,6 +78,23 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
     if ("\t".equals(space)) return TAB;
     // create a new instance
     return new SpaceEvent(space);
+  }
+
+  /**
+   * Returns the white space event corresponding to the given string.
+   * 
+   * @param space The string for the white space event.
+   * 
+   * @return A readable string.
+   */
+  public static SpaceEvent getInstance(char c) {
+    // check constants
+    if (c == ' ')  return SINGLE_WHITESPACE;
+    if (c == '\n') return NEW_LINE;
+    if (c == '\t') return TAB;
+    // create a new instance
+    // FIXME wasteful!!
+    return new SpaceEvent(c+"");
   }
 
   /**
