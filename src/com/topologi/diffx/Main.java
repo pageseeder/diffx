@@ -28,6 +28,8 @@ import com.topologi.diffx.algorithm.DiffXFitopsy;
 import com.topologi.diffx.algorithm.DiffXFitsy;
 import com.topologi.diffx.algorithm.DiffXKumarRangan;
 import com.topologi.diffx.config.DiffXConfig;
+import com.topologi.diffx.config.TextGranularity;
+import com.topologi.diffx.config.WhiteSpaceProcessing;
 import com.topologi.diffx.format.BasicXMLFormatter;
 import com.topologi.diffx.format.ConvenientXMLFormatter;
 import com.topologi.diffx.format.DiffXFormatter;
@@ -285,6 +287,8 @@ public final class Main {
 
       // get the config
       DiffXConfig config = new DiffXConfig();
+      config.setGranularity(getTextGranularity(args));
+      config.setWhiteSpaceProcessing(getWhiteSpaceProcessing(args));
 
       // get and setup the formatter
       Writer out = new OutputStreamWriter(getOutput(args), "utf-8");
@@ -337,6 +341,10 @@ public final class Main {
     System.err.println("               fitsy* | fitopsy | kumar | wesyma");
     System.err.println("  -F [format] Choose a specific formatter");
     System.err.println("               smart* | basic | convenient | strict | short");
+    System.err.println("  -W [wsp]    Define whitespace processing");
+    System.err.println("               preserve* | compare | ignore");
+    System.err.println("  -G [granul] Define text diffing granularity");
+    System.err.println("               word* | text | character");
     System.err.println(" * indicates option used by default.");
     System.exit(1);
   }
@@ -416,4 +424,39 @@ public final class Main {
     return null;
   }
 
+  /**
+   * @param args The command line arguments.
+   * @return The formatter to use.
+   * @throws IOException Should and I/O error occur
+   */
+  private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) throws IOException {
+    String formatArg = CommandLine.getParameter("-W", args);
+    if (formatArg == null || "preserve".equals(formatArg))
+      return WhiteSpaceProcessing.PRESERVE;
+    else if ("compare".equals(formatArg))
+      return WhiteSpaceProcessing.COMPARE;
+    else if ("ignore".equals(formatArg))
+      return WhiteSpaceProcessing.IGNORE;
+    else
+      usage();
+    return null;
+  }
+
+  /**
+   * @param args The command line arguments.
+   * @return The formatter to use.
+   * @throws IOException Should and I/O error occur
+   */
+  private static TextGranularity getTextGranularity(String[] args) throws IOException {
+    String formatArg = CommandLine.getParameter("-G", args);
+    if (formatArg == null || "word".equals(formatArg))
+      return TextGranularity.WORD;
+    else if ("text".equals(formatArg))
+      return TextGranularity.TEXT;
+    else if ("character".equals(formatArg))
+      return TextGranularity.CHARACTER;
+    else
+      usage();
+    return null;
+  }
 }
