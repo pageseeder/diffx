@@ -10,7 +10,7 @@ package com.topologi.diffx.load;
 import com.topologi.diffx.DiffXException;
 
 /**
- * Class of exceptions occuring when trying to load data for Diff-X.
+ * Class of exceptions occurring when trying to load data for Diff-X.
  * 
  * @author Christophe Lauret
  * @version 14 May 2005
