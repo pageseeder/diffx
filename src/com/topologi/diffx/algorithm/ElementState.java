@@ -17,13 +17,13 @@ import com.topologi.diffx.event.OpenElementEvent;
  * algorithm.
  *
  * <p>This class has two purposes, firstly to provide an object that is more specialised
- * than the generic lists and stack for use by the DiffX algorithms. Second, to deleguate
+ * than the generic lists and stack for use by the DiffX algorithms. Second, to delegate
  * some of the complexity of algorithm.  
  * 
  * <p>This class has several methods that are similar to <code>List</code> interface
  * but does not implement it.
  * 
- * <p>This class is not synchronised and is not meant to be serialisable.
+ * <p>This class is not synchronised and is not meant to be serializable.
  * 
  * @author Christophe Lauret
  * @version 12 May 2005
