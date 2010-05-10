@@ -28,7 +28,7 @@ public interface Recorder {
    * 
    * @return The recorded sequence of events. 
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
   EventSequence process(File file) throws LoadingException, IOException;
@@ -40,7 +40,7 @@ public interface Recorder {
    * 
    * @return The recorded sequence of events.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
   EventSequence process(String xml) throws LoadingException, IOException;

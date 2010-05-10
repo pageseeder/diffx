@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -28,12 +29,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.CloseElementEvent;
+import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.impl.EventFactory;
 import com.topologi.diffx.event.impl.ProcessingInstructionEvent;
 import com.topologi.diffx.event.OpenElementEvent;
-import com.topologi.diffx.event.lang.Repertory;
-import com.topologi.diffx.load.text.TextTokeniser;
-import com.topologi.diffx.load.text.TokeniserFactory;
+import com.topologi.diffx.load.text.TextTokenizer;
+import com.topologi.diffx.load.text.TokenizerFactory;
 import com.topologi.diffx.sequence.EventSequence;
 
 /**
@@ -58,7 +59,7 @@ import com.topologi.diffx.sequence.EventSequence;
 public final class SAXRecorder implements XMLRecorder {
 
 // static variables -------------------------------------------------------------------------------
-  
+
   /**
    * The XML reader.
    */
@@ -114,7 +115,7 @@ public final class SAXRecorder implements XMLRecorder {
    * 
    * @return The recorded sequence of events. 
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
   public EventSequence process(File file) throws LoadingException, IOException {
@@ -136,7 +137,7 @@ public final class SAXRecorder implements XMLRecorder {
    * 
    * @return The recorded sequence of events.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
   public EventSequence process(String xml) throws LoadingException, IOException {
@@ -158,10 +159,8 @@ public final class SAXRecorder implements XMLRecorder {
     reader.setContentHandler(new RecorderHandler());
     reader.setErrorHandler(new RecorderErrorHandler());
     try {
-      reader.setFeature("http://xml.org/sax/features/namespaces", 
-                         this.config.isNamespaceAware());
-      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", 
-                         this.config.isReportPrefixDifferences());
+      reader.setFeature("http://xml.org/sax/features/namespaces", this.config.isNamespaceAware());
+      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", this.config.isReportPrefixDifferences());
       reader.parse(is);
     } catch (SAXException ex) {
       throw new LoadingException(ex);
@@ -203,8 +202,7 @@ public final class SAXRecorder implements XMLRecorder {
    * 
    * <p>Use <code>null</code> to reset the XML reader class and use the default XML reader.
    * 
-   * <p>A new reader will be created only if the specified class is different from the
-   * current one. 
+   * <p>A new reader will be created only if the specified class is different from the current one. 
    * 
    * @param className The name of the XML reader class to use;
    *                  or <code>null</code> to reset the XML reader.
@@ -256,25 +254,19 @@ public final class SAXRecorder implements XMLRecorder {
     private AttributeComparator comparator = new AttributeComparator();
 
     /**
-     * A repertory of words.
-     */
-    private transient Repertory repertory = new Repertory();
-
-    /**
      * The weight of the current element.
      */
     private transient int currentWeight = -1;
 
     /**
-     * The last open element event, should only contain
-     * <code>OpenElementEvent</code>s.
+     * The last open element event, should only contain <code>OpenElementEvent</code>s.
      */
-    private transient ArrayList openElements = new ArrayList();
+    private transient List<OpenElementEvent> openElements = new ArrayList<OpenElementEvent>();
 
     /**
      * The stack of weight, should only contain <code>Integer</code>.
      */
-    private transient ArrayList weights = new ArrayList();
+    private transient List<Integer> weights = new ArrayList<Integer>();
 
     /**
      * The factory that will produce events according to the configuration. 
@@ -282,9 +274,9 @@ public final class SAXRecorder implements XMLRecorder {
     private transient EventFactory efactory;
 
     /**
-     * The factory that will produce text tokenisers according to the configuration.
+     * The text tokenizer according to the configuration.
      */
-    private transient TokeniserFactory tfactory;
+    private transient TextTokenizer tokenizer;
 
     /**
      * @see org.xml.sax.ContentHandler#startDocument() 
@@ -292,8 +284,8 @@ public final class SAXRecorder implements XMLRecorder {
     public void startDocument() {
       SAXRecorder.this.sequence = new EventSequence();
       this.efactory = new EventFactory(SAXRecorder.this.config.isNamespaceAware());
-      this.tfactory = new TokeniserFactory(SAXRecorder.this.config);
-	  SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
+      this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
+	    SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
     }
 
     /**
@@ -366,12 +358,11 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private void recordCharacters() {
       if (this.ch != null) {
-        TextTokeniser ct = this.tfactory.makeTokeniser(this.ch);
-        ct.useRepertory(this.repertory);
-        for (int i = 0; i < ct.countTokens(); i++) {
-          sequence.addEvent(ct.nextToken());
-          this.currentWeight++;
+        List<TextEvent> events = this.tokenizer.tokenize(this.ch);
+        for (TextEvent e : events) {
+          sequence.addEvent(e);
         }
+        this.currentWeight += events.size();
         this.ch.setLength(0);
       }
     }
@@ -382,7 +373,7 @@ public final class SAXRecorder implements XMLRecorder {
      * @return The last open element.
      */
     private OpenElementEvent popLastOpenElement() {
-      return (OpenElementEvent)this.openElements.remove(this.openElements.size() - 1);
+      return this.openElements.remove(this.openElements.size() - 1);
     }
 
     /**
@@ -392,7 +383,7 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private int popWeight() {
       if (this.weights.size() > 0)
-        return ((Integer)this.weights.remove(this.weights.size() - 1)).intValue();
+        return this.weights.remove(this.weights.size() - 1).intValue();
       else
         return 0;
     }

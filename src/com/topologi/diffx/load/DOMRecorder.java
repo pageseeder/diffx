@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,10 +34,11 @@ import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.OpenElementEvent;
+import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.impl.EventFactory;
 import com.topologi.diffx.event.impl.ProcessingInstructionEvent;
-import com.topologi.diffx.load.text.TextTokeniser;
-import com.topologi.diffx.load.text.TokeniserFactory;
+import com.topologi.diffx.load.text.TextTokenizer;
+import com.topologi.diffx.load.text.TokenizerFactory;
 import com.topologi.diffx.sequence.EventSequence;
 import com.topologi.diffx.sequence.PrefixMapping;
 
@@ -71,9 +73,9 @@ public final class DOMRecorder implements XMLRecorder {
   private transient EventFactory efactory;
 
   /**
-   * The factory that will produce text tokenisers according to the configuration.
+   * The text tokenizer used by this recorder.
    */
-  private transient TokeniserFactory tfactory;
+  private transient TextTokenizer tokenizer;
 
   /**
    * The sequence of event for this recorder.
@@ -93,7 +95,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * The stack of events' weight, should only contain <code>Integer</code>.
    */
-  private transient ArrayList<Integer> weights = new ArrayList<Integer>();
+  private transient List<Integer> weights = new ArrayList<Integer>();
 
   /**
    * Indicates whether the given document is a fragment.
@@ -178,7 +180,7 @@ public final class DOMRecorder implements XMLRecorder {
   public EventSequence process(Node node) throws LoadingException {
     // initialise the state variables.
     this.efactory = new EventFactory(this.config.isNamespaceAware());
-    this.tfactory = new TokeniserFactory(this.config);
+    this.tokenizer = TokenizerFactory.get(this.config);
     this.sequence = new EventSequence();
     this.mapping = this.sequence.getPrefixMapping();
     // start processing the nodes
@@ -300,11 +302,11 @@ public final class DOMRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   private void load(Text text) throws LoadingException {
-    TextTokeniser ct = this.tfactory.makeTokeniser(text.getData());
-    for (int i = 0; i < ct.countTokens(); i++) {
-      this.sequence.addEvent(ct.nextToken());
-      this.currentWeight++;
+    List<TextEvent> events = this.tokenizer.tokenize(text.getData());
+    for (TextEvent e : events) {
+      this.sequence.addEvent(e);
     }
+    this.currentWeight += events.size();
   }
 
   /**
