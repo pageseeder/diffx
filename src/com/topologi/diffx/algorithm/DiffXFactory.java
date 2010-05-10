@@ -33,11 +33,11 @@ public final class DiffXFactory {
   private static final Class[] ARGS = new Class[]{EventSequence.class, EventSequence.class};
 
   /**
-   * Creates a diffex instance using the specified class name and event sequences.
+   * Creates a Diff-X instance using the specified class name and event sequences.
    * 
-   * @param className The class name of the diffex implementation to use.
-   * @param sequence1 The first sequence to use for the diffex constructor.
-   * @param sequence2 The second sequence to use for the diffex constructor.
+   * @param className The class name of the Diff-X implementation to use.
+   * @param sequence1 The first sequence to use for the Diff-X constructor.
+   * @param sequence2 The second sequence to use for the Diff-X constructor.
    * 
    * @return A Diff-X algorithm instance.
    * 
