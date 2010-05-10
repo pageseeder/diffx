@@ -11,7 +11,7 @@ package com.topologi.diffx.config;
  * The configuration to use with a DiffX operation.
  * 
  * <p>This class acts as a container for a set of properties that can be applied to the
- * main components of Diffx such as the:
+ * main components of Diff-X such as the:
  * <ul>
  *   <li>The {@link com.topologi.diffx.load.XMLRecorder} implementations,</li>
  *   <li>The {@link com.topologi.diffx.algorithm.DiffXAlgorithm} implementations,<li>
@@ -38,21 +38,9 @@ package com.topologi.diffx.config;
  * @see com.topologi.diffx.format.DiffXFormatter
  * 
  * @author Christophe Lauret
- * @version 15 April 2004
+ * @version 10 May 2010
  */
 public final class DiffXConfig {
-
-// class attributes ---------------------------------------------------------------------------
-
-  /**
-   * Indicates whether the differences in white spaces should be ignored.
-   */
-  private boolean ignoreWhiteSpace = false;
-
-  /**
-   * Indicates whether the white spaces should be preserved.
-   */ 
-  private boolean preserveWhiteSpace = true;
 
   /**
    * Indicates whether the namespaces should be handled or ignored.
@@ -64,38 +52,79 @@ public final class DiffXConfig {
    */
   private boolean reportPrefixDifferences = false;
 
-// class attributes ---------------------------------------------------------------------------
+  /**
+   * Defines the whitespace for this configuration.
+   */
+  private WhiteSpaceProcessing whitespace = WhiteSpaceProcessing.COMPARE;
 
   /**
-   * Creates a new configuration for DiffX
+   * Required for backward compatibility only.
+   */
+  private boolean preserveWhiteSpace = true; 
+
+  /**
+   * Defines the text granularity for this configuration.
+   */
+  private TextGranularity granularity = TextGranularity.WORD;
+
+  /**
+   * Creates a new configuration for Diff-X
    */
   public DiffXConfig() {
   }
 
-// methods ------------------------------------------------------------------------------------
-
   /**
-   * Sets whether the differences in white spaces should be ignored or not.
+   * Creates a new configuration for Diff-X.
    * 
-   * @param ignore <code>true</code> to ignore differences in white spaces;
-   *               <code>false</code> otherwise.
+   * @param granularity The granularity of text diffing.
    */
-  public void setIgnoreWhiteSpace(boolean ignore) {
-    this.ignoreWhiteSpace = ignore;
+  public DiffXConfig(TextGranularity granularity) {
+    if (granularity == null)
+      throw new NullPointerException("The granularity cannot be configured to be not be null.");
+    this.granularity = granularity;
   }
 
   /**
-   * Sets whether the white spaces should be preserved or not.
+   * Creates a new configuration for Diff-X.
    * 
-   * @param preserve <code>true</code> to preserve the white spaces;
-   *                 <code>false</code> otherwise.
+   * @param whitespace  How whitespace should be processed.
+   * @param granularity The granularity of text diffing.
    */
-  public void setPreserveWhiteSpace(boolean preserve) {
-    this.preserveWhiteSpace = preserve;
+  public DiffXConfig(WhiteSpaceProcessing whitespace, TextGranularity granularity) {
+    if (granularity == null)
+      throw new NullPointerException("The granularity cannot be configured to be not be null.");
+    if (whitespace == null)
+      throw new NullPointerException("The whitespace processing cannot be configured to be not be null.");
+    this.granularity = granularity;
+    this.whitespace = whitespace;
+  }
+
+// methods ----------------------------------------------------------------------------------------
+
+  /**
+   * Sets the granularity of text diffing for this configuration.
+   * 
+   * @return the text granularity of text diffing for this configuration.
+   */
+  public void setGranularity(TextGranularity granularity) {
+    if (granularity == null)
+      throw new NullPointerException("The granularity cannot be configured to be not be null.");
+    this.granularity = granularity;
   }
 
   /**
-   * Sets whether the Diff-X should take namespaces into account.
+   * Sets the white space processing for this configuration.
+   * 
+   * @return the white space processing for this configuration.
+   */
+  public void setWhiteSpaceProcessing(WhiteSpaceProcessing whitespace) {
+    if (whitespace == null)
+      throw new NullPointerException("The whitespace cannot be configured to be not be null.");
+    this.whitespace = whitespace;
+  }
+
+  /**
+   * Sets whether Diff-X should take namespaces into account.
    * 
    * <p>It is more efficient to disable namespace processing when the XML to 
    * compare are not expected to use any namespace.
@@ -128,26 +157,6 @@ public final class DiffXConfig {
   }
 
   /**
-   * Indicates whether the differences in white spaces should be ignored or not.
-   * 
-   * @return <code>true</code> to ignore differences in white spaces;
-   *         <code>false</code> otherwise.
-   */
-  public boolean isIgnoreWhiteSpace() {
-    return this.ignoreWhiteSpace;
-  }
-
-  /**
-   * Indicates whether the white spaces are preserved or not.
-   * 
-   * @return <code>true</code> to preserve the white spaces;
-   *         <code>false</code> otherwise.
-   */
-  public boolean isPreserveWhiteSpace() {
-    return this.preserveWhiteSpace;
-  }
-
-  /**
    * Indicates whether the Diff-X takes namespaces into account.
    * 
    * @return <code>true</code> to preserve the white spaces;
@@ -165,6 +174,83 @@ public final class DiffXConfig {
    */
   public boolean isReportPrefixDifferences() {
     return this.reportPrefixDifferences;
+  }
+
+  /**
+   * Returns the granularity of text diffing for this configuration.
+   * 
+   * @return the text granularity of text diffing for this configuration.
+   */
+  public TextGranularity getGranularity() {
+    return this.granularity;
+  }
+
+  /**
+   * Returns the granularity of text diffing for this configuration.
+   * 
+   * @return the text granularity of text diffing for this configuration.
+   */
+  public WhiteSpaceProcessing getWhiteSpaceProcessing() {
+    return this.whitespace;
+  }
+
+  /**
+   * Indicates whether the differences in white spaces should be ignored or not.
+   * 
+   * @return <code>true</code> to ignore differences in white spaces;
+   *         <code>false</code> otherwise.
+   */
+  public boolean isIgnoreWhiteSpace() {
+    return this.whitespace != WhiteSpaceProcessing.COMPARE;
+  }
+
+  /**
+   * Indicates whether the white spaces are preserved or not.
+   * 
+   * @return <code>true</code> to preserve the white spaces;
+   *         <code>false</code> otherwise.
+   */
+  public boolean isPreserveWhiteSpace() {
+    return this.preserveWhiteSpace;
+  }
+
+  // deprecated methods ---------------------------------------------------------------------------
+
+  /**
+   * Sets whether the differences in white spaces should be ignored or not.
+   * 
+   * @deprecated use <code>setWhiteSpaceProcessing</code> instead
+   * 
+   * @param ignore <code>true</code> to ignore differences in white spaces;
+   *               <code>false</code> otherwise.
+   */
+  public void setIgnoreWhiteSpace(boolean ignore) {
+    // COMPARE  <-> ignore = false, preserve = true/false
+    // PRESERVE <-> ignore = true, preserve = true
+    // IGNORE   <-> ignore = true, preserve = false
+    if (!ignore) {
+      this.whitespace = WhiteSpaceProcessing.COMPARE;
+    } else {
+      this.whitespace = this.preserveWhiteSpace? WhiteSpaceProcessing.PRESERVE : WhiteSpaceProcessing.IGNORE;
+    }
+  }
+
+  /**
+   * Sets whether the white spaces should be preserved or not.
+   * 
+   * @deprecated use <code>setWhiteSpaceProcessing</code> instead
+   * 
+   * @param preserve <code>true</code> to preserve the white spaces;
+   *                 <code>false</code> otherwise.
+   */
+  public void setPreserveWhiteSpace(boolean preserve) {
+    // COMPARE  <-> ignore = false, preserve = true/false
+    // PRESERVE <-> ignore = true, preserve = true
+    // IGNORE   <-> ignore = true, preserve = false
+    this.preserveWhiteSpace = preserve;
+    if (this.whitespace != WhiteSpaceProcessing.COMPARE) {
+      this.whitespace = preserve? WhiteSpaceProcessing.PRESERVE : WhiteSpaceProcessing.IGNORE;
+    }
   }
 
 }
