@@ -49,7 +49,7 @@ public final class EventSequence {
   public EventSequence() {
     this.sequence = new LinkedList<DiffXEvent>();
   }
-  
+
   /**
    * Creates a new event sequence of the specified size.
    * 
@@ -142,12 +142,12 @@ public final class EventSequence {
   public EventIterator eventIterator() {
     return new EventIterator(this.sequence.iterator());
   }
-  
+
   /**
    * Returns the sequence of events.
    */
   public List<DiffXEvent> events() {
-	return this.sequence;
+	  return this.sequence;
   }
 
 // Object methods -----------------------------------------------------------------------------

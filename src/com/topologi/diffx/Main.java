@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.io.Writer;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.topologi.diffx.algorithm.DiffXAlgorithm;
@@ -44,7 +45,7 @@ import com.topologi.diffx.util.CommandLine;
  * Utility class to centralise the access to this API from the command line.
  * 
  * @author Christophe Lauret
- * @version 17 October 2006
+ * @version 10 May 2010
  */
 public final class Main {
 
@@ -55,10 +56,10 @@ public final class Main {
   }
 
 // equivalent methods -------------------------------------------------------------------  
-  
+
   /**
    * Returns <code>true</code> if the two specified files are XML equivalent by looking at the
-   * sequance SAX events reported an XML reader.
+   * sequence SAX events reported an XML reader.
    * 
    * @param xml1 The first XML stream to compare.
    * @param xml2 The first XML stream to compare.
@@ -78,8 +79,8 @@ public final class Main {
   }
 
   /**
-   * Returns <code>true</code> if the two specified inputstream are equivalent by looking at the
-   * sequance SAX events reported an XML reader.
+   * Returns <code>true</code> if the two specified input streams are equivalent by looking at the
+   * sequence SAX events reported an XML reader.
    *
    * @param xml1 The first XML stream to compare.
    * @param xml2 The first XML stream to compare.
@@ -100,7 +101,7 @@ public final class Main {
 
   /**
    * Returns <code>true</code> if the two specified readers are equivalent by looking at the
-   * sequance SAX events reported an XML reader.
+   * sequence SAX events reported an XML reader.
    *
    * @param xml1 The first XML stream to compare.
    * @param xml2 The first XML stream to compare.
@@ -122,10 +123,10 @@ public final class Main {
 // diff methods -------------------------------------------------------------------------
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified XML nodes and prints the diff onto the given writer. 
    *
    * @param xml1   The first XML node to compare.
-   * @param xml2   The first XML node to compare.
+   * @param xml2   The second XML node to compare.
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    * 
@@ -133,6 +134,30 @@ public final class Main {
    * @throws IOException    Should an I/O exception occur.
    */
   public static void diff(Node xml1, Node xml2, Writer out, DiffXConfig config)
+      throws DiffXException, IOException {
+    // records the events from the XML
+    DOMRecorder loader = new DOMRecorder();
+    if (config != null) loader.setConfig(config);
+    EventSequence seq1 = loader.process(xml1);
+    EventSequence seq2 = loader.process(xml2);
+    // start slicing
+    diff(seq1, seq2, out, config);
+  }
+
+  /**
+   * Compares the two specified <code>NodeList</code>s and prints the diff onto the given writer. 
+   *
+   * <p>Only the first node in the node list is sequenced.
+   *
+   * @param xml1   The first XML node list to compare.
+   * @param xml2   The second XML node list to compare.
+   * @param out    Where the output goes.
+   * @param config The DiffX configuration to use.
+   * 
+   * @throws DiffXException Should a Diff-X exception occur.
+   * @throws IOException    Should an I/O exception occur.
+   */
+  public static void diff(NodeList xml1, NodeList xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
     // records the events from the XML
     DOMRecorder loader = new DOMRecorder();
@@ -240,7 +265,7 @@ public final class Main {
    * @throws Exception If anything wrong happens.
    */
   public static void main(String[] args) throws Exception {
-    // TODO: better command-lin interface
+    // TODO: better command-line interface
     if (args.length < 2) usage();
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);

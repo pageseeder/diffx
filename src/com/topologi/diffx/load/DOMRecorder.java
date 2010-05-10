@@ -50,20 +50,20 @@ import com.topologi.diffx.sequence.PrefixMapping;
  * <p>This class is not synchronised.
  * 
  * @author Christophe Lauret
- * @version 6 December 2008
+ * @version 10 May 2010
  * 
  * @since 0.7
  */
 public final class DOMRecorder implements XMLRecorder {
 
-// class attributes ---------------------------------------------------------------------
+// class attributes -------------------------------------------------------------------------------
 
   /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig(); 
 
-// state variables ----------------------------------------------------------------------
+// state variables --------------------------------------------------------------------------------
 
   /**
    * The factory that will produce events according to the configuration. 
@@ -98,16 +98,16 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * Indicates whether the given document is a fragment.
    * 
-   * <p>An fragment is a portion of XML that is not necessrily well-formed by
-   * itself, because the namespace has been declared higher in the hierarchy, in
-   * which if the DOM tree was serialised it would not produce well-formed XML.
+   * <p>An fragment is a portion of XML that is not necessarily well-formed by itself, because the
+   * namespace has been declared higher in the hierarchy, in which if the DOM tree was serialised 
+   * it would not produce well-formed XML.
    * 
-   * <p>This option indicates that the recorder should try to generate the prefix
-   * mapping without the declaration.  
+   * <p>This option indicates that the recorder should try to generate the prefix mapping without 
+   * the declaration.  
    */
   private transient boolean isFragment = true;
 
-// methods ------------------------------------------------------------------------------
+// methods ----------------------------------------------------------------------------------------
 
   /**
    * Returns the configuration used by this recorder.
@@ -149,7 +149,7 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @return The recorded sequence of events.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   public EventSequence process(InputSource is) throws LoadingException {
     this.isFragment = false; // input source is not a fragment
@@ -167,13 +167,13 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Processed the given node and return the corresponding event sequence. 
+   * Processes the given node and returns the corresponding event sequence. 
    * 
    * @param node The W3C DOM node to be processed.
    * 
    * @return The recorded sequence of events.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   public EventSequence process(Node node) throws LoadingException {
     // initialise the state variables.
@@ -187,6 +187,24 @@ public final class DOMRecorder implements XMLRecorder {
     return this.sequence;
   }
 
+  /**
+   * Processes the given node list and returns the corresponding event sequence. 
+   * 
+   * <p>This method only returns the event sequence from the first node in the node list, if the
+   * node list is empty, this method returns an empty sequence.
+   * 
+   * @param node The W3C DOM node to be processed.
+   * 
+   * @return The recorded sequence of events.
+   * 
+   * @throws LoadingException If thrown while parsing.
+   */
+  public EventSequence process(NodeList node) throws LoadingException {
+    if (node.getLength() == 0)
+      return new EventSequence();
+    return process(node.item(0)); 
+  }
+
 // specific loaders ---------------------------------------------------------------------
 
   /**
@@ -194,11 +212,10 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @param node The W3C DOM node to load.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   private void loadNode(Node node) throws LoadingException {
-    // dispatch to the correct loader
-    // performance: order by occurrence
+    // dispatch to the correct loader performance: order by occurrence
     if (node instanceof Element)
       load((Element)node);
     if (node instanceof Text)
@@ -217,7 +234,7 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @param document The W3C DOM document node to load.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   private void load(Document document) throws LoadingException {
     load(document.getDocumentElement());
@@ -228,10 +245,10 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @param element The W3C DOM element node to load.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   private void load(Element element) throws LoadingException {
-    if (this.currentWeight > 0) this.weights.add(new Integer(this.currentWeight));
+    if (this.currentWeight > 0) this.weights.add(Integer.valueOf(this.currentWeight));
     this.currentWeight = 1;
     // namespace handling
     OpenElementEvent open = null;
@@ -280,7 +297,7 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @param text The W3C DOM text node to load.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   private void load(Text text) throws LoadingException {
     TextTokeniser ct = this.tfactory.makeTokeniser(text.getData());
@@ -295,7 +312,7 @@ public final class DOMRecorder implements XMLRecorder {
    * 
    * @param pi The W3C DOM PI node to load.
    * 
-   * @throws LoadingException If thrown whilst parsing.
+   * @throws LoadingException If thrown while parsing.
    */
   private void load(ProcessingInstruction pi) throws LoadingException {
     this.sequence.addEvent(new ProcessingInstructionEvent(pi.getTarget(), pi.getData()));

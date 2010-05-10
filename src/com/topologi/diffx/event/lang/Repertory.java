@@ -8,6 +8,7 @@
 package com.topologi.diffx.event.lang;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 import com.topologi.diffx.event.impl.WordEvent;
 
@@ -24,7 +25,7 @@ public final class Repertory {
   /**
    * Where the words are stored.
    */
-  private Hashtable storage = new Hashtable();
+  private Map<String, WordEvent> storage = new Hashtable<String, WordEvent>();
 
   /**
    * Creates a new repertoire.  
@@ -49,7 +50,7 @@ public final class Repertory {
    * @return The corresponding <code>WordEvent</code> or <code>null</code>.
    */
   public WordEvent get(String word) {
-    return (WordEvent)this.storage.get(word);
+    return this.storage.get(word);
   }
 
   /**
