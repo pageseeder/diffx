@@ -15,29 +15,21 @@ import com.topologi.diffx.config.DiffXConfig;
  * <p>This class is designed to returned tokenisers that corresponds to the given
  * configuration. 
  * 
+ * @deprecated use TokenizerFactory instead
+ * 
  * @author Christophe Lauret
  * @version 27 April 2005
  */
 public final class TokeniserFactory {
 
-// class attributes ---------------------------------------------------------------------
+// class attributes -------------------------------------------------------------------------------
 
   /**
    * Indicates whether the factory should generate namespace events. 
    */
   private final DiffXConfig config;
 
-  /**
-   * The tokeniser to use.
-   * 
-   * 0 = consider + preserve
-   * 1 = consider + trash
-   * 2 = ignore + preserve
-   * 3 = ignore + trash 
-   */
-  private final transient int tokeniserChoice;
-
-// constructors -------------------------------------------------------------------------
+// constructors -----------------------------------------------------------------------------------
 
   /**
    * Creates a factory for tokenisers.
@@ -49,8 +41,6 @@ public final class TokeniserFactory {
   public TokeniserFactory(DiffXConfig config) throws NullPointerException {
     if (config == null) throw new NullPointerException("Factory requires a tokeniser."); 
     this.config = config;
-    this.tokeniserChoice = (this.config.isIgnoreWhiteSpace()? 2 : 0)
-                         + (this.config.isPreserveWhiteSpace()? 0 : 1);
   }
 
 // methods ------------------------------------------------------------------------------
@@ -59,22 +49,20 @@ public final class TokeniserFactory {
    * Returns the text tokeniser for the specified text according to the
    * configuration of this tokeniser.
    * 
-   * @param text The text to tokenise.
+   * @param text The text to tokenize.
    * 
-   * @return The open element event from the uri and name given.
+   * @return The corresponding text tokeniser.
    */
   public TextTokeniser makeTokeniser(CharSequence text) {
-    switch(tokeniserChoice) {
-    case 0: // consider + preserve
+    switch(config.getWhiteSpaceProcessing()) {
+    case COMPARE: // consider + preserve [COMPARE]
       return new TextTokeniserByWord(text);
-    case 1: // consider + trash: we actually preserve for now.
-      return new TextTokeniserByWord(text);
-    case 2: // ignore + preserve
+    case PRESERVE: // ignore + preserve [PRESERVE]
       return new TextTokeniserIgnoreSpace(text);
-    case 3: // ignore + trash
+    case IGNORE: // ignore + trash [IGNORE]
       return new TextTokeniserNoSpace(text);
     default:
-      throw new IllegalStateException("Impossible whitespace configuration: "+tokeniserChoice); 
+      throw new IllegalStateException("Unsupported whitespace configuration: "+config.getWhiteSpaceProcessing()); 
     }
   }
 

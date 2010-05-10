@@ -18,6 +18,8 @@ import com.topologi.diffx.event.lang.Repertory;
  * <p>Text tokenisers are used to return {@link com.topologi.diffx.event.TextEvent}
  * from a piece of text.
  * 
+ * @deprecated use <code>TextTokenizer</code> instead
+ * 
  * @author Christophe Lauret
  * @version 3 February 2005
  */
