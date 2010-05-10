@@ -30,7 +30,7 @@ public final class DiffXFactory {
   /**
    * The classes of the arguments of the constructor.
    */
-  private static final Class[] ARGS = new Class[]{EventSequence.class, EventSequence.class};
+  private static final Class<?>[] ARGS = new Class[]{EventSequence.class, EventSequence.class};
 
   /**
    * Creates a Diff-X instance using the specified class name and event sequences.

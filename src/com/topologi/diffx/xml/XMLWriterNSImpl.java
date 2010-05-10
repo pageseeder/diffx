@@ -413,7 +413,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * 
    * <p>This costly operation need only to be done if the method
    * {@link XMLWriterNSImpl#setPrefixMapping(String, String)} have been used
-   * immediately before, therefor it should not happen often.
+   * immediately before, therefore it should not happen often.
    * 
    * @param elt The element that had some new mappings.
    */

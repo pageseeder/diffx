@@ -170,16 +170,14 @@ public final class EventSequence {
   public boolean equals(EventSequence seq) {
     if (seq == null) return false;
     if (seq.getClass() != this.getClass()) return false;
-    List sequence2 = ((EventSequence)seq).sequence;
+    List<DiffXEvent> sequence2 = seq.sequence;
     if (this.sequence.size() != this.sequence.size()) return false;
     DiffXEvent x1 = null;
     DiffXEvent x2 = null;
     for (int i = 0; i < this.sequence.size(); i++) {
-      x1 = (DiffXEvent)this.sequence.get(i);
-      x2 = (DiffXEvent)sequence2.get(i);
+      x1 = this.sequence.get(i);
+      x2 = sequence2.get(i);
       if (!x1.equals(x2)) {
-        System.out.println(x1 + " instance of " + x1.getClass().getName());
-        System.out.println(x2 + " instance of " + x2.getClass().getName());
         return false;
       }
     }
@@ -189,7 +187,7 @@ public final class EventSequence {
   /**
    * Returns <code>true</code> if the specified event sequence is the same as this one.
    * 
-   * <p>This methdo will redirect to the {@link #equals(EventSequence)} method if the
+   * <p>This method will redirect to the {@link #equals(EventSequence)} method if the
    * specified object is an instance of {@link EventSequence}.
    * 
    * @param o The sequence of events to compare with this one.
@@ -226,7 +224,7 @@ public final class EventSequence {
   }
 
   /**
-   * Maps a uri to a prefix.
+   * Maps a namespace URI to a prefix.
    * 
    * @see PrefixMapping#add(String, String)
    * 
@@ -256,19 +254,19 @@ public final class EventSequence {
    * @author Christophe Lauret
    * @version 6 December 2004
    */
-  public final class EventIterator implements Iterator {
+  public final class EventIterator implements Iterator<DiffXEvent> {
 
     /**
      * The wrapped iterator.
      */
-    private final Iterator iterator; 
+    private final Iterator<DiffXEvent> iterator; 
 
     /**
      * Creates a new iterator wrapping the specified list iterator.
      * 
      * @param iterator The iterator to wrap.
      */
-    private EventIterator(Iterator iterator) {
+    private EventIterator(Iterator<DiffXEvent> iterator) {
       this.iterator = iterator;
     }
 
@@ -282,7 +280,7 @@ public final class EventSequence {
     /**
      * {@inheritDoc}
      */
-    public Object next() {
+    public DiffXEvent next() {
       return this.iterator.next();
     }
 

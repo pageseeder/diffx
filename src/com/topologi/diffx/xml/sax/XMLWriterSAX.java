@@ -10,8 +10,10 @@ package com.topologi.diffx.xml.sax;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -78,7 +80,7 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private static final Element ROOT;
   static {
-    List mps = new ArrayList();
+    List<PrefixMapping> mps = new ArrayList<PrefixMapping>();
     mps.add(DEFAULT_NS);
     ROOT = new Element("", "", true, mps);
   }
@@ -126,7 +128,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * The current prefix mapping.
    */
-  private transient Hashtable prefixMapping = new Hashtable();
+  private transient Hashtable<String, String> prefixMapping = new Hashtable<String, String>();
 
   /**
    * The list of prefix mappings to be associated with the next element.
@@ -136,7 +138,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * A stack of elements to close the elements automatically. 
    */
-  private transient List elements = new ArrayList(); 
+  private transient List<Element> elements = new ArrayList<Element>(); 
 
   /**
    * The attributes attached to the current open element.
