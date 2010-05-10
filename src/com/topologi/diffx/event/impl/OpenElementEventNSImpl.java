@@ -144,8 +144,8 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
    */
   private int toHashCode(String uri, String name) {
     int hash = 107;
-    hash = hash * 13 + uri != null? uri.hashCode() : 0;
-    hash = hash * 13 + name != null? name.hashCode() : 0;
+    hash = hash * 13 + (uri != null? uri.hashCode() : 0);
+    hash = hash * 13 + (name != null? name.hashCode() : 0);
     return hash;
   }
 

@@ -183,9 +183,9 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    */
   private static final int toHashCode(String uri, String name, String value) {
     int hash = 17;
-    hash = hash * 31 + uri != null ? uri.hashCode() : 0;
-    hash = hash * 31 + name != null ? name.hashCode() : 0;
-    hash = hash * 31 + value != null ? value.hashCode() : 0;
+    hash = hash * 31 + (uri != null ? uri.hashCode() : 0);
+    hash = hash * 31 + (name != null ? name.hashCode() : 0);
+    hash = hash * 31 + (value != null ? value.hashCode() : 0);
     return hash;
   }
 

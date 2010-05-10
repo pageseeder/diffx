@@ -138,8 +138,8 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
    */
   private static final int toHashCode(String name, String value) {
     int hash = 23;
-    hash = hash * 37 + name != null ? name.hashCode() : 0;
-    hash = hash * 37 + value != null ? value.hashCode() : 0;
+    hash = hash * 37 + (name != null ? name.hashCode() : 0);
+    hash = hash * 37 + (value != null ? value.hashCode() : 0);
     return hash;
   }
 

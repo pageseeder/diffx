@@ -125,8 +125,8 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
    */
   private static final int toHashCode(String s1, String s2) {
     int hash = 7;
-    hash = hash * 103 + s1 != null? s1.hashCode() : 0;
-    hash = hash * 103 + s2 != null? s2.hashCode() : 0;
+    hash = hash * 103 + (s1 != null? s1.hashCode() : 0);
+    hash = hash * 103 + (s2 != null? s2.hashCode() : 0);
     return hash;
   }
 
