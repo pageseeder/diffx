@@ -39,7 +39,7 @@ public final class LoadingException extends DiffXException {
   }
 
   /**
-   * Creates a new loading exception wrapping an occuring exception.
+   * Creates a new loading exception wrapping an occurring exception.
    * 
    * @param ex The exception to be wrapped.
    */
@@ -48,7 +48,7 @@ public final class LoadingException extends DiffXException {
   }
 
   /**
-   * Creates a new loading exception wrapping an occuring exception.
+   * Creates a new loading exception wrapping an occurring exception.
    * 
    * @param message The message explaining the exception.
    * @param ex The exception to be wrapped.
