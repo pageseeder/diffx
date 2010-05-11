@@ -10,10 +10,8 @@ package com.topologi.diffx.xml.sax;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -133,7 +131,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * The list of prefix mappings to be associated with the next element.
    */
-  private transient List tempMapping;
+  private transient List<PrefixMapping> tempMapping;
 
   /**
    * A stack of elements to close the elements automatically. 
@@ -197,7 +195,7 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   public void writeText(String text) throws IOException {
     if (text == null) return;
-	  try {
+    try {
       deNude();
       this.handler.characters(text.toCharArray(), 0, text.length());
     } catch (SAXException ex) {
@@ -242,8 +240,8 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    */
   public void writeText(Object o) throws IOException {
-	// TODO: what about an XML serializable ???
-	// TODO: Add to interface ???
+  // TODO: what about an XML serializable ???
+  // TODO: Add to interface ???
     if (o != null)
       this.writeText(o.toString());
   }
@@ -325,7 +323,7 @@ public final class XMLWriterSAX implements XMLWriter {
       throws IOException, IllegalStateException {
     if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
     // TODO: check declared
-	  this.attributes.addAttribute(uri, name, value);
+    this.attributes.addAttribute(uri, name, value);
   }
 
   /**
@@ -333,7 +331,7 @@ public final class XMLWriterSAX implements XMLWriter {
    *
    * <p>This method for number does not require escaping.
    *
-   * @param uri   The namespcae URI this attribute belongs to.
+   * @param uri   The namespace URI this attribute belongs to.
    * @param name  The name of the attribute.
    * @param value The value of the attribute.
    * 
@@ -476,10 +474,10 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private void indent() throws SAXException {
     if (this.indent) {
-	  char[] ch = new char[this.depth * this.indentChars.length];
-	  for (int i = 0; i < this.depth; i++)
-		for (int j = 0; j < indentChars.length; j++)
-	      ch[i * indentChars.length + j] = this.indentChars[j];
+    char[] ch = new char[this.depth * this.indentChars.length];
+    for (int i = 0; i < this.depth; i++)
+    for (int j = 0; j < indentChars.length; j++)
+        ch[i * indentChars.length + j] = this.indentChars[j];
       this.handler.ignorableWhitespace(ch, 0, ch.length);
     }
   }
@@ -552,7 +550,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    */
   public void emptyElement(String uri, String element) throws IOException {
-	  try {
+    try {
       deNude();
       this.indent();
       this.handler.startElement(uri, element, "", new AttributesImpl());
@@ -570,7 +568,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @return The current element.
    */
   private Element peekElement() {
-    return ((Element)this.elements.get(this.elements.size() - 1));
+    return this.elements.get(this.elements.size() - 1);
   }
 
   /**
@@ -579,7 +577,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @return The current element.
    */
   private Element popElement() {
-    return ((Element)this.elements.remove(this.elements.size() - 1));
+    return this.elements.remove(this.elements.size() - 1);
   }
 
   // namespace handling -----------------------------------------------------------------------
@@ -604,7 +602,7 @@ public final class XMLWriterSAX implements XMLWriter {
       PrefixMapping pm = new PrefixMapping(prefix, uri);
       this.prefixMapping.put(pm.uri, pm.prefix);
       if (DEBUG) System.err.println(pm.prefix+" -> "+pm.uri);
-      if (this.tempMapping == null) this.tempMapping = new ArrayList();
+      if (this.tempMapping == null) this.tempMapping = new ArrayList<PrefixMapping>();
       this.tempMapping.add(pm);
     }
   }
@@ -632,11 +630,11 @@ public final class XMLWriterSAX implements XMLWriter {
   }
 
   /**
-   * Restores the prefix mapping after clsing an element.
+   * Restores the prefix mapping after closing an element.
    * 
    * <p>This costly operation need only to be done if the method
    * {@link XMLWriterNSImpl#setPrefixMapping(String, String)} have been used
-   * immediately before, therefor it should not happen often.
+   * immediately before, therefore it should not happen often.
    * 
    * @param elt The element that had some new mappings.
    */
@@ -644,13 +642,13 @@ public final class XMLWriterSAX implements XMLWriter {
     if (elt.mappings != null) {
       // for each mapping of this element
       for (int i = 0; i < elt.mappings.size(); i++) {
-        PrefixMapping mpi = (PrefixMapping)elt.mappings.get(i);
+        PrefixMapping mpi = elt.mappings.get(i);
         if (DEBUG) System.err.print(mpi.prefix+" -< ");
         // find the first previous namespace mapping amongst the parents
         // that defines namespace mappings
         for (int j = elements.size() - 1; j > 0; j--) {
-          if (((Element)this.elements.get(j)).mappings != null) {
-            List mps = ((Element)elements.get(j)).mappings;
+          if (this.elements.get(j).mappings != null) {
+            List<PrefixMapping> mps = elements.get(j).mappings;
             // iterate through the define namespace mappings of the parent
             for (int k = 0; k < mps.size(); k++) {
               PrefixMapping mpk = (PrefixMapping)mps.get(k);
@@ -678,7 +676,7 @@ public final class XMLWriterSAX implements XMLWriter {
     // remove the previous mapping to the prefix
     if (this.prefixMapping.containsValue(prefix)) {
       Object key = null;
-      for (Enumeration e = this.prefixMapping.keys(); e.hasMoreElements();) {
+      for (Enumeration<String> e = this.prefixMapping.keys(); e.hasMoreElements();) {
         key = e.nextElement();
         if (this.prefixMapping.get(key).equals(prefix)) 
           break;
@@ -747,7 +745,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * 
      * <p>Can be <code>null</code>.
      */
-    private final List mappings;
+    private final List<PrefixMapping> mappings;
 
     /**
      * Indicates whether the element has children. 
@@ -757,13 +755,13 @@ public final class XMLWriterSAX implements XMLWriter {
     /**
      * Creates a new Element.
      * 
-     * @param uri         The namespace uri of the element.
+     * @param uri         The namespace URI of the element.
      * @param name        The local name of the element.
      * @param hasChildren Whether the element has children.
      * @param mappings    The list of prefix mapping if any.
      */
-    public Element(String uri, String name, boolean hasChildren, List mappings) {
-	  this.uri = uri;
+    public Element(String uri, String name, boolean hasChildren, List<PrefixMapping> mappings) {
+      this.uri = uri;
       this.name = name;
       this.hasChildren = hasChildren;
       this.mappings = mappings;
@@ -811,30 +809,30 @@ public final class XMLWriterSAX implements XMLWriter {
    * 
    * <p>Note: the type of all attributes is CDATA.
    *
-   * @author Christophe Lauret (Allette Systems)
+   * @author Christophe Lauret
    * @version 25 May 2005
    */
   private static final class AttributesImpl implements Attributes {
 
-	/**
-	 * The only type used in this class.
-	 */
-	private static final String CDATA = "CDATA"; 
+    /**
+     * The only type used in this class.
+     */
+    private static final String CDATA = "CDATA"; 
 
-	/**
-	 * Namespace URIs of the attributes.
-	 */
-    private final ArrayList uris = new ArrayList();
+    /**
+     * Namespace URIs of the attributes.
+     */
+    private final List<String> uris = new ArrayList<String>();
 
-	/**
-	 * Qnames of the attributes.
-	 */
-    private final ArrayList names = new ArrayList();
+    /**
+     * QNames of the attributes.
+     */
+    private final List<String> names = new ArrayList<String>();
 
-	/**
-	 * Values of the attributess.
-	 */
-	private final ArrayList values = new ArrayList();
+    /**
+     * Values of the attributes.
+     */
+    private final List<String> values = new ArrayList<String>();
 
     /**
      * Creates an empty attribute list.
@@ -853,8 +851,8 @@ public final class XMLWriterSAX implements XMLWriter {
      */
     public void addAttribute(String name, String value) {
       this.uris.add("");
-  	  this.names.add(name);
-  	  this.values.add(value);
+      this.names.add(name);
+      this.values.add(value);
     }
 
     /**
@@ -869,8 +867,8 @@ public final class XMLWriterSAX implements XMLWriter {
      */
     public void addAttribute(String uri, String name, String value) {
       this.uris.add("");
-  	  this.names.add(name);
-  	  this.values.add(value);
+      this.names.add(name);
+      this.values.add(value);
     }
 
   // Attributes methods, indexed access -------------------------------------------------
@@ -883,7 +881,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.AttributeList#getLength
      */
     public int getLength () {
-  	  return this.names.size();
+      return this.names.size();
     }
 
     /**
@@ -896,13 +894,13 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getQName(int)
      */
     public String getQName(int i) {
-  	  if (i < 0) return null;
+      if (i < 0) return null;
       try {
         // FIXME: not SAX2 compliant
-  	    return getLocalName(i);
-  	  } catch (ArrayIndexOutOfBoundsException e) {
-  	    return null;
-  	  }
+        return getLocalName(i);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        return null;
+      }
     }
 
     /**
@@ -915,12 +913,12 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getQName(int)
      */
     public String getLocalName(int i) {
-  	  if (i < 0) return null;
+      if (i < 0) return null;
       try {
-  	    return (String)names.get(i);
-  	  } catch (ArrayIndexOutOfBoundsException e) {
-  	    return null;
-  	  }
+        return (String)names.get(i);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        return null;
+      }
     }
 
     /**
@@ -933,12 +931,12 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getType(int)
      */
     public String getType (int i) {
-  	  if (i < 0) return null;
-  	  try {
+      if (i < 0) return null;
+      try {
         return CDATA;
-  	  } catch (ArrayIndexOutOfBoundsException e) {
+      } catch (ArrayIndexOutOfBoundsException e) {
         return null;
-  	  }
+      }
     }
 
     /**
@@ -952,12 +950,12 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getValue(int)
      */
     public String getValue(int i) {
-  	  if (i < 0) return null;
+      if (i < 0) return null;
       try {
         return (String)values.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
-  	  }
+      }
     }
 
     /**
@@ -976,8 +974,8 @@ public final class XMLWriterSAX implements XMLWriter {
         return (String)uris.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
-  	  }
-	}
+      }
+  }
 
     /**
      * Returns <code>null</code> as qualified names are not available.
@@ -989,7 +987,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getType(java.lang.String)
      */
     public String getType(String qName) {
-  	  return null;
+      return null;
     }
 
     /**
@@ -1000,7 +998,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.Attributes#getValue(java.lang.String)
      */
     public String getValue(String name) {
-  	  return null;
+      return null;
     }
 
     /**
@@ -1008,13 +1006,12 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @param uri  The namespace URI of the attribute.
      * @param name The attribute name.
-     * @return The attribute type as a string ("NMTOKEN" for an
-     *         enumeration, and "CDATA" if no declaration was
-     *         read).
+     * @return The attribute type as a string
+     *         ("NMTOKEN" for an enumeration, and "CDATA" if no declaration was read).
      * @see org.xml.sax.Attributes#getType(java.lang.String)
      */
     public String getType(String uri, String name) {
-  	  return getType(getIndex(uri, name));
+      return getType(getIndex(uri, name));
     }
 
     /**
@@ -1025,38 +1022,38 @@ public final class XMLWriterSAX implements XMLWriter {
      * @see org.xml.sax.AttributeList#getValue(java.lang.String)
      */
     public String getValue(String uri, String name) {
-  	  return getValue(getIndex(uri, name));
+      return getValue(getIndex(uri, name));
     }
 
-	/**
-	 * Look up the index of an attribute by Namespace name.
-	 * 
-	 * @param uri The Namespace URI, or the empty string if the name has no Namespace URI.
+    /**
+     * Look up the index of an attribute by Namespace name.
+     * 
+     * @param uri The Namespace URI, or the empty string if the name has no Namespace URI.
      * @param localName The attribute's local name.
      * 
      * @return The index of the attribute, or -1 if it does not appear in the list.
-	 */
+     */
     public int getIndex(String uri, String localName) {
       // try if only one attribute with that name
       int index = this.names.indexOf(localName);
-	    if (index == -1) return index;
+      if (index == -1) return index;
       if (this.uris.get(index).equals(uri)) return index;
       // otherwise iterate
-	    for (int i = 0; i < names.size(); i++) {
-		    if (names.get(i).equals(localName) && uris.get(i).equals(uri)) {
+      for (int i = 0; i < names.size(); i++) {
+        if (names.get(i).equals(localName) && uris.get(i).equals(uri)) {
           return i;
-		    }
-  	  }
+        }
+      }
       return -1;
     }
 
-	/**
-	 * Look up the index of an attribute by Namespace name.
-	 * 
-	 * @param qName The index of the given name.
-   * 
-   * @return The index of the attribute, or -1 if it does not appear in the list.
-	 */
+    /**
+     * Look up the index of an attribute by Namespace name.
+     * 
+     * @param qName The index of the given name.
+     * 
+     * @return The index of the attribute, or -1 if it does not appear in the list.
+     */
     public int getIndex(String qName) {
       // FIXME: not SAX2 compliant
       return getIndex("", qName);

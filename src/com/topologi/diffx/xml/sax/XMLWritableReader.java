@@ -8,6 +8,7 @@
 package com.topologi.diffx.xml.sax;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.xml.sax.SAXException;
@@ -51,7 +52,7 @@ public final class XMLWritableReader implements XMLReader {
   /**
    * The features used by this XML reader implementation.
    */
-  private Map features = new java.util.HashMap();
+  private Map<String, Boolean> features = new HashMap<String, Boolean>();
 
   /**
    * The content reader this XMLReader will use.
@@ -155,7 +156,7 @@ public final class XMLWritableReader implements XMLReader {
    */
   public boolean getFeature(java.lang.String name) {
 	// TODO: handling of features
-    return ((Boolean)features.get(name)).booleanValue();
+    return features.get(name).booleanValue();
   }
 
   /**
