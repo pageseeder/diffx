@@ -37,6 +37,7 @@ import com.topologi.diffx.format.DiffXFormatter;
 import com.topologi.diffx.format.SafeXMLFormatter;
 import com.topologi.diffx.format.SmartXMLFormatter;
 import com.topologi.diffx.format.StrictXMLFormatter;
+import com.topologi.diffx.format.XMLDiffXFormatter;
 import com.topologi.diffx.load.Recorder;
 import com.topologi.diffx.load.SAXRecorder;
 import com.topologi.diffx.load.DOMRecorder;
@@ -274,6 +275,7 @@ public final class Main {
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);
       boolean slice = !CommandLine.hasSwitch("-noslice", args);
+      boolean quiet = CommandLine.hasSwitch("-quiet", args);
 
       // get the files
       File xml1 = new File(args[args.length - 2]);
@@ -285,18 +287,21 @@ public final class Main {
       EventSequence seq1 = recorder.process(xml1);
       EventSequence seq2 = recorder.process(xml2);
       long t1 = System.currentTimeMillis();
-      if (profile) System.err.println("loaded files in "+(t1 - t0)+"ms");
+      if (profile) System.err.println("Loaded files in "+(t1 - t0)+"ms");
 
       // get the config
       DiffXConfig config = new DiffXConfig();
       config.setGranularity(getTextGranularity(args));
       config.setWhiteSpaceProcessing(getWhiteSpaceProcessing(args));
+      if (!quiet) System.err.println("Whitespace processing: "+getTextGranularity(args)+" "+getWhiteSpaceProcessing(args));
 
       // get and setup the formatter
       Writer out = new OutputStreamWriter(getOutput(args), "utf-8");
       DiffXFormatter formatter = getFormatter(args, out);
-//      formatter.declarePrefixMapping(seq1.getPrefixMapping());
-//      formatter.declarePrefixMapping(seq2.getPrefixMapping());
+      if (formatter instanceof XMLDiffXFormatter) {
+        ((XMLDiffXFormatter)formatter).declarePrefixMapping(seq1.getPrefixMapping());
+        ((XMLDiffXFormatter)formatter).declarePrefixMapping(seq2.getPrefixMapping());
+      }
       formatter.setConfig(config);
 
       // pre-slicing
@@ -307,16 +312,17 @@ public final class Main {
       }
 
       // start algorithm
+      if (!quiet) System.err.println("Matrix: "+seq1.size()+"x"+seq2.size());
       DiffXAlgorithm df = getAlgorithm(args, seq1, seq2);
       df.process(formatter);
-      
+
       // post-slicing
       if (slice) {
         slicer.formatEnd(formatter);
       }
 
       long t2 = System.currentTimeMillis();
-      if (profile) System.err.println("executed algorithm files in "+(t2 - t1)+"ms");
+      if (profile) System.err.println("Executed algorithm files in "+(t2 - t1)+"ms");
 
     } catch (Throwable ex) {
       ex.printStackTrace();
