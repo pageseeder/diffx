@@ -17,6 +17,8 @@ import com.topologi.diffx.event.impl.WordEvent;
  * 
  * <p>Use this class to store word events in order to avoid creating new instances.
  * 
+ * @deprecated Tokenizers can use their own caching that is not language dependent.
+ * 
  * @author Christophe Lauret
  * @version 15 December 2004
  */

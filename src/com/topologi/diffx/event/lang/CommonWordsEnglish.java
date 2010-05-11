@@ -12,6 +12,8 @@ import com.topologi.diffx.event.impl.WordEvent;
 /**
  * A list of common words in English.
  * 
+ * @deprecated Tokenizers can use their own caching that is not language dependent.
+ * 
  * @author Christophe Lauret
  * @version 15 January 2007
  */
