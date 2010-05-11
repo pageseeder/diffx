@@ -214,7 +214,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * @param mapping The prefix mapping to add.
    */
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration uris = mapping.getURIs(); uris.hasMoreElements();) {
+    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
       String uri = (String)uris.nextElement();
       this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
     }

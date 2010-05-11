@@ -346,7 +346,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    * @param mapping The prefix mapping to add.
    */
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration uris = mapping.getURIs(); uris.hasMoreElements();) {
+    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
       String uri = (String)uris.nextElement();
       mapping.getPrefix(uri);
       // TODO: does nothing !!!

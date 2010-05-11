@@ -25,7 +25,7 @@ public interface DiffXFormatter {
    * 
    * @param e The event to format
    * 
-   * @throws IOException Should an I/O exception occurs whilst formatting.
+   * @throws IOException Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
   void format(DiffXEvent e) throws IOException, IllegalStateException;
@@ -35,7 +35,7 @@ public interface DiffXFormatter {
    * 
    * @param e The event to format
    * 
-   * @throws IOException Should an I/O exception occurs whilst formatting.
+   * @throws IOException Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
   void insert(DiffXEvent e) throws IOException, IllegalStateException;
@@ -45,7 +45,7 @@ public interface DiffXFormatter {
    * 
    * @param e The event to format
    * 
-   * @throws IOException           Should an I/O exception occurs whilst formatting.
+   * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
   void delete(DiffXEvent e) throws IOException, IllegalStateException;

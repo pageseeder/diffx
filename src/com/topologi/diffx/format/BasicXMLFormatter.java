@@ -93,12 +93,12 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * A stack of attributes to insert.
    */
-  private transient Stack insAttributes = new Stack();
+  private transient Stack<AttributeEvent> insAttributes = new Stack<AttributeEvent>();
 
   /**
    * A stack of attributes to delete.
    */
-  private transient Stack delAttributes = new Stack();
+  private transient Stack<AttributeEvent> delAttributes = new Stack<AttributeEvent>();
 
 // constructors -------------------------------------------------------------------------------
 
@@ -180,9 +180,9 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeEvent) {
       if (mod > 0)
-        this.insAttributes.push(e);
+        this.insAttributes.push((AttributeEvent)e);
       else
-        this.delAttributes.push(e);
+        this.delAttributes.push((AttributeEvent)e);
 
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof ProcessingInstructionEvent) {
@@ -221,7 +221,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    * @param mapping The prefix mapping to add.
    */
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration uris = mapping.getURIs(); uris.hasMoreElements();) {
+    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
       String uri = (String)uris.nextElement();
       this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
     }
@@ -297,9 +297,9 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    * 
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack atts, String uri) throws IOException {
+  private void flushAttributes(Stack<AttributeEvent> atts, String uri) throws IOException {
     while (!atts.empty()) {
-      AttributeEvent att = (AttributeEvent)atts.pop();
+      AttributeEvent att = atts.pop();
       this.xml.openElement(uri, "attribute", false);
       this.xml.attribute("name", att.getName());
       if (att.getURI() != null) this.xml.attribute("ns-uri", att.getURI());

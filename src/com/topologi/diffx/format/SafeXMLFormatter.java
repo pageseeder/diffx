@@ -26,13 +26,13 @@ import com.topologi.diffx.xml.XMLWriterNSImpl;
 import com.topologi.diffx.xml.XMLWriter;
 
 /**
- * An XML formatter that tries to fix the errors affecting the well-formedness in the XML.
+ * An XML formatter that tries to ensure that the output XML will be well-formed.
  * 
  * <p>This class will always close the elements correctly by maintaining a stack of parent elements.
  * 
  * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the 
  * future it should be possible to configure which prefixes to use for each namespace, but 
- * in this version the namespace prefix mapping is hardcoded.
+ * in this version the namespace prefix mapping is hard-coded.
  * 
  * @author Christophe Lauret
  * @version 11 May 2010
@@ -59,8 +59,9 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 // state variables ----------------------------------------------------------------------------
 
   /**
-   * Set to <code>true</code> to include the XML declaration. This attribute is
-   * set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
+   * Set to <code>true</code> to include the XML declaration.
+   * 
+   * <p>This attribute is set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
    * is called with <code>false</code> or once the XML declaration has been written. 
    */
   private transient boolean writeXMLDeclaration = true;
@@ -213,8 +214,8 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
    * @param mapping The prefix mapping to add.
    */
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = (String)uris.nextElement();
+    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
+      String uri = uris.nextElement();
       this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
     }
   }

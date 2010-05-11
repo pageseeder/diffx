@@ -196,8 +196,8 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * @param mapping The prefix mapping to add.
    */
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = (String)uris.nextElement();
+    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
+      String uri = uris.nextElement();
       this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
     }
   }
@@ -271,9 +271,9 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * 
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack atts, int mod) throws IOException {
+  private void flushAttributes(Stack<AttributeEvent> atts, int mod) throws IOException {
     while (!atts.empty()) {
-      AttributeEvent att = (AttributeEvent)atts.pop();
+      AttributeEvent att = atts.pop();
       this.xml.openElement(Constants.BASE_NS_URI, (mod > 0)? "ins" : "del", false);
       this.xml.attribute(att.getURI(), att.getName(), att.getValue());
       this.xml.closeElement();
