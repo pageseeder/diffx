@@ -12,8 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 import com.topologi.diffx.config.TextGranularity;
+import com.topologi.diffx.config.WhiteSpaceProcessing;
 import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.impl.CharactersEvent;
+import com.topologi.diffx.event.impl.IgnorableSpaceEvent;
+import com.topologi.diffx.event.impl.SpaceEvent;
 
 /**
  * The tokeniser for characters events.
@@ -21,14 +24,23 @@ import com.topologi.diffx.event.impl.CharactersEvent;
  * <p>This class is not synchronized.
  * 
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 11 May 2010
  */
 public final class TokenizerByText implements TextTokenizer {
 
   /**
-   * Creates a new tokenizer.
+   * Define the whitespace processing. 
    */
-  public TokenizerByText() {
+  private final WhiteSpaceProcessing whitespace;
+
+  /**
+   * Creates a new tokenizer.
+   * 
+   * @throws NullPointerException if the white space processing is not specified.
+   */
+  public TokenizerByText(WhiteSpaceProcessing whitespace) {
+    if (whitespace == null) throw new NullPointerException("the white space processing must be specified.");
+    this.whitespace = whitespace;
   }
 
   /**
@@ -37,9 +49,33 @@ public final class TokenizerByText implements TextTokenizer {
   public List<TextEvent> tokenize(CharSequence seq) {
     if (seq == null) return null;
     if (seq.length() == 0) return Collections.emptyList();
-    List<TextEvent> events = new ArrayList<TextEvent>(seq.length());
-    // TODO change behaviour depending on whitespace processing
-    events.add(new CharactersEvent(seq));
+    int x = TokenizerUtils.getLeadingWhiteSpace(seq);
+    int y = TokenizerUtils.getTrailingWhiteSpace(seq);
+    // no leading or trailing spaces return a singleton in all configurations
+    if (x == 0 && y == 0) {
+      TextEvent e = new CharactersEvent(seq);
+      return Collections.singletonList(e);
+    }
+    // some trailing or leading whitespace, behaviour changes depending on whitespace processing
+    List<TextEvent> events = null;
+    switch (this.whitespace) {
+      case COMPARE:
+        events = new ArrayList<TextEvent>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
+        if (x > 0) events.add(SpaceEvent.getInstance(seq.subSequence(0, x)));
+        events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
+        if (y > 0) events.add(SpaceEvent.getInstance(seq.subSequence(seq.length()-y, seq.length())));
+        break;
+      case PRESERVE:
+        events = new ArrayList<TextEvent>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
+        if (x > 0) events.add(new IgnorableSpaceEvent(seq.subSequence(0, x)));
+        events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
+        if (y > 0) events.add(new IgnorableSpaceEvent(seq.subSequence(seq.length()-y, seq.length())));
+        break;
+      case IGNORE:
+        TextEvent e = new CharactersEvent(seq.subSequence(x, seq.length()-y));
+        events = Collections.singletonList(e);
+        break;
+    }
     return events;
   }
 
@@ -51,4 +87,5 @@ public final class TokenizerByText implements TextTokenizer {
   public TextGranularity granurality() {
     return TextGranularity.TEXT;
   }
+
 }

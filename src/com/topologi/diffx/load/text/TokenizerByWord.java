@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import com.topologi.diffx.config.TextGranularity;
 import com.topologi.diffx.config.WhiteSpaceProcessing;
 import com.topologi.diffx.event.TextEvent;
+import com.topologi.diffx.event.impl.IgnorableSpaceEvent;
 import com.topologi.diffx.event.impl.SpaceEvent;
 import com.topologi.diffx.event.impl.WordEvent;
 
@@ -27,7 +28,7 @@ import com.topologi.diffx.event.impl.WordEvent;
  * <p>This class is not synchronized.
  * 
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 11 May 2010
  */
 public final class TokenizerByWord implements TextTokenizer {
 
@@ -69,8 +70,11 @@ public final class TokenizerByWord implements TextTokenizer {
         String word = seq.subSequence(index, m.start()).toString();
         events.add(getWordEvent(word));
       }
-      String space = seq.subSequence(m.start(), m.end()).toString();
-      events.add(getSpaceEvent(space));
+      // We don't even need to record a white space if they are ignored!
+      if (this.whitespace != WhiteSpaceProcessing.IGNORE) {
+        String space = seq.subSequence(m.start(), m.end()).toString();
+        events.add(getSpaceEvent(space));
+      }
       index = m.end();
     }
 
@@ -84,7 +88,7 @@ public final class TokenizerByWord implements TextTokenizer {
   }
 
   /**
-   * Always <code>TextGranularity.CHARACTER</code>.
+   * Always <code>TextGranularity.WORD</code>.
    * 
    * {@inheritDoc}
    */
@@ -93,7 +97,7 @@ public final class TokenizerByWord implements TextTokenizer {
   }
 
   // Private helpers ------------------------------------------------------------------------------
-  
+
   /**
    * Returns the word event corresponding to the specified characters.
    * 
@@ -116,12 +120,13 @@ public final class TokenizerByWord implements TextTokenizer {
    * @return the corresponding space event
    */
   private TextEvent getSpaceEvent(String space) {
-    // we ignore white spaces so any will do
-    if (this.whitespace == WhiteSpaceProcessing.IGNORE) return SpaceEvent.SINGLE_WHITESPACE;
     // preserve the actual white space used
     TextEvent e = this.recycling.get(space);
     if (e == null) {
-      e = SpaceEvent.getInstance(space);
+      if (this.whitespace == WhiteSpaceProcessing.PRESERVE)
+        e = new IgnorableSpaceEvent(space);
+      else 
+        e = SpaceEvent.getInstance(space);
       this.recycling.put(space, e);
     }
     return e;
