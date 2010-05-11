@@ -27,12 +27,14 @@ import com.topologi.diffx.algorithm.DiffXFitWesyma;
 import com.topologi.diffx.algorithm.DiffXFitopsy;
 import com.topologi.diffx.algorithm.DiffXFitsy;
 import com.topologi.diffx.algorithm.DiffXKumarRangan;
+import com.topologi.diffx.algorithm.GuanoAlgorithm;
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.config.TextGranularity;
 import com.topologi.diffx.config.WhiteSpaceProcessing;
 import com.topologi.diffx.format.BasicXMLFormatter;
 import com.topologi.diffx.format.ConvenientXMLFormatter;
 import com.topologi.diffx.format.DiffXFormatter;
+import com.topologi.diffx.format.SafeXMLFormatter;
 import com.topologi.diffx.format.SmartXMLFormatter;
 import com.topologi.diffx.format.StrictXMLFormatter;
 import com.topologi.diffx.load.Recorder;
@@ -244,7 +246,7 @@ public final class Main {
    */
   private static void diff(EventSequence seq1, EventSequence seq2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
-    SmartXMLFormatter formatter = new SmartXMLFormatter(out);
+    SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     formatter.declarePrefixMapping(seq1.getPrefixMapping());
     formatter.declarePrefixMapping(seq2.getPrefixMapping());
     
@@ -252,7 +254,7 @@ public final class Main {
     SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
     slicer.slice();
     slicer.formatStart(formatter);
-    DiffXAlgorithm df = new DiffXFitopsy(seq1, seq2);
+    DiffXAlgorithm df = new GuanoAlgorithm(seq1, seq2);
     df.process(formatter);
     slicer.formatEnd(formatter);
   }
@@ -338,7 +340,7 @@ public final class Main {
     System.err.println("  -L [loader] Choose a specific loader");
     System.err.println("               sax* | dom | text");
     System.err.println("  -A [algo]   Choose a specific algorithm");
-    System.err.println("               fitsy* | fitopsy | kumar | wesyma");
+    System.err.println("               fitsy* | guano | fitopsy | kumar | wesyma");
     System.err.println("  -F [format] Choose a specific formatter");
     System.err.println("               smart* | basic | convenient | strict | short");
     System.err.println("  -W [wsp]    Define whitespace processing");
@@ -390,6 +392,8 @@ public final class Main {
     String loaderArg = CommandLine.getParameter("-A", args);
     if (loaderArg == null || "fitsy".equals(loaderArg))
       return new DiffXFitsy(seq1, seq2);
+    else if ("guano".equals(loaderArg))
+      return new GuanoAlgorithm(seq1, seq2);
     else if ("fitopsy".equals(loaderArg))
       return new DiffXFitopsy(seq1, seq2);
     else if ("kumar".equals(loaderArg))
