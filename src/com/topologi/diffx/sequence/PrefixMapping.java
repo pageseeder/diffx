@@ -18,7 +18,7 @@ import java.util.Hashtable;
  * <p>Note that for each namespace URI there can only be one prefix.
  * 
  * @author Christophe Lauret
- * @version 6 December 2008
+ * @version 12 May 2010
  * 
  * @since 0.7
  */
@@ -30,9 +30,9 @@ public final class PrefixMapping {
   private final Hashtable<String,String> mappings = new Hashtable<String,String>();
 
   /**
-   * Add the specified mapping if the namespace URI has not beem mapped before.
+   * Add the specified mapping if the namespace URI has not been mapped before.
    * 
-   * <p>This method will garantee that the mapping is actually unique, that is that
+   * <p>This method will ensure that the mapping is actually unique, that is that
    * the namespace URI correspond to one and only one prefix and that the prefix only
    * corresponds to one and only one namespace URI.
    * 
@@ -56,7 +56,7 @@ public final class PrefixMapping {
    * 
    * @return An enumeration of the namespace URIs used in this mapping.
    */
-  public Enumeration getURIs() {
+  public Enumeration<String> getURIs() {
     return this.mappings.keys();
   }
 
@@ -68,7 +68,7 @@ public final class PrefixMapping {
    * @return The corresponding prefix. 
    */
   public String getPrefix(String uri) {
-    return uri == null? "" : (String)this.mappings.get(uri);
+    return uri == null? "" : this.mappings.get(uri);
   }
 
 }
