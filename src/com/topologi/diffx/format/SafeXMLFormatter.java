@@ -13,6 +13,7 @@ import java.io.Writer;
 import java.util.Enumeration;
 
 import com.topologi.diffx.config.DiffXConfig;
+import com.topologi.diffx.config.WhiteSpaceProcessing;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.impl.CharEvent;
@@ -75,7 +76,6 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
    * <pre>new SmartXMLFormatter(new PrintWriter(System.out));</pre>.
    * 
    * @see System#out
-   * @see #PageSeederXMLFormatter(Writer)
    * 
    * @throws IOException should an I/O exception occurs.
    */
@@ -110,7 +110,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (DEBUG) System.err.println("="+e);
     e.toXML(this.xml);
     if (e instanceof CharactersEventBase)
-      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace())
+      if (this.config.getWhiteSpaceProcessing() == WhiteSpaceProcessing.IGNORE)
         this.xml.writeXML(" ");
     this.xml.flush();
   }
@@ -134,7 +134,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       this.xml.openElement(Constants.BASE_NS_URI, "ins", false); //this.xml.openElement("ins", false);
       e.toXML(this.xml);
       this.xml.closeElement();
-      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace())
+      if (this.config.getWhiteSpaceProcessing() == WhiteSpaceProcessing.IGNORE)
         this.xml.writeXML(" ");
 
     // display the attribute normally
@@ -174,7 +174,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       this.xml.openElement(Constants.BASE_NS_URI, "del", false); //this.xml.openElement("del", false);
       e.toXML(this.xml);
       this.xml.closeElement();
-      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace())
+      if (this.config.getWhiteSpaceProcessing() == WhiteSpaceProcessing.IGNORE)
         this.xml.writeXML(" ");
 
     // put the attribute as part of the 'delete' namespace

@@ -177,7 +177,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
   }
 
   /**
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(com.topologi.diffx.DiffXConfig)
+   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(DiffXConfig)
    */
   public void setConfig(DiffXConfig config) {
     this.config = config;

@@ -83,7 +83,7 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
   /**
    * Returns the white space event corresponding to the given string.
    * 
-   * @param space The string for the white space event.
+   * @param c The string for the white space event.
    * 
    * @return A readable string.
    */

@@ -104,7 +104,7 @@ public final class DiffXConfig {
   /**
    * Sets the granularity of text diffing for this configuration.
    * 
-   * @return the text granularity of text diffing for this configuration.
+   * @param granularity the text granularity of text diffing for this configuration.
    */
   public void setGranularity(TextGranularity granularity) {
     if (granularity == null)
@@ -115,7 +115,7 @@ public final class DiffXConfig {
   /**
    * Sets the white space processing for this configuration.
    * 
-   * @return the white space processing for this configuration.
+   * @param whitespace the white space processing for this configuration.
    */
   public void setWhiteSpaceProcessing(WhiteSpaceProcessing whitespace) {
     if (whitespace == null)
