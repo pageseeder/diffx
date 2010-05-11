@@ -9,6 +9,7 @@ package com.topologi.diffx.xml.dom;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -84,7 +85,7 @@ public final class DOMWriterImpl implements DOMWriter {
   /**
    * An array to indicate which elements have children.
    */
-  private transient ArrayList childrenFlags = new ArrayList();
+  private transient List<Boolean> childrenFlags = new ArrayList<Boolean>();
 
 // constructors -------------------------------------------------------------------------
 
@@ -313,14 +314,14 @@ public final class DOMWriterImpl implements DOMWriter {
       throw new IllegalCloseElementException();
     this.depth--;
     this.isNude = false;
-    Boolean hasChildren = (Boolean)this.childrenFlags.remove(this.childrenFlags.size() - 1);
+    Boolean hasChildren = this.childrenFlags.remove(this.childrenFlags.size() - 1);
     if (hasChildren.booleanValue())
       this.indent();
     this.currentElement.normalize();
     this.currentElement = (Element)this.currentElement.getParentNode();
     // new line if parent has children
     if (this.indent) {
-      Boolean b = (Boolean)this.childrenFlags.get(this.childrenFlags.size() - 1);
+      Boolean b = this.childrenFlags.get(this.childrenFlags.size() - 1);
       if (b.booleanValue()) // and parent != root
         newLine();
     }
