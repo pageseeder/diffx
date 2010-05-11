@@ -409,7 +409,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * Restores the prefix mapping after clsing an element.
+   * Restores the prefix mapping after closing an element.
    * 
    * <p>This costly operation need only to be done if the method
    * {@link XMLWriterNSImpl#setPrefixMapping(String, String)} have been used
@@ -426,11 +426,11 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
         // find the first previous namespace mapping amongst the parents
         // that defines namespace mappings
         for (int j = elements.size() - 1; j > 0; j--) {
-          if (((Element)this.elements.get(j)).mappings != null) {
-            List mps = ((Element)elements.get(j)).mappings;
+          if (this.elements.get(j).mappings != null) {
+            List<PrefixMapping> mps = elements.get(j).mappings;
             // iterate through the define namespace mappings of the parent
             for (int k = 0; k < mps.size(); k++) {
-              PrefixMapping mpk = (PrefixMapping)mps.get(k);
+              PrefixMapping mpk = mps.get(k);
               // if we found a namespace prefix for the namespace
               if (mpk.prefix.equals(mpi.prefix)) {
                 removeIfNeeded(mpk.prefix);
@@ -455,7 +455,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     // remove the previous mapping to the prefix
     if (this.prefixMapping.containsValue(prefix)) {
       Object key = null;
-      for (Enumeration e = this.prefixMapping.keys(); e.hasMoreElements();) {
+      for (Enumeration<String> e = this.prefixMapping.keys(); e.hasMoreElements();) {
         key = e.nextElement();
         if (this.prefixMapping.get(key).equals(prefix)) 
           break;
@@ -502,7 +502,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
      * 
      * <p>Can be <code>null</code>.
      */
-    private final List mappings;
+    private final List<PrefixMapping> mappings;
 
     /**
      * Creates a new Element.
@@ -511,7 +511,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
      * @param hasChildren Whether the element has children.
      * @param mappings    The list of prefix mapping if any.
      */
-    public Element(String qName, boolean hasChildren, List mappings) {
+    public Element(String qName, boolean hasChildren, List<PrefixMapping> mappings) {
       this.qName = qName;
       this.hasChildren = hasChildren;
       this.mappings = mappings;
