@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 /**
  * This class provides methods to serialize objects to XML.
@@ -109,14 +108,14 @@ public final class XMLSerializer {
         this.xml.writeText(DF.format((Date)o));
         this.xml.closeElement();
       // collection
-      } else if (o instanceof Collection) {
-        this.xml.openElement(name, (((Collection)o).size() != 0));
-        this.serializeCollection((Collection)o);
+      } else if (o instanceof Collection<?>) {
+        this.xml.openElement(name, (((Collection<?>)o).size() != 0));
+        this.serializeCollection((Collection<?>)o);
         this.xml.closeElement();
       // hashtable
-      } else if (o instanceof Hashtable) {
-        this.xml.openElement(name, (((Hashtable)o).size() != 0));
-        this.serializeHashtable((Hashtable)o);
+      } else if (o instanceof Hashtable<?,?>) {
+        this.xml.openElement(name, (((Hashtable<?,?>)o).size() != 0));
+        this.serializeHashtable((Hashtable<?,?>)o);
         this.xml.closeElement();
       // other objects
       } else {
@@ -130,15 +129,14 @@ public final class XMLSerializer {
   /**
    * Serialises the given Collection to xml.
    *
-   * <p>Iterates over every object and call the {@link #serialize } method.
+   * <p>Iterates over every object and call the {@link #serialize} method.
    * 
    * @param c The Collection to be serialised to XML
    * 
    * @throws IOException Should an I/O error occur.
    */
-  public void serializeCollection(Collection c) throws IOException {
-    for (Iterator iter = c.iterator(); iter.hasNext();) {
-      Object o = iter.next();
+  public void serializeCollection(Collection<?> c) throws IOException {
+    for (Object o : c) {
       this.serialize(o, o.getClass().getName());
     }
   }
@@ -153,9 +151,9 @@ public final class XMLSerializer {
    * 
    * @throws IOException Should an I/O error occur.
    */
-  public void serializeHashtable(Hashtable h) throws IOException {
+  public void serializeHashtable(Hashtable<?, ?> h) throws IOException {
     this.xml.openElement("map", !h.isEmpty());
-    for (Enumeration e = h.keys(); e.hasMoreElements();) {
+    for (Enumeration<?> e = h.keys(); e.hasMoreElements();) {
       Object key = e.nextElement();
       Object value = h.get(key);
       this.xml.openElement("element");
@@ -185,7 +183,7 @@ public final class XMLSerializer {
     if (o instanceof XMLSerializable) {
       try {
         Object[] args = new Object[0]; // required by the invoke method
-        Class cls = o.getClass();
+        Class<?> cls = o.getClass();
         Method[] meth = cls.getMethods();
         for (int i = 0; i < meth.length; i++) {
           String methodName = meth[i].getName();
