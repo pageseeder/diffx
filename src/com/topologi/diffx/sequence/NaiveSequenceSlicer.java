@@ -84,10 +84,10 @@ public final class NaiveSequenceSlicer {
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     this.start = new EventSequence();
     int count = 0;
-    Iterator i = this.sequence1.eventIterator();
-    Iterator j = this.sequence2.eventIterator();
+    Iterator<DiffXEvent> i = this.sequence1.eventIterator();
+    Iterator<DiffXEvent> j = this.sequence2.eventIterator();
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = (DiffXEvent)i.next();
+      DiffXEvent e = i.next();
       if (j.next().equals(e)) {
         count++;
         i.remove();
@@ -148,10 +148,10 @@ public final class NaiveSequenceSlicer {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     int count = 0;
-    Iterator i = this.sequence1.eventIterator();
-    Iterator j = this.sequence2.eventIterator();
+    Iterator<DiffXEvent> i = this.sequence1.eventIterator();
+    Iterator<DiffXEvent> j = this.sequence2.eventIterator();
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = (DiffXEvent)i.next();
+      DiffXEvent e = i.next();
       if (j.next().equals(e)) {
         count++;
         i.remove();
