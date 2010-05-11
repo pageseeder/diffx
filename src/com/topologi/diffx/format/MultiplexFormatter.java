@@ -28,14 +28,14 @@ public final class MultiplexFormatter implements DiffXFormatter {
    * the list of formatters to use.
    */
   private final List<DiffXFormatter> formatters;
-	
+
 // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter without any underlying formatters.
    */
   public MultiplexFormatter() {
-	this.formatters = new ArrayList<DiffXFormatter>();
+    this.formatters = new ArrayList<DiffXFormatter>();
   }
 
   /**
@@ -44,7 +44,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
    * @param f The formatter to use.
    */
   public MultiplexFormatter(DiffXFormatter f) {
-	this.formatters = new ArrayList<DiffXFormatter>(1);
+    this.formatters = new ArrayList<DiffXFormatter>(1);
     this.formatters.add(f);
   }
 
@@ -53,7 +53,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
   /**
    * Adds a formatter to multiplex.
    * 
-   * @param f The diffx formatter to add.
+   * @param f The Diff-X formatter to add.
    */
   public void add(DiffXFormatter f) {
     this.formatters.add(f);
@@ -87,7 +87,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
    * @see DiffXFormatter#setConfig(DiffXConfig)
    */
   public void setConfig(DiffXConfig config) {
-  for (DiffXFormatter f : this.formatters)
+    for (DiffXFormatter f : this.formatters)
       f.setConfig(config);
   }
 }
