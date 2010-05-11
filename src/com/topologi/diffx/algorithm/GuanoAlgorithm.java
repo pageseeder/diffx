@@ -20,8 +20,28 @@ import com.topologi.diffx.format.ShortStringFormatter;
  * A matrix-based algorithm using weighted events which produces correct results, but may require 
  * minor adjustments during formatting.  
  * 
+ * <p>Implementation note: this algorithm effectively detects the correct changes in the
+ * sequences, but will not necessarily return events that can be serialised as well-formed
+ * XML as they stand.
+ * 
+ * <p>Known problem in this implementation: elements that contain themselves tend to 
+ * generate events that are harder to serialise as XML. 
+ * 
+ * <p>This class is said 'fit' because it will adapt the matrix to the sequences that it 
+ * is being given in order to improve performance.
+ * 
+ * <p>Note: The name of this class comes from a contracted version of the features of
+ * this algorithm, as explained below:
+ * <ul>
+ *   <li><b>Weighted, each token is has a given weight;</li>
+ *   <li><b>Symmetrical, when possible, the algorithm will try to choose a path
+ *      that is symmetrical in regards to the arrangement of the tokens;</li>
+ *   <li><b>Matrix, this class uses a matrix for its internal representation;</li>
+ *   </li>
+ * </ul>
+ * 
  * @author Christophe Lauret
- * @version 19 January 2007
+ * @version 11 May 2010
  */
 public final class GuanoAlgorithm implements DiffXAlgorithm {
 
