@@ -15,7 +15,7 @@ import com.topologi.diffx.sequence.EventSequence;
  * Factory for creating a Diff-X algorithm instance.
  * 
  * @author  Christophe Lauret
- * @version 3 February 2005
+ * @version 11 May 2010
  */
 public final class DiffXFactory {
 
@@ -30,7 +30,32 @@ public final class DiffXFactory {
   /**
    * The classes of the arguments of the constructor.
    */
-  private static final Class<?>[] ARGS = new Class[]{EventSequence.class, EventSequence.class};
+  private static final Class<?>[] ARGS = new Class<?>[]{EventSequence.class, EventSequence.class};
+
+  /**
+   * Creates a Diff-X instance using the specified class name and event sequences.
+   * 
+   * @param className The class name of the Diff-X algorithm implementation to use.
+   * @param sequence1 The first sequence to use for the Diff-X constructor.
+   * @param sequence2 The second sequence to use for the Diff-X constructor.
+   * 
+   * @return A Diff-X algorithm instance.
+   * 
+   * @throws FactoryException Should an error occur when trying to instantiate the class. 
+   */
+  @SuppressWarnings("unchecked")
+  public static DiffXAlgorithm newAlgorithm(String className, EventSequence sequence1, EventSequence sequence2) 
+     throws FactoryException {
+    DiffXAlgorithm algorithm = null;
+    try {
+      Class<DiffXAlgorithm> cls = (Class<DiffXAlgorithm>)Class.forName(className);
+      Constructor<DiffXAlgorithm> cons = cls.getConstructor(ARGS);
+      algorithm = cons.newInstance(sequence1, sequence2);
+    } catch (Exception ex) {
+      throw new FactoryException(ex);
+    }
+    return algorithm;
+  }
 
   /**
    * Creates a Diff-X instance using the specified class name and event sequences.
@@ -41,21 +66,15 @@ public final class DiffXFactory {
    * 
    * @return A Diff-X algorithm instance.
    * 
+   * @deprecated use <code>newAlgorithm</code> 
+   * 
    * @throws FactoryException Should an error occur when trying to instantiate the class. 
    */
   public static DiffXAlgorithm createDiffex(String className,
                                             EventSequence sequence1,
                                             EventSequence sequence2) 
      throws FactoryException {
-    DiffXAlgorithm diffex = null;
-    try {
-      Class cls = Class.forName(className);
-      Constructor cons = cls.getConstructor(ARGS);
-      diffex = (DiffXAlgorithm)cons.newInstance(new EventSequence[]{sequence1, sequence2});
-    } catch (Exception ex) {
-      throw new FactoryException(ex);
-    }
-    return diffex;
+    return newAlgorithm(className, sequence1, sequence2);
   }
 
 }
