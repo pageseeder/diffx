@@ -70,6 +70,19 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
+  public boolean equals(Object o) {
+    return o.getClass() == this.getClass();
+  }
+
+  /**
+   * Returns <code>true</code> if the event is an ignorable white space, regardless of the
+   * characters that it matches.
+   * 
+   * @param e The event to compare with this event.
+   * 
+   * @return <code>true</code> if considered equal;
+   *         <code>false</code> otherwise.
+   */
   public boolean equals(DiffXEvent e) {
     if (this == e)
       return true;

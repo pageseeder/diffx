@@ -56,6 +56,19 @@ public final class TokenizerByText implements TextTokenizer {
       TextEvent e = new CharactersEvent(seq);
       return Collections.singletonList(e);
     }
+    // The text node is only white space (white space = trailing space)
+    if (x == seq.length()) {
+      switch (this.whitespace) {
+        case COMPARE:
+          return Collections.singletonList((TextEvent)SpaceEvent.getInstance(seq.toString()));
+        case PRESERVE:
+          return Collections.singletonList((TextEvent)new IgnorableSpaceEvent(seq.toString()));
+        case IGNORE:
+          return Collections.emptyList();
+      }
+      TextEvent e = new CharactersEvent(seq);
+      return Collections.singletonList(e);
+    }
     // some trailing or leading whitespace, behaviour changes depending on whitespace processing
     List<TextEvent> events = null;
     switch (this.whitespace) {
