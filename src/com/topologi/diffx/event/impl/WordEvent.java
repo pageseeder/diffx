@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -22,7 +22,7 @@ public final class WordEvent extends CharactersEventBase implements TextEvent {
    * 
    * @param w The word as a string.
    * 
-   * @throws NullPointerException If the given String is <code>null</code>. 
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
   public WordEvent(CharSequence w) throws NullPointerException {
     super(w);
@@ -31,8 +31,9 @@ public final class WordEvent extends CharactersEventBase implements TextEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return "word: \""+this.getCharacters()+'"';
+    return "word: \""+getCharacters()+'"';
   }
 
 }

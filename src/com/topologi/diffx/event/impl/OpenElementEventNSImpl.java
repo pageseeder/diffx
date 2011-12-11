@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -58,7 +58,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * Creates a new open element event.
    * 
-   * @param uri  The namespace URI of the element    
+   * @param uri  The namespace URI of the element
    * @param name The local name of the element
    * 
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -75,7 +75,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
 
   /**
    * @return Returns the name.
-    */
+   */
   public String getName() {
     return this.name;
   }
@@ -90,18 +90,20 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a  
+   * Returns <code>true</code> if the event is a open element event.
    * 
    * @param e The event to compare with this event.
    * 
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e == null) return false;
     if (e.getClass() != this.getClass()) return false;
@@ -114,6 +116,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "openElement: "+this.name+" ["+this.uri+"]";
   }

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -20,7 +20,7 @@ import java.util.Hashtable;
 /**
  * This class provides methods to serialize objects to XML.
  *
- * <p>There is no mechanism to prevent infinite loops if some objects (lists,...) reference 
+ * <p>There is no mechanism to prevent infinite loops if some objects (lists,...) reference
  * themselves.
  *
  * <p>The underlying XML document is generated using an XML string buffer.
@@ -31,9 +31,9 @@ import java.util.Hashtable;
 public final class XMLSerializer {
 
   // TODO: make an interface out of this class.
-  
+
   // TODO: make the dateformat a class attribute.
-  
+
   /**
    * Date formatter.
    */
@@ -42,13 +42,13 @@ public final class XMLSerializer {
   /**
    * Used to store the xml document of this class.
    *
-   * <p>Classes extending this class should use their constructors to set the size of the 
+   * <p>Classes extending this class should use their constructors to set the size of the
    * <code>XMLStringBuffer</code>.
    */
-  private XMLWriter xml;
+  private final XMLWriter xml;
 
   /**
-   * Creates a new XML serializer using the specified XML writer. 
+   * Creates a new XML serializer using the specified XML writer.
    *
    * @param xml The XML string buffer to be used
    */
@@ -68,7 +68,7 @@ public final class XMLSerializer {
   /**
    * Serialises the given object using the given name as element name.
    * 
-   * <p>This implementation is recursive. It calls itself for fields which are not of 
+   * <p>This implementation is recursive. It calls itself for fields which are not of
    * primitive type.
    *
    * @param o     Object to be serialised as xml
@@ -79,48 +79,52 @@ public final class XMLSerializer {
   public void serialize(Object o, String name) throws IOException {
     if (o != null) {
       // get rid of some nasty symbols from qualified names and inner classes
-      if (name.lastIndexOf('.') != -1) name = name.substring(name.lastIndexOf('.')+1);
-      if (name.lastIndexOf('$') != -1) name = name.substring(name.lastIndexOf('$')+1);
+      if (name.lastIndexOf('.') != -1) {
+        name = name.substring(name.lastIndexOf('.')+1);
+      }
+      if (name.lastIndexOf('$') != -1) {
+        name = name.substring(name.lastIndexOf('$')+1);
+      }
       name = name.toLowerCase();
       // numbers
       if (o instanceof Number) {
         this.xml.openElement(name, false);
         this.xml.writeText(o.toString());
         this.xml.closeElement();
-      // strings
+        // strings
       } else if (o instanceof String) {
         this.xml.openElement(name, false);
         this.xml.writeText(o.toString());
         this.xml.closeElement();
-      // characters
+        // characters
       } else if (o instanceof Character) {
         this.xml.openElement(name, false);
         this.xml.writeText(((Character)o).charValue());
         this.xml.closeElement();
-      // boolean
+        // boolean
       } else if (o instanceof Boolean) {
         this.xml.openElement(name, false);
         this.xml.writeText(o.toString());
         this.xml.closeElement();
-      // dates
+        // dates
       } else if (o instanceof Date) {
         this.xml.openElement(name, false);
         this.xml.writeText(DF.format((Date)o));
         this.xml.closeElement();
-      // collection
+        // collection
       } else if (o instanceof Collection<?>) {
-        this.xml.openElement(name, (((Collection<?>)o).size() != 0));
-        this.serializeCollection((Collection<?>)o);
+        this.xml.openElement(name, ((Collection<?>)o).size() != 0);
+        serializeCollection((Collection<?>)o);
         this.xml.closeElement();
-      // hashtable
+        // hashtable
       } else if (o instanceof Hashtable<?,?>) {
-        this.xml.openElement(name, (((Hashtable<?,?>)o).size() != 0));
-        this.serializeHashtable((Hashtable<?,?>)o);
+        this.xml.openElement(name, ((Hashtable<?,?>)o).size() != 0);
+        serializeHashtable((Hashtable<?,?>)o);
         this.xml.closeElement();
-      // other objects
+        // other objects
       } else {
         this.xml.openElement(name, true);
-        this.serializeObject(o);
+        serializeObject(o);
         this.xml.closeElement();
       }
     }
@@ -137,14 +141,14 @@ public final class XMLSerializer {
    */
   public void serializeCollection(Collection<?> c) throws IOException {
     for (Object o : c) {
-      this.serialize(o, o.getClass().getName());
+      serialize(o, o.getClass().getName());
     }
   }
 
   /**
    * Serialise the given <code>Hashtable</code> to xml.
    *
-   * <p>This methods only works if the {@link Hashtable} contains <code>String</code> 
+   * <p>This methods only works if the {@link Hashtable} contains <code>String</code>
    * objects.
    *
    * @param h The hashtable to be serialized to XML
@@ -171,8 +175,8 @@ public final class XMLSerializer {
   /**
    * Serialises the given object to xml by using the public methods <code>getXXX()</code>.
    *
-   * <p>This method calls every <code>getXXX()</code> method from the object to get the 
-   * returned object and then calls the {@link #serialize(Object, String)} method with 
+   * <p>This method calls every <code>getXXX()</code> method from the object to get the
+   * returned object and then calls the {@link #serialize(Object, String)} method with
    * the returned object and the name <i>xxx</i> in lower case.
    *
    * @param o The object to be serialised as XML
@@ -185,12 +189,12 @@ public final class XMLSerializer {
         Object[] args = new Object[0]; // required by the invoke method
         Class<?> cls = o.getClass();
         Method[] meth = cls.getMethods();
-        for (int i = 0; i < meth.length; i++) {
-          String methodName = meth[i].getName();
-          if (methodName.startsWith("get") && !(methodName.equals("getClass"))) {
-            Object retObj = meth[i].invoke(o, args);
+        for (Method element : meth) {
+          String methodName = element.getName();
+          if (methodName.startsWith("get") && !methodName.equals("getClass")) {
+            Object retObj = element.invoke(o, args);
             String attribute = methodName.substring(3).toLowerCase();
-            this.serialize(retObj, attribute);
+            serialize(retObj, attribute);
           }
         }
       } catch (IllegalAccessException ex) {

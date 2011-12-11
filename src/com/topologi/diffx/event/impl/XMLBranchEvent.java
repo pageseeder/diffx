@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -48,15 +48,17 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the diffX events in the branch are all equal. 
+   * Returns <code>true</code> if the diffX events in the branch are all equal.
    * 
    * {@inheritDoc}
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass()) return false;
     if (e.hashCode() != this.hashCode) return false;
@@ -77,16 +79,18 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
    * {@inheritDoc}
    */
   public void toXML(XMLWriter xml) throws IOException {
-    for (int i = 0; i < this.branch.length; i++)
-      this.branch[i].toXML(xml);
+    for (DiffXEvent element : this.branch) {
+      element.toXML(xml);
+    }
   }
 
   /**
    * {@inheritDoc}
    */
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    for (int i = 0; i < this.branch.length; i++)
-      this.branch[i].toXML(xml);
+    for (DiffXEvent element : this.branch) {
+      element.toXML(xml);
+    }
     return xml;
   }
 

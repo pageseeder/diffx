@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -18,7 +18,7 @@ import com.topologi.diffx.xml.esc.XMLEscapeWriterUTF8;
  *
  * <p>Provides methods to generate well-formed XML data easily. wrapping a writer.
  *
- * <p>This version only supports utf-8 encoding, if writing to a file make sure that the 
+ * <p>This version only supports utf-8 encoding, if writing to a file make sure that the
  * encoding of the file output stream is "utf-8".
  *
  * <p>The recommended implementation is to use a <code>BufferedWriter</code> to write.
@@ -70,11 +70,11 @@ abstract class XMLWriterBase implements XMLWriter {
   private String indentChars = null;
 
   /**
-   * Flag to indicate that the element open tag is not finished yet. 
+   * Flag to indicate that the element open tag is not finished yet.
    */
-  boolean isNude = false; 
+  boolean isNude = false;
 
-// constructors -------------------------------------------------------------------------
+  // constructors -------------------------------------------------------------------------
 
   /**
    * <p>Creates a new XML writer.
@@ -85,22 +85,26 @@ abstract class XMLWriterBase implements XMLWriter {
    * @throws NullPointerException If the writer is <code>null</code>.
    */
   public XMLWriterBase(Writer writer, boolean indent) throws NullPointerException {
-    if (writer == null) 
+    if (writer == null)
       throw new NullPointerException("XMLWriter cannot use a null writer.");
     this.writer = writer;
     this.writerEscape = new XMLEscapeWriterUTF8(writer);
     this.indent = indent;
-	if (indent) this.indentChars = "  ";
+    if (indent) {
+      this.indentChars = "  ";
+    }
   }
 
-// setup methods ------------------------------------------------------------------------
+  // setup methods ------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#xmlDecl()
    */
   public final void xmlDecl() throws IOException {
     this.writer.write("<?xml version=\"1.0\" encoding=\""+this.encoding+"\"?>");
-    if (this.indent) this.writer.write('\n');
+    if (this.indent) {
+      this.writer.write('\n');
+    }
   }
 
   /**
@@ -117,14 +121,14 @@ abstract class XMLWriterBase implements XMLWriter {
     }
     // update the flags
     this.indentChars = spaces;
-    this.indent = (spaces != null);
+    this.indent = spaces != null;
   }
 
   /**
    * Sets the encoding to use.
    * 
    * <p>The encoding must match the encoding used if there is an underlying
-   * <code>OutputStreamWriter</code>. 
+   * <code>OutputStreamWriter</code>.
    * 
    * @param encoding The encoding to use.
    * 
@@ -146,7 +150,7 @@ abstract class XMLWriterBase implements XMLWriter {
   public final void writeText(String text) throws IOException {
     if (text == null) return;
     deNude();
-    writerEscape.writeText(text);
+    this.writerEscape.writeText(text);
   }
 
   /**
@@ -154,7 +158,7 @@ abstract class XMLWriterBase implements XMLWriter {
    */
   public final void writeText(char[] text, int off, int len) throws IOException {
     deNude();
-    writerEscape.writeText(text, off, len);
+    this.writerEscape.writeText(text, off, len);
   }
 
   /**
@@ -162,7 +166,7 @@ abstract class XMLWriterBase implements XMLWriter {
    */
   public final void writeText(char c) throws IOException {
     deNude();
-    writerEscape.writeText(c);
+    this.writerEscape.writeText(c);
   }
 
   /**
@@ -178,10 +182,11 @@ abstract class XMLWriterBase implements XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    */
   public final void writeText(Object o) throws IOException {
-	// TODO: what about an XML serializable ???
-	// TODO: Add to interface ???
-    if (o != null)
+    // TODO: what about an XML serializable ???
+    // TODO: Add to interface ???
+    if (o != null) {
       this.writeText(o.toString());
+    }
   }
 
   // Write XML methods
@@ -208,7 +213,7 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#writeComment(String) 
+   * @see XMLWriter#writeComment(String)
    */
   public final void writeComment(String comment) throws IOException, IllegalArgumentException {
     if (comment == null)
@@ -219,8 +224,9 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.write("<!-- ");
     this.writer.write(comment);
     this.writer.write(" -->");
-    if (this.indent)
+    if (this.indent) {
       this.writer.write('\n');
+    }
   }
 
   /**
@@ -233,8 +239,9 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.write(' ');
     this.writer.write(data);
     this.writer.write("?>");
-    if (this.indent)
+    if (this.indent) {
       this.writer.write('\n');
+    }
   }
 
   /**
@@ -265,7 +272,7 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.write(name);
     this.writer.write('=');
     this.writer.write('"');
-    writerEscape.writeAttValue(value);
+    this.writerEscape.writeAttValue(value);
     this.writer.write('"');
   }
 
@@ -292,7 +299,7 @@ abstract class XMLWriterBase implements XMLWriter {
   public void element(String name, String text) throws IOException {
     this.openElement(name);
     this.writeText(text);
-    this.closeElement();
+    closeElement();
   }
 
   // Direct access to the writer
@@ -319,20 +326,24 @@ abstract class XMLWriterBase implements XMLWriter {
   abstract void deNude() throws IOException;
 
   /**
-   * Insert the correct amount of space characterss depending on the depth and if 
+   * Insert the correct amount of space characterss depending on the depth and if
    * the <code>indent</code> flag is set to <code>true</code>.
    *
    * @throws IOException If thrown by the wrapped writer.
    */
   void indent() throws IOException {
-    if (indent) for (int i = 0; i < depth; i++) this.writer.write(this.indentChars);
+    if (this.indent) {
+      for (int i = 0; i < this.depth; i++) {
+        this.writer.write(this.indentChars);
+      }
+    }
   }
 
   /**
    * Does nothing.
    * 
    * <p>This method exists so that we can explicitly say that we should do nothing
-   * in certain conditions. 
+   * in certain conditions.
    */
   static final void doNothing() {
     return;

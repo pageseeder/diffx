@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -24,7 +24,7 @@ public final class CharactersEvent extends CharactersEventBase {
    * 
    * @param seq The char sequence.
    * 
-   * @throws NullPointerException If the given String is <code>null</code>. 
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
   public CharactersEvent(CharSequence seq) throws NullPointerException {
     super(seq);
@@ -33,8 +33,9 @@ public final class CharactersEvent extends CharactersEventBase {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return "characters: \""+this.getCharacters()+'"';
+    return "characters: \""+getCharacters()+'"';
   }
 
 }

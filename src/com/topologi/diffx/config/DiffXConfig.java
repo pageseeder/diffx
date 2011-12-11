@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.config;
@@ -30,8 +30,8 @@ package com.topologi.diffx.config;
  * 
  * <p>Note that it simply mimics SAX2 which cannot have the features
  * <code>http://xml.org/sax/features/namespaces</code> and
- * <code>http://xml.org/sax/features/namespace-prefixes</code> both set to 
- * <code>false</code>. 
+ * <code>http://xml.org/sax/features/namespace-prefixes</code> both set to
+ * <code>false</code>.
  * 
  * @see com.topologi.diffx.load.XMLRecorder
  * @see com.topologi.diffx.algorithm.DiffXAlgorithm
@@ -44,7 +44,7 @@ public final class DiffXConfig {
 
   /**
    * Indicates whether the namespaces should be handled or ignored.
-   */ 
+   */
   private boolean isNamespaceAware = true;
 
   /**
@@ -60,7 +60,7 @@ public final class DiffXConfig {
   /**
    * Required for backward compatibility only.
    */
-  private boolean preserveWhiteSpace = true; 
+  private boolean preserveWhiteSpace = true;
 
   /**
    * Defines the text granularity for this configuration.
@@ -99,7 +99,7 @@ public final class DiffXConfig {
     this.whitespace = whitespace;
   }
 
-// methods ----------------------------------------------------------------------------------------
+  // methods ----------------------------------------------------------------------------------------
 
   /**
    * Sets the granularity of text diffing for this configuration.
@@ -126,7 +126,7 @@ public final class DiffXConfig {
   /**
    * Sets whether Diff-X should take namespaces into account.
    * 
-   * <p>It is more efficient to disable namespace processing when the XML to 
+   * <p>It is more efficient to disable namespace processing when the XML to
    * compare are not expected to use any namespace.
    * 
    * <p>In order to avoid an illegal state, if this flag is set to <code>false</code>
@@ -137,8 +137,9 @@ public final class DiffXConfig {
    */
   public void setNamespaceAware(boolean aware) {
     this.isNamespaceAware = aware;
-    if (!aware)
+    if (!aware) {
       this.reportPrefixDifferences = true;
+    }
   }
 
   /**
@@ -152,8 +153,9 @@ public final class DiffXConfig {
    */
   public void setReportPrefixDifferences(boolean report) {
     this.reportPrefixDifferences = report;
-    if (!report)
+    if (!report) {
       this.isNamespaceAware = true;
+    }
   }
 
   /**
@@ -224,6 +226,7 @@ public final class DiffXConfig {
    * @param ignore <code>true</code> to ignore differences in white spaces;
    *               <code>false</code> otherwise.
    */
+  @Deprecated
   public void setIgnoreWhiteSpace(boolean ignore) {
     // COMPARE  <-> ignore = false, preserve = true/false
     // PRESERVE <-> ignore = true, preserve = true
@@ -243,6 +246,7 @@ public final class DiffXConfig {
    * @param preserve <code>true</code> to preserve the white spaces;
    *                 <code>false</code> otherwise.
    */
+  @Deprecated
   public void setPreserveWhiteSpace(boolean preserve) {
     // COMPARE  <-> ignore = false, preserve = true/false
     // PRESERVE <-> ignore = true, preserve = true

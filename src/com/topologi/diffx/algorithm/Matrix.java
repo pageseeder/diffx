@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -19,7 +19,7 @@ package com.topologi.diffx.algorithm;
  * @version 7 April 2005
  */
 public interface Matrix {
-//	 TODO: this class should probably not be public
+  //	 TODO: this class should probably not be public
 
   /**
    * Create a matrix of the given width and height.
@@ -29,10 +29,10 @@ public interface Matrix {
    */
   void setup(int width, int height);
 
-// default access -----------------------------------------------------------------------
+  // default access -----------------------------------------------------------------------
 
   /**
-   * Sets the value of the matrix at the given position. 
+   * Sets the value of the matrix at the given position.
    * 
    * @param i The column index.
    * @param j The row index.
@@ -42,7 +42,7 @@ public interface Matrix {
   void set(int i, int j, int x);
 
   /**
-   * Returns the value at the given position. 
+   * Returns the value at the given position.
    * 
    * @param i The column index.
    * @param j The row index.
@@ -51,7 +51,7 @@ public interface Matrix {
    */
   int get(int i, int j);
 
-// to fill up the matrix ----------------------------------------------------------------
+  // to fill up the matrix ----------------------------------------------------------------
 
   /**
    * Increment the path.
@@ -61,24 +61,24 @@ public interface Matrix {
    * @param i The column index.
    * @param j The row index.
 
-   * @param n The increment number.  
+   * @param n The increment number.
    */
   void incrementPathBy(int i, int j, int n);
 
   /**
    * Increment by the maximum path.
    * 
-   * <p>value(i, j) := max( value(i+1, j) , value(i, j+1) ) 
+   * <p>value(i, j) := max( value(i+1, j) , value(i, j+1) )
    * 
    * @param i The column index.
    * @param j The row index.
    */
   void incrementByMaxPath(int i, int j);
 
-// to determine the path ----------------------------------------------------------------
+  // to determine the path ----------------------------------------------------------------
 
   /**
-   * Returns <code>true</code> we should move on the X direction. 
+   * Returns <code>true</code> we should move on the X direction.
    * 
    * <p>if value(i+1, j) > value(i, j+1)
    * 
@@ -91,7 +91,7 @@ public interface Matrix {
   boolean isGreaterX(int i, int j);
 
   /**
-   * Returns <code>true</code> we should move on the X direction. 
+   * Returns <code>true</code> we should move on the X direction.
    * 
    * <p>if value(i+1, j) &lt; value(i, j+1)
    * 
@@ -105,7 +105,7 @@ public interface Matrix {
 
   /**
    * Returns <code>true</code> we moving on the X direction is
-   * equivalent to moving on the Y direction. 
+   * equivalent to moving on the Y direction.
    * 
    * <p>if value(i+1, j) == value(i, j+1)
    * 
@@ -121,7 +121,7 @@ public interface Matrix {
    * Releases all the resources used only by this matrix object.
    * 
    * <p>This class is not usable, until after invoking this method, unless
-   * it is setup again. 
+   * it is setup again.
    */
   void release();
 

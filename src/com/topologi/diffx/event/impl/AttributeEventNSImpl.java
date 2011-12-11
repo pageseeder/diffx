@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -58,7 +58,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     this.name = name;
     this.value = value;
     this.uri = null;
-    this.hashCode = toHashCode(uri, name, value);
+    this.hashCode = toHashCode(this.uri, name, value);
   }
 
   /**
@@ -105,6 +105,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
@@ -117,6 +118,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass())
       return false;
@@ -133,6 +135,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "attribute: " + this.name + "=" + this.value + " [" + this.uri + "]";
   }
@@ -181,7 +184,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * @param value The attribute value.
    * @return a number suitable as a hashcode.
    */
-  private static final int toHashCode(String uri, String name, String value) {
+  private static int toHashCode(String uri, String name, String value) {
     int hash = 17;
     hash = hash * 31 + (uri != null ? uri.hashCode() : 0);
     hash = hash * 31 + (name != null ? name.hashCode() : 0);

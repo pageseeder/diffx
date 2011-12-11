@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -12,18 +12,17 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Enumeration;
 
-
-import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.DiffXEvent;
+import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.impl.CharEvent;
 import com.topologi.diffx.event.impl.CharactersEventBase;
-import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.impl.SpaceEvent;
 import com.topologi.diffx.sequence.PrefixMapping;
-import com.topologi.diffx.xml.XMLWriterNSImpl;
+import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.xml.XMLWriter;
+import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * An XML formatter that tries to rectify the errors affecting the well-formedness of the XML.
@@ -31,8 +30,8 @@ import com.topologi.diffx.xml.XMLWriter;
  * <p>This class will always close the elements correctly by maintaining a stack of parent
  * elements.
  * 
- * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the 
- * future it should be possible to configure which prefixes to use for each namespace, but 
+ * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the
+ * future it should be possible to configure which prefixes to use for each namespace, but
  * in this version the namespace prefix mapping is hardcoded.
  * 
  * @author Christophe Lauret
@@ -45,7 +44,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    */
   private static final boolean DEBUG = false;
 
-// class attributes ---------------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------------
 
   /**
    * The output goes here.
@@ -55,18 +54,18 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
   /**
    * The DiffX configuration to use
    */
-  private DiffXConfig config = new DiffXConfig(); 
+  private DiffXConfig config = new DiffXConfig();
 
-// state variables ----------------------------------------------------------------------------
+  // state variables ----------------------------------------------------------------------------
 
   /**
    * Set to <code>true</code> to include the XML declaration. This attribute is
    * set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
-   * is called with <code>false</code> or once the XML declaration has been written. 
+   * is called with <code>false</code> or once the XML declaration has been written.
    */
   private transient boolean writeXMLDeclaration = true;
 
-// constructors -------------------------------------------------------------------------------
+  // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter on the standard output.
@@ -92,26 +91,29 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    */
   public SmartXMLFormatter(Writer w) throws IOException {
     this.xml = new XMLWriterNSImpl(w, false);
-    if (writeXMLDeclaration) {
+    if (this.writeXMLDeclaration) {
       this.xml.xmlDecl();
-	    this.writeXMLDeclaration = false;
-	  }
+      this.writeXMLDeclaration = false;
+    }
     this.xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
     this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
     this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
-   * @see DiffXFormatter#format(DiffXEvent) 
+   * @see DiffXFormatter#format(DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-    if (DEBUG) System.err.println("="+e);
-    e.toXML(xml);
+    if (DEBUG) {
+      System.err.println("="+e);
+    }
+    e.toXML(this.xml);
     if (e instanceof CharactersEventBase)
-      if (config.isIgnoreWhiteSpace() && !config.isPreserveWhiteSpace())
+      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
+      }
     this.xml.flush();
   }
 
@@ -119,36 +121,39 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * @see DiffXFormatter#insert(DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    if (DEBUG) System.err.println("+"+e);
+    if (DEBUG) {
+      System.err.println("+"+e);
+    }
     // insert an attribute to specify
     if (e instanceof OpenElementEvent) {
       e.toXML(this.xml);
       this.xml.attribute("dfx:insert", "true");
 
-    // just output the new line
+      // just output the new line
     } else if (e == SpaceEvent.NEW_LINE) {
       e.toXML(this.xml);
 
-    // wrap the characters in a <ins> element
+      // wrap the characters in a <ins> element
     } else if (e instanceof CharactersEventBase) {
       this.xml.openElement("ins", false);
       e.toXML(this.xml);
       this.xml.closeElement();
-      if (config.isIgnoreWhiteSpace() && !config.isPreserveWhiteSpace())
+      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
+      }
 
-    // display the attribute normally
+      // display the attribute normally
     } else if (e instanceof AttributeEvent) {
       e.toXML(this.xml);
       this.xml.attribute("ins:"+((AttributeEvent)e).getName(), "true");
 
-    // wrap the char in a <ins> element
+      // wrap the char in a <ins> element
     } else if (e instanceof CharEvent) {
       this.xml.openElement("ins", false);
       e.toXML(this.xml);
       this.xml.closeElement();
 
-    // just format naturally
+      // just format naturally
     } else {
       e.toXML(this.xml);
     }
@@ -159,7 +164,9 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * @see DiffXFormatter#delete(DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException {
-    if (DEBUG) System.err.println("-"+e);
+    if (DEBUG) {
+      System.err.println("-"+e);
+    }
     // insert an attribute to specify
     if (e instanceof OpenElementEvent) {
       e.toXML(this.xml);
@@ -169,25 +176,26 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     } else if (e == SpaceEvent.NEW_LINE) {
       e.toXML(this.xml);
 
-    // wrap the characters in a <del> element
+      // wrap the characters in a <del> element
     } else if (e instanceof CharactersEventBase) {
       this.xml.openElement("del", false);
       e.toXML(this.xml);
       this.xml.closeElement();
-      if (config.isIgnoreWhiteSpace() && !config.isPreserveWhiteSpace())
+      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
+      }
 
-    // put the attribute as part of the 'delete' namespace
+      // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeEvent) {
       this.xml.attribute("del:"+((AttributeEvent)e).getName(), ((AttributeEvent)e).getValue());
 
-    // wrap the char in a <del> element
+      // wrap the char in a <del> element
     } else if (e instanceof CharEvent) {
       this.xml.openElement("del", false);
       e.toXML(this.xml);
       this.xml.closeElement();
 
-    // just format naturally
+      // just format naturally
     } else {
       e.toXML(this.xml);
     }
@@ -220,6 +228,6 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     }
   }
 
-// private helpers ----------------------------------------------------------------------------
+  // private helpers ----------------------------------------------------------------------------
 
 }

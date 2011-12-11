@@ -2,15 +2,15 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
 
 import java.io.IOException;
 
-import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.AttributeEvent;
+import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.format.DiffXFormatter;
 import com.topologi.diffx.format.ShortStringFormatter;
 import com.topologi.diffx.sequence.EventSequence;
@@ -22,10 +22,10 @@ import com.topologi.diffx.sequence.EventSequence;
  * sequences, but will not necessarily return events that can be serialised as well-formed
  * XML as they stand.
  * 
- * <p>Known problem in this implementation: elements that contain themselves tend to 
- * generate events that are harder to serialise as XML. 
+ * <p>Known problem in this implementation: elements that contain themselves tend to
+ * generate events that are harder to serialise as XML.
  * 
- * <p>This class is said 'fit' because it will adapt the matrix to the sequences that it 
+ * <p>This class is said 'fit' because it will adapt the matrix to the sequences that it
  * is being given in order to improve performance.
  * 
  * <p>Note: The name of this class comes from a contracted version of the features of
@@ -55,7 +55,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    */
   private static final boolean PROFILE = false;
 
-// state variables ----------------------------------------------------------------------------
+  // state variables ----------------------------------------------------------------------------
 
   /**
    * Matrix storing the paths.
@@ -67,7 +67,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    */
   private transient ElementState estate = new ElementState();
 
-// constructor --------------------------------------------------------------------------------
+  // constructor --------------------------------------------------------------------------------
 
   /**
    * Creates a new DiffXAlgorithmBase.
@@ -80,7 +80,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
     this.matrix = setupMatrix(seq0, seq1);
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
    * Returns the length of the longest common sequence.
@@ -89,42 +89,52 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    */
   public int length() {
     // case when one of the sequences is empty
-    if (length1 == 0 || length2 == 0)
+    if (this.length1 == 0 || this.length2 == 0) {
       this.length = 0;
+    }
     // normal case
-    if (length < 0) {
+    if (this.length < 0) {
       long t0 = System.currentTimeMillis();
-      if (PROFILE) System.err.println("Creating Matrix ["+(length1+1)+", "+(length2+1)+")");
-      matrix.setup(length1+1, length2+1);
+      if (PROFILE) {
+        System.err.println("Creating Matrix ["+(this.length1+1)+", "+(this.length2+1)+")");
+      }
+      this.matrix.setup(this.length1+1, this.length2+1);
       long t1 = System.currentTimeMillis();
-      if (PROFILE) System.err.println((t1 - t0)+" ms to setup matrix");
+      if (PROFILE) {
+        System.err.println(t1 - t0+" ms to setup matrix");
+      }
       // allocate storage for array L;
       for (int i = super.length1; i >= 0; i--) {
         for (int j = super.length2; j >= 0; j--) {
           // we reach the end of the sequence (fill with 0)
-          if (i >= super.length1 || j >= super.length2) 
-            matrix.set(i, j, 0);
-          else {
+          if (i >= super.length1 || j >= super.length2) {
+            this.matrix.set(i, j, 0);
+          } else {
             // the events are the same
-            if (sequence1.getEvent(i).equals(sequence2.getEvent(j))) {
-              matrix.incrementPathBy(i, j, maxWeight(sequence1.getEvent(i), sequence2.getEvent(j)));
-            // different events
-            } else 
-              matrix.incrementByMaxPath(i, j);
+            if (this.sequence1.getEvent(i).equals(this.sequence2.getEvent(j))) {
+              this.matrix.incrementPathBy(i, j, maxWeight(this.sequence1.getEvent(i), this.sequence2.getEvent(j)));
+              // different events
+            } else {
+              this.matrix.incrementByMaxPath(i, j);
+            }
           }
         }
-        if (i % (length1 / 50) == 0) System.err.println(((i * 100) / length1)+"% at "+(t1 - System.currentTimeMillis())+"ms");
+        if (i % (this.length1 / 50) == 0) {
+          System.err.println(i * 100 / this.length1+"% at "+(t1 - System.currentTimeMillis())+"ms");
+        }
       }
       this.length = this.matrix.get(0, 0);
-      System.err.println((System.currentTimeMillis() - t1)+" ms to populate");
+      System.err.println(System.currentTimeMillis() - t1+" ms to populate");
     }
     if (DEBUG) {
       System.err.println();
-      for (int i = 0; i < this.sequence1.size(); i++) 
+      for (int i = 0; i < this.sequence1.size(); i++) {
         System.err.print(ShortStringFormatter.toShortString(this.sequence1.getEvent(i))+"\t");
+      }
       System.err.println();
-      for (int i = 0; i < this.sequence2.size(); i++) 
+      for (int i = 0; i < this.sequence2.size(); i++) {
         System.err.print(ShortStringFormatter.toShortString(this.sequence2.getEvent(i))+"\n");
+      }
       System.err.println();
       System.err.println(this.matrix);
     }
@@ -147,135 +157,175 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
     length();
     int i = 0;
     int j = 0;
-    DiffXEvent e1 = sequence1.getEvent(i);
-    DiffXEvent e2 = sequence2.getEvent(j);
+    DiffXEvent e1 = this.sequence1.getEvent(i);
+    DiffXEvent e2 = this.sequence2.getEvent(j);
     // start walking the matrix
     while (i < super.length1 && j < super.length2) {
-      e1 = sequence1.getEvent(i);
-      e2 = sequence2.getEvent(j);
+      e1 = this.sequence1.getEvent(i);
+      e2 = this.sequence2.getEvent(j);
       // both elements are considered equal
       if (e1.equals(e2)) {
         // if we can format checking at the stack, let's do it
-        if (estate.okFormat(e1)) {
-          if (DEBUG) System.err.print(" ef "+ShortStringFormatter.toShortString(e1));
+        if (this.estate.okFormat(e1)) {
+          if (DEBUG) {
+            System.err.print(" ef "+ShortStringFormatter.toShortString(e1));
+          }
           formatter.format(e1);
-          estate.format(e1);
+          this.estate.format(e1);
           i++; j++;
 
-        // otherwise maybe we should insert.
-        } else if (estate.okInsert(e1)) {
-          if (DEBUG) System.err.print(" ei +"+ShortStringFormatter.toShortString(e1));
+          // otherwise maybe we should insert.
+        } else if (this.estate.okInsert(e1)) {
+          if (DEBUG) {
+            System.err.print(" ei +"+ShortStringFormatter.toShortString(e1));
+          }
           formatter.insert(e1);
-          estate.insert(e1);
+          this.estate.insert(e1);
           i++;
 
-        // or delete.
-        } else if (estate.okDelete(e2)) {
-          if (DEBUG) System.err.print(" ed -"+ShortStringFormatter.toShortString(e2));
+          // or delete.
+        } else if (this.estate.okDelete(e2)) {
+          if (DEBUG) {
+            System.err.print(" ed -"+ShortStringFormatter.toShortString(e2));
+          }
           formatter.delete(e2);
-          estate.delete(e2);
+          this.estate.delete(e2);
           j++;
         } else {
-          if (DEBUG) System.err.println("\n(i) case equal");
-          if (DEBUG) printLost(i, j);
+          if (DEBUG) {
+            System.err.println("\n(i) case equal");
+          }
+          if (DEBUG) {
+            printLost(i, j);
+          }
           break;
         }
 
-      // we can only insert or delete, priority to insert
-      } else 
-        if (matrix.isGreaterX(i, j)) {
-        // follow the natural path and insert
-        if (estate.okInsert(e1)) {
-          if (DEBUG) System.err.print(" >i +"+ShortStringFormatter.toShortString(e1));
-          formatter.insert(e1);
-          estate.insert(e1);
-          i++;
+        // we can only insert or delete, priority to insert
+      } else
+        if (this.matrix.isGreaterX(i, j)) {
+          // follow the natural path and insert
+          if (this.estate.okInsert(e1)) {
+            if (DEBUG) {
+              System.err.print(" >i +"+ShortStringFormatter.toShortString(e1));
+            }
+            formatter.insert(e1);
+            this.estate.insert(e1);
+            i++;
 
-        // go counter current and delete
-        } else if (estate.okDelete(e2)) {
-          if (DEBUG) System.err.print(" >d -"+ShortStringFormatter.toShortString(e2));
-          formatter.delete(e2);
-          estate.delete(e2);
-          j++;
+            // go counter current and delete
+          } else if (this.estate.okDelete(e2)) {
+            if (DEBUG) {
+              System.err.print(" >d -"+ShortStringFormatter.toShortString(e2));
+            }
+            formatter.delete(e2);
+            this.estate.delete(e2);
+            j++;
+          } else {
+            if (DEBUG) {
+              System.err.print("\n(i) case greater X");
+            }
+            if (DEBUG) {
+              printLost(i, j);
+            }
+            break;
+          }
+
+          // we can only insert or delete, priority to delete
+        } else if (this.matrix.isGreaterY(i, j)) {
+          // follow the natural and delete
+          if (this.estate.okDelete(e2)) {
+            if (DEBUG) {
+              System.err.print(" <d -"+ShortStringFormatter.toShortString(e2));
+            }
+            formatter.delete(e2);
+            this.estate.delete(e2);
+            j++;
+
+            // insert (counter-current)
+          } else if (this.estate.okInsert(e1)) {
+            if (DEBUG) {
+              System.err.print(" <i +"+ShortStringFormatter.toShortString(e2));
+            }
+            formatter.insert(e1);
+            this.estate.insert(e1);
+            i++;
+          } else {
+            if (DEBUG) {
+              System.err.println("\n(i) case greater Y");
+            }
+            if (DEBUG) {
+              printLost(i, j);
+            }
+            break;
+          }
+
+          // elements from i inserted and j deleted
+          // we have to make a choice for where we are going
+        } else if (this.matrix.isSameXY(i, j)) {
+          // we can insert the closing tag
+          if (this.estate.okInsert(e1)
+              && !(e2 instanceof AttributeEvent && !(e1 instanceof AttributeEvent))) {
+            if (DEBUG) {
+              System.err.print(" =i +"+ShortStringFormatter.toShortString(e1));
+            }
+            this.estate.insert(e1);
+            formatter.insert(e1);
+            i++;
+
+            // we can delete the closing tag
+          } else if (this.estate.okDelete(e2)
+              && !(e1 instanceof AttributeEvent && !(e2 instanceof AttributeEvent))) {
+            if (DEBUG) {
+              System.err.print(" =d -"+ShortStringFormatter.toShortString(e2));
+            }
+            formatter.delete(e2);
+            this.estate.delete(e2);
+            j++;
+
+          } else {
+            if (DEBUG) {
+              System.err.println("\n(i) case same");
+            }
+            if (DEBUG) {
+              printLost(i, j);
+            }
+            break;
+          }
         } else {
-          if (DEBUG) System.err.print("\n(i) case greater X");
-          if (DEBUG) printLost(i, j);
+          if (DEBUG) {
+            System.err.println("\n(i) case ???");
+          }
+          if (DEBUG) {
+            printLost(i, j);
+          }
           break;
         }
-
-      // we can only insert or delete, priority to delete
-      } else if (matrix.isGreaterY(i, j)) {
-        // follow the natural and delete
-        if (estate.okDelete(e2)) {
-          if (DEBUG) System.err.print(" <d -"+ShortStringFormatter.toShortString(e2));
-          formatter.delete(e2);
-          estate.delete(e2);
-          j++;
-
-        // insert (counter-current)
-        } else if (estate.okInsert(e1)) {
-          if (DEBUG) System.err.print(" <i +"+ShortStringFormatter.toShortString(e2));
-          formatter.insert(e1);
-          estate.insert(e1);
-          i++;
-        } else {
-          if (DEBUG) System.err.println("\n(i) case greater Y");
-          if (DEBUG) printLost(i, j);
-          break;
-        }
-
-      // elements from i inserted and j deleted
-      // we have to make a choice for where we are going
-      } else if (matrix.isSameXY(i, j)) {
-        // we can insert the closing tag
-        if (estate.okInsert(e1)
-          && !(e2 instanceof AttributeEvent && !(e1 instanceof AttributeEvent))) {
-          if (DEBUG) System.err.print(" =i +"+ShortStringFormatter.toShortString(e1));
-          estate.insert(e1);
-          formatter.insert(e1);
-          i++;
-
-        // we can delete the closing tag
-        } else if (estate.okDelete(e2)
-          && !(e1 instanceof AttributeEvent && !(e2 instanceof AttributeEvent))) {
-          if (DEBUG) System.err.print(" =d -"+ShortStringFormatter.toShortString(e2));
-          formatter.delete(e2);
-          estate.delete(e2);
-          j++;
-
-        } else {
-          if (DEBUG) System.err.println("\n(i) case same");
-          if (DEBUG) printLost(i, j);
-          break;
-        }
-      } else {
-        if (DEBUG) System.err.println("\n(i) case ???");
-        if (DEBUG) printLost(i, j);
-        break;
+      if (DEBUG) {
+        System.err.println("    stack="+this.estate.currentChange()+ShortStringFormatter.toShortString(this.estate.current()));
       }
-      if (DEBUG) System.err.println("    stack="+estate.currentChange()+ShortStringFormatter.toShortString(estate.current()));
     }
 
     // finish off the events from the first sequence
     while (i < super.length1) {
-      estate.insert(sequence1.getEvent(i));
-      formatter.insert(sequence1.getEvent(i));
+      this.estate.insert(this.sequence1.getEvent(i));
+      formatter.insert(this.sequence1.getEvent(i));
       i++;
     }
     // finish off the events from the second sequence
     while (j < super.length2) {
-      estate.delete(sequence2.getEvent(j));
-      formatter.delete(sequence2.getEvent(j));
+      this.estate.delete(this.sequence2.getEvent(j));
+      formatter.delete(this.sequence2.getEvent(j));
       j++;
     }
     // free some resources
-//    matrix.release();
+    //    matrix.release();
   }
 
-// private helpers (probably inlined by the compiler) -----------------------------------
+  // private helpers (probably inlined by the compiler) -----------------------------------
 
   /**
-   * Writes the diff sequence using the specified formatter when one of 
+   * Writes the diff sequence using the specified formatter when one of
    * the sequences is empty.
    * 
    * <p>The result becomes either only insertions (when the second sequence is
@@ -286,18 +336,22 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    * @throws IOException If thrown by the formatter.
    */
   private void processEmpty(DiffXFormatter formatter) throws IOException {
-    // the first sequence is empty, events from the second sequence have been deleted 
-    if (this.length1 == 0)
-      for (int i = 0; i < this.length2; i++)
-        formatter.delete(sequence2.getEvent(i));
+    // the first sequence is empty, events from the second sequence have been deleted
+    if (this.length1 == 0) {
+      for (int i = 0; i < this.length2; i++) {
+        formatter.delete(this.sequence2.getEvent(i));
+      }
+    }
     // the second sequence is empty, events from the first sequence have been inserted
-    if (this.length2 == 0)
-      for (int i = 0; i < this.length1; i++)
-        formatter.insert(sequence1.getEvent(i));
+    if (this.length2 == 0) {
+      for (int i = 0; i < this.length1; i++) {
+        formatter.insert(this.sequence1.getEvent(i));
+      }
+    }
   }
 
   /**
-   * Determines the most appropriate matrix to use. 
+   * Determines the most appropriate matrix to use.
    *
    * <p>Calculates the maximum length of the shortest weighted path if both sequences
    * are totally different, which corresponds to the sum of all the events.
@@ -309,8 +363,12 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    */
   private static Matrix setupMatrix(EventSequence s1, EventSequence s2) {
     int max = 0;
-    for (int i = 0; i < s1.size(); i++) max += s1.getEvent(i).getWeight();
-    for (int i = 0; i < s2.size(); i++) max += s2.getEvent(i).getWeight();
+    for (int i = 0; i < s1.size(); i++) {
+      max += s1.getEvent(i).getWeight();
+    }
+    for (int i = 0; i < s2.size(); i++) {
+      max += s2.getEvent(i).getWeight();
+    }
     if (max > Short.MAX_VALUE)
       return new MatrixInt();
     else
@@ -318,7 +376,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
   }
 
   /**
-   * Returns the max weight of the two events. 
+   * Returns the max weight of the two events.
    * 
    * @param e1 The first event.
    * @param e2 The second event.
@@ -326,7 +384,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
    * @return The weight for the event.
    */
   private int maxWeight(DiffXEvent e1, DiffXEvent e2) {
-    return (e1.getWeight() > e2.getWeight())? e1.getWeight() : e2.getWeight();
+    return e1.getWeight() > e2.getWeight()? e1.getWeight() : e2.getWeight();
   }
 
   /**
@@ -343,16 +401,16 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
     System.err.println(" ? +"+ShortStringFormatter.toShortString(e1));
     System.err.println(" ? -"+ShortStringFormatter.toShortString(e2));
     System.err.println(" current="+ShortStringFormatter.toShortString(this.estate.current()));
-    System.err.println(" value in X+1="+matrix.get(i+1, j));
-    System.err.println(" value in Y+1="+matrix.get(i, j+1));
+    System.err.println(" value in X+1="+this.matrix.get(i+1, j));
+    System.err.println(" value in Y+1="+this.matrix.get(i, j+1));
     System.err.println(" equals="+e1.equals(e2));
-    System.err.println(" greaterX="+matrix.isGreaterX(i, j));
-    System.err.println(" greaterY="+matrix.isGreaterY(i, j));
-    System.err.println(" sameXY="+matrix.isSameXY(i, j));
-    System.err.println(" okFormat1="+estate.okFormat(e1));
-    System.err.println(" okFormat2="+estate.okFormat(e2));
-    System.err.println(" okInsert="+estate.okInsert(e1));
-    System.err.println(" okDelete="+estate.okDelete(e2));
+    System.err.println(" greaterX="+this.matrix.isGreaterX(i, j));
+    System.err.println(" greaterY="+this.matrix.isGreaterY(i, j));
+    System.err.println(" sameXY="+this.matrix.isSameXY(i, j));
+    System.err.println(" okFormat1="+this.estate.okFormat(e1));
+    System.err.println(" okFormat2="+this.estate.okFormat(e2));
+    System.err.println(" okInsert="+this.estate.okInsert(e1));
+    System.err.println(" okDelete="+this.estate.okDelete(e2));
 
   }
 

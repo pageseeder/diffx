@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -51,21 +51,27 @@ public final class XMLEscapeWriterASCII extends XMLEscapeWriterBase implements X
   public void writeAttValue(char[] ch, int off, int len) throws IOException {
     // process the rest
     char c = ' ';
-    for (int i = off; i < (off+len); i++) {
+    for (int i = off; i < off+len; i++) {
       c = ch[i];
-      if      (c == '<') super.w.write("&lt;"); 
-      else if (c == '>') super.w.write("&gt;");
-      else if (c == '&') super.w.write("&amp;");
-      else if (c == '"') super.w.write("&quot;");
-      else if (c == '\'') super.w.write("&apos;");
-      // use character references for anything above 0xff
-      else if (c  > 255) super.w.write("&#"+(int)c+";"); 
-      // trash control 0 chars: [0x00 - 0x20] except tab, carriage return and line feed
-      else if (c == '\n' || c == '\r' || c == '\t') super.w.write(c);
-      else if (c < 32) doNothing();
-      // trash control 1 chars: [0x80 - 0x9f], del: 0x7f
-      else if (c >= 127 && c < 160) doNothing(); 
-      else { super.w.write(c); }
+      if      (c == '<') {
+        super.w.write("&lt;");
+      } else if (c == '>') {
+        super.w.write("&gt;");
+      } else if (c == '&') {
+        super.w.write("&amp;");
+      } else if (c == '"') {
+        super.w.write("&quot;");
+      } else if (c == '\'') {
+        super.w.write("&apos;");
+      } else if (c  > 255) {
+        super.w.write("&#"+(int)c+";");
+      } else if (c == '\n' || c == '\r' || c == '\t') {
+        super.w.write(c);
+      } else if (c < 32) {
+        doNothing();
+      } else if (c >= 127 && c < 160) {
+        doNothing();
+      } else { super.w.write(c); }
     }
   }
 
@@ -87,26 +93,34 @@ public final class XMLEscapeWriterASCII extends XMLEscapeWriterBase implements X
    */
   public void writeText(char c) throws IOException {
     // process the rest
-    if      (c == '<') super.w.write("&lt;"); 
-    else if (c == '>') super.w.write("&gt;");
-    else if (c == '&') super.w.write("&amp;");
-    else if (c == '"') super.w.write("&quot;");
-    else if (c == '\'') super.w.write("&apos;");
-    // use character references for anything above 0xff
-    else if (c  > 255) super.w.write("&#"+(int)c+";"); 
-    // trash control 0 chars: [0x00 - 0x20] except tab, carriage return and line feed
-    else if (c == '\n' || c == '\r' || c == '\t') super.w.write(c);
-    else if (c < 32) doNothing();
-    // trash control 1 chars: [0x80 - 0x9f], del: 0x7f
-    else if (c >= 127 && c < 160) doNothing(); 
-    else super.w.write(c);
+    if      (c == '<') {
+      super.w.write("&lt;");
+    } else if (c == '>') {
+      super.w.write("&gt;");
+    } else if (c == '&') {
+      super.w.write("&amp;");
+    } else if (c == '"') {
+      super.w.write("&quot;");
+    } else if (c == '\'') {
+      super.w.write("&apos;");
+    } else if (c  > 255) {
+      super.w.write("&#"+(int)c+";");
+    } else if (c == '\n' || c == '\r' || c == '\t') {
+      super.w.write(c);
+    } else if (c < 32) {
+      doNothing();
+    } else if (c >= 127 && c < 160) {
+      doNothing();
+    } else {
+      super.w.write(c);
+    }
   }
 
   /**
    * Does nothing.
    * 
    * <p>This method exists so that we can explicitly say that we should do nothing
-   * in certain conditions. 
+   * in certain conditions.
    */
   private static void doNothing() {
     return;

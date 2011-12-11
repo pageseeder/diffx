@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.sax;
@@ -21,6 +21,7 @@ import com.topologi.diffx.xml.IllegalCloseElementException;
 import com.topologi.diffx.xml.UnclosedElementException;
 import com.topologi.diffx.xml.UndeclaredNamespaceException;
 import com.topologi.diffx.xml.XMLWriter;
+import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * An XML writer that generates SAX2 events.
@@ -29,8 +30,8 @@ import com.topologi.diffx.xml.XMLWriter;
  * by wrapping a content handler.
  *
  * <p>This XML writer provides an efficient way to process XML bypassing the need to create
- * an XML stream. Instead, this class will wrap a {@link org.xml.sax.ContentHandler} and 
- * invoke the SAX2 methods.  
+ * an XML stream. Instead, this class will wrap a {@link org.xml.sax.ContentHandler} and
+ * invoke the SAX2 methods.
  *
  * <pre>
  *  ContentHandler myContentHandler = ...;
@@ -43,7 +44,7 @@ import com.topologi.diffx.xml.XMLWriter;
  *   <li><b>http://xml.org/sax/features/namespace-prefixes</b> set to <code>false</code></li>
  * </ul>
  * 
- * <p>Consequently, the attributes will not contain attributes used for namespace 
+ * <p>Consequently, the attributes will not contain attributes used for namespace
  * declarations (xmlns* attributes).
  * 
  * <p>This implementation does not provide qualified names, and will always return "".
@@ -51,7 +52,7 @@ import com.topologi.diffx.xml.XMLWriter;
  * <p>The ContentHandler's <code>startDocument</code> and <code>endDocument</code> methods
  * have to be called externally.
  * 
- * <p>Note that the write methods do not necessarily correspond to the content handler 
+ * <p>Note that the write methods do not necessarily correspond to the content handler
  * methods or at least they may not be invoked at the same time. For example, the
  * <code>attribute</code> methods will not generate any event until it is possible to
  * invoke the <code>ContentHandler#startElement</code> method.
@@ -61,7 +62,7 @@ import com.topologi.diffx.xml.XMLWriter;
  */
 public final class XMLWriterSAX implements XMLWriter {
 
-// constants ----------------------------------------------------------------------------
+  // constants ----------------------------------------------------------------------------
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -71,7 +72,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * The default namespace mapped to the empty prefix.
    */
-  private static final PrefixMapping DEFAULT_NS = new PrefixMapping("", ""); 
+  private static final PrefixMapping DEFAULT_NS = new PrefixMapping("", "");
 
   /**
    * The root node.
@@ -88,7 +89,7 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private static final char[] NEW_LINE = new char[]{'\n'};
 
-// class attributes ---------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------
 
   /**
    * Where the XML data goes.
@@ -109,7 +110,7 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private char[] indentChars;
 
-// state variables ----------------------------------------------------------------------
+  // state variables ----------------------------------------------------------------------
 
   /**
    * Level of the depth of the xml document currently produced.
@@ -119,7 +120,7 @@ public final class XMLWriterSAX implements XMLWriter {
   private transient int depth;
 
   /**
-   * Flag to indicate that the element open tag is not finished yet. 
+   * Flag to indicate that the element open tag is not finished yet.
    */
   private transient boolean isNude;
 
@@ -134,9 +135,9 @@ public final class XMLWriterSAX implements XMLWriter {
   private transient List<PrefixMapping> tempMapping;
 
   /**
-   * A stack of elements to close the elements automatically. 
+   * A stack of elements to close the elements automatically.
    */
-  private transient List<Element> elements = new ArrayList<Element>(); 
+  private transient List<Element> elements = new ArrayList<Element>();
 
   /**
    * The attributes attached to the current open element.
@@ -146,24 +147,24 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private transient AttributesImpl attributes = new AttributesImpl();
 
-// constructors -------------------------------------------------------------------------
+  // constructors -------------------------------------------------------------------------
 
   /**
    * <p>Creates a new XML writer.
    *
-   * @param handler The SAX2 content handler to use. 
+   * @param handler The SAX2 content handler to use.
    * 
    * @throws NullPointerException If the handler is <code>null</code>.
    */
   public XMLWriterSAX(ContentHandler handler) throws NullPointerException {
-    if (handler == null) 
+    if (handler == null)
       throw new NullPointerException("XMLWriter cannot use a null content handler.");
     this.handler = handler;
     this.elements.add(ROOT);
     this.prefixMapping.put("", "");
   }
 
-// setup methods ------------------------------------------------------------------------
+  // setup methods ------------------------------------------------------------------------
 
   /**
    * Does nothing.
@@ -185,10 +186,10 @@ public final class XMLWriterSAX implements XMLWriter {
       this.indentChars = spaces.toCharArray();
     }
     // update the flags
-    this.indent = (spaces != null);
+    this.indent = spaces != null;
   }
 
-// write text methods -------------------------------------------------------------------
+  // write text methods -------------------------------------------------------------------
 
   /**
    * @see XMLWriter#writeText(String)
@@ -240,10 +241,11 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    */
   public void writeText(Object o) throws IOException {
-  // TODO: what about an XML serializable ???
-  // TODO: Add to interface ???
-    if (o != null)
+    // TODO: what about an XML serializable ???
+    // TODO: Add to interface ???
+    if (o != null) {
       this.writeText(o.toString());
+    }
   }
 
   @Override
@@ -257,7 +259,7 @@ public final class XMLWriterSAX implements XMLWriter {
     }
   }
 
-// write xml methods are not supported --------------------------------------------------
+  // write xml methods are not supported --------------------------------------------------
 
   /**
    * @see XMLWriter#writeXML(java.lang.String)
@@ -269,17 +271,17 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * @see XMLWriter#writeXML(char[], int, int)
    */
-  public void writeXML(char[] text, int off, int len) 
-    throws UnsupportedOperationException {
+  public void writeXML(char[] text, int off, int len)
+      throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Cannot run unparsed XML as SAX events");
   }
 
-// PI and comments ----------------------------------------------------------------------
+  // PI and comments ----------------------------------------------------------------------
 
   /**
    * Does nothing as SAX content handler do not handle comments.
    * 
-   * @see XMLWriter#writeComment(String) 
+   * @see XMLWriter#writeComment(String)
    */
   public void writeComment(String comment) {
   }
@@ -291,20 +293,21 @@ public final class XMLWriterSAX implements XMLWriter {
     try {
       deNude();
       this.handler.processingInstruction(target, data);
-      if (this.indent)
+      if (this.indent) {
         newLine();
+      }
     } catch (SAXException ex) {
       handleEx(ex);
     }
   }
 
-// attribute methods --------------------------------------------------------------------
+  // attribute methods --------------------------------------------------------------------
 
   /**
    * @see XMLWriter#attribute(String, String)
    */
-  public void attribute(String name, String value) 
-    throws IOException, IllegalStateException {
+  public void attribute(String name, String value)
+      throws IOException, IllegalStateException {
     if (!this.isNude)
       throw new IllegalArgumentException("Cannot write attribute: too late!");
     this.attributes.addAttribute(name, value);
@@ -328,7 +331,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   public void attribute(String uri, String name, String value)
       throws IOException {
@@ -347,7 +350,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   public void attribute(String uri, String name, int value)
       throws IOException {
@@ -356,7 +359,7 @@ public final class XMLWriterSAX implements XMLWriter {
     this.attributes.addAttribute(uri, name, Integer.toString(value));
   }
 
-// open/close specific elements ---------------------------------------------------------
+  // open/close specific elements ---------------------------------------------------------
 
   /**
    * Writes the angle bracket if the element open tag is not finished.
@@ -365,19 +368,20 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private void deNude() throws SAXException {
     if (this.isNude) {
-      this.indent();
+      indent();
       Element elt = peekElement();
       // report the prefix mapping
       if (elt.mappings != null) {
         for (int i = 0; i < elt.mappings.size(); i++) {
-          PrefixMapping pm = (PrefixMapping)(elt.mappings.get(i));
+          PrefixMapping pm = (PrefixMapping)elt.mappings.get(i);
           this.handler.startPrefixMapping(pm.prefix, pm.uri);
         }
       }
       this.handler.startElement(elt.uri, elt.name, getQName(elt.uri, elt.name), this.attributes);
       this.attributes = new AttributesImpl();
-      if (this.indent && elt.hasChildren) 
+      if (this.indent && elt.hasChildren) {
         newLine();
+      }
       this.isNude = false;
     }
   }
@@ -417,7 +421,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * Writes a start element tag correctly indented.
    *
    * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -434,8 +438,8 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * Writes a start element tag correctly indented.
    *
-   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal 
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -464,10 +468,10 @@ public final class XMLWriterSAX implements XMLWriter {
   public void element(String name, String text) throws IOException {
     this.openElement(name);
     this.writeText(text);
-    this.closeElement();
+    closeElement();
   }
 
-// direct access to the writer ----------------------------------------------------------
+  // direct access to the writer ----------------------------------------------------------
 
   /**
    * Does nothing.
@@ -475,25 +479,27 @@ public final class XMLWriterSAX implements XMLWriter {
   public void flush() {
   }
 
-// base class and convenience methods ---------------------------------------------------
+  // base class and convenience methods ---------------------------------------------------
 
   /**
-   * Insert the correct amount of space characters depending on the depth and if 
+   * Insert the correct amount of space characters depending on the depth and if
    * the <code>indent</code> flag is set to <code>true</code>.
    *
    * @throws SAXException If thrown by the SAX handler.
    */
   private void indent() throws SAXException {
     if (this.indent) {
-    char[] ch = new char[this.depth * this.indentChars.length];
-    for (int i = 0; i < this.depth; i++)
-    for (int j = 0; j < indentChars.length; j++)
-        ch[i * indentChars.length + j] = this.indentChars[j];
+      char[] ch = new char[this.depth * this.indentChars.length];
+      for (int i = 0; i < this.depth; i++) {
+        for (int j = 0; j < this.indentChars.length; j++) {
+          ch[i * this.indentChars.length + j] = this.indentChars[j];
+        }
+      }
       this.handler.ignorableWhitespace(ch, 0, ch.length);
     }
   }
 
-// close specific elements ------------------------------------------------------------
+  // close specific elements ------------------------------------------------------------
 
   /**
    * Write an end element tag.
@@ -505,28 +511,32 @@ public final class XMLWriterSAX implements XMLWriter {
     // this is an empty element
     try {
       // make sure that we finish with open element
-      if (this.isNude) deNude();
+      if (this.isNude) {
+        deNude();
+      }
       // now we can close the element
       Element elt = popElement();
       // we reached the end of the document too early
       if (elt == ROOT) throw new IllegalCloseElementException();
       // the element contains text / has children
-      if (elt.hasChildren)
-        this.indent();
+      if (elt.hasChildren) {
+        indent();
+      }
       this.handler.endElement(elt.uri, elt.name, getQName(elt.uri, elt.name));
       // restore previous mapping if necessary
       if (elt.mappings != null) {
         for (int i = 0; i < elt.mappings.size(); i++) {
-          PrefixMapping pm = (PrefixMapping) (elt.mappings.get(i));
+          PrefixMapping pm = (PrefixMapping) elt.mappings.get(i);
           this.handler.endPrefixMapping(pm.prefix);
         }
       }
       restorePrefixMapping(elt);
       // take care of the new line if the indentation is on
       if (this.indent) {
-        Element parent = this.peekElement();
-        if (parent.hasChildren && parent != ROOT)
+        Element parent = peekElement();
+        if (parent.hasChildren && parent != ROOT) {
           newLine();
+        }
       }
     } catch (SAXException ex) {
       handleEx(ex);
@@ -563,7 +573,7 @@ public final class XMLWriterSAX implements XMLWriter {
   public void emptyElement(String uri, String element) throws IOException {
     try {
       deNude();
-      this.indent();
+      indent();
       this.handler.startElement(uri, element, "", new AttributesImpl());
       this.handler.endElement(uri, element, "");
       this.tempMapping = null;
@@ -612,8 +622,12 @@ public final class XMLWriterSAX implements XMLWriter {
       // create the new prefix mapping
       PrefixMapping pm = new PrefixMapping(prefix, uri);
       this.prefixMapping.put(pm.uri, pm.prefix);
-      if (DEBUG) System.err.println(pm.prefix+" -> "+pm.uri);
-      if (this.tempMapping == null) this.tempMapping = new ArrayList<PrefixMapping>();
+      if (DEBUG) {
+        System.err.println(pm.prefix+" -> "+pm.uri);
+      }
+      if (this.tempMapping == null) {
+        this.tempMapping = new ArrayList<PrefixMapping>();
+      }
       this.tempMapping.add(pm);
     }
   }
@@ -629,15 +643,14 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws UndeclaredNamespaceException If the uri has not being previously declared.
    */
   private String getQName(String uri, String name) throws UndeclaredNamespaceException {
-    String prefix = (String)this.prefixMapping.get((uri != null)? uri : "");
+    String prefix = (String)this.prefixMapping.get(uri != null? uri : "");
     if (prefix != null) {
       if (!"".equals(prefix))
         return this.prefixMapping.get(uri)+":"+name;
       else
         return name;
-    } else {
+    } else
       throw new UndeclaredNamespaceException(uri);
-    }
   }
 
   /**
@@ -654,12 +667,14 @@ public final class XMLWriterSAX implements XMLWriter {
       // for each mapping of this element
       for (int i = 0; i < elt.mappings.size(); i++) {
         PrefixMapping mpi = elt.mappings.get(i);
-        if (DEBUG) System.err.print(mpi.prefix+" -< ");
+        if (DEBUG) {
+          System.err.print(mpi.prefix+" -< ");
+        }
         // find the first previous namespace mapping amongst the parents
         // that defines namespace mappings
-        for (int j = elements.size() - 1; j > 0; j--) {
+        for (int j = this.elements.size() - 1; j > 0; j--) {
           if (this.elements.get(j).mappings != null) {
-            List<PrefixMapping> mps = elements.get(j).mappings;
+            List<PrefixMapping> mps = this.elements.get(j).mappings;
             // iterate through the define namespace mappings of the parent
             for (int k = 0; k < mps.size(); k++) {
               PrefixMapping mpk = (PrefixMapping)mps.get(k);
@@ -667,7 +682,9 @@ public final class XMLWriterSAX implements XMLWriter {
               if (mpk.prefix.equals(mpi.prefix)) {
                 removeIfNeeded(mpk.prefix);
                 this.prefixMapping.put(mpk.uri, mpk.prefix);
-                if (DEBUG) System.err.println(mpk.uri+" [R]");
+                if (DEBUG) {
+                  System.err.println(mpk.uri+" [R]");
+                }
                 j = 0; // exit from the previous loop
                 break; // exit from this one
               }
@@ -681,7 +698,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * Removes the mapping associated to the specified prefix.
    * 
-   * @param prefix The prefix which mapping should be removed. 
+   * @param prefix The prefix which mapping should be removed.
    */
   private void removeIfNeeded(String prefix) {
     // remove the previous mapping to the prefix
@@ -689,8 +706,9 @@ public final class XMLWriterSAX implements XMLWriter {
       Object key = null;
       for (Enumeration<String> e = this.prefixMapping.keys(); e.hasMoreElements();) {
         key = e.nextElement();
-        if (this.prefixMapping.get(key).equals(prefix)) 
+        if (this.prefixMapping.get(key).equals(prefix)) {
           break;
+        }
       }
       this.prefixMapping.remove(key); // we know key should have a value
     }
@@ -728,10 +746,10 @@ public final class XMLWriterSAX implements XMLWriter {
    */
   private void handleEx(SAXException ex) throws IOException {
     throw new IOException("Exception thrown by the wrapped content handler:\n"
-              +ex.getMessage());
+        +ex.getMessage());
   }
 
-// inner class: Element --------------------------------------------------------------------- 
+  // inner class: Element ---------------------------------------------------------------------
 
   /**
    * A light object to keep track of the elements
@@ -744,7 +762,7 @@ public final class XMLWriterSAX implements XMLWriter {
     /**
      * The namespace URI of the element.
      */
-   private final String uri;
+    private final String uri;
 
     /**
      * The local name of the element.
@@ -759,9 +777,9 @@ public final class XMLWriterSAX implements XMLWriter {
     private final List<PrefixMapping> mappings;
 
     /**
-     * Indicates whether the element has children. 
+     * Indicates whether the element has children.
      */
-    private boolean hasChildren;
+    private final boolean hasChildren;
 
     /**
      * Creates a new Element.
@@ -779,12 +797,12 @@ public final class XMLWriterSAX implements XMLWriter {
     }
   }
 
-// inner class: Prefix Mapping ----------------------------------------------------------
+  // inner class: Prefix Mapping ----------------------------------------------------------
 
   /**
    * Light-weight class to represent a prefix mapping.
    *
-   * <p>The class attributes cannot be <code>null</code>. 
+   * <p>The class attributes cannot be <code>null</code>.
    *
    * @author Christophe Lauret (Allette Systems)
    * @version 31 August 2004
@@ -792,7 +810,7 @@ public final class XMLWriterSAX implements XMLWriter {
   private static final class PrefixMapping {
 
     /**
-     * The prefix associated to the URI. 
+     * The prefix associated to the URI.
      */
     private final String prefix;
 
@@ -804,16 +822,16 @@ public final class XMLWriterSAX implements XMLWriter {
     /**
      * Creates a new prefix mapping.
      * 
-     * @param prefix The prefix for the URI. 
+     * @param prefix The prefix for the URI.
      * @param uri    The full namespace URI.
      */
     public PrefixMapping(String prefix, String uri) {
-      this.prefix = (prefix != null)? prefix : "";
-      this.uri = (uri != null)? uri : ""; 
+      this.prefix = prefix != null? prefix : "";
+      this.uri = uri != null? uri : "";
     }
   }
 
-// inner class: SAX Attribute List implementation ---------------------------------------
+  // inner class: SAX Attribute List implementation ---------------------------------------
 
   /**
    * A SAX attribute list implementation.
@@ -828,7 +846,7 @@ public final class XMLWriterSAX implements XMLWriter {
     /**
      * The only type used in this class.
      */
-    private static final String CDATA = "CDATA"; 
+    private static final String CDATA = "CDATA";
 
     /**
      * Namespace URIs of the attributes.
@@ -882,7 +900,7 @@ public final class XMLWriterSAX implements XMLWriter {
       this.values.add(value);
     }
 
-  // Attributes methods, indexed access -------------------------------------------------
+    // Attributes methods, indexed access -------------------------------------------------
 
     /**
      * Returns the number of attributes in the list.
@@ -891,7 +909,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * 
      * @see org.xml.sax.AttributeList#getLength
      */
-    public int getLength () {
+    public int getLength() {
       return this.names.size();
     }
 
@@ -926,7 +944,7 @@ public final class XMLWriterSAX implements XMLWriter {
     public String getLocalName(int i) {
       if (i < 0) return null;
       try {
-        return (String)names.get(i);
+        return (String)this.names.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
@@ -941,7 +959,7 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @see org.xml.sax.Attributes#getType(int)
      */
-    public String getType (int i) {
+    public String getType(int i) {
       if (i < 0) return null;
       try {
         return CDATA;
@@ -963,7 +981,7 @@ public final class XMLWriterSAX implements XMLWriter {
     public String getValue(int i) {
       if (i < 0) return null;
       try {
-        return (String)values.get(i);
+        return (String)this.values.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
@@ -982,11 +1000,11 @@ public final class XMLWriterSAX implements XMLWriter {
     public String getURI(int i) {
       if (i < 0) return null;
       try {
-        return (String)uris.get(i);
+        return (String)this.uris.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
-  }
+    }
 
     /**
      * Returns <code>null</code> as qualified names are not available.
@@ -1050,10 +1068,8 @@ public final class XMLWriterSAX implements XMLWriter {
       if (index == -1) return index;
       if (this.uris.get(index).equals(uri)) return index;
       // otherwise iterate
-      for (int i = 0; i < names.size(); i++) {
-        if (names.get(i).equals(localName) && uris.get(i).equals(uri)) {
-          return i;
-        }
+      for (int i = 0; i < this.names.size(); i++) {
+        if (this.names.get(i).equals(localName) && this.uris.get(i).equals(uri)) return i;
       }
       return -1;
     }

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -42,7 +42,7 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
    * @param line       The char sequence.
    * @param lineNumber The line number.
    * 
-   * @throws NullPointerException If the given String is <code>null</code>. 
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
   public LineEvent(CharSequence line, int lineNumber) throws NullPointerException {
     if (line == null)
@@ -55,31 +55,34 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return "line:"+this.lineNumber+": \""+this.getCharacters()+'"';
+    return "line:"+this.lineNumber+": \""+getCharacters()+'"';
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a character event and the content is equivalent.  
+   * Returns <code>true</code> if the event is a character event and the content is equivalent.
    * 
    * @param e The event to compare with this event.
    * 
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
-    if (e == null) return false; 
+    if (e == null) return false;
     if (this == e) return true;
     if (e.getClass() != LineEvent.class) return false;
     LineEvent ce = (LineEvent)e;
-    return (ce.characters.equals(this.characters));
+    return ce.characters.equals(this.characters);
   }
 
   /**
@@ -124,8 +127,8 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
    * @param comment The comment string.
    * @return a number suitable as a hashcode.
    */
-  private int toHashCode(CharSequence text) {
-    return text != null? 29*59 + text.hashCode() : 29*59;
+  private int toHashCode(CharSequence comment) {
+    return comment != null? 29*59 + comment.hashCode() : 29*59;
   }
 
 }

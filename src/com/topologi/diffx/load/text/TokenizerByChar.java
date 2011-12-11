@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load.text;
@@ -31,7 +31,7 @@ public final class TokenizerByChar implements TextTokenizer {
   /**
    * Map characters to events in order to recycle events as they are created.
    */
-  private Map<Character, TextEvent> recycling = new HashMap<Character, TextEvent>();  
+  private final Map<Character, TextEvent> recycling = new HashMap<Character, TextEvent>();
 
   /**
    * Creates a new tokenizer.
@@ -46,7 +46,7 @@ public final class TokenizerByChar implements TextTokenizer {
     if (seq == null) return null;
     if (seq.length() == 0) return Collections.emptyList();
     List<TextEvent> events = new ArrayList<TextEvent>(seq.length());
-    Character c = null; 
+    Character c = null;
     for (int i=0; i < seq.length(); i++) {
       c = Character.valueOf(seq.charAt(i));
       TextEvent e = this.recycling.get(c);

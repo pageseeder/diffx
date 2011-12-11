@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load;
@@ -47,7 +47,7 @@ import com.topologi.diffx.sequence.PrefixMapping;
  * 
  * <p>This class implements the methods {@link Recorder#process(File)} and
  * {@link Recorder#process(String)} for convenience, but is it much more efficient
- * to feed this recorder directly with a DOM. 
+ * to feed this recorder directly with a DOM.
  * 
  * <p>This class is not synchronised.
  * 
@@ -58,17 +58,17 @@ import com.topologi.diffx.sequence.PrefixMapping;
  */
 public final class DOMRecorder implements XMLRecorder {
 
-// class attributes -------------------------------------------------------------------------------
+  // class attributes -------------------------------------------------------------------------------
 
   /**
    * The DiffX configuration to use
    */
-  private DiffXConfig config = new DiffXConfig(); 
+  private DiffXConfig config = new DiffXConfig();
 
-// state variables --------------------------------------------------------------------------------
+  // state variables --------------------------------------------------------------------------------
 
   /**
-   * The factory that will produce events according to the configuration. 
+   * The factory that will produce events according to the configuration.
    */
   private transient EventFactory efactory;
 
@@ -101,15 +101,15 @@ public final class DOMRecorder implements XMLRecorder {
    * Indicates whether the given document is a fragment.
    * 
    * <p>An fragment is a portion of XML that is not necessarily well-formed by itself, because the
-   * namespace has been declared higher in the hierarchy, in which if the DOM tree was serialised 
+   * namespace has been declared higher in the hierarchy, in which if the DOM tree was serialised
    * it would not produce well-formed XML.
    * 
-   * <p>This option indicates that the recorder should try to generate the prefix mapping without 
-   * the declaration.  
+   * <p>This option indicates that the recorder should try to generate the prefix mapping without
+   * the declaration.
    */
   private transient boolean isFragment = true;
 
-// methods ----------------------------------------------------------------------------------------
+  // methods ----------------------------------------------------------------------------------------
 
   /**
    * Returns the configuration used by this recorder.
@@ -169,7 +169,7 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Processes the given node and returns the corresponding event sequence. 
+   * Processes the given node and returns the corresponding event sequence.
    * 
    * @param node The W3C DOM node to be processed.
    * 
@@ -190,7 +190,7 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Processes the given node list and returns the corresponding event sequence. 
+   * Processes the given node list and returns the corresponding event sequence.
    * 
    * <p>This method only returns the event sequence from the first node in the node list, if the
    * node list is empty, this method returns an empty sequence.
@@ -204,13 +204,13 @@ public final class DOMRecorder implements XMLRecorder {
   public EventSequence process(NodeList node) throws LoadingException {
     if (node.getLength() == 0)
       return new EventSequence();
-    return process(node.item(0)); 
+    return process(node.item(0));
   }
 
-// specific loaders ---------------------------------------------------------------------
+  // specific loaders ---------------------------------------------------------------------
 
   /**
-   * Loads the given node in the current sequence. 
+   * Loads the given node in the current sequence.
    * 
    * @param node The W3C DOM node to load.
    * 
@@ -218,21 +218,24 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void loadNode(Node node) throws LoadingException {
     // dispatch to the correct loader performance: order by occurrence
-    if (node instanceof Element)
+    if (node instanceof Element) {
       load((Element)node);
-    if (node instanceof Text)
+    }
+    if (node instanceof Text) {
       load((Text)node);
-    else if (node instanceof Attr)
+    } else if (node instanceof Attr) {
       load((Attr)node);
-    else if (node instanceof Document)
+    } else if (node instanceof Document) {
       load((Document)node);
-    else if (node instanceof ProcessingInstruction)
+    } else if (node instanceof ProcessingInstruction)
+    {
       load((ProcessingInstruction)node);
-    // all other node types are ignored
+      // all other node types are ignored
+    }
   }
 
   /**
-   * Loads the given document in the current sequence. 
+   * Loads the given document in the current sequence.
    * 
    * @param document The W3C DOM document node to load.
    * 
@@ -243,24 +246,26 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Loads the given element in the current sequence. 
+   * Loads the given element in the current sequence.
    * 
    * @param element The W3C DOM element node to load.
    * 
    * @throws LoadingException If thrown while parsing.
    */
   private void load(Element element) throws LoadingException {
-    if (this.currentWeight > 0) this.weights.add(Integer.valueOf(this.currentWeight));
+    if (this.currentWeight > 0) {
+      this.weights.add(Integer.valueOf(this.currentWeight));
+    }
     this.currentWeight = 1;
     // namespace handling
     OpenElementEvent open = null;
     // namespace aware configuration
     if (this.config.isNamespaceAware()) {
-      String uri = (element.getNamespaceURI() == null)? "" : element.getNamespaceURI();
+      String uri = element.getNamespaceURI() == null? "" : element.getNamespaceURI();
       String name = element.getLocalName();
       handlePrefixMapping(uri, element.getPrefix());
       open = this.efactory.makeOpenElement(uri, name);
-    // not namespace aware
+      // not namespace aware
     } else {
       open = this.efactory.makeOpenElement(null, element.getNodeName());
     }
@@ -270,8 +275,8 @@ public final class DOMRecorder implements XMLRecorder {
     // only 1 attribute, just load it
     if (atts.getLength() == 1) {
       load((Attr)atts.item(0));
-    // several attributes sort them in alphabetical order
-    // TODO: also use URI
+      // several attributes sort them in alphabetical order
+      // TODO: also use URI
     } else if (atts.getLength() > 1) {
       String[] names = new String[atts.getLength()];
       for (int i = 0; i < atts.getLength(); i++) {
@@ -279,13 +284,15 @@ public final class DOMRecorder implements XMLRecorder {
         names[i] = attr.getName();
       }
       Arrays.sort(names);
-      for (int i = 0; i < names.length; i++)
-        load((Attr)atts.getNamedItem(names[i]));
+      for (String name : names) {
+        load((Attr)atts.getNamedItem(name));
+      }
     }
     // load all the child nodes
     NodeList list = element.getChildNodes();
-    for (int i = 0; i < list.getLength(); i++)
+    for (int i = 0; i < list.getLength(); i++) {
       loadNode(list.item(i));
+    }
     CloseElementEvent close = this.efactory.makeCloseElement(open);
     this.sequence.addEvent(close);
     // handle the weights
@@ -295,7 +302,7 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Loads the given text in the current sequence depending on the configuration. 
+   * Loads the given text in the current sequence depending on the configuration.
    * 
    * @param text The W3C DOM text node to load.
    * 
@@ -310,7 +317,7 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Loads the given processing instruction in the current sequence. 
+   * Loads the given processing instruction in the current sequence.
    * 
    * @param pi The W3C DOM PI node to load.
    * 
@@ -334,46 +341,20 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Handles the attributes, will add them to the sequence in order if any.
-   * 
-   * @param element The element which attributes have to be handled.
-   */
-  private void handleAttributes(Element element) {
-    NamedNodeMap atts = element.getAttributes();
-    // only 1 attribute, just load it
-    if (atts.getLength() == 1) {
-      load((Attr)atts.item(0));
-    // several attributes sort them in alphabetical order
-    } else if (atts.getLength() > 1) {
-      AttributeEvent[] events = new AttributeEvent[atts.getLength()];
-      for (int i = 0; i < atts.getLength(); i++) {
-        Attr attr = (Attr)atts.item(i);
-        events[i] = this.efactory.makeAttribute(attr.getNamespaceURI(), 
-                                                attr.getLocalName(),
-                                                attr.getNodeName(),
-                                                attr.getValue());
-      }
-      Arrays.sort(events, new AttributeComparator());
-      for (int i = 0; i < events.length; i++)
-        load(events[i]);
-    }
-  }
-
-  /**
-   * Loads the given attribute in the current sequence. 
+   * Loads the given attribute in the current sequence.
    * 
    * @param attr The W3C DOM attribute node to load.
    */
   private void load(Attr attr) {
     handlePrefixMapping(attr.getNamespaceURI(), attr.getPrefix());
     load(this.efactory.makeAttribute(attr.getNamespaceURI(),
-                                     attr.getLocalName(),
-                                     attr.getNodeName(),
-                                     attr.getValue())); 
+        attr.getLocalName(),
+        attr.getNodeName(),
+        attr.getValue()));
   }
 
   /**
-   * Loads the given attribute in the current sequence. 
+   * Loads the given attribute in the current sequence.
    * 
    * @param e An attribute event.
    */
@@ -382,7 +363,7 @@ public final class DOMRecorder implements XMLRecorder {
     if ("http://www.w3.org/2000/xmlns/".equals(e.getURI())) {
       this.sequence.mapPrefix(e.getValue(), e.getName());
 
-    // a regular attribute
+      // a regular attribute
     } else {
       e.setWeight(2);
       this.currentWeight += 2;
@@ -393,7 +374,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * Handles the prefix mapping.
    * 
-   * If the current process is working on a fragment, 
+   * If the current process is working on a fragment,
    * 
    * @param uri    The namespace URI.
    * @param prefix The prefix used for the namespace.
@@ -401,10 +382,11 @@ public final class DOMRecorder implements XMLRecorder {
   private void handlePrefixMapping(String uri, String prefix) {
     if (this.isFragment) {
       if (this.mapping.getPrefix(uri) != null) return;
-      if (prefix == null && !"".equals(uri))
+      if (prefix == null && !"".equals(uri)) {
         this.mapping.add(uri, "");
-      else if (prefix != null && !"xmlns".equals(prefix))
+      } else if (prefix != null && !"xmlns".equals(prefix)) {
         this.mapping.add(uri, prefix);
+      }
     }
   }
 

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -84,28 +84,31 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a
+   * Returns <code>true</code> if the event is an attribute event.
    * 
    * @param e The event to compare with this event.
    * 
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass())
       return false;
     AttributeEventImpl bae = (AttributeEventImpl) e;
-    return (bae.name.equals(this.name) && bae.value.equals(this.value));
+    return bae.name.equals(this.name) && bae.value.equals(this.value);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "attribute: " + this.name + "=" + this.value;
   }
@@ -136,7 +139,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
    * @param value The attribute value.
    * @return a number suitable as a hashcode.
    */
-  private static final int toHashCode(String name, String value) {
+  private static int toHashCode(String name, String value) {
     int hash = 23;
     hash = hash * 37 + (name != null ? name.hashCode() : 0);
     hash = hash * 37 + (value != null ? value.hashCode() : 0);

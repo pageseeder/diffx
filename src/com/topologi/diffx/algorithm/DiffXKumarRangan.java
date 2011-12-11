@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -13,8 +13,8 @@ import com.topologi.diffx.format.DiffXFormatter;
 import com.topologi.diffx.sequence.EventSequence;
 
 /**
- * Performs the diff comparison using an optimized version of the linear space algorithm 
- * of S.Kiran Kumar and C.Pandu Rangan. 
+ * Performs the diff comparison using an optimized version of the linear space algorithm
+ * of S.Kiran Kumar and C.Pandu Rangan.
  * 
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
  * sequences, but suffers from two main problems:
@@ -28,7 +28,7 @@ import com.topologi.diffx.sequence.EventSequence;
  *   ignores the name of the closing element, so all the elements are closed properly.
  *   </li>
  * </ul>
- *  
+ * 
  * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
  * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987
  * 
@@ -49,7 +49,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    */
   private static final boolean DEBUG = false;
 
-// state variables ----------------------------------------------------------------------------
+  // state variables ----------------------------------------------------------------------------
 
   // Global integer arrays needed in the computation of the LCS
   private int[] R1, R2;
@@ -72,7 +72,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
 
   /**
    * The length of the LCS.
-   */ 
+   */
   private int length = -1;
 
   /**
@@ -80,7 +80,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    */
   private DiffXFormatter df = null;
 
-// constructor --------------------------------------------------------------------------------
+  // constructor --------------------------------------------------------------------------------
 
   /**
    * Creates a new DiffXAlgorithmBase.
@@ -92,10 +92,10 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     super(seq0, seq1);
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
-   * Calculates the length of LCS and returns it. 
+   * Calculates the length of LCS and returns it.
    * 
    * <p>If the length is calculated already it'll not be calculated repeatedly.
    * 
@@ -107,8 +107,9 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @return The length of LCS
    */
   public int length() {
-    if (this.length < 0)
-      this.length = calculateLength();      
+    if (this.length < 0) {
+      this.length = calculateLength();
+    }
     return this.length;
   }
 
@@ -126,7 +127,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     generateLCS(0, this.length1 - 1, 0, this.length2 - 1, this.length1, this.length2, this.length);
   }
 
-// helpers ------------------------------------------------------------------------------------
+  // helpers ------------------------------------------------------------------------------------
 
   /**
    * Initialises the state variables.
@@ -143,22 +144,24 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
   /**
    * Calculates the LCS length.
    * 
-   * @return The LCS length. 
+   * @return The LCS length.
    */
   private int calculateLength() {
     init();
     this.R = 0;
     this.S = this.length1 + 1;
     // iterate for every difference with the first sequence
-    while (S > R) {
-      S--;
+    while (this.S > this.R) {
+      this.S--;
       // fill up R2 up to the first difference using the entire sequences
       fillOne(0, this.length1 - 1, 0, this.length2 - 1, this.length1, this.length2, 1);
       // copy the content of R2 to R1 up to R
-      copyUpTo(R2, R1, R);
+      copyUpTo(this.R2, this.R1, this.R);
     }
     // both R1 and R2 now contain the indexes(+1) of the first sequence that form the LCS
-    if (DEBUG) System.err.println("LCS length="+this.S);
+    if (DEBUG) {
+      System.err.println("LCS length="+this.S);
+    }
     return this.S;
   }
 
@@ -179,38 +182,38 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    */
   private void fillOne(int start1, int end1, int start2, int end2, int m, int n, int sign) {
     int j = 1;
-    int i = S;
+    int i = this.S;
     boolean over = false;
-    R2[0] = n+1;
+    this.R2[0] = n+1;
 
     int lower2 = 0;
     int position2 = 0;
     int temp = 0;
 
     while (i > 0 & !over) {
-      if (j > R) {
+      if (j > this.R) {
         lower2 = 0;
       } else {
-        lower2 = R1[j];
+        lower2 = this.R1[j];
       }
-      position2 = R2[j - 1] - 1;
+      position2 = this.R2[j - 1] - 1;
 
       // The real index in the global char table is current_index * sign + beginning
       // index of the subchararray
       while (position2 > lower2 && !this.sequence1.getEvent((i - 1) * sign + start1)
-                            .equals(this.sequence2.getEvent((position2 - 1) * sign + start2))) {
+          .equals(this.sequence2.getEvent((position2 - 1) * sign + start2))) {
         position2--;
       }
       temp = Math.max(position2, lower2);
       if (temp == 0) {
         over = true;
       } else {
-        R2[j] = temp;
+        this.R2[j] = temp;
         i--;
         j++;
       }
     }
-    R = j - 1;
+    this.R = j - 1;
   }
 
   /**
@@ -232,14 +235,14 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @return       Integer array consisting of the ???.
    */
   private int[] calMid(int start1, int end1, int start2, int end2, int m, int n, int sign, int waste) {
-    LL = new int[n+1];
-    R = 0;
-    for (S = m; S >= m - waste; S--) {
+    this.LL = new int[n+1];
+    this.R = 0;
+    for (this.S = m; this.S >= m - waste; this.S--) {
       fillOne(start1, end1, start2, end2, m, n, sign);
-      copyUpTo(R2, R1, R);
+      copyUpTo(this.R2, this.R1, this.R);
     }
-    copyUpTo(R1, LL, R);
-    return LL;
+    copyUpTo(this.R1, this.LL, this.R);
+    return this.LL;
   }
 
   /**
@@ -258,14 +261,14 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * 
    * @throws IOException If thrown by the formatter
    */
-  private void generateLCS(int start1, int end1, int start2, int end2, int m, int n, int lcs) 
-    throws IOException {
+  private void generateLCS(int start1, int end1, int start2, int end2, int m, int n, int lcs)
+      throws IOException {
 
     // Solves the base case, waste is less than 2 characters
     if (m - lcs < 2) {
       getLCSMinimumWaste(start1, end1, start2, end2, m, n, lcs);
 
-    // Waste is more than 1 character, process recursively
+      // Waste is more than 1 character, process recursively
     } else {
       getLCSMoreWaste(start1, end1, start2, end2, m, n, lcs);
 
@@ -288,34 +291,43 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * 
    * @throws IOException If thrown by the formatter.
    */
-  private void getLCSMinimumWaste(int start1, int end1, int start2, int end2, int m, int n, int lcs) 
-    throws IOException {
+  private void getLCSMinimumWaste(int start1, int end1, int start2, int end2, int m, int n, int lcs)
+      throws IOException {
     // number of diffs with the first subsequence
     int waste = m - lcs;
 
     // contains the relative 1-based index of the event in the second sequence in reverse order
-    LL = calMid(start1, end1, start2, end2, m, n, 1, waste);
-    if (DEBUG) System.err.println("SEQ1={"+start1+" -> "+end1+"} SEQ2={"+start2+" -> "+end2+"}");
-    if (DEBUG) printState(0x10000);
+    this.LL = calMid(start1, end1, start2, end2, m, n, 1, waste);
+    if (DEBUG) {
+      System.err.println("SEQ1={"+start1+" -> "+end1+"} SEQ2={"+start2+" -> "+end2+"}");
+    }
+    if (DEBUG) {
+      printState(0x10000);
+    }
     int i = 0;
 
     // start in order for the first subsequence
     // and get the index of the second subsequence
     while (i < lcs && this.sequence1.getEvent(i + start1)
-              .equals(this.sequence2.getEvent(LL[lcs - i] - 1 + start2))) {
+        .equals(this.sequence2.getEvent(this.LL[lcs - i] - 1 + start2))) {
       this.df.format(this.sequence1.getEvent(i + start1));
       this.iSeq2++;
       // removed events from the second subsequence
       i++;
-      if (i < lcs) writeDeleted(LL[lcs - i] - 1 + start2);
+      if (i < lcs) {
+        writeDeleted(this.LL[lcs - i] - 1 + start2);
+      }
     }
 
     // possibly an event from the first subsequence to insert
-    if (i < m)
+    if (i < m) {
       this.df.insert(this.sequence1.getEvent(i + start1));
+    }
 
     // we should take care of the removed events from the second subsequence now (?)
-    if (i < lcs) writeDeleted(LL[lcs - i] - 1 + start2);
+    if (i < lcs) {
+      writeDeleted(this.LL[lcs - i] - 1 + start2);
+    }
     i++;
 
     // the second part of the first subsequence
@@ -323,12 +335,12 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     while (i < m) {
       this.df.format(this.sequence1.getEvent(i + start1));
       this.iSeq2++;
-      writeDeleted(LL[m - i] - 1 + start2);
+      writeDeleted(this.LL[m - i] - 1 + start2);
       i++;
     }
 
     // finish writing the missing events from the second subsequence
-    writeDeleted(LL[0] - 1 + start2);
+    writeDeleted(this.LL[0] - 1 + start2);
   }
 
   /**
@@ -347,38 +359,40 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * 
    * @throws IOException If thrown by the formatter.
    */
-  private void getLCSMoreWaste(int start1, int end1, int start2, int end2, int m, int n, int lcs) 
-    throws IOException {
+  private void getLCSMoreWaste(int start1, int end1, int start2, int end2, int m, int n, int lcs)
+      throws IOException {
     // The indexes of the perfect cut
     int u, v;
 
     int r1, r2;
 
     int waste1 = (int)Math.ceil((m - lcs) / 2.0f);
-    LL1 = calMid(end1, start1, end2, start2, m, n, -1, waste1);
+    this.LL1 = calMid(end1, start1, end2, start2, m, n, -1, waste1);
 
     // Saves the value changed in calmid from global variable R to variable r1
-    r1 = R;
-    for (int j = 0; j <= r1; j++)
-      LL1[j] = n + 1 - LL1[j];
+    r1 = this.R;
+    for (int j = 0; j <= r1; j++) {
+      this.LL1[j] = n + 1 - this.LL1[j];
+    }
 
     int waste2 = (int)Math.floor((m - lcs) / 2.0f);
-    LL2 = calMid(start1, end1, start2, end2, m, n, 1, waste2);
+    this.LL2 = calMid(start1, end1, start2, end2, m, n, 1, waste2);
 
     // Saves the value changed in calmid from global variable R to variable r2
-    r2 = R;
+    r2 = this.R;
 
     int k = Math.max(r1, r2);
 
     while (k > 0) {
-      if (k <= r1 && lcs - k <= r2 && LL1[k] < LL2[lcs - k])
+      if (k <= r1 && lcs - k <= r2 && this.LL1[k] < this.LL2[lcs - k]) {
         break;
-      else
+      } else {
         k--;
+      }
     }
 
     u = k + waste1;
-    v = LL1[k];
+    v = this.LL1[k];
 
     // recursively call the LCS method to process the two subsequences
     generateLCS(start1, start1 + u - 1, start2, start2 + v - 1, u - 1+1, v - 1+1, u - waste1);
@@ -393,7 +407,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @throws IOException If thrown by the formatter.
    */
   private void writeDeleted(int jSeq2) throws IOException {
-//    if (DEBUG) System.err.println("next="+jSeq2+" current="+iSeq2);
+    //    if (DEBUG) System.err.println("next="+jSeq2+" current="+iSeq2);
     while (jSeq2 > this.iSeq2) {
       this.df.delete(this.sequence2.getEvent(this.iSeq2++));
     }
@@ -406,43 +420,54 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param f The flags
    */
   private void printState(int f) {
-    if ((f & 0x0000001) == 0x0000001) System.err.println("  R="+this.R);
-    if ((f & 0x0000010) == 0x0000010) System.err.println("  S="+this.S);
-    if ((f & 0x0000011) > 0) System.err.println();
+    if ((f & 0x0000001) == 0x0000001) {
+      System.err.println("  R="+this.R);
+    }
+    if ((f & 0x0000010) == 0x0000010) {
+      System.err.println("  S="+this.S);
+    }
+    if ((f & 0x0000011) > 0) {
+      System.err.println();
+    }
     // The arrays for R1 and R2
     if ((f & 0x0000100) == 0x0000100) {
       System.err.print(" R1={");
-      for (int i = 0; i < R1.length; i++)
-        System.err.print(" "+R1[i]);
+      for (int element : this.R1) {
+        System.err.print(" "+element);
+      }
       System.err.println(" }");
     }
     if ((f & 0x0001000) == 0x0001000) {
       System.err.print(" R2={");
-      for (int i = 0; i < R2.length; i++)
-        System.err.print(" "+R2[i]);
+      for (int element : this.R2) {
+        System.err.print(" "+element);
+      }
       System.err.println(" }");
     }
     if ((f & 0x0010000) == 0x0010000) {
       System.err.print(" LL={");
-      for (int i = 0; i < LL.length; i++)
-        System.err.print(" "+LL[i]);
+      for (int element : this.LL) {
+        System.err.print(" "+element);
+      }
       System.err.println(" }");
     }
     if ((f & 0x0100000) == 0x0100000) {
       System.err.print(" LL1={");
-      for (int i = 0; i < LL1.length; i++)
-        System.err.print(" "+LL1[i]);
+      for (int element : this.LL1) {
+        System.err.print(" "+element);
+      }
       System.err.println(" }");
     }
     if ((f & 0x1000000) == 0x1000000) {
       System.err.print(" LL2={");
-      for (int i = 0; i < LL2.length; i++)
-        System.err.print(" "+LL2[i]);
+      for (int element : this.LL2) {
+        System.err.print(" "+element);
+      }
       System.err.println(" }");
     }
   }
 
-// static helpers -----------------------------------------------------------------------------
+  // static helpers -----------------------------------------------------------------------------
 
   /**
    * Copies the first array into the second one up to the specified index (included).
@@ -452,8 +477,9 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param len The 0-based index of the last copied value.
    */
   private static void copyUpTo(int[] a, int[] b, int len) {
-    for (int i = 0; i <= len; i++)
+    for (int i = 0; i <= len; i++) {
       b[i] = a[i];
+    }
   }
 
 }

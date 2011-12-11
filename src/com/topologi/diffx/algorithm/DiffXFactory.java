@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -41,11 +41,11 @@ public final class DiffXFactory {
    * 
    * @return A Diff-X algorithm instance.
    * 
-   * @throws FactoryException Should an error occur when trying to instantiate the class. 
+   * @throws FactoryException Should an error occur when trying to instantiate the class.
    */
   @SuppressWarnings("unchecked")
-  public static DiffXAlgorithm newAlgorithm(String className, EventSequence sequence1, EventSequence sequence2) 
-     throws FactoryException {
+  public static DiffXAlgorithm newAlgorithm(String className, EventSequence sequence1, EventSequence sequence2)
+      throws FactoryException {
     DiffXAlgorithm algorithm = null;
     try {
       Class<DiffXAlgorithm> cls = (Class<DiffXAlgorithm>)Class.forName(className);
@@ -66,14 +66,15 @@ public final class DiffXFactory {
    * 
    * @return A Diff-X algorithm instance.
    * 
-   * @deprecated use <code>newAlgorithm</code> 
+   * @deprecated use <code>newAlgorithm</code>
    * 
-   * @throws FactoryException Should an error occur when trying to instantiate the class. 
+   * @throws FactoryException Should an error occur when trying to instantiate the class.
    */
+  @Deprecated
   public static DiffXAlgorithm createDiffex(String className,
-                                            EventSequence sequence1,
-                                            EventSequence sequence2) 
-     throws FactoryException {
+      EventSequence sequence1,
+      EventSequence sequence2)
+          throws FactoryException {
     return newAlgorithm(className, sequence1, sequence2);
   }
 

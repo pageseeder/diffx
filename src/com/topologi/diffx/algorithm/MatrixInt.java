@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -14,7 +14,7 @@ package com.topologi.diffx.algorithm;
  * @version 7 April 2005
  */
 public final class MatrixInt implements Matrix {
-//	 TODO: this class should probably not be public
+  //	 TODO: this class should probably not be public
 
   /**
    * The actual matrix storing the values.
@@ -60,21 +60,21 @@ public final class MatrixInt implements Matrix {
    * @see com.topologi.diffx.algorithm.Matrix#isGreaterX(int, int)
    */
   public boolean isGreaterX(int i, int j) {
-    return matrix[i+1][j] > matrix[i][j+1];
+    return this.matrix[i+1][j] > this.matrix[i][j+1];
   }
 
   /**
    * @see com.topologi.diffx.algorithm.Matrix#isGreaterY(int, int)
    */
   public boolean isGreaterY(int i, int j) {
-    return matrix[i+1][j] < matrix[i][j+1];
+    return this.matrix[i+1][j] < this.matrix[i][j+1];
   }
 
   /**
    * @see com.topologi.diffx.algorithm.Matrix#isSameXY(int, int)
    */
   public boolean isSameXY(int i, int j) {
-    return matrix[i+1][j] == matrix[i][j+1];
+    return this.matrix[i+1][j] == this.matrix[i][j+1];
   }
 
   /**

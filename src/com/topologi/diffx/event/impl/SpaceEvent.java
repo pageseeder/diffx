@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -50,7 +50,7 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
    * 
    * @param w The word as a string.
    * 
-   * @throws NullPointerException If the given String is <code>null</code>. 
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
   public SpaceEvent(CharSequence w) throws NullPointerException {
     super(w);
@@ -59,10 +59,11 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return "space: \""+toString(this.getCharacters().toCharArray())+'"';
+    return "space: \""+toString(getCharacters().toCharArray())+'"';
   }
-  
+
   /**
    * Returns the white space event corresponding to the given string.
    * 
@@ -106,16 +107,16 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
    */
   private static String toString(char[] chars) {
     StringBuffer out = new StringBuffer();
-    for (int i = 0; i < chars.length; i++) {
-      switch(chars[i]) {
-        case '\n': 
+    for (char c : chars) {
+      switch(c) {
+        case '\n':
           out.append("\\n");
           break;
-        case '\t': 
+        case '\t':
           out.append("\\t");
           break;
-        default : 
-          out.append(chars[i]);
+        default :
+          out.append(c);
       }
     }
     return out.toString();

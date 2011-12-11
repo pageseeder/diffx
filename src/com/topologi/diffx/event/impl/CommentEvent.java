@@ -36,7 +36,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   /**
-   * Returns the comment
+   * Returns the comment.
    */
   public String getComment() {
     return this.comment;
@@ -51,7 +51,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   /**
-   * Returns <code>true</code> if the event is a
+   * Returns <code>true</code> if the event is a comment event.
    * 
    * @param e The event to compare with this event.
    * 
@@ -63,7 +63,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
     if (e.getClass() != this.getClass())
       return false;
     CommentEvent ce = (CommentEvent) e;
-    return (ce.comment == null && this.comment == null) || ce.comment.equals(this.comment);
+    return ce.comment == null && this.comment == null || ce.comment.equals(this.comment);
   }
 
   /**

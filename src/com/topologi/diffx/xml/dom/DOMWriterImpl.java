@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.dom;
@@ -118,7 +118,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * @throws NullPointerException If the handler is <code>null</code>.
    */
   public DOMWriterImpl(Document document) {
-    if (document == null) 
+    if (document == null)
       throw new NullPointerException("The XMLWriter requires a DOM Document to write on.");
     this.document = document;
     this.currentElement = document;
@@ -148,7 +148,7 @@ public final class DOMWriterImpl implements DOMWriter {
     }
     // update the flags
     this.indentChars = spaces;
-    this.indent = (spaces != null);
+    this.indent = spaces != null;
   }
 
   // Write text methods
@@ -159,7 +159,7 @@ public final class DOMWriterImpl implements DOMWriter {
    */
   public void writeText(String text) {
     if (text == null) return;
-    this.deNude();
+    deNude();
     Text textNode = this.document.createTextNode(text);
     this.currentElement.appendChild(textNode);
   }
@@ -194,8 +194,9 @@ public final class DOMWriterImpl implements DOMWriter {
   public void writeText(Object o) {
     // TODO: what about an XML serializable ???
     // TODO: Add to interface ???
-    if (o != null)
+    if (o != null) {
       this.writeText(o.toString());
+    }
   }
 
   @Override
@@ -203,7 +204,7 @@ public final class DOMWriterImpl implements DOMWriter {
     this.document.createCDATASection(data);
   }
 
-// write xml methods are not supported --------------------------------------------------
+  // write xml methods are not supported --------------------------------------------------
 
   /**
    * {@inheritDoc}
@@ -215,15 +216,15 @@ public final class DOMWriterImpl implements DOMWriter {
   /**
    * {@inheritDoc}
    */
-  public void writeXML(char[] text, int off, int len) 
-    throws UnsupportedOperationException {
+  public void writeXML(char[] text, int off, int len)
+      throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Cannot use unparsed XML as DOM node.");
   }
 
-// PI and comments ----------------------------------------------------------------------
+  // PI and comments ----------------------------------------------------------------------
 
   /**
-   * {@inheritDoc} 
+   * {@inheritDoc}
    */
   public void writeComment(String comment) throws DOMException {
     if (comment.indexOf("--") >= 0)
@@ -231,7 +232,9 @@ public final class DOMWriterImpl implements DOMWriter {
     deNude();
     Node node = this.document.createComment(comment);
     this.currentElement.appendChild(node);
-    if (this.indent) newLine();
+    if (this.indent) {
+      newLine();
+    }
   }
 
   /**
@@ -241,16 +244,18 @@ public final class DOMWriterImpl implements DOMWriter {
     deNude();
     Node node = this.document.createProcessingInstruction(target, data);
     this.currentElement.appendChild(node);
-    if (this.indent) newLine();
+    if (this.indent) {
+      newLine();
+    }
   }
 
-// attribute methods --------------------------------------------------------------------
+  // attribute methods --------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
    */
-  public void attribute(String name, String value) 
-    throws IOException, IllegalStateException {
+  public void attribute(String name, String value)
+      throws IOException, IllegalStateException {
     if (!this.isNude)
       throw new IllegalArgumentException("Cannot write attribute: too late!");
     Attr att = this.document.createAttribute(name);
@@ -266,7 +271,7 @@ public final class DOMWriterImpl implements DOMWriter {
     attribute(name, Integer.toString(value));
   }
 
-// open/close specific elements ---------------------------------------------------------
+  // open/close specific elements ---------------------------------------------------------
 
   /**
    * Writes a start element tag correctly indented.
@@ -287,7 +292,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * Writes a start element tag correctly indented.
    *
    * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -299,7 +304,7 @@ public final class DOMWriterImpl implements DOMWriter {
    */
   public void openElement(String name, boolean hasChildren) throws IOException {
     deNude();
-    this.indent();
+    indent();
     this.childrenFlags.add(Boolean.valueOf(hasChildren));
     Element element = this.document.createElement(name);
     this.currentElement.appendChild(element);
@@ -314,11 +319,11 @@ public final class DOMWriterImpl implements DOMWriter {
   public void element(String name, String text) throws IOException {
     this.openElement(name);
     this.writeText(text);
-    this.closeElement();
+    closeElement();
   }
 
   /**
-   * {@inheritDoc} 
+   * {@inheritDoc}
    */
   public void closeElement() {
     if (this.currentElement.getNodeType() == Node.DOCUMENT_NODE)
@@ -326,15 +331,17 @@ public final class DOMWriterImpl implements DOMWriter {
     this.depth--;
     this.isNude = false;
     Boolean hasChildren = this.childrenFlags.remove(this.childrenFlags.size() - 1);
-    if (hasChildren.booleanValue())
-      this.indent();
+    if (hasChildren.booleanValue()) {
+      indent();
+    }
     this.currentElement.normalize();
     this.currentElement = (Element)this.currentElement.getParentNode();
     // new line if parent has children
     if (this.indent) {
       Boolean b = this.childrenFlags.get(this.childrenFlags.size() - 1);
-      if (b.booleanValue()) // and parent != root
+      if (b.booleanValue()) {
         newLine();
+      }
     }
   }
 
@@ -346,11 +353,11 @@ public final class DOMWriterImpl implements DOMWriter {
     this.currentElement.appendChild(element);
   }
 
-// direct access to the writer ----------------------------------------------------------
+  // direct access to the writer ----------------------------------------------------------
 
   public void close() throws IOException, UnclosedElementException {
     // TODO Auto-generated method stub
-    
+
   }
 
   /**
@@ -360,7 +367,7 @@ public final class DOMWriterImpl implements DOMWriter {
     this.currentElement.normalize();
   }
 
-// DOM Writer methods -------------------------------------------------------------------
+  // DOM Writer methods -------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
@@ -393,7 +400,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
   public void openElement(String uri, String name, boolean hasChildren)
-    throws UnsupportedOperationException {
+      throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces.");
   }
 
@@ -405,7 +412,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * 
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
-  public void emptyElement(String uri, String element) 
+  public void emptyElement(String uri, String element)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
   }
@@ -432,7 +439,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * 
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
-  public void attribute(String uri, String name, String value) 
+  public void attribute(String uri, String name, String value)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
   }
@@ -446,21 +453,23 @@ public final class DOMWriterImpl implements DOMWriter {
    * 
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
-  public void attribute(String uri, String name, int value) 
-     throws UnsupportedOperationException {
+  public void attribute(String uri, String name, int value)
+      throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
   }
 
-// private helpers ----------------------------------------------------------------------
+  // private helpers ----------------------------------------------------------------------
 
   /**
-   * Insert the correct amount of space characterss depending on the depth and if 
+   * Insert the correct amount of space characterss depending on the depth and if
    * the <code>indent</code> flag is set to <code>true</code>.
    */
   void indent() {
     if (this.indent) {
-      StringBuffer out = new StringBuffer(this.depth * this.indentChars.length()); 
-      for (int i = 0; i < this.depth; i++) out.append(this.indentChars);
+      StringBuffer out = new StringBuffer(this.depth * this.indentChars.length());
+      for (int i = 0; i < this.depth; i++) {
+        out.append(this.indentChars);
+      }
       Node node = this.document.createTextNode(out.toString());
       this.currentElement.appendChild(node);
     }
@@ -497,7 +506,7 @@ public final class DOMWriterImpl implements DOMWriter {
    * 
    * @return A new DOM document.
    * 
-   * @throws ParserConfigurationException If thrown by the document builder factory. 
+   * @throws ParserConfigurationException If thrown by the document builder factory.
    */
   private static Document newDocument() throws ParserConfigurationException {
     DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

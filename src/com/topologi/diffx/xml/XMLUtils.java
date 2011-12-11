@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -24,7 +24,7 @@ public final class XMLUtils {
   }
 
   /**
-   * Replaces characters which are invalid in element values, by the corresponding entity 
+   * Replaces characters which are invalid in element values, by the corresponding entity
    * in a given <code>String</code>.
    *
    * <p>these characters are:<br>
@@ -35,11 +35,11 @@ public final class XMLUtils {
    *
    * <p>Empty strings or <code>null</code> return respectively "" and <code>null</code>.
    *
-   * <p>Note: this function assumes that there are no entities in the given String. If there 
-   * are existing entities, then the ampersand character will be escaped by the ampersand 
+   * <p>Note: this function assumes that there are no entities in the given String. If there
+   * are existing entities, then the ampersand character will be escaped by the ampersand
    * entity.
    *
-   * <p>This method does not replaces " (by &amp;quot;) which is an invalid character in 
+   * <p>This method does not replaces " (by &amp;quot;) which is an invalid character in
    * attribute values.
    *
    * @see #escapeAttr
@@ -83,7 +83,7 @@ public final class XMLUtils {
   /**
    * Return a valid element name from the given string.
    *
-   * <p>Letters are put to lower case and other characters are replaced by hyphens. 
+   * <p>Letters are put to lower case and other characters are replaced by hyphens.
    * If the first character is not a letter it is replaced by 'x'.
    *
    * @param name The candidate element name
@@ -93,11 +93,17 @@ public final class XMLUtils {
   public static String toElementName(String name) {
     if (name == null) return null;
     char[] elementAsChars = name.toCharArray();
-    if (!Character.isLetter(elementAsChars[0])) elementAsChars[0] = 'x';
-    else elementAsChars[0] = Character.toLowerCase(elementAsChars[0]);
+    if (!Character.isLetter(elementAsChars[0])) {
+      elementAsChars[0] = 'x';
+    } else {
+      elementAsChars[0] = Character.toLowerCase(elementAsChars[0]);
+    }
     for (int i = 1; i < elementAsChars.length; i++) {
-      if (!Character.isLetter(elementAsChars[i])) elementAsChars[i] = '-';
-      else elementAsChars[i] = Character.toLowerCase(elementAsChars[i]);
+      if (!Character.isLetter(elementAsChars[i])) {
+        elementAsChars[i] = '-';
+      } else {
+        elementAsChars[i] = Character.toLowerCase(elementAsChars[i]);
+      }
     }
     return new String(elementAsChars);
   }

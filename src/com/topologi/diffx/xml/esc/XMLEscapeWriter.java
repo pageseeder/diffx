@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -39,7 +39,7 @@ public interface XMLEscapeWriter {
    * @param off The start (offset) of the characters.
    * @param len The length of characters to.
    * 
-   * @throws IOException If thrown by the underlying writer. 
+   * @throws IOException If thrown by the underlying writer.
    */
   void writeAttValue(char[] ch, int off, int len) throws IOException;
 
@@ -51,10 +51,10 @@ public interface XMLEscapeWriter {
    *
    * <p>This method should return <code>null</code> if the given
    * value is <code>null</code>.
-   *  
+   * 
    * @param value The value that needs to be attribute-escaped.
    * 
-   * @throws IOException If thrown by the underlying writer. 
+   * @throws IOException If thrown by the underlying writer.
    */
   void writeAttValue(String value) throws IOException;
 
@@ -72,7 +72,7 @@ public interface XMLEscapeWriter {
    * @param off The start (offset) of the characters.
    * @param len The length of characters to.
    * 
-   * @throws IOException If thrown by the underlying writer. 
+   * @throws IOException If thrown by the underlying writer.
    */
   void writeText(char[] ch, int off, int len) throws IOException;
 
@@ -98,7 +98,7 @@ public interface XMLEscapeWriter {
    * 
    * @param c The character that needs to be text-escaped.
    * 
-   * @throws IOException If thrown by the underlying writer. 
+   * @throws IOException If thrown by the underlying writer.
    */
   void writeText(char c) throws IOException;
 

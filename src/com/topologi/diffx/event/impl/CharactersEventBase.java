@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -48,6 +48,7 @@ public abstract class CharactersEventBase extends DiffXEventBase implements Text
   /**
    * {@inheritDoc}
    */
+  @Override
   public final int hashCode() {
     return this.hashCode;
   }
@@ -59,13 +60,14 @@ public abstract class CharactersEventBase extends DiffXEventBase implements Text
    * 
    * @return <code>true</code> if considered equal; <code>false</code> otherwise.
    */
+  @Override
   public final boolean equals(DiffXEvent e) {
     if (this == e)
       return true;
     if (e.getClass() != this.getClass())
       return false;
     CharactersEventBase ce = (CharactersEventBase) e;
-    return (ce.characters.equals(this.characters));
+    return ce.characters.equals(this.characters);
   }
 
   /**
@@ -102,7 +104,7 @@ public abstract class CharactersEventBase extends DiffXEventBase implements Text
    * @param s A string from which to calculate the hashcode.
    * @return a suitable hashcode value.
    */
-  private static final int toHashCode(CharSequence s) {
+  private static int toHashCode(CharSequence s) {
     return 13 * 47 + (s != null ? s.hashCode() : 0);
   }
 

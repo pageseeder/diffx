@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -13,8 +13,8 @@ import java.io.StringWriter;
 /**
  * An XML which writes on to a string.
  *
- * <p>This XML writer is backed by a {@link StringWriter} and will defer the XML writer's method to 
- * either a {@link XMLWriterImpl} or {@link XMLWriterNSImpl} depending on whether namespace support is 
+ * <p>This XML writer is backed by a {@link StringWriter} and will defer the XML writer's method to
+ * either a {@link XMLWriterImpl} or {@link XMLWriterNSImpl} depending on whether namespace support is
  * required.
  *
  * <p>The write methods do not throw any {@link IOException}.

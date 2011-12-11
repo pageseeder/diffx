@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -48,6 +48,7 @@ public final class IgnorableSpaceEvent implements TextEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "ignorable-space";
   }
@@ -57,6 +58,7 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * 
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return 71;
   }
@@ -70,6 +72,7 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(Object o) {
     return o.getClass() == this.getClass();
   }

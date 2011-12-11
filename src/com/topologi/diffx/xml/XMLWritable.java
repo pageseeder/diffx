@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -10,7 +10,7 @@ package com.topologi.diffx.xml;
 import java.io.IOException;
 
 /**
- * <p>An Object which implements this interface can be written as XML using a 
+ * <p>An Object which implements this interface can be written as XML using a
  * {@link XMLWriter} instance.
  *
  * @author Christophe Lauret (Allette Systems)

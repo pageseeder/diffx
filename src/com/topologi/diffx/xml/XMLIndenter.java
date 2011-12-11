@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -41,7 +41,7 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
    */
   private final PrintWriter writer;
 
-// state attributes ---------------------------------------------------------------------------
+  // state attributes ---------------------------------------------------------------------------
 
   /**
    * The indentation level.
@@ -59,16 +59,16 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
   private static final Integer EMPTY = new Integer(0);
 
   /**
-   * Element has text. 
+   * Element has text.
    */
   private static final Integer HAS_TEXT = new Integer(1);
 
   /**
-   * Element has children. 
+   * Element has children.
    */
   private static final Integer HAS_CHILDREN = new Integer(2);
 
-/* ----------------------------------------- constructor --------------------------------------- */
+  /* ----------------------------------------- constructor --------------------------------------- */
 
   /**
    * Creates a new XML Indenter.
@@ -83,45 +83,50 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
     }
   }
 
-/* -------------------------------------- handler's methods ------------------------------------ */
+  /* -------------------------------------- handler's methods ------------------------------------ */
 
   /**
    * @see org.xml.sax.ContentHandler#startElement
    */
+  @Override
   public void startElement(String uri, String localName, String qName, Attributes atts) {
     // update the state of previous element
-    if (!states.empty()) {
-      if (states.pop().equals(EMPTY))
-        writer.println('>');
-      states.push(HAS_CHILDREN);
+    if (!this.states.empty()) {
+      if (this.states.pop().equals(EMPTY)) {
+        this.writer.println('>');
+      }
+      this.states.push(HAS_CHILDREN);
     }
     // always indent
-    for (int i = 0; i < indentLevel; i++)
-      writer.print("  ");
+    for (int i = 0; i < this.indentLevel; i++) {
+      this.writer.print("  ");
+    }
     // print XML data
-    writer.print('<' + qName);
+    this.writer.print('<' + qName);
     for (int i = 0; i < atts.getLength(); i++) {
-      writer.print(' '+atts.getQName(i)+"=\""+atts.getValue(i)+'"');
+      this.writer.print(' '+atts.getQName(i)+"=\""+atts.getValue(i)+'"');
     }
     // update attributes
-    indentLevel++;
-    states.push(EMPTY);
+    this.indentLevel++;
+    this.states.push(EMPTY);
   }
 
   /**
    * @see org.xml.sax.ContentHandler#endElement
    */
+  @Override
   public void endElement(String uri, String localName, String qName) {
     this.indentLevel--;
-    Object state = states.pop();
+    Object state = this.states.pop();
     if (EMPTY.equals(state)) {
-      writer.println("/>");
+      this.writer.println("/>");
     } else if (HAS_TEXT.equals(state)) {
-      writer.println("</" + qName + '>');      
+      this.writer.println("</" + qName + '>');
     } else if (HAS_CHILDREN.equals(state)) {
-      for (int i = 0; i < indentLevel; i++)
-        writer.print("  ");
-      writer.println("</" + qName + '>');
+      for (int i = 0; i < this.indentLevel; i++) {
+        this.writer.print("  ");
+      }
+      this.writer.println("</" + qName + '>');
     }
   }
 
@@ -130,40 +135,42 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
    * 
    * @see org.xml.sax.ContentHandler#characters(char[], int, int)
    */
+  @Override
   public void characters(char[] ch, int position, int offset) {
-    if (states.peek().equals(EMPTY)) {
-      states.pop();
-      writer.print('>');
-      states.push(HAS_TEXT);
+    if (this.states.peek().equals(EMPTY)) {
+      this.states.pop();
+      this.writer.print('>');
+      this.states.push(HAS_TEXT);
     }
-    writer.print(new String(ch, position, offset));
- }
+    this.writer.print(new String(ch, position, offset));
+  }
 
   /**
    * Does nothing.
    * 
    * @see org.xml.sax.ContentHandler
    */
+  @Override
   public void ignorableWhitespace(char[] ch, int position, int offset) {
     // do nothing.
   }
 
-/* ---------------------------------------- static methods ------------------------------------- */
+  /* ---------------------------------------- static methods ------------------------------------- */
 
   /**
    * Indents the given XML String.
    * 
    * @param xml The XML string to indent
    * 
-   * @return The indented XML String. 
-   *  
+   * @return The indented XML String.
+   * 
    * @throws IOException If an IOException occurs.
    * @throws SAXException If the XML is not well-formed.
-   * @throws ParserConfigurationException If the parser could not be configured 
+   * @throws ParserConfigurationException If the parser could not be configured
    */
-  public static String indent(String xml) 
-    throws SAXException, IOException, ParserConfigurationException {
-  	Writer writer = new StringWriter();
+  public static String indent(String xml)
+      throws SAXException, IOException, ParserConfigurationException {
+    Writer writer = new StringWriter();
     Reader reader = new StringReader(xml);
     indent(reader, writer);
     return writer.toString();
@@ -177,10 +184,10 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
    * 
    * @throws IOException If an IOException occurs.
    * @throws SAXException If the XML is not well-formed.
-   * @throws ParserConfigurationException If the parser could not be configured 
+   * @throws ParserConfigurationException If the parser could not be configured
    */
-  public static void indent(Reader r, Writer w) 
-    throws SAXException, IOException, ParserConfigurationException {
+  public static void indent(Reader r, Writer w)
+      throws SAXException, IOException, ParserConfigurationException {
     // create the indenter
     XMLIndenter indenter = new XMLIndenter(w);
     // initialise the SAX framework
@@ -199,7 +206,7 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
    * 
    * @param xml The XML string to indent
    * 
-   * @return The indented XML String or <code>null</code> if an error occurred. 
+   * @return The indented XML String or <code>null</code> if an error occurred.
    */
   public static String indentSilent(String xml) {
     try {

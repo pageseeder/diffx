@@ -3,7 +3,7 @@ package com.topologi.diffx.load.text;
 /**
  * A utility class for tokenizers
  * 
- * @author Christophe Lauret 
+ * @author Christophe Lauret
  * @version 11 May 2010
  */
 final class TokenizerUtils {
@@ -20,7 +20,9 @@ final class TokenizerUtils {
     char c = s.charAt(0);
     while (c == ' ' || c == '\t' || c == '\n') {
       i++;
-      if (i == s.length()) break;
+      if (i == s.length()) {
+        break;
+      }
       c = s.charAt(i);
     }
     return i;
@@ -38,7 +40,9 @@ final class TokenizerUtils {
     char c = s.charAt(s.length() - 1 - i);
     while (c == ' ' || c == '\t' || c == '\n') {
       i++;
-      if (i == s.length()) break;
+      if (i == s.length()) {
+        break;
+      }
       c = s.charAt(s.length() - 1 - i);
     }
     return i;

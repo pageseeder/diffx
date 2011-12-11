@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -70,29 +70,32 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.hashCode;
   }
 
   /**
-   * Returns <code>true</code> if the event is a  
+   * Returns <code>true</code> if the event is a processing instruction.
    * 
    * @param e The event to compare with this event.
    * 
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass()) return false;
     ProcessingInstructionEvent pi = (ProcessingInstructionEvent)e;
     // TODO: handle nulls
-    return (pi.target.equals(this.target)
-         && pi.data.equals(this.data));
+    return pi.target.equals(this.target)
+        && pi.data.equals(this.data);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "pi: "+this.target+": "+this.data;
   }
@@ -120,10 +123,10 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
    * Calculates the hashcode for this event.
    * 
    * @param s1 A string to calculate the value from.
-   * @param s1 Another string to calculate the value from.
+   * @param s2 Another string to calculate the value from.
    * @return a number suitable as a hashcode.
    */
-  private static final int toHashCode(String s1, String s2) {
+  private static int toHashCode(String s1, String s2) {
     int hash = 7;
     hash = hash * 103 + (s1 != null? s1.hashCode() : 0);
     hash = hash * 103 + (s2 != null? s2.hashCode() : 0);

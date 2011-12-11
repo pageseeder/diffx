@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -11,7 +11,7 @@ import com.topologi.diffx.DiffXException;
 
 /**
  * Class of exceptions thrown when a factory method failed to produce
- * the desired object. 
+ * the desired object.
  * 
  * @author Christophe Lauret
  * @version 14 May 2005

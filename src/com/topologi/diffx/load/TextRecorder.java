@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load;
@@ -32,20 +32,20 @@ public final class TextRecorder implements Recorder {
    * 
    * @param file The file to process.
    * 
-   * @return The recorded sequence of events. 
+   * @return The recorded sequence of events.
    * 
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should I/O error occur.
    */
   public EventSequence process(File file) throws LoadingException, IOException {
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-      String line = reader.readLine();
-      int count = 0; 
-      EventSequence seq = new EventSequence();
-      while (line != null) {
-        seq.addEvent(new LineEvent(line, ++count));
-        line = reader.readLine();
-      }
+    BufferedReader reader = new BufferedReader(new FileReader(file));
+    String line = reader.readLine();
+    int count = 0;
+    EventSequence seq = new EventSequence();
+    while (line != null) {
+      seq.addEvent(new LineEvent(line, ++count));
+      line = reader.readLine();
+    }
     reader.close();
     return seq;
   }
@@ -63,7 +63,7 @@ public final class TextRecorder implements Recorder {
   public EventSequence process(String text) throws LoadingException, IOException {
     BufferedReader reader = new BufferedReader(new StringReader(text));
     String line = reader.readLine();
-    int count = 0; 
+    int count = 0;
     EventSequence seq = new EventSequence();
     while (line != null) {
       seq.addEvent(new LineEvent(line, ++count));

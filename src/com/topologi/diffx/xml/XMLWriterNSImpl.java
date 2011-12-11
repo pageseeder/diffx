@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -21,7 +21,7 @@ import javax.xml.XMLConstants;
  *
  * <p>Provides methods to generate well-formed XML data easily. wrapping a writer.
  *
- * <p>This version only supports utf-8 encoding, if writing to a file make sure that the 
+ * <p>This version only supports utf-8 encoding, if writing to a file make sure that the
  * encoding of the file output stream is "utf-8".
  *
  * <p>The recommended implementation is to use a <code>BufferedWriter</code> to write.
@@ -46,7 +46,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * The default namespace mapped to the empty prefix.
    */
-  private static final PrefixMapping DEFAULT_NS = new PrefixMapping(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX); 
+  private static final PrefixMapping DEFAULT_NS = new PrefixMapping(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
 
   /**
    * The root node.
@@ -61,7 +61,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * The current prefix mapping.
    */
-  private Hashtable<String,String> prefixMapping = new Hashtable<String,String>();
+  private final Hashtable<String,String> prefixMapping = new Hashtable<String,String>();
 
   /**
    * The list of prefix mappings to be associated with the next element.
@@ -69,9 +69,9 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   private List<PrefixMapping> tempMapping;
 
   /**
-   * A stack of elements to close the elements automatically. 
+   * A stack of elements to close the elements automatically.
    */
-  private List<Element> elements = new ArrayList<Element>(); 
+  private final List<Element> elements = new ArrayList<Element>();
 
   // Constructors
   // ----------------------------------------------------------------------------------------------
@@ -109,10 +109,13 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   void deNude() throws IOException {
     if (this.isNude) {
       this.writer.write('>');
-      if (super.indent && peekElement().hasChildren) writer.write('\n');
+      if (super.indent && peekElement().hasChildren) {
+        this.writer.write('\n');
+      }
       this.isNude = false;
     }
   }
@@ -155,7 +158,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * Writes a start element tag correctly indented.
    *
    * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -172,8 +175,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * Writes a start element tag correctly indented.
    *
-   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal 
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -186,12 +189,12 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    */
   public void openElement(String uri, String name, boolean hasChildren) throws IOException {
     deNude();
-    this.indent();
+    indent();
     String qName = getQName(uri, name);
     this.elements.add(new Element(qName, hasChildren, this.tempMapping));
     this.writer.write('<');
     this.writer.write(qName);
-    this.handleNamespaceDeclaration();
+    handleNamespaceDeclaration();
     this.isNude = true;
     this.depth++;
   }
@@ -203,7 +206,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    */
   public void closeElement() throws IOException {
     Element elt = popElement();
-	// reaching the end of the document
+    // reaching the end of the document
     if (elt == ROOT)
       throw new IllegalCloseElementException();
     this.depth--;
@@ -211,25 +214,29 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     if (this.isNude) {
       this.writer.write('/');
       this.isNude = false;
-    // the element contains text
+      // the element contains text
     } else {
-      if (elt.hasChildren) this.indent();
+      if (elt.hasChildren) {
+        indent();
+      }
       this.writer.write('<');
       this.writer.write('/');
-       int x = elt.qName.indexOf(' ');
-      if (x < 0)
+      int x = elt.qName.indexOf(' ');
+      if (x < 0) {
         this.writer.write(elt.qName);
-      else
+      } else {
         this.writer.write(elt.qName.substring(0, x));
+      }
     }
     // restore previous mapping if necessary
     restorePrefixMapping(elt);
     this.writer.write('>');
     // take care of the new line if the indentation is on
     if (super.indent) {
-      Element parent = this.peekElement();
-      if (parent.hasChildren && parent != ROOT)
+      Element parent = peekElement();
+      if (parent.hasChildren && parent != ROOT) {
         this.writer.write('\n');
+      }
     }
   }
 
@@ -262,13 +269,15 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    */
   public void emptyElement(String uri, String element) throws IOException {
     deNude();
-    this.indent();
+    indent();
     this.writer.write('<');
     this.writer.write(getQName(uri, element));
-    this.handleNamespaceDeclaration();
+    handleNamespaceDeclaration();
     this.writer.write('/');
     this.writer.write('>');
-    if (super.indent) this.writer.write('\n');
+    if (super.indent) {
+      this.writer.write('\n');
+    }
   }
 
   /**
@@ -277,7 +286,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * @return The current element.
    */
   private Element peekElement() {
-    return ((Element)this.elements.get(this.elements.size() - 1));
+    return (Element)this.elements.get(this.elements.size() - 1);
   }
 
   /**
@@ -286,7 +295,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * @return The current element.
    */
   private Element popElement() {
-    return ((Element)this.elements.remove(this.elements.size() - 1));
+    return (Element)this.elements.remove(this.elements.size() - 1);
   }
 
   /**
@@ -297,7 +306,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   public void attribute(String uri, String name, String value)
       throws IOException, IllegalStateException {
@@ -305,9 +314,9 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     this.writer.write(' ');
     this.writer.write(getQName(uri, name));
     this.writer.write("=\"");
-    writerEscape.writeAttValue(value);
+    this.writerEscape.writeAttValue(value);
     this.writer.write('"');
-    this.handleNamespaceDeclaration();
+    handleNamespaceDeclaration();
   }
 
   /**
@@ -320,7 +329,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   public void attribute(String uri, String name, int value)
       throws IOException, IllegalStateException {
@@ -330,7 +339,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     this.writer.write("=\"");
     this.writer.write(Integer.toString(value));
     this.writer.write('"');
-    this.handleNamespaceDeclaration();
+    handleNamespaceDeclaration();
   }
 
   // Namespace handling
@@ -355,8 +364,12 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
       // create the new prefix mapping
       PrefixMapping pm = new PrefixMapping(prefix, uri);
       this.prefixMapping.put(pm.uri, pm.prefix);
-      if (DEBUG) System.err.println(pm.prefix+" -> "+pm.uri);
-      if (this.tempMapping == null) this.tempMapping = new ArrayList<PrefixMapping>();
+      if (DEBUG) {
+        System.err.println(pm.prefix+" -> "+pm.uri);
+      }
+      if (this.tempMapping == null) {
+        this.tempMapping = new ArrayList<PrefixMapping>();
+      }
       this.tempMapping.add(pm);
     }
   }
@@ -372,17 +385,15 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    * @throws UndeclaredNamespaceException If the uri has not being previously declared.
    */
   private String getQName(String uri, String name) throws UndeclaredNamespaceException {
-    String prefix = (String)this.prefixMapping.get((uri != null)? uri : "");
+    String prefix = (String)this.prefixMapping.get(uri != null? uri : "");
     if (prefix != null) {
       if (!"".equals(prefix))
         return this.prefixMapping.get(uri)+":"+name;
       else
         return name;
-    } else if (uri == null) {
-		return name;
-    } else {
+    } else if (uri == null) return name;
+    else
       throw new UndeclaredNamespaceException(uri);
-    }
   }
 
   /**
@@ -393,8 +404,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   private void handleNamespaceDeclaration() throws IOException {
     if (this.tempMapping != null) {
       PrefixMapping pm = null;
-      for (int i = 0; i < tempMapping.size(); i++) {
-        pm = (PrefixMapping)tempMapping.get(i);
+      for (int i = 0; i < this.tempMapping.size(); i++) {
+        pm = (PrefixMapping)this.tempMapping.get(i);
         if (!XMLConstants.XML_NS_PREFIX.equals(pm.prefix)) {
           this.writer.write(" xmlns");
           // specify a prefix if different from ""
@@ -425,12 +436,14 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
       // for each mapping of this element
       for (int i = 0; i < elt.mappings.size(); i++) {
         PrefixMapping mpi = (PrefixMapping)elt.mappings.get(i);
-        if (DEBUG) System.err.print(mpi.prefix+" -< ");
+        if (DEBUG) {
+          System.err.print(mpi.prefix+" -< ");
+        }
         // find the first previous namespace mapping amongst the parents
         // that defines namespace mappings
-        for (int j = elements.size() - 1; j > 0; j--) {
+        for (int j = this.elements.size() - 1; j > 0; j--) {
           if (this.elements.get(j).mappings != null) {
-            List<PrefixMapping> mps = elements.get(j).mappings;
+            List<PrefixMapping> mps = this.elements.get(j).mappings;
             // iterate through the define namespace mappings of the parent
             for (int k = 0; k < mps.size(); k++) {
               PrefixMapping mpk = mps.get(k);
@@ -438,7 +451,9 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
               if (mpk.prefix.equals(mpi.prefix)) {
                 removeIfNeeded(mpk.prefix);
                 this.prefixMapping.put(mpk.uri, mpk.prefix);
-                if (DEBUG) System.err.println(mpk.uri+" [R]");
+                if (DEBUG) {
+                  System.err.println(mpk.uri+" [R]");
+                }
                 j = 0; // exit from the previous loop
                 break; // exit from this one
               }
@@ -452,7 +467,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * Removes the mapping associated to the specified prefix.
    * 
-   * @param prefix The prefix which mapping should be removed. 
+   * @param prefix The prefix which mapping should be removed.
    */
   private void removeIfNeeded(String prefix) {
     // remove the previous mapping to the prefix
@@ -460,8 +475,9 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
       Object key = null;
       for (Enumeration<String> e = this.prefixMapping.keys(); e.hasMoreElements();) {
         key = e.nextElement();
-        if (this.prefixMapping.get(key).equals(prefix)) 
+        if (this.prefixMapping.get(key).equals(prefix)) {
           break;
+        }
       }
       this.prefixMapping.remove(key); // we know key should have a value
     }
@@ -494,12 +510,12 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     /**
      * The fully qualified name of the element.
      */
-    private String qName;
+    private final String qName;
 
     /**
-     * Indicates whether the element has children. 
+     * Indicates whether the element has children.
      */
-    private boolean hasChildren;
+    private final boolean hasChildren;
 
     /**
      * A list of prefix mappings for this element.
@@ -528,7 +544,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * Light-weight class to represent a prefix mapping.
    *
-   * <p>The class attributes cannot be <code>null</code>. 
+   * <p>The class attributes cannot be <code>null</code>.
    *
    * @author Christophe Lauret (Allette Systems)
    * @version 31 August 2004
@@ -536,7 +552,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   private static final class PrefixMapping {
 
     /**
-     * The prefix associated to the URI. 
+     * The prefix associated to the URI.
      */
     private final String prefix;
 
@@ -548,12 +564,12 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     /**
      * Creates a new prefix mapping.
      * 
-     * @param prefix The prefix for the URI. 
+     * @param prefix The prefix for the URI.
      * @param uri    The full namespace URI.
      */
     public PrefixMapping(String prefix, String uri) {
-      this.prefix = (prefix != null)? prefix : "";
-      this.uri = (uri != null)? uri : ""; 
+      this.prefix = prefix != null? prefix : "";
+      this.uri = uri != null? uri : "";
     }
   }
 

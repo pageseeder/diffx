@@ -31,7 +31,7 @@ import com.topologi.diffx.sequence.SequenceSlicer;
  * 
  * <p>In Saxon, declare the namespace as:
  * <pre>{@code
- * <xsl:stylesheet version="2.0" 
+ * <xsl:stylesheet version="2.0"
  *    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  *    xmlns:diffx="com.topologi.diffx.Extension"
  *    extension-element-prefixes="diffx"
@@ -62,7 +62,7 @@ public final class Extension {
   }
 
   /**
-   * Compares the two specified <code>Node</code>s and returns the diff as a node. 
+   * Compares the two specified <code>Node</code>s and returns the diff as a node.
    *
    * <p>Only the first node in the node list is sequenced.
    *
@@ -104,7 +104,7 @@ public final class Extension {
   // private helpers ------------------------------------------------------------------------------
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified xml files and prints the diff onto the given writer.
    *
    * @param seq1   The first XML reader to compare.
    * @param seq2   The first XML reader to compare.
@@ -119,7 +119,9 @@ public final class Extension {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     formatter.declarePrefixMapping(seq1.getPrefixMapping());
     formatter.declarePrefixMapping(seq2.getPrefixMapping());
-    if (config != null) formatter.setConfig(config);
+    if (config != null) {
+      formatter.setConfig(config);
+    }
     SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
     slicer.slice();
     slicer.formatStart(formatter);
@@ -152,8 +154,8 @@ public final class Extension {
    * @return the corresponding document node.
    */
   private static Node toNode(String xml, DiffXConfig config, String factory) throws IOException, ParserConfigurationException, SAXException {
-    DocumentBuilderFactory dbFactory = factory == null ? DocumentBuilderFactory.newInstance() 
-          : DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
+    DocumentBuilderFactory dbFactory = factory == null ? DocumentBuilderFactory.newInstance()
+        : DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
     dbFactory.setNamespaceAware(config.isNamespaceAware());
     dbFactory.setExpandEntityReferences(true);
     dbFactory.setValidating(false);
@@ -166,13 +168,13 @@ public final class Extension {
    * Returns the factory class to use based on the given <code>NodeList</code>s.
    * 
    * @param xml1 the first node list.
-   * @param xml2 the second node list. 
+   * @param xml2 the second node list.
    */
   private static String getFactoryClass(Node xml1, Node xml2) {
-    Package pkg = xml1 != null? xml1.getClass().getPackage() 
-               : xml2 != null? xml2.getClass().getPackage()
-               : null; 
-    return BUILDERS.get(pkg.getName());
+    Package pkg = xml1 != null? xml1.getClass().getPackage()
+        : xml2 != null? xml2.getClass().getPackage()
+            : null;
+        return BUILDERS.get(pkg.getName());
   }
 
 }

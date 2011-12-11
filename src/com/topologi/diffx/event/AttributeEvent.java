@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event;
@@ -37,7 +37,7 @@ public interface AttributeEvent extends DiffXEvent {
    * Returns the namespace URI the attribute belongs to.
    *
    * <p>This method should return <code>null</code> if the implementation
-   * is not namespace aware or if the attribute is not bound to any namespace. 
+   * is not namespace aware or if the attribute is not bound to any namespace.
    * 
    * @return The namespace URI the attribute belongs to or <code>null</code>.
    */

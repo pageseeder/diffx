@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -36,6 +36,7 @@ abstract class DiffXEventBase implements DiffXEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public abstract int hashCode();
 
   /**
@@ -52,6 +53,7 @@ abstract class DiffXEventBase implements DiffXEvent {
    * @return <code>true</code> if the specified object is equal;
    *         <code>false</code> otherwise.
    */
+  @Override
   public final boolean equals(Object o) {
     if (o == null)
       return false;

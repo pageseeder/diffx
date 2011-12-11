@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.sequence;
@@ -36,7 +36,7 @@ public final class PrefixMapping {
    * the namespace URI correspond to one and only one prefix and that the prefix only
    * corresponds to one and only one namespace URI.
    * 
-   * @param uri    The namespace URI to map. 
+   * @param uri    The namespace URI to map.
    * @param prefix The prefix to use.
    * 
    * @throws NullPointerException if the URI or prefix is <code>null</code>
@@ -45,8 +45,9 @@ public final class PrefixMapping {
     if (!this.mappings.containsKey(uri)) {
       int count = 0;
       String actualPrefix = prefix;
-      while (this.mappings.contains(actualPrefix))
-        actualPrefix = prefix + (count++);  
+      while (this.mappings.contains(actualPrefix)) {
+        actualPrefix = prefix + count++;
+      }
       this.mappings.put(uri, actualPrefix);
     }
   }
@@ -65,7 +66,7 @@ public final class PrefixMapping {
    * 
    * @param uri The namespace URI to map.
    * 
-   * @return The corresponding prefix. 
+   * @return The corresponding prefix.
    */
   public String getPrefix(String uri) {
     return uri == null? "" : this.mappings.get(uri);

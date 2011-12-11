@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.sax;
@@ -29,13 +29,13 @@ import com.topologi.diffx.xml.XMLWritable;
  * @see com.topologi.diffx.xml.XMLWritable
  * @see com.topologi.diffx.xml.sax.XMLWritableReader
  * 
- * @author  Christophe Lauret 
+ * @author  Christophe Lauret
  * @version 26 May 2005
  */
 public final class XMLWritableInputSource extends InputSource {
 
   /**
-   * The wrapped XML writable object. 
+   * The wrapped XML writable object.
    */
   private final XMLWritable source;
 
@@ -45,11 +45,11 @@ public final class XMLWritableInputSource extends InputSource {
    * @param object The XMLWritable object to wrap.
    */
   public XMLWritableInputSource(XMLWritable object) {
-	  this.source = object;
+    this.source = object;
   }
 
   /**
-   * Returns the XMLWritable object 
+   * Returns the XMLWritable object
    * 
    * @return The XMLWritable object
    */

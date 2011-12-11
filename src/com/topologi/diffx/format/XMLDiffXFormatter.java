@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -20,7 +20,7 @@ import com.topologi.diffx.sequence.PrefixMapping;
 public interface XMLDiffXFormatter extends DiffXFormatter {
 
   /**
-   * Set whether the formatter should include the XML declaration or not. 
+   * Set whether the formatter should include the XML declaration or not.
    * 
    * @param show <code>true</code> to get the formatter to write the XML declaration;
    *             <code>false</code> otherwise.

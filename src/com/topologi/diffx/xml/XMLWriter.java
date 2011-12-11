@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml;
@@ -14,15 +14,15 @@ import java.io.IOException;
  * 
  * <p>This interface provides simple methods to write XML data onto a writer.
  * 
- * <p>Most implementation should wrap a writer or an output stream. Implementations can be 
+ * <p>Most implementation should wrap a writer or an output stream. Implementations can be
  * focused on performance, reliability, error reporting, etc...
  * 
  * <p>For improved performance, the most efficient solution will generally to have an
- * implementation write on a buffered writer since the memory usage will generally be 
+ * implementation write on a buffered writer since the memory usage will generally be
  * restricted little more than the size of the buffer, and this will keep the I/O
  * operation to a minimum.
  * 
- * <p>Other implementations might want to wrap a SAX content handler. 
+ * <p>Other implementations might want to wrap a SAX content handler.
  * 
  * @author Christophe Lauret (Allette Systems)
  * 
@@ -44,7 +44,7 @@ public interface XMLWriter {
    * <p>It is followed by a new line character if the indentation is turned on.
    * 
    * @throws IOException           If an I/O exception is thrown by the underlying writer.
-   * @throws IllegalStateException If this method is called after the writer has started 
+   * @throws IllegalStateException If this method is called after the writer has started
    *                               writing elements nodes.
    */
   void xmlDecl() throws IOException;
@@ -118,7 +118,7 @@ public interface XMLWriter {
    * Writes the given XML data.
    * 
    * <p>The text is appended as is, therefore it should be escaped properly for the
-   * encoding used by the underlying stream writer. 
+   * encoding used by the underlying stream writer.
    *
    * <p>Does nothing if the text is <code>null</code>.
    *
@@ -198,8 +198,8 @@ public interface XMLWriter {
   /**
    * Writes a start element tag correctly indented.
    *
-   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal 
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the  element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -214,8 +214,8 @@ public interface XMLWriter {
   /**
    * Writes a start element tag correctly indented.
    *
-   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal 
-   * node or not, note: this affects the indenting. To produce correctly indented XML, you 
+   * <p>Use the <code>hasChildren</code> parameter to specify whether this element is terminal
+   * node or not, note: this affects the indenting. To produce correctly indented XML, you
    * should use the same value for this flag when closing the  element.
    *
    * <p>The name can contain attributes and should be a valid xml name.
@@ -232,7 +232,7 @@ public interface XMLWriter {
   /**
    * Close the element automatically.
    * 
-   * <p>The element is closed symmetrically to the 
+   * <p>The element is closed symmetrically to the
    * {@link #openElement(String, String, boolean)} method if the XML writer is namespace
    * aware or the {@link #openElement(String, boolean)}method.
    * 
@@ -263,7 +263,7 @@ public interface XMLWriter {
   /**
    * Writes an empty element.
    *
-   * <p>It is possible for the element to contain attributes, however, since there is no character 
+   * <p>It is possible for the element to contain attributes, however, since there is no character
    * escaping, great care must be taken not to introduce invalid characters. For example:
    * <pre>
    *    &lt;<i>example test="yes"</i>/&gt;
@@ -279,7 +279,7 @@ public interface XMLWriter {
   /**
    * Writes an empty element.
    *
-   * <p>It is possible for the element to contain attributes, however, since there is no character 
+   * <p>It is possible for the element to contain attributes, however, since there is no character
    * escaping, great care must be taken not to introduce invalid characters. For example:
    * <pre>
    *    &lt;<i>example test="yes"</i>/&gt;
@@ -303,7 +303,7 @@ public interface XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   void attribute(String name, String value) throws IOException;
 
@@ -316,7 +316,7 @@ public interface XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    */
   void attribute(String name, int value) throws IOException;
 
@@ -328,7 +328,7 @@ public interface XMLWriter {
    * @param value The value of the attribute.
    * 
    * @throws IOException If thrown by the wrapped writer.
-   * @throws IllegalStateException If there is no open element or text has been written. 
+   * @throws IllegalStateException If there is no open element or text has been written.
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
   void attribute(String uri, String name, String value) throws IOException;

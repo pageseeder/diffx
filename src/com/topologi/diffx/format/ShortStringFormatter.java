@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -13,13 +13,13 @@ import java.io.Writer;
 
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
+import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.DiffXEvent;
+import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.impl.CharEvent;
 import com.topologi.diffx.event.impl.CharactersEventBase;
-import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.impl.IgnorableSpaceEvent;
 import com.topologi.diffx.event.impl.LineEvent;
-import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.impl.SpaceEvent;
 import com.topologi.diffx.event.impl.WordEvent;
 
@@ -31,14 +31,14 @@ import com.topologi.diffx.event.impl.WordEvent;
  */
 public final class ShortStringFormatter implements DiffXFormatter {
 
-//  class attributes ---------------------------------------------------------------------------
+  //  class attributes ---------------------------------------------------------------------------
 
   /**
    * The output goes here.
    */
   private final Writer out;
 
-//  constructors -------------------------------------------------------------------------------
+  //  constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter on the standard output.
@@ -62,7 +62,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
     this.out = w;
   }
 
-// methods ------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------
 
   /**
    * Writes the event as a short string.
@@ -101,7 +101,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
   public void setConfig(DiffXConfig config) {
   }
 
-// private helpers ----------------------------------------------------------------------
+  // private helpers ----------------------------------------------------------------------
 
   /**
    * Returns the short string for the given event.
@@ -112,30 +112,28 @@ public final class ShortStringFormatter implements DiffXFormatter {
    */
   public static String toShortString(DiffXEvent e) {
     // an element to open
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof OpenElementEvent)
       return '<'+((OpenElementEvent)e).getName()+'>';
     // an element to close
-    } else if (e instanceof CloseElementEvent) {
+    else if (e instanceof CloseElementEvent)
       return "</"+((CloseElementEvent)e).getName()+'>';
     // an attribute
-    } else if (e instanceof AttributeEvent) {
+    else if (e instanceof AttributeEvent)
       return "@"+((AttributeEvent)e).getName();
     // a word
-    } else if (e instanceof WordEvent) {
+    else if (e instanceof WordEvent)
       return '"'+((CharactersEventBase)e).getCharacters()+'"';
     // a white space event
-    } else if (e instanceof SpaceEvent) {
+    else if (e instanceof SpaceEvent)
       return "_s_";
     // a single character
-    } else if (e instanceof CharEvent) {
+    else if (e instanceof CharEvent)
       return '\''+((CharactersEventBase)e).getCharacters()+'\'';
     // an ignorable space event
-    } else if (e instanceof IgnorableSpaceEvent) {
+    else if (e instanceof IgnorableSpaceEvent)
       return "_i_";
     // a single line
-    } else if (e instanceof LineEvent) {
-      return "L#"+((LineEvent)e).getLineNumber();
-    }
+    else if (e instanceof LineEvent) return "L#"+((LineEvent)e).getLineNumber();
     return "???";
   }
 

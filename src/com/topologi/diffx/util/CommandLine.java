@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.util;
@@ -38,7 +38,7 @@ public final class CommandLine {
     if (args == null || args.length < 2 || name == null) return null;
     // find the argument
     for (int i = 0; i < args.length; i++) {
-      if (name.equals(args[i]) && (i+1 < args.length))
+      if (name.equals(args[i]) && i+1 < args.length)
         return args[i+1];
     }
     return null;
@@ -59,8 +59,8 @@ public final class CommandLine {
    */
   public static boolean hasSwitch(String name, String[] args) {
     if (args == null || name == null) return false;
-    for (int i = 0; i < args.length; i++) {
-      if (name.equals(args[i])) return true;
+    for (String arg : args) {
+      if (name.equals(arg)) return true;
     }
     return false;
   }

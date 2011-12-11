@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load;
@@ -29,10 +29,10 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.CloseElementEvent;
+import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.impl.EventFactory;
 import com.topologi.diffx.event.impl.ProcessingInstructionEvent;
-import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.load.text.TextTokenizer;
 import com.topologi.diffx.load.text.TokenizerFactory;
 import com.topologi.diffx.sequence.EventSequence;
@@ -42,13 +42,13 @@ import com.topologi.diffx.sequence.EventSequence;
  * 
  * <p>It is possible to specify the name of the XML reader implementation class.
  * By default this class will try to use the Crimson parser
- * <code>org.apache.crimson.parser.XMLReaderImpl</code>.  
+ * <code>org.apache.crimson.parser.XMLReaderImpl</code>.
  * 
  * <p>The XML reader implementation must support the following features settings
  * <pre>
  *   http://xml.org/sax/features/validation         => false
  *   http://xml.org/sax/features/namespaces         => true | false
- *   http://xml.org/sax/features/namespace-prefixes => true | false 
+ *   http://xml.org/sax/features/namespace-prefixes => true | false
  * </pre>
  * 
  * @author Christophe Lauret
@@ -58,7 +58,7 @@ import com.topologi.diffx.sequence.EventSequence;
  */
 public final class SAXRecorder implements XMLRecorder {
 
-// static variables -------------------------------------------------------------------------------
+  // static variables -------------------------------------------------------------------------------
 
   /**
    * The XML reader.
@@ -70,12 +70,12 @@ public final class SAXRecorder implements XMLRecorder {
    */
   private static final String DEFAULT_XML_READER;
   static {
-    String className; 
+    String className;
     try {
       className = XMLReaderFactory.createXMLReader().getClass().getName();
     } catch (SAXException ex) {
       // FIXME: Exception handling!!!
-//      className = XMLReaderImpl.class.getName();
+      //      className = XMLReaderImpl.class.getName();
       className = "";
     }
     DEFAULT_XML_READER = className;
@@ -88,23 +88,23 @@ public final class SAXRecorder implements XMLRecorder {
 
   /**
    * Indicates whether a new reader instance should be created because the specified class name
-   * has changed. 
+   * has changed.
    */
   private static boolean newReader = true;
 
-// class attributes -------------------------------------------------------------------------------
+  // class attributes -------------------------------------------------------------------------------
 
   /**
    * The DiffX configuration to use
    */
-  private DiffXConfig config = new DiffXConfig(); 
+  private DiffXConfig config = new DiffXConfig();
 
   /**
    * The sequence of event for this recorder.
    */
   protected transient EventSequence sequence;
 
-// methods implementing XMLRecorder -------------------------------------------------------
+  // methods implementing XMLRecorder -------------------------------------------------------
 
   /**
    * Runs the recorder on the specified file.
@@ -113,7 +113,7 @@ public final class SAXRecorder implements XMLRecorder {
    * 
    * @param file The file to process.
    * 
-   * @return The recorded sequence of events. 
+   * @return The recorded sequence of events.
    * 
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
@@ -155,7 +155,9 @@ public final class SAXRecorder implements XMLRecorder {
    * @throws IOException      Should I/O error occur.
    */
   public EventSequence process(InputSource is) throws LoadingException, IOException {
-    if (reader == null || newReader) init();
+    if (reader == null || newReader) {
+      init();
+    }
     reader.setContentHandler(new RecorderHandler());
     reader.setErrorHandler(new RecorderErrorHandler());
     try {
@@ -186,7 +188,7 @@ public final class SAXRecorder implements XMLRecorder {
     this.config = config;
   }
 
-// other methods ------------------------------------------------------------------------------
+  // other methods ------------------------------------------------------------------------------
 
   /**
    * Returns the name XMLReader class used by the SAXRecorders.
@@ -202,16 +204,17 @@ public final class SAXRecorder implements XMLRecorder {
    * 
    * <p>Use <code>null</code> to reset the XML reader class and use the default XML reader.
    * 
-   * <p>A new reader will be created only if the specified class is different from the current one. 
+   * <p>A new reader will be created only if the specified class is different from the current one.
    * 
    * @param className The name of the XML reader class to use;
    *                  or <code>null</code> to reset the XML reader.
    */
   public static void setXMLReaderClass(String className) {
     // if the className is null reset to default
-    if (className == null)
+    if (className == null) {
       className = DEFAULT_XML_READER;
-     // reload only if different from the current one.
+    }
+    // reload only if different from the current one.
     newReader = !className.equals(readerClassName);
     readerClassName = className;
   }
@@ -230,13 +233,13 @@ public final class SAXRecorder implements XMLRecorder {
     }
   }
 
-// static inner class for processing the XML files --------------------------------------------
+  // static inner class for processing the XML files --------------------------------------------
 
   /**
    * A SAX2 handler that records XML events.
    * 
    * <p>This class is an inner class as there is no reason to expose its method to the
-   * public API. 
+   * public API.
    * 
    * @author Christophe Lauret, Jean-Baptiste Reure
    * @version 27 April 2005
@@ -246,12 +249,12 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * A buffer for character data.
      */
-    private StringBuffer ch = new StringBuffer();
+    private final StringBuffer ch = new StringBuffer();
 
     /**
      * The comparator in order to sort attribute correctly.
      */
-    private AttributeComparator comparator = new AttributeComparator();
+    private final AttributeComparator comparator = new AttributeComparator();
 
     /**
      * The weight of the current element.
@@ -269,7 +272,7 @@ public final class SAXRecorder implements XMLRecorder {
     private transient List<Integer> weights = new ArrayList<Integer>();
 
     /**
-     * The factory that will produce events according to the configuration. 
+     * The factory that will produce events according to the configuration.
      */
     private transient EventFactory efactory;
 
@@ -279,18 +282,20 @@ public final class SAXRecorder implements XMLRecorder {
     private transient TextTokenizer tokenizer;
 
     /**
-     * @see org.xml.sax.ContentHandler#startDocument() 
+     * @see org.xml.sax.ContentHandler#startDocument()
      */
+    @Override
     public void startDocument() {
       SAXRecorder.this.sequence = new EventSequence();
       this.efactory = new EventFactory(SAXRecorder.this.config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
-	    SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
+      SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
       SAXRecorder.this.sequence.mapPrefix(uri, prefix);
     }
@@ -298,26 +303,30 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes atts) {
       recordCharacters();
-      if (this.currentWeight > 0) this.weights.add(new Integer(this.currentWeight));
+      if (this.currentWeight > 0) {
+        this.weights.add(new Integer(this.currentWeight));
+      }
       this.currentWeight = 1;
       OpenElementEvent open = this.efactory.makeOpenElement(uri, localName, qName);
       this.openElements.add(open);
-      sequence.addEvent(open);
+      SAXRecorder.this.sequence.addEvent(open);
       handleAttributes(atts);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void endElement(String uri, String localName, String qName) {
       recordCharacters();
       OpenElementEvent open = popLastOpenElement();
       open.setWeight(this.currentWeight);
-      CloseElementEvent close = efactory.makeCloseElement(open);
+      CloseElementEvent close = this.efactory.makeCloseElement(open);
       close.setWeight(this.currentWeight);
-      sequence.addEvent(close);
+      SAXRecorder.this.sequence.addEvent(close);
       // calculate weights
       this.currentWeight += popWeight();
     }
@@ -325,6 +334,7 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void characters(char[] buf, int pos, int len) {
       this.ch.append(buf, pos, len);
     }
@@ -332,6 +342,7 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void ignorableWhitespace(char[] buf1, int pos, int len) {
       // this method is only useful if the XML provides a Schema or DTD
       // to define in which cases whitespaces can be considered ignorable.
@@ -342,14 +353,16 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void processingInstruction(String target, String data) {
-      sequence.addEvent(new ProcessingInstructionEvent(target, data));
+      SAXRecorder.this.sequence.addEvent(new ProcessingInstructionEvent(target, data));
       this.currentWeight++;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void endDocument() throws SAXException {
     }
 
@@ -360,7 +373,7 @@ public final class SAXRecorder implements XMLRecorder {
       if (this.ch != null) {
         List<TextEvent> events = this.tokenizer.tokenize(this.ch);
         for (TextEvent e : events) {
-          sequence.addEvent(e);
+          SAXRecorder.this.sequence.addEvent(e);
         }
         this.currentWeight += events.size();
         this.ch.setLength(0);
@@ -396,34 +409,35 @@ public final class SAXRecorder implements XMLRecorder {
     private void handleAttributes(Attributes atts) {
       // only one attribute
       if (atts.getLength() == 1) {
-        sequence.addEvent(efactory.makeAttribute(atts.getURI(0),
-                                                 atts.getLocalName(0),
-                                                 atts.getQName(0),
-                                                 atts.getValue(0)));
-      // several attributes
+        SAXRecorder.this.sequence.addEvent(this.efactory.makeAttribute(atts.getURI(0),
+            atts.getLocalName(0),
+            atts.getQName(0),
+            atts.getValue(0)));
+        // several attributes
       } else if (atts.getLength() > 1) {
         // store all the attributes
         AttributeEvent[] attEvents = new AttributeEvent[atts.getLength()];
         for (int i = 0; i < atts.getLength(); i++) {
-          attEvents[i] = efactory.makeAttribute(atts.getURI(i),
-                                                atts.getLocalName(i),
-                                                atts.getQName(i),
-                                                atts.getValue(i));
+          attEvents[i] = this.efactory.makeAttribute(atts.getURI(i),
+              atts.getLocalName(i),
+              atts.getQName(i),
+              atts.getValue(i));
           attEvents[i].setWeight(2);
           this.currentWeight += 2;
         }
         // sort them
-        Arrays.sort(attEvents, comparator);
+        Arrays.sort(attEvents, this.comparator);
         // add them to the sequence
-        for (int i = 0; i < attEvents.length; i++)
-          sequence.addEvent(attEvents[i]);
+        for (AttributeEvent attEvent : attEvents) {
+          SAXRecorder.this.sequence.addEvent(attEvent);
+        }
       }
     }
 
   }
 
   /**
-   * A tight error handler that will throw an exception for any error type. 
+   * A tight error handler that will throw an exception for any error type.
    * 
    * ErrorHandler used only so that namepsace related errors are reported ???
    * (they are error type and not fatal error).

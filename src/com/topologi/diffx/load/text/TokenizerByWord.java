@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load.text;
@@ -35,10 +35,10 @@ public final class TokenizerByWord implements TextTokenizer {
   /**
    * Map characters to events in order to recycle events as they are created.
    */
-  private Map<String, TextEvent> recycling = new HashMap<String, TextEvent>();  
+  private final Map<String, TextEvent> recycling = new HashMap<String, TextEvent>();
 
   /**
-   * Define the whitespace processing. 
+   * Define the whitespace processing.
    */
   private final WhiteSpaceProcessing whitespace;
 
@@ -101,7 +101,7 @@ public final class TokenizerByWord implements TextTokenizer {
   /**
    * Returns the word event corresponding to the specified characters.
    * 
-   * @param word the characters of the word 
+   * @param word the characters of the word
    * @return the corresponding word event
    */
   private TextEvent getWordEvent(String word) {
@@ -116,17 +116,18 @@ public final class TokenizerByWord implements TextTokenizer {
   /**
    * Returns the space event corresponding to the specified characters.
    * 
-   * @param word the characters of the space 
+   * @param word the characters of the space
    * @return the corresponding space event
    */
   private TextEvent getSpaceEvent(String space) {
     // preserve the actual white space used
     TextEvent e = this.recycling.get(space);
     if (e == null) {
-      if (this.whitespace == WhiteSpaceProcessing.PRESERVE)
+      if (this.whitespace == WhiteSpaceProcessing.PRESERVE) {
         e = new IgnorableSpaceEvent(space);
-      else 
+      } else {
         e = SpaceEvent.getInstance(space);
+      }
       this.recycling.put(space, e);
     }
     return e;

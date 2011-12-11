@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx;
@@ -38,9 +38,9 @@ import com.topologi.diffx.format.SafeXMLFormatter;
 import com.topologi.diffx.format.SmartXMLFormatter;
 import com.topologi.diffx.format.StrictXMLFormatter;
 import com.topologi.diffx.format.XMLDiffXFormatter;
+import com.topologi.diffx.load.DOMRecorder;
 import com.topologi.diffx.load.Recorder;
 import com.topologi.diffx.load.SAXRecorder;
-import com.topologi.diffx.load.DOMRecorder;
 import com.topologi.diffx.load.TextRecorder;
 import com.topologi.diffx.sequence.EventSequence;
 import com.topologi.diffx.sequence.SequenceSlicer;
@@ -60,7 +60,7 @@ public final class Main {
   private Main() {
   }
 
-// equivalent methods -------------------------------------------------------------------  
+  // equivalent methods -------------------------------------------------------------------
 
   /**
    * Returns <code>true</code> if the two specified files are XML equivalent by looking at the
@@ -75,7 +75,7 @@ public final class Main {
    * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
-  public static boolean equivalent(File xml1, File xml2) 
+  public static boolean equivalent(File xml1, File xml2)
       throws DiffXException, IOException {
     Recorder recorder = new SAXRecorder();
     EventSequence seq0 = recorder.process(xml1);
@@ -89,7 +89,7 @@ public final class Main {
    *
    * @param xml1 The first XML stream to compare.
    * @param xml2 The first XML stream to compare.
-   *   
+   * 
    * @return <code>true</code> If the XML are considered equivalent;
    *         <code>false</code> otherwise.
    * 
@@ -110,7 +110,7 @@ public final class Main {
    *
    * @param xml1 The first XML stream to compare.
    * @param xml2 The first XML stream to compare.
-   *  
+   * 
    * @return <code>true</code> If the XML are considered equivalent;
    *         <code>false</code> otherwise.
    * 
@@ -125,10 +125,10 @@ public final class Main {
     return seq0.equals(seq1);
   }
 
-// diff methods -------------------------------------------------------------------------
+  // diff methods -------------------------------------------------------------------------
 
   /**
-   * Compares the two specified XML nodes and prints the diff onto the given writer. 
+   * Compares the two specified XML nodes and prints the diff onto the given writer.
    *
    * @param xml1   The first XML node to compare.
    * @param xml2   The second XML node to compare.
@@ -142,7 +142,9 @@ public final class Main {
       throws DiffXException, IOException {
     // records the events from the XML
     DOMRecorder loader = new DOMRecorder();
-    if (config != null) loader.setConfig(config);
+    if (config != null) {
+      loader.setConfig(config);
+    }
     EventSequence seq1 = loader.process(xml1);
     EventSequence seq2 = loader.process(xml2);
     // start slicing
@@ -150,7 +152,7 @@ public final class Main {
   }
 
   /**
-   * Compares the two specified <code>NodeList</code>s and prints the diff onto the given writer. 
+   * Compares the two specified <code>NodeList</code>s and prints the diff onto the given writer.
    *
    * <p>Only the first node in the node list is sequenced.
    *
@@ -166,7 +168,9 @@ public final class Main {
       throws DiffXException, IOException {
     // records the events from the XML
     DOMRecorder loader = new DOMRecorder();
-    if (config != null) loader.setConfig(config);
+    if (config != null) {
+      loader.setConfig(config);
+    }
     EventSequence seq1 = loader.process(xml1);
     EventSequence seq2 = loader.process(xml2);
     // start slicing
@@ -174,7 +178,7 @@ public final class Main {
   }
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified xml files and prints the diff onto the given writer.
    *
    * @param xml1   The first XML reader to compare.
    * @param xml2   The first XML reader to compare.
@@ -188,7 +192,9 @@ public final class Main {
       throws DiffXException, IOException {
     // records the events from the XML
     SAXRecorder recorder = new SAXRecorder();
-    if (config != null) recorder.setConfig(config);
+    if (config != null) {
+      recorder.setConfig(config);
+    }
     EventSequence seq1 = recorder.process(new InputSource(xml1));
     EventSequence seq2 = recorder.process(new InputSource(xml2));
     // start slicing
@@ -196,12 +202,12 @@ public final class Main {
   }
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified xml files and prints the diff onto the given writer.
    *
    * @param xml1 The first XML reader to compare.
    * @param xml2 The first XML reader to compare.
    * @param out  Where the output goes
-   *   
+   * 
    * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
@@ -216,7 +222,7 @@ public final class Main {
   }
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified xml files and prints the diff onto the given writer.
    *
    * @param xml1 The first XML input stream to compare.
    * @param xml2 The first XML input stream to compare.
@@ -235,7 +241,7 @@ public final class Main {
   }
 
   /**
-   * Compares the two specified xml files and prints the diff onto the given writer. 
+   * Compares the two specified xml files and prints the diff onto the given writer.
    *
    * @param seq1   The first XML reader to compare.
    * @param seq2   The first XML reader to compare.
@@ -250,8 +256,10 @@ public final class Main {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     formatter.declarePrefixMapping(seq1.getPrefixMapping());
     formatter.declarePrefixMapping(seq2.getPrefixMapping());
-    
-    if (config != null) formatter.setConfig(config);
+
+    if (config != null) {
+      formatter.setConfig(config);
+    }
     SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
     slicer.slice();
     slicer.formatStart(formatter);
@@ -260,10 +268,10 @@ public final class Main {
     slicer.formatEnd(formatter);
   }
 
-// command line ------------------------------------------------------------------------- 
+  // command line -------------------------------------------------------------------------
 
   /**
-   * Main entry point from the command line. 
+   * Main entry point from the command line.
    * 
    * @param args The command-line arguments
    * 
@@ -271,7 +279,9 @@ public final class Main {
    */
   public static void main(String[] args) throws Exception {
     // TODO: better command-line interface
-    if (args.length < 2) usage();
+    if (args.length < 2) {
+      usage();
+    }
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);
       boolean slice = !CommandLine.hasSwitch("-noslice", args);
@@ -287,13 +297,17 @@ public final class Main {
       EventSequence seq1 = recorder.process(xml1);
       EventSequence seq2 = recorder.process(xml2);
       long t1 = System.currentTimeMillis();
-      if (profile) System.err.println("Loaded files in "+(t1 - t0)+"ms");
+      if (profile) {
+        System.err.println("Loaded files in "+(t1 - t0)+"ms");
+      }
 
       // get the config
       DiffXConfig config = new DiffXConfig();
       config.setGranularity(getTextGranularity(args));
       config.setWhiteSpaceProcessing(getWhiteSpaceProcessing(args));
-      if (!quiet) System.err.println("Whitespace processing: "+getTextGranularity(args)+" "+getWhiteSpaceProcessing(args));
+      if (!quiet) {
+        System.err.println("Whitespace processing: "+getTextGranularity(args)+" "+getWhiteSpaceProcessing(args));
+      }
 
       // get and setup the formatter
       Writer out = new OutputStreamWriter(getOutput(args), "utf-8");
@@ -312,7 +326,9 @@ public final class Main {
       }
 
       // start algorithm
-      if (!quiet) System.err.println("Matrix: "+seq1.size()+"x"+seq2.size());
+      if (!quiet) {
+        System.err.println("Matrix: "+seq1.size()+"x"+seq2.size());
+      }
       DiffXAlgorithm df = getAlgorithm(args, seq1, seq2);
       df.process(formatter);
 
@@ -322,7 +338,9 @@ public final class Main {
       }
 
       long t2 = System.currentTimeMillis();
-      if (profile) System.err.println("Executed algorithm files in "+(t2 - t1)+"ms");
+      if (profile) {
+        System.err.println("Executed algorithm files in "+(t2 - t1)+"ms");
+      }
 
     } catch (Throwable ex) {
       ex.printStackTrace();
@@ -369,10 +387,11 @@ public final class Main {
       return new DOMRecorder();
     else if ("text".equals(loaderArg))
       return new TextRecorder();
-    else
+    else {
       usage();
+    }
     return null;
-   }
+  }
 
   /**
    * @param args The command line arguments.
@@ -406,8 +425,9 @@ public final class Main {
       return new DiffXKumarRangan(seq1, seq2);
     else if ("wesyma".equals(loaderArg))
       return new DiffXFitWesyma(seq1, seq2);
-    else
+    else {
       usage();
+    }
     return null;
   }
 
@@ -429,8 +449,9 @@ public final class Main {
       return new StrictXMLFormatter(out);
     else if ("short".equals(formatArg))
       return new StrictXMLFormatter(out);
-    else
+    else {
       usage();
+    }
     return null;
   }
 
@@ -447,8 +468,9 @@ public final class Main {
       return WhiteSpaceProcessing.COMPARE;
     else if ("ignore".equals(formatArg))
       return WhiteSpaceProcessing.IGNORE;
-    else
+    else {
       usage();
+    }
     return null;
   }
 
@@ -465,8 +487,9 @@ public final class Main {
       return TextGranularity.TEXT;
     else if ("character".equals(formatArg))
       return TextGranularity.CHARACTER;
-    else
+    else {
       usage();
+    }
     return null;
   }
 }

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load.text;
@@ -13,7 +13,7 @@ import com.topologi.diffx.config.TextGranularity;
 /**
  * Factory for tokenizers.
  * 
- * <p>This class is designed to returned tokenizers that corresponds to the given configuration. 
+ * <p>This class is designed to returned tokenizers that corresponds to the given configuration.
  * 
  * @author Christophe Lauret
  * @version 10 May 2010

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -13,7 +13,7 @@ import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.DiffXEvent;
 
 /**
- * An interface for formatting the output of the Diff-X algorithm. 
+ * An interface for formatting the output of the Diff-X algorithm.
  * 
  * @author Christophe Lauret
  * @version 15 December 2004

@@ -9,11 +9,11 @@ package com.topologi.diffx.load;
 import java.util.Comparator;
 
 import com.topologi.diffx.event.AttributeEvent;
-import com.topologi.diffx.event.impl.AttributeEventNSImpl;
 import com.topologi.diffx.event.impl.AttributeEventImpl;
+import com.topologi.diffx.event.impl.AttributeEventNSImpl;
 
 /**
- * A comparator in order to put attributes in the correct order, that is in the alphabetical order 
+ * A comparator in order to put attributes in the correct order, that is in the alphabetical order
  * of the attribute name and namespace URI.
  * 
  * @author Christophe Lauret
@@ -45,7 +45,7 @@ final class AttributeComparator implements Comparator<AttributeEvent> {
    *         than the second.
    */
   public int compare(AttributeEventImpl att1, AttributeEventImpl att2) {
-    return (att1.getName()).compareTo(att2.getName());
+    return att1.getName().compareTo(att2.getName());
   }
 
   /**
@@ -58,7 +58,7 @@ final class AttributeComparator implements Comparator<AttributeEvent> {
    *         than the second.
    */
   public int compare(AttributeEventNSImpl att1, AttributeEventNSImpl att2) {
-    return (toCName(att1)).compareTo(toCName(att2));
+    return toCName(att1).compareTo(toCName(att2));
   }
 
   /**
@@ -68,7 +68,7 @@ final class AttributeComparator implements Comparator<AttributeEvent> {
    * @return The comparable name.
    */
   private static String toCName(AttributeEventNSImpl att) {
-    return (att.getURI() != null)? att.getURI() + ':' + att.getName() : att.getName();
+    return att.getURI() != null? att.getURI() + ':' + att.getName() : att.getName();
   }
 
 }

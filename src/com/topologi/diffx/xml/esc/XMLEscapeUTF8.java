@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -47,8 +47,8 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
    */
   public String toAttributeValue(char[] ch, int off, int len) {
     // process the rest
-    StringBuffer out = new StringBuffer(len + (len / 10));
-    for (int i = off; i < (off+len); i++) {
+    StringBuffer out = new StringBuffer(len + len / 10);
+    for (int i = off; i < off+len; i++) {
       switch (ch[i]) {
         // ignore control characters
         case 0x00:
@@ -82,7 +82,7 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
         case 0x1F:
         case 0x7F:
           break;
-        // escape illegal characters
+          // escape illegal characters
         case '&' :
           out.append("&amp;");
           break;
@@ -95,7 +95,7 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
         case '\'' :
           out.append("&apos;");
           break;
-        // output by default
+          // output by default
         default:
           out.append(ch[i]);
       }
@@ -124,8 +124,8 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
    */
   public String toElementText(char[] ch, int off, int len) {
     // process the rest
-    StringBuffer out = new StringBuffer(len + (len / 10));
-    for (int i = off; i < (off+len); i++) {
+    StringBuffer out = new StringBuffer(len + len / 10);
+    for (int i = off; i < off+len; i++) {
       switch (ch[i]) {
         // ignore control characters
         case 0x00:
@@ -159,14 +159,14 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
         case 0x1F:
         case 0x7F:
           break;
-        // escape illegal characters
+          // escape illegal characters
         case '&' :
           out.append("&amp;");
           break;
         case '<' :
           out.append("&lt;");
           break;
-        // output by default
+          // output by default
         default:
           out.append(ch[i]);
       }

@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.load.text;
@@ -29,7 +29,7 @@ import com.topologi.diffx.event.impl.SpaceEvent;
 public final class TokenizerByText implements TextTokenizer {
 
   /**
-   * Define the whitespace processing. 
+   * Define the whitespace processing.
    */
   private final WhiteSpaceProcessing whitespace;
 
@@ -74,15 +74,23 @@ public final class TokenizerByText implements TextTokenizer {
     switch (this.whitespace) {
       case COMPARE:
         events = new ArrayList<TextEvent>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
-        if (x > 0) events.add(SpaceEvent.getInstance(seq.subSequence(0, x)));
+        if (x > 0) {
+          events.add(SpaceEvent.getInstance(seq.subSequence(0, x)));
+        }
         events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
-        if (y > 0) events.add(SpaceEvent.getInstance(seq.subSequence(seq.length()-y, seq.length())));
+        if (y > 0) {
+          events.add(SpaceEvent.getInstance(seq.subSequence(seq.length()-y, seq.length())));
+        }
         break;
       case PRESERVE:
         events = new ArrayList<TextEvent>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
-        if (x > 0) events.add(new IgnorableSpaceEvent(seq.subSequence(0, x)));
+        if (x > 0) {
+          events.add(new IgnorableSpaceEvent(seq.subSequence(0, x)));
+        }
         events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
-        if (y > 0) events.add(new IgnorableSpaceEvent(seq.subSequence(seq.length()-y, seq.length())));
+        if (y > 0) {
+          events.add(new IgnorableSpaceEvent(seq.subSequence(seq.length()-y, seq.length())));
+        }
         break;
       case IGNORE:
         TextEvent e = new CharactersEvent(seq.subSequence(x, seq.length()-y));

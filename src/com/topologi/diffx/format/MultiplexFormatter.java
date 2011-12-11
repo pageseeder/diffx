@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -22,14 +22,14 @@ import com.topologi.diffx.event.DiffXEvent;
  */
 public final class MultiplexFormatter implements DiffXFormatter {
 
-// class attributes ---------------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------------
 
   /**
    * the list of formatters to use.
    */
   private final List<DiffXFormatter> formatters;
 
-// constructors -------------------------------------------------------------------------------
+  // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter without any underlying formatters.
@@ -48,7 +48,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
     this.formatters.add(f);
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
    * Adds a formatter to multiplex.
@@ -60,34 +60,38 @@ public final class MultiplexFormatter implements DiffXFormatter {
   }
 
   /**
-   * @see DiffXFormatter#format(DiffXEvent) 
+   * @see DiffXFormatter#format(DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-    for (DiffXFormatter f : this.formatters)
+    for (DiffXFormatter f : this.formatters) {
       f.format(e);
+    }
   }
 
   /**
    * @see DiffXFormatter#insert(DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    for (DiffXFormatter f : this.formatters)
+    for (DiffXFormatter f : this.formatters) {
       f.insert(e);
+    }
   }
 
   /**
    * @see DiffXFormatter#delete(DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException, IllegalStateException {
-    for (DiffXFormatter f : this.formatters)
+    for (DiffXFormatter f : this.formatters) {
       f.delete(e);
+    }
   }
 
   /**
    * @see DiffXFormatter#setConfig(DiffXConfig)
    */
   public void setConfig(DiffXConfig config) {
-    for (DiffXFormatter f : this.formatters)
+    for (DiffXFormatter f : this.formatters) {
       f.setConfig(config);
+    }
   }
 }

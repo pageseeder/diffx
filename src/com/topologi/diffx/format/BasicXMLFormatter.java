@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.format;
@@ -12,18 +12,17 @@ import java.io.Writer;
 import java.util.Enumeration;
 import java.util.Stack;
 
-
 import com.topologi.diffx.config.DiffXConfig;
 import com.topologi.diffx.event.AttributeEvent;
 import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.DiffXEvent;
-import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.OpenElementEvent;
+import com.topologi.diffx.event.TextEvent;
 import com.topologi.diffx.event.impl.ProcessingInstructionEvent;
 import com.topologi.diffx.sequence.PrefixMapping;
 import com.topologi.diffx.util.Constants;
-import com.topologi.diffx.xml.XMLWriterNSImpl;
 import com.topologi.diffx.xml.XMLWriter;
+import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * A XML formatter that simply uses a different namespace for any inserted or modified
@@ -55,7 +54,7 @@ import com.topologi.diffx.xml.XMLWriter;
  */
 public final class BasicXMLFormatter implements XMLDiffXFormatter {
 
-// class attributes ---------------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------------
 
   /**
    * The output goes here.
@@ -65,19 +64,19 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * The DiffX configuration to use
    */
-  private DiffXConfig config = new DiffXConfig(); 
+  private DiffXConfig config = new DiffXConfig();
 
-// state variables ----------------------------------------------------------------------------
+  // state variables ----------------------------------------------------------------------------
 
   /**
    * Set to <code>true</code> to include the XML declaration. This attribute is
    * set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
-   * is called with <code>false</code> or once the XML declaration has been written. 
+   * is called with <code>false</code> or once the XML declaration has been written.
    */
   private transient boolean writeXMLDeclaration = true;
 
   /**
-   * Indicates whether the XML writer has been setup already. 
+   * Indicates whether the XML writer has been setup already.
    */
   private transient boolean isSetup = false;
 
@@ -100,7 +99,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    */
   private transient Stack<AttributeEvent> delAttributes = new Stack<AttributeEvent>();
 
-// constructors -------------------------------------------------------------------------------
+  // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter using the specified writer.
@@ -110,24 +109,29 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    * @throws NullPointerException If the specified writer is <code>null</code>.
    */
   public BasicXMLFormatter(Writer w) throws NullPointerException {
-	if (w == null)
+    if (w == null)
       throw new NullPointerException("The XML formatter requires a writer");
     this.xml = new XMLWriterNSImpl(w, false);
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
-   * @see DiffXFormatter#format(DiffXEvent) 
+   * @see DiffXFormatter#format(DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-	  if (!isSetup) setUpXML();
+    if (!this.isSetup) {
+      setUpXML();
+    }
     endTextChange();
-    if (!(e instanceof AttributeEvent)) flushAttributes();
-    e.toXML(xml);
+    if (!(e instanceof AttributeEvent)) {
+      flushAttributes();
+    }
+    e.toXML(this.xml);
     if (e instanceof TextEvent)
-      if (config.isIgnoreWhiteSpace() && !config.isPreserveWhiteSpace())
+      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
+      }
     this.xml.flush();
   }
 
@@ -151,48 +155,52 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    * @param e   The diff-x event that has been inserted or deleted.
    * @param mod The modification flag (positive for inserts, negative for deletes).
    *
-   * @throws IOException an I/O exception if an error occurs. 
+   * @throws IOException an I/O exception if an error occurs.
    */
   private void change(DiffXEvent e, int mod) throws IOException {
-    if (!isSetup) setUpXML();
+    if (!this.isSetup) {
+      setUpXML();
+    }
     // change in element
     if (e instanceof OpenElementEvent) {
       flushAttributes();
       endTextChange();
-      this.xml.openElement((mod > 0)? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
+      this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
       this.xml.attribute("name", ((OpenElementEvent)e).getName());
       this.xml.attribute("ns-uri", ((OpenElementEvent)e).getURI());
 
-    // change in element
+      // change in element
     } else if (e instanceof CloseElementEvent) {
       flushAttributes();
       endTextChange();
       this.xml.closeElement();
 
-    // change in text
+      // change in text
     } else if (e instanceof TextEvent) {
       flushAttributes();
       switchTextChange(mod);
       e.toXML(this.xml);
-      if (config.isIgnoreWhiteSpace() && !config.isPreserveWhiteSpace())
+      if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
+      }
 
-    // put the attribute as part of the 'delete' namespace
+      // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeEvent) {
-      if (mod > 0)
+      if (mod > 0) {
         this.insAttributes.push((AttributeEvent)e);
-      else
+      } else {
         this.delAttributes.push((AttributeEvent)e);
+      }
 
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof ProcessingInstructionEvent) {
       flushAttributes();
       endTextChange();
-      this.xml.openElement((mod > 0)? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "processing-instruction", false);
+      this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "processing-instruction", false);
       this.xml.attribute("data", ((ProcessingInstructionEvent)e).getData());
       this.xml.attribute("target", ((ProcessingInstructionEvent)e).getTarget());
 
-    // just format naturally
+      // just format naturally
     } else {
       flushAttributes();
       endTextChange();
@@ -227,7 +235,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     }
   }
 
-// private helpers ----------------------------------------------------------------------------
+  // private helpers ----------------------------------------------------------------------------
 
   /**
    * Set up the XML.
@@ -235,11 +243,13 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    * @throws IOException an I/O exception if an error occurs.
    */
   private void setUpXML() throws IOException {
-    if (this.writeXMLDeclaration) this.xml.xmlDecl();
-  	this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
-	  this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
-	  this.writeXMLDeclaration = false;
-	  this.isSetup = true;
+    if (this.writeXMLDeclaration) {
+      this.xml.xmlDecl();
+    }
+    this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
+    this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
+    this.writeXMLDeclaration = false;
+    this.isSetup = true;
   }
 
   /**
@@ -264,14 +274,18 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   private void switchTextChange(int mod) throws IOException {
     // insert
     if (mod > 0) {
-      if (this.textFormat < 0) this.xml.closeElement();
+      if (this.textFormat < 0) {
+        this.xml.closeElement();
+      }
       if (this.textFormat <= 0) {
         this.xml.openElement(Constants.INSERT_NS_URI, "text", false);
         this.textFormat = +1;
       }
-    // delete
+      // delete
     } else {
-      if (this.textFormat > 0) this.xml.closeElement();
+      if (this.textFormat > 0) {
+        this.xml.closeElement();
+      }
       if (this.textFormat >= 0) {
         this.xml.openElement(Constants.DELETE_NS_URI, "text", false);
         this.textFormat = -1;
@@ -302,10 +316,12 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
       AttributeEvent att = atts.pop();
       this.xml.openElement(uri, "attribute", false);
       this.xml.attribute("name", att.getName());
-      if (att.getURI() != null) this.xml.attribute("ns-uri", att.getURI());
+      if (att.getURI() != null) {
+        this.xml.attribute("ns-uri", att.getURI());
+      }
       this.xml.attribute("value", att.getValue());
       this.xml.closeElement();
-    } 
+    }
   }
 
 }

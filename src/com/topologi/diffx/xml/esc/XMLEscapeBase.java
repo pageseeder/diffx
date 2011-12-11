@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -30,7 +30,7 @@ abstract class XMLEscapeBase implements XMLEscape {
   }
 
   /**
-   * Default implementation calling the {@link XMLEscape#toAttributeValue(char[], int, int)}. 
+   * Default implementation calling the {@link XMLEscape#toAttributeValue(char[], int, int)}.
    * 
    * {@inheritDoc}
    */
@@ -40,7 +40,7 @@ abstract class XMLEscapeBase implements XMLEscape {
   }
 
   /**
-   * Default implementation calling the {@link XMLEscape#toAttributeValue(char[], int, int)}. 
+   * Default implementation calling the {@link XMLEscape#toAttributeValue(char[], int, int)}.
    * 
    * {@inheritDoc}
    */

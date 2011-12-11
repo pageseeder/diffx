@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.sax;
@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.xml.sax.SAXException;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DTDHandler;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import com.topologi.diffx.xml.XMLWritable;
 import com.topologi.diffx.xml.XMLWriter;
@@ -25,16 +25,16 @@ import com.topologi.diffx.xml.XMLWriter;
 /**
  * An XMLReader implementation that can be used to parse XMLWritable objects.
  * 
- * <p>Typically, XMLWritable objects are wrapped into an 
+ * <p>Typically, XMLWritable objects are wrapped into an
  * <code>XMLWritableInputSource</code> so that the <code>XMLReader</code> API
  * methods are used; however, it is perfectly possible to parse directly an
- * <code>XMLWritable</code> object. 
+ * <code>XMLWritable</code> object.
  * 
  * @see org.xml.sax.XMLReader
  * @see com.topologi.diffx.xml.XMLWritable
  * @see com.topologi.diffx.xml.sax.XMLWritableInputSource
  * 
- * @author  Christophe Lauret 
+ * @author  Christophe Lauret
  * @version 27 May 2005
  */
 public final class XMLWritableReader implements XMLReader {
@@ -52,7 +52,7 @@ public final class XMLWritableReader implements XMLReader {
   /**
    * The features used by this XML reader implementation.
    */
-  private Map<String, Boolean> features = new HashMap<String, Boolean>();
+  private final Map<String, Boolean> features = new HashMap<String, Boolean>();
 
   /**
    * The content reader this XMLReader will use.
@@ -60,14 +60,14 @@ public final class XMLWritableReader implements XMLReader {
   private ContentHandler handler;
 
   /**
-   * Creates a new XML Reader. 
+   * Creates a new XML Reader.
    */
   public XMLWritableReader() {
     setFeature(NAMESPACES, true);
     setFeature(NS_PREFIXES, false);
   }
 
-// XMLReader methods implementation -----------------------------------------------------
+  // XMLReader methods implementation -----------------------------------------------------
 
   /**
    * @see org.xml.sax.XMLReader#getContentHandler()
@@ -155,8 +155,8 @@ public final class XMLWritableReader implements XMLReader {
    * @see org.xml.sax.XMLReader#getFeature(String)
    */
   public boolean getFeature(java.lang.String name) {
-	// TODO: handling of features
-    return features.get(name).booleanValue();
+    // TODO: handling of features
+    return this.features.get(name).booleanValue();
   }
 
   /**
@@ -172,8 +172,8 @@ public final class XMLWritableReader implements XMLReader {
    */
   public void parse(String systemId) throws IOException, SAXException {
     throw new SAXException(
-      this.getClass().getName()
-      + " cannot be used with system identifiers (URIs)");
+        this.getClass().getName()
+        + " cannot be used with system identifiers (URIs)");
   }
 
   /**
@@ -182,9 +182,8 @@ public final class XMLWritableReader implements XMLReader {
   public void parse(InputSource input) throws IOException, SAXException {
     if (input instanceof XMLWritableInputSource) {
       parse((XMLWritableInputSource)input);
-    } else {
+    } else
       throw new SAXException("Unsupported InputSource specified. Must be a XMLWritableInputSource");
-    }
   }
 
   /**

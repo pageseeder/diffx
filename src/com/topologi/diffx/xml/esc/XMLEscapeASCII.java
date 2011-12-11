@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -47,16 +47,18 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    */
   public String toAttributeValue(char[] ch, int off, int len) {
     // process the rest
-    StringBuffer out = new StringBuffer(len + (len / 10));
-    for (int i = off; i < (off+len); i++) {
+    StringBuffer out = new StringBuffer(len + len / 10);
+    for (int i = off; i < off+len; i++) {
       // 0x00 to 0x1F
       if (ch[i] < 0x20) {
         // tabs, new lines and line feeds: preserve
-        if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D)
+        if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D) {
           out.append(ch[i]);
-        // ignore control characters (C0): prune
-        else doNothing();
-      // 0x20 to 0x7F
+        }
+        else {
+          doNothing();
+          // 0x20 to 0x7F
+        }
       } else if (ch[i] < 0x80) {
         switch (ch[i]) {
           case '&' :
@@ -71,14 +73,14 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
           case '\'' :
             out.append("&apos;");
             break;
-          // output by default
+            // output by default
           default:
             out.append(ch[i]);
         }
-      // control characters (C1): prune
+        // control characters (C1): prune
       } else if (ch[i] < 0xA0) {
         doNothing();
-      // all other characters: use numerical character entity
+        // all other characters: use numerical character entity
       } else {
         out.append("&#x").append((int)ch[i]).append(';');
       }
@@ -107,16 +109,18 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    */
   public String toElementText(char[] ch, int off, int len) {
     // process the rest
-    StringBuffer out = new StringBuffer(len + (len / 10));
-    for (int i = off; i < (off+len); i++) {
+    StringBuffer out = new StringBuffer(len + len / 10);
+    for (int i = off; i < off+len; i++) {
       // 0x00 to 0x1F
       if (ch[i] < 0x20) {
         // tabs, new lines and line feeds: preserve
-        if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D)
+        if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D) {
           out.append(ch[i]);
-        // ignore control characters (C0): prune
-        else doNothing();
-      // 0x20 to 0x7F
+        }
+        else {
+          doNothing();
+          // 0x20 to 0x7F
+        }
       } else if (ch[i] < 0x80) {
         switch (ch[i]) {
           case '&' :
@@ -125,14 +129,14 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
           case '<' :
             out.append("&lt;");
             break;
-          // output by default
+            // output by default
           default:
             out.append(ch[i]);
         }
-      // control characters (C1): prune
+        // control characters (C1): prune
       } else if (ch[i] < 0xA0) {
         doNothing();
-      // all other characters: use numerical character entity
+        // all other characters: use numerical character entity
       } else {
         out.append("&#x").append((int)ch[i]).append(';');
       }
@@ -141,7 +145,7 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
   }
 
   /**
-   * Does nothing. 
+   * Does nothing.
    */
   private void doNothing() {
   }

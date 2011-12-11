@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.sequence;
@@ -10,21 +10,20 @@ package com.topologi.diffx.sequence;
 import java.io.IOException;
 import java.util.Iterator;
 
-
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.format.DiffXFormatter;
 
 
 /**
- * The slicer takes two sequences and removes the common elements from the beginning 
- * and the end of the chain so that only the smallest sequences are passed to the 
+ * The slicer takes two sequences and removes the common elements from the beginning
+ * and the end of the chain so that only the smallest sequences are passed to the
  * DiffXAlgorithmBase.
  * 
  * <p>The slice does modify the original sequences.
  * 
  * <p>Note: Using this class may lead to problems in the execution of the Diff-X
  * algorithm and incorrect results, because it could potentially take off some parts
- * that helps the Diff-X algorithm ensuring that the XML is well-formed.  
+ * that helps the Diff-X algorithm ensuring that the XML is well-formed.
  * 
  * @author Christophe Lauret
  * @version 6 December 2008
@@ -32,7 +31,7 @@ import com.topologi.diffx.format.DiffXFormatter;
 public final class NaiveSequenceSlicer {
   // FIXME: symmetrical slicing.
 
-// class attributes ---------------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------------
 
   /**
    * The first sequence of events to test.
@@ -54,7 +53,7 @@ public final class NaiveSequenceSlicer {
    */
   EventSequence end;
 
-// constructor --------------------------------------------------------------------------------
+  // constructor --------------------------------------------------------------------------------
 
   /**
    * Creates a new sequence slicer.
@@ -67,12 +66,12 @@ public final class NaiveSequenceSlicer {
     this.sequence2 = seq1;
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
    * Slices the start of both sequences.
    * 
-   * <p>The common start sequence will be stroed in the class until the next 
+   * <p>The common start sequence will be stroed in the class until the next
    * {@link #formatStart(DiffXFormatter)} is called.
    * 
    * @return The number of common elements at the start of the sequences.
@@ -101,7 +100,7 @@ public final class NaiveSequenceSlicer {
   /**
    * Slices the end of both sequences.
    * 
-   * <p>The common end sequence will be stored in the class until the next 
+   * <p>The common end sequence will be stored in the class until the next
    * {@link #formatEnd(DiffXFormatter)} is called.
    * 
    * @return The number of common elements at the end of the sequences.
@@ -122,7 +121,9 @@ public final class NaiveSequenceSlicer {
         this.sequence1.removeEvent(pos1--);
         this.sequence2.removeEvent(pos2--);
         this.end.addEvent(0, e1);
-      } else break;
+      } else {
+        break;
+      }
     }
     return count;
   }
@@ -133,9 +134,9 @@ public final class NaiveSequenceSlicer {
    * 
    * <p>Implementation note: although this is functionally equivalent to call successively the
    * methods {@link #sliceStart()} and {@link #formatStart(DiffXFormatter)}, this method is
-   * optimised and passes the event directly to the formatter without using a buffer. 
+   * optimised and passes the event directly to the formatter without using a buffer.
    * 
-   * @param formatter The formatter that will handle the output. 
+   * @param formatter The formatter that will handle the output.
    * 
    * @return The number of common elements at the start of the sequences.
    * 
@@ -143,8 +144,8 @@ public final class NaiveSequenceSlicer {
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    * @throws IOException If an error occurs whilst writing with the formatter.
    */
-  public int sliceStart(DiffXFormatter formatter) 
-     throws IllegalStateException, NullPointerException, IOException {
+  public int sliceStart(DiffXFormatter formatter)
+      throws IllegalStateException, NullPointerException, IOException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     int count = 0;
@@ -157,7 +158,9 @@ public final class NaiveSequenceSlicer {
         i.remove();
         j.remove();
         formatter.format(e);
-      } else break;
+      } else {
+        break;
+      }
     }
     return count;
   }
@@ -167,7 +170,7 @@ public final class NaiveSequenceSlicer {
    * formatter.
    * 
    * <p>Implementation note: although this is exactly equivalent to successive calls to the
-   * methods {@link #sliceEnd()} and {@link #formatEnd(DiffXFormatter)}. 
+   * methods {@link #sliceEnd()} and {@link #formatEnd(DiffXFormatter)}.
    * 
    * @param formatter The formatter that will handle the output.
    * 
@@ -177,8 +180,8 @@ public final class NaiveSequenceSlicer {
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    * @throws IOException If an error occurs whilst writing with the formatter.
    */
-  public int sliceEnd(DiffXFormatter formatter) 
-     throws IllegalStateException, NullPointerException, IOException {
+  public int sliceEnd(DiffXFormatter formatter)
+      throws IllegalStateException, NullPointerException, IOException {
     int count = sliceEnd();
     formatEnd(formatter);
     return count;
@@ -192,13 +195,14 @@ public final class NaiveSequenceSlicer {
    * 
    * @param formatter The formatter that will handle the output.
    * 
-   * @throws NullPointerException If the specified formatter is <code>null</code>. 
+   * @throws NullPointerException If the specified formatter is <code>null</code>.
    * @throws IOException If an error occurs whilst writing with the formatter.
    */
   public void formatStart(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.start == null) return;
-    for (int i = 0; i < this.start.size(); i++)
+    for (int i = 0; i < this.start.size(); i++) {
       formatter.format(this.start.getEvent(i));
+    }
     this.start = null;
   }
 
@@ -215,8 +219,9 @@ public final class NaiveSequenceSlicer {
    */
   public void formatEnd(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.end == null) return;
-    for (int i = 0; i < this.end.size(); i++)
+    for (int i = 0; i < this.end.size(); i++) {
       formatter.format(this.end.getEvent(i));
+    }
     this.end = null;
   }
 

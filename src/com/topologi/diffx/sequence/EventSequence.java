@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.sequence;
@@ -20,7 +20,7 @@ import com.topologi.diffx.event.DiffXEvent;
  * A sequence of events used for the Diff-X algorithm.
  * 
  * <p>This class wraps a list of <code>DiffXEvent</code>s and provide method to
- * access and modify the content of the list using strongly typed methods. 
+ * access and modify the content of the list using strongly typed methods.
  * 
  * @author Christophe Lauret
  * @version 6 December 2008
@@ -29,22 +29,22 @@ import com.topologi.diffx.event.DiffXEvent;
  */
 public final class EventSequence {
 
-// Class attributes ---------------------------------------------------------------------------
+  // Class attributes ---------------------------------------------------------------------------
 
   /**
    * The prefix mapping for the elements in this sequence.
    */
-  private PrefixMapping prefixMapping = new PrefixMapping();
+  private final PrefixMapping prefixMapping = new PrefixMapping();
 
   /**
    * The sequence of events.
    */
   private final List<DiffXEvent> sequence;
 
-// Constructors -------------------------------------------------------------------------------
+  // Constructors -------------------------------------------------------------------------------
 
   /**
-   * Creates a new event sequence. 
+   * Creates a new event sequence.
    */
   public EventSequence() {
     this.sequence = new LinkedList<DiffXEvent>();
@@ -59,12 +59,12 @@ public final class EventSequence {
     this.sequence = new ArrayList<DiffXEvent>(size);
   }
 
-// List methods -------------------------------------------------------------------------------
+  // List methods -------------------------------------------------------------------------------
 
   /**
    * Adds a sequence of events to this sequence.
    * 
-   * @param seq The sequence of events to be added. 
+   * @param seq The sequence of events to be added.
    */
   public void addSequence(EventSequence seq) {
     for (int i = 0; i < seq.size(); i++) {
@@ -75,7 +75,7 @@ public final class EventSequence {
   /**
    * Adds an event to this sequence.
    * 
-   * @param e The event to be added. 
+   * @param e The event to be added.
    */
   public void addEvent(DiffXEvent e) {
     this.sequence.add(e);
@@ -85,7 +85,7 @@ public final class EventSequence {
    * Inserts an event to this sequence at the specified position.
    * 
    * @param i The position of the event.
-   * @param e The event to be added. 
+   * @param e The event to be added.
    */
   public void addEvent(int i, DiffXEvent e) {
     this.sequence.add(i, e);
@@ -147,14 +147,15 @@ public final class EventSequence {
    * Returns the sequence of events.
    */
   public List<DiffXEvent> events() {
-	  return this.sequence;
+    return this.sequence;
   }
 
-// Object methods -----------------------------------------------------------------------------
+  // Object methods -----------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return this.sequence.size();
   }
@@ -165,7 +166,7 @@ public final class EventSequence {
    * @param seq The sequence of events to compare with this one.
    * 
    * @return <code>true</code> if the specified event sequence is equal to this one;
-   *         <code>false</code> otherwise. 
+   *         <code>false</code> otherwise.
    */
   public boolean equals(EventSequence seq) {
     if (seq == null) return false;
@@ -177,9 +178,7 @@ public final class EventSequence {
     for (int i = 0; i < this.sequence.size(); i++) {
       x1 = this.sequence.get(i);
       x2 = sequence2.get(i);
-      if (!x1.equals(x2)) {
-        return false;
-      }
+      if (!x1.equals(x2)) return false;
     }
     return true;
   }
@@ -193,8 +192,9 @@ public final class EventSequence {
    * @param o The sequence of events to compare with this one.
    * 
    * @return <code>true</code> if the specified event sequence is equal to this one;
-   *         <code>false</code> otherwise. 
+   *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(Object o) {
     if (!(o instanceof EventSequence)) return false;
     return this.equals((EventSequence)o);
@@ -205,8 +205,9 @@ public final class EventSequence {
    * 
    * @return The string representation of this sequence.
    */
+  @Override
   public String toString() {
-    return "Event Sequence ["+this.size()+"]";
+    return "Event Sequence ["+size()+"]";
   }
 
   /**
@@ -215,7 +216,7 @@ public final class EventSequence {
    * @param w The print writer receiving the SAX events.
    */
   public void export(PrintWriter w) {
-    DiffXEvent x = null; 
+    DiffXEvent x = null;
     for (int i = 0; i < this.sequence.size(); i++) {
       x = (DiffXEvent)this.sequence.get(i);
       w.println(x.toString());
@@ -228,7 +229,7 @@ public final class EventSequence {
    * 
    * @see PrefixMapping#add(String, String)
    * 
-   * @param uri    The namespace URI to map. 
+   * @param uri    The namespace URI to map.
    * @param prefix The prefix to use.
    * 
    * @throws NullPointerException if the URI or prefix is <code>null</code>
@@ -246,7 +247,7 @@ public final class EventSequence {
     return this.prefixMapping;
   }
 
-// Inner class --------------------------------------------------------------------------------
+  // Inner class --------------------------------------------------------------------------------
 
   /**
    * An iterator over the event elements in the sequences.
@@ -259,7 +260,7 @@ public final class EventSequence {
     /**
      * The wrapped iterator.
      */
-    private final Iterator<DiffXEvent> iterator; 
+    private final Iterator<DiffXEvent> iterator;
 
     /**
      * Creates a new iterator wrapping the specified list iterator.

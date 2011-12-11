@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -11,8 +11,8 @@ import java.io.IOException;
 
 import javax.xml.XMLConstants;
 
-import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.CloseElementEvent;
+import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.xml.XMLWriter;
 
@@ -61,13 +61,13 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
 
   /**
    * @return Returns the name.
-    */
+   */
   public String getName() {
     return this.open.getName();
   }
 
   /**
-   * Always return the empty URI.  
+   * Always return the empty URI.
    * 
    * @see XMLConstants#NULL_NS_URI
    * 
@@ -92,36 +92,39 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
   public boolean match(OpenElementEvent event) {
     if (event == null) return false;
     if (event == this.open) return true;
-    return (event.getName().equals(this.getName()));
+    return event.getName().equals(getName());
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return 53 + this.open.hashCode();
   }
 
   /**
    * Returns <code>true</code> if the event is a close element
-   * and has the same name.  
+   * and has the same name.
    * 
    * @param e The event to compare with this event.
    * 
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass()) return false;
     CloseElementEventImpl ce = (CloseElementEventImpl)e;
-    return (ce.getName().equals(this.getName()));
+    return ce.getName().equals(getName());
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
-    return "closeElement: "+this.getName();
+    return "closeElement: "+getName();
   }
 
   /**
@@ -135,7 +138,7 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
    * {@inheritDoc}
    */
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    xml.append("</").append(this.getName()).append('>');
+    xml.append("</").append(getName()).append('>');
     return xml;
   }
 

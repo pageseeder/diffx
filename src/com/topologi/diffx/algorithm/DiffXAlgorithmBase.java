@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.algorithm;
@@ -10,14 +10,14 @@ package com.topologi.diffx.algorithm;
 import com.topologi.diffx.sequence.EventSequence;
 
 /**
- * A base class for Diff-X algorithms. 
+ * A base class for Diff-X algorithms.
  * 
  * @author Christophe Lauret
  * @version 15 December 2004
  */
 public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
 
-// class attributes ---------------------------------------------------------------------------
+  // class attributes ---------------------------------------------------------------------------
 
   /**
    * The first sequence of events to test.
@@ -41,10 +41,10 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
 
   /**
    * The length of the LCS.
-   */ 
+   */
   protected int length = -1;
 
-// constructor --------------------------------------------------------------------------------
+  // constructor --------------------------------------------------------------------------------
 
   /**
    * Creates a new DiffX algorithm base class.
@@ -59,7 +59,7 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
     this.length2 = seq1.size();
   }
 
-// methods ------------------------------------------------------------------------------------
+  // methods ------------------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}

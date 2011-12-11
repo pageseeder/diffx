@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.event.impl;
@@ -37,6 +37,7 @@ public final class CharEvent extends DiffXEventBase {
   /**
    * {@inheritDoc}
    */
+  @Override
   public int hashCode() {
     return 79 + this.c;
   }
@@ -44,6 +45,7 @@ public final class CharEvent extends DiffXEventBase {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass()) return false;
     return this.c == ((CharEvent)e).c;
@@ -52,6 +54,7 @@ public final class CharEvent extends DiffXEventBase {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String toString() {
     return "char: '"+this.c+'\'';
   }

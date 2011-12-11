@@ -2,7 +2,7 @@
  * This file is part of the DiffX library.
  *
  * For licensing information please see the file license.txt included in the release.
- * A copy of this licence can also be found at 
+ * A copy of this licence can also be found at
  *   http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package com.topologi.diffx.xml.esc;
@@ -52,7 +52,7 @@ public interface XMLEscape {
    *
    * <p>This method should return <code>null</code> if the given
    * value is <code>null</code>.
-   *  
+   * 
    * @param value The value that needs to be attribute-escaped.
    * 
    * @return A well-formed value for the attribute.
@@ -72,7 +72,7 @@ public interface XMLEscape {
    * @param ch  The value that needs to be attribute-escaped.
    * @param off The start (offset) of the characters.
    * @param len The length of characters to.
-   *  
+   * 
    * @return A well-formed value for the text node.
    */
   String toElementText(char[] ch, int off, int len);
@@ -87,7 +87,7 @@ public interface XMLEscape {
    * value is <code>null</code>.
    * 
    * @param value The value that needs to be text-escaped.
-   *  
+   * 
    * @return A well-formed value for the text node.
    */
   String toElementText(String value);
@@ -99,5 +99,5 @@ public interface XMLEscape {
    */
   String getEncoding();
 
-  
+
 }
