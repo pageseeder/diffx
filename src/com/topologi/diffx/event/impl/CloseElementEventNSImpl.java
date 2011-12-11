@@ -12,7 +12,6 @@ import java.io.IOException;
 import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
-import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.xml.XMLWriter;
 
 /**
@@ -29,9 +28,7 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
   private final OpenElementEvent open;
 
   /**
-   * Creates a new close element event with the default URI.
-   * 
-   * @see Constants#DEFAULT_URI
+   * Creates a new close element event on the default namespace URI.
    * 
    * @param name The local name of the element
    * 

@@ -7,6 +7,8 @@
  */
 package com.topologi.diffx.util;
 
+import javax.xml.XMLConstants;
+
 /**
  * The set of constants used in this API.
  * 
@@ -21,52 +23,70 @@ public final class Constants {
   private Constants() {
   }
 
-  /**
-   * The default URI (empty).
-   */
-  public static final String DEFAULT_URI = "";
+  // Diff-x specific constants
+  // ----------------------------------------------------------------------------------------------
 
   /**
-   * The namespace used for elements that may have been modified.
+   * The namespace URI used for elements that may have been modified.
    */
   public static final String BASE_NS_URI = "http://www.topologi.com/2005/Diff-X";
 
   /**
-   * The namespace used for elements that may have been deleted.
+   * The namespace URI used for elements that may have been deleted.
    */
   public static final String DELETE_NS_URI = BASE_NS_URI + "/Delete";
 
   /**
-   * The namespace used for elements that may have been inserted.
+   * The namespace URI used for elements that may have been inserted.
    */
   public static final String INSERT_NS_URI = BASE_NS_URI + "/Insert";
 
+  // XML constants (deprecated use Java 5 XMLConstants instead)
+  // ----------------------------------------------------------------------------------------------
+
   /**
-   * The official XML Namespace prefix.
-   *
-   * Defined by the XML specification to be "xml".
+   * The default URI (empty).
+   * 
+   * Same as {@link XMLConstants#NULL_NS_URI}.
+   * 
+   * @deprecated Use {@link XMLConstants#NULL_NS_URI} instead.
    */
-  public static final String XML_NS_PREFIX = "xml";
-  
+  @Deprecated public static final String DEFAULT_URI = XMLConstants.NULL_NS_URI;
+
+  /**
+   * The official XML namespace prefix.
+   *
+   * Same as {@link XMLConstants#XML_NS_PREFIX}.
+   * 
+   * @deprecated Use {@link XMLConstants#XML_NS_PREFIX} instead.
+   */
+  @Deprecated public static final String XML_NS_PREFIX = XMLConstants.XML_NS_PREFIX;
+
   /**
    * The official XML Namespace name URI.
    *
-   * Defined by the XML specification to be "http://www.w3.org/XML/1998/namespace".
+   * Same as {@link XMLConstants#XML_NS_URI}.
+   * 
+   * @deprecated Use {@link XMLConstants#XML_NS_URI} instead.
    */
-  public static final String XML_NS_URI = "http://www.w3.org/XML/1998/namespace";
+  @Deprecated public static final String XML_NS_URI = XMLConstants.XML_NS_URI;
 
   /**
-   * The official XML attribute used for specifying XML Namespace declarations, XMLConstants.XMLNS_ATTRIBUTE, Namespace name URI.
+   * The official XML attribute used for specifying XML namespace declarations, XMLConstants.XMLNS_ATTRIBUTE, namespace URI.
    * 
    * Defined by the XML specification to be "http://www.w3.org/2000/xmlns/".
+   * 
+   * @deprecated Use {@link XMLConstants#XMLNS_ATTRIBUTE_NS_URI} instead.
    */
-  public static final String XMLNS_ATTRIBUTE_NS_URI = "http://www.w3.org/2000/xmlns/";
+  @Deprecated public static final String XMLNS_ATTRIBUTE_NS_URI = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
   /**
    * The official XML attribute used for specifying XML Namespace declarations.
    *
    * It is NOT valid to use as a prefix. Defined by the XML specification to be "xmlns".
+   * 
+   * @deprecated Use {@link XMLConstants#XMLNS_ATTRIBUTE} instead.
    */
-  public static final String XMLNS_ATTRIBUTE = "xmlns";
+  @Deprecated public static final String XMLNS_ATTRIBUTE = XMLConstants.XMLNS_ATTRIBUTE;
 
 }

@@ -9,7 +9,8 @@ package com.topologi.diffx.event.impl;
 
 import java.io.IOException;
 
-import com.topologi.diffx.util.Constants;
+import javax.xml.XMLConstants;
+
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.xml.XMLWriter;
@@ -61,7 +62,7 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
    * @return Returns the Namespace URI.
    */
   public String getURI() {
-    return Constants.DEFAULT_URI;
+    return XMLConstants.NULL_NS_URI;
   }
 
   /**

@@ -14,7 +14,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-import com.topologi.diffx.util.Constants;
+import javax.xml.XMLConstants;
 
 /**
  * A Namespace-aware writer for XML data.
@@ -46,7 +46,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * The default namespace mapped to the empty prefix.
    */
-  private static final PrefixMapping DEFAULT_NS = new PrefixMapping("", ""); 
+  private static final PrefixMapping DEFAULT_NS = new PrefixMapping(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX); 
 
   /**
    * The root node.
@@ -99,8 +99,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   public XMLWriterNSImpl(Writer writer, boolean indent) throws NullPointerException {
     super(writer, indent);
     this.elements.add(ROOT);
-    this.prefixMapping.put("", "");
-    this.prefixMapping.put(Constants.XML_NS_URI, Constants.XML_NS_PREFIX);
+    this.prefixMapping.put(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
+    this.prefixMapping.put(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
   }
 
   /**
@@ -392,7 +392,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
       PrefixMapping pm = null;
       for (int i = 0; i < tempMapping.size(); i++) {
         pm = (PrefixMapping)tempMapping.get(i);
-        if (!Constants.XML_NS_PREFIX.equals(pm.prefix)) {
+        if (!XMLConstants.XML_NS_PREFIX.equals(pm.prefix)) {
           this.writer.write(" xmlns");
           // specify a prefix if different from ""
           if (!"".equals(pm.prefix)) {

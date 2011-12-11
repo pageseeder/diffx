@@ -9,6 +9,8 @@ package com.topologi.diffx.event.impl;
 
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
+
 import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
@@ -40,7 +42,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * Creates a new open element event with the default URI.
    * 
-   * @see Constants#DEFAULT_URI
+   * @see XMLConstants#NULL_NS_URI
    * 
    * @param name The local name of the element
    * 
@@ -49,9 +51,9 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   public OpenElementEventNSImpl(String name) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Element must have a name.");
-    this.uri = Constants.DEFAULT_URI;
+    this.uri = XMLConstants.NULL_NS_URI;
     this.name = name;
-    this.hashCode = toHashCode(Constants.DEFAULT_URI, name);
+    this.hashCode = toHashCode(XMLConstants.NULL_NS_URI, name);
   }
 
   /**

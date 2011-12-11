@@ -9,8 +9,8 @@ package com.topologi.diffx.event.impl;
 
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
 
-import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.CloseElementEvent;
 import com.topologi.diffx.event.OpenElementEvent;
@@ -69,12 +69,12 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
   /**
    * Always return the empty URI.  
    * 
-   * @see Constants#DEFAULT_URI
+   * @see XMLConstants#NULL_NS_URI
    * 
    * @return Returns the uri.
    */
   public String getURI() {
-    return Constants.DEFAULT_URI;
+    return XMLConstants.NULL_NS_URI;
   }
 
   /**
