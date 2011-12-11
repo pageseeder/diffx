@@ -28,7 +28,7 @@ public final class TextRecorder implements Recorder {
   /**
    * Runs the recorder on the specified file.
    *
-   * <p>This method will count on the {@link InputSource} to guess the correct encoding.
+   * <p>This method will count on the {@link org.xml.sax.InputSource} to guess the correct encoding.
    * 
    * @param file The file to process.
    * 

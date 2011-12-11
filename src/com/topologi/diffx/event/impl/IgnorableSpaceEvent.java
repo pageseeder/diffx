@@ -65,7 +65,7 @@ public final class IgnorableSpaceEvent implements TextEvent {
    * Returns <code>true</code> if the event is an ignorable white space, regardless of the
    * characters that it matches.
    * 
-   * @param e The event to compare with this event.
+   * @param o The event to compare with this event.
    * 
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.

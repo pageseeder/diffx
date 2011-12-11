@@ -124,7 +124,9 @@ public final class ReporterHandlerProxy implements ContentHandler {
   }
 
   /**
-   * {@inheritDoc}
+   * Returns the content handler.
+   * 
+   * @return the wrapped content handler.
    */
   public ContentHandler getContentHandler() {
     return this.handler;
