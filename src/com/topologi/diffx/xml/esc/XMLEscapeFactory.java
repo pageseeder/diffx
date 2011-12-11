@@ -24,7 +24,7 @@ public final class XMLEscapeFactory {
   /**
    * Returns an instance of a XML Escape based on the given encoding.
    * 
-   * <p>This method returns <code>null</code> if the encodeing is not supported.
+   * <p>This method returns <code>null</code> if the encoding is not supported.
    *
    * @param encoding The encoding for which an escape implementation is requested. 
    *
