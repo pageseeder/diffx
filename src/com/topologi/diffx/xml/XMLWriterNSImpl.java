@@ -10,9 +10,10 @@ package com.topologi.diffx.xml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 
@@ -34,7 +35,7 @@ import javax.xml.XMLConstants;
  * <p>This class is not synchronised.
  * 
  * @author  Christophe Lauret - Allette Systems (Australia)
- * @version 19 October 2006
+ * @version 11 December 2011
  */
 public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
 
@@ -61,7 +62,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   /**
    * The current prefix mapping.
    */
-  private final Hashtable<String,String> prefixMapping = new Hashtable<String,String>();
+  private final Map<String, String> prefixMapping = new HashMap<String, String>();
 
   /**
    * The list of prefix mappings to be associated with the next element.
@@ -241,7 +242,7 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * Same as <code>emptyElement(null, element);</code>
+   * Same as <code>emptyElement(null, element);</code>.
    *
    * @param element the name of the element
    * 
@@ -472,14 +473,15 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
   private void removeIfNeeded(String prefix) {
     // remove the previous mapping to the prefix
     if (this.prefixMapping.containsValue(prefix)) {
-      Object key = null;
-      for (Enumeration<String> e = this.prefixMapping.keys(); e.hasMoreElements();) {
-        key = e.nextElement();
-        if (this.prefixMapping.get(key).equals(prefix)) {
+      Entry<String, String> remove = null;
+      for (Entry<String, String> e : this.prefixMapping.entrySet()) {
+        if (e.getValue().equals(prefix)) {
+          remove = e;
           break;
         }
       }
-      this.prefixMapping.remove(key); // we know key should have a value
+      // we know key should have a value
+      this.prefixMapping.remove(remove.getKey());
     }
   }
 
