@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.xml.XMLConstants;
 
-import com.topologi.diffx.util.Constants;
 import com.topologi.diffx.event.DiffXEvent;
 import com.topologi.diffx.event.OpenElementEvent;
 import com.topologi.diffx.xml.XMLWriter;
