@@ -137,7 +137,8 @@ abstract class XMLWriterBase implements XMLWriter {
     this.encoding = encoding;
   }
 
-// write text methods -------------------------------------------------------------------
+  // Write text methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#writeText(String)
@@ -160,7 +161,7 @@ abstract class XMLWriterBase implements XMLWriter {
    * @see XMLWriter#writeText(char)
    */
   public final void writeText(char c) throws IOException {
-	deNude();
+    deNude();
     writerEscape.writeText(c);
   }
 
@@ -183,14 +184,15 @@ abstract class XMLWriterBase implements XMLWriter {
       this.writeText(o.toString());
   }
 
-// write xml methods --------------------------------------------------------------------
+  // Write XML methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#writeXML(java.lang.String)
    */
   public final void writeXML(String text) throws IOException {
     if (text == null) return;
-	deNude();
+    deNude();
     this.writer.write(text);
   }
 
@@ -198,11 +200,12 @@ abstract class XMLWriterBase implements XMLWriter {
    * @see XMLWriter#writeXML(char[], int, int)
    */
   public final void writeXML(char[] text, int off, int len) throws IOException {
-	deNude();
+    deNude();
     this.writer.write(text, off, len);
   }
 
-// PI and comments ----------------------------------------------------------------------
+  // Processing Instructions, CDATA sections and comments
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#writeComment(String) 
@@ -216,7 +219,7 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.write("<!-- ");
     this.writer.write(comment);
     this.writer.write(" -->");
-    if (indent)
+    if (this.indent)
       this.writer.write('\n');
   }
 
@@ -230,11 +233,27 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.write(' ');
     this.writer.write(data);
     this.writer.write("?>");
-    if (indent)
+    if (this.indent)
       this.writer.write('\n');
   }
 
-// attribute methods --------------------------------------------------------------------
+  /**
+   * @see XMLWriter#writeCDATA(String)
+   */
+  @Override
+  public final void writeCDATA(String data) throws IOException {
+    if (data == null) return;
+    final String end = "]]>";
+    if (data.indexOf(end) >= 0)
+      throw new IllegalArgumentException("CDATA sections must not contain \']]>\'");
+    deNude();
+    this.writer.write("<![CDATA[");
+    this.writer.write(data);
+    this.writer.write(end);
+  }
+
+  // Attribute methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#attribute(String, String)
@@ -244,7 +263,8 @@ abstract class XMLWriterBase implements XMLWriter {
     if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
     this.writer.write(' ');
     this.writer.write(name);
-    this.writer.write("=\"");
+    this.writer.write('=');
+    this.writer.write('"');
     writerEscape.writeAttValue(value);
     this.writer.write('"');
   }
@@ -257,12 +277,14 @@ abstract class XMLWriterBase implements XMLWriter {
     if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
     this.writer.write(' ');
     this.writer.write(name);
-    this.writer.write("=\"");
+    this.writer.write('=');
+    this.writer.write('"');
     this.writer.write(Integer.toString(value));
     this.writer.write('"');
   }
 
-// open/close specific elements ---------------------------------------------------------
+  // Open/close specific elements
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#element(String, String)
@@ -273,7 +295,8 @@ abstract class XMLWriterBase implements XMLWriter {
     this.closeElement();
   }
 
-// direct access to the writer ----------------------------------------------------------
+  // Direct access to the writer
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see XMLWriter#flush()
@@ -282,7 +305,8 @@ abstract class XMLWriterBase implements XMLWriter {
     this.writer.flush();
   }
 
-// base class and convenience methods ---------------------------------------------------
+  // Base class and convenience methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes the end of the open element tag.

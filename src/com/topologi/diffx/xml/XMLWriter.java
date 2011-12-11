@@ -26,11 +26,12 @@ import java.io.IOException;
  * 
  * @author Christophe Lauret (Allette Systems)
  * 
- * @version 15 May 2005
+ * @version 11 December 2011
  */
 public interface XMLWriter {
 
-// initialisation methods ---------------------------------------------------------------
+  // Initialisation methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes the XML declaration.
@@ -46,7 +47,7 @@ public interface XMLWriter {
    * @throws IllegalStateException If this method is called after the writer has started 
    *                               writing elements nodes.
    */
-  void xmlDecl() throws IOException, IllegalStateException;
+  void xmlDecl() throws IOException;
 
   /**
    * Sets the string to use for indentation.
@@ -62,23 +63,10 @@ public interface XMLWriter {
    * @throws IllegalArgumentException If the indent string is not made of spaces.
    * @throws IllegalStateException    If the writer has already been used.
    */
-  void setIndentChars(String spaces) 
-    throws IllegalStateException, IllegalArgumentException;
+  void setIndentChars(String spaces);
 
-  /**
-   * Sets the encoding to use.
-   * 
-   * <p>The encoding must match the encoding used by the underlying writer.
-   * 
-   * @param The encoding to use.
-   * 
-   * @throws IllegalArgumentException If the encoding is not valid.
-   * @throws IllegalStateException    If the writer has already been used.
-   */
-//  void setEncoding(String encoding) 
-//    throws IllegalStateException, IllegalArgumentException;
-
-// text methods -------------------------------------------------------------------------
+  // Text methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes the given character correctly for the encoding of this document.
@@ -111,7 +99,20 @@ public interface XMLWriter {
    */
   void writeText(char[] text, int off, int len) throws IOException;
 
-// xml methods --------------------------------------------------------------------------
+  /**
+   * Writes the given text as a CDATA section.
+   *
+   * <p>Does nothing if the text is <code>null</code>.
+   *
+   * @param data The data to write inside the CDATA section.
+   *
+   * @throws IOException If an I/O exception is thrown by the underlying writer.
+   * @throws IllegalArgumentException If the implementation does not support CDATA nesting
+   */
+  void writeCDATA(String data) throws IOException;
+
+  // XML methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes the given XML data.
@@ -141,7 +142,8 @@ public interface XMLWriter {
    */
   void writeXML(char[] text, int off, int len) throws IOException;
 
-// comments and PIs -------------------------------------------------------------------------
+  // Comments and PIs
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes an XML comment.
@@ -160,7 +162,7 @@ public interface XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalArgumentException If the comment contains "--".
    */
-  void writeComment(String comment) throws IOException, IllegalArgumentException;
+  void writeComment(String comment) throws IOException;
 
   /**
    * Writes an XML processing instruction.
@@ -177,7 +179,8 @@ public interface XMLWriter {
    */
   void writePI(String target, String data) throws IOException;
 
-// open/close elements ------------------------------------------------------------------
+  // Open/close elements
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes a start element tag correctly indented.
@@ -224,8 +227,7 @@ public interface XMLWriter {
    * @throws IOException If an I/O exception occurs.
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void openElement(String uri, String name, boolean hasChildren)
-    throws IOException, UnsupportedOperationException;
+  void openElement(String uri, String name, boolean hasChildren) throws IOException;
 
   /**
    * Close the element automatically.
@@ -238,7 +240,8 @@ public interface XMLWriter {
    */
   void closeElement() throws IOException;
 
-// element shortcuts --------------------------------------------------------------------
+  // Element shortcuts
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Opens element, inserts text node and closes.
@@ -271,8 +274,7 @@ public interface XMLWriter {
    * @throws IOException If an I/O exception occurs.
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void emptyElement(String element)
-    throws IOException, UnsupportedOperationException;
+  void emptyElement(String element) throws IOException;
 
   /**
    * Writes an empty element.
@@ -289,10 +291,10 @@ public interface XMLWriter {
    * @throws IOException If an I/O exception occurs.
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void emptyElement(String uri, String element)
-    throws IOException, UnsupportedOperationException;
+  void emptyElement(String uri, String element) throws IOException;
 
-// attributes ---------------------------------------------------------------------------
+  // Attributes
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes an attribute.
@@ -303,7 +305,7 @@ public interface XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalStateException If there is no open element or text has been written. 
    */
-  void attribute(String name, String value) throws IOException, IllegalStateException;
+  void attribute(String name, String value) throws IOException;
 
   /**
    * Writes an attribute.
@@ -316,7 +318,7 @@ public interface XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalStateException If there is no open element or text has been written. 
    */
-  void attribute(String name, int value) throws IOException, IllegalStateException;
+  void attribute(String name, int value) throws IOException;
 
   /**
    * Writes an attribute.
@@ -329,8 +331,7 @@ public interface XMLWriter {
    * @throws IllegalStateException If there is no open element or text has been written. 
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void attribute(String uri, String name, String value) 
-    throws IOException, IllegalStateException, UnsupportedOperationException;
+  void attribute(String uri, String name, String value) throws IOException;
 
   /**
    * Writes an attribute.
@@ -345,10 +346,10 @@ public interface XMLWriter {
    * @throws IllegalStateException If there is no open element or text has been written.
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void attribute(String uri, String name, int value) 
-    throws IOException, IllegalStateException, UnsupportedOperationException;
+  void attribute(String uri, String name, int value) throws IOException;
 
-  // namespace handling -----------------------------------------------------------------------
+  // Namespace handling
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Sets a prefix mapping.
@@ -358,9 +359,10 @@ public interface XMLWriter {
    * 
    * @throws UnsupportedOperationException If the implementing class does not handle namespace.
    */
-  void setPrefixMapping(String uri, String prefix) throws UnsupportedOperationException;
+  void setPrefixMapping(String uri, String prefix);
 
-  // direct access to the writer --------------------------------------------------------------
+  // Direct access to the writer
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Flush the writer.
@@ -375,6 +377,6 @@ public interface XMLWriter {
    * @throws IOException              If thrown by the wrapped writer.
    * @throws UnclosedElementException If there is still an open element.
    */
-  void close() throws IOException, UnclosedElementException;
+  void close() throws IOException;
 
 }

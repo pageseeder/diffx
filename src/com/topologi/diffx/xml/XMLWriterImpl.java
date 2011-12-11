@@ -48,7 +48,8 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    */
   private List<Element> elements = new ArrayList<Element>(); 
 
-  // constructors -----------------------------------------------------------------------------
+  // Constructors
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * <p>Creates a new XML writer.
@@ -77,7 +78,8 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
     this.elements.add(ROOT);
   }
 
-// writing text -------------------------------------------------------------------------------
+  // Writing text
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes the angle bracket if the element open tag is not finished.
@@ -92,7 +94,8 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
     }
   }
 
-// open/close specific elements ------------------------------------------------------------
+  // Open/close specific elements
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes a start element tag correctly indented.
@@ -216,7 +219,8 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
     return ((Element)this.elements.remove(this.elements.size() - 1));
   }
 
-  // unsupported operations -------------------------------------------------------------------
+  // Unsupported operations
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Not supported.
@@ -312,7 +316,8 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
     this.writer.close();
   }
 
-  // inner class: Element --------------------------------------------------------------------- 
+  // Inner class: Element
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * A light object to keep track of the element.

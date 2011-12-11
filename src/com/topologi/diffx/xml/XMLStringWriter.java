@@ -17,6 +17,11 @@ import java.io.StringWriter;
  * either a {@link XMLWriterImpl} or {@link XMLWriterNSImpl} depending on whether namespace support is 
  * required.
  *
+ * <p>The write methods do not throw any {@link IOException}.
+ * 
+ * <p>If the write is not set to support namespaces, the method which require a namespace URI will
+ * throw an {@link UnsupportedOperationException}.
+ * 
  * @author  Christophe Lauret
  * @version 11 December 2011
  */
@@ -56,119 +61,211 @@ public final class XMLStringWriter implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   @Override
-  public void xmlDecl() throws IOException, IllegalStateException {
-    this.xml.xmlDecl();
+  public void xmlDecl() {
+    try {
+      this.xml.xmlDecl();
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void setIndentChars(String spaces) throws IllegalStateException, IllegalArgumentException {
+  public void setIndentChars(String spaces) {
     this.xml.setIndentChars(spaces);
   }
 
   @Override
-  public void writeText(char c) throws IOException {
-    this.xml.writeText(c);
+  public void writeText(char c) {
+    try {
+      this.xml.writeText(c);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writeText(String text) throws IOException {
-    this.xml.writeText(text);
+  public void writeText(String text) {
+    try {
+      this.xml.writeText(text);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writeText(char[] text, int off, int len) throws IOException {
-    this.xml.writeText(text, off, len);
+  public void writeText(char[] text, int off, int len) {
+    try {
+      this.xml.writeText(text, off, len);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writeXML(String text) throws IOException {
-    this.xml.writeXML(text);
+  public void writeCDATA(String cdata) {
+    try {
+      this.xml.writeCDATA(cdata);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writeXML(char[] text, int off, int len) throws IOException {
-    this.xml.writeXML(text, off, len);
+  public void writeXML(String text) {
+    try {
+      this.xml.writeXML(text);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writeComment(String comment) throws IOException {
-    this.xml.writeComment(comment);
+  public void writeXML(char[] text, int off, int len) {
+    try {
+      this.xml.writeXML(text, off, len);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void writePI(String target, String data) throws IOException {
-    this.xml.writePI(target, data);
+  public void writeComment(String comment) {
+    try {
+      this.xml.writeComment(comment);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void openElement(String name) throws IOException {
-    this.xml.openElement(name);
+  public void writePI(String target, String data) {
+    try {
+      this.xml.writePI(target, data);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void openElement(String name, boolean hasChildren) throws IOException {
-    this.xml.openElement(name, hasChildren);
+  public void openElement(String name) {
+    try {
+      this.xml.openElement(name);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void openElement(String uri, String name, boolean hasChildren) throws IOException,
-      UnsupportedOperationException {
-    this.xml.openElement(uri, name, hasChildren);
+  public void openElement(String name, boolean hasChildren) {
+    try {
+      this.xml.openElement(name, hasChildren);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void closeElement() throws IOException {
-    this.xml.closeElement();
+  public void openElement(String uri, String name, boolean hasChildren) {
+    try {
+      this.xml.openElement(uri, name, hasChildren);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void element(String name, String text) throws IOException {
-    this.xml.element(name, text);
+  public void closeElement() {
+    try {
+      this.xml.closeElement();
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void emptyElement(String element) throws IOException, UnsupportedOperationException {
-    this.xml.emptyElement(element);
+  public void element(String name, String text) {
+    try {
+      this.xml.element(name, text);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void emptyElement(String uri, String element) throws IOException, UnsupportedOperationException {
-    this.xml.emptyElement(element);
+  public void emptyElement(String element) {
+    try {
+      this.xml.emptyElement(element);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void attribute(String name, String value) throws IOException, IllegalStateException {
-    this.xml.attribute(name, value);
+  public void emptyElement(String uri, String element) {
+    try {
+      this.xml.emptyElement(element);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void attribute(String name, int value) throws IOException, IllegalStateException {
-    this.xml.attribute(name, value);
+  public void attribute(String name, String value) {
+    try {
+      this.xml.attribute(name, value);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void attribute(String uri, String name, String value) throws IOException, UnsupportedOperationException {
-    this.xml.attribute(uri, name, value);
+  public void attribute(String name, int value) {
+    try {
+      this.xml.attribute(name, value);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void attribute(String uri, String name, int value) throws IOException, UnsupportedOperationException {
-    this.xml.attribute(uri, name, value);
+  public void attribute(String uri, String name, String value) {
+    try {
+      this.xml.attribute(uri, name, value);
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
-  public void setPrefixMapping(String uri, String prefix) throws UnsupportedOperationException {
+  public void attribute(String uri, String name, int value) {
+    try {
+      this.xml.attribute(uri, name, value);
+    } catch (IOException ex) {
+      // Will not occur
+    }
+  }
+
+  @Override
+  public void setPrefixMapping(String uri, String prefix) {
     this.xml.setPrefixMapping(uri, prefix);
   }
 
   @Override
   public void flush() throws IOException {
-    this.xml.flush();
+    try {
+      this.xml.flush();
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   @Override
   public void close() throws IOException, UnclosedElementException {
-    this.xml.close();
+    try {
+      this.xml.close();
+    } catch (IOException ex) {
+      // Will not occur
+    }
   }
 
   /**

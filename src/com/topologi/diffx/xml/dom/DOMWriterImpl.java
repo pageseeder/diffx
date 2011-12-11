@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,7 +35,8 @@ import com.topologi.diffx.xml.UnclosedElementException;
  */
 public final class DOMWriterImpl implements DOMWriter {
 
-// class attributes ---------------------------------------------------------------------
+  // Class attributes
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * The DOM document on which we write.
@@ -60,7 +62,8 @@ public final class DOMWriterImpl implements DOMWriter {
    */
   private String indentChars;
 
-// state variables ----------------------------------------------------------------------
+  // state variables
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Level of the depth of the xml document currently produced.
@@ -70,9 +73,9 @@ public final class DOMWriterImpl implements DOMWriter {
   private transient int depth;
 
   /**
-   * Flag to indicate that the element open tag is not finished yet. 
+   * Flag to indicate that the element open tag is not finished yet.
    */
-  private transient boolean isNude; 
+  private transient boolean isNude;
 
   /**
    * The current node being written onto.
@@ -87,12 +90,13 @@ public final class DOMWriterImpl implements DOMWriter {
    */
   private transient List<Boolean> childrenFlags = new ArrayList<Boolean>();
 
-// constructors -------------------------------------------------------------------------
+  // Constructors
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * <p>Creates a new XML writer for DOM using the default implementation on
    * the system.
-   * 
+   *
    * <p>Attempts to create the DOM document using:
    * <pre>
    *  DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance()
@@ -109,11 +113,11 @@ public final class DOMWriterImpl implements DOMWriter {
   /**
    * <p>Creates a new XML writer for DOM.
    *
-   * @param document The DOM provided. 
+   * @param document The DOM provided.
    * 
    * @throws NullPointerException If the handler is <code>null</code>.
    */
-  public DOMWriterImpl(Document document) throws NullPointerException {
+  public DOMWriterImpl(Document document) {
     if (document == null) 
       throw new NullPointerException("The XMLWriter requires a DOM Document to write on.");
     this.document = document;
@@ -121,7 +125,8 @@ public final class DOMWriterImpl implements DOMWriter {
     this.newline = document.createTextNode("\n");
   }
 
-// setup methods ------------------------------------------------------------------------
+  // Setup methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Does nothing.
@@ -132,7 +137,7 @@ public final class DOMWriterImpl implements DOMWriter {
   /**
    * {@inheritDoc}
    */
-  public void setIndentChars(String spaces) throws IllegalStateException, IllegalArgumentException {
+  public void setIndentChars(String spaces)  {
     if (this.depth != 0)
       throw new IllegalStateException("To late to set the indentation characters!");
     // check that this is a valid indentation string
@@ -146,7 +151,8 @@ public final class DOMWriterImpl implements DOMWriter {
     this.indent = (spaces != null);
   }
 
-// write text methods -------------------------------------------------------------------
+  // Write text methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
@@ -182,14 +188,19 @@ public final class DOMWriterImpl implements DOMWriter {
    * @see Object#toString
    *
    * @param o The object that should be written as text.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
-  public void writeText(Object o) throws IOException {
+  public void writeText(Object o) {
     // TODO: what about an XML serializable ???
     // TODO: Add to interface ???
     if (o != null)
       this.writeText(o.toString());
+  }
+
+  @Override
+  public void writeCDATA(String data) {
+    this.document.createCDATASection(data);
   }
 
 // write xml methods are not supported --------------------------------------------------
@@ -214,7 +225,7 @@ public final class DOMWriterImpl implements DOMWriter {
   /**
    * {@inheritDoc} 
    */
-  public void writeComment(String comment) throws IOException {
+  public void writeComment(String comment) throws DOMException {
     if (comment.indexOf("--") >= 0)
       throw new IllegalArgumentException("A comment must not contain '--'.");
     deNude();

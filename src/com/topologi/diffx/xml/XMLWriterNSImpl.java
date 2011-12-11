@@ -73,7 +73,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
    */
   private List<Element> elements = new ArrayList<Element>(); 
 
-  // constructors -----------------------------------------------------------------------------
+  // Constructors
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * <p>Creates a new XML writer.
@@ -116,7 +117,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     }
   }
 
-// open/close specific elements ------------------------------------------------------------
+  // Open/close specific elements
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes a start element tag correctly indented.
@@ -223,12 +225,12 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     // restore previous mapping if necessary
     restorePrefixMapping(elt);
     this.writer.write('>');
-	// take care of the new line if the indentation is on
-	if (super.indent) {
+    // take care of the new line if the indentation is on
+    if (super.indent) {
       Element parent = this.peekElement();
-	  if (parent.hasChildren && parent != ROOT)
+      if (parent.hasChildren && parent != ROOT)
         this.writer.write('\n');
-	}
+    }
   }
 
   /**
@@ -331,7 +333,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     this.handleNamespaceDeclaration();
   }
 
-  // namespace handling -----------------------------------------------------------------------
+  // Namespace handling
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * @see com.topologi.diffx.xml.XMLWriter#setPrefixMapping(java.lang.String, java.lang.String)
@@ -477,7 +480,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     this.writer.close();
   }
 
-  // inner class: Element --------------------------------------------------------------------- 
+  // Inner class: Element
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * A light object to keep track of the elements
@@ -518,7 +522,8 @@ public final class XMLWriterNSImpl extends XMLWriterBase implements XMLWriter {
     }
   }
 
-  // inner class: Prefix Mapping --------------------------------------------------------------
+  // Inner class: Prefix Mapping
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Light-weight class to represent a prefix mapping.

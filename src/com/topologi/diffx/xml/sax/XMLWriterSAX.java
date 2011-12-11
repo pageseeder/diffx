@@ -246,6 +246,17 @@ public final class XMLWriterSAX implements XMLWriter {
       this.writeText(o.toString());
   }
 
+  @Override
+  public void writeCDATA(String data) throws IOException {
+    if (data == null) return;
+    try {
+      deNude();
+      this.handler.characters(data.toCharArray(), 0, data.length());
+    } catch (SAXException ex) {
+      handleEx(ex);
+    }
+  }
+
 // write xml methods are not supported --------------------------------------------------
 
   /**
