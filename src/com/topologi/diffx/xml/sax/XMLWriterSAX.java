@@ -303,9 +303,9 @@ public final class XMLWriterSAX implements XMLWriter {
    * @see XMLWriter#attribute(String, int)
    */
   public void attribute(String name, int value)
-      throws IOException, IllegalStateException {
+      throws IOException {
     if (!this.isNude)
-      throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throw new IllegalStateException("Cannot write attribute: too late!");
     this.attributes.addAttribute(name, Integer.toString(value));
   }
 
@@ -320,8 +320,8 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws IllegalStateException If there is no open element or text has been written. 
    */
   public void attribute(String uri, String name, String value)
-      throws IOException, IllegalStateException {
-    if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throws IOException {
+    if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     // TODO: check declared
     this.attributes.addAttribute(uri, name, value);
   }
@@ -339,8 +339,8 @@ public final class XMLWriterSAX implements XMLWriter {
    * @throws IllegalStateException If there is no open element or text has been written. 
    */
   public void attribute(String uri, String name, int value)
-      throws IOException, IllegalStateException {
-    if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throws IOException {
+    if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     // TODO: check declared
     this.attributes.addAttribute(uri, name, Integer.toString(value));
   }
@@ -467,7 +467,7 @@ public final class XMLWriterSAX implements XMLWriter {
 // base class and convenience methods ---------------------------------------------------
 
   /**
-   * Insert the correct amount of space characterss depending on the depth and if 
+   * Insert the correct amount of space characters depending on the depth and if 
    * the <code>indent</code> flag is set to <code>true</code>.
    *
    * @throws SAXException If thrown by the SAX handler.
