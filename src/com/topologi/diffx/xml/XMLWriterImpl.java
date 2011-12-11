@@ -191,11 +191,11 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
     this.writer.write(element);
     this.writer.write('/');
     this.writer.write('>');
-	if (this.indent) {
-	  Element parent = this.peekElement();
-	  if (parent.hasChildren && parent != ROOT)
-	    this.writer.write('\n');
-	}
+	  if (this.indent) {
+	    Element parent = this.peekElement();
+	    if (parent.hasChildren && parent != ROOT)
+	      this.writer.write('\n');
+	  }
   }
 
   /**
