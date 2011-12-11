@@ -93,7 +93,7 @@ public final class XMLEscapeWriterUTF8 extends XMLEscapeWriterBase implements XM
    */
   public void writeText(char c) throws IOException {
     // process the rest
-    if      (c == '<') {
+    if (c == '<') {
       super.w.write("&lt;");
     } else if (c == '>') {
       super.w.write("&gt;");

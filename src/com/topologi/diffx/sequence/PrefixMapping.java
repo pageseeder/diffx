@@ -7,8 +7,10 @@
  */
 package com.topologi.diffx.sequence;
 
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides a mapping of namespace URIs to prefixes.
@@ -27,7 +29,7 @@ public final class PrefixMapping {
   /**
    * Maps namespace URIs to prefixes.
    */
-  private final Hashtable<String,String> mappings = new Hashtable<String,String>();
+  private final Map<String, String> mappings = new HashMap<String, String>();
 
   /**
    * Add the specified mapping if the namespace URI has not been mapped before.
@@ -45,7 +47,7 @@ public final class PrefixMapping {
     if (!this.mappings.containsKey(uri)) {
       int count = 0;
       String actualPrefix = prefix;
-      while (this.mappings.contains(actualPrefix)) {
+      while (this.mappings.containsValue(actualPrefix)) {
         actualPrefix = prefix + count++;
       }
       this.mappings.put(uri, actualPrefix);
@@ -58,7 +60,7 @@ public final class PrefixMapping {
    * @return An enumeration of the namespace URIs used in this mapping.
    */
   public Enumeration<String> getURIs() {
-    return this.mappings.keys();
+    return Collections.enumeration(this.mappings.keySet());
   }
 
   /**

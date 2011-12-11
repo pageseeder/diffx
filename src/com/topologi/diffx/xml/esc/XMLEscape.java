@@ -99,5 +99,4 @@ public interface XMLEscape {
    */
   String getEncoding();
 
-
 }

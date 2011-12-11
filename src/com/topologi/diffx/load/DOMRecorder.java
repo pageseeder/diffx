@@ -227,8 +227,7 @@ public final class DOMRecorder implements XMLRecorder {
       load((Attr)node);
     } else if (node instanceof Document) {
       load((Document)node);
-    } else if (node instanceof ProcessingInstruction)
-    {
+    } else if (node instanceof ProcessingInstruction) {
       load((ProcessingInstruction)node);
       // all other node types are ignored
     }

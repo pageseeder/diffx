@@ -68,7 +68,7 @@ public final class DiffXConfig {
   private TextGranularity granularity = TextGranularity.WORD;
 
   /**
-   * Creates a new configuration for Diff-X
+   * Creates a new configuration for Diff-X.
    */
   public DiffXConfig() {
   }

@@ -94,8 +94,9 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    *
    * <p>these characters are:<br>
    * <ul>
-   *  <li>'&amp' by the ampersand entity "&amp;amp"</li>
-   *  <li>'&lt;' by the entity "&amp;lt;"</li>
+   *   <li>'&amp' by the ampersand entity "&amp;amp"</li>
+   *   <li>'&lt;' by the entity "&amp;lt;"</li>
+   * </ul>
    * </p>
    *
    * <p>Empty strings or <code>null</code> return respectively
@@ -149,4 +150,5 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    */
   private void doNothing() {
   }
+
 }

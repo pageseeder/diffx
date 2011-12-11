@@ -39,12 +39,12 @@ abstract class XMLWriterBase implements XMLWriter {
   final Writer writer;
 
   /**
-   * Encoding of the output xml
+   * Encoding of the output xml.
    */
   String encoding = "utf-8";
 
   /**
-   * Encoding of the output xml
+   * Encoding of the output xml.
    */
   XMLEscapeWriter writerEscape;
 
@@ -115,9 +115,10 @@ abstract class XMLWriterBase implements XMLWriter {
       throw new IllegalStateException("To late to set the indentation characters!");
     // check that this is a valid indentation string
     if (spaces != null) {
-      for (int i = 0; i < spaces.length(); i++)
+      for (int i = 0; i < spaces.length(); i++) {
         if (!Character.isSpaceChar(spaces.charAt(i)))
           throw new IllegalArgumentException("Not a valid indentation string.");
+      }
     }
     // update the flags
     this.indentChars = spaces;

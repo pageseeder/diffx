@@ -66,9 +66,10 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
     // branch must have the same length
     if (this.branch.length != be.branch.length) return false;
     // every single event must be equal
-    for (int i = 0; i < this.branch.length; i++)
+    for (int i = 0; i < this.branch.length; i++) {
       if (!be.branch[i].equals(this.branch[i]))
         return false;
+    }
     // if we arrive here they are equal
     return true;
   }
@@ -100,7 +101,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
    * @param events Events to calculate the value from.
    * @return a number suitable as a hashcode.
    */
-  private static final int toHashCode(DiffXEvent[] events) {
+  private static int toHashCode(DiffXEvent[] events) {
     int hash = 17;
     for (DiffXEvent e : events) {
       hash = hash * 13 + (e != null? e.hashCode() : 0);

@@ -45,6 +45,8 @@ public final class TokenizerByWord implements TextTokenizer {
   /**
    * Creates a new tokenizer.
    * 
+   * @param whitespace the whitespace processing for this tokenizer.
+   * 
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerByWord(WhiteSpaceProcessing whitespace) {
@@ -116,7 +118,7 @@ public final class TokenizerByWord implements TextTokenizer {
   /**
    * Returns the space event corresponding to the specified characters.
    * 
-   * @param word the characters of the space
+   * @param space the characters of the space
    * @return the corresponding space event
    */
   private TextEvent getSpaceEvent(String space) {

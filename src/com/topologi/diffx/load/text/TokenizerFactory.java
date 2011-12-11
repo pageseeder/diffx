@@ -21,17 +21,15 @@ import com.topologi.diffx.config.TextGranularity;
 public final class TokenizerFactory {
 
   /**
-   * Creates a factory for tokenisers.
-   * 
-   * @param config The configuration to use.
+   * Creates a factory for tokenizers.
    * 
    * @throws NullPointerException If the configuration is <code>null</code>.
    */
-  private TokenizerFactory() throws NullPointerException {
+  private TokenizerFactory() {
   }
 
   /**
-   * Returns the text tokenizer
+   * Returns the text tokenizer.
    * 
    * @param config The configuration to use.
    * 
@@ -39,7 +37,7 @@ public final class TokenizerFactory {
    * 
    * @throws NullPointerException If the configuration is <code>null</code>.
    */
-  public static TextTokenizer get(DiffXConfig config) throws NullPointerException {
+  public static TextTokenizer get(DiffXConfig config) {
     if (config == null) throw new NullPointerException("The config should be specified");
     TextGranularity granularity = config.getGranularity();
     switch (granularity) {

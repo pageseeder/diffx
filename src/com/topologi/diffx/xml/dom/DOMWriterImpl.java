@@ -7,7 +7,6 @@
  */
 package com.topologi.diffx.xml.dom;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 import com.topologi.diffx.xml.IllegalCloseElementException;
-import com.topologi.diffx.xml.UnclosedElementException;
 
 /**
  * A simple implementation of a DOM writer
@@ -31,7 +29,7 @@ import com.topologi.diffx.xml.UnclosedElementException;
  * <p>Provides methods to generate well-formed XML data easily via DOM.
  *
  * @author  Christophe Lauret
- * @version 7 June 2005
+ * @version 11 December 2011
  */
 public final class DOMWriterImpl implements DOMWriter {
 
@@ -142,9 +140,10 @@ public final class DOMWriterImpl implements DOMWriter {
       throw new IllegalStateException("To late to set the indentation characters!");
     // check that this is a valid indentation string
     if (spaces != null) {
-      for (int i = 0; i < spaces.length(); i++)
+      for (int i = 0; i < spaces.length(); i++) {
         if (!Character.isSpaceChar(spaces.charAt(i)))
           throw new IllegalArgumentException("Not a valid indentation string.");
+      }
     }
     // update the flags
     this.indentChars = spaces;
@@ -156,6 +155,8 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   public void writeText(String text) {
     if (text == null) return;
@@ -166,6 +167,8 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   public void writeText(char[] text, int off, int len) {
     this.writeText(new String(text, off, len));
@@ -175,6 +178,8 @@ public final class DOMWriterImpl implements DOMWriter {
    * This method is expensive as the character has to be converted to a String for DOM.
    * 
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   public void writeText(char c) {
     this.writeText(new String(new char[]{c}));
@@ -189,7 +194,7 @@ public final class DOMWriterImpl implements DOMWriter {
    *
    * @param o The object that should be written as text.
    *
-   * @throws IOException If thrown by the wrapped writer.
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   public void writeText(Object o) {
     // TODO: what about an XML serializable ???
@@ -199,32 +204,49 @@ public final class DOMWriterImpl implements DOMWriter {
     }
   }
 
-  @Override
+  /**
+   * Writes the CDATA section to the DOM.
+   *
+   * <p>Does nothing if the object is <code>null</code>.
+   *
+   * @param data The data to write to the section.
+   *
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
+   */
   public void writeCDATA(String data) {
+    if (data == null) return;
     this.document.createCDATASection(data);
   }
 
-  // write xml methods are not supported --------------------------------------------------
+  // Write xml methods are not supported 
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws UnsupportedOperationException XML cannot be written to the DOM
    */
-  public void writeXML(String text) throws UnsupportedOperationException {
+  public void writeXML(String text) {
     throw new UnsupportedOperationException("Cannot use unparsed XML as DOM node.");
   }
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws UnsupportedOperationException XML cannot be written to the DOM
    */
   public void writeXML(char[] text, int off, int len)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Cannot use unparsed XML as DOM node.");
   }
 
-  // PI and comments ----------------------------------------------------------------------
+  // PI and comments
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   public void writeComment(String comment) throws DOMException {
     if (comment.indexOf("--") >= 0)
@@ -239,8 +261,10 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void writePI(String target, String data) throws IOException {
+  public void writePI(String target, String data) throws DOMException {
     deNude();
     Node node = this.document.createProcessingInstruction(target, data);
     this.currentElement.appendChild(node);
@@ -249,13 +273,15 @@ public final class DOMWriterImpl implements DOMWriter {
     }
   }
 
-  // attribute methods --------------------------------------------------------------------
+  // Attribute methods
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void attribute(String name, String value)
-      throws IOException, IllegalStateException {
+  public void attribute(String name, String value) throws DOMException {
     if (!this.isNude)
       throw new IllegalArgumentException("Cannot write attribute: too late!");
     Attr att = this.document.createAttribute(name);
@@ -265,13 +291,15 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void attribute(String name, int value)
-      throws IOException, IllegalStateException {
+  public void attribute(String name, int value) throws DOMException {
     attribute(name, Integer.toString(value));
   }
 
-  // open/close specific elements ---------------------------------------------------------
+  // Open/close specific elements
+  // ----------------------------------------------------------------------------------------------
 
   /**
    * Writes a start element tag correctly indented.
@@ -282,9 +310,9 @@ public final class DOMWriterImpl implements DOMWriter {
    *
    * @param name the name of the element
    * 
-   * @throws IOException If thrown by the wrapped writer.
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void openElement(String name) throws IOException {
+  public void openElement(String name) throws DOMException {
     openElement(name, false);
   }
 
@@ -300,9 +328,9 @@ public final class DOMWriterImpl implements DOMWriter {
    * @param name        The name of the element.
    * @param hasChildren <code>true</code> if this element has children.
    * 
-   * @throws IOException If thrown by the wrapped writer.
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void openElement(String name, boolean hasChildren) throws IOException {
+  public void openElement(String name, boolean hasChildren) throws DOMException {
     deNude();
     indent();
     this.childrenFlags.add(Boolean.valueOf(hasChildren));
@@ -315,8 +343,10 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void element(String name, String text) throws IOException {
+  public void element(String name, String text) throws DOMException {
     this.openElement(name);
     this.writeText(text);
     closeElement();
@@ -324,8 +354,10 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void closeElement() {
+  public void closeElement() throws DOMException, IllegalCloseElementException {
     if (this.currentElement.getNodeType() == Node.DOCUMENT_NODE)
       throw new IllegalCloseElementException();
     this.depth--;
@@ -347,17 +379,23 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * {@inheritDoc}
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
-  public void emptyElement(String name) {
+  public void emptyElement(String name) throws DOMException {
     Element element = this.document.createElement(name);
     this.currentElement.appendChild(element);
   }
 
   // direct access to the writer ----------------------------------------------------------
 
-  public void close() throws IOException, UnclosedElementException {
-    // TODO Auto-generated method stub
-
+  /**
+   * Does nothing.
+   * 
+   * {@inheritDoc}
+   */
+  public void close() {
+    // Do nothing
   }
 
   /**
@@ -489,6 +527,8 @@ public final class DOMWriterImpl implements DOMWriter {
 
   /**
    * Adds a new line to the DOM.
+   * 
+   * @throws DOMException If thrown by method invoked on the underlying DOM document
    */
   private void newLine() {
     this.currentElement.appendChild(this.newline.cloneNode(false));

@@ -111,7 +111,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   }
 
   /**
-   * Returns <code>true</code> if the event is a
+   * Returns <code>true</code> if the event is an attribute event.
    * 
    * @param e The event to compare with this event.
    * 

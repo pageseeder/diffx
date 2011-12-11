@@ -37,7 +37,7 @@ abstract class XMLEscapeWriterBase implements XMLEscapeWriter {
    * 
    * @throws NullPointerException If the specified writer is <code>null</code>.
    */
-  XMLEscapeWriterBase(Writer writer, String encoding) throws NullPointerException {
+  XMLEscapeWriterBase(Writer writer, String encoding) {
     if (writer == null)
       throw new NullPointerException("Cannot construct XML escape for null writer.");
     this.w = writer;

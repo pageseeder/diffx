@@ -84,7 +84,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   /**
    * @see com.topologi.diffx.xml.XMLWritable#toXML(com.topologi.diffx.xml.XMLWriter)
    */
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+  public StringBuffer toXML(StringBuffer xml) {
     // xml.append("<!--");
     xml.append(this.comment);
     // xml.append("-->");

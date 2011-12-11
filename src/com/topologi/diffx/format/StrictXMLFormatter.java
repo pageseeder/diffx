@@ -238,8 +238,9 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
         this.xml.print("=\"");
         this.xml.print(((AttributeEvent)e).getValue());
         this.xml.print('"');
+      } else {
+        throw new IllegalStateException("Cannot insert an attribute once the element is closed");
       }
-      else throw new IllegalStateException("Cannot insert an attribute once the element is closed");
     } else {
 
       // close any del tag

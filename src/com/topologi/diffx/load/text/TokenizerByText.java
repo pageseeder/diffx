@@ -36,6 +36,8 @@ public final class TokenizerByText implements TextTokenizer {
   /**
    * Creates a new tokenizer.
    * 
+   * @param whitespace the whitespace processing for this tokenizer.
+   * 
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerByText(WhiteSpaceProcessing whitespace) {
@@ -65,6 +67,7 @@ public final class TokenizerByText implements TextTokenizer {
           return Collections.singletonList((TextEvent)new IgnorableSpaceEvent(seq.toString()));
         case IGNORE:
           return Collections.emptyList();
+        default:
       }
       TextEvent e = new CharactersEvent(seq);
       return Collections.singletonList(e);
@@ -96,6 +99,7 @@ public final class TokenizerByText implements TextTokenizer {
         TextEvent e = new CharactersEvent(seq.subSequence(x, seq.length()-y));
         events = Collections.singletonList(e);
         break;
+      default:
     }
     return events;
   }
