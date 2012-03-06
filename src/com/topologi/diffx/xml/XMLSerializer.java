@@ -67,13 +67,13 @@ public final class XMLSerializer {
 
   /**
    * Serialises the given object using the given name as element name.
-   * 
+   *
    * <p>This implementation is recursive. It calls itself for fields which are not of
    * primitive type.
    *
    * @param o     Object to be serialised as xml
    * @param name  Name of object
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   public void serialize(Object o, String name) throws IOException {
@@ -134,9 +134,9 @@ public final class XMLSerializer {
    * Serialises the given Collection to xml.
    *
    * <p>Iterates over every object and call the {@link #serialize} method.
-   * 
+   *
    * @param c The Collection to be serialised to XML
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   public void serializeCollection(Collection<?> c) throws IOException {
@@ -152,7 +152,7 @@ public final class XMLSerializer {
    * objects.
    *
    * @param h The hashtable to be serialized to XML
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   public void serializeHashtable(Hashtable<?, ?> h) throws IOException {
@@ -180,7 +180,7 @@ public final class XMLSerializer {
    * the returned object and the name <i>xxx</i> in lower case.
    *
    * @param o The object to be serialised as XML
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   public void serializeObject(Object o) throws IOException {
@@ -191,7 +191,7 @@ public final class XMLSerializer {
         Method[] meth = cls.getMethods();
         for (Method element : meth) {
           String methodName = element.getName();
-          if (methodName.startsWith("get") && !methodName.equals("getClass")) {
+          if (methodName.startsWith("get") && !"getClass".equals(methodName)) {
             Object retObj = element.invoke(o, args);
             String attribute = methodName.substring(3).toLowerCase();
             serialize(retObj, attribute);

@@ -12,7 +12,7 @@ import java.io.FileFilter;
 
 /**
  * Filename filter for XML files.
- * 
+ *
  * <p>This filter assumes that an file simply as the .xml file extension.
  *
  * @author  Christophe Lauret
@@ -23,7 +23,15 @@ public final class XMLFilenameFilter implements FileFilter {
   /**
    * The XML extension to be used for filtering the files.
    */
-  public final String ext = "xml";
+  public static final String DEFAULT_EXTENSION = "xml";
+
+  /**
+   * The XML extension to be used for filtering the files.
+   *
+   * @deprecated will be made private in future releases
+   */
+  @Deprecated
+  public final String ext = DEFAULT_EXTENSION;
 
   /**
    * Set to <code>true</code> to ignore the case of the extension.
@@ -58,13 +66,14 @@ public final class XMLFilenameFilter implements FileFilter {
    *
    * @throws NullPointerException If the path name is <code>null</code>.
    */
+  @Override
   public boolean accept(File pathname) throws NullPointerException {
     if (pathname == null) throw new NullPointerException("The specified file is null.");
     String name = pathname.getName();
     int dot = name.lastIndexOf('.');
     if (dot == -1) return false;
     String local = name.substring(dot+1);
-    return this.ignoreCase? this.ext.equalsIgnoreCase(local) : this.ext.equals(local);
+    return this.ignoreCase? DEFAULT_EXTENSION.equalsIgnoreCase(local) : DEFAULT_EXTENSION.equals(local);
   }
 
 }

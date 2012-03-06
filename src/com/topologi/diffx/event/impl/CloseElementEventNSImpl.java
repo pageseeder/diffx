@@ -16,7 +16,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * The event corresponding to the <code>startElement</code> SAX event.
- * 
+ *
  * @author Christophe Lauret
  * @version 28 March 2010
  */
@@ -29,9 +29,9 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
 
   /**
    * Creates a new close element event on the default namespace URI.
-   * 
+   *
    * @param name The local name of the element
-   * 
+   *
    * @throws NullPointerException If the name is <code>null</code>.
    */
   public CloseElementEventNSImpl(String name) throws NullPointerException {
@@ -42,10 +42,10 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
 
   /**
    * Creates a new close element event.
-   * 
+   *
    * @param uri  The namespace URI of the element
    * @param name The local name of the element
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public CloseElementEventNSImpl(String uri, String name) throws NullPointerException {
@@ -58,9 +58,9 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
 
   /**
    * Creates a new close element event from the corresponding open element event.
-   * 
+   *
    * @param event The corresponding open element event.
-   * 
+   *
    * @throws NullPointerException If the name is <code>null</code>.
    */
   public CloseElementEventNSImpl(OpenElementEvent event) throws NullPointerException {
@@ -72,6 +72,7 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
   /**
    * @return Returns the name.
    */
+  @Override
   public String getName() {
     return this.open.getName();
   }
@@ -79,20 +80,17 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
   /**
    * @return Returns the namespace URI.
    */
+  @Override
   public String getURI() {
     return this.open.getURI();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public OpenElementEvent getOpenElement() {
     return this.open;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean match(OpenElementEvent event) {
     if (event == null) return false;
     if (event == this.open) return true;
@@ -100,9 +98,6 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
         &&  event.getName().equals(getName());
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return 89 + this.open.hashCode();
@@ -110,9 +105,9 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
 
   /**
    * Returns <code>true</code> if the event is a close element event.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -124,24 +119,17 @@ public final class CloseElementEventNSImpl extends DiffXEventBase implements Clo
         &&  ce.getName().equals(getName());
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "closeElement: "+getName()+" ["+getURI()+"]";
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.closeElement();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     // TODO: handle namespaces.
     xml.append("</").append(getName()).append('>');

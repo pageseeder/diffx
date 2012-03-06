@@ -14,7 +14,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * A processing instruction event.
- * 
+ *
  * @author Christophe Lauret
  * @version 27 March 2010
  */
@@ -40,7 +40,7 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
    *
    * @param target The target of the processing instruction.
    * @param data   The data of the processing instruction.
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public ProcessingInstructionEvent(String target, String data) throws NullPointerException {
@@ -51,7 +51,7 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
 
   /**
    * Returns the target of the processing instruction.
-   * 
+   *
    * @return The target of the processing instruction.
    */
   public String getTarget() {
@@ -60,16 +60,13 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
 
   /**
    * Returns the data of the processing instruction.
-   * 
+   *
    * @return The data of the processing instruction.
    */
   public String getData() {
     return this.data;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -77,9 +74,9 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
 
   /**
    * Returns <code>true</code> if the event is a processing instruction.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -92,24 +89,17 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
         && pi.data.equals(this.data);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "pi: "+this.target+": "+this.data;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.writePI(this.target, this.data);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append("<?");
     xml.append(this.target);
@@ -121,7 +111,7 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param s1 A string to calculate the value from.
    * @param s2 Another string to calculate the value from.
    * @return a number suitable as a hashcode.

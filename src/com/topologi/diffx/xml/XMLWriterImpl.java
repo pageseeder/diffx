@@ -29,7 +29,7 @@ import java.util.List;
  *
  * <p>This class is not synchronised and does not support namespaces, and will therefore
  * throw an unsupported operation exception for each call to a method that uses namespaces.
- * 
+ *
  * @author  Christophe Lauret
  * @version 6 December 2008
  */
@@ -57,7 +57,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    * <p>Sets the depth attribute to 0 and the indentation to <code>true</code>.
    *
    * @param writer Where this writer should write the XML data.
-   * 
+   *
    * @throws NullPointerException If the writer is <code>null</code>.
    */
   public XMLWriterImpl(Writer writer) throws NullPointerException {
@@ -70,7 +70,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    *
    * @param writer  Where this writer should write the XML data.
    * @param indent  Set the indentation flag.
-   * 
+   *
    * @throws NullPointerException If the writer is <code>null</code>.
    */
   public XMLWriterImpl(Writer writer, boolean indent) throws NullPointerException {
@@ -108,9 +108,10 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    * @see #openElement(java.lang.String, java.lang.String, boolean)
    *
    * @param name The name of the element
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void openElement(String name) throws IOException {
     openElement(name, false);
   }
@@ -125,9 +126,10 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    *
    * @param name        The name of the element.
    * @param hasChildren <code>true</code> if this element has children.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void openElement(String name, boolean hasChildren) throws IOException {
     deNude();
     indent();
@@ -144,6 +146,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalCloseElementException If there is no element to close
    */
+  @Override
   public void closeElement() throws IOException, IllegalCloseElementException {
     Element elt = popElement();
     // reaching the end of the document
@@ -180,7 +183,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Same as <code>emptyElement(null, element);</code>.
-   * 
+   *
    * <p>It is possible for the element to contain attributes,
    * however, since there is no character escaping, great care
    * must be taken not to introduce invalid characters. For
@@ -190,9 +193,10 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    * </pre>
    *
    * @param element the name of the element
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void emptyElement(String element) throws IOException {
     deNude();
     indent();
@@ -210,20 +214,20 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Returns the last element in the list.
-   * 
+   *
    * @return The current element.
    */
   private Element peekElement() {
-    return (Element)this.elements.get(this.elements.size() - 1);
+    return this.elements.get(this.elements.size() - 1);
   }
 
   /**
    * Removes the last element in the list.
-   * 
+   *
    * @return The current element.
    */
   private Element popElement() {
-    return (Element)this.elements.remove(this.elements.size() - 1);
+    return this.elements.remove(this.elements.size() - 1);
   }
 
   // Unsupported operations
@@ -234,7 +238,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    *
    * @param uri  This parameter is ignored.
    * @param name This parameter is ignored.
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
   public void openElement(String uri, String name) throws UnsupportedOperationException {
@@ -247,9 +251,10 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    * @param uri         This parameter is ignored.
    * @param name        This parameter is ignored.
    * @param hasChildren This parameter is ignored.
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
+  @Override
   public void openElement(String uri, String name, boolean hasChildren)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces.");
@@ -260,9 +265,10 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
    *
    * @param uri     This parameter is ignored.
    * @param element This parameter is ignored.
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
+  @Override
   public void emptyElement(String uri, String element)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
@@ -270,12 +276,13 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Not supported.
-   * 
+   *
    * @param uri    This parameter is ignored.
    * @param prefix This parameter is ignored.
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
+  @Override
   public void setPrefixMapping(String uri, String prefix)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
@@ -283,14 +290,15 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Not supported.
-   * 
+   *
    * @param uri    This parameter is ignored.
    * @param name  The name of the attribute.
    * @param value The value of the attribute.
 
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
+  @Override
   public void attribute(String uri, String name, String value)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
@@ -298,13 +306,14 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Not supported.
-   * 
+   *
    * @param uri    This parameter is ignored.
    * @param name  The name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws UnsupportedOperationException This class does not handle namespaces.
    */
+  @Override
   public void attribute(String uri, String name, int value)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("This class does not handle namespaces");
@@ -312,10 +321,11 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * Close the writer.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    * @throws UnclosedElementException If an element has been left open.
    */
+  @Override
   public void close() throws IOException, UnclosedElementException {
     Element open = peekElement();
     if (open != ROOT)
@@ -328,9 +338,9 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
   /**
    * A light object to keep track of the element.
-   * 
+   *
    * <p>This object does not support namespaces.
-   * 
+   *
    * @author Christophe Lauret
    * @version 7 March 2005
    */
@@ -348,7 +358,7 @@ public final class XMLWriterImpl extends XMLWriterBase implements XMLWriter {
 
     /**
      * Creates a new Element.
-     * 
+     *
      * @param name       The qualified name of the element.
      * @param hasChildren Whether the element has children.
      */

@@ -15,10 +15,10 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * A basic implementation of the attribute event.
- * 
+ *
  * <p>
  * This implementation is not namespace aware.
- * 
+ *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  * @version 28 March 2010
@@ -42,10 +42,10 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
 
   /**
    * Creates a new attribute event.
-   * 
+   *
    * @param name The local name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public AttributeEventImpl(String name, String value) throws NullPointerException {
@@ -61,15 +61,17 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getName() {
     return this.name;
   }
 
   /**
    * Always return <code>null</code>.
-   * 
+   *
    * {@inheritDoc}
    */
+  @Override
   public String getURI() {
     return null;
   }
@@ -77,6 +79,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getValue() {
     return this.value;
   }
@@ -91,9 +94,9 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
 
   /**
    * Returns <code>true</code> if the event is an attribute event.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -116,6 +119,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   /**
    * {@inheritDoc}
    */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.name, this.value);
   }
@@ -123,6 +127,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   /**
    * {@inheritDoc}
    */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append(' ');
     xml.append(this.name);
@@ -134,7 +139,7 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param name The attribute name.
    * @param value The attribute value.
    * @return a number suitable as a hashcode.

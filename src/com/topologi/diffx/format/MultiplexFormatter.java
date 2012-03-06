@@ -16,7 +16,7 @@ import com.topologi.diffx.event.DiffXEvent;
 
 /**
  * A formatter which can relay the method calls to multiple formatters.
- * 
+ *
  * @author Christophe Lauret
  * @version 11 December 2008
  */
@@ -40,7 +40,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
 
   /**
    * Creates a new formatter wrapping the specified formatter.
-   * 
+   *
    * @param f The formatter to use.
    */
   public MultiplexFormatter(DiffXFormatter f) {
@@ -52,43 +52,35 @@ public final class MultiplexFormatter implements DiffXFormatter {
 
   /**
    * Adds a formatter to multiplex.
-   * 
+   *
    * @param f The Diff-X formatter to add.
    */
   public void add(DiffXFormatter f) {
     this.formatters.add(f);
   }
 
-  /**
-   * @see DiffXFormatter#format(DiffXEvent)
-   */
+  @Override
   public void format(DiffXEvent e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.format(e);
     }
   }
 
-  /**
-   * @see DiffXFormatter#insert(DiffXEvent)
-   */
+  @Override
   public void insert(DiffXEvent e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.insert(e);
     }
   }
 
-  /**
-   * @see DiffXFormatter#delete(DiffXEvent)
-   */
+  @Override
   public void delete(DiffXEvent e) throws IOException, IllegalStateException {
     for (DiffXFormatter f : this.formatters) {
       f.delete(e);
     }
   }
 
-  /**
-   * @see DiffXFormatter#setConfig(DiffXConfig)
-   */
+  @Override
   public void setConfig(DiffXConfig config) {
     for (DiffXFormatter f : this.formatters) {
       f.setConfig(config);

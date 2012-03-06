@@ -27,13 +27,13 @@ import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * An XML formatter that tries to ensure that the output XML will be well-formed.
- * 
+ *
  * <p>This class will always close the elements correctly by maintaining a stack of parent elements.
- * 
+ *
  * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the
  * future it should be possible to configure which prefixes to use for each namespace, but
  * in this version the namespace prefix mapping is hard-coded.
- * 
+ *
  * @author Christophe Lauret
  * @version 11 May 2010
  */
@@ -60,7 +60,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Set to <code>true</code> to include the XML declaration.
-   * 
+   *
    * <p>This attribute is set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
    * is called with <code>false</code> or once the XML declaration has been written.
    */
@@ -70,12 +70,12 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter on the standard output.
-   * 
+   *
    * <p>This constructor is equivalent to:
    * <pre>new SmartXMLFormatter(new PrintWriter(System.out));</pre>.
-   * 
+   *
    * @see System#out
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public SafeXMLFormatter() throws IOException {
@@ -84,9 +84,9 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter using the specified writer.
-   * 
+   *
    * @param w The writer to use.
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public SafeXMLFormatter(Writer w) throws IOException {
@@ -102,9 +102,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
   // methods ------------------------------------------------------------------------------------
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#format(com.topologi.diffx.event.DiffXEvent)
-   */
+  @Override
   public void format(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("="+e);
@@ -117,9 +115,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#insert(com.topologi.diffx.event.DiffXEvent)
-   */
+  @Override
   public void insert(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("+"+e);
@@ -160,9 +156,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#delete(com.topologi.diffx.event.DiffXEvent)
-   */
+  @Override
   public void delete(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("-"+e);
@@ -202,25 +196,22 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(com.topologi.diffx.config.DiffXConfig)
-   */
+  @Override
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  /**
-   * @see XMLDiffXFormatter#setWriteXMLDeclaration(boolean)
-   */
+  @Override
   public void setWriteXMLDeclaration(boolean show) {
     this.writeXMLDeclaration = show;
   }
 
   /**
    * Adds the prefix mapping to this class.
-   * 
+   *
    * @param mapping The prefix mapping to add.
    */
+  @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
     for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
       String uri = uris.nextElement();

@@ -1,3 +1,10 @@
+/*
+ * This file is part of the DiffX library.
+ *
+ * For licensing information please see the file license.txt included in the release.
+ * A copy of this licence can also be found at
+ *   http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 package com.topologi.diffx.event.impl;
 
 import java.io.IOException;
@@ -7,10 +14,10 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * A comment event.
- * 
+ *
  * @author Christophe Lauret
  * @author Jason Harrop
- * 
+ *
  * @version 27 March 2010
  */
 public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
@@ -27,7 +34,9 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Creates a new comment event.
-   * 
+   *
+   * @param comment the comment string.
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public CommentEvent(String comment) throws NullPointerException {
@@ -37,14 +46,13 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Returns the comment.
+   *
+   * @return the comment string.
    */
   public String getComment() {
     return this.comment;
   }
 
-  /**
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -52,9 +60,9 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Returns <code>true</code> if the event is a comment event.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -66,24 +74,17 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
     return ce.comment == null && this.comment == null || ce.comment.equals(this.comment);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "comment: " + this.comment;
   }
 
-  /**
-   * @see com.topologi.diffx.xml.XMLWritable#toXML(com.topologi.diffx.xml.XMLWriter)
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.writeComment(this.comment);
   }
 
-  /**
-   * @see com.topologi.diffx.xml.XMLWritable#toXML(com.topologi.diffx.xml.XMLWriter)
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) {
     // xml.append("<!--");
     xml.append(this.comment);
@@ -93,7 +94,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param comment The comment string.
    * @return a number suitable as a hashcode.
    */

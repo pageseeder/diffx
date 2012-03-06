@@ -15,7 +15,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * A namespace aware implementation of the attribute event.
- * 
+ *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  * @version 28 March 2010
@@ -44,10 +44,10 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
 
   /**
    * Creates a new attribute event.
-   * 
+   *
    * @param name The local name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public AttributeEventNSImpl(String name, String value) throws NullPointerException {
@@ -63,11 +63,11 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
 
   /**
    * Creates a new attribute event.
-   * 
+   *
    * @param uri The uri of the attribute.
    * @param name The local name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public AttributeEventNSImpl(String uri, String name, String value) throws NullPointerException {
@@ -84,6 +84,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getName() {
     return this.name;
   }
@@ -91,6 +92,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getURI() {
     return this.uri;
   }
@@ -98,6 +100,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getValue() {
     return this.value;
   }
@@ -112,9 +115,9 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
 
   /**
    * Returns <code>true</code> if the event is an attribute event.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -143,6 +146,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.uri, this.name, this.value);
   }
@@ -150,6 +154,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
   /**
    * {@inheritDoc}
    */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     // FIXME: no support for NS????
     xml.append(' ');
@@ -162,10 +167,10 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
 
   /**
    * Returns <code>true</code> if both namespace URI are <code>null</code> or equal.
-   * 
+   *
    * @param uri1 The first namespace URI.
    * @param uri2 The second namespace URI.
-   * 
+   *
    * @return <code>true</code> if both <code>null</code> or equal; <code>false</code> otherwise.
    */
   private static boolean equals(String uri1, String uri2) {
@@ -178,7 +183,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param uri The URI.
    * @param name The attribute name.
    * @param value The attribute value.

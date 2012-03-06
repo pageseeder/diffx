@@ -13,11 +13,11 @@ import com.topologi.diffx.xml.esc.XMLEscapeUTF8;
 
 /**
  * A base class for DiffX events.
- * 
+ *
  * <p>
  * This class is purely provided for convenience and consistency, it is best, althouhg not strictly
  * required, that most <code>DiffXEvent</code> implementations extend this class.
- * 
+ *
  * @author Christophe Lauret
  * @version 3 February 2005
  */
@@ -29,7 +29,7 @@ abstract class DiffXEventBase implements DiffXEvent {
   static final XMLEscape ESC = XMLEscapeUTF8.UTF8_ESCAPE;
 
   /**
-   * 
+   *
    */
   int weight = 1;
 
@@ -42,14 +42,15 @@ abstract class DiffXEventBase implements DiffXEvent {
   /**
    * {@inheritDoc}
    */
+  @Override
   public abstract boolean equals(DiffXEvent e);
 
   /**
    * Invokes the {@link DiffXEvent#equals(DiffXEvent)} method if the specified object if not
    * <code>null</code> and is an instance of {@link DiffXEvent}.
-   * 
+   *
    * @param o The object to compare.
-   * 
+   *
    * @return <code>true</code> if the specified object is equal;
    *         <code>false</code> otherwise.
    */
@@ -62,23 +63,17 @@ abstract class DiffXEventBase implements DiffXEvent {
     return equals((DiffXEvent) o);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String toXML() {
     return this.toXML(new StringBuffer()).toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int getWeight() {
     return this.weight;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void setWeight(int weight) {
     this.weight = weight;
   }

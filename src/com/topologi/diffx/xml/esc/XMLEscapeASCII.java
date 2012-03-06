@@ -9,7 +9,7 @@ package com.topologi.diffx.xml.esc;
 
 /**
  * A singleton for escaping XML data when using the 'ASCII' encoding.
- * 
+ *
  * @author  Christophe Lauret
  * @version 16 January 2007
  */
@@ -45,6 +45,7 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    *
    * {@inheritDoc}
    */
+  @Override
   public String toAttributeValue(char[] ch, int off, int len) {
     // process the rest
     StringBuffer out = new StringBuffer(len + len / 10);
@@ -54,8 +55,7 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
         // tabs, new lines and line feeds: preserve
         if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D) {
           out.append(ch[i]);
-        }
-        else {
+        } else {
           doNothing();
           // 0x20 to 0x7F
         }
@@ -108,6 +108,7 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
    *
    * {@inheritDoc}
    */
+  @Override
   public String toElementText(char[] ch, int off, int len) {
     // process the rest
     StringBuffer out = new StringBuffer(len + len / 10);
@@ -117,8 +118,7 @@ public final class XMLEscapeASCII extends XMLEscapeBase implements XMLEscape {
         // tabs, new lines and line feeds: preserve
         if (ch[i] == 0x09 || ch[i] == 0x0A || ch[i] == 0x0D) {
           out.append(ch[i]);
-        }
-        else {
+        } else {
           doNothing();
           // 0x20 to 0x7F
         }

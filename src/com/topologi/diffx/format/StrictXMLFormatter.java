@@ -25,13 +25,13 @@ import com.topologi.diffx.util.Constants;
 
 /**
  * A simple XML formatter that writes strictly what it is given.
- * 
+ *
  * <p>This formatter will write the events exactly in the order in which they are given,
  * in other words, there is no way to prevent this class from writing malformed XML.
  * On other hand, the {@link com.topologi.diffx.format.SmartXMLFormatter} will close
  * XML elements automatically, therefore rectifying a lot of the errors that lead to
  * malformed XML.
- * 
+ *
  * @author Christophe Lauret
  * @version 3 April 2005
  */
@@ -73,7 +73,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Set to <code>false</code> once the prefix mapping has been declared.
-   * 
+   *
    * <pre>
    *   xmlns:dfx="http://www.allette.com.au/diffex"
    * </pre>
@@ -110,7 +110,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter using the specified writer.
-   * 
+   *
    * @param w The writer to use.
    */
   public StrictXMLFormatter(Writer w) {
@@ -127,9 +127,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
     this.xml.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
   }
 
-  /**
-   * @see DiffXFormatter#format(DiffXEvent)
-   */
+  @Override
   public void format(DiffXEvent e) throws IOException {
     // an element to open
     if (e instanceof OpenElementEvent) {
@@ -199,9 +197,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see DiffXFormatter#insert(DiffXEvent)
-   */
+  @Override
   public void insert(DiffXEvent e) throws IOException {
     // insert element
     if (e instanceof OpenElementEvent) {
@@ -270,9 +266,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see DiffXFormatter#delete(DiffXEvent)
-   */
+  @Override
   public void delete(DiffXEvent e) throws IOException, IllegalStateException {
     // we ignore delete attributes
     if (this.isElementNude) {
@@ -322,12 +316,12 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Sets the open and end tags for inserted text.
-   * 
+   *
    * <p>The default values are "&lt;ins:&gt;" and "&lt;/ins:&gt;" respectively.
-   * 
+   *
    * @param start The open tag for inserts.
    * @param end   The close tag for inserts.
-   * 
+   *
    * @throws NullPointerException If any of the tags is <code>null</code>.
    */
   public void setInsertTags(String start, String end) throws NullPointerException {
@@ -341,12 +335,12 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Sets the open and end tags for deleted text.
-   * 
+   *
    * <p>The default values are "&lt;del:&gt;" and "&lt;/del:&gt;" respectively.
-   * 
+   *
    * @param start The open tag for deletions.
    * @param end   The close tag for deletions.
-   * 
+   *
    * @throws NullPointerException If any of the tags is <code>null</code>.
    */
   public void setDeleteTags(String start, String end) throws NullPointerException {
@@ -358,27 +352,24 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
     this.closeDel = end;
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(DiffXConfig)
-   */
+  @Override
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  /**
-   * @see XMLDiffXFormatter#setWriteXMLDeclaration(boolean)
-   */
+  @Override
   public void setWriteXMLDeclaration(boolean show) {
   }
 
   /**
    * Adds the prefix mapping to this class.
-   * 
+   *
    * @param mapping The prefix mapping to add.
    */
+  @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
     for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = (String)uris.nextElement();
+      String uri = uris.nextElement();
       mapping.getPrefix(uri);
       // TODO: does nothing !!!
     }

@@ -25,7 +25,7 @@ import com.topologi.diffx.event.impl.WordEvent;
 
 /**
  * A simple formatter to write the short string version of the events.
- * 
+ *
  * @author Christophe Lauret
  * @version 18 March 2005
  */
@@ -42,9 +42,9 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Creates a new formatter on the standard output.
-   * 
+   *
    * @see System#out
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public ShortStringFormatter() throws IOException {
@@ -53,9 +53,9 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Creates a new formatter using the specified writer.
-   * 
+   *
    * @param w The writer to use.
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public ShortStringFormatter(Writer w) throws IOException {
@@ -66,18 +66,20 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Writes the event as a short string.
-   * 
-   * @see DiffXFormatter#format(DiffXEvent)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void format(DiffXEvent e) throws IOException, IllegalStateException {
     this.out.write(toShortString(e));
   }
 
   /**
    * Writes the event as a short string preceded by '+'.
-   * 
-   * @see DiffXFormatter#insert(DiffXEvent)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void insert(DiffXEvent e) throws IOException, IllegalStateException {
     this.out.write("+");
     this.out.write(toShortString(e));
@@ -85,9 +87,10 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Writes the event as a short string preceded by '+'.
-   * 
-   * @see DiffXFormatter#delete(DiffXEvent)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void delete(DiffXEvent e) throws IOException, IllegalStateException {
     this.out.write("-");
     this.out.write(toShortString(e));
@@ -95,9 +98,10 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Ignored.
-   * 
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(DiffXConfig)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void setConfig(DiffXConfig config) {
   }
 
@@ -105,9 +109,9 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Returns the short string for the given event.
-   * 
+   *
    * @param e The event.
-   * 
+   *
    * @return The short string for the given event.
    */
   public static String toShortString(DiffXEvent e) {

@@ -37,21 +37,21 @@ import com.topologi.diffx.xml.XMLWriterNSImpl;
  *  ContentHandler myContentHandler = ...;
  *  XMLWriter saxWriter = new XMLWriterSAX(myContentHandler);
  * </pre>
- * 
+ *
  * <p>This SAX event writer as the following features:
  * <ul>
  *   <li><b>http://xml.org/sax/features/namespaces</b> set to <code>true</code></li>
  *   <li><b>http://xml.org/sax/features/namespace-prefixes</b> set to <code>false</code></li>
  * </ul>
- * 
+ *
  * <p>Consequently, the attributes will not contain attributes used for namespace
  * declarations (xmlns* attributes).
- * 
+ *
  * <p>This implementation does not provide qualified names, and will always return "".
- * 
+ *
  * <p>The ContentHandler's <code>startDocument</code> and <code>endDocument</code> methods
  * have to be called externally.
- * 
+ *
  * <p>Note that the write methods do not necessarily correspond to the content handler
  * methods or at least they may not be invoked at the same time. For example, the
  * <code>attribute</code> methods will not generate any event until it is possible to
@@ -141,7 +141,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * The attributes attached to the current open element.
-   * 
+   *
    * <p>This variable can be <code>null</code> and should be set to <code>null</code>,
    * after the <code>startElementMethod</code> has been invoked.
    */
@@ -153,7 +153,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * <p>Creates a new XML writer.
    *
    * @param handler The SAX2 content handler to use.
-   * 
+   *
    * @throws NullPointerException If the handler is <code>null</code>.
    */
   public XMLWriterSAX(ContentHandler handler) throws NullPointerException {
@@ -169,20 +169,23 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * Does nothing.
    */
+  @Override
   public void xmlDecl() {
   }
 
   /**
-   * @see XMLWriter#setIndentChars(String)
+   * {@inheritDoc}
    */
+  @Override
   public void setIndentChars(String spaces) throws IllegalStateException, IllegalArgumentException {
     if (this.depth != 0)
       throw new IllegalStateException("To late to set the indentation characters!");
     // check that this is a valid indentation string
     if (spaces != null) {
-      for (int i = 0; i < spaces.length(); i++)
+      for (int i = 0; i < spaces.length(); i++) {
         if (!Character.isSpaceChar(spaces.charAt(i)))
           throw new IllegalArgumentException("Not a valid indentation string.");
+      }
       this.indentChars = spaces.toCharArray();
     }
     // update the flags
@@ -192,8 +195,9 @@ public final class XMLWriterSAX implements XMLWriter {
   // write text methods -------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#writeText(String)
+   * {@inheritDoc}
    */
+  @Override
   public void writeText(String text) throws IOException {
     if (text == null) return;
     try {
@@ -205,8 +209,9 @@ public final class XMLWriterSAX implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writeText(char[], int, int)
+   * {@inheritDoc}
    */
+  @Override
   public void writeText(char[] text, int off, int len) throws IOException {
     try {
       deNude();
@@ -217,8 +222,9 @@ public final class XMLWriterSAX implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writeText(char)
+   * {@inheritDoc}
    */
+  @Override
   public void writeText(char c) throws IOException {
     try {
       deNude();
@@ -237,7 +243,7 @@ public final class XMLWriterSAX implements XMLWriter {
    * @see #writeText(java.lang.String)
    *
    * @param o The object that should be written as text.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
   public void writeText(Object o) throws IOException {
@@ -262,15 +268,21 @@ public final class XMLWriterSAX implements XMLWriter {
   // write xml methods are not supported --------------------------------------------------
 
   /**
-   * @see XMLWriter#writeXML(java.lang.String)
+   * Always throw an <code>UnsupportedOperationException</code> exception.
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void writeXML(String text) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Cannot run unparsed XML as SAX events");
   }
 
   /**
-   * @see XMLWriter#writeXML(char[], int, int)
+   * Always throw an <code>UnsupportedOperationException</code> exception.
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void writeXML(char[] text, int off, int len)
       throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Cannot run unparsed XML as SAX events");
@@ -280,15 +292,17 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Does nothing as SAX content handler do not handle comments.
-   * 
-   * @see XMLWriter#writeComment(String)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void writeComment(String comment) {
   }
 
   /**
-   * @see XMLWriter#writePI(String, String)
+   * {@inheritDoc}
    */
+  @Override
   public void writePI(String target, String data) throws IOException {
     try {
       deNude();
@@ -304,20 +318,20 @@ public final class XMLWriterSAX implements XMLWriter {
   // attribute methods --------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#attribute(String, String)
+   * {@inheritDoc}
    */
-  public void attribute(String name, String value)
-      throws IOException, IllegalStateException {
+  @Override
+  public void attribute(String name, String value) throws IOException {
     if (!this.isNude)
-      throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throw new IllegalStateException("Cannot write attribute: too late!");
     this.attributes.addAttribute(name, value);
   }
 
   /**
-   * @see XMLWriter#attribute(String, int)
+   * {@inheritDoc}
    */
-  public void attribute(String name, int value)
-      throws IOException {
+  @Override
+  public void attribute(String name, int value) throws IOException {
     if (!this.isNude)
       throw new IllegalStateException("Cannot write attribute: too late!");
     this.attributes.addAttribute(name, Integer.toString(value));
@@ -329,12 +343,12 @@ public final class XMLWriterSAX implements XMLWriter {
    * @param uri   The namespace URI this attribute belongs to.
    * @param name  The name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalStateException If there is no open element or text has been written.
    */
-  public void attribute(String uri, String name, String value)
-      throws IOException {
+  @Override
+  public void attribute(String uri, String name, String value) throws IOException {
     if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     // TODO: check declared
     this.attributes.addAttribute(uri, name, value);
@@ -348,12 +362,12 @@ public final class XMLWriterSAX implements XMLWriter {
    * @param uri   The namespace URI this attribute belongs to.
    * @param name  The name of the attribute.
    * @param value The value of the attribute.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    * @throws IllegalStateException If there is no open element or text has been written.
    */
-  public void attribute(String uri, String name, int value)
-      throws IOException {
+  @Override
+  public void attribute(String uri, String name, int value) throws IOException {
     if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     // TODO: check declared
     this.attributes.addAttribute(uri, name, Integer.toString(value));
@@ -373,7 +387,7 @@ public final class XMLWriterSAX implements XMLWriter {
       // report the prefix mapping
       if (elt.mappings != null) {
         for (int i = 0; i < elt.mappings.size(); i++) {
-          PrefixMapping pm = (PrefixMapping)elt.mappings.get(i);
+          PrefixMapping pm = elt.mappings.get(i);
           this.handler.startPrefixMapping(pm.prefix, pm.uri);
         }
       }
@@ -394,9 +408,10 @@ public final class XMLWriterSAX implements XMLWriter {
    * @see #openElement(java.lang.String, java.lang.String, boolean)
    *
    * @param name the name of the element
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void openElement(String name) throws IOException {
     openElement("", name, false);
   }
@@ -410,7 +425,7 @@ public final class XMLWriterSAX implements XMLWriter {
    *
    * @param uri  The namespace URI of this element.
    * @param name The name of the element.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
   public void openElement(String uri, String name) throws IOException {
@@ -428,9 +443,10 @@ public final class XMLWriterSAX implements XMLWriter {
    *
    * @param name        The name of the element.
    * @param hasChildren <code>true</code> if this element has children.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void openElement(String name, boolean hasChildren) throws IOException {
     openElement("", name, hasChildren);
   }
@@ -447,9 +463,10 @@ public final class XMLWriterSAX implements XMLWriter {
    * @param uri         The namespace URI of this element.
    * @param name        The name of the element.
    * @param hasChildren true if this element has children.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void openElement(String uri, String name, boolean hasChildren) throws IOException {
     try {
       deNude();
@@ -463,8 +480,9 @@ public final class XMLWriterSAX implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#element(String, String)
+   * {@inheritDoc}
    */
+  @Override
   public void element(String name, String text) throws IOException {
     this.openElement(name);
     this.writeText(text);
@@ -476,6 +494,7 @@ public final class XMLWriterSAX implements XMLWriter {
   /**
    * Does nothing.
    */
+  @Override
   public void flush() {
   }
 
@@ -506,6 +525,7 @@ public final class XMLWriterSAX implements XMLWriter {
    *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void closeElement() throws IOException {
     this.depth--;
     // this is an empty element
@@ -526,7 +546,7 @@ public final class XMLWriterSAX implements XMLWriter {
       // restore previous mapping if necessary
       if (elt.mappings != null) {
         for (int i = 0; i < elt.mappings.size(); i++) {
-          PrefixMapping pm = (PrefixMapping) elt.mappings.get(i);
+          PrefixMapping pm = elt.mappings.get(i);
           this.handler.endPrefixMapping(pm.prefix);
         }
       }
@@ -544,12 +564,13 @@ public final class XMLWriterSAX implements XMLWriter {
   }
 
   /**
-   * Same as <code>emptyElement(null, element);</code>
+   * Same as <code>emptyElement(null, element);</code>.
    *
    * @param element the name of the element
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void emptyElement(String element) throws IOException {
     emptyElement(null, element);
   }
@@ -567,9 +588,10 @@ public final class XMLWriterSAX implements XMLWriter {
    *
    * @param uri     The namespace URI for this element.
    * @param element The name of the element.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
+  @Override
   public void emptyElement(String uri, String element) throws IOException {
     try {
       deNude();
@@ -585,7 +607,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Returns the last element in the list.
-   * 
+   *
    * @return The current element.
    */
   private Element peekElement() {
@@ -594,7 +616,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Removes the last element in the list.
-   * 
+   *
    * @return The current element.
    */
   private Element popElement() {
@@ -605,15 +627,16 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * @see com.topologi.diffx.xml.XMLWriter#setPrefixMapping(java.lang.String, java.lang.String)
-   * 
+   *
    * <p>This implementation does not keep a history of the prefix mappings so it needs to be
    * reset. If a prefix is already being used it is overridden.
-   * 
+   *
    * @param uri    The full namespace URI.
    * @param prefix The prefix for the namespace uri.
-   * 
+   *
    * @throws NullPointerException if the prefix is <code>null</code>.
    */
+  @Override
   public void setPrefixMapping(String uri, String prefix) throws NullPointerException {
     //do not declare again if the same mapping already exist
     if (!prefix.equals(this.prefixMapping.get(uri))) {
@@ -634,16 +657,16 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Returns the qualified name for this element using the specified namespace URI.
-   * 
+   *
    * @param uri  The namespace URI for the element.
    * @param name The name of the element or attribute.
-   * 
+   *
    * @return The qualified element name.
-   * 
+   *
    * @throws UndeclaredNamespaceException If the uri has not being previously declared.
    */
   private String getQName(String uri, String name) throws UndeclaredNamespaceException {
-    String prefix = (String)this.prefixMapping.get(uri != null? uri : "");
+    String prefix = this.prefixMapping.get(uri != null? uri : "");
     if (prefix != null) {
       if (!"".equals(prefix))
         return this.prefixMapping.get(uri)+":"+name;
@@ -655,11 +678,11 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Restores the prefix mapping after closing an element.
-   * 
+   *
    * <p>This costly operation need only to be done if the method
    * {@link XMLWriterNSImpl#setPrefixMapping(String, String)} have been used
    * immediately before, therefore it should not happen often.
-   * 
+   *
    * @param elt The element that had some new mappings.
    */
   private void restorePrefixMapping(Element elt) {
@@ -677,7 +700,7 @@ public final class XMLWriterSAX implements XMLWriter {
             List<PrefixMapping> mps = this.elements.get(j).mappings;
             // iterate through the define namespace mappings of the parent
             for (int k = 0; k < mps.size(); k++) {
-              PrefixMapping mpk = (PrefixMapping)mps.get(k);
+              PrefixMapping mpk = mps.get(k);
               // if we found a namespace prefix for the namespace
               if (mpk.prefix.equals(mpi.prefix)) {
                 removeIfNeeded(mpk.prefix);
@@ -697,7 +720,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Removes the mapping associated to the specified prefix.
-   * 
+   *
    * @param prefix The prefix which mapping should be removed.
    */
   private void removeIfNeeded(String prefix) {
@@ -716,12 +739,13 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Closes the writer.
-   * 
+   *
    * <p>This method only checks that it is possible to close the writer.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    * @throws UnclosedElementException If an element has been left open.
    */
+  @Override
   public void close() throws IOException, UnclosedElementException {
     Element open = peekElement();
     if (open != ROOT)
@@ -730,7 +754,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Generates a new line as an ignorable white space event
-   * 
+   *
    * @throws SAXException If thrown by the handler.
    */
   private void newLine() throws SAXException {
@@ -739,9 +763,9 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * Handles the SAX Exception.
-   * 
+   *
    * @param ex A SAXException thrown by the content handler.
-   * 
+   *
    * @throws IOException If thrown by the handler.
    */
   private void handleEx(SAXException ex) throws IOException {
@@ -753,7 +777,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * A light object to keep track of the elements
-   * 
+   *
    * @author Christophe Lauret (Allette Systems)
    * @version 26 May 2005
    */
@@ -771,7 +795,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
     /**
      * A list of prefix mappings for this element.
-     * 
+     *
      * <p>Can be <code>null</code>.
      */
     private final List<PrefixMapping> mappings;
@@ -783,7 +807,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
     /**
      * Creates a new Element.
-     * 
+     *
      * @param uri         The namespace URI of the element.
      * @param name        The local name of the element.
      * @param hasChildren Whether the element has children.
@@ -821,7 +845,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
     /**
      * Creates a new prefix mapping.
-     * 
+     *
      * @param prefix The prefix for the URI.
      * @param uri    The full namespace URI.
      */
@@ -835,7 +859,7 @@ public final class XMLWriterSAX implements XMLWriter {
 
   /**
    * A SAX attribute list implementation.
-   * 
+   *
    * <p>Note: the type of all attributes is CDATA.
    *
    * @author Christophe Lauret
@@ -874,7 +898,7 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @param name The attribute name.
      * @param value The attribute value (must not be null).
-     * 
+     *
      * @see #removeAttribute
      * @see org.xml.sax.DocumentHandler#startElement
      */
@@ -890,7 +914,7 @@ public final class XMLWriterSAX implements XMLWriter {
      * @param uri  The namespace URI of the attribute
      * @param name The attribute name.
      * @param value The attribute value (must not be null).
-     * 
+     *
      * @see #removeAttribute
      * @see org.xml.sax.DocumentHandler#startElement
      */
@@ -906,9 +930,10 @@ public final class XMLWriterSAX implements XMLWriter {
      * Returns the number of attributes in the list.
      *
      * @return The number of attributes in the list.
-     * 
+     *
      * @see org.xml.sax.AttributeList#getLength
      */
+    @Override
     public int getLength() {
       return this.names.size();
     }
@@ -922,6 +947,7 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @see org.xml.sax.Attributes#getQName(int)
      */
+    @Override
     public String getQName(int i) {
       if (i < 0) return null;
       try {
@@ -941,10 +967,11 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @see org.xml.sax.Attributes#getQName(int)
      */
+    @Override
     public String getLocalName(int i) {
       if (i < 0) return null;
       try {
-        return (String)this.names.get(i);
+        return this.names.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
@@ -959,6 +986,7 @@ public final class XMLWriterSAX implements XMLWriter {
      *
      * @see org.xml.sax.Attributes#getType(int)
      */
+    @Override
     public String getType(int i) {
       if (i < 0) return null;
       try {
@@ -972,16 +1000,17 @@ public final class XMLWriterSAX implements XMLWriter {
      * Returns the value of an attribute (by position).
      *
      * @param i The position of the attribute in the list.
-     * 
+     *
      * @return The attribute value as a string;
      *         or <code>null</code> if there is no attribute at that position.
      *
      * @see org.xml.sax.Attributes#getValue(int)
      */
+    @Override
     public String getValue(int i) {
       if (i < 0) return null;
       try {
-        return (String)this.values.get(i);
+        return this.values.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
@@ -991,16 +1020,17 @@ public final class XMLWriterSAX implements XMLWriter {
      * Returns the namespace URI of an attribute (by position).
      *
      * @param i The position of the attribute in the list.
-     * 
+     *
      * @return The attribute namespace URI as a string;
      *         or <code>null</code> if there is no attribute at that position.
      *
      * @see org.xml.sax.Attributes#getValue(int)
      */
+    @Override
     public String getURI(int i) {
       if (i < 0) return null;
       try {
-        return (String)this.uris.get(i);
+        return this.uris.get(i);
       } catch (ArrayIndexOutOfBoundsException e) {
         return null;
       }
@@ -1010,11 +1040,12 @@ public final class XMLWriterSAX implements XMLWriter {
      * Returns <code>null</code> as qualified names are not available.
      *
      * @param qName The attribute name.
-     * 
+     *
      * @return <code>null</code>
-     * 
+     *
      * @see org.xml.sax.Attributes#getType(java.lang.String)
      */
+    @Override
     public String getType(String qName) {
       return null;
     }
@@ -1023,9 +1054,10 @@ public final class XMLWriterSAX implements XMLWriter {
      * Returns <code>null</code> as qualified names are not available.
      *
      * @param name The attribute name.
-     * 
+     *
      * @see org.xml.sax.Attributes#getValue(java.lang.String)
      */
+    @Override
     public String getValue(String name) {
       return null;
     }
@@ -1039,6 +1071,7 @@ public final class XMLWriterSAX implements XMLWriter {
      *         ("NMTOKEN" for an enumeration, and "CDATA" if no declaration was read).
      * @see org.xml.sax.Attributes#getType(java.lang.String)
      */
+    @Override
     public String getType(String uri, String name) {
       return getType(getIndex(uri, name));
     }
@@ -1050,18 +1083,20 @@ public final class XMLWriterSAX implements XMLWriter {
      * @param name The attribute name.
      * @see org.xml.sax.AttributeList#getValue(java.lang.String)
      */
+    @Override
     public String getValue(String uri, String name) {
       return getValue(getIndex(uri, name));
     }
 
     /**
      * Look up the index of an attribute by Namespace name.
-     * 
+     *
      * @param uri The Namespace URI, or the empty string if the name has no Namespace URI.
      * @param localName The attribute's local name.
-     * 
+     *
      * @return The index of the attribute, or -1 if it does not appear in the list.
      */
+    @Override
     public int getIndex(String uri, String localName) {
       // try if only one attribute with that name
       int index = this.names.indexOf(localName);
@@ -1076,11 +1111,12 @@ public final class XMLWriterSAX implements XMLWriter {
 
     /**
      * Look up the index of an attribute by Namespace name.
-     * 
+     *
      * @param qName The index of the given name.
-     * 
+     *
      * @return The index of the attribute, or -1 if it does not appear in the list.
      */
+    @Override
     public int getIndex(String qName) {
       // FIXME: not SAX2 compliant
       return getIndex("", qName);

@@ -81,7 +81,7 @@ abstract class XMLWriterBase implements XMLWriter {
    *
    * @param writer  Where this writer should write the XML data.
    * @param indent  Set the indentation flag.
-   * 
+   *
    * @throws NullPointerException If the writer is <code>null</code>.
    */
   public XMLWriterBase(Writer writer, boolean indent) throws NullPointerException {
@@ -98,8 +98,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // setup methods ------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#xmlDecl()
+   * {@inheritDoc}
    */
+  @Override
   public final void xmlDecl() throws IOException {
     this.writer.write("<?xml version=\"1.0\" encoding=\""+this.encoding+"\"?>");
     if (this.indent) {
@@ -108,8 +109,9 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#setIndentChars(String)
+   * {@inheritDoc}
    */
+  @Override
   public final void setIndentChars(String spaces) throws IllegalStateException, IllegalArgumentException {
     if (this.depth != 0)
       throw new IllegalStateException("To late to set the indentation characters!");
@@ -127,12 +129,12 @@ abstract class XMLWriterBase implements XMLWriter {
 
   /**
    * Sets the encoding to use.
-   * 
+   *
    * <p>The encoding must match the encoding used if there is an underlying
    * <code>OutputStreamWriter</code>.
-   * 
+   *
    * @param encoding The encoding to use.
-   * 
+   *
    * @throws IllegalArgumentException If the encoding is not valid.
    * @throws IllegalStateException    If the writer has already been used.
    */
@@ -146,8 +148,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#writeText(String)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeText(String text) throws IOException {
     if (text == null) return;
     deNude();
@@ -155,16 +158,18 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writeText(char[], int, int)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeText(char[] text, int off, int len) throws IOException {
     deNude();
     this.writerEscape.writeText(text, off, len);
   }
 
   /**
-   * @see XMLWriter#writeText(char)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeText(char c) throws IOException {
     deNude();
     this.writerEscape.writeText(c);
@@ -179,7 +184,7 @@ abstract class XMLWriterBase implements XMLWriter {
    * @see #writeText(java.lang.String)
    *
    * @param o The object that should be written as text.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
   public final void writeText(Object o) throws IOException {
@@ -194,8 +199,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#writeXML(java.lang.String)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeXML(String text) throws IOException {
     if (text == null) return;
     deNude();
@@ -203,8 +209,9 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writeXML(char[], int, int)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeXML(char[] text, int off, int len) throws IOException {
     deNude();
     this.writer.write(text, off, len);
@@ -214,8 +221,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#writeComment(String)
+   * {@inheritDoc}
    */
+  @Override
   public final void writeComment(String comment) throws IOException, IllegalArgumentException {
     if (comment == null)
       return;
@@ -231,8 +239,9 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writePI(String, String)
+   * {@inheritDoc}
    */
+  @Override
   public final void writePI(String target, String data) throws IOException {
     deNude();
     this.writer.write("<?");
@@ -246,7 +255,7 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#writeCDATA(String)
+   * {@inheritDoc}
    */
   @Override
   public final void writeCDATA(String data) throws IOException {
@@ -264,11 +273,12 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#attribute(String, String)
+   * {@inheritDoc}
    */
+  @Override
   public final void attribute(String name, String value)
-      throws IOException, IllegalStateException {
-    if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throws IOException {
+    if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     this.writer.write(' ');
     this.writer.write(name);
     this.writer.write('=');
@@ -278,11 +288,12 @@ abstract class XMLWriterBase implements XMLWriter {
   }
 
   /**
-   * @see XMLWriter#attribute(String, int)
+   * {@inheritDoc}
    */
+  @Override
   public final void attribute(String name, int value)
-      throws IOException, IllegalStateException {
-    if (!this.isNude) throw new IllegalArgumentException("Cannot write attribute: too late!");
+      throws IOException {
+    if (!this.isNude) throw new IllegalStateException("Cannot write attribute: too late!");
     this.writer.write(' ');
     this.writer.write(name);
     this.writer.write('=');
@@ -295,8 +306,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#element(String, String)
+   * {@inheritDoc}
    */
+  @Override
   public void element(String name, String text) throws IOException {
     this.openElement(name);
     this.writeText(text);
@@ -307,8 +319,9 @@ abstract class XMLWriterBase implements XMLWriter {
   // ----------------------------------------------------------------------------------------------
 
   /**
-   * @see XMLWriter#flush()
+   * {@inheritDoc}
    */
+  @Override
   public final void flush() throws IOException {
     this.writer.flush();
   }
@@ -318,10 +331,10 @@ abstract class XMLWriterBase implements XMLWriter {
 
   /**
    * Writes the end of the open element tag.
-   * 
+   *
    * <p>After this method is invoked it is not possible to write attributes
    * for an element.
-   * 
+   *
    * @throws IOException If thrown by the wrapped writer.
    */
   abstract void deNude() throws IOException;
@@ -342,7 +355,7 @@ abstract class XMLWriterBase implements XMLWriter {
 
   /**
    * Does nothing.
-   * 
+   *
    * <p>This method exists so that we can explicitly say that we should do nothing
    * in certain conditions.
    */

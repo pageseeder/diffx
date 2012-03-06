@@ -26,14 +26,14 @@ import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * An XML formatter that tries to rectify the errors affecting the well-formedness of the XML.
- * 
+ *
  * <p>This class will always close the elements correctly by maintaining a stack of parent
  * elements.
- * 
+ *
  * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the
  * future it should be possible to configure which prefixes to use for each namespace, but
  * in this version the namespace prefix mapping is hardcoded.
- * 
+ *
  * @author Christophe Lauret
  * @version 5 May 2005
  */
@@ -69,13 +69,13 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter on the standard output.
-   * 
+   *
    * <p>This constructor is equivalent to:
    * <pre>new SmartXMLFormatter(new PrintWriter(System.out));</pre>.
-   * 
+   *
    * @see System#out
    * @see #SmartXMLFormatter(Writer)
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public SmartXMLFormatter() throws IOException {
@@ -84,9 +84,9 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter using the specified writer.
-   * 
+   *
    * @param w The writer to use.
-   * 
+   *
    * @throws IOException should an I/O exception occurs.
    */
   public SmartXMLFormatter(Writer w) throws IOException {
@@ -102,9 +102,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
   // methods ------------------------------------------------------------------------------------
 
-  /**
-   * @see DiffXFormatter#format(DiffXEvent)
-   */
+  @Override
   public void format(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("="+e);
@@ -117,9 +115,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see DiffXFormatter#insert(DiffXEvent)
-   */
+  @Override
   public void insert(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("+"+e);
@@ -160,9 +156,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see DiffXFormatter#delete(DiffXEvent)
-   */
+  @Override
   public void delete(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("-"+e);
@@ -202,28 +196,25 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(DiffXConfig)
-   */
+  @Override
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  /**
-   * @see XMLDiffXFormatter#setWriteXMLDeclaration(boolean)
-   */
+  @Override
   public void setWriteXMLDeclaration(boolean show) {
     this.writeXMLDeclaration = show;
   }
 
   /**
    * Adds the prefix mapping to this class.
-   * 
+   *
    * @param mapping The prefix mapping to add.
    */
+  @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
     for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = (String)uris.nextElement();
+      String uri = uris.nextElement();
       this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
     }
   }

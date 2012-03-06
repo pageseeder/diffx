@@ -14,7 +14,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * Event corresponding to a single character.
- * 
+ *
  * @author Christophe Lauret
  * @version 28 March 2010
  */
@@ -27,48 +27,35 @@ public final class CharEvent extends DiffXEventBase {
 
   /**
    * Creates a new character event.
-   * 
+   *
    * @param c The character to wrap.
    */
   public CharEvent(char c) {
     this.c = c;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return 79 + this.c;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass()) return false;
     return this.c == ((CharEvent)e).c;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "char: '"+this.c+'\'';
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.writeText(this.c);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     // TODO: ridiculously inefficient !
     return xml.append(ESC.toElementText(new char[]{this.c}, 0, 1));

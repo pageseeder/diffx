@@ -24,16 +24,16 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * An XMLReader implementation that can be used to parse XMLWritable objects.
- * 
+ *
  * <p>Typically, XMLWritable objects are wrapped into an
  * <code>XMLWritableInputSource</code> so that the <code>XMLReader</code> API
  * methods are used; however, it is perfectly possible to parse directly an
  * <code>XMLWritable</code> object.
- * 
+ *
  * @see org.xml.sax.XMLReader
  * @see com.topologi.diffx.xml.XMLWritable
  * @see com.topologi.diffx.xml.sax.XMLWritableInputSource
- * 
+ *
  * @author  Christophe Lauret
  * @version 27 May 2005
  */
@@ -70,106 +70,119 @@ public final class XMLWritableReader implements XMLReader {
   // XMLReader methods implementation -----------------------------------------------------
 
   /**
-   * @see org.xml.sax.XMLReader#getContentHandler()
+   * {@inheritDoc}
    */
+  @Override
   public ContentHandler getContentHandler() {
     return this.handler;
   }
 
   /**
-   * @see org.xml.sax.XMLReader#setContentHandler(ContentHandler)
+   * {@inheritDoc}
    */
+  @Override
   public void setContentHandler(ContentHandler chandler) {
     this.handler = chandler;
   }
 
   /**
    * Returns <code>null</code>.
-   * 
-   * @see org.xml.sax.XMLReader#getErrorHandler()
+   *
+   * {@inheritDoc}
    */
+  @Override
   public ErrorHandler getErrorHandler() {
     return null;
   }
 
   /**
    * Does nothing.
-   * 
-   * @see org.xml.sax.XMLReader#setErrorHandler(ErrorHandler)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void setErrorHandler(ErrorHandler ehandler) {
   }
 
   /**
    * Returns <code>null</code>.
-   * 
-   * @see org.xml.sax.XMLReader#getDTDHandler()
+   *
+   * {@inheritDoc}
    */
+  @Override
   public DTDHandler getDTDHandler() {
     return null;
   }
 
   /**
    * Does nothing.
-   * 
-   * @see org.xml.sax.XMLReader#setDTDHandler(DTDHandler)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void setDTDHandler(DTDHandler dhandler) {
   }
 
   /**
    * Returns <code>null</code>.
-   * 
-   * @see org.xml.sax.XMLReader#getEntityResolver()
+   *
+   * {@inheritDoc}
    */
+  @Override
   public EntityResolver getEntityResolver() {
     return null;
   }
 
   /**
    * Returns <code>null</code>.
-   * 
-   * @see org.xml.sax.XMLReader#setEntityResolver(EntityResolver)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void setEntityResolver(EntityResolver resolver) {
   }
 
   /**
    * Returns <code>null</code>.
-   * 
-   * @see org.xml.sax.XMLReader#getProperty(String)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public Object getProperty(java.lang.String name) {
     return null;
   }
 
   /**
    * Does nothing.
-   * 
-   * @see org.xml.sax.XMLReader#setProperty(String, Object)
+   *
+   * {@inheritDoc}
    */
+  @Override
   public void setProperty(java.lang.String name, java.lang.Object value) {
   }
 
   /**
-   * @see org.xml.sax.XMLReader#getFeature(String)
+   * {@inheritDoc}
    */
+  @Override
   public boolean getFeature(java.lang.String name) {
     // TODO: handling of features
     return this.features.get(name).booleanValue();
   }
 
   /**
-   * @see org.xml.sax.XMLReader#setFeature(String, boolean)
+   * {@inheritDoc}
    */
+  @Override
   public void setFeature(java.lang.String name, boolean value) {
     // TODO: handling of features
     this.features.put(name, Boolean.valueOf(value));
   }
 
   /**
-   * @see org.xml.sax.XMLReader#parse(String)
+   * {@inheritDoc}
    */
+  @Override
   public void parse(String systemId) throws IOException, SAXException {
     throw new SAXException(
         this.getClass().getName()
@@ -177,8 +190,9 @@ public final class XMLWritableReader implements XMLReader {
   }
 
   /**
-   * @see org.xml.sax.XMLReader#parse(InputSource)
+   * {@inheritDoc}
    */
+  @Override
   public void parse(InputSource input) throws IOException, SAXException {
     if (input instanceof XMLWritableInputSource) {
       parse((XMLWritableInputSource)input);
@@ -187,14 +201,14 @@ public final class XMLWritableReader implements XMLReader {
   }
 
   /**
-   * @see org.xml.sax.XMLReader#parse(InputSource)
+   * {@inheritDoc}
    */
   public void parse(XMLWritableInputSource input) throws IOException, SAXException {
     parse(input.getXMLWritable());
   }
 
   /**
-   * @see org.xml.sax.XMLReader#parse(InputSource)
+   * {@inheritDoc}
    */
   public void parse(XMLWritable xml) throws IOException, SAXException {
     if (xml == null)

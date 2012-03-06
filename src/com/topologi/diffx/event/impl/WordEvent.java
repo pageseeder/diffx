@@ -11,7 +11,7 @@ import com.topologi.diffx.event.TextEvent;
 
 /**
  * A text event representing a word.
- * 
+ *
  * @author Christophe Lauret
  * @version 27 March 2010
  */
@@ -19,18 +19,15 @@ public final class WordEvent extends CharactersEventBase implements TextEvent {
 
   /**
    * Creates a new word event.
-   * 
+   *
    * @param w The word as a string.
-   * 
+   *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
   public WordEvent(CharSequence w) throws NullPointerException {
     super(w);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "word: \""+getCharacters()+'"';

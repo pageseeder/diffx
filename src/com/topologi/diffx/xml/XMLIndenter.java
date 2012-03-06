@@ -27,10 +27,10 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * A class to indent automatically some XML data.
- * 
+ *
  * <p>Note: This implementation is not namespace aware, and will not handle entities other than
  * &amp;amp;, &amp;lt;, &amp;gt; or &amp;quot;.
- * 
+ *
  * @author Christophe Lauret - Allette Systems (Australia)
  * @version 26 February 2005
  */
@@ -72,7 +72,7 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Creates a new XML Indenter.
-   * 
+   *
    * @param w The writer to use.
    */
   private XMLIndenter(Writer w) {
@@ -86,7 +86,7 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
   /* -------------------------------------- handler's methods ------------------------------------ */
 
   /**
-   * @see org.xml.sax.ContentHandler#startElement
+   * {@inheritDoc}
    */
   @Override
   public void startElement(String uri, String localName, String qName, Attributes atts) {
@@ -112,7 +112,7 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
   }
 
   /**
-   * @see org.xml.sax.ContentHandler#endElement
+   * {@inheritDoc}
    */
   @Override
   public void endElement(String uri, String localName, String qName) {
@@ -132,8 +132,8 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Prints the characters.
-   * 
-   * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+   *
+   * {@inheritDoc}
    */
   @Override
   public void characters(char[] ch, int position, int offset) {
@@ -147,8 +147,8 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Does nothing.
-   * 
-   * @see org.xml.sax.ContentHandler
+   *
+   * {@inheritDoc}
    */
   @Override
   public void ignorableWhitespace(char[] ch, int position, int offset) {
@@ -159,11 +159,11 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Indents the given XML String.
-   * 
+   *
    * @param xml The XML string to indent
-   * 
+   *
    * @return The indented XML String.
-   * 
+   *
    * @throws IOException If an IOException occurs.
    * @throws SAXException If the XML is not well-formed.
    * @throws ParserConfigurationException If the parser could not be configured
@@ -178,10 +178,10 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Indents the given XML String.
-   * 
+   *
    * @param r A reader on XML data
    * @param w A writer for the indented XML
-   * 
+   *
    * @throws IOException If an IOException occurs.
    * @throws SAXException If the XML is not well-formed.
    * @throws ParserConfigurationException If the parser could not be configured
@@ -203,9 +203,9 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Indents the given XML String.
-   * 
+   *
    * @param xml The XML string to indent
-   * 
+   *
    * @return The indented XML String or <code>null</code> if an error occurred.
    */
   public static String indentSilent(String xml) {
@@ -218,13 +218,13 @@ public final class XMLIndenter extends DefaultHandler implements ContentHandler 
 
   /**
    * Indents the given XML String.
-   * 
+   *
    * <p>This method does not throw any exception out of convenience, instead it returns a
    * <code>boolean</code> value to indicate whether the XML indenting was performed succesfully.
-   * 
+   *
    * @param r A reader on XML data
    * @param w A writer for the indented XML
-   * 
+   *
    * @return <code>true</code> if the operation was successful, <code>false</code> if an error
    *         occurred.
    */

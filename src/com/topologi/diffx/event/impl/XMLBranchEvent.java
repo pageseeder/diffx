@@ -14,12 +14,12 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * A branch of XML data.
- * 
+ *
  * <p>A branch of XML data must start and end with the same element.
- * 
+ *
  * <p>Implementation note: this class wraps an array of DiffX events and does not give
  * access to this array, so it can be considered immutable.
- * 
+ *
  * @author Christophe Lauret
  * @version 27 March 2010
  */
@@ -37,7 +37,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Creates a new XML branch.
-   * 
+   *
    * @param events The array of events that make up the branch.
    */
   public XMLBranchEvent(DiffXEvent[] events) {
@@ -45,9 +45,6 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
     this.hashCode = toHashCode(events);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -55,7 +52,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Returns <code>true</code> if the diffX events in the branch are all equal.
-   * 
+   *
    * {@inheritDoc}
    */
   @Override
@@ -76,18 +73,17 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Write the DiffX events in order.
-   * 
+   *
    * {@inheritDoc}
    */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     for (DiffXEvent element : this.branch) {
       element.toXML(xml);
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     for (DiffXEvent element : this.branch) {
       element.toXML(xml);
@@ -97,7 +93,7 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param events Events to calculate the value from.
    * @return a number suitable as a hashcode.
    */

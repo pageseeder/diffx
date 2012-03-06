@@ -14,7 +14,7 @@ import java.io.IOException;
  * {@link XMLWriter} instance.
  *
  * @author Christophe Lauret (Allette Systems)
- * 
+ *
  * @version 14 September 2004
  */
 public interface XMLWritable {
@@ -24,7 +24,7 @@ public interface XMLWritable {
    * {@link XMLWriter}.
    *
    * @param xml The XMLWriter to use.
-   * 
+   *
    * @throws IOException IF an I/O exception occurs whilst writing.
    */
   void toXML(XMLWriter xml) throws IOException;

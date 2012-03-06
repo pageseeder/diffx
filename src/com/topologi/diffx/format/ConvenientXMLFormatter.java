@@ -25,9 +25,9 @@ import com.topologi.diffx.xml.XMLWriterNSImpl;
 
 /**
  * A XML formatter that provides a convenient XML formatting.
- * 
+ *
  * <p>Nodes that have not changed are kept the way they are.
- * 
+ *
  * <p>Elements that have been modified
  *
  * @author Christophe Lauret
@@ -63,7 +63,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Indicates whether some text is being inserted or removed.
-   * 
+   *
    * 0 = indicate format or no open text element.
    * +1 = indicates an insert open text element.
    * -1 = indicates an delete open text element.
@@ -84,9 +84,9 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Creates a new formatter using the specified writer.
-   * 
+   *
    * @param w The writer to use.
-   * 
+   *
    * @throws NullPointerException If the specified writer is <code>null</code>.
    */
   public ConvenientXMLFormatter(Writer w) throws NullPointerException {
@@ -97,9 +97,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   // methods ------------------------------------------------------------------------------------
 
-  /**
-   * @see DiffXFormatter#format(DiffXEvent)
-   */
+  @Override
   public void format(DiffXEvent e) throws IOException {
     if (!this.isSetup) {
       setUpXML();
@@ -116,23 +114,19 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see DiffXFormatter#insert(DiffXEvent)
-   */
+  @Override
   public void insert(DiffXEvent e) throws IOException {
     change(e, +1);
   }
 
-  /**
-   * @see DiffXFormatter#delete(DiffXEvent)
-   */
+  @Override
   public void delete(DiffXEvent e) throws IOException {
     change(e, -1);
   }
 
   /**
    * Reports a change in XML.
-   * 
+   *
    * @param e   The diff-x event that has been inserted or deleted.
    * @param mod The modification flag (positive for inserts, negative for deletes).
    *
@@ -183,25 +177,22 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * @see com.topologi.diffx.format.DiffXFormatter#setConfig(DiffXConfig)
-   */
+  @Override
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  /**
-   * @see XMLDiffXFormatter#setWriteXMLDeclaration(boolean)
-   */
+  @Override
   public void setWriteXMLDeclaration(boolean show) {
     this.writeXMLDeclaration = show;
   }
 
   /**
    * Adds the prefix mapping to this class.
-   * 
+   *
    * @param mapping The prefix mapping to add.
    */
+  @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
     for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
       String uri = uris.nextElement();
@@ -213,7 +204,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Set up the XML.
-   * 
+   *
    * @throws IOException an I/O exception if an error occurs.
    */
   private void setUpXML() throws IOException {
@@ -227,7 +218,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Formats the end of a text change.
-   * 
+   *
    * @throws IOException If throws by XMl writer.
    */
   private void endTextChange() throws IOException {
@@ -239,9 +230,9 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Switch between text changes.
-   * 
+   *
    * @param mod The modification flag (positive for inserts, negative for deletes).
-   * 
+   *
    * @throws IOException If throws by XMl writer.
    */
   private void switchTextChange(int mod) throws IOException {
@@ -268,7 +259,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Writes any attribute that has not be written.
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   private void flushAttributes() throws IOException {
@@ -278,10 +269,10 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Writes any attribute that has not be written.
-   * 
+   *
    * @param atts The attribute stack.
    * @param mod The modification flag (positive for inserts, negative for deletes).
-   * 
+   *
    * @throws IOException Should an I/O error occur.
    */
   private void flushAttributes(Stack<AttributeEvent> atts, int mod) throws IOException {

@@ -17,7 +17,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * The event corresponding to the <code>startElement</code> SAX event.
- * 
+ *
  * @author Christophe Lauret
  * @version 27 March 2010
  */
@@ -40,11 +40,11 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
 
   /**
    * Creates a new open element event with the default URI.
-   * 
+   *
    * @see XMLConstants#NULL_NS_URI
-   * 
+   *
    * @param name The local name of the element
-   * 
+   *
    * @throws NullPointerException if the name is <code>null</code>.
    */
   public OpenElementEventNSImpl(String name) throws NullPointerException {
@@ -57,10 +57,10 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
 
   /**
    * Creates a new open element event.
-   * 
+   *
    * @param uri  The namespace URI of the element
    * @param name The local name of the element
-   * 
+   *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public OpenElementEventNSImpl(String uri, String name) throws NullPointerException {
@@ -76,6 +76,7 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * @return Returns the name.
    */
+  @Override
   public String getName() {
     return this.name;
   }
@@ -83,13 +84,11 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   /**
    * @return Returns the namespace URI.
    */
+  @Override
   public String getURI() {
     return this.uri;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -97,9 +96,9 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
 
   /**
    * Returns <code>true</code> if the event is a open element event.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if this event is equal to the specified event;
    *         <code>false</code> otherwise.
    */
@@ -113,28 +112,24 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
     return true;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "openElement: "+this.name+" ["+this.uri+"]";
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.openElement(this.uri, this.name, false);
   }
 
   /**
    * Converts this event to an XML open tag.
-   * 
+   *
    * <p>Note that this method does not allow attributes to be put after this element.
-   * 
+   *
    * {@inheritDoc}
    */
+  @Override
   public StringBuffer toXML(StringBuffer xml) {
     // TODO: handle namespaces
     return xml.append('<').append(this.name).append('>');
@@ -142,8 +137,9 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
 
   /**
    * Calculates the hashcode for this event.
-   * 
-   * @param comment The comment string.
+   *
+   * @param uri The namespace URI.
+   * @param name The element name.
    * @return a number suitable as a hashcode.
    */
   private int toHashCode(String uri, String name) {

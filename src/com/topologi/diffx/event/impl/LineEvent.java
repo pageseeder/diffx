@@ -15,7 +15,7 @@ import com.topologi.diffx.xml.XMLWriter;
 
 /**
  * An interface for any data that comes from a text node.
- * 
+ *
  * @author Christophe Lauret
  * @version 27 March 2010
  */
@@ -38,10 +38,10 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * Creates a new line event.
-   * 
+   *
    * @param line       The char sequence.
    * @param lineNumber The line number.
-   * 
+   *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
   public LineEvent(CharSequence line, int lineNumber) throws NullPointerException {
@@ -52,17 +52,11 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
     this.hashCode = toHashCode(line);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "line:"+this.lineNumber+": \""+getCharacters()+'"';
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -70,9 +64,9 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * Returns <code>true</code> if the event is a character event and the content is equivalent.
-   * 
+   *
    * @param e The event to compare with this event.
-   * 
+   *
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
@@ -87,35 +81,32 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * Returns the characters that this event represents.
-   * 
+   *
    * <p>Note: this method will return the characters as used by Java (ie. Unicode), they
    * may not be suitable for writing to an XML string.
-   * 
+   *
    * @return The characters that this event represents.
    */
+  @Override
   public String getCharacters() {
     return this.characters.toString();
   }
 
   /**
    * Returns the line number.
-   * 
+   *
    * @return The line number.
    */
   public int getLineNumber() {
     return this.lineNumber;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.writeXML(this.characters.toString());
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append(this.characters);
     return xml;
@@ -123,7 +114,7 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * Calculates the hashcode for this event.
-   * 
+   *
    * @param comment The comment string.
    * @return a number suitable as a hashcode.
    */
