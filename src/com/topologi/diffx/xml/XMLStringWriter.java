@@ -18,12 +18,12 @@ import java.io.StringWriter;
  * required.
  *
  * <p>The write methods do not throw any {@link IOException}.
- * 
+ *
  * <p>If the write is not set to support namespaces, the method which require a namespace URI will
  * throw an {@link UnsupportedOperationException}.
- * 
+ *
  * @author  Christophe Lauret
- * @version 11 December 2011
+ * @version 7 March 2012
  */
 public final class XMLStringWriter implements XMLWriter {
 
@@ -66,6 +66,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.xmlDecl();
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -80,6 +81,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeText(c);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -89,6 +91,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeText(text);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -98,6 +101,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeText(text, off, len);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -107,6 +111,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeCDATA(cdata);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -116,6 +121,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeXML(text);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -125,6 +131,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeXML(text, off, len);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -134,6 +141,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writeComment(comment);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -143,6 +151,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.writePI(target, data);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -152,6 +161,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.openElement(name);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -161,6 +171,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.openElement(name, hasChildren);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -170,6 +181,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.openElement(uri, name, hasChildren);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -179,6 +191,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.closeElement();
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -188,6 +201,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.element(name, text);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -197,6 +211,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.emptyElement(element);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -206,6 +221,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.emptyElement(element);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -215,6 +231,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.attribute(name, value);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -224,6 +241,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.attribute(name, value);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -233,6 +251,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.attribute(uri, name, value);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -242,6 +261,7 @@ public final class XMLStringWriter implements XMLWriter {
       this.xml.attribute(uri, name, value);
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
@@ -251,31 +271,39 @@ public final class XMLStringWriter implements XMLWriter {
   }
 
   @Override
-  public void flush() throws IOException {
+  public void flush() {
     try {
       this.xml.flush();
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
   @Override
-  public void close() throws IOException, UnclosedElementException {
+  public void close() throws UnclosedElementException {
     try {
       this.xml.close();
     } catch (IOException ex) {
       // Will not occur
+      doNothing();
     }
   }
 
   /**
    * Returns the XML content as a {@link String}.
-   * 
+   *
    * @return the XML content as a {@link String}.
    */
   @Override
   public String toString() {
     return this.writer.toString();
+  }
+
+  /**
+   * Do nothing
+   */
+  private static void doNothing(){
   }
 
 }
