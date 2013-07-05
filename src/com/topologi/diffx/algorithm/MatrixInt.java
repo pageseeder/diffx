@@ -14,7 +14,7 @@ package com.topologi.diffx.algorithm;
  * @version 7 April 2005
  */
 public final class MatrixInt implements Matrix {
-  //	 TODO: this class should probably not be public
+  //   TODO: this class should probably not be public
 
   /**
    * The actual matrix storing the values.

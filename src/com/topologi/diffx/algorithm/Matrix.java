@@ -19,7 +19,7 @@ package com.topologi.diffx.algorithm;
  * @version 7 April 2005
  */
 public interface Matrix {
-  //	 TODO: this class should probably not be public
+  //   TODO: this class should probably not be public
 
   /**
    * Create a matrix of the given width and height.
