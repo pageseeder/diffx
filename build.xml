@@ -40,8 +40,8 @@
 
   <!-- generate the documentation -->
   <target name="javadoc" depends="compile" description="generate the java documentation">
-    <mkdir dir="${dir.doc}"/>
-    <javadoc destdir="${dir.doc}" access="public" 
+    <mkdir dir="${dir.doc}/${version}"/>
+    <javadoc destdir="${dir.doc}/${version}" access="public" 
                                   use="true" 
                                   notree="false" 
                                   nonavbar="false" 
@@ -55,7 +55,7 @@
                                   classpath="${dir.bin}"
                                   stylesheetfile="${dir.resource}/javadoc.css"
                                   doctitle="${name.display} ${version} API">
-      <link href="http://java.sun.com/javase/6/docs/api/" />
+      <link href="http://docs.oracle.com/javase/6/docs/api/" />
     </javadoc>
   </target>
 
