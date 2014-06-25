@@ -12,9 +12,9 @@ import java.io.Writer;
 
 /**
  * A base implementation for the XML writer escape classes.
- * 
+ *
  * @author Christophe Lauret
- * 
+ *
  * @version 14 May 2005
  */
 abstract class XMLEscapeWriterBase implements XMLEscapeWriter {
@@ -31,10 +31,10 @@ abstract class XMLEscapeWriterBase implements XMLEscapeWriter {
 
   /**
    * Creates a new XML escape for writers.
-   * 
+   *
    * @param writer   The writer to wrap.
    * @param encoding The underlying character encoding for the writer.
-   * 
+   *
    * @throws NullPointerException If the specified writer is <code>null</code>.
    */
   XMLEscapeWriterBase(Writer writer, String encoding) {
@@ -46,9 +46,10 @@ abstract class XMLEscapeWriterBase implements XMLEscapeWriter {
 
   /**
    * Default implementation calling the {@link XMLEscapeWriter#writeAttValue(char[], int, int)}.
-   * 
+   *
    * {@inheritDoc}
    */
+  @Override
   public final void writeAttValue(String value) throws IOException {
     if (value == null || "".equals(value)) return;
     writeAttValue(value.toCharArray(), 0, value.length());
@@ -56,33 +57,21 @@ abstract class XMLEscapeWriterBase implements XMLEscapeWriter {
 
   /**
    * Default implementation calling the {@link XMLEscapeWriter#writeAttValue(char[], int, int)}.
-   * 
+   *
    * {@inheritDoc}
    */
+  @Override
   public final void writeText(String value) throws IOException {
     if (value == null || "".equals(value)) return;
     writeText(value.toCharArray(), 0, value.length());
   }
 
   /**
-   * Replace characters which are invalid in element values, by the corresponding
-   * entity.
-   * 
-   * <p>This method calls {@link XMLEscapeWriter#writeText(char)} for each character.
+   * Returns the encoding for this writer.
    *
    * {@inheritDoc}
    */
-  public void writeText(char[] ch, int off, int len) throws IOException {
-    for (int i = off; i < off+len; i++) {
-      writeText(ch[i]);
-    }
-  }
-
-  /**
-   * Returns the encoding for this writer.
-   * 
-   * {@inheritDoc}
-   */
+  @Override
   public final String getEncoding() {
     return this.encoding;
   }

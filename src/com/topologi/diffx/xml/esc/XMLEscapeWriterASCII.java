@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * A utility class for escaping XML data using the UTF-8 encoding.
+ * A utility class for escaping XML data when the intended encoding is ASCII or ASCII compatible.
+ *
+ * <p>Any unicode code point greater then (#x7E) will be encoded usnig the numeric character entity.
  *
  * @author Christophe Lauret
- * 
- * @version 12 May 2005
+ *
+ * @version 0.7.7
  */
 public final class XMLEscapeWriterASCII extends XMLEscapeWriterBase implements XMLEscapeWriter {
 
@@ -26,52 +28,84 @@ public final class XMLEscapeWriterASCII extends XMLEscapeWriterBase implements X
 
   /**
    * Creates a new XML escape writer using the utf-8 encoding.
-   * 
+   *
    * @param writer The writer to wrap.
-   * 
+   *
    * @throws NullPointerException if the writer is <code>null</code>.
    */
   public XMLEscapeWriterASCII(Writer writer) throws NullPointerException {
     super(writer, ENCODING);
   }
 
-  /**
-   * Replaces '&lt;', '&amp;', '"' and '\'' as well an any character that is not part of
-   * the standard unicode range.
-   *
-   * <pre>
-   * Char ::= #x9 | #xA | #xD |
-   *          [#x20-#xD7FF] |
-   *          [#xE000-#xFFFD] |
-   *          [#x10000-#x10FFFF]
-   * </pre>
-   *
-   * {@inheritDoc}
-   */
+  @Override
   public void writeAttValue(char[] ch, int off, int len) throws IOException {
-    // process the rest
-    char c = ' ';
+    char c;
     for (int i = off; i < off+len; i++) {
       c = ch[i];
-      if      (c == '<') {
-        super.w.write("&lt;");
-      } else if (c == '>') {
-        super.w.write("&gt;");
-      } else if (c == '&') {
-        super.w.write("&amp;");
-      } else if (c == '"') {
-        super.w.write("&quot;");
-      } else if (c == '\'') {
-        super.w.write("&apos;");
-      } else if (c  > 255) {
-        super.w.write("&#"+(int)c+";");
-      } else if (c == '\n' || c == '\r' || c == '\t') {
-        super.w.write(c);
-      } else if (c < 32) {
-        doNothing();
-      } else if (c >= 127 && c < 160) {
-        doNothing();
-      } else { super.w.write(c); }
+      // '<' always replace with '&lt;'
+      if (c == '<') super.w.write("&lt;");
+      // '&' always replace with '&amp;'
+      else if (c == '&') super.w.write("&amp;");
+      // '"' always replace with '&quot;'
+      else if (c == '"') super.w.write("&quot;");
+      // '\'' always replace with '&#x27;'
+      else if (c == '\'') super.w.write("&#39;");
+      // preserve white space in C0 control characters
+      else if (c == '\n' || c == '\r' || c == '\t') super.w.write(c);
+      // ignore C0 control characters
+      else if (c < 0x20 || c >= 0x7F && c < 0xA0) doNothing();
+      // handle surrogate pairs (for characters outside BMP)
+      else if (c >= 0xD800 && c <= 0xDFFF) {
+        int codePoint = Character.codePointAt(ch, i, len);
+        i += Character.charCount(codePoint) - 1;
+        super.w.write("&#x");
+        super.w.write(Integer.toHexString(codePoint));
+        super.w.write(";");
+      }
+      // characters outside the ASCII range
+      else if (c > 0x9F) {
+        super.w.write("&#x");
+        super.w.write(Integer.toHexString(c));
+        super.w.write(";");
+      }
+      // Must be an ASCII character
+      else super.w.write(c);
+    }
+  }
+
+  @Override
+  public void writeText(char[] ch, int off, int len) throws IOException {
+    char c;
+    for (int i = off; i < off+len; i++) {
+      c = ch[i];
+      // '<' always replace with '&lt;'
+      if      (c == '<') super.w.write("&lt;");
+      // '>' replace with '&gt;' if following ']'
+      else if (c == '>' && i > 0 && ch[i-1] == ']') super.w.write("&gt;");
+      // '&' always replace with '&amp;'
+      else if (c == '&') super.w.write("&amp;");
+      // preserve white space in C0 control characters
+      else if (c == '\n' || c == '\r' || c == '\t') super.w.write(c);
+      // ignore C0 control characters
+      else if (c < 0x20) doNothing();
+      // ignore C1 control characters
+      else if (c >= 0x7F && c < 0xA0) doNothing();
+      // handle surrogate pairs (for characters outside BMP)
+      else if (c >= 0xD800 && c <= 0xDFFF) {
+        int codePoint = Character.codePointAt(ch, i, len);
+        i += Character.charCount(codePoint) - 1;
+        super.w.write("&#x");
+        super.w.write(Integer.toHexString(codePoint));
+        super.w.write(";");
+      }
+      // characters outside the ASCII range
+      else if (c > 0x9F) {
+        super.w.write("&#x");
+        super.w.write(Integer.toHexString(c));
+        super.w.write(';');
+      }
+      // Must be an ASCII character
+      else super.w.write(c);
     }
   }
 
@@ -91,34 +125,35 @@ public final class XMLEscapeWriterASCII extends XMLEscapeWriterBase implements X
    *
    * {@inheritDoc}
    */
+  @Override
   public void writeText(char c) throws IOException {
-    // process the rest
-    if      (c == '<') {
-      super.w.write("&lt;");
-    } else if (c == '>') {
-      super.w.write("&gt;");
-    } else if (c == '&') {
-      super.w.write("&amp;");
-    } else if (c == '"') {
-      super.w.write("&quot;");
-    } else if (c == '\'') {
-      super.w.write("&apos;");
-    } else if (c  > 255) {
-      super.w.write("&#"+(int)c+";");
-    } else if (c == '\n' || c == '\r' || c == '\t') {
-      super.w.write(c);
-    } else if (c < 32) {
-      doNothing();
-    } else if (c >= 127 && c < 160) {
-      doNothing();
-    } else {
-      super.w.write(c);
+    // '<' always replace with '&lt;'
+    if (c == '<') super.w.write("&lt;");
+    // '>' always replace with '&gt;' (out of precaution)
+    else if (c == '>') super.w.write("&gt;");
+    // '&' always replace with '&amp;'
+    else if (c == '&') super.w.write("&amp;");
+    // preserve white space in C0 control characters
+    else if (c == '\n' || c == '\r' || c == '\t') super.w.write(c);
+    // ignore C0 and C1 control characters
+    else if (c < 0x20 || c >= 0x7F && c < 0xA0) doNothing();
+    // handle surrogate pairs (for characters outside BMP)
+    else if (c >= 0xD800 && c <= 0xDFFF) {
+      throw new IOException("Unable to handle character #x"+Integer.toHexString(c));
     }
+    // characters outside the ASCII range
+    else if (c > 0xBF) {
+      super.w.write("&#x");
+      super.w.write(Integer.toHexString(c));
+      super.w.write(';');
+    }
+    // Must be an ASCII character
+    else super.w.write(c);
   }
 
   /**
    * Does nothing.
-   * 
+   *
    * <p>This method exists so that we can explicitly say that we should do nothing
    * in certain conditions.
    */
