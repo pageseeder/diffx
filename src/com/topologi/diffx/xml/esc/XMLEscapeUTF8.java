@@ -13,8 +13,12 @@ package com.topologi.diffx.xml.esc;
  * <p>Only characters which must be escaped are escaped since the Unicode
  * Transformation Format should support all Unicode code points.
  *
+ * <p>Escape methods in this class will escape non-BMP character for better
+ * compatibility with storage mechanism which do not support them, for example
+ * some databases.
+ *
  * @author  Christophe Lauret
- * @version 0.7.7
+ * @version 0.7.8
  */
 public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
 
@@ -53,6 +57,12 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
       else if (c == '\n' || c == '\r' || c == '\t') out.append(c);
       // ignore C0 and C1 control characters
       else if (c < 0x20 || c >= 0x7F && c < 0xA0) doNothing();
+      // handle surrogate pairs (for characters outside BMP)
+      else if (c >= 0xD800 && c <= 0xDFFF) {
+        int codePoint = Character.codePointAt(ch, i, len);
+        i += Character.charCount(codePoint) - 1;
+        out.append("&#x").append(Integer.toHexString(codePoint)).append(";");
+      }
       // copy the rest verbatim
       else out.append(c);
     }
@@ -75,6 +85,12 @@ public final class XMLEscapeUTF8 extends XMLEscapeBase implements XMLEscape {
       else if (c == '\n' || c == '\r' || c == '\t') out.append(c);
       // ignore C0 and C1 control characters
       else if (c < 0x20 || c >= 0x7F && c < 0xA0) doNothing();
+      // handle surrogate pairs (for characters outside BMP)
+      else if (c >= 0xD800 && c <= 0xDFFF) {
+        int codePoint = Character.codePointAt(ch, i, len);
+        i += Character.charCount(codePoint) - 1;
+        out.append("&#x").append(Integer.toHexString(codePoint)).append(";");
+      }
       // copy the rest verbatim
       else out.append(c);
     }
