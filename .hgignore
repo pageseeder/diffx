@@ -1,9 +1,0 @@
-
-syntax: regexp
-^desktop\.ini$
-syntax: regexp
-^doc$
-syntax: regexp
-^release$
-syntax: regexp
-^build\.number$

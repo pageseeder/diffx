@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.pageseeder.diffx</groupId>
+  <artifactId>pso-diffx</artifactId>
+  <version>0.8.0</version>
+  <name>Diff-X</name>
+  <description>XML difference tool</description>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  
+   <developers>
+    <developer>
+      <name>Christophe Lauret</name>
+      <email>clauret@weborganic.com</email>
+      <organization>Allette Systems</organization>
+      <organizationUrl>http://www.allette.com.au</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:pageseeder/diffx.git</connection>
+    <developerConnection>scm:git:git@github.com:pageseeder/diffx.git</developerConnection>
+    <url>git@github.com:pageseeder/diffx.git</url>
+  </scm>
+
+  <organization>
+    <name>Allette Systems</name>
+    <url>http://www.allette.com.au</url>
+  </organization>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.pageseeder.xmlwriter</groupId>
+      <artifactId>pso-xmlwriter</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
