@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.pageseeder.diffx</groupId>
   <artifactId>pso-diffx</artifactId>
-  <version>0.8.0</version>
+  <version>0.8.0-SNAPSHOT</version>
   <name>Diff-X</name>
   <description>XML difference tool</description>
 
@@ -33,6 +33,12 @@
     <url>http://www.allette.com.au</url>
   </organization>
 
+  <properties>
+    <java.version>1.7</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -49,5 +55,37 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>org.pageseeder.diffx.Main</mainClass>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
 
 </project>
