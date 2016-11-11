@@ -1,0 +1,30 @@
+plugins {
+  id "com.jfrog.bintray" version "1.7"
+}
+
+group       = 'org.pageseeder.diffx'
+version     = file('version.txt').text
+description = "$title"
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply from: 'gradle/publishing.gradle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+  maven { url 'http://dl.bintray.com/pageseeder/maven' }
+  jcenter()
+}
+
+dependencies {
+
+  compile 'org.pageseeder.xmlwriter:pso-xmlwriter:1.0.2'
+  testCompile'junit:junit:4.12'
+
+}
