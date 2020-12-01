@@ -128,7 +128,7 @@ public final class DiffXFitsy extends DiffXAlgorithmBase {
             }
           }
         }
-        if (i % (this.length1 / 50) == 0) {
+        if (this.length1 / 50 > 0 && i % (this.length1 / 50) == 0) {
           System.err.println(i * 100 / this.length1+"% at "+(t1 - System.currentTimeMillis())+"ms");
         }
       }

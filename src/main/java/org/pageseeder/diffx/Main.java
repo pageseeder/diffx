@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
 import org.pageseeder.diffx.algorithm.DiffXFitWesyma;
@@ -47,6 +48,7 @@ import org.pageseeder.diffx.load.Recorder;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.load.TextRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;
 import org.w3c.dom.Node;
@@ -255,14 +257,15 @@ public final class Main {
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
   private static void diff(EventSequence seq1, EventSequence seq2, Writer out, DiffXConfig config)
-      throws DiffXException, IOException {
+      throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
-    formatter.declarePrefixMapping(seq1.getPrefixMapping());
-    formatter.declarePrefixMapping(seq2.getPrefixMapping());
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(seq1.getPrefixMapping());
+    mapping.add(seq2.getPrefixMapping());
+    formatter.declarePrefixMapping(mapping);
 
     if (config != null) {
       formatter.setConfig(config);
@@ -281,13 +284,12 @@ public final class Main {
    * Main entry point from the command line.
    *
    * @param args The command-line arguments
-   *
-   * @throws Exception If anything wrong happens.
    */
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     // TODO: better command-line interface
     if (args.length < 2) {
       usage();
+      return;
     }
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);
@@ -301,6 +303,7 @@ public final class Main {
       // loading
       long t0 = System.currentTimeMillis();
       Recorder recorder = getRecorder(args);
+      if (recorder == null) return;
       EventSequence seq1 = recorder.process(xml1);
       EventSequence seq2 = recorder.process(xml2);
       long t1 = System.currentTimeMillis();
@@ -317,12 +320,15 @@ public final class Main {
       }
 
       // get and setup the formatter
-      Writer out = new OutputStreamWriter(getOutput(args), "utf-8");
+      Writer out = new OutputStreamWriter(getOutput(args), StandardCharsets.UTF_8);
       DiffXFormatter formatter = getFormatter(args, out);
       if (formatter instanceof XMLDiffXFormatter) {
-        ((XMLDiffXFormatter)formatter).declarePrefixMapping(seq1.getPrefixMapping());
-        ((XMLDiffXFormatter)formatter).declarePrefixMapping(seq2.getPrefixMapping());
+        PrefixMapping mapping = new PrefixMapping();
+        mapping.add(seq1.getPrefixMapping());
+        mapping.add(seq2.getPrefixMapping());
+        ((XMLDiffXFormatter)formatter).declarePrefixMapping(mapping);
       }
+      if (formatter == null) return;
       formatter.setConfig(config);
 
       // pre-slicing
@@ -337,6 +343,7 @@ public final class Main {
         System.err.println("Matrix: "+seq1.size()+"x"+seq2.size());
       }
       DiffXAlgorithm df = getAlgorithm(args, seq1, seq2);
+      if (df == null) return;
       df.process(formatter);
 
       // post-slicing
@@ -390,13 +397,11 @@ public final class Main {
     String loaderArg = CommandLine.getParameter("-L", args);
     if (loaderArg == null || "sax".equals(loaderArg))
       return new SAXRecorder();
-    else if ("dom".equals(loaderArg))
+    if ("dom".equals(loaderArg))
       return new DOMRecorder();
-    else if ("text".equals(loaderArg))
+    if ("text".equals(loaderArg))
       return new TextRecorder();
-    else {
-      usage();
-    }
+    usage();
     return null;
   }
 
@@ -410,8 +415,7 @@ public final class Main {
     String outArg = CommandLine.getParameter("-o", args);
     if (outArg == null)
       return System.out;
-    else
-      return new BufferedOutputStream(new FileOutputStream(outArg));
+    return new BufferedOutputStream(new FileOutputStream(outArg));
   }
 
   /**
@@ -424,17 +428,15 @@ public final class Main {
     String loaderArg = CommandLine.getParameter("-A", args);
     if (loaderArg == null || "fitsy".equals(loaderArg))
       return new DiffXFitsy(seq1, seq2);
-    else if ("guano".equals(loaderArg))
+    if ("guano".equals(loaderArg))
       return new GuanoAlgorithm(seq1, seq2);
-    else if ("fitopsy".equals(loaderArg))
+    if ("fitopsy".equals(loaderArg))
       return new DiffXFitopsy(seq1, seq2);
-    else if ("kumar".equals(loaderArg))
+    if ("kumar".equals(loaderArg))
       return new DiffXKumarRangan(seq1, seq2);
-    else if ("wesyma".equals(loaderArg))
+    if ("wesyma".equals(loaderArg))
       return new DiffXFitWesyma(seq1, seq2);
-    else {
-      usage();
-    }
+    usage();
     return null;
   }
 
@@ -448,55 +450,47 @@ public final class Main {
     String formatArg = CommandLine.getParameter("-F", args);
     if (formatArg == null || "smart".equals(formatArg))
       return new SmartXMLFormatter(out);
-    else if ("convenient".equals(formatArg))
+    if ("convenient".equals(formatArg))
       return new ConvenientXMLFormatter(out);
-    else if ("basic".equals(formatArg))
+    if ("basic".equals(formatArg))
       return new BasicXMLFormatter(out);
-    else if ("strict".equals(formatArg))
+    if ("strict".equals(formatArg))
       return new StrictXMLFormatter(out);
-    else if ("short".equals(formatArg))
+    if ("short".equals(formatArg))
       return new StrictXMLFormatter(out);
-    else {
-      usage();
-    }
+    usage();
     return null;
   }
 
   /**
    * @param args The command line arguments.
    * @return The formatter to use.
-   * @throws IOException Should and I/O error occur
    */
-  private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) throws IOException {
+  private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) {
     String formatArg = CommandLine.getParameter("-W", args);
     if (formatArg == null || "preserve".equals(formatArg))
       return WhiteSpaceProcessing.PRESERVE;
-    else if ("compare".equals(formatArg))
+    if ("compare".equals(formatArg))
       return WhiteSpaceProcessing.COMPARE;
-    else if ("ignore".equals(formatArg))
+    if ("ignore".equals(formatArg))
       return WhiteSpaceProcessing.IGNORE;
-    else {
-      usage();
-    }
+    usage();
     return null;
   }
 
   /**
    * @param args The command line arguments.
    * @return The formatter to use.
-   * @throws IOException Should and I/O error occur
    */
-  private static TextGranularity getTextGranularity(String[] args) throws IOException {
+  private static TextGranularity getTextGranularity(String[] args) {
     String formatArg = CommandLine.getParameter("-G", args);
     if (formatArg == null || "word".equals(formatArg))
       return TextGranularity.WORD;
-    else if ("text".equals(formatArg))
+    if ("text".equals(formatArg))
       return TextGranularity.TEXT;
-    else if ("character".equals(formatArg))
+    if ("character".equals(formatArg))
       return TextGranularity.CHARACTER;
-    else {
-      usage();
-    }
+    usage();
     return null;
   }
 }

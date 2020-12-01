@@ -40,6 +40,23 @@ public final class PrefixMapping {
   private final Map<String, String> mappings = new HashMap<String, String>();
 
   /**
+   * Add the specified mappings if the namespace URI has not been mapped before.
+   *
+   * <p>This method will ensure that the mappings are actually unique, that is that
+   * the namespace URI correspond to one and only one prefix and that the prefix only
+   * corresponds to one and only one namespace URI.
+   *
+   * @param other more mappings (can be null)
+   */
+  public void add(PrefixMapping other) {
+    if (other != null) {
+      for (Map.Entry<String, String> mapping : other.mappings.entrySet()) {
+        add(mapping.getKey(), mapping.getValue());
+      }
+    }
+  }
+
+  /**
    * Add the specified mapping if the namespace URI has not been mapped before.
    *
    * <p>This method will ensure that the mapping is actually unique, that is that

@@ -34,6 +34,7 @@ import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -70,7 +71,7 @@ public final class Extension {
    *
    * <p>This is because some XSLT processors will only accept certain types DOM objects.
    */
-  private static final Map<String, String> BUILDERS = new Hashtable<String, String>();
+  private static final Map<String, String> BUILDERS = new Hashtable<>();
   static {
     BUILDERS.put("net.sf.saxon.dom", "net.sf.saxon.dom.DocumentBuilderFactoryImpl");
   }
@@ -99,7 +100,7 @@ public final class Extension {
     loader.setConfig(config);
     EventSequence seq1 = loader.process(xml1);
     EventSequence seq2 = loader.process(xml2);
-    if (seq1.size() == 0 && seq1.size() == 0) return null;
+    if (seq1.size() == 0 && seq2.size() == 0) return null;
 
     // Start comparing
     StringWriter out = new StringWriter();
@@ -108,8 +109,7 @@ public final class Extension {
     // Return a node
     try {
       String factory = getFactoryClass(xml1, xml2);
-      Node node = toNode(out.toString(), config, factory);
-      return node;
+      return toNode(out.toString(), config, factory);
     } catch (Exception ex) {
       throw new DiffXException("Could not generate Node from Diff-X result", ex);
     }
@@ -125,14 +125,15 @@ public final class Extension {
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
   private static void diff(EventSequence seq1, EventSequence seq2, Writer out, DiffXConfig config)
-      throws DiffXException, IOException {
+      throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
-    formatter.declarePrefixMapping(seq1.getPrefixMapping());
-    formatter.declarePrefixMapping(seq2.getPrefixMapping());
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(seq1.getPrefixMapping());
+    mapping.add(seq2.getPrefixMapping());
+    formatter.declarePrefixMapping(mapping);
     if (config != null) {
       formatter.setConfig(config);
     }
@@ -185,10 +186,10 @@ public final class Extension {
    * @param xml2 the second node list.
    */
   private static String getFactoryClass(Node xml1, Node xml2) {
-    Package pkg = xml1 != null? xml1.getClass().getPackage()
-        : xml2 != null? xml2.getClass().getPackage()
-            : null;
-        return BUILDERS.get(pkg.getName());
+    Package pkg = xml1 != null ? xml1.getClass().getPackage()
+                : xml2 != null ? xml2.getClass().getPackage()
+                : null;
+    return pkg == null ? null : BUILDERS.get(pkg.getName());
   }
 
 }

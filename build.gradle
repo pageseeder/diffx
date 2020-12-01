@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
 
-  compile 'org.pageseeder.xmlwriter:pso-xmlwriter:1.0.2'
+  compile 'org.pageseeder.xmlwriter:pso-xmlwriter:1.0.+'
   testCompile'junit:junit:4.12'
 
 }

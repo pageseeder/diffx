@@ -15,14 +15,10 @@
  */
 package org.pageseeder.diffx.format;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.Enumeration;
-
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.AttributeEvent;
+import org.pageseeder.diffx.event.CloseElementEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.OpenElementEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
@@ -30,8 +26,12 @@ import org.pageseeder.diffx.event.impl.CharactersEventBase;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
-import org.pageseeder.xmlwriter.XMLWriter;
+import org.pageseeder.diffx.util.Formatting;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /**
  * An XML formatter that tries to ensure that the output XML will be well-formed.
@@ -57,12 +57,17 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   /**
    * The output goes here.
    */
-  private final XMLWriter xml;
+  private final XMLWriterNSImpl xml;
 
   /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig();
+
+  /**
+   * The prefix mapping
+   */
+  private PrefixMapping mapping = null;
 
   // state variables ----------------------------------------------------------------------------
 
@@ -73,6 +78,12 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
    * is called with <code>false</code> or once the XML declaration has been written.
    */
   private transient boolean writeXMLDeclaration = true;
+
+  /**
+   * Used to know if all elements have been closed, in which case the namespace
+   * mapping should be redeclared before opening a new element
+   */
+  private int openElements = 0;
 
   // constructors -------------------------------------------------------------------------------
 
@@ -103,9 +114,6 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       this.xml.xmlDecl();
       this.writeXMLDeclaration = false;
     }
-    this.xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
-    this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
-    this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
   }
 
   // methods ------------------------------------------------------------------------------------
@@ -114,6 +122,13 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   public void format(DiffXEvent e) throws IOException {
     if (DEBUG) {
       System.err.println("="+e);
+    }
+    // namespaces declaration
+    if (e instanceof OpenElementEvent) {
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      this.openElements++;
+    } else if (e instanceof CloseElementEvent) {
+      this.openElements--;
     }
     e.toXML(this.xml);
     if (e instanceof CharactersEventBase)
@@ -130,6 +145,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     }
     // insert an attribute to specify
     if (e instanceof OpenElementEvent) {
+      // namespaces declaration
+      if (this.openElements == 0) {
+        Formatting.declareNamespaces(this.xml, this.mapping);
+        this.openElements++;
+      }
       e.toXML(this.xml);
       this.xml.attribute("dfx:insert", "true");
 
@@ -157,7 +177,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       e.toXML(this.xml);
       this.xml.closeElement();
 
-      // just format naturally
+    } else if (e instanceof CloseElementEvent) {
+      this.openElements--;
+      e.toXML(this.xml);
+
+    // just format naturally
     } else {
       e.toXML(this.xml);
     }
@@ -171,6 +195,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     }
     // insert an attribute to specify
     if (e instanceof OpenElementEvent) {
+      // namespaces declaration
+      if (this.openElements == 0) {
+        Formatting.declareNamespaces(this.xml, this.mapping);
+        this.openElements++;
+      }
       e.toXML(this.xml);
       this.xml.attribute("dfx:delete", "true");
 
@@ -197,7 +226,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       e.toXML(this.xml);
       this.xml.closeElement();
 
-      // just format naturally
+    } else if (e instanceof CloseElementEvent) {
+      this.openElements--;
+      e.toXML(this.xml);
+
+    // just format naturally
     } else {
       e.toXML(this.xml);
     }
@@ -215,16 +248,13 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   }
 
   /**
-   * Adds the prefix mapping to this class.
+   * Replaces the prefix mapping.
    *
    * @param mapping The prefix mapping to add.
    */
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = uris.nextElement();
-      this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
-    }
+    this.mapping = mapping;
   }
 
 }

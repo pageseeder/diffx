@@ -15,22 +15,17 @@
  */
 package org.pageseeder.diffx.format;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Enumeration;
-import java.util.Stack;
-
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.TextEvent;
+import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
-import org.pageseeder.xmlwriter.XMLWriter;
+import org.pageseeder.diffx.util.Formatting;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Stack;
 
 /**
  * A XML formatter that simply uses a different namespace for any inserted or modified
@@ -67,12 +62,17 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * The output goes here.
    */
-  private final XMLWriter xml;
+  private final XMLWriterNSImpl xml;
 
   /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig();
+
+  /**
+   * The prefix mapping
+   */
+  private PrefixMapping mapping = null;
 
   // state variables ----------------------------------------------------------------------------
 
@@ -89,6 +89,12 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   private transient boolean isSetup = false;
 
   /**
+   * Used to know if all elements have been closed, in which case the namespace
+   * mapping should be redeclared before opening a new element
+   */
+  private int openElements = 0;
+
+  /**
    * Indicates whether some text is being inserted or removed.
    *
    * 0 = indicate format or no open text element.
@@ -100,12 +106,12 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * A stack of attributes to insert.
    */
-  private transient Stack<AttributeEvent> insAttributes = new Stack<AttributeEvent>();
+  private final transient Stack<AttributeEvent> insAttributes = new Stack<>();
 
   /**
    * A stack of attributes to delete.
    */
-  private transient Stack<AttributeEvent> delAttributes = new Stack<AttributeEvent>();
+  private final transient Stack<AttributeEvent> delAttributes = new Stack<>();
 
   // constructors -------------------------------------------------------------------------------
 
@@ -135,6 +141,11 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     endTextChange();
     if (!(e instanceof AttributeEvent)) {
       flushAttributes();
+    } else if (e instanceof OpenElementEvent) {
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      this.openElements++;
+    } else if (e instanceof CloseElementEvent) {
+      this.openElements--;
     }
     e.toXML(this.xml);
     if (e instanceof TextEvent)
@@ -176,6 +187,11 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof OpenElementEvent) {
       flushAttributes();
       endTextChange();
+      // namespaces declaration
+      if (this.openElements == 0) {
+        Formatting.declareNamespaces(this.xml, this.mapping);
+        this.openElements++;
+      }
       this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
       this.xml.attribute("name", ((OpenElementEvent)e).getName());
       this.xml.attribute("ns-uri", ((OpenElementEvent)e).getURI());
@@ -185,6 +201,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
       flushAttributes();
       endTextChange();
       this.xml.closeElement();
+      this.openElements--;
 
       // change in text
     } else if (e instanceof TextEvent) {
@@ -238,10 +255,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    */
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = uris.nextElement();
-      this.xml.setPrefixMapping(uri, mapping.getPrefix(uri));
-    }
+    this.mapping = mapping;
   }
 
   // private helpers ----------------------------------------------------------------------------
