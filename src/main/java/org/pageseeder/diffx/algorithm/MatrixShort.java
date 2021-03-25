@@ -19,7 +19,7 @@ package org.pageseeder.diffx.algorithm;
  * A matrix implementation which backbone is a matrix of short numbers.
  *
  * @author Christophe Lauret (Allette Systems)
- * @version 7 April 2005
+ * @version 0.9.0
  */
 public final class MatrixShort implements Matrix {
   // TODO: this class should probably not be public
