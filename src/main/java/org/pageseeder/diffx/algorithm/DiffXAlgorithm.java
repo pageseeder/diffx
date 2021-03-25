@@ -24,7 +24,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * Performs the diff comparison of sequences of events.
  *
  * @author Christophe Lauret
- * @version 15 December 2004
+ * @version 0.7.0
  */
 public interface DiffXAlgorithm {
 
@@ -45,15 +45,11 @@ public interface DiffXAlgorithm {
   void process(DiffXFormatter formatter) throws IOException;
 
   /**
-   * Returns the first sequence used for the diff-x comparison.
-   *
    * @return the first sequence used for the diff-x comparison.
    */
   EventSequence getFirstSequence();
 
   /**
-   * Returns the second sequence used for the diff-x comparison.
-   *
    * @return the second sequence used for the diff-x comparison.
    */
   EventSequence getSecondSequence();

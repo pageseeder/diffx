@@ -21,7 +21,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * A base class for Diff-X algorithms.
  *
  * @author Christophe Lauret
- * @version 15 December 2004
+ * @version 0.9.0
  */
 public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
 
@@ -52,34 +52,24 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
    */
   protected int length = -1;
 
-  // constructor --------------------------------------------------------------------------------
-
   /**
    * Creates a new DiffX algorithm base class.
    *
-   * @param seq0 The first sequence to compare.
-   * @param seq1 The second sequence to compare.
+   * @param first The first sequence to compare.
+   * @param second The second sequence to compare.
    */
-  public DiffXAlgorithmBase(EventSequence seq0, EventSequence seq1) {
-    this.sequence1 = seq0;
-    this.sequence2 = seq1;
-    this.length1 = seq0.size();
-    this.length2 = seq1.size();
+  public DiffXAlgorithmBase(EventSequence first, EventSequence second) {
+    this.sequence1 = first;
+    this.sequence2 = second;
+    this.length1 = first.size();
+    this.length2 = second.size();
   }
 
-  // methods ------------------------------------------------------------------------------------
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final EventSequence getFirstSequence() {
     return this.sequence1;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final EventSequence getSecondSequence() {
     return this.sequence2;

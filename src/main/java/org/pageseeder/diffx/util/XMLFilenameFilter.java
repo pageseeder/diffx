@@ -24,7 +24,7 @@ import java.io.FileFilter;
  * <p>This filter assumes that an file simply as the .xml file extension.
  *
  * @author  Christophe Lauret
- * @version 4 April 2005
+ * @version 0.9.0
  */
 public final class XMLFilenameFilter implements FileFilter {
 
@@ -35,11 +35,8 @@ public final class XMLFilenameFilter implements FileFilter {
 
   /**
    * The XML extension to be used for filtering the files.
-   *
-   * @deprecated will be made private in future releases
    */
-  @Deprecated
-  public final String ext = DEFAULT_EXTENSION;
+  private final String ext = DEFAULT_EXTENSION;
 
   /**
    * Set to <code>true</code> to ignore the case of the extension.

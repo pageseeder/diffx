@@ -37,8 +37,7 @@ public class DiffXAlgorithmFactory {
 	 * @param seq2
 	 * @return <code>DiffXAlgorithm</code>
 	 */
-	public DiffXAlgorithm getAlgorithm(String algorithmType,
-			EventSequence seq1, EventSequence seq2) {
+	public DiffXAlgorithm getAlgorithm(String algorithmType, EventSequence seq1, EventSequence seq2) {
 		DiffXAlgorithm algorithm = null;
     if (algorithmType == null || algorithmType.equals(DIFFX_ALGORITHM_FITSY)) {
       algorithm = new DiffXFitsy(seq1, seq2);

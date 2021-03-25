@@ -31,7 +31,7 @@ import org.pageseeder.diffx.event.DiffXEvent;
  * access and modify the content of the list using strongly typed methods.
  *
  * @author Christophe Lauret
- * @version 6 December 2008
+ * @version 0.9.0
  *
  * @since 0.7
  */
@@ -55,7 +55,7 @@ public final class EventSequence {
    * Creates a new event sequence.
    */
   public EventSequence() {
-    this.sequence = new LinkedList<DiffXEvent>();
+    this.sequence = new LinkedList<>();
   }
 
   /**
@@ -64,7 +64,7 @@ public final class EventSequence {
    * @param size The size of the sequence.
    */
   public EventSequence(int size) {
-    this.sequence = new ArrayList<DiffXEvent>(size);
+    this.sequence = new ArrayList<>(size);
   }
 
   // List methods -------------------------------------------------------------------------------
@@ -182,9 +182,9 @@ public final class EventSequence {
     if (seq == null) return false;
     if (seq.getClass() != this.getClass()) return false;
     List<DiffXEvent> sequence2 = seq.sequence;
-    if (this.sequence.size() != this.sequence.size()) return false;
-    DiffXEvent x1 = null;
-    DiffXEvent x2 = null;
+    if (this.sequence.size() != seq.sequence.size()) return false;
+    DiffXEvent x1;
+    DiffXEvent x2;
     for (int i = 0; i < this.sequence.size(); i++) {
       x1 = this.sequence.get(i);
       x2 = sequence2.get(i);
@@ -226,10 +226,8 @@ public final class EventSequence {
    * @param w The print writer receiving the SAX events.
    */
   public void export(PrintWriter w) {
-    DiffXEvent x = null;
-    for (int i = 0; i < this.sequence.size(); i++) {
-      x = this.sequence.get(i);
-      w.println(x.toString());
+    for (DiffXEvent event : this.sequence) {
+      w.println(event.toString());
     }
     w.flush();
   }
@@ -263,9 +261,9 @@ public final class EventSequence {
    * An iterator over the event elements in the sequences.
    *
    * @author Christophe Lauret
-   * @version 6 December 2004
+   * @version 0.9.0
    */
-  public final class EventIterator implements Iterator<DiffXEvent> {
+  public static final class EventIterator implements Iterator<DiffXEvent> {
 
     /**
      * The wrapped iterator.
