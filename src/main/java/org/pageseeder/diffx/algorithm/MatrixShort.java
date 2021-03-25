@@ -105,16 +105,15 @@ public final class MatrixShort implements Matrix {
     return a >= b? a : b;
   }
 
-
   /**
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    StringBuffer out = new StringBuffer();
+    StringBuilder out = new StringBuilder();
     for (int j = 0; j < this.matrix[0].length; j++) {
       for (short[] element : this.matrix) {
-        out.append(element[j]+"\t");
+        out.append(element[j]).append("\t");
       }
       out.append('\n');
     }
