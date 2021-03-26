@@ -31,19 +31,19 @@ import org.pageseeder.diffx.event.impl.SpaceEvent;
 import org.pageseeder.diffx.event.impl.WordEvent;
 
 /**
- * The tokeniser for characters events.
+ * The tokenizer for characters events.
  *
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 11 May 2010
+ * @version 0.9.0
  */
 public final class TokenizerByWord implements TextTokenizer {
 
   /**
    * Map characters to events in order to recycle events as they are created.
    */
-  private final Map<String, TextEvent> recycling = new HashMap<String, TextEvent>();
+  private final Map<String, TextEvent> recycling = new HashMap<>();
 
   /**
    * Define the whitespace processing.
@@ -62,14 +62,11 @@ public final class TokenizerByWord implements TextTokenizer {
     this.whitespace = whitespace;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<TextEvent> tokenize(CharSequence seq) {
-    if (seq == null) return null;
+    if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
-    List<TextEvent> events = new ArrayList<TextEvent>(seq.length());
+    List<TextEvent> events = new ArrayList<>(seq.length());
 
     Pattern p = Pattern.compile("\\s+");
     Matcher m = p.matcher(seq);
@@ -100,11 +97,9 @@ public final class TokenizerByWord implements TextTokenizer {
 
   /**
    * Always <code>TextGranularity.WORD</code>.
-   *
-   * {@inheritDoc}
    */
   @Override
-  public TextGranularity granurality() {
+  public TextGranularity granularity() {
     return TextGranularity.WORD;
   }
 

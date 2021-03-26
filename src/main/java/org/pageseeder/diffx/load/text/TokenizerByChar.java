@@ -27,19 +27,19 @@ import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 
 /**
- * The tokeniser for characters events.
+ * The tokenizer for characters events.
  *
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 0.9.0
  */
 public final class TokenizerByChar implements TextTokenizer {
 
   /**
    * Map characters to events in order to recycle events as they are created.
    */
-  private final Map<Character, TextEvent> recycling = new HashMap<Character, TextEvent>();
+  private final Map<Character, TextEvent> recycling = new HashMap<>();
 
   /**
    * Creates a new tokenizer.
@@ -47,14 +47,11 @@ public final class TokenizerByChar implements TextTokenizer {
   public TokenizerByChar() {
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<TextEvent> tokenize(CharSequence seq) {
-    if (seq == null) return null;
+    if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
-    List<TextEvent> events = new ArrayList<TextEvent>(seq.length());
+    List<TextEvent> events = new ArrayList<>(seq.length());
     Character c = null;
     for (int i=0; i < seq.length(); i++) {
       c = Character.valueOf(seq.charAt(i));
@@ -73,11 +70,9 @@ public final class TokenizerByChar implements TextTokenizer {
 
   /**
    * Always <code>TextGranularity.CHARACTER</code>.
-   *
-   * {@inheritDoc}
    */
   @Override
-  public TextGranularity granurality() {
+  public TextGranularity granularity() {
     return TextGranularity.CHARACTER;
   }
 }

@@ -32,7 +32,7 @@ import org.pageseeder.diffx.event.impl.SpaceEvent;
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 11 May 2010
+ * @version 0.9.0
  */
 public final class TokenizerByText implements TextTokenizer {
 
@@ -53,12 +53,9 @@ public final class TokenizerByText implements TextTokenizer {
     this.whitespace = whitespace;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<TextEvent> tokenize(CharSequence seq) {
-    if (seq == null) return null;
+    if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
     int x = TokenizerUtils.getLeadingWhiteSpace(seq);
     int y = TokenizerUtils.getTrailingWhiteSpace(seq);
@@ -115,11 +112,9 @@ public final class TokenizerByText implements TextTokenizer {
 
   /**
    * Always <code>TextGranularity.CHARACTER</code>.
-   *
-   * {@inheritDoc}
    */
   @Override
-  public TextGranularity granurality() {
+  public TextGranularity granularity() {
     return TextGranularity.TEXT;
   }
 

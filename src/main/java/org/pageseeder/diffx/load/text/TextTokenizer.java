@@ -23,11 +23,11 @@ import org.pageseeder.diffx.event.TextEvent;
 /**
  * An interface for text tokenizers.
  *
- * <p>Text tokenisers are used to return a list of {@link org.pageseeder.diffx.event.TextEvent}
+ * <p>Text tokenizers are used to return a list of {@link org.pageseeder.diffx.event.TextEvent}
  * from a piece of text.
  *
  * @author Christophe Lauret
- * @version 3 February 2005
+ * @version 0.9.0
  */
 public interface TextTokenizer {
 
@@ -40,10 +40,8 @@ public interface TextTokenizer {
   List<TextEvent> tokenize(CharSequence seq);
 
   /**
-   * Returns the text granularity of this tokenizer.
-   *
    * @return the text granularity of this tokenizer.
    */
-  TextGranularity granurality();
+  TextGranularity granularity();
 
 }
