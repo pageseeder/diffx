@@ -29,9 +29,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 public final class TokenizerFactory {
 
   /**
-   * Creates a factory for tokenizers.
-   *
-   * @throws NullPointerException If the configuration is <code>null</code>.
+   * No public instantiation
    */
   private TokenizerFactory() {
   }

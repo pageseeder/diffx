@@ -18,6 +18,7 @@ package org.pageseeder.diffx.load.text;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
+import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 import org.pageseeder.diffx.event.impl.WordEvent;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public final class TokenizerByWordTest {
   @Test public void testNull() {
     try {
       TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
-      assertNull(t.tokenize(null));
+      t.tokenize(null);
     } catch (NullPointerException ex) {
       assertTrue(true);
     }
@@ -61,15 +62,15 @@ public final class TokenizerByWordTest {
    */
   @Test public void testCountToken1() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
-    assertEquals(1, t.tokenize(" ").size());
-    assertEquals(2, t.tokenize(" a").size());
-    assertEquals(2, t.tokenize("a ").size());
-    assertEquals(3, t.tokenize(" b ").size());
-    assertEquals(3, t.tokenize("b b").size());
-    assertEquals(4, t.tokenize("c c ").size());
-    assertEquals(4, t.tokenize(" c c").size());
-    assertEquals(5, t.tokenize(" d d ").size());
-    assertEquals(5, t.tokenize("d d d").size());
+    assertEquals(0, t.tokenize(" ").size());
+    assertEquals(1, t.tokenize(" a").size());
+    assertEquals(1, t.tokenize("a ").size());
+    assertEquals(1, t.tokenize(" b ").size());
+    assertEquals(2, t.tokenize("b b").size());
+    assertEquals(2, t.tokenize("c c ").size());
+    assertEquals(2, t.tokenize(" c c").size());
+    assertEquals(2, t.tokenize(" d d ").size());
+    assertEquals(3, t.tokenize("d d d").size());
   }
 
   /**
@@ -77,15 +78,15 @@ public final class TokenizerByWordTest {
    */
   @Test public void testCountToken2() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
-    assertEquals(1, t.tokenize(" ").size());
-    assertEquals(2, t.tokenize("  a").size());
-    assertEquals(2, t.tokenize("aa ").size());
-    assertEquals(2, t.tokenize(" aa").size());
-    assertEquals(2, t.tokenize("a  ").size());
-    assertEquals(3, t.tokenize(" bb ").size());
-    assertEquals(3, t.tokenize("b bb").size());
-    assertEquals(3, t.tokenize("b   bb").size());
-    assertEquals(4, t.tokenize("xx  yy  ").size());
+    assertEquals(0, t.tokenize(" ").size());
+    assertEquals(1, t.tokenize("  a").size());
+    assertEquals(1, t.tokenize("aa ").size());
+    assertEquals(1, t.tokenize(" aa").size());
+    assertEquals(1, t.tokenize("a  ").size());
+    assertEquals(1, t.tokenize(" bb ").size());
+    assertEquals(2, t.tokenize("b bb").size());
+    assertEquals(2, t.tokenize("b   bb").size());
+    assertEquals(2, t.tokenize("xx  yy  ").size());
   }
 
   /**
@@ -94,14 +95,14 @@ public final class TokenizerByWordTest {
   @Test public void testCountToken3() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize(" ").size());
-    assertEquals(3, t.tokenize("  \na").size());
-    assertEquals(3, t.tokenize("aa \n").size());
-    assertEquals(3, t.tokenize(" \naa").size());
-    assertEquals(4, t.tokenize("a \n ").size());
-    assertEquals(4, t.tokenize(" bb\n ").size());
-    assertEquals(4, t.tokenize("b\n bb").size());
-    assertEquals(5, t.tokenize("b \n  bb").size());
-    assertEquals(7, t.tokenize("xx \n yy\n  ").size());
+    assertEquals(2, t.tokenize("  \na").size());
+    assertEquals(2, t.tokenize("aa \n").size());
+    assertEquals(2, t.tokenize(" \naa").size());
+    assertEquals(2, t.tokenize("a \n ").size());
+    assertEquals(3, t.tokenize(" bb\n ").size());
+    assertEquals(3, t.tokenize("b\n bb").size());
+    assertEquals(3, t.tokenize("b \n  bb").size());
+    assertEquals(4, t.tokenize("xx \n yy\n  ").size());
   }
 
   /**
@@ -110,9 +111,9 @@ public final class TokenizerByWordTest {
   @Test public void testCountToken4() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize("\n").size());
-    assertEquals(3, t.tokenize("\n \n").size());
-    assertEquals(3, t.tokenize(" \n\n").size());
-    assertEquals(3, t.tokenize("\n\n\n").size());
+    assertEquals(1, t.tokenize("\n \n").size());
+    assertEquals(1, t.tokenize(" \n\n").size());
+    assertEquals(1, t.tokenize("\n\n\n").size());
   }
 
   /**
@@ -123,8 +124,7 @@ public final class TokenizerByWordTest {
     List<TextEvent> e = t.tokenize(" ");
     assertEquals(1, e.size());
     DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent(" "), space);
-    assertSame(SpaceEvent.SINGLE_WHITESPACE, space);
+    assertEquals(new IgnorableSpaceEvent(" "), space);
   }
 
   /**
@@ -135,8 +135,7 @@ public final class TokenizerByWordTest {
     List<TextEvent> e = t.tokenize("  ");
     assertEquals(1, e.size());
     DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent("  "), space);
-    assertSame(SpaceEvent.DOUBLE_WHITESPACE, space);
+    assertEquals(new IgnorableSpaceEvent("  "), space);
   }
 
   /**
@@ -147,8 +146,7 @@ public final class TokenizerByWordTest {
     List<TextEvent> e = t.tokenize("\n");
     assertEquals(1, e.size());
     DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent("\n"), space);
-    assertSame(SpaceEvent.NEW_LINE, space);
+    assertEquals(new IgnorableSpaceEvent("\n"), space);
   }
 
   /**
@@ -169,7 +167,7 @@ public final class TokenizerByWordTest {
     List<TextEvent> e = t.tokenize("xx  ");
     assertEquals(2, e.size());
     assertEquals(new WordEvent("xx"), e.get(0));
-    assertEquals(new SpaceEvent("  "), e.get(1));
+    assertEquals(new IgnorableSpaceEvent("  "), e.get(1));
   }
 
   /**
@@ -179,7 +177,7 @@ public final class TokenizerByWordTest {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("  xx");
     assertEquals(2, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
+    assertEquals(new IgnorableSpaceEvent("  "), e.get(0));
     assertEquals(new WordEvent("xx"), e.get(1));
   }
 
@@ -190,9 +188,9 @@ public final class TokenizerByWordTest {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("  xx\n");
     assertEquals(3, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
+    assertEquals(new IgnorableSpaceEvent("  "), e.get(0));
     assertEquals(new WordEvent("xx"), e.get(1));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(2));
+    assertEquals(new IgnorableSpaceEvent("\n"), e.get(2));
   }
 
   /**
@@ -201,11 +199,10 @@ public final class TokenizerByWordTest {
   @Test public void testSeq4() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("  xx\n\n");
-    assertEquals(4, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
+    assertEquals(3, e.size());
+    assertEquals(new IgnorableSpaceEvent("  "), e.get(0));
     assertEquals(new WordEvent("xx"), e.get(1));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(2));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(3));
+    assertEquals(new IgnorableSpaceEvent("\n\n"), e.get(2));
   }
 
   /**
@@ -214,11 +211,9 @@ public final class TokenizerByWordTest {
   @Test public void testSeq5() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("  \n\nxx");
-    assertEquals(4, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(1));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(2));
-    assertEquals(new WordEvent("xx"), e.get(3));
+    assertEquals(2, e.size());
+    assertEquals(new IgnorableSpaceEvent("  \n\n"), e.get(0));
+    assertEquals(new WordEvent("xx"), e.get(1));
   }
 
 }

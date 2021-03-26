@@ -78,14 +78,14 @@ public final class TokenizerByCharTest {
   @Test public void testCountToken2() {
     TokenizerByChar t = new TokenizerByChar();
     assertEquals(1, t.tokenize(" ").size());
-    assertEquals(2, t.tokenize("  a").size());
-    assertEquals(2, t.tokenize("aa ").size());
-    assertEquals(2, t.tokenize(" aa").size());
-    assertEquals(2, t.tokenize("a  ").size());
-    assertEquals(3, t.tokenize(" bb ").size());
-    assertEquals(3, t.tokenize("b bb").size());
-    assertEquals(3, t.tokenize("b   bb").size());
-    assertEquals(4, t.tokenize("xx  yy  ").size());
+    assertEquals(3, t.tokenize("  a").size());
+    assertEquals(3, t.tokenize("aa ").size());
+    assertEquals(3, t.tokenize(" aa").size());
+    assertEquals(3, t.tokenize("a  ").size());
+    assertEquals(4, t.tokenize(" bb ").size());
+    assertEquals(4, t.tokenize("b bb").size());
+    assertEquals(6, t.tokenize("b   bb").size());
+    assertEquals(8, t.tokenize("xx  yy  ").size());
   }
 
   /**

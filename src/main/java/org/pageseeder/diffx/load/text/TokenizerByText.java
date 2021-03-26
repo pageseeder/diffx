@@ -64,7 +64,7 @@ public final class TokenizerByText implements TextTokenizer {
       TextEvent e = new CharactersEvent(seq);
       return Collections.singletonList(e);
     }
-    // The text node is only white space (white space = trailing space)
+    // The text node is only white space (white space = leading space)
     if (x == seq.length()) {
       switch (this.whitespace) {
         case COMPARE:

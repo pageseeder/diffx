@@ -60,11 +60,11 @@ public final class TextTokeniserNoSpaceTest {
     assertEquals(1, ct.tokenize(" a").size());
     assertEquals(1, ct.tokenize("a ").size());
     assertEquals(1, ct.tokenize(" b ").size());
-    assertEquals(2, ct.tokenize("b b").size());
-    assertEquals(2, ct.tokenize("c c ").size());
-    assertEquals(2, ct.tokenize(" c c").size());
-    assertEquals(2, ct.tokenize(" d d ").size());
-    assertEquals(3, ct.tokenize("d d d").size());
+    assertEquals(1, ct.tokenize("b b").size());
+    assertEquals(1, ct.tokenize("c c ").size());
+    assertEquals(1, ct.tokenize(" c c").size());
+    assertEquals(1, ct.tokenize(" d d ").size());
+    assertEquals(1, ct.tokenize("d d d").size());
   }
 
   /**
@@ -78,9 +78,9 @@ public final class TextTokeniserNoSpaceTest {
     assertEquals(1, ct.tokenize(" aa").size());
     assertEquals(1, ct.tokenize("a  ").size());
     assertEquals(1, ct.tokenize(" bb ").size());
-    assertEquals(2, ct.tokenize("b bb").size());
-    assertEquals(2, ct.tokenize("b   bb").size());
-    assertEquals(2, ct.tokenize("xx  yy  ").size());
+    assertEquals(1, ct.tokenize("b bb").size());
+    assertEquals(1, ct.tokenize("b   bb").size());
+    assertEquals(1, ct.tokenize("xx  yy  ").size());
   }
 
   // TODO
