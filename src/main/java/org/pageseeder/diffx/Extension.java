@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
  * <pre>{@code
  * <xsl:stylesheet version="2.0"
  *    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
- *    xmlns:diffx="com.topologi.diffx.Extension"
+ *    xmlns:diffx="org.pageseeder.diffx.Extension"
  *    extension-element-prefixes="diffx"
  * >
  * }</pre>
