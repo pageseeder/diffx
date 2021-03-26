@@ -66,11 +66,6 @@ public final class DiffXConfig {
   private WhiteSpaceProcessing whitespace = WhiteSpaceProcessing.COMPARE;
 
   /**
-   * Required for backward compatibility only.
-   */
-  private boolean preserveWhiteSpace = true;
-
-  /**
    * Defines the text granularity for this configuration.
    */
   private TextGranularity granularity = TextGranularity.WORD;
@@ -207,7 +202,7 @@ public final class DiffXConfig {
   /**
    * Indicates whether the differences in white spaces should be ignored or not.
    *
-   * @return <code>true</code> to ignore differences in white spaces;
+   * @return <code>true</code> except if white space processing is set to COMPARE
    *         <code>false</code> otherwise.
    */
   public boolean isIgnoreWhiteSpace() {
@@ -217,52 +212,11 @@ public final class DiffXConfig {
   /**
    * Indicates whether the white spaces are preserved or not.
    *
-   * @return <code>true</code> to preserve the white spaces;
+   * @return <code>true</code> except if white space processing is set to IGNORE
    *         <code>false</code> otherwise.
    */
   public boolean isPreserveWhiteSpace() {
-    return this.preserveWhiteSpace;
-  }
-
-  // deprecated methods ---------------------------------------------------------------------------
-
-  /**
-   * Sets whether the differences in white spaces should be ignored or not.
-   *
-   * @deprecated use <code>setWhiteSpaceProcessing</code> instead
-   *
-   * @param ignore <code>true</code> to ignore differences in white spaces;
-   *               <code>false</code> otherwise.
-   */
-  @Deprecated
-  public void setIgnoreWhiteSpace(boolean ignore) {
-    // COMPARE  <-> ignore = false, preserve = true/false
-    // PRESERVE <-> ignore = true, preserve = true
-    // IGNORE   <-> ignore = true, preserve = false
-    if (!ignore) {
-      this.whitespace = WhiteSpaceProcessing.COMPARE;
-    } else {
-      this.whitespace = this.preserveWhiteSpace? WhiteSpaceProcessing.PRESERVE : WhiteSpaceProcessing.IGNORE;
-    }
-  }
-
-  /**
-   * Sets whether the white spaces should be preserved or not.
-   *
-   * @deprecated use <code>setWhiteSpaceProcessing</code> instead
-   *
-   * @param preserve <code>true</code> to preserve the white spaces;
-   *                 <code>false</code> otherwise.
-   */
-  @Deprecated
-  public void setPreserveWhiteSpace(boolean preserve) {
-    // COMPARE  <-> ignore = false, preserve = true/false
-    // PRESERVE <-> ignore = true, preserve = true
-    // IGNORE   <-> ignore = true, preserve = false
-    this.preserveWhiteSpace = preserve;
-    if (this.whitespace != WhiteSpaceProcessing.COMPARE) {
-      this.whitespace = preserve? WhiteSpaceProcessing.PRESERVE : WhiteSpaceProcessing.IGNORE;
-    }
+    return this.whitespace != WhiteSpaceProcessing.IGNORE;
   }
 
 }
