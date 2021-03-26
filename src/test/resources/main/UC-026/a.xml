@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="0001.css" type="text/css"?>
+<Single.mono Id = "M0001010" Type = "Pharmacologic"><Title.sec>
+<Doc.id.num>0001010</Doc.id.num><Index.id>0001</Index.id><Mono.title>
+<Drug.device.name>Aciclovir</Drug.device.name><Effect.type>Topical</Effect.type></Mono.title>
+<Note><P fmcssattr = "1">For a listing of dosage forms and brand
+names, see <Emph Type = "Italic">Dosage Forms</Emph> section(s)</P></Note></Title.sec>
+<Category.sec>
+<Category.use fmcssattr = "9 10">Antiviral (topical)<Citeref
+    Rid = "CXX01" Exclude-comma = "1"/><Citeref Rid = "CXX04"
+    Exclude-comma = "1"/></Category.use></Category.sec>
+<Indication.sec>
+<Form.note><P fmcssattr = "1">Bracketed information in the <Emph
+    Type = "Italic">Indications</Emph> section refers to uses that
+are not included in the Australian approved product information.</P></Form.note>
+<Accepted.sec>
+<Aus.entry><Entry.term fmcssattr = "5">Herpes simplex (treatment)</Entry.term>
+<P fmcssattr = "2">Topical aciclovir is indicated for the treatment of
+herpes simplex virus infections of the lips (herpes labialis)<Citeref
+    Rid = "CXXA2"/>. However, treatment with oral aciclovir is recommended
+for severely immunocompromised patients with herpes simplex labialis<Citeref
+    Rid = "CXXA2"/><Citeref Rid = "CXXA4"/>.</P></Aus.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Herpes zoster
+(treatment adjunct)</Not.label.aus><Citeref Rid = "CXX46"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">Topical aciclovir is used as adjunctive therapy<Citeref
+    Rid = "CXX33" Exclude-comma = "1"/><Citeref Rid = "CXX47"
+    Exclude-comma = "1"/> to improve cutaneous healing of localised
+herpes zoster<Citeref Rid = "CXX33" Exclude-comma = "1"/><Citeref
+    Rid = "CXX47" Exclude-comma = "1"/> in immunosuppressed persons
+being treated systemically with other treatment regimens<Citeref
+    Rid = "CXX33" Exclude-comma = "1"/><Citeref Rid = "CXX47"
+    Exclude-comma = "1"/> for herpes zoster.<Citeref Rid = "CXX26"
+    Exclude-comma = "1"/><Citeref Rid = "CXX27" Exclude-comma = "1"/><Citeref
+    Rid = "CXX28" Exclude-comma = "1"/><Citeref Rid = "CXX29"
+    Exclude-comma = "1"/><Citeref Rid = "CXX33" Exclude-comma = "1"/><Citeref
+    Rid = "CXX34" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Resistance to aciclovir, although
+currently of minor clinical significance, has been reported to develop
+with prolonged treatment<Citeref Rid = "CXX07" Exclude-comma = "1"/> in immunocompromised
+patients.<Citeref Rid = "CXX33" Exclude-comma = "1"/> Resistance
+does not appear to be significant in patients with normal immune
+function.<Citeref Rid = "CXX33" Exclude-comma = "1"/></P></Usp.entry></Accepted.sec>
+<Unaccepted.sec>
+<P fmcssattr = "1">Topical aciclovir<Citeref Rid = "CXX33"
+    Exclude-comma = "1"/> is not effective in the treatment of <Emph
+    Type = "Italic">recurrent</Emph> herpes genitalis or herpes
+febrilis<Citeref Rid = "CXX35" Exclude-comma = "1"/> (labialis)
+infections in non immunocompromised patients,<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/> although topical aciclovir may cause some
+reduction in the duration of viral shedding.<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/> Also, there is no evidence that topical
+aciclovir will prevent the transmission of herpes infection to others
+or that it will prevent recurrent infections in the absence of signs
+and symptoms of infection.<Citeref Rid = "CXX01" Exclude-comma = "1"/><Citeref
+    Rid = "CXX04" Exclude-comma = "1"/><Citeref Rid = "CXX25"
+    Exclude-comma = "1"/></P></Unaccepted.sec></Indication.sec>
+<Pharma.pkinetic.sec Nogentext = "0">
+<Pchem.sec>
+<Mol.weight.sec>
+<P fmcssattr = "1">225.21<Citeref Rid = "CXX12" Exclude-comma = "1"/></P></Mol.weight.sec></Pchem.sec>
+<Mechan.effect.sec>
+<P fmcssattr = "1">Aciclovir is converted to aciclovir monophosphate,
+a nucleotide, by herpes simplex virus (HSV)–coded thymidine kinase.
+Aciclovir monophosphate is converted to the diphosphate by cellular
+guanylate kinase and to the triphosphate by a number of cellular
+enzymes. Aciclovir triphosphate interferes with HSV DNA polymerase
+and inhibits viral DNA replication. The triphosphate can be incorporated
+into growing chains of DNA by viral DNA polymerase, resulting in
+termination of the DNA chain. Since aciclovir is preferentially
+taken up and selectively converted to the active triphosphate form
+by HSV-infected cells, it is much less toxic to normal uninfected
+cells.<Citeref Rid = "CXX01" Exclude-comma = "1"/><Citeref Rid = "CXX04"
+    Exclude-comma = "1"/></P></Mechan.effect.sec>
+<Absorb.sec>
+<P fmcssattr = "1">Intact skin—Minimal; aciclovir not detected
+in blood or urine.<Citeref Rid = "CXX01" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Diseased skin (herpes zoster)—Moderate; serum
+concentrations up to 0.28 microgram per mL have been reported in
+patients with normal renal function and up to 0.78 microgram per
+mL in patients with impaired renal function.<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/></P></Absorb.sec>
+<Elimination.sec>
+<P fmcssattr = "1">Renal—Up to approximately 9% of the total daily
+dose may be excreted in the urine.<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/></P></Elimination.sec></Pharma.pkinetic.sec>
+<Prec.consid.sec>
+<Carcino Nogentext = "0">
+<P fmcssattr = "1">Lifetime bioassays in rats and mice given daily
+doses of 50, 150, and 450 mg per kg of body weight (mg/kg) by gavage
+have not shown any evidence of carcinogenicity.<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/> However, <Emph Type = "Italic">in vitro</Emph> cell
+transformation assays have given conflicting results, being positive
+at the highest dose used in one system.<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/> The resulting morphologically transformed
+cells induced tumours when inoculated into immunosuppressed, syngeneic,
+weanling mice, although results were negative in another animal<Citeref
+    Rid = "CXX33" Exclude-comma = "1"/> system.<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/><Citeref Rid = "CXX25" Exclude-comma = "1"/></P></Carcino>
+<Tumour Nogentext = "0">
+<P fmcssattr = "1">Studies in rats and mice have not shown any statistically
+significant difference between the incidence of benign tumours produced
+in drug-treated animals and that produced in control animals.<Citeref
+    Rid = "CXX25" Exclude-comma = "1"/></P></Tumour>
+<Mutagen>
+<P fmcssattr = "1">No chromosomal damage was noted at maximum tolerated
+parenteral doses (100 mg/kg) in rats or Chinese hamsters.<Citeref
+    Rid = "CXX25" Exclude-comma = "1"/> Higher doses (500 and l000
+mg/kg) were clastogenic in Chinese hamsters.<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/> No problems were reported in dominant
+lethal studies in mice.<Citeref Rid = "CXX25" Exclude-comma = "1"/> Also,
+there was no evidence of mutagenicity in 9 out of 11 microbial and
+mammalian cell assays.<Citeref Rid = "CXX25" Exclude-comma = "1"/> In
+2 of the mammalian cell assays, a positive response for mutagenicity
+and chromosomal damage was noted, but only at concentrations at
+least 1000 times the usual plasma concentrations in humans following
+topical application.<Citeref Rid = "CXX01" Exclude-comma = "1"/><Citeref
+    Rid = "CXX25" Exclude-comma = "1"/></P></Mutagen>
+<Preg.repro.sec>
+<Fertility>
+<P fmcssattr = "1">Studies in mice given oral doses of up to 450
+mg/kg per day have not shown that aciclovir impairs fertility or
+reproduction. Studies in female rabbits given aciclovir subcutaneously
+subsequent to mating have shown a significant decrease in implantation
+efficiency, but no decrease in litter size at doses of 50 mg/kg
+per day.<Citeref Rid = "CXX01" Exclude-comma = "1"/></P></Fertility>
+<Pregnancy>
+<P fmcssattr = "1">Adequate and well-controlled studies in humans
+have not been done.<Citeref Rid = "CXX25" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Studies done in rats and rabbits given subcutaneous
+doses of up to 50 mg/kg daily and in mice given oral doses of up
+to 450 mg/kg daily have not shown that aciclovir causes adverse
+effects on the foetus.<Citeref Rid = "CXX01" Exclude-comma = "1"/><Citeref
+    Rid = "CXX25" Exclude-comma = "1"/></P>
+<Adec.preg.cat>ADEC Pregnancy Category B3<Citeref Rid = "CXXA1"
+    Exclude-comma = "1"/>.</Adec.preg.cat></Pregnancy></Preg.repro.sec>
+<Breast.feed.sec>
+<P fmcssattr = "1">It is not known whether topical aciclovir is
+distributed into breast milk.<Citeref Rid = "CXX25" Exclude-comma = "1"/> However,
+aciclovir is unlikely to be distributed into breast milk in significant
+amounts following topical administration, since the total daily dose
+is small, even though absorption through diseased skin is moderate.<Citeref
+    Rid = "CXX01" Exclude-comma = "1"/><Citeref Rid = "CXX04"
+    Exclude-comma = "1"/></P></Breast.feed.sec>
+<Paediatric.sec>
+<P fmcssattr = "1">Appropriate studies on the relationship of age
+to the effects of topical aciclovir have not been performed in the
+paediatric population. However, limited data are available about
+the use of oral aciclovir in the paediatric population, and no unusual
+toxicity or paediatrics-specific problems have been observed in
+studies done in children using doses of up to 3000 mg per square
+metre of body surface per day and 80 mg/kg per day.<Citeref
+    Rid = "CXX39" Exclude-comma = "1"/><Citeref Rid = "CXX40"
+    Exclude-comma = "1"/><Citeref Rid = "CXX41" Exclude-comma = "1"/><Citeref
+    Rid = "CXX42" Exclude-comma = "1"/><Citeref Rid = "CXX43"
+    Exclude-comma = "1"/><Citeref Rid = "CXX44" Exclude-comma = "1"/></P></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Appropriate studies on the relationship of age
+to the effects of topical aciclovir have not been performed in the
+geriatric population. However, no geriatrics-specific problems have
+been documented to date.</P></Geriatric.sec>
+<Contra.med.sec Nogentext = "0">
+<P fmcssattr = "1">The medical considerations/contraindications
+included have been selected on the basis of their potential clinical
+significance (reasons given in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance).</P>
+<Med.prob.sec><Head fmcssattr = "0">Risk-benefit should be considered
+when the following medical problem exists</Head>
+<Usp.entry><Entry.term fmcssattr = "4 5 6">Sensitivity to topical
+aciclovir<Citeref Rid = "CXX25" Exclude-comma = "1"/><Citeref
+    Rid = "CXX31" Exclude-comma = "1"/></Entry.term></Usp.entry></Med.prob.sec></Contra.med.sec>
+<Pat.monitor.sec Nogentext = "0">
+<P fmcssattr = "1">The following may be especially important in
+patient monitoring (other tests may be warranted in some patients,
+depending on condition; » = strongly recommended):</P>
+<P fmcssattr = "2">The following may be especially important in
+patient monitoring (other tests may be warranted in some patients,
+depending on condition; » = strongly recommended):</P>
+<Usp.entry><Entry.term fmcssattr = "5">Papanicolaou (Pap) test<Citeref
+    Rid = "CXX32" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">although a clear association has not been shown
+to date, patients with genital herpes may be at increased risk of
+developing cervical cancer; Pap tests should be done at least once
+a year to detect early cervical changes<Citeref Rid = "CXX08"
+    Exclude-comma = "1"/><Citeref Rid = "CXX33" Exclude-comma = "1"/><Citeref
+    Rid = "CXX36" Exclude-comma = "1"/></P></Usp.entry></Pat.monitor.sec></Prec.consid.sec>
+<Side.effect.sec>
+<Note><P fmcssattr = "1">The overall incidence of side effects associated
+with the cream formulation was 7.7%<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Where sensitivity tests have been conducted,
+the cause of reactions to topical aciclovir has most often shown
+to be components of the cream base rather than aciclovir<Citeref
+    Rid = "CXXA2" Exclude-comma = "1"/>.</P></Note>
+<P fmcssattr = "2">The following side/adverse effects have been
+selected on the basis of their potential clinical significance (possible
+signs and symptoms in parentheses where appropriate)—not necessarily
+inclusive:</P>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence rare</Head>
+<Side.effect.entry><Side.effect.term>Contact dermatitis<Citeref
+    Rid = "CXXA2" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">erythema<Citeref
+    Rid = "CXXA2" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>redness of skin</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>itching<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry></Side.effect.sec></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention only if they continue or are bothersome</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence more frequent</Head>
+<Side.effect.entry><Side.effect.term>Flaking skin<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence less frequent</Head>
+<Side.effect.entry><Side.effect.term>Burning<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>dry skin<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">stinging</Side.effect.term>
+<Citeref Rid = "CXXA2" Exclude-comma = "1"/></Side.effect.entry></Side.effect.sec></Side.effect.sec></Side.effect.sec>
+<Overdose.sec><Head fmcssattr = "0">OVERDOSE</Head>
+<Overdose.clinical><Head fmcssattr = "0">Clinical effects of overdose</Head>
+<P fmcssattr = "2">Untoward effects following oral ingestion are
+unlikely because transcutaneous absorption of aciclovir is limited<Citeref
+    Rid = "CXXA6"/>. A 2-gram tube contains only 100 mg of aciclovir<Citeref
+    Rid = "CXXA5"/>.</P></Overdose.clinical></Overdose.sec>
+<Pat.consult.sec>
+<P fmcssattr = "1">As an aid to patient counselling, refer to the <Emph
+    Type = "Italic">Consumer Medicine Information</Emph> (CMI).</P>
+<P fmcssattr = "2">In providing counselling, consider emphasising
+the following selected information (» = major clinical significance).
+This information is <Emph Type = "Italic">not</Emph> intended for
+distribution to patients.</P>
+<Proper.use><Head fmcssattr = "0">Proper use of this medication<Citeref
+    Rid = "CXX01" Exclude-comma = "1"/></Head>
+<Usp.entry><P fmcssattr = "1">Read patient information about herpes
+simplex infections<Citeref Rid = "CXX20" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Avoid contact with eyes</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Use medication as soon as
+possible after symptoms of herpes begin to appear</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Proper administration technique</P></Usp.entry>
+<Entry.group><Head fmcssattr = "0">To use</Head>
+<Usp.entry><P fmcssattr = "1">Use a finger cot or rubber glove to
+prevent autoinoculation<Citeref Rid = "CXX33" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Apply sufficient medication to cover
+affected areas</P></Usp.entry></Entry.group>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Complete full course of
+therapy; do not use more often or longer than prescribed</P></Usp.entry>
+<Missed.dose><P fmcssattr = "1">Missed dose: Apply as soon as possible;
+do not apply if almost time for next dose</P></Missed.dose>
+<Proper.storage Mcs = "1">Proper storage</Proper.storage></Proper.use>
+<Precaution.using><Head fmcssattr = "0">Precautions while using
+this medication<Citeref Rid = "CXX08" Exclude-comma = "1"/></Head>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Women with herpes genitalis
+may be more likely to develop cervical cancer; annual or more frequent
+Pap tests may be required<Citeref Rid = "CXX32" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Check with doctor if no improvement
+within 1 week</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Keep affected areas as clean and dry
+as possible; wear loose-fitting clothing to avoid irritation of
+lesions</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Herpes genitalis may be
+sexually transmitted, even if sexual<Citeref Rid = "CXX33"
+    Exclude-comma = "1"/> partner is asymptomatic; avoid sexual
+activity if either partner has symptoms of herpes genitalis; use
+of condom may<Citeref Rid = "CXX33" Exclude-comma = "1"/> help prevent
+transmission of herpes; however, topical aciclovir or the use of
+spermicidal gels or diaphragms will not prevent transmission of
+herpes to others<Citeref Rid = "CXX33" Exclude-comma = "1"/></P></Usp.entry></Precaution.using></Pat.consult.sec>
+<Gen.dosing.sec>
+<P fmcssattr = "1">Use of topical antivirals may lead to skin sensitisation,
+resulting in hypersensitivity reactions with subsequent topical
+or systemic use of the medication.<Citeref Rid = "CXX21"
+    Exclude-comma = "1"/><Citeref Rid = "CXX30" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Topical aciclovir is for cutaneous use only;
+it should not be used in the eyes, mouth or vagina<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Therapy should be initiated as soon as possible
+following the onset of signs and symptoms of herpes infection.<Citeref
+    Rid = "CXX01" Exclude-comma = "1"/><Citeref Rid = "CXX25"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">A finger cot or rubber glove should be used to
+prevent autoinoculation of other body sites.<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/><Citeref Rid = "CXX25" Exclude-comma = "1"/><Citeref
+    Rid = "CXX33" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">The recommended dose, frequency of application,
+and length of treatment should not be exceeded.<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/></P></Gen.dosing.sec>
+<Gen.administer.route><Head fmcssattr = "0">Topical Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>ACICLOVIR</Drug.device.name>
+<Drug.form.name>CREAM</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiviral—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Topical, to the skin, every four
+hours, five times a day, omitting night-time application, for five
+days<Citeref Rid = "CXXA2" Exclude-comma = "1"/>. Apply a sufficient
+quantity to cover all lesions adequately<Citeref Rid = "CXX01"
+    Exclude-comma = "1"/><Citeref Rid = "CXX25" Exclude-comma = "1"/>.</P></Dosing.stmt></Dosing.stmt.sec></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">See <Xref Xref = "sxx41" Italic = "Yes">Usual
+adult dose</Xref><Citeref Rid = "CXX09" Exclude-comma = "1"/>.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Otc"><Strength>5%</Strength><Brand.info>
+<Brand.name>Acihexal</Brand.name></Brand.info><Brand.info><Brand.name>Chemists’
+Own</Brand.name><Other.ingred>cetomacrogol 1000</Other.ingred>
+<Other.ingred>cetostearyl alcohol</Other.ingred><Other.ingred>chlorocresol</Other.ingred>
+<Other.ingred>dimethicone 350</Other.ingred><Other.ingred>disodium
+edetate</Other.ingred><Other.ingred>glyceryl monostearate-self emulsifying</Other.ingred>
+<Other.ingred>paraffin-white soft</Other.ingred><Other.ingred>propylene glycol</Other.ingred></Brand.info>
+<Brand.info><Brand.name>Zolaten</Brand.name><Other.ingred>cetyl
+alcohol</Other.ingred><Other.ingred>dimethicone</Other.ingred>
+<Other.ingred>orlatone 983</Other.ingred><Other.ingred>paraffin-liquid</Other.ingred>
+<Other.ingred>paraffin-white soft</Other.ingred><Other.ingred>propylene
+glycol</Other.ingred></Brand.info><Brand.info><Brand.name>Zovirax</Brand.name>
+<Other.ingred>cetostearyl alcohol</Other.ingred><Other.ingred>paraffin-liquid</Other.ingred>
+<Other.ingred>paraffin-white soft</Other.ingred><Other.ingred>poloxamer 407</Other.ingred>
+<Other.ingred>propylene glycol</Other.ingred><Other.ingred>sodium
+lauryl sulfate</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C<Citeref Rid = "CXXA3"
+    Exclude-comma = "1"/>. Do not refrigerate<Citeref Rid = "CXXA2"/><Citeref
+    Rid = "CXXA5"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">For external use
+only.</P></Item></List></Anc.label></Spec.dosage.form.sec></Gen.administer.route>
+<Doc.rev.date Date = "15/05/99; 31/10/00; 9/06/04."/></Single.mono>

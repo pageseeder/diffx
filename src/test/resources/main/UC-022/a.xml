@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="0760.css" type="text/css"?>
+<Single.mono Type = "Pharmacologic"><Title.sec><Doc.id.num>0091</Doc.id.num>
+<Index.id>0760</Index.id><Mono.title><Drug.device.name>Quinupristin
+and Dalfopristin</Drug.device.name><Effect.type>Systemic</Effect.type></Mono.title>
+<Note><P fmcssattr = "1">For a listing of dosage forms and brand
+names, see <Emph Type = "Italic">Dosage Forms</Emph> section.</P></Note></Title.sec>
+<Category.sec>
+<Category.use fmcssattr = "9 10">Antibacterial (systemic)</Category.use></Category.sec>
+<Indication.sec>
+<Gen.consider.sec>
+<P fmcssattr = "1">Quinupristin and dalfopristin have <Emph
+    Type = "Italic">in vitro</Emph> activity against Gram-positive aerobic
+bacteria, some Gram-negative aerobic bacteria, and some anaerobic and
+atypical micro-organisms<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The following Gram-positive aerobic bacteria
+are susceptible: <Emph Type = "Italic">Corynebacterium jeikeium</Emph>, <Emph
+    Type = "Italic">Enterococcus faecium</Emph> (including Van A [vancomycin-resistant
+and teicoplanin-resistant] or Van B [vancomycin-resistant and teicoplanin-susceptible
+strains), <Emph Type = "Italic">Listeria monocytogenes</Emph>, <Emph
+    Type = "Italic">Staphylococcus aureus</Emph> (methicillin-susceptible
+and methicillin-resistant), <Emph Type = "Italic">Staphylococcus
+capitis</Emph>, <Emph Type = "Italic">Staphylococcus epidermidis</Emph> (methicillin-susceptible
+and methicillin-resistant), <Emph Type = "Italic">Staphylococcus
+haemolyticus</Emph>, <Emph Type = "Italic">Staphylococcus hominis</Emph>, <Emph
+    Type = "Italic">Staphylococcus saprophyticus</Emph>, <Emph
+    Type = "Italic">Staphylococcus simulans</Emph>, <Emph
+    Type = "Italic">Staphylococcus warneri</Emph>, <Emph Type = "Italic">Streptococcus
+agalactiae</Emph>, <Emph Type = "Italic">Streptococcus pneumoniae</Emph> (penicillin-susceptible
+and penicillin-resistant), <Emph Type = "Italic">Streptococcus pyogenes</Emph> and
+Viridans group streptococci<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The following Gram-negative aerobic bacteria
+are susceptible: <Emph Type = "Italic">Legionella pneumophila</Emph>, <Emph
+    Type = "Italic">Legionella</Emph> species, <Emph Type = "Italic">Moraxella
+catarrhalis</Emph>, <Emph Type = "Italic">Neisseria meningitidis</Emph> and <Emph
+    Type = "Italic">Neisseria gonorrhoeae</Emph><Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The following anaerobic bacteria are susceptible: <Emph
+    Type = "Italic">Porphyromonas asaccharolytica</Emph><Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The following atypical bacteria are susceptible: <Emph
+    Type = "Italic">Mycoplasma pneumoniae</Emph><Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The following bacteria are considered susceptible
+using tissue culture methods: <Emph Type = "Italic">Chlamydiae pneumoniae</Emph><Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">In addition, the following bacteria are moderately
+susceptible to quinupristin/dalfopristin: Gram-positive aerobic
+bacteria (<Emph Type = "Italic">Enterococcus hirae</Emph>, <Emph
+    Type = "Italic">Lactobacillus</Emph> species, <Emph Type = "Italic">Leuconostoc</Emph> species,
+Group C streptococci, Group G streptococci) and anaerobic micro-organisms
+(<Emph Type = "Italic">Clostridium perfringens</Emph>, <Emph
+    Type = "Italic">Peptostreptococcus</Emph> species)<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">The combination of quinupristin and dalfopristin
+is frequently active against pathogens resistant to beta-lactam,
+glycopeptide and quinolone antibiotics<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">In noncomparative studies, resistance to the
+antibacterial effects of quinupristin and dalfopristin developed
+in approximately 2% of patients treated for vancomycin-resistant <Emph
+    Type = "Italic">Enterococcus faecium</Emph><Citeref Rid = "CXXA1"/>.</P></Gen.consider.sec>
+<Accepted.sec>
+<Aus.entry><Entry.term fmcssattr = "5">Infection (treatment)</Entry.term>
+<P fmcssattr = "2">Quinupristin and dalfopristin combination is
+indicated for treatment of suspected or proven methicillin-resistant <Emph
+    Type = "Italic">Staphylococcus aureus</Emph> or vancomycin-resistant <Emph
+    Type = "Italic">Enterococcus faecium</Emph> infections requiring
+intravenous therapy and for which other antibiotics are inappropriate<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Quinupristin and dalfopristin combination may
+be used in patients who are allergic to or intolerant of beta-lactam,
+quinolone, or glycopeptide antibiotics<Citeref Rid = "CXXA1"/>.</P></Aus.entry></Accepted.sec></Indication.sec>
+<Pharma.pkinetic.sec Nogentext = "0">
+<Pchem.sec>
+<Source.sec><P fmcssattr = "1">Semisynthetic<Citeref Rid = "CXXA1"/>.</P></Source.sec>
+<Chem.group.sec>
+<P fmcssattr = "1">Pristinamycin derivatives<Citeref Rid = "CXXA1"/>.
+Quinupristin is derived from pristinamycin I and dalfopristin is
+derived from pristinamycin IIA<Citeref Rid = "CXXA1"/>.</P></Chem.group.sec>
+<Mol.weight.sec>
+<P fmcssattr = "1">Quinupristin: 1022.24<Citeref Rid = "CXXA1"/></P>
+<P fmcssattr = "2">Dalfopristin: 690.85<Citeref Rid = "CXXA1"/></P></Mol.weight.sec></Pchem.sec>
+<Mechan.effect.sec>
+<P fmcssattr = "1">Quinupristin and dalfopristin belong to the group
+of antibacterials known as streptogramins<Citeref Rid = "CXXA1"/>.
+Individually, each has bacteriostatic activity against Gram-positive
+bacteria; in combination they are bactericidal<Citeref Rid = "CXXA1"/>.
+They have high affinity to bind to the bacterial ribosome<Citeref
+    Rid = "CXXA1"/>. In combination, they inhibit early and late
+phases of bacterial protein synthesis and interact synergistically
+at the bacterial ribosomal site<Citeref Rid = "CXXA1"/>.</P></Mechan.effect.sec>
+<Distrib.sec>
+<P fmcssattr = "1">Apparent volume of distribution for both quinupristin
+and dalfopristin is approximately 1 litre per kg of body weight<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Unchanged quinupristin and dalfopristin have
+been shown to penetrate into non-inflammatory blister fluid to concentrations
+of approximately 19% and 11% of those in plasma, respectively<Citeref
+    Rid = "CXXA1"/>. Penetration of quinupristin, dalfopristin and
+their major metabolites into blister fluid amounts to approximately
+40% compared to concentrations in plasma<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Radiolabelled quinupristin and dalfopristin have
+been shown to penetrate into <Emph Type = "Italic">ex vivo</Emph> human
+macrophages with ratios of intracellular to extracellular concentrations
+of 60:1 for quinupristin and 30:1 for dalfopristin after one hour<Citeref
+    Rid = "CXXA1"/>. A slow release from macrophages was complete
+at 5 hours for both quinupristin and dalfopristin<Citeref Rid = "CXXA1"/>.</P></Distrib.sec>
+<Protein.bind.sec>
+<P fmcssattr = "1">Quinupristin—Moderate (55 to 78%)<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Dalfopristin—Low (11 to 26%)<Citeref Rid = "CXXA1"/>.</P></Protein.bind.sec>
+<Biotrans.sec>
+<P fmcssattr = "1">Rapidly converted to several major metabolites,
+some of which are active<Citeref Rid = "CXXA1"/>. Quinupristin has
+two conjugated metabolites (one with glutathione and one with cysteine)
+and dalfopristin has one non-conjugated metabolite (formed by hydrolysis)<Citeref
+    Rid = "CXXA1"/>. Synergism of quinupristin’s metabolites with
+dalfopristin, as well as between dalfopristin’s metabolite and
+quinupristin, has been demonstrated <Emph Type = "Italic">in vitro</Emph><Citeref
+    Rid = "CXXA1"/>.</P></Biotrans.sec>
+<Half.life>
+<P fmcssattr = "1">Quinupristin: Approximately 0.9 hour<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Quinupristin and metabolites: Approximately 3
+hours<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Dalfopristin: Approximately 0.75 hour<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Dalfopristin and metabolite: Approximately 1
+hour<Citeref Rid = "CXXA1"/>.</P></Half.life>
+<Concentrate.sec><Head fmcssattr = "0">Peak plasma concentration</Head>
+<Section><Head fmcssattr = "0">For quinupristin</Head><P fmcssattr = "2">Mean,
+3.2 micrograms per mL following multiple 60-minute infusions of
+7.5 mg quinupristin and dalfopristin combination per kg of body
+weight (mg/kg) every 8 or 12 hours<Citeref Rid = "CXXA1"/>. Area
+under the plasma concentration-time curve (AUC) was 7.2 micrograms
+per hour per mL<Citeref Rid = "CXXA1"/>.</P></Section>
+<Section><Head fmcssattr = "0">For dalfopristin</Head><P fmcssattr = "2">Mean,
+7.96 micrograms per mL following multiple 60-minute infusions of
+7.5 mg/kg every 8 or 12 hours<Citeref Rid = "CXXA1"/>. AUC was 10.57 micrograms
+per hour per mL<Citeref Rid = "CXXA1"/>.</P></Section></Concentrate.sec>
+<Elimination.sec>
+<P fmcssattr = "1">Biliary/faecal, 75 to 77% of the dose (for both
+parent drugs and metabolites)<Citeref Rid = "CXXA1"/>. </P>
+<P fmcssattr = "2">Renal, approximately 15% of the quinupristin
+and 19% of the dalfopristin dose<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">In continuous ambulatory peritoneal dialysis
+(CAPD)—Clearance of quinupristin, dalfopristin, or their metabolites
+is negligible<Citeref Rid = "CXXA1"/>. The plasma AUC of unchanged
+quinupristin and dalfopristin increases about 1.2 and 1.3 fold,
+respectively<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">In haemodialysis—Because of the high molecular
+weight of both quinupristin and dalfopristin, it is unlikely that
+they are removable by haemodialysis<Citeref Rid = "CXXA1"/>.</P>
+<Note><P fmcssattr = "1">Clearance of both unchanged quinupristin
+and dalfopristin is 0.7 litre per hour per kg of body weight<Citeref
+    Rid = "CXXA1"/>.</P></Note></Elimination.sec></Pharma.pkinetic.sec>
+<Prec.consid.sec>
+<Cross.sens.sec>
+<P fmcssattr = "1">Patients sensitive to other streptogramins (such
+as pristinamycin or virginiamycin) may also be sensitive to quinupristin
+and dalfopristin<Citeref Rid = "CXXA1"/>.</P></Cross.sens.sec>
+<Carcino Nogentext = "0">
+<P fmcssattr = "1">Studies have not been done<Citeref Rid = "CXXA1"/>.</P></Carcino>
+<Mutagen>
+<P fmcssattr = "1">Quinupristin and dalfopristin were not found
+to be mutagenic in <Emph Type = "Italic">in vitro</Emph> tests and
+were not found to be clastogenic <Emph Type = "Italic">in vivo</Emph> or
+to induce DNA repair<Citeref Rid = "CXXA1"/>. Tests included the
+bacterial reverse mutation (Ames test), the CHO/HGPRT gene mutation
+test, the <Emph Type = "Italic">in vitro</Emph> unscheduled DNA
+synthesis test in rat hepatocytes, the chromosome aberration test
+in CHO-K1 cells and the <Emph Type = "Italic">in vivo</Emph> mouse
+micronucleus test in bone marrow<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Dalfopristin was positive for production of structural
+chromosome aberrations when tested in the Chinese hamster ovary
+cell chromosome aberration assay, but quinupristin and the quinupristin/dalfopristin
+combination were negative in this assay<Citeref Rid = "CXXA1"/>.</P></Mutagen>
+<Preg.repro.sec>
+<Pregnancy>
+<P fmcssattr = "1">Adequate and well-controlled studies in humans
+have not been done<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Studies in mice at doses up to 40 mg per kg of
+body weight per day (mg/kg/day) (approximately half the human dose
+based on body surface area) and in rats at doses up to 120 mg/kg/day
+(approximately 2.5 times the human dose based on body surface area)
+found no evidence of harm to the foetus<Citeref Rid = "CXXA1"/>. However,
+administration of intravenous doses ≥6 mg/kg/day was associated
+with decreased foetal weights and increased post-implantation losses
+and abortions; although it was thought this could be secondary to maternal
+toxicity, a ‘no observed effect’ dose was not established<Citeref
+    Rid = "CXXA1"/>. Studies in rats at doses up to 8 mg/kg/day
+(approximately 0.4 times the human dose based on body surface area)
+found no effects on the perinatal or postnatal development of rat
+pups<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Risk-benefit should be considered before use
+of quinupristin and dalfopristin combination during pregnancy<Citeref
+    Rid = "CXXA1"/>.</P>
+<Adec.preg.cat>ADEC Pregnancy Category <Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>B3<Citeref Rid = "CXXA1"/>.</Adec.preg.cat></Pregnancy></Preg.repro.sec>
+<Breast.feed.sec>
+<P fmcssattr = "1">It is not known whether quinupristin or dalfopristin
+is distributed into human breast milk<Citeref Rid = "CXXA1"/>. However,
+quinupristin is distributed into milk in lactating rats<Citeref
+    Rid = "CXXA1"/>. The manufacturer recommends avoidance of breast-feeding
+during treatment with quinupristin/dalfopristin<Citeref Rid = "CXXA1"/>.</P></Breast.feed.sec>
+<Paediatric.sec>
+<P fmcssattr = "1">No pharmacokinetic studies have been done in
+paediatric patients<Citeref Rid = "CXXA1"/>. A small number of children
+(32) under 12 years of age have received the adult dose of quinupristin
+and dalfopristin combination in noncomparative “emergency use”
+studies<Citeref Rid = "CXXA1"/>.</P></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Pharmacokinetics of quinupristin and dalfopristin
+combination have not been found to be different in elderly patients
+than they are in younger adults<Citeref Rid = "CXXA1"/>.</P></Geriatric.sec>
+<Drug.inter.sec Nogentext = "0">
+<Note><P fmcssattr = "1">According to <Emph Type = "Italic">in vitro</Emph> studies,
+quinupristin/dalfopristin significantly inhibits the hepatic cytochrome
+P450 3A4 isoenzyme (CYP3A4)<Citeref Rid = "CXXA1"/>.</P></Note>
+<P fmcssattr = "2">The following drug interactions and/or related
+problems have been selected on the basis of their potential clinical
+significance (possible mechanism in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance):</P>
+<Note><P fmcssattr = "1">Combinations containing any of the following
+medications, depending on the amount present, may also interact
+with this medication.</P></Note>
+<Aus.entry><Entry.term fmcssattr = "5">Medications metabolised by
+CYP3A4 that prolong the QTc interval<Citeref Rid = "CXXA1"/>, such
+as:<Entry.term>Cisapride<Citeref Rid = "CXXA1"/></Entry.term><Entry.term>Disopyramide</Entry.term><Entry.term>Lignocaine</Entry.term><Entry.term
+    fmcssattr = "4">Quinidine</Entry.term></Entry.term>
+<P fmcssattr = "2">because quinupristin/dalfopristin has been shown
+to inhibit CYP3A4 <Emph Type = "Italic">in vitro</Emph>, there is
+a possibility that concurrent use could increase the effects of
+these medications<Citeref Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry Mcs = "1"><Entry.term fmcssattr = "5">Cyclosporin<Citeref
+    Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">concurrent use may lead to increased blood concentrations
+of cyclosporin<Citeref Rid = "CXXA1"/>; in <Emph Type = "Italic">in
+vitro</Emph> studies, quinupristin/dalfopristin inhibited metabolism
+of cyclosporin by CYP3A4<Citeref Rid = "CXXA1"/>; dosage adjustment
+based on blood cyclosporin concentrations may be necessary<Citeref
+    Rid = "CXXA1"/></P></Aus.entry></Drug.inter.sec>
+<Lab.value.sec Nogentext = "0">
+<P fmcssattr = "1">The following have been selected on the basis
+of their potential clinical significance (possible effect in parentheses
+where appropriate)—not necessarily inclusive (» = major clinical
+significance):</P>
+<Physio.lab.test><Head fmcssattr = "0">With physiology/laboratory
+test values</Head>
+<Aus.entry><Entry.term fmcssattr = "5">Alanine aminotransferase
+(ALT)<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Alkaline phosphatase<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Aspartate aminotransferase (AST)<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Gammaglutamyl transferase (GGT)<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Lactate dehydrogenase (LDH)<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">increases in serum values have been reported<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Bilirubin<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">increases in serum concentrations of total and
+conjugated bilirubin greater than five times the upper limit of
+normal have been reported in 0.9% and 3.1% of patients, respectively<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Creatinine<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Urea<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">increases in serum concentrations have been reported<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Creatine kinase<Citeref
+    Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">increases in serum concentrations have been reported<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Eosinophils</Entry.term>
+<P fmcssattr = "2">increases in blood counts have been reported<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Glucose<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">increases in blood concentrations have been reported<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Haematocrit<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Haemoglobin, blood concentrations<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">decreases have been reported<Citeref Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Leucocytes<Citeref Rid = "CXXA1"/> or</Entry.term>
+<Entry.term>Platelets<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">decreases in leucocyte blood counts have been
+reported; both increases and decreases in platelet counts have been
+reported<Citeref Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Potassium<Citeref Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">decreases and increases in serum concentrations
+have been reported<Citeref Rid = "CXXA1"/></P></Aus.entry></Physio.lab.test></Lab.value.sec>
+<Contra.med.sec Nogentext = "0">
+<P fmcssattr = "1">The medical considerations/contraindications
+included have been selected on the basis of their potential clinical
+significance (reasons given in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance).</P>
+<Med.prob.sec><Head fmcssattr = "0">Risk-benefit should be considered
+when the following medical problems exist</Head>
+<Aus.entry><Entry.term fmcssattr = "5">Hepatic function impairment<Citeref
+    Rid = "CXXA1"/></Entry.term>
+<P fmcssattr = "2">incidence of adverse effects is usually not increased;
+however, dosage adjustment may be considered in patients with hepatic cirrhosis
+who exhibit intolerance to quinupristin/dalfopristin<Citeref
+    Rid = "CXXA1"/></P></Aus.entry>
+<Aus.entry Mcs = "1"><Entry.term fmcssattr = "4 5 6">Sensitivity
+to quinupristin or dalfopristin<Citeref Rid = "CXXA1"/></Entry.term></Aus.entry></Med.prob.sec></Contra.med.sec></Prec.consid.sec>
+<Side.effect.sec>
+<P fmcssattr = "1">The following side/adverse effects have been
+selected on the basis of their potential clinical significance (possible
+signs and symptoms in parentheses where appropriate)—not necessarily
+inclusive:</P>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence more frequent</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Injection
+site reaction<Citeref Rid = "CXXA1"/></Side.effect.term>
+<Side.effect.term fmcssattr = "11">or venous irritation<Citeref
+    Rid = "CXXA1"/><Citeref Rid = "CXXA1" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>redness, swelling or pain at site of injection</Symptom></Present.symp></Side.effect.entry></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence less frequent</Head>
+<Side.effect.entry><Side.effect.term>Skin rash<Citeref Rid = "Cxxa1"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">thrombophlebitis<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>hot
+skin</Symptom><Symptom>pain, redness or swelling of skin</Symptom></Present.symp></Side.effect.entry></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence rare</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Allergic reaction<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>blisters
+on skin</Symptom><Symptom>hives</Symptom><Symptom>itching of skin</Symptom>
+<Symptom>skin rash</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">candidiasis,
+oral<Citeref Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>sore
+mouth or tongue</Symptom><Symptom>white patches on mouth, tongue
+or throat</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">cellulitis<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>hot
+skin</Symptom><Symptom>pain</Symptom><Symptom>redness and swelling
+of skin</Symptom></Present.symp></Side.effect.entry><Side.effect.entry>
+<Side.effect.term>chest pain<Citeref Rid = "CXXA1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">haematuria<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>blood
+in urine</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">infection<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>chills</Symptom>
+<Symptom>fever</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">palpitations<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>fast, pounding
+or irregular heartbeat</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pancreatitis<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>abdominal
+or stomach tenderness</Symptom><Symptom>fast heartbeat</Symptom>
+<Symptom>fever</Symptom><Symptom>nausea</Symptom><Symptom>stomach
+pain [severe]</Symptom><Symptom>vomiting</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">paraesthesia<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>burning,
+crawling or prickly feeling</Symptom><Symptom>numbness</Symptom>
+<Symptom>tingling in fingers or toes</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pleural effusion<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>may
+be asymptomatic</Symptom><Symptom>chest pain</Symptom><Symptom>fever</Symptom>
+<Symptom>dry cough</Symptom><Symptom>shortness of breath</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pneumonia<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>cough</Symptom>
+<Symptom>fever and chills</Symptom><Symptom>shortness of breath</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pseudomembranous
+colitis<Citeref Rid = "CXXA1" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>abdominal or stomach cramps or pain [severe]</Symptom>
+<Symptom>blood in stools</Symptom><Symptom>diarrhoea [severe]</Symptom>
+<Symptom>fever</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">urinary tract
+infection<Citeref Rid = "CXXA1"/></Side.effect.term><Present.symp>
+<Symptom>blood in urine</Symptom><Symptom>burning, painful or difficult
+urination</Symptom><Symptom>cloudy urine</Symptom><Symptom>frequent
+urge to urinate</Symptom><Symptom>lower abdominal or lower back pain</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">urticaria<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>hives</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">vaginitis<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>discharge
+from vagina</Symptom><Symptom>vaginal itching</Symptom></Present.symp></Side.effect.entry></Side.effect.sec></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention only if they continue or are bothersome</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence less frequent</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Arthralgia<Citeref
+    Rid = "CXXA1" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>joint pain</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">asthenia<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>weakness</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>diarrhoea<Citeref Rid = "CXXA1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>headache<Citeref Rid = "CXXA1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">myalgia<Citeref
+    Rid = "CXXA1" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>muscle pain</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>nausea<Citeref Rid = "CXXA1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pruritus<Citeref
+    Rid = "CXXA1"/></Side.effect.term><Present.symp><Symptom>itching</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>vomiting<Citeref Rid = "CXXA1"/></Side.effect.term></Side.effect.entry>
+<Note><P fmcssattr = "1">Incidence of <Emph Type = "Italic">arthralgia</Emph> and <Emph
+    Type = "Italic">myalgia</Emph> may be related to duration of treatment
+with quinupristin/dalfopristin<Citeref Rid = "CXXA1"/>.</P></Note></Side.effect.sec></Side.effect.sec></Side.effect.sec>
+<Overdose.sec><Head fmcssattr = "0">Overdose</Head>
+<Overdose.clinical><Head fmcssattr = "0">Clinical effects of overdose</Head>
+<P fmcssattr = "2">No symptomatic cases of overdose have been reported
+with quinupristin and dalfopristin combination<Citeref Rid = "CXXA1"/>.</P></Overdose.clinical>
+<Overdose.treat><Head fmcssattr = "0">Treatment of overdose</Head>
+<P fmcssattr = "2">For information on the management of overdose
+or unintentional ingestion, <Emph Type = "Bold">contact a Poisons
+Information Centre on 13 1126</Emph> (see <Xref Xref = "p01"
+    Italic = "Yes">Poisons Information Centres</Xref> listing).</P></Overdose.treat></Overdose.sec>
+<Pat.consult.sec>
+<P fmcssattr = "1">As an aid to patient counselling, refer to the <Emph
+    Type = "Italic">Consumer Medicine Information</Emph> (CMI).</P>
+<P fmcssattr = "2">In providing counselling, consider emphasising
+the following selected information (» = major clinical significance).
+This information is <Emph Type = "Italic">not</Emph> intended for
+distribution to patients.</P>
+<Before.using><Head fmcssattr = "0">Before using this medication</Head>
+<Cond.affect.use Mcs = "1" Nogentext = "0">
+<Cross.sens.sec><P fmcssattr = "1">Sensitivity to quinupristin or
+dalfopristin</P></Cross.sens.sec>
+<Pregnancy>
+<P fmcssattr = "1">Risk-benefit should be considered</P></Pregnancy>
+<Breast.feed.sec>
+<P fmcssattr = "1">Not recommended</P></Breast.feed.sec>
+<Drug.inter.sec Nogentext = "0"><P fmcssattr = "1">Other medications,
+especially cyclosporin</P></Drug.inter.sec></Cond.affect.use></Before.using>
+<Precaution.using><Head fmcssattr = "0">Precautions while using
+this medication</Head>
+<Aus.entry><P fmcssattr = "1">Check with doctor if no improvement
+within a few days</P></Aus.entry>
+<Aus.entry Mcs = "1"><P fmcssattr = "1">If severe diarrhoea occurs,
+check with doctor before taking any antidiarrhoeals; check with
+doctor or pharmacist if diarrhoea continues or worsens</P></Aus.entry></Precaution.using>
+<Pat.side.effect>
+<Aus.entry><P fmcssattr = "1">Signs of possible side effects needing
+medical attention, including injection site reaction or venous irritation,
+skin rash, thrombophlebitis, allergic reaction, oral candidiasis,
+cellulitis, chest pain, haematuria, infection, palpitations, pancreatitis,
+paraesthesia, pleural effusion, pneumonia, pseudomembranous colitis,
+urinary tract infection, urticaria and vaginitis</P></Aus.entry>
+<Aus.entry><P fmcssattr = "1">For other possible side effects that
+don’t usually need medical attention, see the <Xref>Side/Adverse
+Effects</Xref> section.</P></Aus.entry></Pat.side.effect></Pat.consult.sec>
+<Gen.dosing.sec>
+<P fmcssattr = "1">Quinupristin and dalfopristin combination is
+intended for administration by intravenous infusion over a period
+of 60 minutes<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">If moderate to severe venous irritation occurs
+following peripheral intravenous administration of quinupristin/dalfopristin,
+options include increasing the infusion volume to 500 or 750 mL,
+changing the infusion site, or infusing the medication through a
+peripherally inserted central catheter (PICC) or a central venous
+catheter<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">If severe or protracted arthralgia or myalgia
+occurs on the every-8-hour regimen, changing to a 12 hourly regimen
+may be considered<Citeref Rid = "CXXA1"/>.</P></Gen.dosing.sec>
+<Gen.administer.route><Head fmcssattr = "0">Parenteral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>QUINUPRISTIN
+AND DALFOPRISTIN</Drug.device.name><Drug.form.name>FOR INJECTION</Drug.form.name></Dose.form.head>
+<Note><P fmcssattr = "1">Dosing and strength are expressed in terms
+of the combination of quinupristin and dalfopristin base, rather
+than in terms of their mesylate salts<Citeref Rid = "CXXA1"/>.</P></Note>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Infection
+(treatment)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous infusion, 7.5 mg (base)
+per kg of body weight (mg/kg) every eight hours<Citeref Rid = "CXXA1"/>.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">The intravenous infusion should be administered
+over sixty minutes<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">It is recommended that the vein be flushed with
+5% glucose injection following completion of the infusion, to minimise
+venous irritation<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">In patients with severe underlying conditions,
+use of a central venous access line may decrease the incidence of
+venous irritation<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">If the usual recommended dose is not tolerated
+in patients with hepatic cirrhosis, dosage reduction to 5 mg/kg
+is recommended<Citeref Rid = "CXXA1"/>.</P></Note></Dosing.stmt.sec></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Dosage has not been established<Citeref
+    Rid = "CXXA1"/>.</P></Dosing.stmt></Paed.dose>
+<Ger.dose><Head fmcssattr = "0">Usual geriatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">See <Xref Italic = "Yes">Usual adult
+dose</Xref><Citeref Rid = "CXXA1"/>.</P></Dosing.stmt></Ger.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>500 mg (base)</Strength>
+<Brand.info><Brand.name>Synercid IV</Brand.name><Other.ingred>methanesulfonic
+acid</Other.ingred><Other.ingred>sodium hydroxide</Other.ingred></Brand.info></Prod.info.entry>
+<Note><P fmcssattr = "1">Each vial contains sufficient mesylated
+quinupristin and dalfopristin in the ratio of 30:70 (% w/w) to deliver
+500 mg; the specific amounts are 150 mg of quinupristin and 350
+mg of dalfopristin<Citeref Rid = "CXXA1"/>.</P></Note></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store between 2 and 8 °C<Citeref Rid = "CXXA1"/>.</P></Pack.storage>
+<Preparation>
+<P fmcssattr = "1">Quinupristin and dalfopristin for injection is
+reconstituted by slowly adding 5 mL of 5% glucose injection or sterile
+water for injection to the vial and swirling gently (without shaking)
+to dissolve, producing a solution containing 100 mg of quinupristin/dalfopristin
+per mL<Citeref Rid = "CXXA1"/>. Solutions of quinupristin/dalfopristin
+should be not be shaken because excessive foaming may occur<Citeref
+    Rid = "CXXA1"/>. After reconstitution, the solution should be
+allowed to sit for a few minutes to allow all foam to disappear<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Reconstituted quinupristin/dalfopristin <Emph
+    Type = "Bold">must</Emph> be further diluted for administration
+by intravenous infusion<Citeref Rid = "CXXA1"/>. The desired amount
+of reconstituted solution to provide the intended dose is added
+to 250 mL of 5% glucose injection. For central catheter infusions,
+an infusion volume of 100 mL may be used<Citeref Rid = "CXXA1"/>.</P></Preparation>
+<Stability>
+<P fmcssattr = "1">It is recommended that reconstituted solutions
+be further diluted within 30 minutes and the infusion solution used
+as soon as possible to reduce the risk of microbial contamination<Citeref
+    Rid = "CXXA1"/>. Prior to infusion, the diluted solution is chemically
+and physically stable for 3 hours at room temperature or 48 hours
+if stored at 4 °C<Citeref Rid = "CXXA1"/>. It is recommended that
+the diluted infusion solution not be stored for more than 24 hours
+at 2 to 8 °C and that it be protected from freezing<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">It is recommended that any unused portion of
+a vial be discarded<Citeref Rid = "CXXA1"/>.</P></Stability>
+<Incompatible>
+<P fmcssattr = "1">Compatibility studies have not been done<Citeref
+    Rid = "CXXA1"/>. It is recommended that quinupristin/dalfopristin
+not be mixed with or physically added to other drugs<Citeref
+    Rid = "CXXA1"/>. Quinupristin/dalfopristin is not compatible
+with sodium chloride<Citeref Rid = "CXXA1"/>. Flushing of the line
+with 0.9% sodium chloride injection or heparin immediately after
+administration of quinupristin/dalfopristin is <Emph Type = "Bold">not</Emph> recommended<Citeref
+    Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">If quinupristin/dalfopristin and other drugs
+are administered intermittently through a common intravenous line,
+it is recommended that the line be flushed with 5% glucose injection
+before and after each quinupristin/dalfopristin administration<Citeref
+    Rid = "CXXA1"/>.</P></Incompatible></Spec.dosage.form.sec></Gen.administer.route>
+<Doc.rev.date Date = "29/12/01."/></Single.mono>

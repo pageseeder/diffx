@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="AusDI.css" type="text/css"?>
+<Single.mono Type = "Pharmacologic"><Title.sec><Doc.id.num>0001380</Doc.id.num>
+<Index.id>0010</Index.id><Mono.title><Drug.device.name>Lithium</Drug.device.name>
+<Effect.type>Systemic</Effect.type></Mono.title>
+<Note><P fmcssattr = "1">For a listing of dosage forms and brand
+names, see <Emph Type = "Italic">Dosage Forms</Emph> section(s)</P></Note></Title.sec>
+<Category.sec>
+<Category.use fmcssattr = "10">Antimanic; </Category.use>
+<Category.use>antidepressant therapy adjunct; </Category.use>
+<Category.use>granulopoietic; </Category.use>
+<Category.use fmcssattr = "9">vascular headache prophylactic</Category.use></Category.sec>
+<Indication.sec>
+<Form.note><P fmcssattr = "1">Bracketed information in the <Emph
+    Type = "Italic">Indications</Emph> section refers to uses that
+are not included in the Australian approved product information.</P></Form.note>
+<Accepted.sec>
+<Usp.entry><Entry.term fmcssattr = "5">Bipolar disorder (treatment)</Entry.term>
+<P fmcssattr = "2">Lithium is indicated as the primary agent in
+the treatment of acute manic and hypomanic episodes in bipolar disorder, and
+for maintenance therapy to help diminish the intensity and frequency of
+subsequent manic episodes in patients with a history of mania<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Lithium is used in some patients as the agent
+of choice in the prevention of bipolar depression<Citeref Rid = "CXX31"
+    Exclude-comma = "1"/>. Clinicians have observed a diminished
+intensity and frequency of severe depressive episodes.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Depression,
+mental (treatment)</Not.label.aus><Citeref Rid = "CXX17"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">Lithium is used alone for maintenance therapy
+in unipolar depression, and for acute and maintenance therapy in schizoaffective
+disorder. It is also used to<Citeref Rid = "CXX43" Exclude-comma = "1"/> augment
+the antidepressant effect of tricyclic or monoamine oxidase (MAO)
+inhibitor antidepressants in the treatment of major unipolar depression
+in patients not responsive to antidepressants alone.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Headache,
+vascular (prophylaxis)</Not.label.aus></Entry.term>
+<P fmcssattr = "2">Lithium is used to reduce the frequency of<Citeref
+    Rid = "CXX41" Exclude-comma = "1"/> the occurrence of episodic
+and chronic cluster headaches<Citeref Rid = "CXX01" Exclude-comma = "1"/><Citeref
+    Rid = "CXX73" Exclude-comma = "1"/><Citeref Rid = "CXX74"
+    Exclude-comma = "1"/>.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Neutropenia
+(treatment)</Not.label.aus></Entry.term>
+<P fmcssattr = "2">Lithium is used to reduce the incidence of infection
+in patients with chemotherapy-induced neutropenia and in patients
+with chronic or acquired neutropenia<Citeref Rid = "CXX02"
+    Exclude-comma = "1"/>.</P></Usp.entry></Accepted.sec></Indication.sec>
+<Pharma.pkinetic.sec Nogentext = "0">
+<Pchem.sec>
+<Mol.weight.sec>
+<P fmcssattr = "1">Lithium carbonate: 73.89</P></Mol.weight.sec>
+<Other.pchem.sec><Head fmcssattr = "0">Other characteristics</Head>
+<P fmcssattr = "2">A monovalent cation easily assayed in biological
+fluids; salts share some chemical characteristics with salts of
+sodium and potassium.</P></Other.pchem.sec></Pchem.sec>
+<Mechan.effect.sec>
+<P fmcssattr = "1">Antimanic—Has not been established<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>. The mood-stabilising effect has been postulated
+to relate to a reduction of catecholamine neurotransmitter concentration,
+possibly mediated by lithium ion (Li<Emph Type = "Superscript">+</Emph>)
+effect on Na<Emph Type = "Superscript">+</Emph>K<Emph
+    Type = "Superscript">+</Emph> adenosine triphosphatase (Na<Emph
+    Type = "Superscript">+</Emph>K<Emph Type = "Superscript">+</Emph>ATPase)
+to produce improved transneuronal membrane transport of sodium ion.
+An alternate postulate is that lithium may decrease cyclic adenosine
+monophosphate (cyclic AMP) concentrations<Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>, which would result in decreased sensitivity
+of hormonal-sensitive adenylcyclase receptors. Another hypothesis
+is the “second messenger” theory of lithium's interference with
+lipid inositol metabolism. This theory postulates that a group of
+improperly regulated<Citeref Rid = "CXX41" Exclude-comma = "1"/> neurons
+may be the underlying cause of manic symptoms. A phospholipase C-type
+enzyme hydrolyses the plasma membrane-located lipid, phosphatidylinositol biphosphate,
+to diacyglycerol and inositol triphosphate, postsynaptic second
+messengers that contribute to chronic cell stimulation by altering electrical
+activity in the neuron. Inositol formed during this process is<Citeref
+    Rid = "CXX41" Exclude-comma = "1"/> recycled by the inositol
+phospholipid-synthesising enzymes in the CNS. There is evidence
+that cells in the CNS do not have access to plasma sources of inositol
+but, instead, depend on the synthesis of inositol for the transduction
+of neuronal signals. Lithium, in therapeutic concentrations, blocks
+the activity of the enzyme, inositol-1-phosphatase, resulting in
+a depletion of neuronal inositol and ultimately a decrease in the
+levels of phosphatidylinositol biphosphate. The lipid will no longer
+be able to stimulate the formation of adequate quantities of the
+second messengers or alter electrical activity. Subsequent cells
+in the CNS become relatively<Citeref Rid = "CXX41" Exclude-comma = "1"/> insensitive
+to the agonist stimulation, and clinical improvement results.<Citeref
+    Rid = "CXX28" Exclude-comma = "1"/><Citeref Rid = "CXX29"
+    Exclude-comma = "1"/><Citeref Rid = "CXX37" Exclude-comma = "1"/><Citeref
+    Rid = "CXX38" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Granulopoietic—The exact mechanism of action
+has not been established; however, studies have shown that lithium
+stimulates granulopoiesis, enhances marrow proliferation, elevates
+neutrophil production and increases the granulocyte pool<Citeref
+    Rid = "CXX02" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Vascular headache prophylactic—Specific mechanism
+has not been established. It has been postulated that the action
+of lithium in cluster headaches may be directly related to changes
+in platelet serotonin and histamine concentrations.</P>
+<P fmcssattr = "2">Antidepressant—Has not been established. However,
+the mechanism may involve enhancement of serotonergic activity and
+downregulation of beta-receptors<Citeref Rid = "CXX27"
+    Exclude-comma = "1"/>.</P></Mechan.effect.sec>
+<Absorb.sec>
+<P fmcssattr = "1">Rapid<Citeref Rid = "CXX58" Exclude-comma = "1"/>;
+complete within 6 to 8 hours.<Citeref Rid = "CXX05" Exclude-comma = "1"/><Citeref
+    Rid = "CXX06" Exclude-comma = "1"/><Citeref Rid = "CXX30"
+    Exclude-comma = "1"/></P></Absorb.sec>
+<Distrib.sec>
+<P fmcssattr = "1">Lithium crosses the blood-brain barrier slowly.</P>
+<P fmcssattr = "2">Volume of distribution is approximately equivalent
+to total body water (0.6 litre per kg of body weight)<Citeref
+    Rid = "CXXA7"/>.</P></Distrib.sec>
+<Protein.bind.sec>
+<P fmcssattr = "1">Not bound to plasma proteins.</P></Protein.bind.sec>
+<Biotrans.sec>
+<P fmcssattr = "1">None.</P></Biotrans.sec>
+<Half.life>
+<Section><Head fmcssattr = "0">Elimination</Head>
+<P fmcssattr = "2">Adults: 24 hours<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Adolescents: 18 hours.</P>
+<P fmcssattr = "2">Elderly patients: Up to 36 hours.</P></Section>
+<Note><P fmcssattr = "1">When therapy is initiated<Citeref Rid = "CXX33"
+    Exclude-comma = "1"/>, the serum concentration decreases rapidly during
+the initial 5 or 6 hours, followed by a more gradual decline over the
+next 24 hours.</P></Note></Half.life>
+<Time.concent.sec><Head fmcssattr = "0">Time to peak serum concentration</Head>
+<P fmcssattr = "2">Tablets—1 to 3 hours<Citeref Rid = "CXX25"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Slow-release tablets—2.5 to 5.5 hours<Citeref
+    Rid = "CXXA7"/>.</P>
+<Note><P fmcssattr = "1">Steady-state serum concentrations are reached
+after 5 to 7 days of regular dosing<Citeref Rid = "CXXA3"/><Citeref
+    Rid = "CXXA7"/>.</P></Note></Time.concent.sec>
+<Concentrate.sec><Head fmcssattr = "0">Therapeutic serum concentration</Head>
+<Section><Head fmcssattr = "0">Bipolar disorder</Head><P fmcssattr = "2"></P>
+<P fmcssattr = "2">Acute: 0.8 to 1.2 millimoles per litre (mmol/L),
+occasionally up to 1.5 mmol/L<Citeref Rid = "CXX28" Exclude-comma = "1"/><Citeref
+    Rid = "CXX57" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Maintenance: 0.5 to 1.0<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/> mmol/L<Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>. Occasionally may require same concentration
+range as acute illness<Citeref Rid = "CXX28" Exclude-comma = "1"/>.</P></Section></Concentrate.sec>
+<Other.pharm.sec><Head fmcssattr = "0">Onset of therapeutic action</Head>
+<P fmcssattr = "2">Clinical improvement—1 to 3 weeks<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/>.</P></Other.pharm.sec>
+<Elimination.sec>
+<P fmcssattr = "1">Renal, 95% unchanged; rapid initially, slower
+with extended therapy; 80% may be actively reabsorbed in the proximal
+tubule<Citeref Rid = "CXX58" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Faecal, &#60; 1%<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Sweat, 4 to 5%.</P>
+<P fmcssattr = "2">In dialysis—Removable by haemodialysis or peritoneal
+dialysis<Citeref Rid = "CXXA7"/>.</P></Elimination.sec></Pharma.pkinetic.sec>
+<Prec.consid.sec>
+<Preg.repro.sec>
+<Pregnancy>
+<P fmcssattr = "1">First trimester—Use of lithium is not recommended
+during pregnancy, especially in the first trimester, because of
+possible teratogenicity. Lithium crosses the placenta and is present
+in almost equal concentrations in the foetal and maternal serum.
+Renal clearance of lithium is increased during pregnancy<Citeref
+    Rid = "CXXA7"/>. Data from lithium birth registers suggest an
+increased incidence of neonatal goitre and congenital cardiovascular
+malformations, especially Ebstein's anomaly<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/><Citeref Rid = "CXX36" Exclude-comma = "1"/><Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>.</P>
+<Adec.preg.cat>ADEC Pregnancy Category D<Citeref Rid = "CXXA1"
+    Exclude-comma = "1"/>.</Adec.preg.cat></Pregnancy>
+<Delivery>
+<P fmcssattr = "1">Lithium toxicity may be manifested as hypotonia,
+lethargy, and cyanosis in newborn infants of mothers taking lithium
+at term. Risk-benefit must be considered.</P></Delivery></Preg.repro.sec>
+<Breast.feed.sec>
+<P fmcssattr = "1">Lithium is distributed into breast milk<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/> at a concentration about one-half<Citeref
+    Rid = "CXX58" Exclude-comma = "1"/> that in maternal serum.
+Signs and symptoms of lithium toxicity such as hypotonia, hypothermia,
+cyanosis and electrocardiogram (ECG) changes have been reported
+in some infants. With rare exceptions, infants should not be breast-fed
+while the mother is receiving lithium therapy.</P></Breast.feed.sec>
+<Paediatric.sec>
+<P fmcssattr = "1">Appropriate studies on the relationship of age
+to the effects of lithium have not been performed in the paediatric
+population. However, lithium may decrease bone formation or density
+in children by altering parathyroid hormone concentrations. Also,
+lithium is deposited in bone, replacing calcium in hydroxyapatite,
+an effect more pronounced in immature bone.<Citeref Rid = "CXX38"
+    Exclude-comma = "1"/><Citeref Rid = "CXX40" Exclude-comma = "1"/></P></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Geriatric patients and patients with organic
+mental disease<Citeref Rid = "CXX41" Exclude-comma = "1"/> usually
+require lower lithium dosage, lower serum concentration<Citeref
+    Rid = "CXX41" Exclude-comma = "1"/>, and more frequent monitoring
+than younger adults because renal clearance rate and distribution
+volume are reduced. Lithium is more toxic to the CNS in the elderly,
+even when serum lithium concentrations are within the therapeutic range
+for younger adults. Also, the elderly may be more prone to develop lithium-induced
+goitre and clinical hypothyroidism. Excessive thirst and a larger
+volume of urine as early side effects of lithium therapy may be
+more frequent in the elderly.<Citeref Rid = "CXX21" Exclude-comma = "1"/></P></Geriatric.sec>
+<Drug.inter.sec Nogentext = "0">
+<P fmcssattr = "1">The following drug interactions and/or related
+problems have been selected on the basis of their potential clinical
+significance (possible mechanism in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance):</P>
+<Note><P fmcssattr = "1">Combinations containing any of the following
+medications, depending on the amount present, may also interact
+with this medication.</P></Note>
+<Aus.entry><Entry.term fmcssattr = "5">Acetazolamide<Citeref
+    Rid = "CXXA7"/></Entry.term>
+<P fmcssattr = "2">lithium excretion is increased<Citeref Rid = "CXXA14"/> and
+serum lithium concentrations may be decreased with concurrent use<Citeref
+    Rid = "CXXA7"/></P></Aus.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Amphetamines<Citeref
+    Rid = "CXX59" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may antagonise the
+CNS stimulating effects of amphetamines</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Angiotensin-converting enzyme
+(ACE) inhibitors<Citeref Rid = "CXX62" Exclude-comma = "1"/><Citeref
+    Rid = "CXX63" Exclude-comma = "1"/><Citeref Rid = "CXX64"
+    Exclude-comma = "1"/><Citeref Rid = "CXX65" Exclude-comma = "1"/><Citeref
+    Rid = "CXX66" Exclude-comma = "1"/><Citeref Rid = "CXX67"
+    Exclude-comma = "1"/><Citeref Rid = "CXX68" Exclude-comma = "1"/><Citeref
+    Rid = "CXX69" Exclude-comma = "1"/> or</Entry.term>
+<Entry.term>Angiotensin II receptor antagonists<Citeref Rid = "CXXA11"/><Citeref
+    Rid = "CXXA12"/></Entry.term>
+<P fmcssattr = "2">increases in serum lithium concentrations and
+symptoms of lithium toxicity have been reported during concurrent
+use of lithium with ACE inhibitors<Citeref Rid = "CXX62"
+    Exclude-comma = "1"/><Citeref Rid = "CXX63" Exclude-comma = "1"/><Citeref
+    Rid = "CXX64" Exclude-comma = "1"/><Citeref Rid = "CXX65"
+    Exclude-comma = "1"/><Citeref Rid = "CXX66" Exclude-comma = "1"/><Citeref
+    Rid = "CXX67" Exclude-comma = "1"/><Citeref Rid = "CXX68"
+    Exclude-comma = "1"/><Citeref Rid = "CXX69" Exclude-comma = "1"/>;
+the onset of this interaction may be delayed for several weeks<Citeref
+    Rid = "CXXA15"/>; if these medications are used concurrently,
+caution and frequent monitoring of serum lithium concentrations<Citeref
+    Rid = "CXX62" Exclude-comma = "1"/><Citeref Rid = "CXX63"
+    Exclude-comma = "1"/><Citeref Rid = "CXX64" Exclude-comma = "1"/><Citeref
+    Rid = "CXX65" Exclude-comma = "1"/><Citeref Rid = "CXX66"
+    Exclude-comma = "1"/><Citeref Rid = "CXX67" Exclude-comma = "1"/><Citeref
+    Rid = "CXX68" Exclude-comma = "1"/><Citeref Rid = "CXX69"
+    Exclude-comma = "1"/><Citeref Rid = "CXXA6"/><Citeref Rid = "CXXA7"/><Citeref
+    Rid = "CXXA15"/> during the first one to two months is recommended
+by some experts<Citeref Rid = "CXXA15"/></P>
+<P fmcssattr = "2">reversible increases in serum lithium concentrations
+and lithium toxicity have been reported during concurrent use of
+lithium with some angiotensin II receptor antagonists<Citeref
+    Rid = "CXXA11"/><Citeref Rid = "CXXA12"/><Citeref Rid = "CXXA21"/>;
+monitoring of serum lithium concentrations is recommended during
+concurrent use with angiotensin II receptor antagonists<Citeref
+    Rid = "CXXA21"/><Citeref Rid = "CXXA22"/><Citeref Rid = "CXXA23"/></P></Usp.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Anticonvulsants<Citeref
+    Rid = "CXXA7"/><Citeref Rid = "CXXA14"/></Entry.term>
+<P fmcssattr = "2">neurotoxicity may occur without an increase in
+serum lithium concentrations<Citeref Rid = "CXXA13"/><Citeref
+    Rid = "CXXA14"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Antidepressants, selective
+serotonin reuptake inhibitor such as:<Entry.term>Citalopram<Citeref
+    Rid = "CXXA16"/></Entry.term><Entry.term>Fluoxetine<Citeref
+    Rid = "CXX59" Exclude-comma = "1"/><Citeref Rid = "CXXA17"/></Entry.term><Entry.term>Fluvoxamine<Citeref
+    Rid = "CXXA13"/></Entry.term><Entry.term>Paroxetine<Citeref
+    Rid = "CXXA18"/></Entry.term><Entry.term fmcssattr = "4">Sertraline<Citeref
+    Rid = "CXXA19"/></Entry.term></Entry.term>
+<P fmcssattr = "2">concurrent use may result in enhanced serotonergic
+effects<Citeref Rid = "CXXA16"/><Citeref Rid = "CXXA17"/><Citeref
+    Rid = "CXXA19"/><Citeref Rid = "CXXA20"/>; caution<Citeref
+    Rid = "CXXA7"/><Citeref Rid = "CXXA18"/> and monitoring of serum
+lithium concentrations is recommended<Citeref Rid = "CXXA13"/><Citeref
+    Rid = "CXXA18"/></P></Aus.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Antidepressants, tricyclic</Entry.term>
+<P fmcssattr = "2">since tricyclics may cause a swing into mania
+and a rapid recycling between mania and depression, lithium plasma
+concentrations at or greater than 0.8 mmol/L may be needed to prevent
+the tricyclic switch process<Citeref Rid = "CXX28" Exclude-comma = "1"/><Citeref
+    Rid = "CXX41" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Atracurium or</Entry.term>
+<Entry.term>Pancuronium<Citeref Rid = "CXX59" Exclude-comma = "1"/><Citeref
+    Rid = "CXX76" Exclude-comma = "1"/> or</Entry.term>
+<Entry.term>Suxamethonium<Citeref Rid = "CXX59" Exclude-comma = "1"/><Citeref
+    Rid = "CXX76" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">neuromuscular blocking effects may be potentiated
+or prolonged when these medications are used concurrently with chronic
+lithium therapy<Citeref Rid = "CXX57" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Calcium channel blocking
+agents<Citeref Rid = "CXX59" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may increase the
+risk of neurotoxicity in the form of ataxia, tremors, nausea, vomiting,
+diarrhoea, and/or tinnitus; caution is recommended<Citeref Rid = "CXX47"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Carbamazepine<Citeref
+    Rid = "CXX58" Exclude-comma = "1"/><Citeref Rid = "CXX59"
+    Exclude-comma = "1"/> or</Entry.term>
+<Entry.term>Desmopressin or</Entry.term>
+<Entry.term>Vasopressin</Entry.term>
+<P fmcssattr = "2">lithium may decrease the antidiuretic effect
+of these medications when used concurrently</P>
+<P fmcssattr = "2">lithium may prevent or decrease carbamazepine-induced leucopenia
+with a possible increase in therapeutic effect when carbamazepine
+is used to treat psychotic disorders or bipolar<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/> conditions<Citeref Rid = "CXX13"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Chlorpromazine
+and possibly other phenothiazines<Citeref Rid = "CXX04"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/><Citeref
+    Rid = "CXX59" Exclude-comma = "1"/><Citeref Rid = "CXX76"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may reduce gastrointestinal
+absorption of the phenothiazines, thereby decreasing its serum concentrations by
+as much as 40%; phenothiazines, especially chlorpromazine, increase
+intracellular lithium concentration<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/>; concurrent use may increase rate of renal
+excretion of lithium; extrapyramidal symptoms, delirium and cerebellar
+function impairment<Citeref Rid = "CXX11" Exclude-comma = "1"/> may
+be increased, especially in elderly patients<Citeref Rid = "CXX11"
+    Exclude-comma = "1"/>; also, nausea and vomiting, early indications
+of lithium toxicity, may be masked by the antiemetic effect of some
+phenothiazines<Citeref Rid = "CXX28" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Diuretics<Citeref
+    Rid = "CXX04" Exclude-comma = "1"/><Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/><Citeref
+    Rid = "CXX59" Exclude-comma = "1"/><Citeref Rid = "CXX76"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may provoke severe
+lithium toxicity by delaying renal excretion of lithium and consequently
+increasing serum and red blood cell lithium concentrations; close
+monitoring of lithium plasma concentrations is essential since sodium
+and lithium reabsorption in the proximal tubule is increased, due
+to the body sodium deficit<Citeref Rid = "CXX28" Exclude-comma = "1"/>;
+a reduction in lithium dosage may be necessary<Citeref Rid = "CXXA13"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Fludrocortisone<Citeref
+    Rid = "CXX60" Exclude-comma = "1"/><Citeref Rid = "CXX61"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">in one published case report, lithium antagonised
+the mineralocorticoid effects of fludrocortisone; increased fludrocortisone
+dose and dietary sodium supplementation were required during concurrent
+use<Citeref Rid = "CXX60" Exclude-comma = "1"/><Citeref Rid = "CXX61"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Haloperidol<Citeref
+    Rid = "CXX04" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/><Citeref Rid = "CXX59" Exclude-comma = "1"/><Citeref
+    Rid = "CXX76" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">lithium is frequently used concurrently with
+haloperidol during the first 1 or 2 weeks of treatment for acute
+manic episodes, but lithium alone may be adequate thereafter; however,
+concurrent use of haloperidol<Citeref Rid = "CXXA7"/> with lithium
+has been reported, in a few cases, to be associated with irreversible
+neurological toxicity and brain damage, especially in patients with
+organic mental syndrome or other CNS impairment, although this interaction
+is controversial; extrapyramidal symptoms may be increased by enhancement
+of dopamine blockade by haloperidol; patients should be monitored closely
+during concurrent use; dosage adjustments may be necessary</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Methyldopa<Citeref Rid = "CXX58"
+    Exclude-comma = "1"/><Citeref Rid = "CXX59" Exclude-comma = "1"/><Citeref
+    Rid = "CXX76" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use may increase the risk of lithium
+toxicity even though serum lithium concentrations remain within
+the recommended therapeutic range<Citeref Rid = "CXX26"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Metronidazole<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX59"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use may promote renal retention of
+lithium, leading to lithium toxicity; reducing the dose or discontinuing
+the use of lithium may be necessary during metronidazole therapy;
+if not feasible to discontinue, frequent monitoring of serum creatinine, electrolyte
+and lithium concentrations, and urine osmolality to detect possible
+nephrogenic diabetes insipidus are recommended<Citeref Rid = "CXX09"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Nonsteroidal anti-inflammatory
+drugs (NSAIDs)<Citeref Rid = "CXX04" Exclude-comma = "1"/><Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/><Citeref Rid = "CXX76" Exclude-comma = "1"/> including
+selective cyclooxygenase-2 (COX-2) inhibitors<Citeref Rid = "CXXA7"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may result in increased
+steady-state plasma lithium concentrations and possible lithium
+toxicity; increased monitoring of plasma lithium concentrations
+is recommended when therapy with NSAIDs is initiated or discontinued<Citeref
+    Rid = "CXXA8"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Noradrenaline<Citeref
+    Rid = "CXX59" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may decrease the
+pressor response to noradrenaline; a higher dose of noradrenaline
+may be required to achieve the desired effect</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Potassium iodide<Citeref
+    Rid = "CXX59" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">concurrent use with lithium may potentiate the
+hypothyroid and goitrogenic effects of either this medication or
+lithium</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Sodium-containing medications
+or foods, especially sodium bicarbonate<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/><Citeref
+    Rid = "CXX59" Exclude-comma = "1"/> or sodium chloride<Citeref
+    Rid = "CXX59" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">high sodium intake enhances lithium excretion,
+possibly resulting in decreased efficacy</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Urea</Entry.term>
+<P fmcssattr = "2">may increase the renal excretion of lithium,
+thereby decreasing its effects<Citeref Rid = "CXX48" Exclude-comma = "1"/><Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX59"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Xanthines<Citeref Rid = "CXX04"
+    Exclude-comma = "1"/><Citeref Rid = "CXX57" Exclude-comma = "1"/> such
+as: <Entry.term>Aminophylline<Citeref Rid = "CXX04" Exclude-comma = "1"/><Citeref
+    Rid = "CXX59" Exclude-comma = "1"/><Citeref Rid = "CXX76"
+    Exclude-comma = "1"/></Entry.term><Entry.term>Caffeine<Citeref
+    Rid = "CXX04" Exclude-comma = "1"/><Citeref Rid = "CXX59"
+    Exclude-comma = "1"/></Entry.term><Entry.term>Choline theophyllinate</Entry.term><Entry.term
+    fmcssattr = "4">Theophylline<Citeref Rid = "CXX12"
+    Exclude-comma = "1"/><Citeref Rid = "CXX59" Exclude-comma = "1"/><Citeref
+    Rid = "CXX76" Exclude-comma = "1"/></Entry.term></Entry.term>
+<P fmcssattr = "2">concurrent use of these medications with lithium
+increases urinary excretion of lithium, thereby possibly reducing
+its therapeutic effect</P></Usp.entry></Drug.inter.sec>
+<Lab.value.sec Nogentext = "0">
+<P fmcssattr = "1">The following have been selected on the basis
+of their potential clinical significance (possible effect in parentheses
+where appropriate)—not necessarily inclusive (» = major clinical
+significance):</P>
+<Physio.lab.test><Head fmcssattr = "0">With physiology/laboratory
+test values</Head>
+<Usp.entry><Entry.term fmcssattr = "5">Calcium and</Entry.term>
+<Entry.term>Parathyroid hormone, immunoreactive </Entry.term>
+<P fmcssattr = "2">serum concentrations may rise above normal after
+long-term therapy<Citeref Rid = "CXX19" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Glucose</Entry.term>
+<P fmcssattr = "2">blood concentrations may be increased during
+treatment with lithium; concentrations return to normal when lithium administration
+is discontinued<Citeref Rid = "CXX15" Exclude-comma = "1"/></P></Usp.entry>
+<Entry.group><Head fmcssattr = "0">Thyroid function</Head>
+<Aus.entry><Entry.term fmcssattr = "5">Thyroid-stimulating hormone
+(TSH)</Entry.term>
+<P fmcssattr = "2">serum concentrations may be increased<Citeref
+    Rid = "CXXA10"/></P></Aus.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Thyroxine (T<Emph
+    Type = "Subscript">4</Emph>), free</Entry.term>
+<P fmcssattr = "2">serum concentrations may be decreased<Citeref
+    Rid = "CXXA10"/></P></Aus.entry></Entry.group></Physio.lab.test></Lab.value.sec>
+<Contra.med.sec Nogentext = "0">
+<P fmcssattr = "1">The medical considerations/contraindications
+included have been selected on the basis of their potential clinical
+significance (reasons given in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance).</P>
+<Contraindicat.sec><Head fmcssattr = "0">Except under special circumstances,
+this medication should not be used when the following medical problem
+exists</Head>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Leukaemia, history
+of</Entry.term>
+<P fmcssattr = "2">leukaemia may be reactivated by lithium<Citeref
+    Rid = "CXX28" Exclude-comma = "1"/></P></Usp.entry></Contraindicat.sec>
+<Med.prob.sec><Head fmcssattr = "0">Risk-benefit should be considered
+when the following medical problems exist</Head>
+<Aus.entry><Entry.term fmcssattr = "5">Alkaline urine<Citeref
+    Rid = "CXXA7"/></Entry.term>
+<P fmcssattr = "2">renal clearance of lithium is increased<Citeref
+    Rid = "CXXA7"/></P></Aus.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Cardiovascular
+disease<Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">may be exacerbated; possible interference with
+lithium excretion</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">CNS disorders,
+such as epilepsy and parkinsonism</Entry.term>
+<P fmcssattr = "2">may be exacerbated; lithium-induced neurotoxicity
+may be masked</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Dehydration, severe<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">risk of toxicity is increased; the loss of large
+volumes of body fluid as in prolonged vomiting, diarrhoea, or profuse
+perspiration due to fever, exercise, saunas or hot baths may result
+in increased serum lithium concentration; such loss of body fluid
+may necessitate dosage adjustment of lithium and/or the supplemental
+intake of sodium and fluids until hydration status and electrolytes
+are stable<Citeref Rid = "CXX28" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Diabetes mellitus</Entry.term>
+<P fmcssattr = "2">serum insulin concentration may be increased</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Goitre or</Entry.term>
+<Entry.term>Hypothyroidism<Citeref Rid = "CXX57" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">latent hypothyroidism may be induced in predisposed
+or elderly patients</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Hyperparathyroidism</Entry.term>
+<P fmcssattr = "2">calcium metabolism may be altered after long-term
+use</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Infections, severe</Entry.term>
+<P fmcssattr = "2">fever with prolonged sweating, diarrhoea or vomiting
+may necessitate a decrease in lithium dosage<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/> to prevent lithium toxicity</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Organic mental disease or</Entry.term>
+<Entry.term>Schizophrenia</Entry.term>
+<P fmcssattr = "2">patients may be hypersensitive to lithium and
+exhibit increased confusion, seizures or electroencephalogram [EEG]
+changes at normal serum lithium concentrations</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Psoriasis</Entry.term>
+<P fmcssattr = "2">may be aggravated by lithium; dosage adjustments
+of lithium and/or other medications may be necessary<Citeref
+    Rid = "CXX32" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Hyponatraemia<Citeref
+    Rid = "CXXA7"/> or</Entry.term>
+<Entry.term Mcs = "1">Renal insufficiency<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/> or</Entry.term>
+<Entry.term Mcs = "1">Urinary retention</Entry.term>
+<P fmcssattr = "2">lithium excretion may be delayed, leading to
+toxicity</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "4 5 6">Sensitivity
+to lithium</Entry.term></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "4 5 6">Caution should be used
+also in severely debilitated patients or in patients on a sodium-restricted
+diet because these conditions may increase the risk of toxicity<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/> by delaying renal excretion of lithium.</Entry.term></Usp.entry></Med.prob.sec></Contra.med.sec>
+<Pat.monitor.sec Nogentext = "0">
+<P fmcssattr = "1">The following may be especially important in
+patient monitoring (other tests may be warranted in some patients,
+depending on condition; » = strongly recommended):</P>
+<Usp.entry><Entry.term fmcssattr = "5">Calcium concentrations, serum
+and</Entry.term>
+<Entry.term>Phosphate concentrations, serum</Entry.term>
+<P fmcssattr = "2">determinations recommended in children under
+12 years of age prior to initiation of therapy and periodically
+during treatment since lithium increases parathyroid hormone concentrations
+and risk of hypercalcaemia and hypophosphataemia<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/><Citeref Rid = "CXX40" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Electrocardiogram
+(ECG)<Citeref Rid = "CXX58" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">recommended at least once prior to therapy in
+all patients, and especially in patients over 40 years of age and
+those with a history suggestive of cardiovascular disease; should
+be repeated if symptoms such as palpitations, irregular pulse, weight
+gain with oedema, or diminished consciousness occur; also, lithium
+may cause the benign effect of flattening of T-waves and prominent
+U-waves<Citeref Rid = "CXX24" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Electrolyte concentrations,
+serum</Entry.term>
+<P fmcssattr = "2">determinations recommended prior to therapy to
+detect pre-existing hyponatraemia, which will decrease lithium excretion<Citeref
+    Rid = "CXX28" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Height and<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/></Entry.term>
+<Entry.term>Weight evaluation</Entry.term>
+<P fmcssattr = "2">baseline weight measurement prior to therapy
+and every 3 months are recommended; weight gain, possibly due to
+a high intake of calorie-containing liquids as a result of lithium-induced
+polydipsia or to fluid retention to balance the increase in cations<Citeref
+    Rid = "CXX41" Exclude-comma = "1"/>, may lead to a patient's
+noncompliance with lithium therapy; in children, height and weight
+charts should be maintained, and lithium therapy re-evaluated or
+discontinued if there is any decrease in growth rate<Citeref
+    Rid = "CXX40" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Lithium concentrations,
+serum</Entry.term>
+<P fmcssattr = "2">determinations recommended once or twice weekly
+during treatment of acute manic episode until serum concentrations
+and patient's clinical condition have stabilised; recommended at
+least every 2 to 3 months during remission when patient is stabilised; blood
+samples should be drawn in the morning immediately prior to the
+next dose, 10 to 14<Citeref Rid = "CXX28" Exclude-comma = "1"/><Citeref
+    Rid = "CXX38" Exclude-comma = "1"/> hours following the previous
+dose, when there is maximal stability in serum concentration; some
+side effects may occur at serum lithium concentrations below 1.5
+mmol/L, and mild to moderate toxic reactions are likely to occur
+at concentrations from 1.5 to 2.5 mmol/L;<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/> serum
+lithium concentrations should not be permitted to exceed 1.5 mmol/L during
+the acute treatment phase; concentrations above 2.0 mmol/L in chronic
+consumption of lithium can produce complex and serious clinical
+problems<Citeref Rid = "CXX57" Exclude-comma = "1"/>; severe toxicity
+can occur at 2.5 mmol/L<Citeref Rid = "CXX41" Exclude-comma = "1"/>;
+close monitoring is recommended if lithium is used during the last trimester<Citeref
+    Rid = "CXX31" Exclude-comma = "1"/> of pregnancy, used concurrently
+with any other medication, and used in the elderly when renal clearance
+rate and distribution volume are reduced</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Pregnancy test, beta-HCG</Entry.term>
+<P fmcssattr = "2">recommended prior to initiation of therapy in
+all women of child-bearing potential<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Renal function
+determinations<Citeref Rid = "CXX58" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">close assessment recommended prior to initiation
+of lithium therapy and periodically thereafter, even in asymptomatic
+patients with stable serum lithium concentrations; blood urea, serum creatinine,<Citeref
+    Rid = "CXX41" Exclude-comma = "1"/> and urinalysis should be
+performed prior to initiating therapy to determine hydration status,
+renal flow and presence of pre-existing renal concentrating defect<Citeref
+    Rid = "CXX28" Exclude-comma = "1"/><Citeref Rid = "CXX43"
+    Exclude-comma = "1"/><Citeref Rid = "CXX44" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Thyroid function determinations<Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">serum thyroxine and thyroxine-stimulating hormone
+[TSH]<Citeref Rid = "CXX28" Exclude-comma = "1"/> should be evaluated
+at baseline before lithium therapy is initiated and at 6-month intervals
+during therapy; patient should be monitored for symptoms of hypothyroidism;
+maintenance of adequate thyroid function is important in children
+to maintain a satisfactory growth rate<Citeref Rid = "CXX40"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">White blood cell
+count, total and differential</Entry.term>
+<P fmcssattr = "2">recommended prior to therapy and repeated if
+signs of unusual tiredness or weakness develop because of possible
+rare leukaemia that may develop during lithium therapy; however,
+the association of lithium with leukaemia is controversial; benign
+leucocytosis may be reversible on discontinuation of therapy<Citeref
+    Rid = "CXX20" Exclude-comma = "1"/></P></Usp.entry></Pat.monitor.sec></Prec.consid.sec>
+<Side.effect.sec>
+<P fmcssattr = "1">The following side/adverse effects have been
+selected on the basis of their potential clinical significance (possible
+signs and symptoms in parentheses where appropriate)—not necessarily
+inclusive:</P>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence more frequent</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Goitre, euthyroid<Citeref
+    Rid = "CXXA6"/><Citeref Rid = "CXXA7"/></Side.effect.term>
+<Present.symp><Symptom>swelling in front of the neck</Symptom></Present.symp>
+<Side.effect.qual>incidence 4 to 12%<Citeref Rid = "CXXA3"/></Side.effect.qual></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">hypothyroidism<Citeref
+    Rid = "CXXA6" Exclude-comma = "1"/><Citeref Rid = "CXXA7"/></Side.effect.term>
+<Present.symp><Symptom>changes in reflexes</Symptom><Symptom>constipation</Symptom>
+<Symptom>drooping eyelids</Symptom><Symptom>dry, scaly skin</Symptom>
+<Symptom>dry, thinning hair</Symptom><Symptom>forgetfulness</Symptom>
+<Symptom>heavy menstrual periods</Symptom><Symptom>hoarse voice</Symptom>
+<Symptom>joint pain</Symptom><Symptom>lack of energy</Symptom><Symptom>lack
+of facial expression</Symptom><Symptom>low body temperature</Symptom>
+<Symptom>mood or mental changes</Symptom><Symptom>puffy eyes</Symptom>
+<Symptom>sensitivity to cold [increased]</Symptom><Symptom>slow
+heartbeat</Symptom><Symptom>slow speech</Symptom><Symptom>tingling
+in fingers and toes</Symptom><Symptom>weight gain</Symptom></Present.symp>
+<Side.effect.qual>incidence up to 10%<Citeref Rid = "CXXA3"/></Side.effect.qual></Side.effect.entry></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence less frequent</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Cardiovascular
+problems<Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>fainting; fast or slow heartbeat; irregular
+pulse; troubled breathing [dyspnoea] on exertion</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">leucocytosis</Side.effect.term>
+<Present.symp><Symptom>unusual tiredness or weakness</Symptom></Present.symp></Side.effect.entry>
+<Note><P fmcssattr = "1"><Emph Type = "Italic">Sinus node function
+impairment, sinoatrial block</Emph> or <Emph Type = "Italic">ventricular irritability</Emph> may
+occur at therapeutic serum lithium concentrations; possibly reversible
+when lithium is discontinued.</P>
+<P fmcssattr = "2"><Emph Type = "Italic">Leucocytosis</Emph> is
+usually reversible upon discontinuation of lithium, but a rare leukaemia
+may develop during lithium therapy<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/>.</P></Note></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence rare</Head>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">Angioneurotic
+oedema<Citeref Rid = "CXXA7"/></Side.effect.term><Present.symp>
+<Symptom>hoarseness</Symptom><Symptom>large hive-like swellings
+on eyelids, face, genitals, hands or feet, lips, throat, tongue</Symptom>
+<Symptom>trouble in swallowing or breathing [sudden]</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>blue colour and pain in fingers
+and toes</Side.effect.term></Side.effect.entry><Side.effect.entry>
+<Side.effect.term>coldness of arms and legs<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">pseudotumour
+cerebri<Citeref Rid = "CXX57" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>dizziness; eye pain; headache; nausea or
+vomiting; noises in ears; vision problems</Symptom></Present.symp></Side.effect.entry>
+<Note><P fmcssattr = "1">If undetected, <Emph Type = "Italic">pseudotumour
+cerebri</Emph> may result in enlargement of blind spot, constriction
+of visual fields and eventual blindness, due to optic atrophy<Citeref
+    Rid = "CXX03" Exclude-comma = "1"/><Citeref Rid = "CXX57"
+    Exclude-comma = "1"/>.</P></Note></Side.effect.sec></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Those indicating need for
+medical attention only if they continue or are bothersome</Head>
+<Side.effect.sec><Head fmcssattr = "0">Incidence more frequent</Head>
+<Side.effect.entry><Side.effect.term>Diarrhoea<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/><Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>increased thirst<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>nausea mild<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">stress incontinence
+or urinary urgency <Citeref Rid = "CXX22" Exclude-comma = "1"/></Side.effect.term>
+<Present.symp><Symptom>increased frequency of urination; loss of
+bladder control</Symptom></Present.symp></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>trembling of hands, slight<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Note><P fmcssattr = "1"><Emph Type = "Italic">Stress incontinence</Emph> or <Emph
+    Type = "Italic">urinary urgency</Emph> is dose-related; more common
+in women; usually begins 2 to 7 years after start of treatment with
+lithium<Citeref Rid = "CXX21" Exclude-comma = "1"/><Citeref
+    Rid = "CXX22" Exclude-comma = "1"/>.</P></Note></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Incidence less frequent</Head>
+<Side.effect.entry><Side.effect.term>Acne or skin rash<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>bloated feeling or pressure
+in the stomach<Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>muscle twitching, slight<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>weight gain<Citeref Rid = "CXX04"
+    Exclude-comma = "1"/><Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry></Side.effect.sec></Side.effect.sec></Side.effect.sec>
+<Overdose.sec><Head fmcssattr = "0">Overdose</Head>
+<Overdose.clinical><Head fmcssattr = "0">Clinical effects of overdose</Head>
+<P fmcssattr = "2">The following effects have been selected on the
+basis of their potential clinical significance (possible signs and
+symptoms in parentheses where appropriate)—not necessarily inclusive:</P>
+<Side.effect.sec><Head fmcssattr = "0">Early symptoms of toxicity</Head>
+<Side.effect.entry><Side.effect.term>Diarrhoea<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>drowsiness<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>loss of appetite</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>muscle weakness<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>nausea or vomiting<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>slurred speech</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>trembling<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry></Side.effect.sec>
+<Side.effect.sec><Head fmcssattr = "0">Late symptoms of toxicity</Head>
+<Side.effect.entry><Side.effect.term>Blurred vision<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>clumsiness or unsteadiness<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>confusion<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>convulsions<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>dizziness<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>increase in amount of urine<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>trembling, severe<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/></Side.effect.term></Side.effect.entry></Side.effect.sec></Overdose.clinical>
+<Overdose.treat><Head fmcssattr = "0">Treatment of overdose</Head>
+<P fmcssattr = "2">For information on the management of overdose
+or unintentional ingestion, <Emph Type = "Bold">contact a Poisons
+Information Centre on 13 1126</Emph> (see <Xref Xref = "p01"
+    Italic = "Yes">Poisons Information Centres</Xref> listing).</P></Overdose.treat></Overdose.sec>
+<Pat.consult.sec>
+<P fmcssattr = "1">As an aid to patient counselling, refer to the <Emph
+    Type = "Italic">Consumer Medicine Information</Emph> (CMI).</P>
+<P fmcssattr = "2">In providing counselling, consider emphasising
+the following selected information (» = major clinical significance).
+This information is <Emph Type = "Italic">not</Emph> intended for
+distribution to patients.</P>
+<Before.using><Head fmcssattr = "0">Before using this medication</Head>
+<Cond.affect.use Mcs = "1" Nogentext = "0">
+<Cross.sens.sec><P fmcssattr = "1">Sensitivity to lithium</P></Cross.sens.sec>
+<Pregnancy>
+<P fmcssattr = "1">Use is not recommended</P></Pregnancy>
+<Breast.feed.sec>
+<P fmcssattr = "1">Distributed into breast milk; may cause hypotonia, hypothermia,
+cyanosis and ECG changes in some babies</P></Breast.feed.sec>
+<Paediatric.sec>
+<P fmcssattr = "1">May decrease bone formation or density</P></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Elderly more prone to develop CNS toxicity, hypothyroidism
+and goitre; lower doses and more frequent monitoring required</P></Geriatric.sec>
+<Drug.inter.sec Nogentext = "0"><P fmcssattr = "1">Other medications,
+especially chlorpromazine (and possibly other phenothiazines), diuretics,
+haloperidol, iodine-containing preparations, or nonsteroidal anti-inflammatory
+drugs (including selective cyclooxygenase-2 inhibitors)</P></Drug.inter.sec>
+<Contra.med.sec Nogentext = "0"><P fmcssattr = "1">Other medical
+problems, especially history of leukaemia, cardiovascular disease,
+epilepsy, hyponatraemia, parkinsonism, severe dehydration, renal
+insufficiency, urinary retention or severe infections with prolonged
+sweating, vomiting or diarrhoea</P></Contra.med.sec></Cond.affect.use></Before.using>
+<Proper.use><Head fmcssattr = "0">Proper use of this medication</Head>
+<Usp.entry><P fmcssattr = "1">Take after a meal or snack to prevent
+laxative action and to decrease the severity of stomach upset, tremors
+or weakness by slowing absorption rate<Citeref Rid = "CXX10"
+    Exclude-comma = "1"/><Citeref Rid = "CXX28" Exclude-comma = "1"/><Citeref
+    Rid = "CXX31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Importance of adequate fluid
+(2.5 to 3 litres each day) and sodium intake</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Do not take more medication
+than the amount prescribed</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Comply with therapy; improvement
+in condition may require one to three weeks; importance of maintaining
+adequate blood levels even though symptoms improved</P></Usp.entry>
+<Missed.dose><P fmcssattr = "1">Missed dose: Take as soon as possible,
+unless within 4<Citeref Rid = "CXX28" Exclude-comma = "1"/> hours
+of next scheduled dose; do not double doses</P></Missed.dose>
+<Proper.storage Mcs = "1">Proper storage</Proper.storage></Proper.use>
+<Precaution.using><Head fmcssattr = "0">Precautions while using
+this medication</Head>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Visit doctor regularly to
+check progress during therapy; importance of serum lithium monitoring</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Caution in drinking large amounts
+of coffee, tea, or colas because of diuretic effect</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Possible drowsiness or dizziness;
+caution if driving or doing jobs requiring alertness<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Caution during exercise,
+saunas and hot weather</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Caution during illnesses
+that cause high fevers with profuse sweating, vomiting or diarrhoea<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Caution on self-imposed
+dieting</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Importance of patient and
+family knowing early symptoms of overdose or toxicity</P></Usp.entry></Precaution.using>
+<Pat.side.effect>
+<Usp.entry><P fmcssattr = "1">Signs of potential side effects, especially
+euthyroid goitre, hypothyroidism, cardiovascular problems, leucocytosis, angioneurotic
+oedema, blue colour and pain in fingers and toes, coldness of arms
+and legs, or pseudotumour cerebri</P></Usp.entry></Pat.side.effect></Pat.consult.sec>
+<Gen.dosing.sec>
+<P fmcssattr = "1">Warning—Lithium toxicity can occur with doses
+at or near therapeutic serum concentrations<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/><Citeref Rid = "CXX58" Exclude-comma = "1"/>.
+Facilities for prompt and accurate serum lithium determinations
+must<Citeref Rid = "CXX28" Exclude-comma = "1"/> be available during
+therapy<Citeref Rid = "CXX57" Exclude-comma = "1"/>. Accurate patient evaluation
+requires both clinical and laboratory analysis<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">During the acute manic phase, the patient may
+have a greater ability to tolerate lithium. This tolerance decreases
+as the manic symptoms subside and often necessitates a corresponding
+dosage adjustment.<Citeref Rid = "CXX57" Exclude-comma = "1"/><Citeref
+    Rid = "CXX58" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">During the acute manic phase, lithium administration
+of 1000 to 2500 mg a day should usually produce effective serum
+concentrations ranging from 0.8 to 1.4 mmol/L<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>, with weekly adjustments based on plasma
+lithium concentrations.</P>
+<P fmcssattr = "2">Usual serum lithium concentrations during long-term
+care are 0.6 to 0.8 mmol/L, although some patients may need concentrations
+of 0.8 to 1 mmol/L<Citeref Rid = "CXXA3" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">If a satisfactory therapeutic response to lithium
+at the highest tolerated serum concentrations within the therapeutic
+range<Citeref Rid = "CXX41" Exclude-comma = "1"/> is not achieved
+within 3 weeks, lithium therapy should be discontinued.</P>
+<P fmcssattr = "2">Because concurrent use of lithium with electroconvulsive
+therapy (ECT) may result in delirium, it is recommended that lithium
+be temporarily discontinued prior to administration of ECT<Citeref
+    Rid = "CXXA7"/>.</P>
+<Diet.nutri>
+<P fmcssattr = "1">Since lithium decreases sodium reabsorption by
+the renal tubules, a normal diet with an average consumption of
+salt and adequate fluid intake, 2.5 to 3 litres of fluid per day,
+is essential to prevent sodium depletion leading to lithium toxicity<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/><Citeref Rid = "CXX58"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">This medication may be taken with food, juice
+or milk, if necessary, to lessen laxative action, stomach irritation,
+tremors or weakness, by slowing absorption of lithium.<Citeref
+    Rid = "CXX28" Exclude-comma = "1"/></P></Diet.nutri>
+<Adverse.treat><Head fmcssattr = "0">For treatment of adverse effects</Head>
+<P fmcssattr = "2">Early side effects—If slight hand tremor, mild
+nausea or diarrhoea, unusual drowsiness, or acne do not subside
+with continued treatment, a reduction in lithium dosage may be necessary<Citeref
+    Rid = "CXX57" Exclude-comma = "1"/>. If hand tremor is especially
+bothersome, shifting a majority of the dose to bedtime, decreasing
+caffeine intake, or adding a beta-blocker such as propranolol may
+be helpful.</P>
+<P fmcssattr = "2">Suppression of thyroid activity—May necessitate
+thyroid hormone replacement therapy<Citeref Rid = "CXX57"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Urinary incontinence—Lowering dose of lithium
+whenever possible, adding an anticholinergic agent or an antidepressant
+with anticholinergic properties, or switching to another medication
+for treatment of bipolar disorder<Citeref Rid = "CXX22"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Polyuria—Lowering dose of lithium alone, whenever
+possible. If the lower plasma lithium concentration is inadequate
+to maintain a response, adding a thiazide diuretic and reducing
+the lithium dose by 50%, then readjusting it to reproduce the original
+plasma lithium concentration, may be effective.<Citeref Rid = "CXX41"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Weight gain—May be safely and effectively treated
+by limiting calorie intake with emphasis on adequate fluid and sodium
+intake.</P></Adverse.treat></Gen.dosing.sec>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Form.note><P fmcssattr = "1">Bracketed uses in the <Emph
+    Type = "Italic">Dosage Forms</Emph> section refer to categories
+of use and/or indications that are not included in the Australian
+approved product information.</P></Form.note>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>LITHIUM
+CARBONATE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antimanic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Acute mania: Oral, initially 750
+to 1000 mg a day in divided doses, the dosage being adjusted as
+needed and tolerated in increments of 250 to 500 mg based on serum
+lithium concentrations. The dosage required to achieve therapeutic
+concentrations may range between 1000 to 2500 mg a day.</P>
+<P fmcssattr = "2">Maintenance: Oral, usually 500 to 1000 mg a day,
+in one or two doses<Citeref Rid = "CXXA6" Exclude-comma = "1"/>.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">Geriatric patients may require only one-third
+to one-half the dose for young adults<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>.</P></Note></Dosing.stmt.sec></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 2.5 grams a day<Citeref
+    Rid = "CXXA2" Exclude-comma = "1"/>.</P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Not.label.aus>Antimanic</Not.label.aus>—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Less than 12 years of age: Oral,
+initially 15 to 20 mg per kg of body weight a day in two or three
+divided doses, the dosage being adjusted at weekly intervals, based
+on serum lithium concentrations<Citeref Rid = "CXX28"
+    Exclude-comma = "1"/><Citeref Rid = "CXX41" Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">12 to 18 years of age: See <Xref Xref = "Sxx94"
+    Italic = "Yes">Usual adult dose</Xref>.</P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>250 mg</Strength>
+<Brand.info><Brand.name>Lithicarb</Brand.name><Other.ingred>lactose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C<Citeref Rid = "CXXA9"
+    Exclude-comma = "1"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">Ask your doctor or
+pharmacist before using any other medicine including over-the-counter
+medicines and herbal products.<Citeref Rid = "CXXA4" Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">This medicine may affect mental alertness
+and/or coordination. If affected do not drive a motor vehicle or
+operate machinery<Citeref Rid = "CXXA7"/><Citeref Rid = "CXXA8"/>.</P></Item>
+<Note><P fmcssattr = "1"> This label is most appropriate for initial
+treatment<Citeref Rid = "CXXA7"/>.</P></Note></List>
+<List Type = "Bullet"><Item><P fmcssattr = "1">Do not remove from
+this original packaging until dose is required.<Citeref Rid = "CXXA4"
+    Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">Add the words “with or soon after food”<Citeref
+    Rid = "CXXA4"/>.</P></Item></List></Anc.label></Spec.dosage.form.sec>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>LITHIUM
+CARBONATE</Drug.device.name><Drug.form.name>SLOW-RELEASE TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antimanic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Acute mania: Oral, usually 1800
+mg per day in divided doses, with dosage being adjusted as needed
+and tolerated, based on serum lithium concentrations<Citeref
+    Rid = "CXXA7"/>. </P>
+<P fmcssattr = "2">Maintenance: Oral, usually 900 to 1200 mg per
+day in divided doses, with dosage being adjusted to maintain the
+appropriate serum lithium concentration<Citeref Rid = "CXXA7"/>. </P></Dosing.stmt>
+<Note><P fmcssattr = "1">Geriatric patients may require only one-third
+to one-half the dose for young adults<Citeref Rid = "CXXA2"
+    Exclude-comma = "1"/>.</P></Note></Dosing.stmt.sec></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Safety and efficacy have not been
+established<Citeref Rid = "CXXA7"/>.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>450 mg</Strength>
+<Brand.info><Brand.name>Quilonum SR</Brand.name><Add.prod.desc>scored</Add.prod.desc>
+<Other.ingred>lactose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C, preferably below 25 °C,
+unless otherwise specified by the manufacturer<Citeref Rid = "CXXA5"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">Ask your doctor or
+pharmacist before using any other medicine including over-the-counter
+medicines and herbal products.<Citeref Rid = "CXXA4" Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">This medicine may affect mental alertness
+and/or coordination. If affected do not drive a motor vehicle or
+operate machinery<Citeref Rid = "CXXA7"/><Citeref Rid = "CXXA8"/>.</P></Item>
+<Note><P fmcssattr = "1">  This label is most appropriate for initial
+treatment<Citeref Rid = "CXXA7"/>.</P></Note></List>
+<List Type = "Bullet"><Item><P fmcssattr = "1">Do not remove from
+this original packaging until dose is required<Citeref Rid = "CXXA4"
+    Exclude-comma = "1"/>.</P></Item>
+<Item><P fmcssattr = "1">Add the words “with or soon after food”<Citeref
+    Rid = "CXXA4"/>.</P></Item></List></Anc.label></Spec.dosage.form.sec></Gen.administer.route>
+<Doc.rev.date Date = "03/11/99; 17/10/01; 27/11/01; 12/08/03."/></Single.mono>

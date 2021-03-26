@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<!-- This file represents a fragment of a book store inventory database -->
+<bookstore>
+  <book genre="autobiography">
+   <title>The Autobiography of Benjamin Franklin</title>
+   <author>
+     <first-name>Benjamin</first-name>
+     <last-name>Franklin</last-name>
+   </author>
+   <price>8.99</price>
+  </book>
+  <book genre="thriller">
+    <title>The Confidence Man</title>
+    <author>
+      <first-name>Herman</first-name>
+      <last-name>Melville</last-name>
+    </author>
+    <price nogst="true">12.99</price>
+    <gst>1.30</gst>
+  </book>
+  <book genre="philosophy">
+    <title>The Gorgias</title>
+      <author>
+        <name>Plato</name>
+      </author>
+  </book>
+</bookstore>
+

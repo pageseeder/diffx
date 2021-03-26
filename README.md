@@ -95,7 +95,7 @@ In your XSLT, declare the namespace as:
 ```
  <xsl:stylesheet version="2.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:diffx="java:com.topologi.diffx.Extension"
+    xmlns:diffx="java:org.pageseeder.diffx.Extension"
     extension-element-prefixes="diffx">
 ```
 

@@ -1,0 +1,2061 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="0479.css" type="text/css"?>
+<Family.mono Id = "M0001052" Type = "Pharmacologic"><Title.sec.fam>
+<Doc.id.num>0001052</Doc.id.num><Index.id>0479</Index.id><Mono.title>
+<Drug.device.name>Anticholinergics/Antispasmodics</Drug.device.name>
+<Effect.type>Systemic</Effect.type></Mono.title>
+<Drug.device.name>Atropine</Drug.device.name><Drug.device.name>Belladonna</Drug.device.name>
+<Drug.device.name>Dicyclomine</Drug.device.name><Drug.device.name>Glycopyrrolate</Drug.device.name>
+<Drug.device.name>Hyoscine</Drug.device.name><Drug.device.name>Hyoscyamine</Drug.device.name>
+<Drug.device.name>Propantheline</Drug.device.name>
+<Common.name.sec><P fmcssattr = "1">Other commonly used names are: <Common.name>Glycopyrronium
+bromide </Common.name><Drug.device.name>[Glycopyrrolate]; </Drug.device.name><Common.name>Scopolamine </Common.name><Drug.device.name
+    fmcssattr = "3">[Hyoscine]</Drug.device.name></P></Common.name.sec>
+<Note><P fmcssattr = "1">For a listing of dosage forms and brand
+names, see <Emph Type = "Italic">Dosage Forms</Emph> section(s)</P></Note></Title.sec.fam>
+<Category.sec>
+<Note><P fmcssattr = "1">All of these medications have anticholinergic
+and, to some extent, antispasmodic actions; however, the labelled
+indications for specific agents may vary because of minor differences
+in potency and/or receptor selectivity. <Emph Type = "Bold">In general,
+there is a lack of specific testing and/or clinical-use data to
+support the indication of anticholinergics/antispasmodics in most
+conditions.</Emph><Citeref Rid = "cxx14" Exclude-comma = "1"/><Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Note>
+<Category.use>Anaesthesia adjunct</Category.use>
+<Drug.device.name>Hyoscine (parenteral only)</Drug.device.name>
+<Category.use>Antiarrhythmic</Category.use>
+<Drug.device.name>Atropine (parenteral only)</Drug.device.name>
+<Drug.device.name>Glycopyrrolate</Drug.device.name><Drug.device.name>Hyoscine (parenteral
+only)</Drug.device.name>
+<Category.use>Anticholinergic</Category.use>
+<Drug.device.name>Atropine</Drug.device.name><Drug.device.name>Belladonna</Drug.device.name>
+<Drug.device.name>Dicyclomine</Drug.device.name><Drug.device.name>Glycopyrrolate</Drug.device.name>
+<Drug.device.name>Hyoscine</Drug.device.name><Drug.device.name>Hyoscyamine</Drug.device.name>
+<Drug.device.name>Propantheline</Drug.device.name>
+<Category.use>Antidote (to cholinesterase inhibitors, muscarine
+or organophosphate pesticides)</Category.use>
+<Drug.device.name>Atropine</Drug.device.name>
+<Category.use>Antiemetic</Category.use>
+<Drug.device.name>Hyoscine Hydrobromide</Drug.device.name>
+<Category.use>Antispasmodic, gastrointestinal</Category.use>
+<Drug.device.name>Belladonna</Drug.device.name><Drug.device.name>Dicyclomine</Drug.device.name>
+<Drug.device.name>Hyoscine Butylbromide</Drug.device.name>
+<Category.use>Antispasmodic, urinary</Category.use>
+<Drug.device.name>Atropine</Drug.device.name><Drug.device.name>Hyoscine</Drug.device.name>
+<Category.use>Antivertigo agent</Category.use>
+<Drug.device.name>Hyoscine Hydrobromide</Drug.device.name>
+<Category.use>Cholinergic adjunct (curariform block)</Category.use>
+<Drug.device.name>Atropine (parenteral only)</Drug.device.name>
+<Drug.device.name fmcssattr = "3">Glycopyrrolate</Drug.device.name></Category.sec>
+<Indication.sec>
+<Form.note><P fmcssattr = "1">Bracketed information in the <Emph
+    Type = "Italic">Indications</Emph> section refers to uses that
+are not included in the Australian approved product information.</P></Form.note>
+<Accepted.sec>
+<Usp.entry><Entry.term fmcssattr = "5">Arrhythmias, cardiac (treatment)
+or</Entry.term>
+<Entry.term>Bradycardia, sinus (treatment)</Entry.term>
+<P fmcssattr = "2">Parenteral atropine<Citeref Rid = "cxx35"
+    Exclude-comma = "1"/> is indicated to reduce severe sinus bradycardia<Citeref
+    Rid = "cxx83" Exclude-comma = "1"/> and syncope associated with
+hyperactive carotid sinus reflex; and to lessen the degree of atrioventricular
+heart block in Type I atrioventricular (AV) conduction deficits.
+It is also used to treat ventricular asystole.<Citeref Rid = "cxx83"
+    Exclude-comma = "1"/><Citeref Rid = "cxx84" Exclude-comma = "1"/><Citeref
+    Rid = "cxx85" Exclude-comma = "1"/> Parenteral atropine also
+is indicated as an antidote for sinus bradycardia resulting from
+the improper administration of a choline ester medication.<Citeref
+    Rid = "cxx12" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Anaesthesia, general, adjunct</Entry.term>
+<P fmcssattr = "2">Parenteral administration of hyoscine, in combination
+with morphine or pethidine, is indicated in preanaesthesia to reduce
+excitement and produce amnesia.<Citeref Rid = "cxx12"
+    Exclude-comma = "1"/><Citeref Rid = "cxx51" Exclude-comma = "1"/><Not.label.aus>Hyoscine</Not.label.aus> may
+also be used for opioid-induced respiratory depression.<Citeref
+    Rid = "cxx73" Exclude-comma = "1"/><Not.label.aus>Parenteral
+hyoscine</Not.label.aus> is also used in conjunction with analgesics
+in cardiopulmonary bypass patients who cannot be deeply anaesthetised
+because of the risk of severe hypotension or circulatory collapse.<Citeref
+    Rid = "cxx51" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Arrhythmias, in anaesthesia
+(treatment) or</Entry.term>
+<Entry.term>Arrhythmias, in surgery (treatment)</Entry.term>
+<P fmcssattr = "2">The parenteral form of atropine is indicated
+to restore cardiac rate and arterial pressure when increased vagal
+activity has reduced pulse rate and cardiac action. Glycopyrrolate is
+indicated to block cardiac vagal inhibitory reflexes during induction
+of anaesthesia and intubation.<Citeref Rid = "cxx39" Exclude-comma = "1"/> Glycopyrrolate
+is also indicated intraoperatively to counteract drug-induced or
+vagal traction reflexes with the associated arrhythmias.<Citeref
+    Rid = "cxx39" Exclude-comma = "1"/> Parenteral hyoscine is generally
+no longer used for these indications.<Citeref Rid = "cxx97"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Arrhythmias, suxamethonium-induced
+(prophylaxis) or</Entry.term>
+<Entry.term>Arrhythmias, surgical procedure-induced (prophylaxis)</Entry.term>
+<P fmcssattr = "2">Parenteral atropine<Citeref Rid = "cxx35"
+    Exclude-comma = "1"/> and glycopyrrolate<Citeref Rid = "Cxxa1"
+    Exclude-comma = "1"/> are indicated as adjunct to anaesthesia
+to prevent reflex bradycardia, sinus arrest, and hypotension induced
+by suxamethonium during intubation of the trachea or produced by
+certain surgical manipulations.<Citeref Rid = "cxx26"
+    Exclude-comma = "1"/> Parenteral hyoscine is generally no longer
+used for these indications.</P></Usp.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Biliary tract disorders (treatment)</Entry.term>
+<Entry.term>Gastrointestinal tract disorders (treatment) or</Entry.term>
+<Entry.term>Renal tract disorders (treatment)</Entry.term>
+<P fmcssattr = "2">Parenteral hyoscine butylbromide is indicated
+for the treatment of biliary, gastrointestinal, and renal spasm<Citeref
+    Rid = "CXXA13"/>. Oral hyoscine butylbromide and belladonna
+preparations are indicated for the treatment of functional gastrointestinal
+conditions involving smooth muscle spasm and hypertonicity<Citeref
+    Rid = "CXXA13" Exclude-comma = "1"/><Citeref Rid = "CXXA14"/><Citeref
+    Rid = "CXXA15"/><Citeref Rid = "CXXA21"/><Citeref Rid = "CXXA22"/>.</P></Aus.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Bowel syndrome, irritable
+(treatment)</Entry.term>
+<P fmcssattr = "2">Belladonna preparations<Citeref Rid = "cxx26"
+    Exclude-comma = "1"/><Citeref Rid = "cxx104" Exclude-comma = "1"/><Citeref
+    Rid = "CXXA22"/>, dicyclomine<Citeref Rid = "cxx02"
+    Exclude-comma = "1"/><Citeref Rid = "cxx37" Exclude-comma = "1"/><Citeref
+    Rid = "cxx104" Exclude-comma = "1"/>,<Not.label.aus>hyoscine</Not.label.aus><Citeref
+    Rid = "CXX42"/><Citeref Rid = "CXX97"/>, and<Not.label.aus>propantheline</Not.label.aus><Citeref
+    Rid = "cxx104" Exclude-comma = "1"/> are indicated in the treatment
+of irritable bowel syndrome, mainly in patients in whom other therapy,
+such as sedation and/or change in diet, has failed. However, results
+usually are inconsistent and transient and require high doses, which
+result in significant side effects.<Citeref Rid = "cxx97"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Hypersecretory conditions,
+gastric, in anaesthesia (prophylaxis)</Entry.term>
+<P fmcssattr = "2">Glycopyrrolate is indicated as preanaesthetic
+medication to reduce gastric acid secretion.<Citeref Rid = "cxx39"
+    Exclude-comma = "1"/><Citeref Rid = "cxx88" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Motion sickness (prophylaxis
+and treatment)</Entry.term>
+<P fmcssattr = "2">Hyoscine is indicated for prophylaxis of nausea
+and vomiting associated with motion sickness<Citeref Rid = "Cxxa2"
+    Exclude-comma = "1"/>. Belladonna preparations are generally
+no longer used for this indication<Citeref Rid = "CXXA23"/>.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Pneumonitis, aspiration (prophylaxis)</Entry.term>
+<P fmcssattr = "2">Glycopyrrolate may provide some protection against
+aspiration of gastric contents during anaesthesia<Citeref Rid = "cxx06"
+    Exclude-comma = "1"/><Citeref Rid = "cxx39" Exclude-comma = "1"/>.</P></Usp.entry>
+<Aus.entry><Entry.term fmcssattr = "5">Radiography, gastrointestinal,
+adjunct</Entry.term>
+<P fmcssattr = "2">Parenteral hyoscine butylbromide is indicated
+as a diagnostic aid in radiology<Citeref Rid = "CXXA13"/>.</P></Aus.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Salivation and respiratory
+tract secretions, excessive, in anaesthesia (prophylaxis)</Entry.term>
+<P fmcssattr = "2">Parenteral atropine<Citeref Rid = "cxx33"
+    Exclude-comma = "1"/><Citeref Rid = "cxx34" Exclude-comma = "1"/><Citeref
+    Rid = "cxx35" Exclude-comma = "1"/><Citeref Rid = "cxx89"
+    Exclude-comma = "1"/>, glycopyrrolate<Citeref Rid = "cxx39"
+    Exclude-comma = "1"/><Citeref Rid = "cxx89" Exclude-comma = "1"/> and
+hyoscine<Citeref Rid = "cxx51" Exclude-comma = "1"/> are indicated
+as antisialagogue preanaesthetic medications to prevent or reduce
+salivation and respiratory tract secretions.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Toxicity, cholinesterase
+inhibitor (prophylaxis)</Entry.term>
+<P fmcssattr = "2">The parenteral forms of atropine<Citeref
+    Rid = "cxx86" Exclude-comma = "1"/> and glycopyrrolate<Citeref
+    Rid = "cxx39" Exclude-comma = "1"/><Citeref Rid = "cxx92"
+    Exclude-comma = "1"/> are indicated for administration prior
+to or concurrently with neostigmine or pyridostigmine during reversal
+of nondepolarising neuromuscular blockade to protect against the muscarinic
+effects of these drugs, such as bradycardia and excessive secretions.<Citeref
+    Rid = "cxx34" Exclude-comma = "1"/><Citeref Rid = "cxx35"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Toxicity, cholinesterase
+inhibitor (treatment)</Entry.term>
+<Entry.term>Toxicity, muscarine (treatment) or</Entry.term>
+<Entry.term>Toxicity, organophosphate pesticide (treatment)</Entry.term>
+<P fmcssattr = "2">Parenteral atropine<Citeref Rid = "cxx33"
+    Exclude-comma = "1"/><Citeref Rid = "cxx35" Exclude-comma = "1"/> is indicated
+in the treatment of poisoning from cholinesterase inhibitors such
+as neostigmine, pilocarpine, physostigmine, and methacholine, and in
+the treatment of the rapid type of mushroom (muscarine) poisoning.<Citeref
+    Rid = "cxx12" Exclude-comma = "1"/><Citeref Rid = "cxx35"
+    Exclude-comma = "1"/> The oral and parenteral forms of atropine
+are also indicated in the treatment of poisoning caused by pesticides
+that are organophosphate cholinesterase inhibitors, chemical warfare,
+and “nerve” gases.<Citeref Rid = "cxx03" Exclude-comma = "1"/><Citeref
+    Rid = "cxx05" Exclude-comma = "1"/><Citeref Rid = "cxx33"
+    Exclude-comma = "1"/> Although oral atropine is not as effective
+as parenteral atropine for significant organophosphate poisoning,
+it is used when medical treatment is not readily available as a
+short-term antidote until professional medical treatment is obtained.</P>
+<P fmcssattr = "2">A cholinesterase reactivator (e.g., pralidoxime)
+may be used concurrently to reverse the muscarinic effects of atropine<Citeref
+    Rid = "CXXA6"/>.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Ulcer, peptic (treatment
+adjunct)</Entry.term>
+<P fmcssattr = "2">Belladonna preparations<Citeref Rid = "Cxxa14"
+    Exclude-comma = "1"/><Citeref Rid = "CXXA21"/><Citeref
+    Rid = "CXXA22"/> and propantheline<Citeref Rid = "Cxxa12"
+    Exclude-comma = "1"/> are indicated in conjunction with antacids
+or histamine H<Emph Type = "Subscript">2</Emph>-receptor antagonists
+in the treatment of peptic ulcer, to reduce further gastric acid
+secretion and delay gastric emptying. However, the use of most anticholinergics
+as treatment adjunct in peptic ulcer has been replaced by the use
+of more effective agents. Results with anticholinergics usually
+are inconsistent and transient and require high doses, which result
+in significant side effects.<Citeref Rid = "cxx12" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Urinary incontinence (treatment)</Entry.term>
+<P fmcssattr = "2">Propantheline<Citeref Rid = "cxx74"
+    Exclude-comma = "1"/><Citeref Rid = "cxx75" Exclude-comma = "1"/><Citeref
+    Rid = "cxx97" Exclude-comma = "1"/><Citeref Rid = "cxx105"
+    Exclude-comma = "1"/> is indicated in the treatment of uninhibited
+hypertonic neurogenic bladder to increase bladder capacity by reducing
+amplitude and frequency of bladder contractions.<Citeref Rid = "cxx46"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Salivation,
+excessive, in dental procedures (prophylaxis)</Not.label.aus></Entry.term>
+<P fmcssattr = "2">The oral forms of atropine<Citeref Rid = "cxx97"
+    Exclude-comma = "1"/> and propantheline<Citeref Rid = "cxx98"
+    Exclude-comma = "1"/><Citeref Rid = "cxx106" Exclude-comma = "1"/> are
+used to control excessive salivation that interferes with dental
+procedures.<Citeref Rid = "cxx01" Exclude-comma = "1"/><Citeref
+    Rid = "cxx13" Exclude-comma = "1"/> Belladonna is generally
+no longer used for this indication.</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5"><Not.label.aus>Salivation,
+excessive, postsurgical (prophylaxis)</Not.label.aus> or</Entry.term>
+<Entry.term><Not.label.aus>Salivation, excessive, medical condition-related
+(prophylaxis)</Not.label.aus></Entry.term>
+<P fmcssattr = "2">Hyoscine is used for short-term control of drooling
+in postsurgical patients and in patients with goitre or other medical
+conditions in whom excessive salivation becomes a social problem.<Citeref
+    Rid = "cxx11" Exclude-comma = "1"/><Citeref Rid = "cxx15"
+    Exclude-comma = "1"/><Citeref Rid = "cxx72" Exclude-comma = "1"/></P></Usp.entry></Accepted.sec>
+<Unaccepted.sec>
+<P fmcssattr = "1">Anticholinergics/antispasmodics listed below
+have been used for the following indications; however, they generally
+have been replaced by more effective agents—<List Type = "Bullet">
+<Item><P fmcssattr = "1">Antidysmenorrhoeal—Hyoscine butylbromide<Citeref
+    Rid = "CXX76"/>.</P></Item>
+<Item><P fmcssattr = "1">Enuresis, nocturnal (treatment)—Belladonna.<Citeref
+    Rid = "CXX76"/></P></Item>
+<Item><P fmcssattr = "1">Hyperhidrosis (treatment)—Propantheline<Citeref
+    Rid = "CXXA19"/>.</P></Item></List></P></Unaccepted.sec></Indication.sec>
+<Pharma.pkinetic.sec Nogentext = "0">
+<Pchem.sec>
+<Source.sec><P fmcssattr = "1">Belladonna (<Emph Type = "Italic">Atropa
+belladonna [Solanaceae]</Emph>) contains alkaloids that consist
+mainly of the hyoscyamine-atropine group together with small amounts
+of hyoscine. The total alkaloid content of belladonna preparations
+is usually calculated as hyoscyamine.<Citeref Rid = "CXXA24"/></P></Source.sec>
+<Chem.group.sec>
+<P fmcssattr = "1">Tertiary amines: Atropine, hyoscine hydrobromide,
+and hyoscyamine.</P>
+<P fmcssattr = "2">Quaternary ammonium compounds: Glycopyrrolate,
+hyoscine butylbromide and propantheline.</P></Chem.group.sec>
+<Mol.weight.sec>
+<P fmcssattr = "1">Atropine: 289.37</P>
+<P fmcssattr = "2">Atropine sulfate: 695<Citeref Rid = "CXXA6"/></P>
+<P fmcssattr = "2">Dicyclomine hydrochloride: 345.95</P>
+<P fmcssattr = "2">Glycopyrrolate: 398.34</P>
+<P fmcssattr = "2">Hyoscine butylbromide: 440.4<Citeref Rid = "Cxxa15"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Hyoscine hydrobromide: 438.31</P>
+<P fmcssattr = "2">Hyoscyamine: 289.37</P>
+<P fmcssattr = "2">Propantheline bromide: 448.40</P></Mol.weight.sec>
+<Pka.sec><P fmcssattr = "1">Atropine: 9.8</P>
+<P fmcssattr = "2">Dicyclomine: 9.0<Citeref Rid = "cxx06"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Hyoscine: 7.55–7.81</P></Pka.sec></Pchem.sec>
+<Mechan.effect.sec>
+<P fmcssattr = "1">Anaesthesia adjunct—Hyoscine depresses the
+cerebral cortex; in large doses and in conjunction with analgesics,
+produces loss of memory.</P>
+<P fmcssattr = "2">Antiarrhythmic—Inhibition of muscarinic actions
+of acetylcholine at postganglionic receptor sites present in the
+autonomic effector cells of the cardiac muscle, and sinoatrial and
+atrioventricular nodes.</P>
+<P fmcssattr = "2">Anticholinergic—The naturally occurring belladonna
+alkaloids, semisynthetic derivatives, quaternary ammonium compounds,
+and, to a lesser extent, the synthetic tertiary amines inhibit the
+muscarinic actions of acetylcholine on structures innervated by
+postganglionic cholinergic nerves as well as on smooth muscles that
+respond to acetylcholine but lack cholinergic innervation. These
+postganglionic receptor sites are present in the autonomic effector
+cells of the smooth muscle, cardiac muscle, sinoatrial and atrioventricular
+nodes, and exocrine glands. Depending on the dose, anticholinergics
+may reduce the motility and secretory activity of the gastrointestinal
+system, and the tone of the ureter and urinary bladder and may have
+a slight relaxant action on the bile ducts and gallbladder. In general,
+the smaller doses of anticholinergics inhibit salivary and bronchial secretions,
+sweating, and accommodation; cause dilatation of the pupil; and increase
+the heart rate. Larger doses are required to decrease motility of
+the gastrointestinal and urinary tracts and to inhibit gastric acid
+secretion.<Citeref Rid = "cxx09" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Antidote (to cholinesterase inhibitors; to muscarine;
+to organophosphate pesticides)—Atropine antagonises the actions
+of cholinesterase inhibitors at muscarinic receptor sites, including
+increased tracheobronchial and salivary secretion, bronchoconstriction,
+autonomic ganglionic stimulation, and, to a moderate extent, central
+actions.</P>
+<P fmcssattr = "2">Antiemetic—Belladonna and hyoscine act primarily
+by reducing the excitability of the labyrinthine receptors and by
+depressing conduction in the vestibular cerebellar pathway.</P>
+<P fmcssattr = "2">Antispasmodic, gastrointestinal—Unproven. A
+local and direct action on smooth muscle, to reduce tone and motility
+of the gastrointestinal tract, has been suggested to explain the
+apparent gastrointestinal antispasmodic effect of the synthetic
+tertiary amine compounds.<Citeref Rid = "cxx06" Exclude-comma = "1"/><Citeref
+    Rid = "cxx08" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Antivertigo—The exact mechanism by which belladonna
+and hyoscine exert their antimotion sickness and antivertigo effects
+is unknown; however, they probably act either on the cortex or more
+peripherally on the maculae of the utricle and saccule.</P>
+<P fmcssattr = "2">Cholinergic adjunct (curariform block)—Atropine
+antagonises the actions, such as vagal and secretory enhancing effects,
+of cholinesterase inhibitors used in the treatment of nondepolarising
+neuromuscular blockade.<Citeref Rid = "cxx07" Exclude-comma = "1"/></P></Mechan.effect.sec>
+<Other.effect.sec>
+<Section><Head fmcssattr = "0">Natural tertiary amines</Head><P
+    fmcssattr = "2">Atropine: Stimulates or depresses the central nervous
+system (CNS), depending on the dose; and has a more prolonged and
+potent action than the other belladonna alkaloids on the heart,
+intestine, and bronchial muscle.</P>
+<P fmcssattr = "2">Hyoscine: Has peripheral action similar to that
+of atropine but, in contrast to atropine, is depressant to the CNS
+at therapeutic doses; it does not stimulate the medullary centres
+and therefore does not increase respiration or elevate blood pressure.
+Hyoscine has a more potent action than atropine on the sphincter
+muscle of the iris and the ciliary muscle of the lens, and on the
+secretory glands such as salivary, bronchial, and sweat glands.</P>
+<P fmcssattr = "2">Hyoscyamine: Has actions similar to those of
+atropine, but is more potent in both its central and peripheral
+effects.</P></Section>
+<Section><Head fmcssattr = "0">Quaternary ammonium compounds, semisynthetic
+and synthetic</Head><P fmcssattr = "2">In contrast to atropine and
+hyoscine, effects of these medications on the CNS are negligible.
+These medications are also less likely to affect the pupil or ciliary
+muscle of the eye. Ganglionic blockade is attributed to some increased
+effects of the high dosage range, and toxic doses produce neuromuscular
+blockade.<Citeref Rid = "cxx06" Exclude-comma = "1"/><Citeref
+    Rid = "cxx09" Exclude-comma = "1"/></P></Section>
+<Section><Head fmcssattr = "0">Synthetic tertiary amines</Head><P
+    fmcssattr = "2">These medications produce less prominent CNS effects
+than do the natural tertiary amines.<Citeref Rid = "cxx08"
+    Exclude-comma = "1"/></P></Section></Other.effect.sec>
+<Absorb.sec>
+<P fmcssattr = "1">Tertiary amines—Rapidly absorbed from gastrointestinal
+tract; also enter the circulation through the mucosal surfaces of
+the body.</P>
+<P fmcssattr = "2">Quaternary ammonium compounds—Gastrointestinal
+absorption is poor and irregular. Total absorption after an oral
+dose is about 10 to 25%.</P></Absorb.sec>
+<Distrib.sec>
+<P fmcssattr = "1">Exact distribution of anticholinergics has not
+been fully determined. However, tertiary amines appear to be distributed
+throughout the entire body<Citeref Rid = "cxx12" Exclude-comma = "1"/> and
+readily cross the blood-brain barrier, while quaternary ammonium compounds
+exhibit minimal passage across the blood-brain barrier and into the
+eye.</P></Distrib.sec>
+<Protein.bind.sec>
+<P fmcssattr = "1">Atropine—Moderate.</P>
+<P fmcssattr = "2">Hyoscine hydrobromide—Low.</P>
+<P fmcssattr = "2">Hyoscyamine—Moderate.</P></Protein.bind.sec>
+<Biotrans.sec>
+<P fmcssattr = "1">Most anticholinergics—Hepatic, by enzymatic
+hydrolysis.</P></Biotrans.sec>
+<Half.life>
+<Section><Head fmcssattr = "0">Elimination</Head>
+<P fmcssattr = "2">Atropine: 2.5 hours.<Citeref Rid = "cxx09"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Dicyclomine hydrochloride: 1.8 hours (initial
+phase) and 9 to 10 hours (secondary phase).<Citeref Rid = "cxx06"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Glycopyrrolate: 1.7 hours (range 0.6–4.6 hours).</P>
+<P fmcssattr = "2">Hyoscine: 8 hours.</P>
+<P fmcssattr = "2">Hyoscyamine: 3.5 hours.<Citeref Rid = "CXX06"/></P>
+<P fmcssattr = "2">Propantheline bromide: 1.6 (mean) hours.</P></Section></Half.life>
+<Action.onset.sec>
+<Section><Head fmcssattr = "0">Belladonna</Head>
+<P fmcssattr = "2">1 to 2 hours.</P></Section>
+<Section><Head fmcssattr = "0">Glycopyrrolate</Head>
+<P fmcssattr = "2">Intramuscular or subcutaneous: 15 to 30 minutes.</P>
+<P fmcssattr = "2">Intravenous: 1 minute.</P></Section>
+<Section><Head fmcssattr = "0">Hyoscine hydrobromide</Head>
+<Section><Head fmcssattr = "0">Antisialagogue</Head>
+<P fmcssattr = "2">Oral: 30 to 60 minutes.</P>
+<P fmcssattr = "2">Parenteral: 30 minutes.</P></Section></Section></Action.onset.sec>
+<Time.peak.effect.sec><Head fmcssattr = "0">Time to peak effect</Head>
+<P fmcssattr = "2">Glycopyrrolate—Intramuscular: 30 to 45 minutes.</P></Time.peak.effect.sec>
+<Action.dura.sec>
+<Section><Head fmcssattr = "0">Atropine</Head>
+<P fmcssattr = "2">Oral: 4 to 6 hours.</P>
+<P fmcssattr = "2">Parenteral: Brief.</P></Section>
+<Section><Head fmcssattr = "0">Belladonna</Head>
+<P fmcssattr = "2">4 hours.</P></Section>
+<Section><Head fmcssattr = "0">Glycopyrrolate</Head>
+<P fmcssattr = "2">Antisialagogue: Up to 7 hours.</P>
+<P fmcssattr = "2">Vagal blocking effect: 2 to 3 hours.</P></Section>
+<Section><Head fmcssattr = "0">Hyoscine</Head>
+<P fmcssattr = "2">Transdermal: Up to 72 hours<Citeref Rid = "CXXA18"/>.</P></Section>
+<Section><Head fmcssattr = "0">Hyoscine hydrobromide</Head>
+<P fmcssattr = "2">Oral: 4 to 6 hours.</P>
+<P fmcssattr = "2">Parenteral: 4 hours.</P></Section>
+<Section><Head fmcssattr = "0">Propantheline bromide</Head>
+<P fmcssattr = "2">6 hours.</P></Section></Action.dura.sec>
+<Elimination.sec>
+<P fmcssattr = "1">Atropine—Renal (30 to 50% unchanged).</P>
+<P fmcssattr = "2">Belladonna—Renal (30 to 50% of atropine and
+1% of hyoscine unchanged).</P>
+<P fmcssattr = "2">Dicyclomine hydrochloride—Assumed to be renal/faecal.</P>
+<P fmcssattr = "2">Glycopyrrolate—Renal.</P>
+<P fmcssattr = "2">Hyoscine hydrobromide—Renal (1% of oral dose
+and 3.4% of subcutaneous dose unchanged).</P>
+<P fmcssattr = "2">Propantheline bromide—Renal (less than 6% unchanged).</P></Elimination.sec></Pharma.pkinetic.sec>
+<Prec.consid.sec>
+<Cross.sens.sec>
+<P fmcssattr = "1">For all anticholinergics—Patients sensitive
+to one belladonna alkaloid or derivative may be sensitive to the
+other belladonna alkaloids or derivatives also.</P></Cross.sens.sec>
+<Preg.repro.sec>
+<Pregnancy>
+<Section><Head fmcssattr = "0">For atropine</Head><P fmcssattr = "2">Atropine
+crosses the placenta. Well-controlled studies in humans have not
+been done. Intravenous administration of atropine during pregnancy
+or near term may produce tachycardia in the foetus.</P>
+<P fmcssattr = "2">Studies in mice have not shown that atropine
+given in doses of 50 mg per kg of body weight (mg/kg) has adverse
+effects on the foetus.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category A<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For belladonna</Head><P fmcssattr = "2">Belladonna
+crosses the placenta. Studies with belladonna have not been done
+in either animals or humans.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B2<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For dicyclomine</Head><P fmcssattr = "2">Dicyclomine
+has been associated in several isolated cases with human malformations;
+however, in retrospective studies there has been no evidence of
+dicyclomine having any untoward effect on the embryo.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B1<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For glycopyrrolate</Head><P
+    fmcssattr = "2">Glycopyrrolate cross the placenta in very small
+amounts<Citeref Rid = "CXXA1"/>. Controlled studies in humans have
+not been done.</P>
+<P fmcssattr = "2">Studies in rats and rabbits have not shown that
+glycopyrrolate causes teratogenic effects.<Citeref Rid = "cxx39"
+    Exclude-comma = "1"/> However, studies in rats have shown that
+rates of conception and of survival at weaning decreased in a dose-related manner
+with glycopyrrolate. Studies in dogs with high doses of glycopyrrolate
+suggest that this may be caused by a decrease in seminal secretion.<Citeref
+    Rid = "cxx39" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Risk-benefit should be considered before use
+of glycopyrrolate during pregnancy<Citeref Rid = "CXXA1"/>.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B2<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For hyoscine</Head><P fmcssattr = "2">Hyoscine
+crosses the placenta. Studies with hyoscine have not been done in
+either animals or humans.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B2<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For hyoscyamine</Head><P fmcssattr = "2">Hyoscyamine
+crosses the placenta. Studies with hyoscyamine have not been done
+in either animals or humans. <Citeref Rid = "CXX42"/>Intravenous administration
+of hyoscyamine during pregnancy, especially near term, may produce
+tachycardia in the foetus.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B2<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat>
+<Section><Head fmcssattr = "0">For propantheline</Head><P
+    fmcssattr = "2">Studies have not been done in either animals
+or humans.</P></Section>
+<Adec.preg.cat>ADEC Pregnancy Category B2<Citeref Rid = "Cxxa3"
+    Exclude-comma = "1"/>.</Adec.preg.cat></Pregnancy>
+<Labour>
+<P fmcssattr = "1"><Emph Type = "Italic">For hyoscine—</Emph>Parenteral
+administration of hyoscine before the onset of labour may cause
+CNS depression in the neonate and may contribute to neonatal haemorrhage<Citeref
+    Rid = "cxx108" Exclude-comma = "1"/> due to reduction in vitamin
+K-dependent clotting factors in the neonate.</P></Labour></Preg.repro.sec>
+<Breast.feed.sec>
+<P fmcssattr = "1">For all anticholinergics—Anticholinergics may
+inhibit lactation.<Citeref Rid = "cxx36" Exclude-comma = "1"/><Citeref
+    Rid = "cxx44" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">For atropine, belladonna, and hyoscyamine—These
+drugs are distributed into breast milk. Although amounts have not
+been quantified, the chronic use of these medications should be
+avoided during nursing since infants are usually very sensitive
+to the effects of anticholinergics.<Citeref Rid = "cxx01"
+    Exclude-comma = "1"/><Citeref Rid = "cxx18" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">For dicyclomine—Although a causal relationship
+has not been established, the use of dicyclomine in nursing mothers
+is not recommended, since respiratory distress has been reported
+in infants less than 3 months of age who ingested dicyclomine directly
+(not through breast milk).<Citeref Rid = "cxx01" Exclude-comma = "1"/><Citeref
+    Rid = "cxx18" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">For quaternary ammonium compounds—It is unlikely
+that these drugs are distributed into breast milk since they are
+incompletely absorbed from the gastrointestinal tract and have poor
+lipid solubility.<Citeref Rid = "cxx18" Exclude-comma = "1"/></P></Breast.feed.sec>
+<Paediatric.sec>
+<Section><Head fmcssattr = "0">For all anticholinergics</Head><P
+    fmcssattr = "2">Infants and young children are especially susceptible
+to the toxic effects of anticholinergics.</P>
+<P fmcssattr = "2">Close supervision is recommended for infants
+and children with spastic paralysis or brain damage since an increased
+response to anticholinergics has been reported in these patients
+and dosage adjustments are often required.</P>
+<P fmcssattr = "2">When anticholinergics are given to children where
+the environmental temperature is high, there is risk of a rapid
+increase in body temperature because of these medications' suppression
+of sweat gland activity.</P>
+<P fmcssattr = "2">A paradoxical reaction characterised by hyperexcitability
+may occur in children taking large doses of anticholinergics.</P></Section>
+<Section><Head fmcssattr = "0">For dicyclomine</Head><P fmcssattr = "2">Respiratory
+symptoms, such as difficulty in breathing, shortness of breath,
+respiratory collapse and apnoea; as well as seizures, syncope, asphyxia,
+pulse rate fluctuations, muscular hypotonia, and coma have been
+reported in some infants, 3 months old and under, with the use of dicyclomine
+syrup. These side effects occurred within minutes of ingestion and
+lasted 20 to 30 minutes. They are believed to have been caused by
+local irritation and/or aspiration rather than by a direct pharmacologic
+action.</P></Section>
+<Section><Head fmcssattr = "0">For glycopyrrolate</Head><P
+    fmcssattr = "2">Glycopyrrolate injection contains benzyl alcohol
+as a preservative and should not be used in newborn and immature
+infants. The use of benzyl alcohol in neonates has been associated
+with a fatal toxic syndrome consisting of metabolic acidosis and
+CNS, respiratory, circulatory, and renal function impairment.<Citeref
+    Rid = "Cxxa1" Exclude-comma = "1"/></P></Section></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Geriatric patients may respond to usual doses
+of anticholinergics with excitement, agitation, drowsiness, or confusion.</P>
+<P fmcssattr = "2">Geriatric patients are especially susceptible
+to the anticholinergic side effects, such as constipation, dryness
+of mouth, and urinary retention (especially in males). If these
+side effects occur and continue or are severe, medication should
+probably be discontinued.</P>
+<P fmcssattr = "2">Caution is also recommended when anticholinergics
+are given to geriatric patients, because of the danger of precipitating
+undiagnosed glaucoma.</P>
+<P fmcssattr = "2">Memory may become severely impaired in geriatric
+patients, especially those who already have memory problems, with
+the continued use of anticholinergics since these drugs block the
+actions of acetylcholine, which is responsible for many functions
+of the brain, including memory functions.<Citeref Rid = "cxx16"
+    Exclude-comma = "1"/><Citeref Rid = "cxx17" Exclude-comma = "1"/><Citeref
+    Rid = "cxx18" Exclude-comma = "1"/><Citeref Rid = "cxx19"
+    Exclude-comma = "1"/></P></Geriatric.sec>
+<Dental.sec>
+<P fmcssattr = "1">Prolonged use of anticholinergics may decrease
+or inhibit salivary flow, thus contributing to the development of
+caries, periodontal disease, oral candidiasis, and discomfort.<Citeref
+    Rid = "cxx01" Exclude-comma = "1"/></P></Dental.sec>
+<Drug.inter.sec Nogentext = "0">
+<P fmcssattr = "1">The following drug interactions and/or related
+problems have been selected on the basis of their potential clinical
+significance (possible mechanism in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance):</P>
+<Note><P fmcssattr = "1">Combinations containing any of the following
+medications, depending on the amount present, may also interact
+with this medication.</P>
+<P fmcssattr = "2">Only specific interactions between anticholinergics
+and other oral medications have been identified in this monograph.
+However, because of decreased gastrointestinal motility and delayed
+gastric emptying, absorption of other oral medications may be decreased during
+concurrent use with anticholinergics.<Citeref Rid = "cxx31"
+    Exclude-comma = "1"/></P></Note>
+<Entry.group><Head fmcssattr = "0">For all anticholinergics</Head>
+<Usp.entry><Entry.term fmcssattr = "5">Alkalisers, urinary, such
+as:<Citeref Rid = "cxx32" Exclude-comma = "1"/><Entry.term>Antacids,
+calcium- and/or magnesium-containing</Entry.term><Entry.term>Carbonic
+anhydrase inhibitors</Entry.term><Entry.term>Citrates</Entry.term><Entry.term
+    fmcssattr = "4">Sodium bicarbonate</Entry.term></Entry.term>
+<P fmcssattr = "2">urinary excretion of anticholinergics may be
+delayed by alkalinisation of the urine, thus potentiating the anticholinergics' therapeutic
+and/or side effects</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Antacids or</Entry.term>
+<Entry.term Mcs = "1">Antidiarrhoeals, adsorbent</Entry.term>
+<P fmcssattr = "2">simultaneous use of these medications may reduce
+absorption of anticholinergics, resulting in decreased therapeutic
+effectiveness; doses of these medications should be spaced 2 or
+3 hours apart from doses of anticholinergics<Citeref Rid = "cxx25"
+    Exclude-comma = "1"/><Citeref Rid = "cxx26" Exclude-comma = "1"/><Citeref
+    Rid = "cxx43" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Anticholinergics
+or other medications with anticholinergic activity, other</Entry.term>
+<P fmcssattr = "2">concurrent use with anticholinergics may intensify
+anticholinergic effects; patients should be advised to report occurrence
+of gastrointestinal problems promptly since paralytic ileus may
+occur with concurrent therapy<Citeref Rid = "cxx24" Exclude-comma = "1"/><Citeref
+    Rid = "cxx45" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Antimyasthenics</Entry.term>
+<P fmcssattr = "2">concurrent use with anticholinergics may further
+reduce intestinal motility; therefore, caution is recommended; although
+atropine may be used to reduce or prevent the muscarinic effects
+of antimyasthenics, routine concurrent use is not recommended since the
+muscarinic effects may be the first signs of antimyasthenic overdose,
+and masking such effects with atropine may prevent early recognition
+of cholinergic crisis<Citeref Rid = "cxx56" Exclude-comma = "1"/><Citeref
+    Rid = "cxx57" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Haloperidol<Citeref Rid = "cxx34"
+    Exclude-comma = "1"/><Citeref Rid = "cxx37" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">antipsychotic effectiveness of haloperidol may
+be decreased in schizophrenic patients</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Ketoconazole</Entry.term>
+<P fmcssattr = "2">anticholinergics may increase gastrointestinal
+pH, possibly resulting in a marked reduction in ketoconazole absorption
+during concurrent use with anticholinergics; patients should be
+advised to take these medications at least 2 hours after ketoconazole<Citeref
+    Rid = "cxx20" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Metoclopramide</Entry.term>
+<P fmcssattr = "2">concurrent use with anticholinergics may antagonise metoclopramide's
+effects on gastrointestinal motility<Citeref Rid = "cxx21"
+    Exclude-comma = "1"/><Citeref Rid = "cxx23" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Opioid (narcotic) analgesics</Entry.term>
+<P fmcssattr = "2">concurrent use with anticholinergics may result
+in increased risk of severe constipation, which may lead to paralytic
+ileus, and/or urinary retention<Citeref Rid = "cxx61"
+    Exclude-comma = "1"/><Citeref Rid = "cxx62" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Potassium chloride,
+especially wax-matrix preparations</Entry.term>
+<P fmcssattr = "2">concurrent use with anticholinergics may increase
+severity of potassium chloride-induced gastrointestinal lesions<Citeref
+    Rid = "cxx13" Exclude-comma = "1"/><Citeref Rid = "cxx27"
+    Exclude-comma = "1"/><Citeref Rid = "cxx28" Exclude-comma = "1"/></P></Usp.entry></Entry.group>
+<Entry.group><Head fmcssattr = "0">For hyoscine (in addition to
+interactions listed above)</Head>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">CNS depression-producing
+medications, other</Entry.term>
+<P fmcssattr = "2">concurrent use may potentiate the effects of
+either these medications or hyoscine, resulting in additive sedation<Citeref
+    Rid = "cxx30" Exclude-comma = "1"/></P></Usp.entry></Entry.group></Drug.inter.sec>
+<Lab.value.sec Nogentext = "0">
+<P fmcssattr = "1">The following have been selected on the basis
+of their potential clinical significance (possible effect in parentheses
+where appropriate)—not necessarily inclusive (» = major clinical
+significance):</P>
+<Diag.test.results><Head fmcssattr = "0">With diagnostic test results</Head>
+<Entry.group><Head fmcssattr = "0">For all anticholinergics</Head>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Gastric acid secretion
+test</Entry.term>
+<P fmcssattr = "2">concurrent use of anticholinergics may antagonise
+the effect of pentagastrin and histamine in the evaluation of gastric
+acid secretory function; administration of anticholinergics is not recommended
+during the 24 hours preceding the test</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Radionuclide gastric emptying
+studies</Entry.term>
+<P fmcssattr = "2">use of anticholinergics may result in delayed
+gastric emptying<Citeref Rid = "cxx54" Exclude-comma = "1"/><Citeref
+    Rid = "cxx55" Exclude-comma = "1"/></P></Usp.entry></Entry.group>
+<Entry.group><Head fmcssattr = "0">For atropine (in addition to
+those listed for all anticholinergics)</Head>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Phenolsulfonphthalein
+(PSP) excretion test</Entry.term>
+<P fmcssattr = "2">atropine utilises the same tubular mechanism
+of excretion as PSP resulting in decreased urinary excretion of
+PSP; concurrent use of atropine is not recommended in patients receiving
+PSP excretion test</P></Usp.entry></Entry.group>
+<Entry.group><Head fmcssattr = "0">For hyoscine (in addition to
+those listed for all anticholinergics)</Head>
+<Usp.entry><Entry.term fmcssattr = "5">Neuroradiological tests</Entry.term>
+<P fmcssattr = "2">residual cycloplegia and mydriasis following
+use of transdermal disk of hyoscine may affect results of neuroradiological
+tests for intracranial neoplasm, subdural haematoma, or aneurysm</P></Usp.entry></Entry.group></Diag.test.results>
+<Physio.lab.test><Head fmcssattr = "0">With physiology/laboratory
+test values</Head>
+<Entry.group><Head fmcssattr = "0">For glycopyrrolate</Head>
+<Usp.entry><Entry.term fmcssattr = "5">Uric acid</Entry.term>
+<P fmcssattr = "2">serum concentrations may be decreased in patients
+with hyperuricaemia or gout</P></Usp.entry></Entry.group></Physio.lab.test></Lab.value.sec>
+<Contra.med.sec Nogentext = "0">
+<P fmcssattr = "1">The medical considerations/contraindications
+included have been selected on the basis of their potential clinical
+significance (reasons given in parentheses where appropriate)—not
+necessarily inclusive (» = major clinical significance).</P>
+<Med.prob.sec><Head fmcssattr = "0">Risk-benefit should be considered
+when the following medical problems exist</Head>
+<Usp.entry><Entry.term fmcssattr = "5">Brain damage, in children</Entry.term>
+<P fmcssattr = "2">CNS effects may be exacerbated</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Cardiac disease,
+especially cardiac arrhythmias, congestive heart failure, coronary
+artery disease, and mitral stenosis</Entry.term>
+<P fmcssattr = "2">increase in heart rate may be undesirable</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Down's syndrome</Entry.term>
+<P fmcssattr = "2">abnormal increase in pupillary dilation and acceleration
+of heart rate may occur</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Fever</Entry.term>
+<P fmcssattr = "2">may be increased through suppression of sweat
+gland activity</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Gastrointestinal
+tract obstructive disease as in achalasia and pyloroduodenal stenosis</Entry.term>
+<P fmcssattr = "2">decrease in motility and tone may occur, resulting
+in obstruction and gastric retention<Citeref Rid = "cxx31"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Glaucoma, angle-closure,
+or predisposition to</Entry.term>
+<P fmcssattr = "2">mydriatic effect resulting in increased intraocular
+pressure may precipitate an acute attack of angle-closure glaucoma<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Glaucoma, open-angle</Entry.term>
+<P fmcssattr = "2">mydriatic effect may cause a slight increase
+in intraocular pressure; glaucoma therapy may need to be adjusted<Citeref
+    Rid = "cxx10" Exclude-comma = "1"/><Citeref Rid = "cxx31"
+    Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Haemorrhage, acute,
+with unstable cardiovascular status</Entry.term>
+<P fmcssattr = "2">increase in heart rate may be undesirable<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Hepatic function impairment</Entry.term>
+<P fmcssattr = "2">decreased metabolism of anticholinergic<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Hernia, hiatus,
+associated with reflux oesophagitis</Entry.term>
+<P fmcssattr = "2">anticholinergics may aggravate condition<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Hypertension</Entry.term>
+<P fmcssattr = "2">may be aggravated</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Hyperthyroidism</Entry.term>
+<P fmcssattr = "2">characterised by tachycardia, which may be increased<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Intestinal atony
+in the elderly or debilitated patient or</Entry.term>
+<Entry.term Mcs = "1">Paralytic ileus</Entry.term>
+<P fmcssattr = "2">anticholinergic use may result in obstruction<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Lung disease, chronic, especially
+in infants, small children, and debilitated patients</Entry.term>
+<P fmcssattr = "2">reduction in bronchial secretion can lead to
+inspissation and formation of bronchial plugs</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Myasthenia gravis<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">condition may be aggravated because of inhibition
+of acetylcholine action</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Neuropathy, autonomic<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">urinary retention and cycloplegia may be aggravated</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Oesophagitis, reflux</Entry.term>
+<P fmcssattr = "2">decrease in oesophageal and gastric motility
+and relaxation of lower oesophageal sphincter may promote gastric
+retention by delaying gastric emptying and may increase gastro-oesophageal reflux
+through an incompetent sphincter</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Prostatic hypertrophy,
+nonobstructive or</Entry.term>
+<Entry.term Mcs = "1">Urinary retention, or predisposition to or</Entry.term>
+<Entry.term Mcs = "1">Uropathy, obstructive, such as bladder neck
+obstruction due to prostatic hypertrophy</Entry.term>
+<P fmcssattr = "2">urinary retention may be precipitated or aggravated<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Pyloric obstruction</Entry.term>
+<P fmcssattr = "2">may be aggravated</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Renal function impairment<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">decreased excretion may increase the risk of
+side effects</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "4 5 6">Sensitivity
+to any belladonna alkaloids or derivatives</Entry.term></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Spastic paralysis, in children</Entry.term>
+<P fmcssattr = "2">response to anticholinergics may be increased</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Tachycardia<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">may be increased</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Toxaemia of pregnancy</Entry.term>
+<P fmcssattr = "2">hypertension may be aggravated</P></Usp.entry>
+<Usp.entry><Entry.term Mcs = "1" fmcssattr = "5">Ulcerative colitis<Citeref
+    Rid = "cxx31" Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">large anticholinergic doses may suppress intestinal
+motility, possibly causing paralytic ileus; also, use may precipitate
+or aggravate the serious complication, toxic megacolon</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "5">Xerostomia<Citeref Rid = "cxx31"
+    Exclude-comma = "1"/></Entry.term>
+<P fmcssattr = "2">prolonged use may further reduce limited salivary
+flow</P></Usp.entry>
+<Usp.entry><Entry.term fmcssattr = "4 5 6">Caution in use is also
+recommended in patients over 40 years of age because of the danger
+of precipitating undiagnosed glaucoma.</Entry.term></Usp.entry></Med.prob.sec></Contra.med.sec>
+<Pat.monitor.sec Nogentext = "0">
+<P fmcssattr = "1">The following may be especially important in
+patient monitoring (other tests may be warranted in some patients,
+depending on condition; » = strongly recommended):</P>
+<Usp.entry><Entry.term fmcssattr = "5">Intraocular pressure</Entry.term>
+<P fmcssattr = "2">determinations recommended at periodic intervals,
+as these medications may increase the intraocular pressure by producing mydriasis</P></Usp.entry></Pat.monitor.sec></Prec.consid.sec>
+<Side.effect.sec>
+<Note><P fmcssattr = "1">When anticholinergics are given to patients,
+especially children, where the environmental temperature is high,
+there is risk of a rapid increase in body temperature because of
+suppression of sweat gland activity.</P>
+<P fmcssattr = "2">Infants, patients with Down's syndrome, and children
+with spastic paralysis or brain damage may show an increased response
+to anticholinergics, thus increasing the potential for side effects.</P>
+<P fmcssattr = "2">Geriatric or debilitated patients may respond
+to usual doses of anticholinergics with excitement, agitation, drowsiness,
+or confusion.</P>
+<P fmcssattr = "2">Following use of the transdermal disk of hyoscine,
+a dilated and fixed pupil has been reported on the side where the
+disk was worn. This condition usually resolves spontaneously within
+a few days, but may persist for up to 2 weeks after the disk has
+been removed and thus may be mistaken for a sign of intracranial
+neoplasm, subdural haematoma, or aneurysm. To avoid extensive neuroradiological
+tests, instillation of 1% pilocarpine solution is recommended as
+an aid in the diagnosis of non-neurogenic dilation of the pupil.<Citeref
+    Rid = "cxx04" Exclude-comma = "1"/></P></Note><Table
+    frame = "topbot" Id = "Txx02" Tocentry = "1" Orient = "Land">
+<Title>Table 1. Side/Adverse Effects *</Title>
+<Thead Valign = "Bottom">
+<Row rowsep = "1">
+<Entry Valign = "Bottom" Align = "Left"><P fmcssattr = "1">The following
+side/adverse effects have been selected on the basis of their potential
+clinical significance (possible signs and symptoms in parentheses
+where appropriate)—not necessarily inclusive:</P></Entry>
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1">Legend:</P><P
+    fmcssattr = "2">I= Atropine</P><P fmcssattr = "2">II= Belladonna</P></Entry>
+<Entry Valign = "Bottom" Align = "Left"><P fmcssattr = "1">III=
+Dicyclomine</P><P fmcssattr = "2">IV= Glycopyrrolate</P><P
+    fmcssattr = "2">V= Hyoscine</P></Entry>
+<Entry Valign = "Bottom" Align = "Left"><P fmcssattr = "1">VI= Hyoscyamine</P><P
+    fmcssattr = "2">VII= Propantheline</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">I</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">II</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">III</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">IV</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">V</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">VI</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">VII</P></Entry>
+</Row>
+</Thead>
+<Tbody Valign = "Top">
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bold">Medical attention needed</Emph></P></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Allergic reaction</Emph> (skin rash or hives)</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Confusion</Emph> ##</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Increased intraocular pressure</Emph> (eye
+pain) #</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Orthostatic hypotension</Emph> (dizziness,
+feeling faint, or continuing lightheadedness)</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">**</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">**</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bold">Medical attention needed only if continuing or
+bothersome</Emph></P></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Bloated feeling</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Constipation</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Decreased flow of breast milk</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Decreased salivary secretion</Emph> (difficulty
+in swallowing)</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Decreased sweating</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Difficult urination</Emph> §</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Difficulty in accommodation of the eye</Emph> (blurred
+vision) #</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center">L</Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Drowsiness</Emph>***</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center">M</Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Dryness of mouth, nose, throat, or skin</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">False sense of well-being</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center">R</Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Headache</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Lightheadedness, temporary</Emph>—with
+parenteral administration</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Loss of memory</Emph> ###</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center">M</Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Mydriatic effect</Emph> (increased sensitivity
+of eyes to light) #</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">L</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Nausea or vomiting</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Paradoxical reaction</Emph> (trouble in
+sleeping)</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center">R</Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Redness or other signs of irritation at
+injection site</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">M</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Unusual tiredness or weakness</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">R</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bold">Medical attention needed if they occur after hyoscine
+is discontinued</Emph></P></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+<Entry></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Anxiety</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">****</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Irritability</Emph></P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">****</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Nightmares</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">****</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry Valign = "Top" Align = "Left"><P fmcssattr = "1"><Emph
+    Type = "Bolditalic">Trouble in sleeping</Emph></P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">****</P></Entry>
+<Entry Valign = "Top" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+<Entry Valign = "Bottom" Align = "Center"><P fmcssattr = "1">U</P></Entry>
+</Row>
+</Tbody>
+<Tfoot Valign = "Top">
+<Row rowsep = "1">
+<Entry><Footnote><No>*</No><P fmcssattr = "2">Differences in frequency
+of occurrence may reflect either lack of clinical-use data or actual
+pharmacologic distinctions among agents (although their pharmacologic
+similarity suggests that side effects occurring with one may occur
+with the others). M=more frequent; L=less frequent; R=rare; U=unknown.</P></Footnote></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry><Footnote><No>#</No><P fmcssattr = "2">Quaternary ammonium
+compounds are fully ionised in the pH range of body fluids and possess
+reduced lipid solubility. Therefore, they penetrate cellular barriers
+less effectively and only pass across the blood-brain barrier or
+into the eye with difficulty. Central and ocular effects are negligible
+and/or less likely to occur with quaternary ammonium compounds.</P></Footnote></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry><Footnote><No>**</No><P fmcssattr = "2">Orthostatic hypotension,
+due to ganglion-blocking activity, is more likely to occur with
+high doses of quaternary ammonium compounds.</P></Footnote><Footnote>
+<No>##</No><P fmcssattr = "2">Confusion may occur more frequently
+in geriatric patients.</P></Footnote><Footnote><No>§</No><P
+    fmcssattr = "2">Difficult urination is more likely to occur
+in older men and may require medical attention in patients with
+symptoms of prostatism.</P></Footnote><Footnote><No>***</No><P
+    fmcssattr = "2">More frequent with high doses of anticholinergics,
+but a common side effect with therapeutic doses of oral or parenteral
+hyoscine.</P></Footnote></Entry>
+</Row>
+<Row rowsep = "1">
+<Entry><Footnote><No>###</No><P fmcssattr = "2">Hyoscine, administered
+parenterally as preanaesthetic medication and/or given in large
+doses, may have a temporary but detrimental effect on memory. In
+geriatric patients, especially those who already have memory problems,
+the continued use of any anticholinergic may severely impair memory.</P></Footnote></Entry>
+</Row>
+<Row rowsep = "0">
+<Entry><Footnote><No>****</No><P fmcssattr = "2">May indicate rebound
+reduction in rapid eye movement (REM) time.</P></Footnote></Entry>
+</Row>
+</Tfoot>
+</Table></Side.effect.sec>
+<Overdose.sec><Head fmcssattr = "0">Overdose</Head>
+<Overdose.clinical><Head fmcssattr = "0">Clinical effects of overdose</Head>
+<P fmcssattr = "2">The following effects have been selected on the
+basis of their potential clinical significance (possible signs and
+symptoms in parentheses where appropriate)—not necessarily inclusive:</P>
+<Side.effect.entry><Side.effect.term>Blurred vision, continuing,
+or changes in near vision</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>clumsiness or unsteadiness</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>confusion</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">difficulty
+in breathing</Side.effect.term><Side.effect.qual>may lead to respiratory paralysis
+with quaternary ammonium compounds because of curare-like effects</Side.effect.qual></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>dizziness</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>drowsiness, severe</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>dryness of mouth, nose, or
+throat, severe</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>fast heartbeat</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>fever</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>hallucinations</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">muscle weakness,
+severe</Side.effect.term><Side.effect.qual>may lead to respiratory
+paralysis with quaternary ammonium compounds because of curare-like
+effects</Side.effect.qual></Side.effect.entry><Side.effect.entry>
+<Side.effect.term>seizures</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>slurred speech</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term fmcssattr = "11">tiredness,
+severe</Side.effect.term><Side.effect.qual>may lead to respiratory
+paralysis with quaternary ammonium compounds because of curare-like
+effects</Side.effect.qual></Side.effect.entry><Side.effect.entry>
+<Side.effect.term>unusual excitement, nervousness, restlessness,
+or irritability</Side.effect.term></Side.effect.entry>
+<Side.effect.entry><Side.effect.term>unusual warmth, dryness, and
+flushing of skin</Side.effect.term></Side.effect.entry></Overdose.clinical>
+<Overdose.treat><Head fmcssattr = "0">Treatment of overdose</Head>
+<P fmcssattr = "2">For information on the management of overdose
+or unintentional ingestion, <Emph Type = "Bold">contact a Poisons
+Information Centre on 13 1126</Emph> (see <Xref Xref = "p01"
+    Italic = "Yes">Poisons Information Centres</Xref> listing).</P></Overdose.treat></Overdose.sec>
+<Pat.consult.sec>
+<P fmcssattr = "1">As an aid to patient counselling, refer to the <Emph
+    Type = "Italic">Consumer Medicine Information</Emph> (CMI).</P>
+<P fmcssattr = "2">In providing counselling, consider emphasising
+the following selected information (» = major clinical significance).
+This information is <Emph Type = "Italic">not</Emph> intended for
+distribution to patients.</P>
+<Before.using><Head fmcssattr = "0">Before using this medication</Head>
+<Cond.affect.use Mcs = "1" Nogentext = "0">
+<Cross.sens.sec><P fmcssattr = "1">Sensitivity to any of the belladonna
+alkaloids or derivatives</P></Cross.sens.sec>
+<Breast.feed.sec>
+<P fmcssattr = "1">Distributed into breast milk (except for quaternary ammonium
+compounds); possible inhibition of lactation</P></Breast.feed.sec>
+<Paediatric.sec>
+<P fmcssattr = "1">Increased susceptibility to toxic effects of anticholinergics;
+increased response in infants and children with spastic paralysis
+or brain damage; risk of increased body temperature in hot weather;
+hyperexcitability (paradoxical reaction) with large doses; increased
+risk of respiratory depression and collapse (with dicyclomine)</P></Paediatric.sec>
+<Geriatric.sec>
+<P fmcssattr = "1">Increased susceptibility to mental and other toxic
+effects of anticholinergics; danger of precipitating undiagnosed
+glaucoma; possible impairment of memory</P></Geriatric.sec>
+<Dental.sec>
+<P fmcssattr = "1">Possible development of dental problems because
+of decreased salivary flow</P></Dental.sec>
+<Drug.inter.sec Nogentext = "0"><P fmcssattr = "1">Other medications,
+especially other anticholinergics, antacids, antidiarrhoeals, ketoconazole,
+CNS depressants (with hyoscine), and potassium chloride</P></Drug.inter.sec>
+<Contra.med.sec Nogentext = "0"><P fmcssattr = "1">Other medical
+problems, especially cardiac disease, glaucoma, haemorrhage, hiatus
+hernia, intestinal atony or paralytic ileus, myasthenia gravis,
+obstruction in gastrointestinal or urinary tract, prostatic hypertrophy,
+reflux oesophagitis, tachycardia, and ulcerative colitis</P></Contra.med.sec></Cond.affect.use></Before.using>
+<Proper.use><Head fmcssattr = "0">Proper use of this medication</Head>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Do not take more medication
+than the amount prescribed</P></Usp.entry>
+<Missed.dose><P fmcssattr = "1">Missed dose: Take as soon as possible;
+do not take if almost time for next dose; do not double doses</P></Missed.dose>
+<Proper.storage Mcs = "1">Proper storage</Proper.storage>
+<Entry.group><Head fmcssattr = "0">For oral dosage forms (in addition
+to the above)</Head>
+<Usp.entry><P fmcssattr = "1">Take medication 30 minutes to 1 hour
+before meals</P></Usp.entry></Entry.group>
+<Entry.group><Head fmcssattr = "0">For transdermal hyoscine (in
+addition to the above)</Head>
+<Usp.entry><P fmcssattr = "1">Read patient directions</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Wash and dry hands thoroughly before
+and after application</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Apply to hairless, intact area of
+skin behind ear; do not apply over cuts or irritations</P></Usp.entry></Entry.group></Proper.use>
+<Precaution.using><Head fmcssattr = "0">Precautions while using
+this medication</Head>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Suspected overdose: Get
+emergency help at once</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Caution during exercise
+or hot weather; overheating may result in heat stroke</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Possible increased sensitivity
+of eyes to light</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Caution about abrupt withdrawal</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Caution if blurred vision
+occurs</P></Usp.entry>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Possible dizziness or drowsiness;
+caution when driving or doing things requiring alertness</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Possible dizziness or lightheadedness;
+caution when getting up suddenly from a lying or sitting position</P></Usp.entry>
+<Usp.entry><P fmcssattr = "1">Possible dryness of mouth; use sugarless
+sweets or gum, ice or saliva substitute for relief; check with doctor
+or dentist if dry mouth continues for more than 2 weeks</P></Usp.entry>
+<Entry.group><Head fmcssattr = "0">For hyoscine (in addition to
+the above)</Head>
+<Usp.entry Mcs = "1"><P fmcssattr = "1">Avoid use of alcohol or
+other CNS depressants</P></Usp.entry></Entry.group>
+<Entry.group><Head fmcssattr = "0">For oral dosage forms (in addition
+to the above)</Head>
+<Usp.entry><P fmcssattr = "1">Avoid use of antacids and antidiarrhoeal
+medications within 2 or 3 hours of taking this medication</P></Usp.entry></Entry.group></Precaution.using>
+<Pat.side.effect>
+<Usp.entry><P fmcssattr = "1">Signs of possible side effects needing
+medical attention, including allergic reaction, confusion, increased
+intraocular pressure, orthostatic hypotension (especially with high
+doses of quaternary ammonium compounds)</P></Usp.entry></Pat.side.effect></Pat.consult.sec>
+<Gen.dosing.sec>
+<P fmcssattr = "1">Tolerance to some of the adverse reactions may
+develop following continued use and/or smaller doses of anticholinergics,
+but effectiveness may also be reduced.<Citeref Rid = "cxx26"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Dosage adjustments are often required for infants,
+patients with Down's syndrome, children with brain damage or spasticity,
+since an increased responsiveness to anticholinergics has been reported
+in these patients.<Citeref Rid = "cxx26" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Geriatric and debilitated patients may respond
+to usual doses with excitement, agitation, drowsiness, or confusion;
+lower doses may be required in these patients.<Citeref Rid = "cxx26"
+    Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Anticholinergics should not be withdrawn abruptly
+since withdrawal-like symptoms may occur. Vomiting, malaise, sweating,
+transient dizziness<Citeref Rid = "cxx50" Exclude-comma = "1"/>,
+and salivation have been reported after sudden withdrawal of large
+doses of hyoscine.</P>
+<P fmcssattr = "2">If hyoscine is used as antisialagogue preanaesthetic
+medication in minor surgical procedures that do not require more
+than a few hours' stay in the hospital, the patient should be alerted
+at time of discharge about hyoscine's lingering detrimental effects
+on memory and motor tasks.<Citeref Rid = "cxx07" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">High dosage of quaternary ammonium compounds
+should not be given continuously for prolonged periods, since ganglionic
+and skeletal neuromuscular transmission may be blocked. Stimulation
+of the CNS and a curare-like action may result.</P>
+<Gen.dosing.sec><Head fmcssattr = "0">For oral dosage forms only</Head>
+<P fmcssattr = "2">Administration of anticholinergics 30 minutes
+to 1 hour before meals is recommended to maximise absorption.</P></Gen.dosing.sec>
+<Gen.dosing.sec><Head fmcssattr = "0">For parenteral dosage forms
+only</Head>
+<P fmcssattr = "2">Atropine and hyoscine may be administered by
+intramuscular, subcutaneous, or intravenous injection.</P>
+<P fmcssattr = "2">Glycopyrrolate may be administered by intramuscular
+or intravenous injection.</P>
+<P fmcssattr = "2">After parenteral administration a temporary feeling
+of lightheadedness and local irritation may occur.<Citeref Rid = "cxx01"
+    Exclude-comma = "1"/><Citeref Rid = "cxx09" Exclude-comma = "1"/></P></Gen.dosing.sec>
+<Gen.dosing.sec><Head fmcssattr = "0">For transdermal dosage forms
+only</Head>
+<P fmcssattr = "2">Transdermal application delivers reduced doses
+of hyoscine, which are large enough to be effective but small enough
+to eliminate most of the adverse effects, except drowsiness and
+cycloplegia.</P></Gen.dosing.sec></Gen.dosing.sec>
+<Form.info.fam.sec><Drug.device.sec><Drug.device.name>ATROPINE</Drug.device.name>
+<Add.dosing.info.fam>
+<P fmcssattr = "1">See also <Xref Xref = "sxx100" Italic = "Yes">General
+Dosing Information.</Xref></P>
+<P fmcssattr = "2">Doses of 0.5 to 1 mg of atropine are mildly stimulating
+to the CNS. Larger doses may produce mental disturbances; very large
+doses have depressant effect.</P>
+<P fmcssattr = "2">The fatal dose of atropine in children may be
+as low as 10 mg.</P></Add.dosing.info.fam>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Form.note><P fmcssattr = "1">Bracketed uses in the <Emph
+    Type = "Italic">Dosage Forms</Emph> section refer to categories
+of use and/or indications that are not included in the Australian
+approved product information.</P></Form.note>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>ATROPINE
+SULFATE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antidote
+(to organophosphate pesticides)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 600 micrograms to 1.2 mg as
+directed by a doctor, until medical treatment can be accessed or
+signs of atropine toxicity occur<Citeref Rid = "Cxxa5"
+    Exclude-comma = "1"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Not.label.aus>Anticholinergic</Not.label.aus>—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 300 micrograms to 1.2 mg every
+four to six hours.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Not.label.aus>Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia</Not.label.aus>—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 2 mg.<Citeref Rid = "cxx07"
+    Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Not.label.aus>Anticholinergic</Not.label.aus>—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 10 micrograms per kg of body
+weight, not to exceed 400 micrograms, or 300 micrograms per square
+metre of body surface, every four to six hours.</P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "RxOtc"><Strength>600 micrograms</Strength>
+<Brand.info><Brand.name>Atropine Sulfate</Brand.name><Other.ingred>lactose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C. Protect from light.<Citeref
+    Rid = "Cxxa5" Exclude-comma = "1"/></P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medication may
+affect mental alertness and/or coordination, If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "CXXA1"
+    Exclude-comma = "1"/></P></Item></List></Anc.label>
+<Hcp.note>
+<P fmcssattr = "1">If supplied as an over-the-counter medication
+in a pack of twenty tablets for the treatment of organophosphate
+poisoning, the label must carry the words <Citeref Rid = "Cxxa5"
+    Exclude-comma = "1"/>“For the treatment of organophosphate
+poisoning” or similar.</P></Hcp.note></Spec.dosage.form.sec></Gen.administer.route>
+<Gen.administer.route><Head fmcssattr = "0">Parenteral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>ATROPINE
+SULFATE</Drug.device.name><Drug.form.name>INJECTION</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular, intravenous, or subcutaneous,
+400 to 600 micrograms every four to six hours.<Citeref Rid = "cxx34"
+    Exclude-comma = "1"/></P></Dosing.stmt>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia:</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular or subcutaneous, 200
+to 600 micrograms one-half to one hour before surgery<Citeref
+    Rid = "CXXA7"/> or</P>
+<P fmcssattr = "2">Intravenous, 200 to 600 micrograms immediately
+before surgery.<Citeref Rid = "CXXA7"/> </P></Dosing.stmt></Dosing.stmt.sec></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous, 400 micrograms to 1
+mg every one to two hours as needed, up to a maximum of 2 mg.<Citeref
+    Rid = "cxx34" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Cholinergic
+adjunct (curariform block)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous (slow), 600 micrograms
+to 1.2 mg administered a few minutes before or concurrently with
+500 micrograms to 2 mg of neostigmine methylsulfate, using separate
+syringes.<Citeref Rid = "cxx05" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antidote
+(to cholinesterase inhibitors)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous, 2 to 4 mg initially,
+then 2 mg repeated every five to ten minutes until muscarinic symptoms
+disappear or signs of atropine toxicity appear.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antidote
+(to muscarine in mushroom poisoning)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular or intravenous, 1
+to 2 mg every hour until respiratory effects subside.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antidote
+(to organophosphate pesticides)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular or intravenous, 1
+to 2 mg, repeated in twenty to thirty minutes as soon as cyanosis
+has cleared. Continue dosage until definite improvement occurs and
+is maintained, sometimes for two days or more.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">In severe cases, an initial dose of 2 to
+6 mg with repeat doses of 2 to 6 mg may be administered. A total
+dose of up to 50 mg may be required in the first twenty-four hours.<Citeref
+    Rid = "CXXA6" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">A cholinesterase reactivator (e.g., pralidoxime)
+may be used concurrently to reverse the muscarinic effects of atropine<Citeref
+    Rid = "CXXA6"/>.</P></Note></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Subcutaneous, 10 micrograms per
+kg of body weight (micrograms/kg), not to exceed 400 micrograms<Citeref
+    Rid = "cxx34" Exclude-comma = "1"/>, or 300 micrograms per square
+metre of body surface, every four to six hours.</P></Dosing.stmt>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Prophylaxis of suxamethonium-
+or surgical procedure-induced arrhythmias—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children weighing up to 3 kg: Subcutaneous,
+100 micrograms.</P>
+<P fmcssattr = "2">Children weighing 7 to 9 kg: Subcutaneous, 200
+micrograms.</P>
+<P fmcssattr = "2">Children weighing 12 to 16 kg: Subcutaneous,
+300 micrograms.</P>
+<P fmcssattr = "2">Children weighing 20 to 27 kg: Subcutaneous,
+400 micrograms.</P>
+<P fmcssattr = "2">Children weighing 32 kg: Subcutaneous, 500 micrograms.</P>
+<P fmcssattr = "2">Children weighing 41 kg: Subcutaneous, 600 micrograms.</P></Dosing.stmt></Dosing.stmt.sec></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous, 10 to 30 micrograms/kg.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Cholinergic
+adjunct (curariform block)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous (slow), 20 micrograms/kg
+administered in conjunction with each 40 micrograms/kg of neostigmine
+methylsulfate<Citeref Rid = "CXXA6" Exclude-comma = "1"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antidote
+(to organophosphate pesticides)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous or intramuscular, 50
+micrograms/kg initially, then 50 micrograms/kg every ten to thirty
+minutes <Citeref Rid = "Cxxa6" Exclude-comma = "1"/>until symptoms
+disappear or signs of atropine toxicity appear.</P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>100 micrograms per mL
+(pre-filled syringe)</Strength><Brand.info><Brand.name>Atropine
+Sulfate Injection BP</Brand.name><Other.ingred>citric acid monohydrate</Other.ingred>
+<Other.ingred>sodium chloride</Other.ingred><Other.ingred>sodium citrate</Other.ingred></Brand.info></Prod.info.entry>
+<Prod.info.entry Rx.status = "Rx"><Strength>400 micrograms per mL</Strength>
+<Brand.info><Brand.name>Atropine Sulfate Injection BP</Brand.name>
+<Other.ingred>sodium chloride</Other.ingred></Brand.info></Prod.info.entry>
+<Prod.info.entry Rx.status = "Rx"><Strength>500 micrograms per mL</Strength>
+<Brand.info><Brand.name>Atropine Sulfate Injection BP</Brand.name>
+<Other.ingred>sodium chloride</Other.ingred></Brand.info></Prod.info.entry>
+<Prod.info.entry Rx.status = "Rx"><Strength>600 micrograms per mL</Strength>
+<Brand.info><Brand.name>Atropine Sulfate Injection BP</Brand.name>
+<Other.ingred>sodium chloride</Other.ingred></Brand.info></Prod.info.entry>
+<Prod.info.entry Rx.status = "Rx"><Strength>1.2 mg per mL</Strength>
+<Brand.info><Brand.name>Atropine Sulfate Injection BP</Brand.name>
+<Other.ingred>sodium chloride</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C<Citeref Rid = "Cxxa6"
+    Exclude-comma = "1"/><Citeref Rid = "Cxxa7" Exclude-comma = "1"/><Citeref
+    Rid = "Cxxa8" Exclude-comma = "1"/> Protect from light<Citeref
+    Rid = "Cxxa7" Exclude-comma = "1"/>.</P></Pack.storage>
+<Add.info>
+<P fmcssattr = "1">The intravenous injection of atropine should
+be administered <Emph Type = "Italic">slowly</Emph>.</P></Add.info></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>ATROPINE, HYOSCINE, AND HYOSCYAMINE</Drug.device.name>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>ATROPINE,
+HYOSCINE, AND HYOSCYAMINE</Drug.device.name><Drug.form.name>ELIXIR</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antispasmodic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1"><Emph Type = "Italic">Donnalix Elixir</Emph>:
+Oral, 5 to 10 mL three or four times a day<Citeref Rid = "CXXA22"/>.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Dosing.stmt.sec></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antispasmodic—</P></Dosing.stmt.title>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Emph
+    Type = "Italic">Donnalix Elixir</Emph>:</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Infants—Oral, 0.2 mL per kg of
+body weight as a single dose a short time before the most troublesome
+feeds. It is recommended that a maximum of four doses in twenty-four
+hours not be exceeded. Use in infants is recommended only on the
+direction of a doctor.<Citeref Rid = "CXXA22"/></P>
+<P fmcssattr = "2">Children—Oral, 2.5 to 5 mL three or four times
+a day<Citeref Rid = "CXXA22"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Emph
+    Type = "Italic">Donnalix Infant Drops</Emph>:</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Infants—Oral, 0.1 mL per kg of
+body weight as a single dose a short time before the most troublesome
+feeds. It is recommended that a maximum of four doses in twenty-four
+hours not be exceeded. Use in infants is recommended only on the
+direction of a doctor.<Citeref Rid = "CXXA22"/></P></Dosing.stmt>
+<Note><P fmcssattr = "1">The occurrence of facial flushing is a
+sign that the maximum dose has been reached. If facial flushing
+occurs, it is recommended that the dose be reduced slightly. It
+is recommended that this medication not be used if fever or dehydration
+is present.<Citeref Rid = "CXXA22"/></P></Note></Dosing.stmt.sec></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Otc"><Strength>7.8 micrograms of atropine
+sulfate, 2.6 micrograms of hyoscine hydrobromide, and 41.5 micrograms
+of hyoscyamine sulfate per 1 mL</Strength><Brand.info><Brand.name>Donnalix
+Infant Drops</Brand.name><Other.ingred>ethanol</Other.ingred>
+<Other.ingred>glucose</Other.ingred><Other.ingred>saccharin sodium</Other.ingred></Brand.info></Prod.info.entry>
+<Prod.info.entry Rx.status = "Otc"><Strength>19.4 micrograms of
+atropine sulfate, 6.5 micrograms of hyoscine hydrobromide, and 103.7
+micrograms of hyoscyamine sulfate per 5 mL</Strength><Brand.info>
+<Brand.name>Donnalix Elixir</Brand.name><Other.ingred>ethanol</Other.ingred>
+<Other.ingred>glucose</Other.ingred><Other.ingred>saccharin sodium</Other.ingred></Brand.info></Prod.info.entry>
+<Note><P fmcssattr = "1"><Emph Type = "Italic">Donnalix Infant Drops</Emph> has
+been specifically formulated for administration to infants and is
+intended only for use in treatment of infant colic<Citeref
+    Rid = "CXXA22"/>.</P>
+<P fmcssattr = "2">These products contain natural belladonna alkaloids
+in the fixed ratio of 80% hyoscyamine, 15% atropine and 5% hyoscine.<Citeref
+    Rid = "CXXA22"/></P></Note></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C<Citeref Rid = "CXXA22"/>.</P></Pack.storage>
+<Hcp.note>
+<P fmcssattr = "1">When dispensing for paediatric administration,
+include the calibrated dropper for the infant drops, or a calibrated
+liquid-measuring device for the elixir, and explain its proper use.</P></Hcp.note></Spec.dosage.form.sec>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>ATROPINE,
+HYOSCINE, AND HYOSCYAMINE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antispasmodic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 1 or 2 tablets three or four
+times a day<Citeref Rid = "CXXA21"/>.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Dosing.stmt.sec></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Children up to 12 years of age:
+Use is not recommended<Citeref Rid = "CXXA21"/>.</P>
+<P fmcssattr = "2">Children over 12 years of age: See <Emph
+    Type = "Italic">Usual adult dose</Emph><Citeref Rid = "CXXA21"/>.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Otc"><Strength>13.5 micrograms of
+atropine sulfate, 9.9 micrograms of hyoscine hydrobromide, and 92.5
+micrograms of hyoscyamine hydrobromide</Strength><Brand.info>
+<Brand.name>Atrobel</Brand.name></Brand.info>
+<Note><P fmcssattr = "1">This product is also known generically
+as prepared belladonna herb. Each tablet contains 30 mg of prepared
+belladonna herb.<Citeref Rid = "CXXA14"/></P></Note></Prod.info.entry>
+<Prod.info.entry Rx.status = "Otc"><Strength>20.3 micrograms of
+atropine sulfate, 14.8 micrograms of hyoscine hydrobromide, and
+138.7 micrograms of hyoscyamine hydrobromide</Strength><Brand.info>
+<Brand.name>Atrobel Forte</Brand.name><Add.prod.desc>scored</Add.prod.desc></Brand.info>
+<Note><P fmcssattr = "1">This product is also known generically
+as prepared belladonna herb. Each tablet contains 45 mg of prepared
+belladonna herb.<Citeref Rid = "CXXA14"/></P></Note></Prod.info.entry>
+<Prod.info.entry Rx.status = "Otc"><Strength>19.4 micrograms of
+atropine sulfate, 6.5 micrograms of hyoscine hydrobromide, and 103.7
+micrograms of  hyoscyamine sulfate</Strength><Brand.info><Brand.name>Donnatab</Brand.name>
+<Add.prod.desc>scored</Add.prod.desc><Other.ingred>glucose</Other.ingred>
+<Other.ingred>gluten</Other.ingred><Other.ingred>lactose</Other.ingred>
+<Other.ingred>sucrose</Other.ingred></Brand.info>
+<Note><P fmcssattr = "1">This product contains natural belladonna
+alkaloids in the fixed ratio of 80% hyoscyamine, 15% atropine and
+5% hyoscine.<Citeref Rid = "CXXA21"/></P></Note></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C, preferably below 25 °C,
+unless otherwise specified by manufacturer<Citeref Rid = "CXXA10"/><Citeref
+    Rid = "CXXA21"/>. Protect from light<Citeref Rid = "CXXA14"/>.</P></Pack.storage></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>belladonna</Drug.device.name>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>BELLADONNA</Drug.device.name>
+<Drug.form.name>TINCTURE USP</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 180 to 300 micrograms three
+or four times a day, thirty minutes to one hour before meals and
+at bedtime, the dosage being adjusted as needed and tolerated.<Citeref
+    Rid = "CXXA9" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 9 micrograms per kg of body
+weight or 240 micrograms per square metre of body surface a day,
+in three or four divided doses.</P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Blank"><Strength>300 micrograms per
+mL</Strength></Prod.info.entry></Australia>
+<Note><P fmcssattr = "1">Belladonna tincture contains 300 micrograms
+of belladonna alkaloids (principally hyoscyamine and atropine) per
+mL.</P></Note></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 ˚C, unless otherwise specified
+by manufacturer<Citeref Rid = "CXXA10"/>. Store in a tight, light-resistant
+container. Protect from freezing.</P></Pack.storage></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>DICYCLOMINE</Drug.device.name>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>DICYCLOMINE
+HYDROCHLORIDE</Drug.device.name><Drug.form.name>SYRUP</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antispasmodic,
+gastrointestinal: Irritable bowel syndrome—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 10 to 40 mg three or four
+times a day, the dosage being adjusted as needed and tolerated.<Citeref
+    Rid = "CXXA9" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 160 mg daily.<Citeref
+    Rid = "cxx38" Exclude-comma = "1"/></P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antispasmodic,
+gastrointestinal—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children up to 6 months of age:
+Use is not recommended.</P>
+<P fmcssattr = "2">Children 6 months to 2 years of age: Oral, 5
+to 10 mg three or four times a day, fifteen minutes before feeds<Citeref
+    Rid = "CXXA9"/>, the dosage being adjusted as needed and tolerated.
+It is recommended that dosage not exceed 40 mg per day<Citeref
+    Rid = "CXXA9"/>.</P>
+<P fmcssattr = "2">Children 2 years of age and over: Oral, 10 mg
+three or four times a day, the dosage being adjusted as needed and
+tolerated.</P></Dosing.stmt>
+<Note><P fmcssattr = "1">For children 6 months to 2 years of age,
+it is recommended that each dose be diluted with an equal volume
+of water prior to administration.</P></Note></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Otc"><Strength>5 mg per 5 mL</Strength>
+<Brand.info><Brand.name>Merbentyl</Brand.name><Other.ingred>glucose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C<Citeref Rid = "Cxxa10"
+    Exclude-comma = "1"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medication may
+affect mental alertness and/or coordination, If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "Cxxa11"
+    Exclude-comma = "1"/></P></Item></List></Anc.label></Spec.dosage.form.sec>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>DICYCLOMINE
+HYDROCHLORIDE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt><P fmcssattr = "1">See <Xref>Dicyclomine Hydrochloride
+Syrup</Xref></P></Dosing.stmt></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 160 mg daily.<Citeref
+    Rid = "cxx38" Exclude-comma = "1"/></P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">See <Xref>Dicyclomine Hydrochloride
+Syrup</Xref></P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>10 mg</Strength>
+<Brand.info><Brand.name>Merbentyl</Brand.name></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C, preferably below 25 °C,
+unless otherwise specified by manufacturer<Citeref Rid = "Cxxa10"
+    Exclude-comma = "1"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medication may
+affect mental alertness and/or coordination, If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "Cxxa11"
+    Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">Do not remove from this original packaging
+until dose is required<Citeref Rid = "Cxxa11" Exclude-comma = "1"/>.</P></Item></List></Anc.label></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>GLYCOPYRROLATE</Drug.device.name>
+<Gen.administer.route><Head fmcssattr = "0">Parenteral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>GLYCOPYRROLATE</Drug.device.name>
+<Drug.form.name>INJECTION</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1"><Not.label.aus>Peptic ulcer</Not.label.aus>:
+ Intramuscular or intravenous, 100 to 200 micrograms, the dosage
+being repeated, if necessary, at four-hour intervals up to a maximum
+of four times a day.</P></Dosing.stmt>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Prophylaxis of gastric hypersecretory
+conditions, in anaesthesia:</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular or intravenous, 200
+to 400 micrograms (or 4 to 5 micrograms per kg of body weight [micrograms/kg]
+up to a maximum of 400 micrograms) before the induction of anaesthesia<Citeref
+    Rid = "CXXA1"/>.</P></Dosing.stmt></Dosing.stmt.sec></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic,
+in anaesthesia or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic, in surgery—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous, 200 to 400 micrograms
+(or 4 to 5 micrograms/kg up to a maximum of 400 micrograms) as a
+single dose. Dosage may be repeated if necessary<Citeref Rid = "CXXA1"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Cholinergic
+adjunct (curariform block)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intravenous, 200 micrograms for
+each 1 mg of neostigmine or 5 mg of pyridostigmine given simultaneously;
+may be mixed in the same syringe.</P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1"><Not.label.aus>Peptic ulcer</Not.label.aus>:
+Dosage has not been established.</P></Dosing.stmt>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia
+and</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Prophylaxis of gastric hypersecretory
+conditions, in anaesthesia:</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children up to 1 month of age: Use
+is not recommended<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Children 1 month to 12 years of age—Intramuscular
+or intravenous, 4 to 8 micrograms/kg (up to a maximum of 200 micrograms)
+before the induction of anaesthesia<Citeref Rid = "CXXA1"/>.</P></Dosing.stmt></Dosing.stmt.sec></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic,
+in anaesthesia or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antiarrhythmic, in surgery—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children up to 1 month of age: Use
+is not recommended<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Children 1 month to 12 years of age: Intravenous,
+4 to 8 micrograms/kg (up to a maximum of 200 micrograms) as a single
+dose. Dosage may be repeated if necessary<Citeref Rid = "CXXA1"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Cholinergic
+adjunct (curariform block)—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children up to 1 month of age: Use
+is not recommended<Citeref Rid = "CXXA1"/>.</P>
+<P fmcssattr = "2">Children 1 month to 12 years of age: Intravenous,
+10 micrograms/kg together with 50 micrograms/kg of neostigmine or
+the equivalent dosage of pyridostigmine given simultaneously; may
+be mixed in the same syringe<Citeref Rid = "CXXA1"/>.</P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>200 micrograms per mL</Strength>
+<Brand.info><Brand.name>Robinul Injectable</Brand.name><Other.ingred>benzyl
+alcohol 9mg per mL</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C, unless otherwise specified
+by the manufacturer<Citeref Rid = "CXXA10"/>.</P></Pack.storage>
+<Preparation>
+<P fmcssattr = "1">Glycopyrrolate may be mixed and administered
+with 5 or 10% glucose injection, 0.9% sodium chloride injection.
+pethidine, morphine sulfate, fentanyl plus droperidol injection,
+neostigmine injection, or pyridostigmine injection.</P></Preparation>
+<Stability>
+<P fmcssattr = "1">Stability of glycopyrrolate may be affected at
+a pH higher than 6. A pH above 6 will result when glycopyrrolate
+is mixed with dexamethasone sodium hydrochloride or a buffered solution
+of compound sodium lactate injection (Hartmann's solution).</P></Stability>
+<Incompatible>
+<P fmcssattr = "1">Chloramphenicol, diazepam, methohexitone sodium,
+thiopentone sodium, and sodium bicarbonate are <Emph Type = "Italic">not</Emph> suitable
+for mixing in the same syringe with glycopyrrolate since a gas or
+a precipitate may result.</P></Incompatible>
+<Caution>
+<P fmcssattr = "1">Use of parenteral medications containing benzyl
+alcohol in neonates (first 30 days of postnatal life) is not recommended.
+A fatal toxic syndrome consisting of metabolic acidosis, CNS depression,
+respiratory problems, renal failure, hypotension, and possibly seizures
+and intracranial haemorrhages has been associated with this use.<Citeref
+    Rid = "Cxxa1" Exclude-comma = "1"/><Citeref Rid = "Cxxa16"
+    Exclude-comma = "1"/></P></Caution></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>HYOSCINE</Drug.device.name>
+<Add.dosing.info.fam>
+<P fmcssattr = "1">See also <Xref Xref = "sxx100" Italic = "Yes">General
+Dosing Information.</Xref></P>
+<P fmcssattr = "2">In the presence of pain, hyoscine may act as
+a stimulant, often producing delirium, if used without morphine
+or pethidine.</P>
+<P fmcssattr = "2">Cardiac rate is much slower with low doses of
+hyoscine (100 to 200 micrograms) than with average clinical doses
+of atropine. With higher doses, a short-lived cardioacceleration
+occurs followed within 30 minutes by a return to the normal rate.</P></Add.dosing.info.fam>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>HYOSCINE
+BUTYLBROMIDE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult<Citeref Rid = "Cxxa13"
+    Exclude-comma = "1"/> dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antispasmodic, gastrointestinal—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 10 to 20 mg three or four
+times a day, the dosage being adjusted as needed and tolerated.</P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 100 mg daily.<Citeref
+    Rid = "CXXA13" Exclude-comma = "1"/></P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Dosage has not been established.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "RxOtc"><Strength>10 mg</Strength>
+<Brand.info><Brand.name>Buscopan</Brand.name><Other.ingred>sucrose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C<Citeref Rid = "CXXA20"
+    Exclude-comma = "1"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medication may
+affect mental alertness and/or coordination, If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "Cxxa11"
+    Exclude-comma = "1"/></P></Item></List></Anc.label></Spec.dosage.form.sec>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>HYOSCINE
+HYDROBROMIDE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Motion sickness—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 300 to 600 micrograms half
+an hour before travelling; dosage may be repeated every four to
+six hours as needed.<Citeref Rid = "Cxxa17" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 1.2 mg per day.<Citeref
+    Rid = "CXXA17" Exclude-comma = "1"/></P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Motion sickness—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1"><List Type = "None"><Item><P
+    fmcssattr = "1">Children up to 2 years of age: Use is not recommended,
+except on the direction of a doctor<Citeref Rid = "Cxxa17"
+    Exclude-comma = "1"/>.</P></Item>
+<Item><P fmcssattr = "1">Children 2 to 7 years of age: 75 micrograms
+half an hour before travelling; dosage may be repeated every four
+to six hours as needed. It is recommended that the total daily dose
+not exceed 300 micrograms.<Citeref Rid = "Cxxa17" Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">Children over 7 years of age: 150 to 300
+micrograms half an hour before travelling; dosage may be repeated
+every four to six hours as needed. It is recommended that the total
+daily dose not exceed 600 micrograms.<Citeref Rid = "Cxxa17"
+    Exclude-comma = "1"/></P></Item></List></P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Otc"><Strength>300 micrograms</Strength>
+<Brand.info><Brand.name>Kwells</Brand.name><Add.prod.desc>cross-scored</Add.prod.desc>
+<Other.ingred>gluten</Other.ingred><Other.ingred>saccharin</Other.ingred></Brand.info>
+<Brand.info><Brand.name Rx.status = "Otc">Travacalm HO</Brand.name>
+<Add.prod.desc>cross-scored</Add.prod.desc></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C, preferably below 25 °C,
+unless otherwise specified by manufacturer<Citeref Rid = "Cxxa10"
+    Exclude-comma = "1"/>.</P></Pack.storage></Spec.dosage.form.sec></Gen.administer.route>
+<Gen.administer.route><Head fmcssattr = "0">Parenteral Dosage Forms</Head>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>HYOSCINE
+BUTYLBROMIDE</Drug.device.name><Drug.form.name>INJECTION</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antispasmodic or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Radiography, gastrointestinal,
+adjunct—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular or intravenous (slow),
+20 to 40 mg; dosage may be repeated as needed and tolerated<Citeref
+    Rid = "CXXA13"/>.</P></Dosing.stmt></Dosing.stmt.sec></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 100 mg per day<Citeref
+    Rid = "CXXA13"/>.</P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Dosage has not been established.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>20 mg per mL</Strength>
+<Brand.info><Brand.name>Buscopan</Brand.name><Other.ingred>sodium
+chloride</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C, unless otherwise specified
+by manufacturer<Citeref Rid = "Cxxa10" Exclude-comma = "1"/>.</P></Pack.storage></Spec.dosage.form.sec>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>HYOSCINE
+HYDROBROMIDE</Drug.device.name><Drug.form.name>INJECTION</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular, intravenous (slow),
+or subcutaneous, 300 to 600 micrograms as a single dose.<Citeref
+    Rid = "cxx51" Exclude-comma = "1"/></P>
+<P fmcssattr = "2">Prophylaxis of excessive salivation and respiratory
+tract secretions, in anaesthesia: Intramuscular, 200 to 600 micrograms
+one-half to one hour before induction of anaesthesia.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Antiemetic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular, intravenous (slow),
+or subcutaneous, 300 to 600 micrograms as a single dose.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anaesthesia
+adjunct—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Sedation-hypnosis: Intramuscular,
+intravenous (slow), or subcutaneous, 600 micrograms three or four
+times a day.</P>
+<P fmcssattr = "2">Amnesia: Intramuscular, intravenous (slow), or
+subcutaneous, 320 to 650 micrograms.</P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic
+or</P></Dosing.stmt.title>
+<Dosing.stmt.title><P fmcssattr = "1">Antiemetic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Intramuscular, intravenous (slow),
+or subcutaneous, 6 micrograms per kg of body weight<Citeref
+    Rid = "cxx51" Exclude-comma = "1"/> or 200 micrograms per square
+metre of body surface, as a single dose.</P></Dosing.stmt></Dosing.stmt.sec>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Prophylaxis
+of excessive salivation and respiratory tract secretions, in anaesthesia—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Children up to 4 months of age—Use
+is not recommended.</P>
+<P fmcssattr = "2">Children 4 to 7 months of age—Intramuscular,
+100 micrograms administered forty-five minutes to one hour before
+induction of anaesthesia.</P>
+<P fmcssattr = "2">Children 7 months to 3 years of age—Intramuscular,
+150 micrograms administered forty-five minutes to one hour before
+induction of anaesthesia.</P>
+<P fmcssattr = "2">Children 3 to 8 years of age—Intramuscular,
+200 micrograms administered forty-five minutes to one hour before
+induction of anaesthesia.</P>
+<P fmcssattr = "2">Children 8 to 12 years of age—Intramuscular,
+300 micrograms administered forty-five minutes to one hour before
+induction of anaesthesia.<Citeref Rid = "cxx07" Exclude-comma = "1"/></P></Dosing.stmt></Dosing.stmt.sec></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>400 micrograms per mL</Strength>
+<Brand.info><Brand.name>Hyoscine Injection BP</Brand.name></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C. Protect from light.<Citeref
+    Rid = "Cxxa2" Exclude-comma = "1"/></P></Pack.storage>
+<Preparation>
+<P fmcssattr = "1">When given intravenously, hyoscine should be
+diluted with sterile water for injection before administration.</P></Preparation></Spec.dosage.form.sec></Gen.administer.route>
+<Gen.administer.route><Head fmcssattr = "0">Transdermal Dosage Forms</Head>
+<Form.note><P fmcssattr = "1">Bracketed uses in the <Emph
+    Type = "Italic">Dosage Forms</Emph> section refer to categories
+of use and/or indications that are not included in the Australian
+approved product information.</P></Form.note>
+<Spec.dosage.form.sec><Dose.form.head><Drug.device.name>HYOSCINE</Drug.device.name>
+<Drug.form.name>TRANSDERMAL SYSTEM</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><Not.label.aus>Antiemetic</Not.label.aus>
+<P fmcssattr = "2"> or</P></Dosing.stmt.title>
+<Dosing.stmt.title><Not.label.aus>Antivertigo agent</Not.label.aus><P
+    fmcssattr = "2">—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Topical, to the postauricular skin,
+1 transdermal system delivering an average of 1 mg over a period
+of three days, applied at least five to six hours before travelling,
+or on the evening before travelling<Citeref Rid = "CXXA18"/>.</P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Geriatric patients may be more sensitive
+to the effects of the usual adult dose.</P></Note></Adult.dose>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt><P fmcssattr = "1">Use is not recommended.</P></Dosing.stmt></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<P fmcssattr = "1">At the time of publication, hyoscine transdermal
+system is not registered for marketing in Australia. However, it
+may be possible to obtain a supply for an individual patient or
+for a specific patient group under one of the regulations that enable
+access to unregistered drugs. Current information should be sought
+from a <Emph Type = "Bold">Drug Information Centre</Emph> (see <Xref
+    Xref = "d01" Italic = "Yes">Drug Information Centre Listing</Xref>).</P></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 25 °C. Protect from freezing.<Citeref
+    Rid = "CXXA18"/></P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medicine may
+affect mental alertness and/or coordination. If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "Cxxa11"
+    Exclude-comma = "1"/></P></Item></List></Anc.label>
+<Hcp.note>
+<P fmcssattr = "1">Include patient instructions.</P></Hcp.note></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec>
+<Drug.device.sec><Drug.device.name>PROPANTHELINE</Drug.device.name>
+<Gen.administer.route><Head fmcssattr = "0">Oral Dosage Forms</Head>
+<Form.note><P fmcssattr = "1">Bracketed uses in the <Emph
+    Type = "Italic">Dosage Forms</Emph> section refer to categories
+of use and/or indications that are not included in the Australian
+approved product information.</P></Form.note>
+<Spec.dosage.form.sec><Dose.form.head Usp = "0"><Drug.device.name>PROPANTHELINE
+BROMIDE</Drug.device.name><Drug.form.name>TABLETS</Drug.form.name></Dose.form.head>
+<Adult.dose><Head fmcssattr = "0">Usual adult dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1">Anticholinergic—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Peptic ulcer: Oral, 15 mg three
+times a day, one-half hour before meals, and 30 mg at bedtime, the
+dosage being adjusted as needed and tolerated<Citeref Rid = "CXXA12"
+    Exclude-comma = "1"/>.</P>
+<P fmcssattr = "2">Hyperhidrosis or urinary incontinence: Oral,
+15 mg to 30 mg four times a day<Citeref Rid = "CXXA12"
+    Exclude-comma = "1"/>.</P></Dosing.stmt></Dosing.stmt.sec></Adult.dose>
+<Adult.limits><Head fmcssattr = "0">Usual adult prescribing limits</Head>
+<Dosing.stmt><P fmcssattr = "1">Up to 120 mg daily.</P></Dosing.stmt></Adult.limits>
+<Paed.dose><Head fmcssattr = "0">Usual paediatric dose</Head>
+<Dosing.stmt.sec><Dosing.stmt.title><P fmcssattr = "1"><Not.label.aus>Anticholinergic</Not.label.aus>—</P></Dosing.stmt.title>
+<Dosing.stmt><P fmcssattr = "1">Oral, 375 micrograms per kg of body
+weight or 10 mg per square metre of body surface four times a day,
+the dosage being adjusted as needed and tolerated.</P></Dosing.stmt></Dosing.stmt.sec>
+<Note><P fmcssattr = "1">Paediatric administration is limited by
+the available dosage form. The tablets are not suitable for subdivision.</P></Note></Paed.dose>
+<Usual.avail Type = "Strength" Nogentext = "0">
+<Australia Nogentext = "0">
+<Prod.info.entry Rx.status = "Rx"><Strength>15 mg</Strength>
+<Brand.info><Brand.name>Pro-Banthine</Brand.name><Other.ingred>lactose</Other.ingred>
+<Other.ingred>sucrose</Other.ingred></Brand.info></Prod.info.entry></Australia></Usual.avail>
+<Pack.storage>
+<P fmcssattr = "1">Store below 30 °C, preferably below 25 °C,
+unless otherwise specified by manufacturer<Citeref Rid = "Cxxa10"
+    Exclude-comma = "1"/>.</P></Pack.storage>
+<Anc.label>
+<List Type = "Bullet"><Item><P fmcssattr = "1">This medication may
+affect mental alertness and/or coordination, If affected, do not
+drive a motor vehicle or operate machinery.<Citeref Rid = "Cxxa11"
+    Exclude-comma = "1"/></P></Item>
+<Item><P fmcssattr = "1">This medication should be taken on an empty
+stomach, at least half an hour before food or two hours after food<Citeref
+    Rid = "Cxxa11" Exclude-comma = "1"/>.</P></Item></List></Anc.label></Spec.dosage.form.sec></Gen.administer.route></Drug.device.sec></Form.info.fam.sec>
+<Doc.rev.date Date = "16/11/01; 18/06/03."/></Family.mono>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<a>
+  <b att="x">John</b>
+  <c>Not here</c>
+  <d/>
+  <e/>
+  <f>Alice <x>is</x> not gone to the market.</f>
+</a>

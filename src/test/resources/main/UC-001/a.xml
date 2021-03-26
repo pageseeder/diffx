@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<core:Concept xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="15T" xmlns:core="http://www.w3.org/2004/02/skos/core#">
+   <core:definition xmlns:core="http://www.w3.org/2004/02/skos/core#">EAR DROPS 2</core:definition>
+   <core:definition xmlns:core="http://www.w3.org/2004/02/skos/core#">(Maximum Quantity 15 mL and 2 Repeats)</core:definition>
+</core:Concept>
