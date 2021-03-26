@@ -29,7 +29,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 15 April 2005
  */
-public abstract class BaseAlgorithmLevel2Test extends org.pageseeder.diffx.algorithm.BaseAlgorithmLevel1Test {
+public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
 
 // constructors -------------------------------------------------------------------------
 

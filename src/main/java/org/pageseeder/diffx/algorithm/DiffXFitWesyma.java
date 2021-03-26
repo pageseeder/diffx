@@ -51,6 +51,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * @author Christophe Lauret
  * @version 7 April 2005
  */
+@Deprecated
 public final class DiffXFitWesyma extends DiffXAlgorithmBase {
 
   /**
