@@ -10,7 +10,7 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.load.SequenceFolding;
+import org.pageseeder.diffx.sequence.SequenceFolding;
 import org.pageseeder.diffx.load.TextRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.test.TestFormatter;

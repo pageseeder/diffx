@@ -1,12 +1,14 @@
-package org.pageseeder.diffx.load;
+package org.pageseeder.diffx.sequence;
 
 import junit.framework.AssertionFailedError;
 import org.junit.Test;
+import org.pageseeder.diffx.load.LoadingException;
+import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.SequenceFolding;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 import junit.framework.TestCase;
 

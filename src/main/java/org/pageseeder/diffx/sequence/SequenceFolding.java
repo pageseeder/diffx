@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.load;
+package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.event.CloseElementEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.ElementEvent;
 import org.pageseeder.diffx.event.OpenElementEvent;
 import org.pageseeder.diffx.event.impl.ElementEventImpl;
-import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
