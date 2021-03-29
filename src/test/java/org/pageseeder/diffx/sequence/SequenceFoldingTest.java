@@ -44,6 +44,30 @@ public class SequenceFoldingTest extends TestCase {
     assertEquals(3, out.size());
   }
 
+  @Test public void testDeep1a() throws IOException {
+    EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    EventSequence out = SequenceFolding.forElements(new String[]{"a"}).fold(sequence);
+    assertEquals(1, out.size());
+  }
+
+  @Test public void testDeep1b() throws IOException {
+    EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    EventSequence out = SequenceFolding.forElements(new String[]{"b"}).fold(sequence);
+    assertEquals(3, out.size());
+  }
+
+  @Test public void testDeep1c() throws IOException {
+    EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    EventSequence out = SequenceFolding.forElements(new String[]{"c"}).fold(sequence);
+    assertEquals(5, out.size());
+  }
+
+  @Test public void testDeep1d() throws IOException {
+    EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    EventSequence out = SequenceFolding.forElements(new String[]{"d"}).fold(sequence);
+    assertEquals(7, out.size());
+  }
+
   private static EventSequence getSequence(String xml) {
     try {
       SAXRecorder recorder = new SAXRecorder();
