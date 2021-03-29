@@ -27,7 +27,6 @@ package org.pageseeder.diffx.algorithm;
  * @version 7 April 2005
  */
 public interface Matrix {
-  //   TODO: this class should probably not be public
 
   /**
    * Create a matrix of the given width and height.
@@ -36,8 +35,6 @@ public interface Matrix {
    * @param height The number of rows.
    */
   void setup(int width, int height);
-
-  // default access -----------------------------------------------------------------------
 
   /**
    * Sets the value of the matrix at the given position.
@@ -58,8 +55,6 @@ public interface Matrix {
    * @return The value at the given position.
    */
   int get(int i, int j);
-
-  // to fill up the matrix ----------------------------------------------------------------
 
   /**
    * Increment the path.
@@ -82,8 +77,6 @@ public interface Matrix {
    * @param j The row index.
    */
   void incrementByMaxPath(int i, int j);
-
-  // to determine the path ----------------------------------------------------------------
 
   /**
    * Returns <code>true</code> we should move on the X direction.

@@ -151,17 +151,6 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
     assertDiffXMLOK(xml2, xml1, exp2);
   }
 
-  /**
-   * Compares two completely different XML documents.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;&lt;b&gt;x y&lt;/b&gt;&lt;c/&gt;&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;&lt;b/&gt;&lt;c&gt;x y&lt;/c&gt;&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   public final void testTemp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><b>X</b></a>";
     String xml2 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><x:b>X</x:b></a>";

@@ -20,10 +20,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
+import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.event.impl.CharactersEventBase;
 import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
@@ -127,25 +124,28 @@ public final class ShortStringFormatter implements DiffXFormatter {
     if (e instanceof OpenElementEvent)
       return '<'+((OpenElementEvent)e).getName()+'>';
     // an element to close
-    else if (e instanceof CloseElementEvent)
+    if (e instanceof CloseElementEvent)
       return "</"+((CloseElementEvent)e).getName()+'>';
     // an attribute
-    else if (e instanceof AttributeEvent)
+    if (e instanceof AttributeEvent)
       return "@"+((AttributeEvent)e).getName();
     // a word
-    else if (e instanceof WordEvent)
+    if (e instanceof WordEvent)
       return '"'+((CharactersEventBase)e).getCharacters()+'"';
     // a white space event
-    else if (e instanceof SpaceEvent)
+    if (e instanceof SpaceEvent)
       return "_s_";
     // a single character
-    else if (e instanceof CharEvent)
+    if (e instanceof CharEvent)
       return '\''+((CharactersEventBase)e).getCharacters()+'\'';
     // an ignorable space event
-    else if (e instanceof IgnorableSpaceEvent)
+    if (e instanceof IgnorableSpaceEvent)
       return "_i_";
+    if (e instanceof ElementEvent)
+      return '<'+((ElementEvent)e).getName()+"/>";
     // a single line
-    else if (e instanceof LineEvent) return "L#"+((LineEvent)e).getLineNumber();
+    if (e instanceof LineEvent) return "L#"+((LineEvent)e).getLineNumber();
+    if (e == null) return "-";
     return "???";
   }
 

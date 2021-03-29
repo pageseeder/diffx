@@ -15,10 +15,7 @@
  */
 package org.pageseeder.diffx.test;
 
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
+import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
 
 /**
@@ -48,37 +45,23 @@ public final class EventUtils {
   public static String toAbstractString(DiffXEvent e) {
     // TODO: handle unknown event implementations nicely.
     // an element to open
-    if (e instanceof OpenElementEvent) {
-      return '<'+((OpenElementEvent)e).getName()+'>';
-
+    if (e instanceof OpenElementEvent) return '<'+((OpenElementEvent)e).getName()+'>';
     // an element to close
-    } else if (e instanceof CloseElementEvent) {
-      return "</"+((CloseElementEvent)e).getName()+'>';
-
+    if (e instanceof CloseElementEvent) return "</"+((CloseElementEvent)e).getName()+'>';
+    // an element
+    if (e instanceof ElementEvent) return '<'+((ElementEvent)e).getName()+"/>";
     // an attribute
-    } else if (e instanceof AttributeEvent) {
-      return "@{"+((AttributeEvent)e).getName()+'='+((AttributeEvent)e).getValue()+'}';
-
+    if (e instanceof AttributeEvent) return "@{"+((AttributeEvent)e).getName()+'='+((AttributeEvent)e).getValue()+'}';
     // a word
-    } else if (e instanceof WordEvent) {
-      return "$w{"+((CharactersEventBase)e).getCharacters()+'}';
-
+    if (e instanceof WordEvent) return "$w{"+((CharactersEventBase)e).getCharacters()+'}';
     // a white space event
-    } else if (e instanceof SpaceEvent) {
-      return "$s{"+((CharactersEventBase)e).getCharacters()+'}';
-
+    if (e instanceof SpaceEvent) return "$s{"+((CharactersEventBase)e).getCharacters()+'}';
     // a single character
-    } else if (e instanceof CharEvent) {
-      return "$c{"+((CharactersEventBase)e).getCharacters()+'}';
-
+    if (e instanceof CharEvent) return "$c{"+((CharactersEventBase)e).getCharacters()+'}';
     // an ignorable space event
-    } else if (e instanceof IgnorableSpaceEvent) {
-      return "$i{"+((IgnorableSpaceEvent)e).getCharacters()+'}';
-
+    if (e instanceof IgnorableSpaceEvent) return "$i{"+((IgnorableSpaceEvent)e).getCharacters()+'}';
     // a single line
-    } else if (e instanceof LineEvent) {
-      return "$L"+((LineEvent)e).getLineNumber();
-    }
+    if (e instanceof LineEvent) return "$L"+((LineEvent)e).getLineNumber();
     return null;
   }
 

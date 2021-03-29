@@ -65,25 +65,4 @@ public final class DiffXFactory {
     return algorithm;
   }
 
-  /**
-   * Creates a Diff-X instance using the specified class name and event sequences.
-   *
-   * @param className The class name of the Diff-X implementation to use.
-   * @param sequence1 The first sequence to use for the Diff-X constructor.
-   * @param sequence2 The second sequence to use for the Diff-X constructor.
-   *
-   * @return A Diff-X algorithm instance.
-   *
-   * @deprecated use <code>newAlgorithm</code>
-   *
-   * @throws FactoryException Should an error occur when trying to instantiate the class.
-   */
-  @Deprecated
-  public static DiffXAlgorithm createDiffex(String className,
-      EventSequence sequence1,
-      EventSequence sequence2)
-          throws FactoryException {
-    return newAlgorithm(className, sequence1, sequence2);
-  }
-
 }

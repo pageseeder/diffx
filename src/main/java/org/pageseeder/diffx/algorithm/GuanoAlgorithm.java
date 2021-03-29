@@ -57,8 +57,6 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    */
   private static final boolean DEBUG = false;
 
-  // class attributes ---------------------------------------------------------------------------
-
   /**
    * The first sequence of events to test.
    */
@@ -79,8 +77,6 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    */
   private final int length2;
 
-  // state variables ----------------------------------------------------------------------------
-
   /**
    * Matrix storing the paths.
    */
@@ -96,8 +92,6 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    */
   private transient int length = -1;
 
-  // constructor --------------------------------------------------------------------------------
-
   /**
    * Creates a new DiffXAlgorithmBase.
    *
@@ -111,8 +105,6 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     this.length2 = seq1.size();
     this.matrix = setupMatrix(seq0, seq1);
   }
-
-  // methods ------------------------------------------------------------------------------------
 
   /**
    * Returns the length of the longest common sequence.
@@ -339,10 +331,9 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     //    matrix.release();
   }
 
-  // getters and setters -------------------------------------------------------------------------
 
   /**
-   * @see org.pageseeder.diffx.algorithm.DiffXAlgorithm#getFirstSequence()
+   * @see DiffXAlgorithm#getFirstSequence()
    */
   @Override
   public final EventSequence getFirstSequence() {
@@ -350,15 +341,12 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   }
 
   /**
-   * @see org.pageseeder.diffx.algorithm.DiffXAlgorithm#getSecondSequence()
+   * @see DiffXAlgorithm#getSecondSequence()
    */
   @Override
   public final EventSequence getSecondSequence() {
     return this.sequence2;
   }
-
-
-  // private helpers (probably inlined by the compiler) -----------------------------------
 
   /**
    * Writes the diff sequence using the specified formatter when one of

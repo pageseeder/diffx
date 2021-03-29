@@ -25,8 +25,6 @@ import org.pageseeder.diffx.sequence.EventSequence;
  */
 public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
 
-  // class attributes ---------------------------------------------------------------------------
-
   /**
    * The first sequence of events to test.
    */

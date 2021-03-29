@@ -60,9 +60,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-    out.write(org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    out.write(EventUtils.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println(org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println(EventUtils.toAbstractString(e));
   }
 
   /**
@@ -71,9 +71,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    out.write("+"+ org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    out.write("+"+ EventUtils.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("+"+ org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("+"+ EventUtils.toAbstractString(e));
   }
 
   /**
@@ -82,15 +82,13 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException {
-    out.write("-"+ org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    out.write("-"+ EventUtils.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("-"+ org.pageseeder.diffx.test.EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("-"+ EventUtils.toAbstractString(e));
   }
 
   /**
    * Ignored as the config does not change the format output in this case.
-   *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#setConfig(org.pageseeder.diffx.DiffXConfig)
    */
   public void setConfig(DiffXConfig config) {
   }

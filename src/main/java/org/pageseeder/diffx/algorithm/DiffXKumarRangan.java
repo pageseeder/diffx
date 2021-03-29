@@ -93,11 +93,11 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
   /**
    * Creates a new DiffXAlgorithmBase.
    *
-   * @param seq0 The first sequence to compare.
-   * @param seq1 The second sequence to compare.
+   * @param first The first sequence to compare.
+   * @param second The second sequence to compare.
    */
-  public DiffXKumarRangan(EventSequence seq0, EventSequence seq1) {
-    super(seq0, seq1);
+  public DiffXKumarRangan(EventSequence first, EventSequence second) {
+    super(first, second);
   }
 
   // methods ------------------------------------------------------------------------------------
