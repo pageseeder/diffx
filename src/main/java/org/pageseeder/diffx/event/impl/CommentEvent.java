@@ -106,7 +106,7 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
    * @param comment The comment string.
    * @return a number suitable as a hashcode.
    */
-  private int toHashcode(String comment) {
+  private static int toHashcode(String comment) {
     return comment != null? 19*37 + comment.hashCode() : 19*37;
   }
 

@@ -41,15 +41,9 @@ abstract class DiffXEventBase implements DiffXEvent {
    */
   int weight = 1;
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public abstract int hashCode();
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public abstract boolean equals(DiffXEvent e);
 

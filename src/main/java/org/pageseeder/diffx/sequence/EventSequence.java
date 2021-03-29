@@ -162,9 +162,6 @@ public final class EventSequence {
 
   // Object methods -----------------------------------------------------------------------------
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.sequence.size();

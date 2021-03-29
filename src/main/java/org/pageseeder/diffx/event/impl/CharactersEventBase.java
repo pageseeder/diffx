@@ -92,18 +92,11 @@ public abstract class CharactersEventBase extends DiffXEventBase implements Text
     return this.characters;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final void toXML(XMLWriter xml) throws IOException {
     xml.writeText(this.characters);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public final StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append(ESC.toElementText(this.characters));
     return xml;
