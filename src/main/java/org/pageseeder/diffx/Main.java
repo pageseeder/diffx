@@ -28,9 +28,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.DiffXFitWesyma;
 import org.pageseeder.diffx.algorithm.DiffXFitopsy;
-import org.pageseeder.diffx.algorithm.DiffXFitsy;
 import org.pageseeder.diffx.algorithm.DiffXKumarRangan;
 import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
@@ -425,17 +423,14 @@ public final class Main {
    * @return The algorithm to use.
    */
   private static DiffXAlgorithm getAlgorithm(String[] args, EventSequence seq1, EventSequence seq2) {
+    // TODO duplicated code from factory
     String loaderArg = CommandLine.getParameter("-A", args);
-    if (loaderArg == null || "fitsy".equals(loaderArg))
-      return new DiffXFitsy(seq1, seq2);
-    if ("guano".equals(loaderArg))
+    if (loaderArg == null || "guano".equals(loaderArg))
       return new GuanoAlgorithm(seq1, seq2);
     if ("fitopsy".equals(loaderArg))
       return new DiffXFitopsy(seq1, seq2);
     if ("kumar".equals(loaderArg))
       return new DiffXKumarRangan(seq1, seq2);
-    if ("wesyma".equals(loaderArg))
-      return new DiffXFitWesyma(seq1, seq2);
     usage();
     return null;
   }
