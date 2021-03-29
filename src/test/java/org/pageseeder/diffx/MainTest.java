@@ -16,6 +16,8 @@
 package org.pageseeder.diffx;
 
 import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -33,6 +35,8 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -77,9 +81,9 @@ public final class MainTest {
    */
   private static DiffXConfig config = new DiffXConfig();
   static {
-    config.setWhiteSpaceProcessing(org.pageseeder.diffx.config.WhiteSpaceProcessing.IGNORE);
-    config.setGranularity(org.pageseeder.diffx.config.TextGranularity.WORD);
-    System.err.println("Config: "+config.getWhiteSpaceProcessing()+" "+config.getGranularity());
+    config.setWhiteSpaceProcessing(WhiteSpaceProcessing.IGNORE);
+    config.setGranularity(TextGranularity.WORD);
+    System.err.println("Config: wsp="+config.getWhiteSpaceProcessing()+" tg="+config.getGranularity());
   }
 
   /**
@@ -114,6 +118,7 @@ public final class MainTest {
   @Test public void testAll() throws IOException {
     // list all use cases
     File[] usecases = source.listFiles(f -> f.isDirectory() && f.getName().startsWith("UC-"));
+    Arrays.sort(usecases, Comparator.comparing(File::getName));
     // iterate over the use cases.
     for (File uc : usecases) {
       File xml1 = new File(uc, "a.xml");
@@ -132,8 +137,7 @@ public final class MainTest {
         // process the diff
         long ta = processDiffX(xml1, xml2, info);
         long tb = processDiffX(xml2, xml1, info);
-        System.out.println("Processed "+uc.getName()+" "+s1.size()+"x"+s2.size()+" in "+ta+"ms | "+tb+"ms ("+xml1.length()+"x"+xml2.length()+") "+
-            ((xml1.length()+xml2.length()) / (s1.size()+s2.size())));
+        System.out.println("Processed "+uc.getName()+" "+s1.size()+"x"+s2.size()+" events in "+ta+"ms / "+tb+"ms ("+xml1.length()+"x"+xml2.length()+" bytes) ");
       }
     }
   }
