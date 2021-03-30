@@ -64,6 +64,58 @@ public final class TokenizerByWord implements TextTokenizer {
 
   @Override
   public List<TextEvent> tokenize(CharSequence seq) {
+    return tokenizeUpdate(seq, this.whitespace);
+  }
+
+  /**
+   * Always <code>TextGranularity.WORD</code>.
+   */
+  @Override
+  public TextGranularity granularity() {
+    return TextGranularity.WORD;
+  }
+
+  public static List<TextEvent> tokenize(CharSequence seq, WhiteSpaceProcessing whitespace) {
+    TokenizerByWord tokenizer = new TokenizerByWord(whitespace);
+    return tokenizer.tokenize(seq);
+  }
+
+  // Private helpers ------------------------------------------------------------------------------
+
+
+  private List<TextEvent> tokenizeUpdate(CharSequence seq, WhiteSpaceProcessing whitespace) {
+    if (seq == null) throw new NullPointerException("Character sequence is null");
+    if (seq.length() == 0) return Collections.emptyList();
+    // We assume that on average we generate 1 event per 4 chars
+    List<TextEvent> events = new ArrayList<>(seq.length() / 4);
+
+    Pattern p = Pattern.compile("( ?[A-Za-z_'-]+)|(\\S)");
+    Matcher m = p.matcher(seq);
+    int index = 0;
+
+    // Add segments before each match found
+    while (m.find()) {
+      if (index != m.start() && whitespace != WhiteSpaceProcessing.IGNORE) {
+        String space = seq.subSequence(index, m.start()).toString();
+        events.add(getSpaceEvent(space));
+      }
+      // We don't even need to record a white space if they are ignored!
+      String word = seq.subSequence(m.start(), m.end()).toString();
+      events.add(getWordEvent(word));
+      index = m.end();
+    }
+
+    // Add remaining word if any
+    if (index != seq.length()) {
+      String space = seq.subSequence(index, seq.length()).toString();
+      events.add(getSpaceEvent(space));
+    }
+
+    return events;
+  }
+
+
+  private List<TextEvent> tokenizeOriginal(CharSequence seq, WhiteSpaceProcessing whitespace) {
     if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
     List<TextEvent> events = new ArrayList<>(seq.length());
@@ -79,7 +131,7 @@ public final class TokenizerByWord implements TextTokenizer {
         events.add(getWordEvent(word));
       }
       // We don't even need to record a white space if they are ignored!
-      if (this.whitespace != WhiteSpaceProcessing.IGNORE) {
+      if (whitespace != WhiteSpaceProcessing.IGNORE) {
         String space = seq.subSequence(m.start(), m.end()).toString();
         events.add(getSpaceEvent(space));
       }
@@ -94,16 +146,6 @@ public final class TokenizerByWord implements TextTokenizer {
 
     return events;
   }
-
-  /**
-   * Always <code>TextGranularity.WORD</code>.
-   */
-  @Override
-  public TextGranularity granularity() {
-    return TextGranularity.WORD;
-  }
-
-  // Private helpers ------------------------------------------------------------------------------
 
   /**
    * Returns the word event corresponding to the specified characters.
