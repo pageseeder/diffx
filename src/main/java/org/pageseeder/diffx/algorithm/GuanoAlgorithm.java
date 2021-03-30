@@ -103,7 +103,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     this.sequence2 = seq1;
     this.length1 = seq0.size();
     this.length2 = seq1.size();
-    this.matrix = setupMatrix(seq0, seq1);
+    this.matrix = null;
   }
 
   /**
@@ -113,43 +113,11 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    */
   @Override
   public int length() {
-    // case when one of the sequences is empty
-    if (this.length1 == 0 || this.length2 == 0) {
-      this.length = 0;
-    }
-    // normal case
     if (this.length < 0) {
-      this.matrix.setup(this.length1+1, this.length2+1);
-      // allocate storage for array L;
-      for (int i = this.length1; i >= 0; i--) {
-        for (int j = this.length2; j >= 0; j--) {
-          // we reach the end of the sequence (fill with 0)
-          if (i >= this.length1 || j >= this.length2) {
-            this.matrix.set(i, j, 0);
-          } else {
-            // the events are the same
-            if (this.sequence1.getEvent(i).equals(this.sequence2.getEvent(j))) {
-              this.matrix.incrementPathBy(i, j, 1);
-              // different events
-            } else {
-              this.matrix.incrementByMaxPath(i, j);
-            }
-          }
-        }
-      }
-      this.length = this.matrix.get(0, 0);
-    }
-    if (DEBUG) {
-      System.err.println();
-      for (int i = 0; i < this.sequence1.size(); i++) {
-        System.err.print(ShortStringFormatter.toShortString(this.sequence1.getEvent(i))+"\t");
-      }
-      System.err.println();
-      for (int i = 0; i < this.sequence2.size(); i++) {
-        System.err.print(ShortStringFormatter.toShortString(this.sequence2.getEvent(i))+"\n");
-      }
-      System.err.println();
-      System.err.println(this.matrix);
+      MatrixProcessor builder = new MatrixProcessor();
+      builder.setInverse(true);
+      this.matrix = builder.processor(this.sequence1, this.sequence2);
+      this.length = this.matrix.getLCSLength();
     }
     return this.length;
   }
@@ -372,31 +340,6 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
         formatter.insert(this.sequence1.getEvent(i));
       }
     }
-  }
-
-  /**
-   * Determines the most appropriate matrix to use.
-   *
-   * <p>Calculates the maximum length of the shortest weighted path if both sequences
-   * are totally different, which corresponds to the sum of all the events.
-   *
-   * @param s1 The first sequence.
-   * @param s2 The second sequence.
-   *
-   * @return The most appropriate matrix.
-   */
-  private static Matrix setupMatrix(EventSequence s1, EventSequence s2) {
-    int max = 0;
-    for (int i = 0; i < s1.size(); i++) {
-      max += s1.getEvent(i).getWeight();
-    }
-    for (int i = 0; i < s2.size(); i++) {
-      max += s2.getEvent(i).getWeight();
-    }
-    if (max > Short.MAX_VALUE)
-      return new MatrixInt();
-    else
-      return new MatrixShort();
   }
 
   /**

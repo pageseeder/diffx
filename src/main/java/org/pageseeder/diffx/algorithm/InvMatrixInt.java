@@ -16,55 +16,55 @@
 package org.pageseeder.diffx.algorithm;
 
 /**
- * A matrix implementation which backbone is a matrix of short numbers.
+ * A matrix implementation which backbone is a matrix of integers.
  *
  * @author Christophe Lauret (Allette Systems)
- * @version 0.9.0
+ * @version 7 April 2005
  */
-public final class MatrixShort extends MatrixShortBase {
-  // TODO: this class should probably not be public
+public final class InvMatrixInt extends MatrixIntBase {
+  //   TODO: this class should probably not be public
 
   /**
-   * @see Matrix#incrementPath(int, int)
+   * @see org.pageseeder.diffx.algorithm.Matrix#incrementPath(int, int)
    */
   @Override
   public void incrementPath(int i, int j) {
-    this.matrix[i][j] = (short)(this.matrix[i-1][j-1] + 1);
+    this.matrix[i][j] = this.matrix[i+1][j+1] + 1;
   }
 
   /**
-   * @see Matrix#incrementByMaxPath(int, int)
+   * @see org.pageseeder.diffx.algorithm.Matrix#incrementByMaxPath(int, int)
    */
   @Override
   public void incrementByMaxPath(int i, int j) {
-    this.matrix[i][j] = max(this.matrix[i-1][j], this.matrix[i][j-1]);
+    this.matrix[i][j] = Math.max(this.matrix[i+1][j], this.matrix[i][j+1]);
   }
 
   /**
-   * @see Matrix#isGreaterX(int, int)
+   * @see org.pageseeder.diffx.algorithm.Matrix#isGreaterX(int, int)
    */
   @Override
   public boolean isGreaterX(int i, int j) {
-    return this.matrix[i-1][j] > this.matrix[i][j-1];
+    return this.matrix[i+1][j] > this.matrix[i][j+1];
   }
 
   /**
-   * @see Matrix#isGreaterY(int, int)
+   * @see org.pageseeder.diffx.algorithm.Matrix#isGreaterY(int, int)
    */
   @Override
   public boolean isGreaterY(int i, int j) {
-    return this.matrix[i-1][j] < this.matrix[i][j-1];
+    return this.matrix[i+1][j] < this.matrix[i][j+1];
   }
 
   /**
-   * @see Matrix#isSameXY(int, int)
+   * @see org.pageseeder.diffx.algorithm.Matrix#isSameXY(int, int)
    */
   @Override
   public boolean isSameXY(int i, int j) {
-    return this.matrix[i-1][j] == this.matrix[i][j-1];
+    return this.matrix[i+1][j] == this.matrix[i][j+1];
   }
 
   public int getLCSLength() {
-    return this.get(this.matrix.length-1,this.matrix[0].length-1);
+    return this.get(0,0);
   }
 }

@@ -108,7 +108,7 @@ public final class DiffXFitopsy extends DiffXAlgorithmBase {
           } else {
             // the events are the same
             if (this.sequence1.getEvent(i).equals(this.sequence2.getEvent(j))) {
-              this.matrix.incrementPathBy(i, j, 1);
+              this.matrix.incrementPath(i, j);
               // different events
             } else {
               this.matrix.incrementByMaxPath(i, j);
@@ -352,9 +352,9 @@ public final class DiffXFitopsy extends DiffXAlgorithmBase {
       max += s2.getEvent(i).getWeight();
     }
     if (max > Short.MAX_VALUE)
-      return new MatrixInt();
+      return new InvMatrixInt();
     else
-      return new MatrixShort();
+      return new InvMatrixShort();
   }
 
   /**

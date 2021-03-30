@@ -63,10 +63,8 @@ public interface Matrix {
    *
    * @param i The column index.
    * @param j The row index.
-
-   * @param n The increment number.
    */
-  void incrementPathBy(int i, int j, int n);
+  void incrementPath(int i, int j);
 
   /**
    * Increment by the maximum path.
@@ -143,8 +141,6 @@ public interface Matrix {
     return this.lengthX() * this.lengthY();
   }
 
-  default int getLCSLength() {
-    return this.get(0,0);
-  }
+  int getLCSLength();
 
 }
