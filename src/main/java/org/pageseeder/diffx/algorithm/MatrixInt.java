@@ -103,4 +103,29 @@ public final class MatrixInt implements Matrix {
     this.matrix = null;
   }
 
+  @Override
+  public int lengthX() {
+    return this.matrix.length;
+  }
+
+  @Override
+  public int lengthY() {
+    return this.matrix[0].length;
+  }
+
+  /**
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder out = new StringBuilder();
+    for (int j = 0; j < this.matrix[0].length; j++) {
+      for (int[] element : this.matrix) {
+        out.append(element[j]).append("\t");
+      }
+      out.append('\n');
+    }
+    return out.toString();
+  }
+
 }

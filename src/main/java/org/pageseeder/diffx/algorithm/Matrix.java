@@ -24,7 +24,7 @@ package org.pageseeder.diffx.algorithm;
  * <p>Implementations could use binary matrices, I/O objects, etc...
  *
  * @author Christophe Lauret (Allette Systems)
- * @version 7 April 2005
+ * @version 0.9.0
  */
 public interface Matrix {
 
@@ -125,5 +125,26 @@ public interface Matrix {
    * it is setup again.
    */
   void release();
+
+  /**
+   * @return size of matrix on X axis
+   */
+  int lengthX();
+
+  /**
+   * @return size of matrix on Y axis
+   */
+  int lengthY();
+
+  /**
+   * @return Size of the matrix
+   */
+  default int size() {
+    return this.lengthX() * this.lengthY();
+  }
+
+  default int getLCSLength() {
+    return this.get(0,0);
+  }
 
 }

@@ -105,6 +105,16 @@ public final class MatrixShort implements Matrix {
     return a >= b? a : b;
   }
 
+  @Override
+  public int lengthX() {
+    return this.matrix.length;
+  }
+
+  @Override
+  public int lengthY() {
+    return this.matrix[0].length;
+  }
+
   /**
    * @see java.lang.Object#toString()
    */
