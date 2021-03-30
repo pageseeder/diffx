@@ -47,7 +47,7 @@ public final class MatrixProcessor {
    *
    * @return the matrix using dynamic programming
    */
-  public Matrix processor(EventSequence first, EventSequence second) {
+  public Matrix process(EventSequence first, EventSequence second) {
     Matrix matrix = this.inverse ? computeInverse(first, second) : compute(first, second);
     if (DEBUG) {
       printDebug(first, second, matrix, System.err);

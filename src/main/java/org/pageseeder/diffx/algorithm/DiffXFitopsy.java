@@ -92,43 +92,11 @@ public final class DiffXFitopsy extends DiffXAlgorithmBase {
    */
   @Override
   public int length() {
-    // case when one of the sequences is empty
-    if (this.length1 == 0 || this.length2 == 0) {
-      this.length = 0;
-    }
-    // normal case
     if (this.length < 0) {
-      this.matrix.setup(this.length1+1, this.length2+1);
-      // allocate storage for array L;
-      for (int i = super.length1; i >= 0; i--) {
-        for (int j = super.length2; j >= 0; j--) {
-          // we reach the end of the sequence (fill with 0)
-          if (i >= super.length1 || j >= super.length2) {
-            this.matrix.set(i, j, 0);
-          } else {
-            // the events are the same
-            if (this.sequence1.getEvent(i).equals(this.sequence2.getEvent(j))) {
-              this.matrix.incrementPath(i, j);
-              // different events
-            } else {
-              this.matrix.incrementByMaxPath(i, j);
-            }
-          }
-        }
-      }
-      this.length = this.matrix.get(0, 0);
-    }
-    if (DEBUG) {
-      System.err.println();
-      for (int i = 0; i < this.sequence1.size(); i++) {
-        System.err.print(ShortStringFormatter.toShortString(this.sequence1.getEvent(i))+"\t");
-      }
-      System.err.println();
-      for (int i = 0; i < this.sequence2.size(); i++) {
-        System.err.print(ShortStringFormatter.toShortString(this.sequence2.getEvent(i))+"\n");
-      }
-      System.err.println();
-      System.err.println(this.matrix);
+      MatrixProcessor builder = new MatrixProcessor();
+      builder.setInverse(true);
+      this.matrix = builder.process(this.sequence1, this.sequence2);
+      this.length = this.matrix.getLCSLength();
     }
     return this.length;
   }

@@ -116,7 +116,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     if (this.length < 0) {
       MatrixProcessor builder = new MatrixProcessor();
       builder.setInverse(true);
-      this.matrix = builder.processor(this.sequence1, this.sequence2);
+      this.matrix = builder.process(this.sequence1, this.sequence2);
       this.length = this.matrix.getLCSLength();
     }
     return this.length;
