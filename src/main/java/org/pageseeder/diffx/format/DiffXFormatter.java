@@ -24,39 +24,40 @@ import org.pageseeder.diffx.event.DiffXEvent;
  * An interface for formatting the output of the Diff-X algorithm.
  *
  * @author Christophe Lauret
- * @version 15 December 2004
+ *
+ * @version 0.6.0
  */
 public interface DiffXFormatter {
 
   /**
    * Formats the specified event.
    *
-   * @param e The event to format
+   * @param event The event to format
    *
    * @throws IOException Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void format(DiffXEvent e) throws IOException, IllegalStateException;
+  void format(DiffXEvent event) throws IOException, IllegalStateException;
 
   /**
    * Formats the specified inserted event.
    *
-   * @param e The event to format
+   * @param event The event to format
    *
    * @throws IOException Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void insert(DiffXEvent e) throws IOException, IllegalStateException;
+  void insert(DiffXEvent event) throws IOException, IllegalStateException;
 
   /**
    * Formats the specified deleted event.
    *
-   * @param e The event to format
+   * @param event The event to format
    *
    * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void delete(DiffXEvent e) throws IOException, IllegalStateException;
+  void delete(DiffXEvent event) throws IOException, IllegalStateException;
 
   /**
    * Sets the configuration to use with this formatter.

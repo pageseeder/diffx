@@ -37,7 +37,7 @@ public final class PrefixMapping {
   /**
    * Maps namespace URIs to prefixes.
    */
-  private final Map<String, String> mappings = new HashMap<String, String>();
+  private final Map<String, String> mapping = new HashMap<>();
 
   /**
    * Add the specified mappings if the namespace URI has not been mapped before.
@@ -50,7 +50,7 @@ public final class PrefixMapping {
    */
   public void add(PrefixMapping other) {
     if (other != null) {
-      for (Map.Entry<String, String> mapping : other.mappings.entrySet()) {
+      for (Map.Entry<String, String> mapping : other.mapping.entrySet()) {
         add(mapping.getKey(), mapping.getValue());
       }
     }
@@ -69,13 +69,13 @@ public final class PrefixMapping {
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
   public void add(String uri, String prefix) throws NullPointerException {
-    if (!this.mappings.containsKey(uri)) {
+    if (!this.mapping.containsKey(uri)) {
       int count = 0;
       String actualPrefix = prefix;
-      while (this.mappings.containsValue(actualPrefix)) {
+      while (this.mapping.containsValue(actualPrefix)) {
         actualPrefix = prefix + count++;
       }
-      this.mappings.put(uri, actualPrefix);
+      this.mapping.put(uri, actualPrefix);
     }
   }
 
@@ -85,7 +85,7 @@ public final class PrefixMapping {
    * @return An enumeration of the namespace URIs used in this mapping.
    */
   public Enumeration<String> getURIs() {
-    return Collections.enumeration(this.mappings.keySet());
+    return Collections.enumeration(this.mapping.keySet());
   }
 
   /**
@@ -96,7 +96,7 @@ public final class PrefixMapping {
    * @return The corresponding prefix.
    */
   public String getPrefix(String uri) {
-    return uri == null? "" : this.mappings.get(uri);
+    return uri == null? "" : this.mapping.get(uri);
   }
 
 }

@@ -67,17 +67,13 @@ public final class EventSequence {
     this.sequence = new ArrayList<>(size);
   }
 
-  // List methods -------------------------------------------------------------------------------
-
   /**
    * Adds a sequence of events to this sequence.
    *
    * @param seq The sequence of events to be added.
    */
   public void addSequence(EventSequence seq) {
-    for (int i = 0; i < seq.size(); i++) {
-      this.sequence.add(seq.getEvent(i));
-    }
+    this.sequence.addAll(seq.sequence);
   }
 
   /**
@@ -177,17 +173,7 @@ public final class EventSequence {
    */
   public boolean equals(EventSequence seq) {
     if (seq == null) return false;
-    if (seq.getClass() != this.getClass()) return false;
-    List<DiffXEvent> sequence2 = seq.sequence;
-    if (this.sequence.size() != seq.sequence.size()) return false;
-    DiffXEvent x1;
-    DiffXEvent x2;
-    for (int i = 0; i < this.sequence.size(); i++) {
-      x1 = this.sequence.get(i);
-      x2 = sequence2.get(i);
-      if (!x1.equals(x2)) return false;
-    }
-    return true;
+    return equals(this.sequence, seq.sequence);
   }
 
   /**
@@ -252,8 +238,6 @@ public final class EventSequence {
     return this.prefixMapping;
   }
 
-  // Inner class --------------------------------------------------------------------------------
-
   /**
    * An iterator over the event elements in the sequences.
    *
@@ -276,17 +260,11 @@ public final class EventSequence {
       this.iterator = iterator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean hasNext() {
       return this.iterator.hasNext();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DiffXEvent next() {
       return this.iterator.next();
@@ -314,4 +292,15 @@ public final class EventSequence {
 
   }
 
+  private static boolean equals(List<DiffXEvent> first, List<DiffXEvent> second) {
+    if (first.size() != second.size()) return false;
+    DiffXEvent x1;
+    DiffXEvent x2;
+    for (int i = 0; i < first.size(); i++) {
+      x1 = first.get(i);
+      x2 = second.get(i);
+      if (!x1.equals(x2)) return false;
+    }
+    return true;
+  }
 }

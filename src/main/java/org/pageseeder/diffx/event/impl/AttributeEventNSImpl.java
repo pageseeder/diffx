@@ -89,33 +89,21 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     this.hashCode = toHashCode(uri, name, value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getName() {
     return this.name;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getURI() {
     return this.uri;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getValue() {
     return this.value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -143,25 +131,16 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     return true;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "attribute: " + this.name + "=" + this.value + " [" + this.uri + "]";
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.uri, this.name, this.value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     // FIXME: no support for NS????

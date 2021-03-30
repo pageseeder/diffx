@@ -24,7 +24,9 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * Event corresponding to a single character.
  *
  * @author Christophe Lauret
- * @version 28 March 2010
+ *
+ * @version 0.9.0
+ * @since 0.7.0
  */
 public final class CharEvent extends DiffXEventBase {
 
@@ -40,6 +42,10 @@ public final class CharEvent extends DiffXEventBase {
    */
   public CharEvent(char c) {
     this.c = c;
+  }
+
+  public char getChar() {
+    return this.c;
   }
 
   @Override
@@ -65,8 +71,13 @@ public final class CharEvent extends DiffXEventBase {
 
   @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    // TODO: ridiculously inefficient !
-    return xml.append(ESC.toElementText(new char[]{this.c}, 0, 1));
+    // The code below assumes, this event is only used for text nodes (not within an attribute)
+    switch (this.c) {
+      case '<': return xml.append("&lt;");
+      case '&': return xml.append("&amp;");
+      case '>': return xml.append("&gt;");
+      default: return xml.append(this.c);
+    }
   }
 
 }

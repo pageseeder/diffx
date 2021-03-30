@@ -29,9 +29,6 @@ public final class Constants {
   private Constants() {
   }
 
-  // Diff-x specific constants
-  // ----------------------------------------------------------------------------------------------
-
   /**
    * The namespace URI used for elements that may have been modified.
    */

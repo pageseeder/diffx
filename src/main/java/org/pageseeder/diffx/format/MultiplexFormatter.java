@@ -26,24 +26,20 @@ import org.pageseeder.diffx.event.DiffXEvent;
  * A formatter which can relay the method calls to multiple formatters.
  *
  * @author Christophe Lauret
- * @version 11 December 2008
+ * @version 0.9.0
  */
 public final class MultiplexFormatter implements DiffXFormatter {
-
-  // class attributes ---------------------------------------------------------------------------
 
   /**
    * the list of formatters to use.
    */
   private final List<DiffXFormatter> formatters;
 
-  // constructors -------------------------------------------------------------------------------
-
   /**
    * Creates a new formatter without any underlying formatters.
    */
   public MultiplexFormatter() {
-    this.formatters = new ArrayList<DiffXFormatter>();
+    this.formatters = new ArrayList<>();
   }
 
   /**
@@ -52,11 +48,9 @@ public final class MultiplexFormatter implements DiffXFormatter {
    * @param f The formatter to use.
    */
   public MultiplexFormatter(DiffXFormatter f) {
-    this.formatters = new ArrayList<DiffXFormatter>(1);
+    this.formatters = new ArrayList<>(1);
     this.formatters.add(f);
   }
-
-  // methods ------------------------------------------------------------------------------------
 
   /**
    * Adds a formatter to multiplex.

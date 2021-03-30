@@ -113,8 +113,6 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    */
   private final transient Stack<AttributeEvent> delAttributes = new Stack<>();
 
-  // constructors -------------------------------------------------------------------------------
-
   /**
    * Creates a new formatter using the specified writer.
    *
@@ -128,11 +126,6 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     this.xml = new XMLWriterNSImpl(w, false);
   }
 
-  // methods ------------------------------------------------------------------------------------
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void format(DiffXEvent e) throws IOException {
     if (!this.isSetup) {
@@ -155,17 +148,11 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
     this.xml.flush();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void insert(DiffXEvent e) throws IOException {
     change(e, +1);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void delete(DiffXEvent e) throws IOException {
     change(e, -1);

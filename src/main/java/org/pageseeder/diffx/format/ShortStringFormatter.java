@@ -137,7 +137,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
       return "_s_";
     // a single character
     if (e instanceof CharEvent)
-      return '\''+((CharactersEventBase)e).getCharacters()+'\'';
+      return "'"+((CharEvent)e).getChar()+'\'';
     // an ignorable space event
     if (e instanceof IgnorableSpaceEvent)
       return "_i_";
