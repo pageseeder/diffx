@@ -23,7 +23,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class DiffXKumarRanganTest extends BaseAlgorithmLevel1Test {
+public final class DiffXKumarRanganTest extends BaseAlgorithmLevel0Test {
 
   /**
    * @param name Name of the test.

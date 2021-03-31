@@ -46,7 +46,7 @@ public class Action {
 	/**
 	 * The list of events associated with this action.
 	 */
-	private final List<DiffXEvent> events = new LinkedList<>();
+	private final List<DiffXEvent> events;
 
 	/**
 	 * Creates a new action.
@@ -58,6 +58,20 @@ public class Action {
 	public Action(Operator type) {
 		if (type == null)	throw new NullPointerException("An action must have a type.");
 		this.type = type;
+		this.events = new LinkedList<>();
+	}
+
+	/**
+	 * Creates a new action.
+	 *
+	 * @param type The type of action.
+	 *
+	 * @throws NullPointerException If the given type is <code>null</code>.
+	 */
+	public Action(Operator type, List<DiffXEvent> events) {
+		if (type == null)	throw new NullPointerException("An action must have a type.");
+		this.type = type;
+		this.events = events;
 	}
 
 	/**
@@ -81,6 +95,17 @@ public class Action {
 	 */
 	public Operator type() {
 		return this.type;
+	}
+
+	/**
+	 * @return the reserve action by swapping INS with DEL.
+	 */
+	public Action reverse() {
+		switch (this.type) {
+			case DEL: return new Action(Operator.INS, this.events);
+			case INS: return new Action(Operator.DEL, this.events);
+			default: return this;
+		}
 	}
 
 	public Operator[] minimal() {

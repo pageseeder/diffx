@@ -33,7 +33,7 @@ import java.io.StringWriter;
  * @see org.pageseeder.diffx.test.EventUtils
  *
  * @author Christophe Lauret
- * @version 16 December 2004
+ * @version 0.9.0
  */
 public final class TestFormatter implements DiffXFormatter {
 

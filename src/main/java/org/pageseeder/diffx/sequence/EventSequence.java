@@ -95,6 +95,16 @@ public final class EventSequence {
     this.sequence.add(i, e);
   }
 
+
+  /**
+   * Adds an event to this sequence.
+   *
+   * @param events The event to be added.
+   */
+  public void addEvents(List<DiffXEvent> events) {
+    this.sequence.addAll(events);
+  }
+
   /**
    * Returns the event at position i.
    *

@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmTest {
+public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
 
   /**
    * Default constructor.

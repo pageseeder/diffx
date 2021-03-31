@@ -17,6 +17,7 @@ package org.pageseeder.diffx.format;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.pageseeder.diffx.config.DiffXConfig;
@@ -50,6 +51,16 @@ public final class MultiplexFormatter implements DiffXFormatter {
   public MultiplexFormatter(DiffXFormatter f) {
     this.formatters = new ArrayList<>(1);
     this.formatters.add(f);
+  }
+
+  /**
+   * Creates a new formatter wrapping the specified formatter.
+   *
+   * @param f The formatter to use.
+   */
+  public MultiplexFormatter(DiffXFormatter ...f) {
+    this.formatters = new ArrayList<>(f.length);
+    this.formatters.addAll(Arrays.asList(f));
   }
 
   /**

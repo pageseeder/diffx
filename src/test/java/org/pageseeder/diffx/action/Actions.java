@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,9 +31,9 @@ import java.util.List;
  * to a DiffX problem.
  *
  * @author Christophe Lauret
- * @version 11 December 2008
+ * @version 0.9.0
  */
-public class ActionsUtils {
+public class Actions {
 
 	/**
 	 * Generates the list of events from the list of actions.
@@ -55,6 +56,58 @@ public class ActionsUtils {
 	}
 
 	/**
+	 * Reverse the actions by swapping the INS and DEL.
+	 */
+	public static List<Action> reverse(List<Action> actions) {
+		List<Action> reverse = new ArrayList<>(actions.size());
+		for (Action action : actions) {
+      reverse.add(action.reverse());
+		}
+		return reverse;
+	}
+
+	/**
+	 * Apply the specified list of action to the input sequence and return the corresponding output.
+	 */
+	public static EventSequence apply(EventSequence input, List<Action> actions) {
+		List<DiffXEvent> events = apply(input.events(), actions);
+    EventSequence out = new EventSequence(events.size());
+		out.addEvents(events);
+		return out;
+	}
+
+	/**
+	 * Apply the specified list of action to the input sequence and return the corresponding output.
+	 */
+	public static List<DiffXEvent> apply(List<DiffXEvent> input, List<Action> actions) {
+		List<DiffXEvent> out = new ArrayList<>(input.size());
+		int i = 0;
+		try {
+			for (Action action : actions) {
+				int count = action.events().size();
+				switch (action.type()) {
+					case KEEP:
+						out.addAll(input.subList(i, i+count));
+						i += count;
+						break;
+					case INS:
+						out.addAll(action.events());
+						break;
+					case DEL:
+						i += count;
+						break;
+				}
+			}
+		} catch (IndexOutOfBoundsException ex) {
+			throw new IllegalArgumentException("Actions cannot be applied to specified input", ex);
+		}
+		if (i != input.size()) {
+			throw new IllegalArgumentException("Actions do not match specified input");
+		}
+		return out;
+	}
+
+	/**
 	 * Returns the minimal string from the list of actions.
 	 *
 	 * @param actions The list of actions.
@@ -68,29 +121,28 @@ public class ActionsUtils {
 		return minimal.toArray(ops);
 	}
 
-	public static boolean isValid(List<DiffXEvent> a, List<DiffXEvent> b, List<Action> actions) {
-		int i = 0;
-		int j = 0;
+	public static boolean isApplicable(List<DiffXEvent> a, List<DiffXEvent> b, List<Action> actions) {
+		int i = 0; // Index of A
+		int j = 0; // Index of B
 		for (Action action : actions) {
 			if (action.type() == Operator.KEEP) {
 				for (DiffXEvent e : action.events()) {
-					if (!e.equals(a.get(i))) return false;
-					if (!e.equals(b.get(j))) return false;
+					if (i >= a.size() || !e.equals(a.get(i))) return false;
+					if (j >= b.size() || !e.equals(b.get(j))) return false;
 					i++;
 					j++;
 				}
 			} else if (action.type() == Operator.INS) {
 				for (DiffXEvent e : action.events()) {
-					if (!e.equals(b.get(j))) return false;
-					j++;
+					if (i >= a.size() || !e.equals(a.get(i))) return false;
+					i++;
 				}
 			} else if (action.type() == Operator.DEL) {
 				for (DiffXEvent e : action.events()) {
-					if (!e.equals(a.get(i))) return false;
-					i++;
+					if (j >= b.size() || !e.equals(b.get(j))) return false;
+					j++;
 				}
 			}
-
 		}
 		return true;
 	}

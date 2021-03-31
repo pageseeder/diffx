@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
-import org.pageseeder.diffx.action.ActionsUtils;
+import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
@@ -114,7 +114,7 @@ public abstract class BaseAlgorithmTest extends TestCase {
     this.diffx.process(tf);
     // check for validity
     List<Action> actions = af.getActions();
-    assertTrue(ActionsUtils.isValid(s1.events(), s2.events(), actions));
+    assertTrue(Actions.isApplicable(s1.events(), s2.events(), actions));
     return tf.getOutput();
   }
 
@@ -182,17 +182,17 @@ public abstract class BaseAlgorithmTest extends TestCase {
     this.diffx.process(sf);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);
-    System.err.println("*------------------------------------------------");
-    System.err.println("* New XML:");
+    System.err.println("+------------------------------------------------");
+    System.err.println("| New XML:");
     System.err.println(xml1);
-    System.err.println("* Old XML:");
+    System.err.println("| Old XML:");
     System.err.println(xml2);
-    System.err.println("* Diff-X XML Output:");
+    System.err.println("| Diff-X XML Output:");
     System.err.println(sw.toString());
-    System.err.println("* Normalised Diff-X output:");
+    System.err.println("| Normalised Diff-X output:");
     System.err.println(tf.getOutput());
     for (int i = 0; i < exp.length; i++) {
-      System.err.println("* Expected output #" + i);
+      System.err.println("| Expected output #" + i);
       System.err.println(exp[i]);
     }
   }
