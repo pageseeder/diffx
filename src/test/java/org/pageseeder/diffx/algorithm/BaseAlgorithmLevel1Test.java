@@ -129,7 +129,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   public final void testLevel1_IdenticalE() throws IOException, DiffXException {
     String xml1 = "<a m='x' n='y'/>";
     String xml2 = "<a n='y' m='x'/>";
-    String[] exp = new String[] {
+    String[] exp = new String[]{
         "<a>@{m=x}@{n=y}</a>",
         "<a>@{n=y}@{m=x}</a>"
     };
@@ -154,10 +154,10 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     String[] exp1 = new String[]{
-         "+<a>+</a>-<b>-</b>",
-         "+<a>-<b>-</b>+</a>",
-         "-<b>+<a>+</a>-</b>",
-         "-<b>-</b>+<a>+</a>"};
+        "+<a>+</a>-<b>-</b>",
+        "+<a>-<b>-</b>+</a>",
+        "-<b>+<a>+</a>-</b>",
+        "-<b>-</b>+<a>+</a>"};
     String[] exp2 = new String[]{
         "-<a>-</a>+<b>+</b>",
         "-<a>+<b>+</b>-</a>",
@@ -682,11 +682,11 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   @Test
   public final void testLevel1_SameLine0() throws IOException, DiffXException {
     String text1 = "line #1\n"
-                 + "line #2\n"
-                 + "line #3\n";
+        + "line #2\n"
+        + "line #3\n";
     String text2 = "line #1\n"
-                 + "line #2\n"
-                 + "line #3\n";
+        + "line #2\n"
+        + "line #3\n";
     String exp = "$L1$L2$L3";
     String diff = processDiffText(text1, text2);
     Assert.assertEquals(exp, diff);
@@ -701,15 +701,15 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   @Test
   public final void testLevel1_LineChange0() throws IOException, DiffXException {
     String text1 = "line #1\n"
-                 + "line #2\n"
-                 + "line #3\n";
+        + "line #2\n"
+        + "line #3\n";
     String text2 = "line #1\n"
-                 + "line #X\n"
-                 + "line #3\n";
+        + "line #X\n"
+        + "line #3\n";
     String[] exp = new String[]{
-                      "$L1+$L2-$L2$L3",
-                      "$L1-$L2+$L2$L3"
-                   };
+        "$L1+$L2-$L2$L3",
+        "$L1-$L2+$L2$L3"
+    };
     assertDiffTextOK(text1, text2, exp);
   }
 
@@ -722,14 +722,14 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   @Test
   public final void testLevel1_LineInsert0() throws IOException, DiffXException {
     String text1 = "line #1\n"
-                 + "line #2\n"
-                 + "line #3\n";
+        + "line #2\n"
+        + "line #3\n";
     String text2 = "line #1\n"
-                 + "line #3\n";
+        + "line #3\n";
     String[] exp = new String[]{
-                      "$L1+$L2$L2",
-                      "$L1+$L2$L3"
-                   };
+        "$L1+$L2$L2",
+        "$L1+$L2$L3"
+    };
     assertDiffTextOK(text1, text2, exp);
   }
 
@@ -742,14 +742,14 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   @Test
   public final void testLevel1_LineRemove0() throws IOException, DiffXException {
     String text1 = "line #1\n"
-                 + "line #3\n";
+        + "line #3\n";
     String text2 = "line #1\n"
-                 + "line #2\n"
-                 + "line #3\n";
+        + "line #2\n"
+        + "line #3\n";
     String[] exp = new String[]{
-                      "$L1-$L2$L2",
-                      "$L1-$L2$L3"
-                   };
+        "$L1-$L2$L2",
+        "$L1-$L2$L3"
+    };
     assertDiffTextOK(text1, text2, exp);
   }
 

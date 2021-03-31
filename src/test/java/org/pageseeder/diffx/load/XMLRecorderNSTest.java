@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.impl.*;
@@ -26,27 +27,17 @@ import java.io.IOException;
  * Extended test class for the XML recorders for namespaces.
  *
  * @author Christophe Lauret
- * @version 27 April 2005
+ * @version 0.9.0
  */
-public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRecorderTest {
+public abstract class XMLRecorderNSTest extends XMLRecorderTest {
 
   /**
    * The XML recorder to use.
    */
   private static final DiffXConfig SIMPLE = new DiffXConfig();
+
   static {
     SIMPLE.setNamespaceAware(false);
-  }
-
-// constructor---------------------------------------------------------------------------
-
-  /**
-   * Default constructor.
-   *
-   * @param name The name of the loader.
-   */
-  public XMLRecorderNSTest(String name) {
-    super(name);
   }
 
 // elements under a different namespace -------------------------------------------------
@@ -54,9 +45,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests an empty element under a different namespace.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testElementNamespaceA1() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://x.org'/>";
     EventSequence exp = new EventSequence();
@@ -68,9 +60,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests an empty element under a different namespace.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testElementNamespaceA2() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://x.org'/>";
     EventSequence exp = new EventSequence();
@@ -83,9 +76,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests an empty element under a different namespace and prefix.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testElementNamespaceB1() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org'/>";
     EventSequence exp = new EventSequence();
@@ -97,9 +91,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests an empty element under a different namespace and prefix.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testElementNamespaceB2() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org'/>";
     EventSequence exp = new EventSequence();
@@ -114,9 +109,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceA1() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://ns.org' a='1'/>";
     EventSequence exp = new EventSequence();
@@ -129,9 +125,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceA2() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://ns.org' a='1'/>";
     EventSequence exp = new EventSequence();
@@ -145,9 +142,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceB1() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org' x:a='1'/>";
     EventSequence exp = new EventSequence();
@@ -160,9 +158,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceB2() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org' x:a='1'/>";
     EventSequence exp = new EventSequence();
@@ -176,9 +175,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceC() throws IOException, DiffXException {
     String xml = "<elt xmlns='x://m.org' xmlns:x='x://m.org' a='1' x:a='2'/>";
     EventSequence exp = new EventSequence();
@@ -192,9 +192,10 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testAttributeNamespaceD() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://m.org' xmlns:y='http://n.org' a='1' x:a='2' y:a='3'/>";
     EventSequence exp = new EventSequence();
@@ -211,14 +212,15 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testSortAttributesNamespaceA() throws IOException, DiffXException {
     String xml = "<elt xmlns:x='http://x.org'" +
-                     " xmlns:y='http://y.org'" +
-                     " xmlns:z='http://z.org'" +
-                     " a='0' x:a='1' y:a='2' z:a='3'/>";
+        " xmlns:y='http://y.org'" +
+        " xmlns:z='http://z.org'" +
+        " a='0' x:a='1' y:a='2' z:a='3'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("", "elt"));
     exp.addEvent(new AttributeEventNSImpl(null, "a", "0"));
@@ -232,14 +234,15 @@ public abstract class XMLRecorderNSTest extends org.pageseeder.diffx.load.XMLRec
   /**
    * Tests that the attributes are read and sorted properly.
    *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public final void testSortAttributesNamespaceB() throws IOException, DiffXException {
     String xml = "<elt xmlns:x='http://x.org'" +
-                     " xmlns:y='http://y.org'" +
-                     " xmlns:z='http://z.org'" +
-                     " a='0' z:a='3' y:a='2' x:a='1'/>";
+        " xmlns:y='http://y.org'" +
+        " xmlns:z='http://z.org'" +
+        " a='0' z:a='3' y:a='2' x:a='1'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("", "elt"));
     exp.addEvent(new AttributeEventNSImpl(null, "a", "0"));

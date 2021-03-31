@@ -15,12 +15,13 @@
  */
 package org.pageseeder.diffx.sequence;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
 import org.pageseeder.diffx.event.impl.OpenElementEventNSImpl;
 import org.pageseeder.diffx.event.impl.WordEvent;
 import org.pageseeder.diffx.load.SAXRecorder;
-import junit.framework.TestCase;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -31,9 +32,9 @@ import java.io.StringReader;
  * Test case for the sequence slicer.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ * @version 0.9.0
  */
-public final class NaiveSequenceSlicerTest extends TestCase {
+public final class NaiveSequenceSlicerTest {
 
   /**
    * The loader used for the tests.
@@ -51,19 +52,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   private EventSequence seq2;
 
   /**
-   * Default constructor.
-   *
-   * @param name The name of the test.
-   */
-  public NaiveSequenceSlicerTest(String name) {
-    super(name);
-  }
-
-  /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart0() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
@@ -76,10 +68,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart1() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
@@ -90,10 +82,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart2() throws IOException, DiffXException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
@@ -105,10 +97,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart3() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
@@ -120,10 +112,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart4() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
@@ -135,10 +127,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart5() throws IOException, DiffXException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
@@ -149,10 +141,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart6() throws IOException, DiffXException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
@@ -162,10 +154,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart7() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
@@ -175,10 +167,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStart8() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
@@ -188,10 +180,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd0() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
@@ -204,10 +196,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd1() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
@@ -218,10 +210,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd2() throws IOException, DiffXException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
@@ -232,10 +224,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd3() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
@@ -246,10 +238,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd4() throws IOException, DiffXException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
@@ -260,10 +252,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd5() throws IOException, DiffXException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
@@ -274,10 +266,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd6() throws IOException, DiffXException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
@@ -287,10 +279,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd7() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
@@ -300,10 +292,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testEnd8() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
@@ -313,10 +305,10 @@ public final class NaiveSequenceSlicerTest extends TestCase {
   }
 
   /**
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
+  @Test
   public void testStartEnd0() throws IOException, DiffXException {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
@@ -339,10 +331,8 @@ public final class NaiveSequenceSlicerTest extends TestCase {
    *
    * @param xml1 The first XML to test.
    * @param xml2 The second XML to test.
-   *
    * @return The sequence slicer on the 2 sequences.
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.
    */
   private NaiveSequenceSlicer init(String xml1, String xml2) throws IOException, DiffXException {
@@ -365,11 +355,11 @@ public final class NaiveSequenceSlicerTest extends TestCase {
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
     int slen = slicer.sliceStart();
-    assertEquals(exp.size(), slen);
-    assertEquals(len1, this.seq1.size());
-    assertEquals(len2, this.seq2.size());
+    Assert.assertEquals(exp.size(), slen);
+    Assert.assertEquals(len1, this.seq1.size());
+    Assert.assertEquals(len2, this.seq2.size());
     // check the start sequence is as expected
-    assertEquals(exp, slicer.getStart());
+    Assert.assertEquals(exp, slicer.getStart());
   }
 
   /**
@@ -383,11 +373,11 @@ public final class NaiveSequenceSlicerTest extends TestCase {
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
     int slen = slicer.sliceEnd();
-    assertEquals(exp.size(), slen);
-    assertEquals(len1, this.seq1.size());
-    assertEquals(len2, this.seq2.size());
+    Assert.assertEquals(exp.size(), slen);
+    Assert.assertEquals(len1, this.seq1.size());
+    Assert.assertEquals(len2, this.seq2.size());
     // check the start sequence is as expected
-    assertEquals(exp, slicer.getEnd());
+    Assert.assertEquals(exp, slicer.getEnd());
   }
 
 }

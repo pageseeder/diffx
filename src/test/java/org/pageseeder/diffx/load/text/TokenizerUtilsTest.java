@@ -22,11 +22,12 @@ import org.junit.Test;
  * Test case for the tokenizer utility class.
  *
  * @author Christophe Lauret
- * @version 11 May 2010
+ * @version 0.9.0
  */
 public class TokenizerUtilsTest {
 
-  @Test public void testGetLeadingWhiteSpace() {
+  @Test
+  public void testGetLeadingWhiteSpace() {
     Assert.assertEquals(0, TokenizerUtils.getLeadingWhiteSpace(""));
     Assert.assertEquals(0, TokenizerUtils.getLeadingWhiteSpace("x"));
     Assert.assertEquals(0, TokenizerUtils.getLeadingWhiteSpace("x "));
@@ -40,7 +41,8 @@ public class TokenizerUtilsTest {
     Assert.assertEquals(4, TokenizerUtils.getLeadingWhiteSpace("\t  \nx x "));
   }
 
-  @Test public void testGetTrailingWhiteSpace() {
+  @Test
+  public void testGetTrailingWhiteSpace() {
     Assert.assertEquals(0, TokenizerUtils.getTrailingWhiteSpace(""));
     Assert.assertEquals(0, TokenizerUtils.getTrailingWhiteSpace("x"));
     Assert.assertEquals(0, TokenizerUtils.getTrailingWhiteSpace(" x"));

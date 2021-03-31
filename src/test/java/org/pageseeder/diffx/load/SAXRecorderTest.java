@@ -21,22 +21,10 @@ import org.pageseeder.diffx.config.DiffXConfig;
  * Test class for the SAX Recorder.
  *
  * @author Christophe Lauret
- * @version 14 April 2005
+ * @version 0.9.0
  */
-public final class SAXRecorderTest extends org.pageseeder.diffx.load.XMLRecorderNSTest {
+public final class SAXRecorderTest extends XMLRecorderNSTest {
 
-  /**
-   * Default constructor.
-   *
-   * @param name The name of the loader.
-   */
-  public SAXRecorderTest(String name) {
-    super(name);
-  }
-
-  /**
-   * @see org.pageseeder.diffx.load.XMLRecorderTest#makeXMLRecorder(org.pageseeder.diffx.config.DiffXConfig)
-   */
   public XMLRecorder makeXMLRecorder(DiffXConfig config) {
     SAXRecorder recorder = new SAXRecorder();
     recorder.setConfig(config);

@@ -21,22 +21,10 @@ import org.pageseeder.diffx.config.DiffXConfig;
  * Test class for the DOM Recorder.
  *
  * @author Christophe Lauret
- * @version 14 April 2005
+ * @version 0.9.0
  */
 public final class DOMRecorderTest extends XMLRecorderNSTest {
 
-  /**
-   * Default constructor.
-   *
-   * @param name The name of the loader.
-   */
-  public DOMRecorderTest(String name) {
-    super(name);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public XMLRecorder makeXMLRecorder(DiffXConfig config) {
     DOMRecorder recorder = new DOMRecorder();
     recorder.setConfig(config);

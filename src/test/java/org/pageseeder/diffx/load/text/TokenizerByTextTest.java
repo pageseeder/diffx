@@ -15,13 +15,13 @@
  */
 package org.pageseeder.diffx.load.text;
 
+import org.junit.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.junit.Test;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
  * Test case for the tokenizer.
  *
  * @author Christophe Lauret
- * @version 12 May 2010
+ * @version 0.9.0
  */
 public final class TokenizerByTextTest {
 
@@ -39,7 +39,8 @@ public final class TokenizerByTextTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test public void testNull() {
+  @Test
+  public void testNull() {
     try {
       TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
       t.tokenize(null);
@@ -52,7 +53,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test  public void testEmpty() {
+  @Test
+  public void testEmpty() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     List<TextEvent> e = t.tokenize("");
     assertEquals(0, e.size());
@@ -61,7 +63,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken1() {
+  @Test
+  public void testCountToken1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, t.tokenize(" ").size());
     assertEquals(1, t.tokenize(" a").size());
@@ -77,7 +80,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken2() {
+  @Test
+  public void testCountToken2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, t.tokenize(" ").size());
     assertEquals(1, t.tokenize("  a").size());
@@ -93,7 +97,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken3() {
+  @Test
+  public void testCountToken3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(2, t.tokenize("  \na").size());
@@ -109,7 +114,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken4() {
+  @Test
+  public void testCountToken4() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize("\n").size());
     assertEquals(1, t.tokenize("\n \n").size());
@@ -120,7 +126,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds a space event as token.
    */
-  @Test public void testSpace1() {
+  @Test
+  public void testSpace1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize(" ");
     assertEquals(1, e.size());
@@ -132,7 +139,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds a space event as token.
    */
-  @Test public void testSpace2() {
+  @Test
+  public void testSpace2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize("  ");
     assertEquals(1, e.size());
@@ -144,7 +152,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds a space event as token.
    */
-  @Test public void testSpace3() {
+  @Test
+  public void testSpace3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize("\n");
     assertEquals(1, e.size());
@@ -156,7 +165,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds a word event as token.
    */
-  @Test public void testWord1() {
+  @Test
+  public void testWord1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("x");
     assertEquals(1, e.size());
@@ -166,7 +176,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds the correct sequence of events.
    */
-  @Test public void testSeq1() {
+  @Test
+  public void testSeq1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("xx  ");
     assertEquals(2, e.size());
@@ -177,7 +188,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds the correct sequence of events.
    */
-  @Test public void testSeq2() {
+  @Test
+  public void testSeq2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize("  xx");
     assertEquals(2, e.size());
@@ -188,7 +200,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds the correct sequence of events.
    */
-  @Test public void testSeq3() {
+  @Test
+  public void testSeq3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize("  xx\n");
     assertEquals(3, e.size());
@@ -200,7 +213,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds the correct sequence of events.
    */
-  @Test public void testSeq4() {
+  @Test
+  public void testSeq4() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextEvent> e = t.tokenize("  xx\n\n");
     assertEquals(3, e.size());
@@ -211,7 +225,8 @@ public final class TokenizerByTextTest {
   /**
    * Tests that the tokeniser finds the correct sequence of events.
    */
-  @Test public void testSeq5() {
+  @Test
+  public void testSeq5() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextEvent> e = t.tokenize("  \n\nxx");
     assertEquals(2, e.size());

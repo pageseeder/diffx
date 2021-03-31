@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.junit.Test;
+import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
  * Test case for the text tokenizer that ignores white spaces.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ * @version 0.9.0
  */
 public final class TextTokeniserNoSpaceTest {
 
@@ -33,7 +33,8 @@ public final class TextTokeniserNoSpaceTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test public void testNull() {
+  @Test
+  public void testNull() {
     try {
       TextTokenizer ct = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
       ct.tokenize(null);
@@ -46,7 +47,8 @@ public final class TextTokeniserNoSpaceTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testEmpty() {
+  @Test
+  public void testEmpty() {
     TextTokenizer ct = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, ct.tokenize("").size());
   }
@@ -54,7 +56,8 @@ public final class TextTokeniserNoSpaceTest {
   /**
    * Tests that the tokenizer counts the correct number of tokens.
    */
-  @Test public void testCountToken1() {
+  @Test
+  public void testCountToken1() {
     TextTokenizer ct = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, ct.tokenize(" ").size());
     assertEquals(1, ct.tokenize(" a").size());
@@ -70,7 +73,8 @@ public final class TextTokeniserNoSpaceTest {
   /**
    * Tests that the tokenizer counts the correct number of tokens.
    */
-  @Test public void testCountToken2() {
+  @Test
+  public void testCountToken2() {
     TextTokenizer ct = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, ct.tokenize(" ").size());
     assertEquals(1, ct.tokenize("  a").size());

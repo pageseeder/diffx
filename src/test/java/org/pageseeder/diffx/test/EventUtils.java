@@ -22,7 +22,7 @@ import org.pageseeder.diffx.event.impl.*;
  * Utility class for events and testing.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ * @version 0.9.0
  */
 public final class EventUtils {
 
@@ -39,29 +39,29 @@ public final class EventUtils {
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
    * @param e The event to format
-   *
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toAbstractString(DiffXEvent e) {
     // TODO: handle unknown event implementations nicely.
     // an element to open
-    if (e instanceof OpenElementEvent) return '<'+((OpenElementEvent)e).getName()+'>';
+    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
     // an element to close
-    if (e instanceof CloseElementEvent) return "</"+((CloseElementEvent)e).getName()+'>';
+    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
     // an element
-    if (e instanceof ElementEvent) return '<'+((ElementEvent)e).getName()+"/>";
+    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
     // an attribute
-    if (e instanceof AttributeEvent) return "@{"+((AttributeEvent)e).getName()+'='+((AttributeEvent)e).getValue()+'}';
+    if (e instanceof AttributeEvent)
+      return "@{" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + '}';
     // a word
-    if (e instanceof WordEvent) return "$w{"+((CharactersEventBase)e).getCharacters()+'}';
+    if (e instanceof WordEvent) return "$w{" + ((CharactersEventBase) e).getCharacters() + '}';
     // a white space event
-    if (e instanceof SpaceEvent) return "$s{"+((CharactersEventBase)e).getCharacters()+'}';
+    if (e instanceof SpaceEvent) return "$s{" + ((CharactersEventBase) e).getCharacters() + '}';
     // a single character
-    if (e instanceof CharEvent) return "$c{"+((CharactersEventBase)e).getCharacters()+'}';
+    if (e instanceof CharEvent) return "$c{" + ((CharactersEventBase) e).getCharacters() + '}';
     // an ignorable space event
-    if (e instanceof IgnorableSpaceEvent) return "$i{"+((IgnorableSpaceEvent)e).getCharacters()+'}';
+    if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
     // a single line
-    if (e instanceof LineEvent) return "$L"+((LineEvent)e).getLineNumber();
+    if (e instanceof LineEvent) return "$L" + ((LineEvent) e).getLineNumber();
     return null;
   }
 

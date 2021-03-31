@@ -21,7 +21,7 @@ import java.io.File;
  * A testing utility class.
  *
  * @author Christophe Lauret (Weborganic)
- * @version 28 March 2010
+ * @version 0.9.0
  */
 public class TestUtils {
 
@@ -42,7 +42,7 @@ public class TestUtils {
    */
   public static File getDataDirectory(Class<?> c) {
     File data = new File("src/test/resources");
-    String dir = c.getName().replaceFirst("org.pageseeder.diffx","").replace('.', File.separatorChar);
+    String dir = c.getName().replaceFirst("org.pageseeder.diffx", "").replace('.', File.separatorChar);
     return new File(data, dir);
   }
 
@@ -57,7 +57,7 @@ public class TestUtils {
    */
   public static File getTempDirectory(Class<?> c) {
     File data = new File("build/test-tmp");
-    String dir = c.getName().replaceFirst("org.pageseeder.diffx","").replace('.', File.separatorChar);
+    String dir = c.getName().replaceFirst("org.pageseeder.diffx", "").replace('.', File.separatorChar);
     return new File(data, dir);
   }
 

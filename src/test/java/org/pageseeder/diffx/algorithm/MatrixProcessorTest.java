@@ -30,7 +30,7 @@ public class MatrixProcessorTest {
     EventSequence s1 = asSequenceOfCharEvents("x");
     EventSequence s2 = new EventSequence();
     Matrix matrix = new MatrixProcessor().process(s1, s2);
-    matrix.get(0,0);
+    matrix.get(0, 0);
     Assert.assertEquals(2, matrix.size()); // 2x1
     Assert.assertEquals(0, matrix.getLCSLength());
   }
@@ -40,7 +40,7 @@ public class MatrixProcessorTest {
     EventSequence s1 = asSequenceOfCharEvents("x");
     EventSequence s2 = asSequenceOfCharEvents("x");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
-    matrix.get(0,0);
+    matrix.get(0, 0);
     Assert.assertEquals(4, matrix.size()); // 2x2
     Assert.assertEquals(1, matrix.getLCSLength()); // "xyz"
   }
@@ -50,7 +50,7 @@ public class MatrixProcessorTest {
     EventSequence s1 = asSequenceOfCharEvents("xy");
     EventSequence s2 = asSequenceOfCharEvents("xy");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
-    matrix.get(0,0);
+    matrix.get(0, 0);
     Assert.assertEquals(9, matrix.size()); // 3x3
     Assert.assertEquals(2, matrix.getLCSLength()); // <x> </x>
   }
@@ -60,7 +60,7 @@ public class MatrixProcessorTest {
     EventSequence s1 = asSequenceOfCharEvents("xyz");
     EventSequence s2 = asSequenceOfCharEvents("xyz");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
-    matrix.get(0,0);
+    matrix.get(0, 0);
     Assert.assertEquals(16, matrix.size()); // 4x4
     Assert.assertEquals(3, matrix.getLCSLength()); // <x> "xyz" </x>
   }

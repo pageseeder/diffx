@@ -30,10 +30,9 @@ import java.io.StringWriter;
  * each event and adding a plus / minus sign for insertions / deletion. This class is useful
  * to test the output of an algorithm.
  *
- * @see org.pageseeder.diffx.test.EventUtils
- *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @see org.pageseeder.diffx.test.EventUtils
  */
 public final class TestFormatter implements DiffXFormatter {
 
@@ -71,9 +70,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    out.write("+"+ EventUtils.toAbstractString(e));
+    out.write("+" + EventUtils.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("+"+ EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("+" + EventUtils.toAbstractString(e));
   }
 
   /**
@@ -82,9 +81,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException {
-    out.write("-"+ EventUtils.toAbstractString(e));
+    out.write("-" + EventUtils.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("-"+ EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("-" + EventUtils.toAbstractString(e));
   }
 
   /**
@@ -97,7 +96,6 @@ public final class TestFormatter implements DiffXFormatter {
    * Formats the entire sequence by formatting each event.
    *
    * @param seq The event sequence to format
-   *
    * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
    */
   public void format(EventSequence seq) throws IOException {

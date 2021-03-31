@@ -45,7 +45,8 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
-  @Test public final void testLevel0_Empty() throws IOException {
+  @Test
+  public final void testLevel0_Empty() throws IOException {
     String a = "";
     String b = "";
     String[] exp = new String[]{""};
@@ -54,35 +55,40 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
   // Identical ----------------------------------------------------------------
 
-  @Test public final void testLevel0_Identical1() throws IOException {
+  @Test
+  public final void testLevel0_Identical1() throws IOException {
     String a = "x";
     String b = "x";
     String[] exp = new String[]{"x"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Identical2() throws IOException {
+  @Test
+  public final void testLevel0_Identical2() throws IOException {
     String a = "xx";
     String b = "xx";
     String[] exp = new String[]{"xx"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Identical3() throws IOException {
+  @Test
+  public final void testLevel0_Identical3() throws IOException {
     String a = "xyz";
     String b = "xyz";
     String[] exp = new String[]{"xyz"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Identical10() throws IOException {
+  @Test
+  public final void testLevel0_Identical10() throws IOException {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Identical100() throws IOException {
+  @Test
+  public final void testLevel0_Identical100() throws IOException {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
@@ -91,84 +97,96 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
   // Inserts and deletes ------------------------------------------------------
 
-  @Test public final void testLevel0_Insert1() throws IOException {
+  @Test
+  public final void testLevel0_Insert1() throws IOException {
     String a = "x";
     String b = "";
     String[] exp = new String[]{"+x"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete1() throws IOException {
+  @Test
+  public final void testLevel0_Delete1() throws IOException {
     String a = "";
     String b = "y";
     String[] exp = new String[]{"-y"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Insert2() throws IOException {
+  @Test
+  public final void testLevel0_Insert2() throws IOException {
     String a = "xx";
     String b = "";
     String[] exp = new String[]{"+x+x"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete2() throws IOException {
+  @Test
+  public final void testLevel0_Delete2() throws IOException {
     String a = "";
     String b = "yy";
     String[] exp = new String[]{"-y-y"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Insert3() throws IOException {
+  @Test
+  public final void testLevel0_Insert3() throws IOException {
     String a = "xx";
     String b = "x";
     String[] exp = new String[]{"x+x", "+xx"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete3() throws IOException {
+  @Test
+  public final void testLevel0_Delete3() throws IOException {
     String a = "y";
     String b = "yy";
     String[] exp = new String[]{"y-y", "-yy"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Insert4() throws IOException {
+  @Test
+  public final void testLevel0_Insert4() throws IOException {
     String a = "xxx";
     String b = "xx";
     String[] exp = new String[]{"+xxx", "x+xx", "xx+x"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete4() throws IOException {
+  @Test
+  public final void testLevel0_Delete4() throws IOException {
     String a = "yy";
     String b = "yyy";
     String[] exp = new String[]{"-yyy", "y-yy", "yy-y"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Insert5() throws IOException {
+  @Test
+  public final void testLevel0_Insert5() throws IOException {
     String a = "   x   ";
     String b = "      ";
     String[] exp = new String[]{"   +x   "};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete5() throws IOException {
+  @Test
+  public final void testLevel0_Delete5() throws IOException {
     String a = "      ";
     String b = "   y   ";
     String[] exp = new String[]{"   -y   "};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Insert6() throws IOException {
+  @Test
+  public final void testLevel0_Insert6() throws IOException {
     String a = "testing";
     String b = "test";
     String[] exp = new String[]{"test+i+n+g"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Delete6() throws IOException {
+  @Test
+  public final void testLevel0_Delete6() throws IOException {
     String a = "test";
     String b = "testing";
     String[] exp = new String[]{"test-i-n-g"};
@@ -177,88 +195,97 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
   // Replacements -------------------------------------------------------------
 
-  @Test public final void testLevel0_Replace1() throws IOException {
+  @Test
+  public final void testLevel0_Replace1() throws IOException {
     String a = "x";
     String b = "y";
     String[] exp = new String[]{"+x-y", "-y+x"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Replace2() throws IOException {
+  @Test
+  public final void testLevel0_Replace2() throws IOException {
     String a = "xx";
     String b = "yy";
     String[] exp = new String[]{
-      "+x+x-y-y",
-      "+x-y+x-y",
-      "+x-y-y+x",
-      "-y+x-y+x",
-      "-y-y+x+x",
-      "-y+x+x-y"
+        "+x+x-y-y",
+        "+x-y+x-y",
+        "+x-y-y+x",
+        "-y+x-y+x",
+        "-y-y+x+x",
+        "-y+x+x-y"
     };
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Replace3() throws IOException {
+  @Test
+  public final void testLevel0_Replace3() throws IOException {
     String a = "xax";
     String b = "xbx";
-    String[] exp = new String[]{ "x+a-bx", "x-b+ax" };
+    String[] exp = new String[]{"x+a-bx", "x-b+ax"};
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Replace4() throws IOException {
+  @Test
+  public final void testLevel0_Replace4() throws IOException {
     String a = "axa";
     String b = "bxb";
     String[] exp = new String[]{
-      "+a-bx+a-b",
-      "+a-bx-b+a",
-      "-b+ax+a-b",
-      "-b+ax-b+a",
+        "+a-bx+a-b",
+        "+a-bx-b+a",
+        "-b+ax+a-b",
+        "-b+ax-b+a",
     };
     assertDiffCharOK(a, b, exp);
   }
 
   // More complex cases -------------------------------------------------------
 
-  @Test public final void testLevel0_Complex1() throws IOException {
+  @Test
+  public final void testLevel0_Complex1() throws IOException {
     String a = "aba";
     String b = "bab";
     String[] exp = new String[]{
-      "+aba-b",
-      "-bab+a"
+        "+aba-b",
+        "-bab+a"
     };
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Complex2() throws IOException {
+  @Test
+  public final void testLevel0_Complex2() throws IOException {
     String a = "abab";
     String b = "baba";
     String[] exp = new String[]{
-      "+abab-a",
-      "-baba+b"
+        "+abab-a",
+        "-baba+b"
     };
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Complex3() throws IOException {
+  @Test
+  public final void testLevel0_Complex3() throws IOException {
     String a = "ababa";
     String b = "babab";
     String[] exp = new String[]{
-      "+ababa-b",
-      "-babab+a",
+        "+ababa-b",
+        "-babab+a",
     };
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Complex4() throws IOException {
+  @Test
+  public final void testLevel0_Complex4() throws IOException {
     String a = "one little";
     String b = "two little";
     String[] exp = new String[]{
-      "-t-wo+n+e little"
+        "-t-wo+n+e little"
     };
     assertDiffCharOK(a, b, exp);
   }
 
-  @Test public final void testLevel0_Complex5() throws IOException {
+  @Test
+  public final void testLevel0_Complex5() throws IOException {
     String a = "one little";
     String b = "too little";
     String[] exp = new String[]{
@@ -273,7 +300,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
     // Setup and process
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
-    ActionFormatter af =  new ActionFormatter();
+    ActionFormatter af = new ActionFormatter();
     CharTestFormatter cf = new CharTestFormatter();
     diffx.process(new MultiplexFormatter(cf, af));
     String got = cf.getOutput();
@@ -310,16 +337,16 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
    */
   private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action> actions) {
     System.err.println("+------------------------------------------------");
-    System.err.println("| Input A: \""+text1+"\"");
-    System.err.println("| Input B: \""+text2+"\"");
-    System.err.println("| Output:  \""+got+"\"");
+    System.err.println("| Input A: \"" + text1 + "\"");
+    System.err.println("| Input B: \"" + text2 + "\"");
+    System.err.println("| Output:  \"" + got + "\"");
     System.err.print("| Expect:  ");
     for (String s : exp) System.err.print("\"" + s + "\" ");
     System.err.println();
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
-      System.err.print(action.events().stream().map((event) -> ((CharEvent)event).getChar()).collect(Collectors.toList()));
+      System.err.print(action.events().stream().map((event) -> ((CharEvent) event).getChar()).collect(Collectors.toList()));
     }
     System.err.println();
   }
@@ -330,21 +357,22 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
     @Override
     public void format(DiffXEvent event) throws IOException, IllegalStateException {
-      out.append(((CharEvent)event).getChar());
+      out.append(((CharEvent) event).getChar());
     }
 
     @Override
     public void insert(DiffXEvent event) throws IOException, IllegalStateException {
-      out.append('+').append(((CharEvent)event).getChar());
+      out.append('+').append(((CharEvent) event).getChar());
     }
 
     @Override
     public void delete(DiffXEvent event) throws IOException, IllegalStateException {
-      out.append('-').append(((CharEvent)event).getChar());
+      out.append('-').append(((CharEvent) event).getChar());
     }
 
     @Override
-    public void setConfig(DiffXConfig config) {}
+    public void setConfig(DiffXConfig config) {
+    }
 
     String getOutput() {
       return this.out.toString();

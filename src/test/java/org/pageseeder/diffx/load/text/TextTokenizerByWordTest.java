@@ -29,7 +29,7 @@ import java.util.List;
  * Test case for the tokenizer.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ * @version 0.9.0
  */
 public final class TextTokenizerByWordTest {
 
@@ -51,47 +51,56 @@ public final class TextTokenizerByWordTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testEmpty() {
+  @Test
+  public void testEmpty() {
     List<TextEvent> events = TokenizerByWord.tokenize("", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(0, events.size());
   }
 
-  @Test public void testChar() {
+  @Test
+  public void testChar() {
     List<TextEvent> events = TokenizerByWord.tokenize("a", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("a"), events);
   }
 
-  @Test public void testCharWithLeadingSpace() {
+  @Test
+  public void testCharWithLeadingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" a", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" a"), events);
   }
 
-  @Test public void testCharWithTrailingSpace() {
+  @Test
+  public void testCharWithTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize("a ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("a", " "), events);
   }
 
-  @Test public void testCharWithLeadingTrailingSpace() {
+  @Test
+  public void testCharWithLeadingTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" a ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" a", " "), events);
   }
 
-  @Test public void testWord() {
+  @Test
+  public void testWord() {
     List<TextEvent> events = TokenizerByWord.tokenize("story", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("story"), events);
   }
 
-  @Test public void testWordWithLeadingSpace() {
+  @Test
+  public void testWordWithLeadingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" story", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" story"), events);
   }
 
-  @Test public void testWordWithTrailingSpace() {
+  @Test
+  public void testWordWithTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize("story ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("story", " "), events);
   }
 
-  @Test public void testWordWithLeadingTrailingSpace() {
+  @Test
+  public void testWordWithLeadingTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" story ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" story", " "), events);
   }
@@ -99,7 +108,8 @@ public final class TextTokenizerByWordTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testWords() {
+  @Test
+  public void testWords() {
     List<TextEvent> events = TokenizerByWord.tokenize("A great story", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("A", " great", " story"), events);
   }
@@ -107,7 +117,8 @@ public final class TextTokenizerByWordTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testWordsWithLeadingSpace() {
+  @Test
+  public void testWordsWithLeadingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" A great story", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" A", " great", " story"), events);
   }
@@ -115,7 +126,8 @@ public final class TextTokenizerByWordTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testWordsWithTrailingSpace() {
+  @Test
+  public void testWordsWithTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize("A great story ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("A", " great", " story", " "), events);
   }
@@ -123,7 +135,8 @@ public final class TextTokenizerByWordTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testWordsWithLeadingTrailingSpace() {
+  @Test
+  public void testWordsWithLeadingTrailingSpace() {
     List<TextEvent> events = TokenizerByWord.tokenize(" A great story ", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents(" A", " great", " story", " "), events);
   }

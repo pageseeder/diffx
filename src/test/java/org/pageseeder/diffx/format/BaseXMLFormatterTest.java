@@ -15,11 +15,12 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import org.xml.sax.InputSource;
 
 import java.io.*;
@@ -32,11 +33,9 @@ import java.io.*;
  * XML document that is equivalent.
  *
  * @author Christophe Lauret
- * @version 12 May 2005
+ * @version 0.9.0
  */
-public abstract class BaseXMLFormatterTest extends TestCase {
-
-// class attributes ---------------------------------------------------------------------------
+public abstract class BaseXMLFormatterTest {
 
   /**
    * The loader being tested.
@@ -53,20 +52,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    */
   private transient StringWriter w = null;
 
-// constructors and jUnit method --------------------------------------------------------------
-
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public BaseXMLFormatterTest(String name) {
-    super(name);
-  }
-
-  /**
-   * @see TestCase#setUp()
-   */
+  @Before
   protected final void setUp() throws Exception {
     this.w = new StringWriter();
     this.formatter = makeFormatter(this.w);
@@ -76,9 +62,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * Generates the formatter to be tested by this class.
    *
    * @param writer The writer this formatter should use.
-   *
    * @return The XML Diffx Formatter to use.
-   *
    * @throws IOException Should and error occur
    */
   public abstract XMLDiffXFormatter makeFormatter(Writer writer) throws IOException;
@@ -96,6 +80,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testOpenClose0() throws DiffXException, IOException {
     String xml = "<a></a>";
     assertRoundTripOK(xml);
@@ -112,6 +97,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testEmptyElement0() throws DiffXException, IOException {
     String xml = "<a/>";
     assertRoundTripOK(xml);
@@ -128,6 +114,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testText0() throws DiffXException, IOException {
     String xml = "<a>x</a>";
     assertRoundTripOK(xml);
@@ -144,6 +131,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testText1() throws DiffXException, IOException {
     String xml = "<a>xx y zzz</a>";
     assertRoundTripOK(xml);
@@ -160,6 +148,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testEntity0() throws DiffXException, IOException {
     String xml = "<a>&lt;</a>";
     assertRoundTripOK(xml);
@@ -176,6 +165,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testEntity1() throws DiffXException, IOException {
     String xml = "<a>&#8012;</a>";
     assertRoundTripOK(xml);
@@ -192,6 +182,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testSpace0() throws DiffXException, IOException {
     String xml = "<a> </a>";
     assertRoundTripOK(xml);
@@ -209,6 +200,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testSpace1() throws DiffXException, IOException {
     String xml = "<a>\n</a>";
     assertRoundTripOK(xml);
@@ -225,6 +217,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testSpace2() throws DiffXException, IOException {
     String xml = "<a>    </a>";
     assertRoundTripOK(xml);
@@ -243,6 +236,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testChild0() throws DiffXException, IOException {
     String xml = "<a>\n  <b/>\n</a>";
     assertRoundTripOK(xml);
@@ -261,6 +255,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testChild1() throws DiffXException, IOException {
     String xml = "<a>\n  <b>xx</b>\n</a>";
     assertRoundTripOK(xml);
@@ -277,6 +272,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testAttributes0() throws DiffXException, IOException {
     String xml = "<a x='y'/>";
     assertRoundTripOK(xml);
@@ -293,6 +289,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testAttributes1() throws DiffXException, IOException {
     String xml = "<a x='y' w='z' d='e'/>";
     assertRoundTripOK(xml);
@@ -312,6 +309,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testChildren0() throws DiffXException, IOException {
     String xml = "<a>\n  <b>xx</b>\n  <c>yy</c>\n</a>";
     assertRoundTripOK(xml);
@@ -328,6 +326,7 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
+  @Test
   public final void testMixedContent0() throws DiffXException, IOException {
     String xml = "<a>xx <b>yy</b> zz</a>";
     assertRoundTripOK(xml);
@@ -339,7 +338,6 @@ public abstract class BaseXMLFormatterTest extends TestCase {
    * Prepare the sequences and returns a sequence slicer on them.
    *
    * @param xml The first XML to test.
-   *
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
@@ -355,9 +353,9 @@ public abstract class BaseXMLFormatterTest extends TestCase {
     Reader xmlr2 = new StringReader(this.w.toString());
     EventSequence seq = this.recorder.process(new InputSource(xmlr2));
     try {
-      assertEquals(exp.size(), seq.size());
-      assertEquals(exp, seq);
-    } catch (AssertionFailedError ex) {
+      Assert.assertEquals(exp.size(), seq.size());
+      Assert.assertEquals(exp, seq);
+    } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);
       pw.flush();

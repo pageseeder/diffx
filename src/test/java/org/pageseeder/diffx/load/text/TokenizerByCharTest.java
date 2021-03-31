@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.load.text;
 
+import org.junit.Test;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.junit.Test;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
  * Test case for the tokenizer.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 0.9.0
  */
 public final class TokenizerByCharTest {
 
@@ -37,7 +37,8 @@ public final class TokenizerByCharTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test public void testNull() {
+  @Test
+  public void testNull() {
     try {
       TokenizerByChar t = new TokenizerByChar();
       t.tokenize(null);
@@ -50,7 +51,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that an empty array is returned for empty string.
    */
-  @Test public void testEmpty() {
+  @Test
+  public void testEmpty() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextEvent> e = t.tokenize("");
     assertEquals(0, e.size());
@@ -59,7 +61,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken1() {
+  @Test
+  public void testCountToken1() {
     TokenizerByChar t = new TokenizerByChar();
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(2, t.tokenize(" a").size());
@@ -75,7 +78,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that the tokeniser counts the correct number of tokens.
    */
-  @Test public void testCountToken2() {
+  @Test
+  public void testCountToken2() {
     TokenizerByChar t = new TokenizerByChar();
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(3, t.tokenize("  a").size());
@@ -91,7 +95,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that the tokeniser finds a space event as token.
    */
-  @Test public void testSpace1() {
+  @Test
+  public void testSpace1() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextEvent> e = t.tokenize(" ");
     assertEquals(1, e.size());
@@ -103,7 +108,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that the tokeniser finds a space event as token.
    */
-  @Test public void testSpace3() {
+  @Test
+  public void testSpace3() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextEvent> e = t.tokenize("\n");
     assertEquals(1, e.size());
@@ -115,7 +121,8 @@ public final class TokenizerByCharTest {
   /**
    * Tests that the tokeniser finds a word event as token.
    */
-  @Test public void testWord1() {
+  @Test
+  public void testWord1() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextEvent> e = t.tokenize("x");
     assertEquals(1, e.size());
