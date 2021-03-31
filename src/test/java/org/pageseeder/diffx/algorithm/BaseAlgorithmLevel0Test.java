@@ -292,6 +292,16 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     assertDiffCharOK(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_Complex6() throws IOException {
+    String a = "balaclava";
+    String b = "bilabial";
+    String[] exp = new String[]{
+        "-t-oo+n+e little"
+    };
+    assertDiffCharOK(a, b, exp);
+  }
+
   public final void assertDiffCharOK(String text1, String text2, String[] exp) throws IOException {
     EventSequence seq1 = asSequenceOfCharEvents(text1);
     EventSequence seq2 = asSequenceOfCharEvents(text2);
