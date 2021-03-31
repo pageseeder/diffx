@@ -2,19 +2,20 @@ package org.pageseeder.diffx.algorithm;
 
 import org.junit.Assert;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.ActionFormatter;
-import org.pageseeder.diffx.action.Actions;
-import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.format.MultiplexFormatter;
-import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.action.*;
+import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.load.TextRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.SequenceFolding;
 import org.pageseeder.diffx.test.TestFormatter;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
@@ -40,6 +41,32 @@ public abstract class BaseAlgorithmTest {
    */
   public abstract DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2);
 
+
+  /**
+   * Asserts that the Diff-X operation for XML meets expectations.
+   *
+   * @param xml1 The first XML to compare with diffx.
+   * @param xml2 The first XML to compare with diffx.
+   *
+   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffXException Should an error occur while parsing XML.
+   */
+  public final void assertDiffXMLOK(String xml1, String xml2) throws IOException, DiffXException {
+    // Record XML
+    SAXRecorder recorder = new SAXRecorder();
+    EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : recorder.process(xml1);
+    EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : recorder.process(xml2);
+    // Process as list of actions
+    DiffResult result = processResult(seq1, seq2);
+    try {
+      assertDiffIsCorrect(seq1, seq2, result.actions());
+      assertDiffIsWellFormedXML(result.actions());
+    } catch (AssertionError ex) {
+      printXMLErrorDetails(xml1, xml2, new String[]{}, toXML(result.actions()), result.actions());
+      throw ex;
+    }
+  }
+
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
    *
@@ -52,6 +79,21 @@ public abstract class BaseAlgorithmTest {
   public final void assertDiffXMLOK(String xml1, String xml2, String exp)
       throws IOException, DiffXException {
     assertDiffXMLOK(xml1, xml2, new String[]{exp});
+  }
+
+
+  /**
+   * Asserts that the Diff-X operation for XML meets expectations.
+   *
+   * @param xml1 The first XML to compare with diffx.
+   * @param xml2 The first XML to compare with diffx.
+   * @param exp  The expected result as formatted by the TestFormatter.
+   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffXException Should an error occur while parsing XML.
+   */
+  public final void assertDiffXMLOK2(String xml1, String xml2, String exp)
+      throws IOException, DiffXException {
+    assertDiffXMLOK2(xml1, xml2, new String[]{exp});
   }
 
   /**
@@ -82,6 +124,33 @@ public abstract class BaseAlgorithmTest {
   }
 
   /**
+   * Asserts that the Diff-X operation for XML meets expectations.
+   *
+   * @param xml1 The first XML to compare with diffx.
+   * @param xml2 The first XML to compare with diffx.
+   * @param exp  The expected result as formatted by the TestFormatter.
+   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffXException Should an error occur while parsing XML.
+   */
+  public final void assertDiffXMLOK2(String xml1, String xml2, String[] exp)
+      throws IOException, DiffXException {
+    // Record XML
+    SAXRecorder recorder = new SAXRecorder();
+    EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : recorder.process(xml1);
+    EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : recorder.process(xml2);
+    // Process as list of actions
+    List<Action> actions = diffToActions(seq1, seq2);
+    try {
+      assertDiffIsCorrect(seq1, seq2, actions);
+      assertDiffIsWellFormedXML(actions);
+      assertMatchTestOutput(actions, exp);
+    } catch (AssertionError ex) {
+      printXMLErrorDetails(xml1, xml2, exp, toXML(actions), actions);
+      throw ex;
+    }
+  }
+
+  /**
    * Processes the diff and returns the result
    *
    * @param xml1 The first XML doc.
@@ -97,10 +166,7 @@ public abstract class BaseAlgorithmTest {
     EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : this.recorder.process(xml1);
     EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : this.recorder.process(xml2);
 
-    EventSequence s1 = SequenceFolding.forElements(new String[]{"li"}).fold(seq1);
-    EventSequence s2 = SequenceFolding.forElements(new String[]{"li"}).fold(seq2);
-
-    this.diffx = makeDiffX(s1, s2);
+    this.diffx = makeDiffX(seq1, seq2);
     MultiplexFormatter mf = new MultiplexFormatter();
     ActionFormatter af = new ActionFormatter();
     TestFormatter tf = new TestFormatter();
@@ -109,7 +175,7 @@ public abstract class BaseAlgorithmTest {
     this.diffx.process(tf);
     // check for validity
     List<Action> actions = af.getActions();
-    Assert.assertTrue(Actions.isApplicable(s1.events(), s2.events(), actions));
+    Assert.assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions));
     return tf.getOutput();
   }
 
@@ -191,4 +257,88 @@ public abstract class BaseAlgorithmTest {
       System.err.println(exp[i]);
     }
   }
+
+  public final void assertDiffIsCorrect(EventSequence seq1, EventSequence seq2, List<Action> actions) throws IOException {
+    // Ensure that the diff is applicable
+    Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1.events(), seq2.events(), actions));
+
+    // Apply to second sequence to ensure we get the first
+    EventSequence got1 = Actions.apply(seq2, actions);
+    Assert.assertEquals("Applying diff to #2 did not produce #1 ", seq1, got1);
+
+    // Apply to first sequence to ensure we get the second
+    EventSequence got2 = Actions.apply(seq1, Actions.reverse(actions));
+    Assert.assertEquals("Applying diff to #1 did not produce #2 ", seq2, got2);
+  }
+
+  public DiffResult processResult(EventSequence seq1, EventSequence seq2) throws IOException {
+    DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
+    ActionFormatter formatter = new ActionFormatter();
+    diffx.process(formatter);
+    return new DiffResult(formatter.getActions());
+  }
+
+  public List<Action> diffToActions(EventSequence seq1, EventSequence seq2) throws IOException {
+    DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
+    ActionFormatter formatter = new ActionFormatter();
+    diffx.process(formatter);
+    return formatter.getActions();
+  }
+
+  public static String toXML(List<Action> actions) throws IOException {
+    StringWriter xml = new StringWriter();
+    XMLDiffXFormatter formatter = new BasicXMLFormatter(xml);
+    Actions.format(actions, formatter);
+    return xml.toString();
+  }
+
+  public static String toTestFormat(List<Action> actions) throws IOException {
+    TestFormatter formatter = new TestFormatter();
+    Actions.format(actions, formatter);
+    return formatter.getOutput();
+  }
+
+  public static void assertDiffIsWellFormedXML(List<Action> actions) throws IOException {
+    assertIsWellFormedXML(toXML(actions));
+  }
+
+  public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {
+    // check the possible values
+    String diffout = toTestFormat(actions);
+    for (String s : exp) {
+      if (s.equals(diffout)) return;
+    }
+    Assert.assertEquals(exp[0], diffout);
+  }
+
+
+  public static void assertIsWellFormedXML(String xml) throws IOException {
+    try {
+      InputSource source = new InputSource(new StringReader(xml));
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      factory.newSAXParser().parse(source, new DefaultHandler());
+    } catch (SAXException | ParserConfigurationException ex) {
+      throw new AssertionError("XML is not well-formed");
+    }
+  }
+
+  /**
+   * Print the error details.
+   */
+  private void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
+    System.err.println("+------------------------------------------------");
+    System.err.println("| Input A: \"" + xml1 + "\"");
+    System.err.println("| Input B: \"" + xml2 + "\"");
+    System.err.println("| Output:  \"" + got + "\"");
+    System.err.print("| Expect:  ");
+    for (String s : exp) System.err.print("\"" + s + "\" ");
+    System.err.println();
+    System.err.print("| Actions: ");
+    for (Action action : actions) {
+      System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
+      System.err.print(action.events());
+    }
+    System.err.println();
+  }
+
 }

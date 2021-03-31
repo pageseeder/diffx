@@ -15,11 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
-import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.DiffXEvent;
@@ -307,17 +305,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     List<Action> actions = af.getActions();
 
     try {
-      // Ensure that the diff is applicable
-      Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1.events(), seq2.events(), actions));
-
-      // Apply to second sequence to ensure we get the first
-      EventSequence got1 = Actions.apply(seq2, actions);
-      Assert.assertEquals("Applying diff to #2 did not produce #1 ", seq1, got1);
-
-      // Apply to first sequence to ensure we get the second
-      EventSequence got2 = Actions.apply(seq1, Actions.reverse(actions));
-      Assert.assertEquals("Applying diff to #1 did not produce #2 ", seq2, got2);
-
+      assertDiffIsCorrect(seq1, seq2, actions);
     } catch (AssertionError ex) {
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;

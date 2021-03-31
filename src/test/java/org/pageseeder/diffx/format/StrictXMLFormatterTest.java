@@ -64,7 +64,7 @@ public final class StrictXMLFormatterTest {
   private StringWriter w = null;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     this.w = new StringWriter();
     this.formatter = new StrictXMLFormatter(this.w);
   }

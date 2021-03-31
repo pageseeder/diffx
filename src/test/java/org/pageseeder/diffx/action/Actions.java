@@ -16,12 +16,11 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * The action digester reads a list of actions and with an input sequence can
@@ -144,6 +143,29 @@ public class Actions {
       }
     }
     return true;
+  }
+
+  public static void format(List<Action> actions, DiffXFormatter formatter) throws IOException {
+    for (Action action : actions) {
+      switch (action.type()) {
+        case KEEP:
+          for (DiffXEvent event : action.events()) {
+            formatter.format(event);
+          }
+          break;
+        case INS:
+          for (DiffXEvent event : action.events()) {
+            formatter.insert(event);
+          }
+          break;
+        case DEL:
+          for (DiffXEvent event : action.events()) {
+            formatter.delete(event);
+          }
+          break;
+        default:
+      }
+    }
   }
 
 }

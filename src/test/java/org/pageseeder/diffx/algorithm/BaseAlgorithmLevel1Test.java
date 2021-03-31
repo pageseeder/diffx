@@ -29,14 +29,12 @@ import java.io.IOException;
  * as separate dimensions.
  *
  * <p>Level 1 algorithms must produce results that are good enough to be formatted
- * and show the correct differences.
+ * and show the correct differences as XML.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
 public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
-
-  // identity test ------------------------------------------------------------------------
 
   /**
    * Compares two identical XML documents.
@@ -54,7 +52,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml1 = "<a/>";
     String xml2 = "<a/>";
     String exp = "<a></a>";
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
   /**
@@ -73,7 +71,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>X</a>";
     String exp = "<a>$w{X}</a>";
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
   /**
@@ -92,7 +90,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X Y</a>";
     String exp = "<a>$w{X}$s{ }$w{Y}</a>";
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
   /**
@@ -111,7 +109,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a m='x'/>";
     String exp = "<a>@{m=x}</a>";
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
   /**
@@ -133,7 +131,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>@{m=x}@{n=y}</a>",
         "<a>@{n=y}@{m=x}</a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
 // total difference tests ---------------------------------------------------------------
@@ -163,8 +161,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "-<a>+<b>+</b>-</a>",
         "+<b>-<a>-</a>+</b>",
         "+<b>+</b>-<a>-</a>"};
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -184,8 +182,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "";
     String exp1 = "+<a>+</a>";
     String exp2 = "-<a>-</a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // modified text test -------------------------------------------------------------------
@@ -213,8 +211,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>-$w{X}+$w{Y}</a>",
         "<a>+$w{Y}-$w{X}</a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -234,8 +232,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a>X</a>";
     String exp1 = "<a>$w{X}+$s{ }</a>";
     String exp2 = "<a>$w{X}-$s{ }</a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -255,8 +253,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a>X</a>";
     String exp1 = "<a>$w{X}+$s{ }+$w{Y}</a>";
     String exp2 = "<a>$w{X}-$s{ }-$w{Y}</a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 //moved text tests ---------------------------------------------------------------------
@@ -279,8 +277,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><b/><c>x</c></a>";
     String exp1 = "<a><b>+$w{x}</b><c>-$w{x}</c></a>";
     String exp2 = "<a><b>-$w{x}</b><c>+$w{x}</c></a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -301,8 +299,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><b/><c>x y</c></a>";
     String exp1 = "<a><b>+$w{x}+$s{ }+$w{y}</b><c>-$w{x}-$s{ }-$w{y}</c></a>";
     String exp2 = "<a><b>-$w{x}-$s{ }-$w{y}</b><c>+$w{x}+$s{ }+$w{y}</c></a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // element tests ------------------------------------------------------------------------
@@ -334,8 +332,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>+<c>-<b>-</b>+</c></a>",
         "<a>+<c>+</c>-<b>-</b></a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -361,8 +359,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "+<b>-<a>$w{X}-</a>+</b>",
         "-<a>+<b>$w{X}+</b>-</a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -382,8 +380,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<b><a>X</a></b>";
     String exp1 = "+<a><b>-<a>$w{X}-</a></b>+</a>";
     String exp2 = "+<b><a>-<b>$w{X}-</b></a>+</b>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // text and elements --------------------------------------------------------------------
@@ -405,8 +403,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><b>X</b></a>";
     String exp1 = "<a><b>$w{X}</b>+<c>+$w{Y}+</c></a>";
     String exp2 = "<a><b>$w{X}</b>-<c>-$w{Y}-</c></a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -426,8 +424,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><c>Y</c></a>";
     String exp1 = "<a>+<b>+$w{X}+</b><c>$w{Y}</c></a>";
     String exp2 = "<a>-<b>-$w{X}-</b><c>$w{Y}</c></a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -442,8 +440,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><b>W X</b></a>";
     String exp1 = "<a><b>$w{W}$s{ }$w{X}</b>+<c>+$w{Y}+$s{ }+$w{Z}+</c></a>";
     String exp2 = "<a><b>$w{W}$s{ }$w{X}</b>-<c>-$w{Y}-$s{ }-$w{Z}-</c></a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // attributes tests ---------------------------------------------------------------------
@@ -460,8 +458,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a/>";
     String exp1 = "<a>+@{m=x}</a>";
     String exp2 = "<a>-@{m=x}</a>";
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -482,8 +480,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>+@{m=x}-@{m=y}</a>",
         "<a>-@{m=y}+@{m=x}</a>",
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -501,7 +499,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>+@{m=y}-@{m=x}+@{n=z}-@{n=w}</a>",
         "<a>+@{m=y}-@{m=x}+@{n=z}-@{n=w}</a>",
     };
-    assertDiffXMLOK(xml1, xml2, exp);
+    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
   /**
@@ -523,8 +521,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>-@{m=x}-$w{X}+$w{Y}</a>",
         "<a>-@{m=x}+$w{Y}-$w{X}</a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -550,8 +548,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>+@{m=y}-@{m=x}-$w{X}+$w{Y}</a>",
         "<a>+@{m=y}-@{m=x}+$w{Y}-$w{X}</a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -566,7 +564,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a f:m='y' xmlns:f='h://f.org'/>";
     String[] exp = new String[]{};
     // FIXME: write test
-//    assertDiffXMLOK(xml1, xml2, exp);
+//    assertDiffXMLOK2(xml1, xml2, exp);
   }
 
 // self wrap tests ----------------------------------------------------------------------
@@ -593,8 +591,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>-<a></a>-</a>",
         "-<a><a>-</a></a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -619,8 +617,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a>-<a>$w{x}</a>-</a>",
         "-<a><a>$w{x}-</a></a>",
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // split and merge problems -------------------------------------------------------------
@@ -645,8 +643,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a><b>$w{X}-</b>$s{ }-<b>$w{Y}</b></a>",               // tags removed
         "<a><b>$w{X}+$s{ }+$w{Y}</b>-$s{ }-<b>-$w{Y}-</b></a>"  // text has moved
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
   /**
@@ -667,8 +665,8 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         "<a><b><c></c>-</b>-<b><d></d></b></a>",
         "<a><b><c></c>+<d>+</d></b>-<b>-<d>-</d>-</b></a>"
     };
-    assertDiffXMLOK(xml1, xml2, exp1);
-    assertDiffXMLOK(xml2, xml1, exp2);
+    assertDiffXMLOK2(xml1, xml2, exp1);
+    assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
 // line tests ---------------------------------------------------------------------------------
