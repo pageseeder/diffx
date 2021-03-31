@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.action.Action;
@@ -306,33 +305,6 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;
     }
-  }
-
-  /**
-   * Processes the diff and returns the result
-   *
-   * @param text1 The first text.
-   * @param text2 The second text.
-   * @return The diff output.
-   * @throws IOException           Should an I/O exception occur.
-   * @throws IllegalStateException Should the factory fail to create DiffX algorithm.
-   */
-  private String getCharDifferences(String text1, String text2) throws IOException, IllegalStateException {
-    EventSequence seq1 = asSequenceOfCharEvents(text1);
-    EventSequence seq2 = asSequenceOfCharEvents(text2);
-    DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
-    CharTestFormatter formatter = new CharTestFormatter();
-    diffx.process(formatter);
-    return formatter.getOutput();
-  }
-
-  private List<Action> getActions(String text1, String text2) throws IOException, IllegalStateException {
-    EventSequence seq1 = asSequenceOfCharEvents(text1);
-    EventSequence seq2 = asSequenceOfCharEvents(text2);
-    DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
-    ActionFormatter f = new ActionFormatter();
-    diffx.process(f);
-    return f.getActions();
   }
 
   private static EventSequence asSequenceOfCharEvents(String string) {

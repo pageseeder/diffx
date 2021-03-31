@@ -142,7 +142,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testBestPath() throws IOException, DiffXException {
+  public final void testLevel2_BestPath() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<a><b/><b>X</b></a>";
     String exp1 = "<a>-<b>-</b><b>$w{X}</b></a>";
@@ -151,7 +151,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
     assertDiffXMLOK(xml2, xml1, exp2);
   }
 
-  public final void testTemp() throws IOException, DiffXException {
+  public final void testLevel2_Temp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><b>X</b></a>";
     String xml2 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><x:b>X</x:b></a>";
     String exp1 = "<a>-<b>-</b><b>$w{X}</b></a>";
