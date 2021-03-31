@@ -19,11 +19,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
-import org.pageseeder.diffx.event.impl.WordEvent;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.pageseeder.diffx.test.Events.toTextEvents;
 
 /**
  * Test case for the tokenizer.
@@ -142,18 +141,6 @@ public final class TokenizerBySpaceWordTest {
   public void testWordsWithPunctuation2() {
     List<TextEvent> events = TokenizerBySpaceWord.tokenize("Blue, white, and red.", WhiteSpaceProcessing.PRESERVE);
     Assert.assertEquals(toTextEvents("Blue", ",", " white", ",", " and", " red", "."), events);
-  }
-
-  private List<TextEvent> toTextEvents(String... words) {
-    List<TextEvent> events = new ArrayList<>();
-    for (String word : words) {
-      if (word.matches("\\s+")) {
-        events.add(new IgnorableSpaceEvent(word));
-      } else {
-        events.add(new WordEvent(word));
-      }
-    }
-    return events;
   }
 
 }

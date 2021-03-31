@@ -32,7 +32,7 @@ import java.io.StringWriter;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @see org.pageseeder.diffx.test.EventUtils
+ * @see Events
  */
 public final class TestFormatter implements DiffXFormatter {
 
@@ -59,9 +59,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-    out.write(EventUtils.toAbstractString(e));
+    out.write(Events.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println(EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println(Events.toAbstractString(e));
   }
 
   /**
@@ -70,9 +70,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    out.write("+" + EventUtils.toAbstractString(e));
+    out.write("+" + Events.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("+" + EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("+" + Events.toAbstractString(e));
   }
 
   /**
@@ -81,9 +81,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException {
-    out.write("-" + EventUtils.toAbstractString(e));
+    out.write("-" + Events.toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("-" + EventUtils.toAbstractString(e));
+    if (DEBUG) System.err.println("-" + Events.toAbstractString(e));
   }
 
   /**

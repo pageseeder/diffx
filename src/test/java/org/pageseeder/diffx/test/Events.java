@@ -18,18 +18,21 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Utility class for events and testing.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class EventUtils {
+public final class Events {
 
   /**
    * Prevents creation of instances.
    */
-  private EventUtils() {
+  private Events() {
   }
 
   /**
@@ -65,4 +68,18 @@ public final class EventUtils {
     return null;
   }
 
+  public static TextEvent toTextEvent(String text) {
+    if (text.matches("\\s+")) {
+      return new IgnorableSpaceEvent(text);
+    }
+    return new WordEvent(text);
+  }
+
+  public static List<TextEvent> toTextEvents(String... words) {
+    List<TextEvent> events = new ArrayList<>();
+    for (String word : words) {
+      events.add(toTextEvent(word));
+    }
+    return events;
+  }
 }
