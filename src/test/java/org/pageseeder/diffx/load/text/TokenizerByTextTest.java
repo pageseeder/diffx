@@ -39,15 +39,10 @@ public final class TokenizerByTextTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testNull() {
-    try {
-      TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
-      t.tokenize(null);
-      assertTrue(false);
-    } catch (NullPointerException ex) {
-      assertTrue(true);
-    }
+    TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
+    t.tokenize(null);
   }
 
   /**
@@ -61,7 +56,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser counts the correct number of tokens.
+   * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
   public void testCountToken1() {
@@ -78,7 +73,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser counts the correct number of tokens.
+   * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
   public void testCountToken2() {
@@ -95,7 +90,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser counts the correct number of tokens.
+   * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
   public void testCountToken3() {
@@ -112,7 +107,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser counts the correct number of tokens.
+   * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
   public void testCountToken4() {
@@ -124,7 +119,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds a space event as token.
+   * Tests that the tokenizer finds a space event as token.
    */
   @Test
   public void testSpace1() {
@@ -137,7 +132,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds a space event as token.
+   * Tests that the tokenizer finds a space event as token.
    */
   @Test
   public void testSpace2() {
@@ -150,7 +145,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds a space event as token.
+   * Tests that the tokenizer finds a space event as token.
    */
   @Test
   public void testSpace3() {
@@ -163,7 +158,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds a word event as token.
+   * Tests that the tokenizer finds a word event as token.
    */
   @Test
   public void testWord1() {
@@ -174,7 +169,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of events.
    */
   @Test
   public void testSeq1() {
@@ -186,7 +181,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of events.
    */
   @Test
   public void testSeq2() {
@@ -198,7 +193,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of events.
    */
   @Test
   public void testSeq3() {
@@ -211,7 +206,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of events.
    */
   @Test
   public void testSeq4() {
@@ -223,7 +218,7 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokeniser finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of events.
    */
   @Test
   public void testSeq5() {

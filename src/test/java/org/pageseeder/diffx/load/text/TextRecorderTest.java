@@ -137,7 +137,7 @@ public final class TextRecorderTest {
     String xml = "&#x8012;";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("&#x8012;", 1));
-    Assert.assertEquals(exp, xml);
+    assertEquals(exp, xml);
   }
 
 // helpers ------------------------------------------------------------------------------------

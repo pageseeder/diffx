@@ -39,14 +39,10 @@ public final class TokenizerByWordTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testNull() {
-    try {
-      TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
-      t.tokenize(null);
-    } catch (NullPointerException ex) {
-      assertTrue(true);
-    }
+    TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
+    t.tokenize(null);
   }
 
   /**

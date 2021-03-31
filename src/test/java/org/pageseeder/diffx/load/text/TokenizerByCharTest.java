@@ -37,20 +37,12 @@ public final class TokenizerByCharTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test
+  @Test(expected = NullPointerException.class)
   public void testNull() {
-    try {
-      TokenizerByChar t = new TokenizerByChar();
-      t.tokenize(null);
-      assertTrue(false);
-    } catch (NullPointerException ex) {
-      assertTrue(true);
-    }
+    TokenizerByChar t = new TokenizerByChar();
+    t.tokenize(null);
   }
 
-  /**
-   * Tests that an empty array is returned for empty string.
-   */
   @Test
   public void testEmpty() {
     TokenizerByChar t = new TokenizerByChar();
@@ -58,9 +50,6 @@ public final class TokenizerByCharTest {
     assertEquals(0, e.size());
   }
 
-  /**
-   * Tests that the tokeniser counts the correct number of tokens.
-   */
   @Test
   public void testCountToken1() {
     TokenizerByChar t = new TokenizerByChar();
@@ -75,9 +64,6 @@ public final class TokenizerByCharTest {
     assertEquals(5, t.tokenize("d d d").size());
   }
 
-  /**
-   * Tests that the tokeniser counts the correct number of tokens.
-   */
   @Test
   public void testCountToken2() {
     TokenizerByChar t = new TokenizerByChar();
@@ -92,9 +78,6 @@ public final class TokenizerByCharTest {
     assertEquals(8, t.tokenize("xx  yy  ").size());
   }
 
-  /**
-   * Tests that the tokeniser finds a space event as token.
-   */
   @Test
   public void testSpace1() {
     TokenizerByChar t = new TokenizerByChar();
@@ -105,9 +88,6 @@ public final class TokenizerByCharTest {
     assertSame(SpaceEvent.SINGLE_WHITESPACE, space);
   }
 
-  /**
-   * Tests that the tokeniser finds a space event as token.
-   */
   @Test
   public void testSpace3() {
     TokenizerByChar t = new TokenizerByChar();
@@ -118,9 +98,6 @@ public final class TokenizerByCharTest {
     assertSame(SpaceEvent.NEW_LINE, space);
   }
 
-  /**
-   * Tests that the tokeniser finds a word event as token.
-   */
   @Test
   public void testWord1() {
     TokenizerByChar t = new TokenizerByChar();
