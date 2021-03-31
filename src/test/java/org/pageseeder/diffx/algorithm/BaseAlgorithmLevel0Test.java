@@ -29,7 +29,6 @@ import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,15 +44,6 @@ import java.util.stream.Collectors;
  * @version 0.9.0
  */
 public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
-
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public BaseAlgorithmLevel0Test(String name) {
-    super(name);
-  }
 
   @Test public final void testLevel0_Empty() throws IOException {
     String a = "";

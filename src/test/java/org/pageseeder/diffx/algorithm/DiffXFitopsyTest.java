@@ -25,13 +25,6 @@ import org.pageseeder.diffx.sequence.EventSequence;
  */
 public final class DiffXFitopsyTest extends BaseAlgorithmLevel2Test {
 
-  /**
-   * @param name Name of the test.
-   */
-  public DiffXFitopsyTest(String name) {
-    super(name);
-  }
-
   public DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2) {
     return new DiffXFitopsy(seq1, seq2);
   }

@@ -1,7 +1,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
@@ -20,7 +20,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 
-public abstract class BaseAlgorithmTest extends TestCase {
+public abstract class BaseAlgorithmTest {
 
   /**
    * The loader used for the tests.
@@ -31,10 +31,6 @@ public abstract class BaseAlgorithmTest extends TestCase {
    * The Diff-X algorithm being tested.
    */
   private transient DiffXAlgorithm diffx = null;
-
-  public BaseAlgorithmTest(String name) {
-    super(name);
-  }
 
   /**
    * Returns the Diff-X Algorithm instance from the specified sequences.
@@ -79,7 +75,7 @@ public abstract class BaseAlgorithmTest extends TestCase {
         ok = ok || s.equals(diffout);
       }
       if (!ok)
-        assertEquals(exp[0], diffout);
+        Assert.assertEquals(exp[0], diffout);
     } catch (AssertionFailedError ex) {
       printErrorDetails(xml1, xml2, exp);
       throw ex;
@@ -114,7 +110,7 @@ public abstract class BaseAlgorithmTest extends TestCase {
     this.diffx.process(tf);
     // check for validity
     List<Action> actions = af.getActions();
-    assertTrue(Actions.isApplicable(s1.events(), s2.events(), actions));
+    Assert.assertTrue(Actions.isApplicable(s1.events(), s2.events(), actions));
     return tf.getOutput();
   }
 
@@ -138,7 +134,7 @@ public abstract class BaseAlgorithmTest extends TestCase {
         ok = ok || s.equals(diffout);
       }
       if (!ok)
-        assertEquals(exp[0], diffout);
+        Assert.assertEquals(exp[0], diffout);
     } catch (AssertionFailedError ex) {
       printErrorDetails(text1, text2, exp);
       throw ex;

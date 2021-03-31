@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 
 import java.io.IOException;
@@ -34,17 +36,6 @@ import java.io.IOException;
  */
 public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
 
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public BaseAlgorithmLevel1Test(String name) {
-    super(name);
-  }
-
-// method that test classes must implement ----------------------------------------------
-
   // identity test ------------------------------------------------------------------------
 
   /**
@@ -58,6 +49,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_IdenticalA() throws IOException, DiffXException {
     String xml1 = "<a/>";
     String xml2 = "<a/>";
@@ -76,6 +68,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_IdenticalB() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>X</a>";
@@ -94,6 +87,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_IdenticalC() throws IOException, DiffXException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X Y</a>";
@@ -112,6 +106,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_IdenticalD() throws IOException, DiffXException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a m='x'/>";
@@ -130,6 +125,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_IdenticalE() throws IOException, DiffXException {
     String xml1 = "<a m='x' n='y'/>";
     String xml2 = "<a n='y' m='x'/>";
@@ -153,6 +149,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TotalDiffA() throws IOException, DiffXException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
@@ -181,6 +178,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TotalDiffB() throws IOException, DiffXException {
     String xml1 = "<a/>";
     String xml2 = "";
@@ -203,6 +201,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ModifiedTextA() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>Y</a>";
@@ -229,6 +228,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ModifiedTextB() throws IOException, DiffXException {
     String xml1 = "<a>X </a>";
     String xml2 = "<a>X</a>";
@@ -249,6 +249,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ModifiedTextC() throws IOException, DiffXException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X</a>";
@@ -272,6 +273,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_MoveA() throws IOException, DiffXException {
     String xml1 = "<a><b>x</b><c/></a>";
     String xml2 = "<a><b/><c>x</c></a>";
@@ -293,6 +295,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_MoveB() throws IOException, DiffXException {
     String xml1 = "<a><b>x y</b><c/></a>";
     String xml2 = "<a><b/><c>x y</c></a>";
@@ -315,6 +318,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ElementA() throws IOException, DiffXException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
@@ -345,6 +349,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ElementB() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
@@ -371,6 +376,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_ElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
@@ -393,6 +399,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TextElementA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><b>X</b></a>";
@@ -413,6 +420,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TextElementB() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><c>Y</c></a>";
@@ -428,6 +436,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TextElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
     String xml2 = "<a><b>W X</b></a>";
@@ -445,6 +454,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_AttributeA() throws IOException, DiffXException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a/>";
@@ -460,6 +470,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_AttributeB() throws IOException, DiffXException {
     String xml1 = "<a m='y'/>";
     String xml2 = "<a m='x'/>";
@@ -481,6 +492,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_AttributeC() throws IOException, DiffXException {
     String xml2 = "<a n='w' m='x'/>";
     String xml1 = "<a m='y' n='z'/>";
@@ -499,6 +511,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TextAttributeA() throws IOException, DiffXException {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a>Y</a>";
@@ -521,6 +534,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_TextAttributeB() throws IOException, DiffXException {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a m='y'>Y</a>";
@@ -546,6 +560,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_AttributeNamespaces0() throws IOException, DiffXException {
     String xml1 = "<a e:m='y' xmlns:e='h://e.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='h://f.org'/>";
@@ -562,6 +577,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_SelfWrapA() throws IOException, DiffXException {
     String xml1 = "<a><a/></a>";
     String xml2 = "<a></a>";
@@ -587,6 +603,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_SelfWrapB() throws IOException, DiffXException {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
@@ -614,6 +631,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_SplitMergeA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
@@ -637,6 +655,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_SplitMergeB() throws IOException, DiffXException {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
@@ -660,6 +679,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_SameLine0() throws IOException, DiffXException {
     String text1 = "line #1\n"
                  + "line #2\n"
@@ -669,7 +689,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
                  + "line #3\n";
     String exp = "$L1$L2$L3";
     String diff = processDiffText(text1, text2);
-    assertEquals(exp, diff);
+    Assert.assertEquals(exp, diff);
   }
 
   /**
@@ -678,6 +698,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_LineChange0() throws IOException, DiffXException {
     String text1 = "line #1\n"
                  + "line #2\n"
@@ -698,6 +719,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_LineInsert0() throws IOException, DiffXException {
     String text1 = "line #1\n"
                  + "line #2\n"
@@ -717,6 +739,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel1_LineRemove0() throws IOException, DiffXException {
     String text1 = "line #1\n"
                  + "line #3\n";

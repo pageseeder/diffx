@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 
 import java.io.IOException;
@@ -27,22 +28,9 @@ import java.io.IOException;
  * well-formed XML.
  *
  * @author Christophe Lauret
- * @version 15 April 2005
+ * @version 0.9.0
  */
 public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
-
-// constructors -------------------------------------------------------------------------
-
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public BaseAlgorithmLevel2Test(String name) {
-    super(name);
-  }
-
-// test ---------------------------------------------------------------------------------
 
   /**
    * Wraps the XML in the same element.
@@ -50,7 +38,8 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testSelfWrapALevel2() throws IOException, DiffXException {
+  @Test
+  public final void testLevel2_SelfWrapA() throws IOException, DiffXException {
     String xml1 = "<a><a/></a>";
     String xml2 = "<a></a>";
     String[] exp1 = new String[]{
@@ -71,7 +60,8 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testSelfWrapBLevel2() throws IOException, DiffXException {
+  @Test
+  public final void testLevel2_SelfWrapB() throws IOException, DiffXException {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
     String[] exp1 = new String[]{
@@ -92,7 +82,8 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testSplitMergeALevel2() throws IOException, DiffXException {
+  @Test
+  public final void testLevel2_SplitMergeA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     String exp1 = "<a><b>$w{X}-$s{ }-$w{Y}</b>+$s{ }+<b>+$w{Y}+</b></a>";
@@ -107,7 +98,8 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testMovedBranch() throws IOException, DiffXException {
+  @Test
+  public final void testLevel2_MovedBranch() throws IOException, DiffXException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String exp1 = "<a><b>$w{M}-<a>-<b>-$w{A}-</b>-</a></b>+<a>+<b>+$w{A}+</b>+</a><b>$w{N}</b></a>";
@@ -122,7 +114,8 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void testSplitMergeBLevel2() throws IOException, DiffXException {
+  @Test
+  public final void testLevel2_SplitMergeB() throws IOException, DiffXException {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
     String exp1 = "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>";
@@ -142,6 +135,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
+  @Test
   public final void testLevel2_BestPath() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<a><b/><b>X</b></a>";
@@ -151,6 +145,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
     assertDiffXMLOK(xml2, xml1, exp2);
   }
 
+  @Test
   public final void testLevel2_Temp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><b>X</b></a>";
     String xml2 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><x:b>X</x:b></a>";

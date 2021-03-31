@@ -25,16 +25,8 @@ import org.pageseeder.diffx.sequence.EventSequence;
  */
 public final class GuanoAlgorithmTest extends BaseAlgorithmLevel2Test {
 
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public GuanoAlgorithmTest(String name) {
-    super(name);
-  }
-
   public DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2) {
     return new GuanoAlgorithm(seq1, seq2);
   }
+
 }

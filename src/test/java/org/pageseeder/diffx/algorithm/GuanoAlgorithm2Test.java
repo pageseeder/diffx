@@ -28,15 +28,6 @@ import java.io.IOException;
  */
 public final class GuanoAlgorithm2Test extends BaseAlgorithmTest {
 
-  /**
-   * Default constructor.
-   *
-   * @param name Name of the test.
-   */
-  public GuanoAlgorithm2Test(String name) {
-    super(name);
-  }
-
   public DiffXAlgorithm makeDiffX(EventSequence first, EventSequence second) {
     return new GuanoAlgorithm(first, second);
   }

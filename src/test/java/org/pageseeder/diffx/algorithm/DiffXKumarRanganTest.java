@@ -25,13 +25,6 @@ import org.pageseeder.diffx.sequence.EventSequence;
  */
 public final class DiffXKumarRanganTest extends BaseAlgorithmLevel0Test {
 
-  /**
-   * @param name Name of the test.
-   */
-  public DiffXKumarRanganTest(String name) {
-    super(name);
-  }
-
   public DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2) {
     return new DiffXKumarRangan(seq1, seq2);
   }
