@@ -2,7 +2,9 @@ package org.pageseeder.diffx.format;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.pageseeder.diffx.action.*;
+import org.pageseeder.diffx.action.Operation;
+import org.pageseeder.diffx.action.OperationFormatter;
+import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;

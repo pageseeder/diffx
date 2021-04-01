@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
@@ -34,8 +35,6 @@ import java.util.List;
  */
 public final class CoalescingFilter implements DiffXFormatter {
 
-  private enum Operation { INS, DEL, FORMAT };
-
   /**
    * Target format.
    */
@@ -49,7 +48,7 @@ public final class CoalescingFilter implements DiffXFormatter {
   /**
    * State variable which changes as new events are reported.
    */
-  private Operation current = Operation.FORMAT;
+  private Operator current = Operator.KEEP;
 
   public CoalescingFilter(DiffXFormatter target) {
     this.target = target;
@@ -58,30 +57,30 @@ public final class CoalescingFilter implements DiffXFormatter {
   @Override
   public void format(DiffXEvent event) throws IOException, IllegalStateException {
     if (event instanceof TextEvent) {
-      handleText((TextEvent)event, Operation.FORMAT);
+      handleText((TextEvent)event, Operator.KEEP);
     } else {
       flushText();
-      format(event);
+      this.target.format(event);
     }
   }
 
   @Override
   public void insert(DiffXEvent event) throws IOException, IllegalStateException {
     if (event instanceof TextEvent) {
-      handleText((TextEvent)event, Operation.INS);
+      handleText((TextEvent)event, Operator.INS);
     } else {
       flushText();
-      insert(event);
+      this.target.insert(event);
     }
   }
 
   @Override
   public void delete(DiffXEvent event) throws IOException, IllegalStateException {
     if (event instanceof TextEvent) {
-      handleText((TextEvent)event, Operation.DEL);
+      handleText((TextEvent)event, Operator.DEL);
     } else {
       flushText();
-      delete(event);
+      this.target.delete(event);
     }
   }
 
@@ -89,10 +88,10 @@ public final class CoalescingFilter implements DiffXFormatter {
   public void setConfig(DiffXConfig config) {
   }
 
-  private void handleText(TextEvent event, Operation operation) throws IOException {
-    if (this.current != operation) {
+  private void handleText(TextEvent event, Operator operator) throws IOException {
+    if (this.current != operator) {
       this.flushText();
-      this.current = operation;
+      this.current = operator;
     }
     this.buffer.add(event);
   }
@@ -105,9 +104,9 @@ public final class CoalescingFilter implements DiffXFormatter {
   public void flushText() throws IOException {
     if (this.buffer.size() > 0) {
       TextEvent text = coalesce(this.buffer);
-      if (this.current == Operation.FORMAT) this.target.format(text);
-      else if (this.current == Operation.INS) this.target.insert(text);
-      else if (this.current == Operation.DEL) this.target.delete(text);
+      if (this.current == Operator.KEEP) this.target.format(text);
+      else if (this.current == Operator.INS) this.target.insert(text);
+      else if (this.current == Operator.DEL) this.target.delete(text);
       this.buffer.clear();
     }
   }

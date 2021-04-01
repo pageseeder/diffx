@@ -19,7 +19,6 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
