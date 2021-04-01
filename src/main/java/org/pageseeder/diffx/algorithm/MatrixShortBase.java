@@ -75,6 +75,30 @@ public abstract class MatrixShortBase implements Matrix {
   }
 
   /**
+   * @see Matrix#isGreaterX(int, int)
+   */
+  @Override
+  public boolean isGreaterX(int i, int j) {
+    return this.matrix[i+1][j] > this.matrix[i][j+1];
+  }
+
+  /**
+   * @see Matrix#isGreaterY(int, int)
+   */
+  @Override
+  public boolean isGreaterY(int i, int j) {
+    return this.matrix[i+1][j] < this.matrix[i][j+1];
+  }
+
+  /**
+   * @see Matrix#isSameXY(int, int)
+   */
+  @Override
+  public boolean isSameXY(int i, int j) {
+    return this.matrix[i+1][j] == this.matrix[i][j+1];
+  }
+
+  /**
    * @see Object#toString()
    */
   @Override

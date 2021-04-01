@@ -28,17 +28,11 @@ public abstract class MatrixIntBase implements Matrix {
    */
   protected int[][] matrix;
 
-  /**
-   * @see Matrix#setup(int, int)
-   */
   @Override
   public void setup(int width, int height) {
     this.matrix = new int[width][height];
   }
 
-  /**
-   * @see Matrix#set(int, int, int)
-   */
   @Override
   public void set(int i, int j, int x) {
     this.matrix[i][j] = x;
@@ -72,9 +66,21 @@ public abstract class MatrixIntBase implements Matrix {
     return this.matrix[0].length;
   }
 
-  /**
-   * @see Object#toString()
-   */
+  @Override
+  public boolean isGreaterX(int i, int j) {
+    return this.matrix[i+1][j] > this.matrix[i][j+1];
+  }
+
+  @Override
+  public boolean isGreaterY(int i, int j) {
+    return this.matrix[i+1][j] < this.matrix[i][j+1];
+  }
+
+  @Override
+  public boolean isSameXY(int i, int j) {
+    return this.matrix[i+1][j] == this.matrix[i][j+1];
+  }
+
   @Override
   public String toString() {
     StringBuilder out = new StringBuilder();

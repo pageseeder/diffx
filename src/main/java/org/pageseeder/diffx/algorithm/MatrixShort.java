@@ -40,30 +40,6 @@ public final class MatrixShort extends MatrixShortBase {
     this.matrix[i][j] = max(this.matrix[i-1][j], this.matrix[i][j-1]);
   }
 
-  /**
-   * @see Matrix#isGreaterX(int, int)
-   */
-  @Override
-  public boolean isGreaterX(int i, int j) {
-    return this.matrix[i-1][j] > this.matrix[i][j-1];
-  }
-
-  /**
-   * @see Matrix#isGreaterY(int, int)
-   */
-  @Override
-  public boolean isGreaterY(int i, int j) {
-    return this.matrix[i-1][j] < this.matrix[i][j-1];
-  }
-
-  /**
-   * @see Matrix#isSameXY(int, int)
-   */
-  @Override
-  public boolean isSameXY(int i, int j) {
-    return this.matrix[i-1][j] == this.matrix[i][j-1];
-  }
-
   public int getLCSLength() {
     return this.get(this.matrix.length-1,this.matrix[0].length-1);
   }

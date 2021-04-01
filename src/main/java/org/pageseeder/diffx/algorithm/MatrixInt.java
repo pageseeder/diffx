@@ -23,44 +23,14 @@ package org.pageseeder.diffx.algorithm;
  */
 public final class MatrixInt extends MatrixIntBase {
 
-  /**
-   * @see Matrix#incrementPath(int, int)
-   */
   @Override
   public void incrementPath(int i, int j) {
     this.matrix[i][j] = this.matrix[i-1][j-1];
   }
 
-  /**
-   * @see Matrix#incrementByMaxPath(int, int)
-   */
   @Override
   public void incrementByMaxPath(int i, int j) {
     this.matrix[i][j] = Math.max(this.matrix[i-1][j], this.matrix[i][j-1]);
-  }
-
-  /**
-   * @see Matrix#isGreaterX(int, int)
-   */
-  @Override
-  public boolean isGreaterX(int i, int j) {
-    return this.matrix[i-1][j] > this.matrix[i][j-1];
-  }
-
-  /**
-   * @see Matrix#isGreaterY(int, int)
-   */
-  @Override
-  public boolean isGreaterY(int i, int j) {
-    return this.matrix[i-1][j] < this.matrix[i][j-1];
-  }
-
-  /**
-   * @see Matrix#isSameXY(int, int)
-   */
-  @Override
-  public boolean isSameXY(int i, int j) {
-    return this.matrix[i-1][j] == this.matrix[i][j-1];
   }
 
   public int getLCSLength() {

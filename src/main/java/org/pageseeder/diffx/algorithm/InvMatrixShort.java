@@ -22,46 +22,15 @@ package org.pageseeder.diffx.algorithm;
  * @version 0.9.0
  */
 public final class InvMatrixShort extends MatrixShortBase {
-  // TODO: this class should probably not be public
 
-  /**
-   * @see org.pageseeder.diffx.algorithm.Matrix#incrementPath(int, int)
-   */
   @Override
   public void incrementPath(int i, int j) {
     this.matrix[i][j] = (short)(this.matrix[i+1][j+1] + 1);
   }
 
-  /**
-   * @see org.pageseeder.diffx.algorithm.Matrix#incrementByMaxPath(int, int)
-   */
   @Override
   public void incrementByMaxPath(int i, int j) {
     this.matrix[i][j] = max(this.matrix[i+1][j], this.matrix[i][j+1]);
-  }
-
-  /**
-   * @see org.pageseeder.diffx.algorithm.Matrix#isGreaterX(int, int)
-   */
-  @Override
-  public boolean isGreaterX(int i, int j) {
-    return this.matrix[i+1][j] > this.matrix[i][j+1];
-  }
-
-  /**
-   * @see org.pageseeder.diffx.algorithm.Matrix#isGreaterY(int, int)
-   */
-  @Override
-  public boolean isGreaterY(int i, int j) {
-    return this.matrix[i+1][j] < this.matrix[i][j+1];
-  }
-
-  /**
-   * @see org.pageseeder.diffx.algorithm.Matrix#isSameXY(int, int)
-   */
-  @Override
-  public boolean isSameXY(int i, int j) {
-    return this.matrix[i+1][j] == this.matrix[i][j+1];
   }
 
   public int getLCSLength() {
