@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * <p>To pass this test an algorithm must only be able to find the correct differences in a piece or text.
  * XML awareness isn't required.
  *
- * <p>All algorithms must pass this test</p>
+ * <p>All algorithms must pass this test to show they produce correct results.</p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -48,7 +48,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "";
     String b = "";
     String[] exp = new String[]{""};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   // Identical ----------------------------------------------------------------
@@ -58,7 +58,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "x";
     String b = "x";
     String[] exp = new String[]{"x"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -66,7 +66,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xx";
     String b = "xx";
     String[] exp = new String[]{"xx"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -74,7 +74,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xyz";
     String b = "xyz";
     String[] exp = new String[]{"xyz"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -82,7 +82,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -90,7 +90,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   // Inserts and deletes ------------------------------------------------------
@@ -100,7 +100,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "x";
     String b = "";
     String[] exp = new String[]{"+x"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -108,7 +108,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "";
     String b = "y";
     String[] exp = new String[]{"-y"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -116,7 +116,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xx";
     String b = "";
     String[] exp = new String[]{"+x+x"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -124,7 +124,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "";
     String b = "yy";
     String[] exp = new String[]{"-y-y"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -132,7 +132,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xx";
     String b = "x";
     String[] exp = new String[]{"x+x", "+xx"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -140,7 +140,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "y";
     String b = "yy";
     String[] exp = new String[]{"y-y", "-yy"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -148,7 +148,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xxx";
     String b = "xx";
     String[] exp = new String[]{"+xxx", "x+xx", "xx+x"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -156,7 +156,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "yy";
     String b = "yyy";
     String[] exp = new String[]{"-yyy", "y-yy", "yy-y"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -164,7 +164,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "   x   ";
     String b = "      ";
     String[] exp = new String[]{"   +x   "};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -172,7 +172,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "      ";
     String b = "   y   ";
     String[] exp = new String[]{"   -y   "};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -180,7 +180,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "testing";
     String b = "test";
     String[] exp = new String[]{"test+i+n+g"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -188,7 +188,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "test";
     String b = "testing";
     String[] exp = new String[]{"test-i-n-g"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   // Replacements -------------------------------------------------------------
@@ -198,7 +198,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "x";
     String b = "y";
     String[] exp = new String[]{"+x-y", "-y+x"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -213,7 +213,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
         "-y-y+x+x",
         "-y+x+x-y"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -221,7 +221,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String a = "xax";
     String b = "xbx";
     String[] exp = new String[]{"x+a-bx", "x-b+ax"};
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -234,7 +234,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
         "-b+ax+a-b",
         "-b+ax-b+a",
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   // More complex cases -------------------------------------------------------
@@ -247,7 +247,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
         "+aba-b",
         "-bab+a"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -258,7 +258,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
         "+abab-a",
         "-baba+b"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -269,7 +269,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
         "+ababa-b",
         "-babab+a",
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -279,7 +279,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String[] exp = new String[]{
         "-t-wo+n+e little"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -289,7 +289,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String[] exp = new String[]{
         "-t-oo+n+e little"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
@@ -299,10 +299,13 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     String[] exp = new String[]{
         "-t-oo+n+e little"
     };
-    assertDiffCharOK(a, b, exp);
+    assertDiffOKLevel0(a, b, exp);
   }
 
-  public final void assertDiffCharOK(String text1, String text2, String[] exp) throws IOException {
+  // helpers
+  // --------------------------------------------------------------------------
+
+  public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
     EventSequence seq1 = asSequenceOfCharEvents(text1);
     EventSequence seq2 = asSequenceOfCharEvents(text2);
 

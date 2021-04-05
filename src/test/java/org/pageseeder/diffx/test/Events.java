@@ -65,7 +65,33 @@ public final class Events {
     if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
     // a single line
     if (e instanceof LineEvent) return "$L" + ((LineEvent) e).getLineNumber();
-    return null;
+    return e.getClass().toString();
+  }
+
+  /**
+   * Returns a simple representation for each event in order to recognise them depending on
+   * their class.
+   *
+   * <p>This method will return <code>null</code> if it does not know how to format it.
+   *
+   * @param e The event to format
+   * @return Its 'abstract' representation or <code>null</code>.
+   */
+  public static String toSimpleString(DiffXEvent e) {
+    // an element to open
+    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
+    // an element to close
+    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
+    // an element
+    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
+    // an attribute
+    if (e instanceof AttributeEvent)
+      return "@(" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + ')';
+    // a single line
+    if (e instanceof LineEvent) return "L:" + ((LineEvent) e).getLineNumber();
+    // a word
+    if (e instanceof TextEvent) return ((CharactersEventBase) e).getCharacters();
+    return e.getClass().toString();
   }
 
   public static TextEvent toTextEvent(String text) {

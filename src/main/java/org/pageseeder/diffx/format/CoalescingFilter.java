@@ -103,7 +103,7 @@ public final class CoalescingFilter implements DiffXFormatter {
    */
   public void flushText() throws IOException {
     if (this.buffer.size() > 0) {
-      TextEvent text = coalesce(this.buffer);
+      TextEvent text = coalesceText(this.buffer);
       if (this.current == Operator.KEEP) this.target.format(text);
       else if (this.current == Operator.INS) this.target.insert(text);
       else if (this.current == Operator.DEL) this.target.delete(text);
@@ -118,7 +118,7 @@ public final class CoalescingFilter implements DiffXFormatter {
    *
    * @return A single text event
    */
-  public static TextEvent coalesce(List<TextEvent> events) {
+  public static TextEvent coalesceText(List<TextEvent> events) {
     // If there's only one event, no need to coalesce
     if (events.size() == 1) return events.get(0);
     // Concatenate text of all text nodes
@@ -127,6 +127,25 @@ public final class CoalescingFilter implements DiffXFormatter {
       text.append(event.getCharacters());
     }
     return new CharactersEvent(text.toString());
+  }
+
+
+  /**
+   * Coalesce events that all text nodes
+   *
+   * @param events A list of text events
+   *
+   * @return A single text event
+   */
+  public static List<DiffXEvent> coalesce(List<DiffXEvent> events) {
+    // If there's only one event, no need to coalesce
+    if (events.size() <= 1) return events;
+    // TODO Concatenate text of all text nodes
+//    DiffXFormatter f = new asList();
+//    CoalescingFilter filter = new CoalescingFilter(f);
+//
+//    return new CharactersEvent(text.toString());
+    return null;
   }
 
 }

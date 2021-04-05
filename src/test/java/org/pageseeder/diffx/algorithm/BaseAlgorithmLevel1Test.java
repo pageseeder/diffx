@@ -78,25 +78,6 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * Compares two identical XML documents.
    *
    * <p>Compares
-   * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_IdenticalC() throws IOException, DiffXException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X Y</a>";
-    String exp = "<a>$w{X}$s{ }$w{Y}</a>";
-    assertDiffXMLOK2(xml1, xml2, exp);
-  }
-
-  /**
-   * Compares two identical XML documents.
-   *
-   * <p>Compares
    * <pre>&lt;a m='x'/&gt;</pre>
    * with
    * <pre>&lt;a m='x'/&gt;</pre>
@@ -236,27 +217,6 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     assertDiffXMLOK2(xml2, xml1, exp2);
   }
 
-  /**
-   * Compares two XML documents with a simple difference in the text.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;X&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_ModifiedTextC() throws IOException, DiffXException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X</a>";
-    String exp1 = "<a>$w{X}+$s{ }+$w{Y}</a>";
-    String exp2 = "<a>$w{X}-$s{ }-$w{Y}</a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
-  }
-
 //moved text tests ---------------------------------------------------------------------
 
   /**
@@ -277,28 +237,6 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><b/><c>x</c></a>";
     String exp1 = "<a><b>+$w{x}</b><c>-$w{x}</c></a>";
     String exp2 = "<a><b>-$w{x}</b><c>+$w{x}</c></a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
-  }
-
-  /**
-   * Compares two XML documents where the text of one element moves to
-   * another element.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;&lt;b&gt;x y&lt;/b&gt;&lt;c/&gt;&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;&lt;b/&gt;&lt;c&gt;x y&lt;/c&gt;&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_MoveB() throws IOException, DiffXException {
-    String xml1 = "<a><b>x y</b><c/></a>";
-    String xml2 = "<a><b/><c>x y</c></a>";
-    String exp1 = "<a><b>+$w{x}+$s{ }+$w{y}</b><c>-$w{x}-$s{ }-$w{y}</c></a>";
-    String exp2 = "<a><b>-$w{x}-$s{ }-$w{y}</b><c>+$w{x}+$s{ }+$w{y}</c></a>";
     assertDiffXMLOK2(xml1, xml2, exp1);
     assertDiffXMLOK2(xml2, xml1, exp2);
   }
@@ -424,22 +362,6 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
     String xml2 = "<a><c>Y</c></a>";
     String exp1 = "<a>+<b>+$w{X}+</b><c>$w{Y}</c></a>";
     String exp2 = "<a>-<b>-$w{X}-</b><c>$w{Y}</c></a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
-  }
-
-  /**
-   * Compares two XML documents with differences in both the text and the element nodes.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_TextElementC() throws IOException, DiffXException {
-    String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
-    String xml2 = "<a><b>W X</b></a>";
-    String exp1 = "<a><b>$w{W}$s{ }$w{X}</b>+<c>+$w{Y}+$s{ }+$w{Z}+</c></a>";
-    String exp2 = "<a><b>$w{W}$s{ }$w{X}</b>-<c>-$w{Y}-$s{ }-$w{Z}-</c></a>";
     assertDiffXMLOK2(xml1, xml2, exp1);
     assertDiffXMLOK2(xml2, xml1, exp2);
   }
@@ -622,30 +544,6 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   }
 
 // split and merge problems -------------------------------------------------------------
-
-  /**
-   * Splits / merge the text of the XML string.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_SplitMergeA() throws IOException, DiffXException {
-    String xml1 = "<a><b>X</b> <b>Y</b></a>";
-    String xml2 = "<a><b>X Y</b></a>";
-    // split
-    String[] exp1 = new String[]{
-        "<a><b>$w{X}+</b>$s{ }+<b>$w{Y}</b></a>",               // tags inserted
-        "<a><b>$w{X}-$s{ }-$w{Y}</b>+$s{ }+<b>+$w{Y}+</b></a>"  // text has moved
-    };
-    // merge
-    String[] exp2 = new String[]{
-        "<a><b>$w{X}-</b>$s{ }-<b>$w{Y}</b></a>",               // tags removed
-        "<a><b>$w{X}+$s{ }+$w{Y}</b>-$s{ }-<b>-$w{Y}-</b></a>"  // text has moved
-    };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
-  }
 
   /**
    * Splits the text of the XML string in 2.

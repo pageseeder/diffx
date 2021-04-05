@@ -287,7 +287,7 @@ public abstract class BaseAlgorithmTest {
 
   public static String toXML(List<Action> actions) throws IOException {
     StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new BasicXMLFormatter(xml);
+    XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
     Actions.format(actions, formatter);
     return xml.toString();
   }
@@ -325,7 +325,7 @@ public abstract class BaseAlgorithmTest {
   /**
    * Print the error details.
    */
-  private void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
+  protected void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + xml1 + "\"");
     System.err.println("| Input B: \"" + xml2 + "\"");
