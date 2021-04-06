@@ -36,7 +36,7 @@ public interface XMLDiffXFormatter extends DiffXFormatter {
   void setWriteXMLDeclaration(boolean show);
 
   /**
-   * Adds the specified prefix mapping to the formatter so that they can be dclared when
+   * Adds the specified prefix mapping to the formatter so that they can be declared when
    * needed.
    *
    * @param mapping The prefix mapping to add.
