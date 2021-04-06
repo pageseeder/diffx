@@ -87,7 +87,7 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
     // Process as list of actions
     List<Action> actions = diffToActions(seq1, seq2);
     try {
-      assertDiffIsCorrect2(actions);
+      assertDiffIsCorrect(seq1, seq2, actions);
       assertDiffIsWellFormedXML(actions);
       assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
@@ -95,18 +95,5 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
       throw ex;
     }
   }
-
-  public final void assertDiffIsCorrect2(List<Action> actions) throws IOException {
-    // Unfinished
-
-    // Apply to second sequence to ensure we get the first
-    List<DiffXEvent> got1 = Actions.generate(actions, true);
-//    Assert.assertEquals("Applying diff to #2 did not produce #1 ", got1);
-
-    // Apply to first sequence to ensure we get the second
-    List<DiffXEvent> got2 = Actions.generate(actions, false);
-//    Assert.assertEquals("Applying diff to #1 did not produce #2 ", got2);
-  }
-
 
 }

@@ -16,7 +16,8 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.*;
+import org.pageseeder.diffx.event.impl.*;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -59,9 +60,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void format(DiffXEvent e) throws IOException {
-    out.write(Events.toAbstractString(e));
+    out.write(toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println(Events.toAbstractString(e));
+    if (DEBUG) System.err.println(toAbstractString(e));
   }
 
   /**
@@ -70,9 +71,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void insert(DiffXEvent e) throws IOException {
-    out.write("+" + Events.toAbstractString(e));
+    out.write("+" + toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("+" + Events.toAbstractString(e));
+    if (DEBUG) System.err.println("+" + toAbstractString(e));
   }
 
   /**
@@ -81,9 +82,9 @@ public final class TestFormatter implements DiffXFormatter {
    * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.DiffXEvent)
    */
   public void delete(DiffXEvent e) throws IOException {
-    out.write("-" + Events.toAbstractString(e));
+    out.write("-" + toAbstractString(e));
     out.flush();
-    if (DEBUG) System.err.println("-" + Events.toAbstractString(e));
+    if (DEBUG) System.err.println("-" + toAbstractString(e));
   }
 
   /**
@@ -112,6 +113,40 @@ public final class TestFormatter implements DiffXFormatter {
    */
   public String getOutput() {
     return this.out.toString();
+  }
+
+
+  /**
+   * Returns a simple representation for each event in order to recognise them depending on
+   * their class.
+   *
+   * <p>This method will return <code>null</code> if it does not know how to format it.
+   *
+   * @param e The event to format
+   * @return Its 'abstract' representation or <code>null</code>.
+   */
+  public static String toAbstractString(DiffXEvent e) {
+    // TODO: handle unknown event implementations nicely.
+    // an element to open
+    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
+    // an element to close
+    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
+    // an element
+    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
+    // an attribute
+    if (e instanceof AttributeEvent)
+      return "@{" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + '}';
+    // a word
+    if (e instanceof WordEvent) return "$w{" + ((CharactersEventBase) e).getCharacters() + '}';
+    // a white space event
+    if (e instanceof SpaceEvent) return "$s{" + ((CharactersEventBase) e).getCharacters() + '}';
+    // a single character
+    if (e instanceof CharEvent) return "$c{" + ((CharactersEventBase) e).getCharacters() + '}';
+    // an ignorable space event
+    if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
+    // a single line
+    if (e instanceof LineEvent) return "$L" + ((LineEvent) e).getLineNumber();
+    return e.getClass().toString();
   }
 
 }

@@ -21,10 +21,12 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
+import org.pageseeder.diffx.format.StrictXMLFormatter;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.load.TextRecorder;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,65 +45,6 @@ public final class Events {
   private Events() {
   }
 
-  /**
-   * Returns a simple representation for each event in order to recognise them depending on
-   * their class.
-   *
-   * <p>This method will return <code>null</code> if it does not know how to format it.
-   *
-   * @param e The event to format
-   * @return Its 'abstract' representation or <code>null</code>.
-   */
-  public static String toAbstractString(DiffXEvent e) {
-    // TODO: handle unknown event implementations nicely.
-    // an element to open
-    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
-    // an element to close
-    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
-    // an element
-    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
-    // an attribute
-    if (e instanceof AttributeEvent)
-      return "@{" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + '}';
-    // a word
-    if (e instanceof WordEvent) return "$w{" + ((CharactersEventBase) e).getCharacters() + '}';
-    // a white space event
-    if (e instanceof SpaceEvent) return "$s{" + ((CharactersEventBase) e).getCharacters() + '}';
-    // a single character
-    if (e instanceof CharEvent) return "$c{" + ((CharactersEventBase) e).getCharacters() + '}';
-    // an ignorable space event
-    if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
-    // a single line
-    if (e instanceof LineEvent) return "$L" + ((LineEvent) e).getLineNumber();
-    return e.getClass().toString();
-  }
-
-  /**
-   * Returns a simple representation for each event in order to recognise them depending on
-   * their class.
-   *
-   * <p>This method will return <code>null</code> if it does not know how to format it.
-   *
-   * @param e The event to format
-   * @return Its 'abstract' representation or <code>null</code>.
-   */
-  public static String toSimpleString(DiffXEvent e) {
-    // an element to open
-    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
-    // an element to close
-    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
-    // an element
-    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
-    // an attribute
-    if (e instanceof AttributeEvent)
-      return "@(" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + ')';
-    // a single line
-    if (e instanceof LineEvent) return "L:" + ((LineEvent) e).getLineNumber();
-    // a word
-    if (e instanceof TextEvent) return ((CharactersEventBase) e).getCharacters();
-    return e.getClass().toString();
-  }
-
   public static TextEvent toTextEvent(String text) {
     if (text.matches("\\s+")) {
       return new IgnorableSpaceEvent(text);
@@ -115,11 +58,6 @@ public final class Events {
       events.add(toTextEvent(word));
     }
     return events;
-  }
-
-  public static List<DiffXEvent> recordXMLEvents(String xml) throws DiffXException, IOException {
-    if (xml.isEmpty()) return Collections.emptyList();
-    return recordXMLEvents(xml, new DiffXConfig());
   }
 
   public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException, IOException {
@@ -139,4 +77,14 @@ public final class Events {
     if (text.isEmpty()) return Collections.emptyList();
     return new TextRecorder().process(text).events();
   }
+
+  public static String toXML(List<? extends DiffXEvent> events) throws IOException {
+    StringWriter xml = new StringWriter();
+    StrictXMLFormatter f = new StrictXMLFormatter();
+    for (DiffXEvent event : events) {
+      f.format(event);
+    }
+    return xml.toString();
+  }
+
 }

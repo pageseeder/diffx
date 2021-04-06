@@ -318,6 +318,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     List<Action> actions = af.getActions();
 
     try {
+      assertDiffIsApplicable(seq1, seq2, actions);
       assertDiffIsCorrect(seq1, seq2, actions);
     } catch (AssertionError ex) {
       printCharErrorDetails(text1, text2, exp, got, actions);

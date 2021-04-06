@@ -30,17 +30,21 @@ public abstract class BaseProcessorTest {
    */
   public abstract DiffProcessor getDiffProcessor();
 
-  public final void assertDiffIsCorrect(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) {
+  public final void assertDiffIsApplicable(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) throws IOException {
     // Ensure that the diff is applicable
     Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1, seq2, actions));
+  }
 
+  public final void assertDiffIsCorrect(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) throws IOException {
     // Apply to second sequence to ensure we get the first
-    List<DiffXEvent> got1 = Actions.apply(seq2, actions);
-    Assert.assertEquals("Applying diff to #2 did not produce #1 ", seq1, got1);
+    String got1 = Events.toXML(Actions.generate(actions, true));
+    String exp1 = Events.toXML(seq1);
+    Assert.assertEquals("Applying diff to #2 did not produce #1 ", exp1, got1);
 
     // Apply to first sequence to ensure we get the second
-    List<DiffXEvent> got2 = Actions.apply(seq1, Actions.reverse(actions));
-    Assert.assertEquals("Applying diff to #1 did not produce #2 ", seq2, got2);
+    String got2 = Events.toXML(Actions.generate(actions, false));
+    String exp2 = Events.toXML(seq2);
+    Assert.assertEquals("Applying diff to #1 did not produce #2 ", exp2, got2);
   }
 
   public List<Action> diffToActions(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2) throws IOException {
