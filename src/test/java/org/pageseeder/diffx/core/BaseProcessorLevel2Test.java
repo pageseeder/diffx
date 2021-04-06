@@ -203,7 +203,6 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
 
-
   /**
    * Compares two XML documents where the text of one element moves to
    * another element.
