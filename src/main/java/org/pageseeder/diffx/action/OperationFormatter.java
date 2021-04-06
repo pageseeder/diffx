@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generates a list of actions from the output of the algorithms.
+ * Generates a list of operations from the output of the algorithms.
  *
  * @author Christophe Lauret
  * @version 0.9.0

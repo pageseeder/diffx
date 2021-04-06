@@ -109,9 +109,4 @@ public class Action {
     }
   }
 
-  public Operator[] minimal() {
-    Operator[] minimal = new Operator[this.events.size()];
-    Arrays.fill(minimal, this.type);
-    return minimal;
-  }
 }

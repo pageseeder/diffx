@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Utility class for operations.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ */
 public final class Operations {
 
   private Operations() {}

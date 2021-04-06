@@ -138,8 +138,8 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     length();
     int i = 0;
     int j = 0;
-    DiffXEvent e1 = this.sequence1.getEvent(i);
-    DiffXEvent e2 = this.sequence2.getEvent(j);
+    DiffXEvent e1;
+    DiffXEvent e2;
     // start walking the matrix
     while (i < this.length1 && j < this.length2) {
       e1 = this.sequence1.getEvent(i);

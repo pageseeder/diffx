@@ -23,11 +23,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * The action digester reads a list of actions and with an input sequence can
- * produce an output sequence.
- * <p>
- * The digester can be used to verify that a sequence of actions is a solution
- * to a DiffX problem.
+ * Utility class for actions.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -51,6 +47,22 @@ public class Actions {
       }
     }
     return generated;
+  }
+
+  /**
+   * Converts the list of actions into a list of atomic operations.
+   *
+   * @param actions  The list of actions.
+   */
+  public static List<Operation> toOperations(List<Action> actions) {
+    List<Operation> operations = new LinkedList<>();
+    for (Action action : actions) {
+      Operator operator = action.type();
+      for (DiffXEvent event : action.events()) {
+        operations.add(new Operation(operator, event));
+      }
+    }
+    return operations;
   }
 
   /**
@@ -103,20 +115,6 @@ public class Actions {
       throw new IllegalArgumentException("Actions do not match specified input");
     }
     return out;
-  }
-
-  /**
-   * Returns the minimal string from the list of actions.
-   *
-   * @param actions The list of actions.
-   */
-  public static Operator[] minimal(List<Action> actions) {
-    ArrayList<Operator> minimal = new ArrayList<>();
-    for (Action action : actions) {
-      Collections.addAll(minimal, action.minimal());
-    }
-    Operator[] ops = new Operator[minimal.size()];
-    return minimal.toArray(ops);
   }
 
   public static boolean isApplicable(List<DiffXEvent> a, List<DiffXEvent> b, List<Action> actions) {

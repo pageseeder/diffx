@@ -3,7 +3,10 @@ package org.pageseeder.diffx.action;
 import org.pageseeder.diffx.event.DiffXEvent;
 
 /**
- * An atomic Diff operation.
+ * An atomic Diff operation associated with a single event.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
  */
 public final class Operation {
 
@@ -49,7 +52,7 @@ public final class Operation {
   }
 
   /**
-   * @return the reserve action by swapping INS with DEL.
+   * @return the reserve operation by swapping INS with DEL.
    */
   public Operation reverse() {
     switch (this.operator) {

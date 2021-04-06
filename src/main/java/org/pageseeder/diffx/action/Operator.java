@@ -22,19 +22,32 @@ package org.pageseeder.diffx.action;
  * @version 0.9.0
  */
 public enum Operator {
+
+  /**
+   * An insertion.
+   */
   INS {
     public String toString() {
       return "+";
     }
   },
+
+  /**
+   * A deletion.
+   */
   DEL {
     public String toString() {
       return "-";
     }
   },
+
+  /**
+   * A match.
+   */
   KEEP {
     public String toString() {
       return "=";
     }
-  };
+  }
+
 }
