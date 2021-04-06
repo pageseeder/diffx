@@ -6,7 +6,11 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.event.CloseElementEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.OpenElementEvent;
+import org.pageseeder.diffx.event.impl.CloseElementEventImpl;
+import org.pageseeder.diffx.event.impl.OpenElementEventImpl;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
@@ -21,6 +25,8 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class BaseProcessorTest {
@@ -67,9 +73,14 @@ public abstract class BaseProcessorTest {
     return handler.getOutput();
   }
 
-
   public static void assertDiffIsWellFormedXML(List<Action> actions) throws IOException {
-    assertIsWellFormedXML(toXML(actions));
+    List<Action> wrapped = new ArrayList<>();
+    // We wrap the actions in case we have a completely different output
+    OpenElementEvent root = new OpenElementEventImpl("root");
+    wrapped.add(new Action(Operator.KEEP, Collections.singletonList(root)));
+    wrapped.addAll(actions);
+    wrapped.add(new Action(Operator.KEEP, Collections.singletonList(new CloseElementEventImpl(root))));
+    assertIsWellFormedXML(toXML(wrapped));
   }
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {
