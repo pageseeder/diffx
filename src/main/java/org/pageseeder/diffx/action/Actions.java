@@ -17,6 +17,7 @@ package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
@@ -166,4 +167,11 @@ public class Actions {
     }
   }
 
+  public static void format(List<Action> actions, DiffHandler handler) throws IOException {
+    for (Action action : actions) {
+      for (DiffXEvent event : action.events()) {
+        handler.handle(action.type(), event);
+      }
+    }
+  }
 }

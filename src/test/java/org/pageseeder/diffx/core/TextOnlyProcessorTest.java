@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.BaseAlgorithmLevel0Test;
-
 /**
  * Test case for Diff-X algorithm using the text only algorithm
  *

@@ -23,6 +23,7 @@ import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.test.Events;
 
 import java.io.IOException;
 import java.util.List;
@@ -86,8 +87,8 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
     // Record XML
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(TextGranularity.TEXT);
-    List<? extends DiffXEvent> seq1 = toXMLEvents(xml1);
-    List<? extends DiffXEvent> seq2 = toXMLEvents(xml2);
+    List<? extends DiffXEvent> seq1 = Events.recordXMLEvents(xml1, config);
+    List<? extends DiffXEvent> seq2 = Events.recordXMLEvents(xml2, config);
 
     // Process as list of actions
     List<Action> actions = diffToActions(seq1, seq2);

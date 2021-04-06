@@ -24,7 +24,7 @@ import org.pageseeder.diffx.config.TextGranularity;
  * <p>This class is designed to returned tokenizers that corresponds to the given configuration.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 0.7.0
  */
 public final class TokenizerFactory {
 

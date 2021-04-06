@@ -61,11 +61,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  *
- * @version 17 October 2006
+ * @version 0.7.0
  */
 public final class SAXRecorder implements XMLRecorder {
-
-  // static variables -------------------------------------------------------------------------------
 
   /**
    * The XML reader.
@@ -99,8 +97,6 @@ public final class SAXRecorder implements XMLRecorder {
    */
   private static boolean newReader = true;
 
-  // class attributes -------------------------------------------------------------------------------
-
   /**
    * The DiffX configuration to use
    */
@@ -110,8 +106,6 @@ public final class SAXRecorder implements XMLRecorder {
    * The sequence of event for this recorder.
    */
   protected transient EventSequence sequence;
-
-  // methods implementing XMLRecorder -------------------------------------------------------
 
   /**
    * Runs the recorder on the specified file.
@@ -127,12 +121,9 @@ public final class SAXRecorder implements XMLRecorder {
    */
   @Override
   public EventSequence process(File file) throws LoadingException, IOException {
-    InputStream in = new BufferedInputStream(new FileInputStream(file));
-    EventSequence seq = null;
-    seq = process(new InputSource(in));
-    in.close();
-    in = null;
-    return seq;
+    try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+      return process(new InputSource(in));
+    }
   }
 
   /**
@@ -198,8 +189,6 @@ public final class SAXRecorder implements XMLRecorder {
     this.config = config;
   }
 
-  // other methods ------------------------------------------------------------------------------
-
   /**
    * Returns the name XMLReader class used by the SAXRecorders.
    *
@@ -252,7 +241,7 @@ public final class SAXRecorder implements XMLRecorder {
    * public API.
    *
    * @author Christophe Lauret, Jean-Baptiste Reure
-   * @version 27 April 2005
+   * @version 0.6.0
    */
   private final class RecorderHandler extends DefaultHandler {
 
@@ -291,9 +280,6 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private transient TextTokenizer tokenizer;
 
-    /**
-     * @see org.xml.sax.ContentHandler#startDocument()
-     */
     @Override
     public void startDocument() {
       SAXRecorder.this.sequence = new EventSequence();
@@ -302,17 +288,11 @@ public final class SAXRecorder implements XMLRecorder {
       SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
       SAXRecorder.this.sequence.mapPrefix(uri, prefix);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes atts) {
       recordCharacters();
@@ -326,9 +306,6 @@ public final class SAXRecorder implements XMLRecorder {
       handleAttributes(atts);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void endElement(String uri, String localName, String qName) {
       recordCharacters();
@@ -341,17 +318,11 @@ public final class SAXRecorder implements XMLRecorder {
       this.currentWeight += popWeight();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void characters(char[] buf, int pos, int len) {
       this.ch.append(buf, pos, len);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void ignorableWhitespace(char[] buf1, int pos, int len) {
       // this method is only useful if the XML provides a Schema or DTD
@@ -360,18 +331,12 @@ public final class SAXRecorder implements XMLRecorder {
       // by the characters method.
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void processingInstruction(String target, String data) {
       SAXRecorder.this.sequence.addEvent(new ProcessingInstructionEvent(target, data));
       this.currentWeight++;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void endDocument() throws SAXException {
     }
@@ -449,33 +414,24 @@ public final class SAXRecorder implements XMLRecorder {
   /**
    * A tight error handler that will throw an exception for any error type.
    *
-   * ErrorHandler used only so that namepsace related errors are reported ???
+   * ErrorHandler used only so that namespace related errors are reported ???
    * (they are error type and not fatal error).
    *
    * @author Jean-baptiste Reure
-   * @version 17 May 2005
+   * @version 0.6.0
    */
   private static final class RecorderErrorHandler implements ErrorHandler {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void error(SAXParseException ex) throws SAXException {
       throw ex;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
       throw ex;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void warning(SAXParseException ex) throws SAXException {
       throw ex;

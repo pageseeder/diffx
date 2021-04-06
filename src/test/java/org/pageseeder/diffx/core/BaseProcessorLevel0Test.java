@@ -16,20 +16,14 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.ActionFormatter;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.algorithm.BaseAlgorithmTest;
-import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
-import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
-import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
 import java.util.ArrayList;

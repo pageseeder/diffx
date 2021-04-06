@@ -15,10 +15,18 @@
  */
 package org.pageseeder.diffx.test;
 
+import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
+import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.TextRecorder;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -107,5 +115,28 @@ public final class Events {
       events.add(toTextEvent(word));
     }
     return events;
+  }
+
+  public static List<DiffXEvent> recordXMLEvents(String xml) throws DiffXException, IOException {
+    if (xml.isEmpty()) return Collections.emptyList();
+    return recordXMLEvents(xml, new DiffXConfig());
+  }
+
+  public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException, IOException {
+    if (xml.isEmpty()) return Collections.emptyList();
+    DiffXConfig config = new DiffXConfig();
+    config.setGranularity(granularity);
+    return recordXMLEvents(xml, config);
+  }
+
+  public static List<DiffXEvent> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException, IOException {
+    SAXRecorder recorder = new SAXRecorder();
+    recorder.setConfig(config);
+    return recorder.process(xml).events();
+  }
+
+  public static List<DiffXEvent> recordLineEvents(String text) throws DiffXException, IOException  {
+    if (text.isEmpty()) return Collections.emptyList();
+    return new TextRecorder().process(text).events();
   }
 }

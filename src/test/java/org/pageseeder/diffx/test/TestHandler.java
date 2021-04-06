@@ -16,9 +16,8 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.event.*;
+import org.pageseeder.diffx.event.impl.LineEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -39,30 +38,23 @@ import java.io.StringWriter;
 public final class TestHandler implements DiffHandler {
 
   /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = System.getProperty("DEBUG") != null;
-
-  /**
    * Where the output goes.
    */
-  private final StringWriter out;
+  private final StringBuilder out;
 
   /**
    * Creates a new test formatter
    */
   public TestHandler() {
-    this.out = new StringWriter();
+    this.out = new StringBuilder();
   }
 
   /**
    * Writes the abstract representation.
    */
-  public void handle(Operator operator, DiffXEvent e) {
-    if (operator != Operator.KEEP) out.write(operator.toString());
-    out.write(Events.toAbstractString(e));
-    out.flush();
-    if (DEBUG) System.err.println(Events.toAbstractString(e));
+  public void handle(Operator operator, DiffXEvent event) {
+    if (operator != Operator.KEEP) out.append(operator.toString());
+    out.append(toSimpleString(operator, event));
   }
 
   /**
@@ -75,13 +67,39 @@ public final class TestHandler implements DiffHandler {
     for (int i = 0; i < seq.size(); i++) {
       handle(Operator.KEEP, seq.getEvent(i));
     }
-    out.flush();
   }
 
   /**
-   * Returns the output of the formatter.
+   * Returns a simple representation for each code event.
    *
-   * @return The output of the formatter.
+   * <p>This method will return <code>null</code> if it does not know how to format it.
+   *
+   * @param e The event to format
+   * @return Its 'abstract' representation or <code>null</code>.
+   */
+  public static String toSimpleString(Operator operator, DiffXEvent e) {
+    // an element to open
+    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
+    // an element to close
+    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
+    // an element
+    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
+    // an attribute
+    if (e instanceof AttributeEvent)
+      return "@(" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + ')';
+    // a single line
+    if (e instanceof LineEvent) return "L" + ((LineEvent) e).getLineNumber();
+    // a text event
+    if (e instanceof TextEvent) {
+      if (operator != Operator.KEEP) return "("+((TextEvent) e).getCharacters()+")";
+      return ((TextEvent) e).getCharacters();
+    }
+    // Anything else?
+    return e.toString();
+  }
+
+  /**
+   * @return The output of the handler.
    */
   public String getOutput() {
     return this.out.toString();

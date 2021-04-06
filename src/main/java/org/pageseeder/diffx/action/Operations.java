@@ -2,6 +2,7 @@ package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
@@ -48,7 +49,6 @@ public final class Operations {
     }
     return reverse;
   }
-
 
   /**
    * Apply the specified list of operations to the input sequence and return the corresponding output.
@@ -104,6 +104,12 @@ public final class Operations {
           break;
         default:
       }
+    }
+  }
+
+  public static void format(List<Operation> operations, DiffHandler handler) throws IOException {
+    for (Operation operation : operations) {
+      handler.handle(operation.operator(), operation.event());
     }
   }
 }

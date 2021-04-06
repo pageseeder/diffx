@@ -15,13 +15,8 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.BaseAlgorithmLevel2Test;
-import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
-import org.pageseeder.diffx.sequence.EventSequence;
-
 /**
- * Test case for Guano Diff-X algorithm.
+ * Test case for the default XML processor
  *
  * @author Christophe Lauret
  * @version 0.9.0

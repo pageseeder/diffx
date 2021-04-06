@@ -33,7 +33,8 @@ import org.pageseeder.xmlwriter.XMLWritable;
  * may change in the future, if the impact on performance is too heavy</b>.
  *
  * @author Christophe Lauret
- * @version 7 April 2005
+ * @version 0.9.0
+ * @since 0.7.0
  */
 public interface DiffXEvent extends XMLWritable, XMLFormattable {
 
@@ -54,7 +55,7 @@ public interface DiffXEvent extends XMLWritable, XMLFormattable {
    *
    * @return The weight of this event.
    */
-  int getWeight();
+  @Deprecated int getWeight();
 
   /**
    * Sets the weight of this event.
@@ -64,6 +65,6 @@ public interface DiffXEvent extends XMLWritable, XMLFormattable {
    *
    * @param weight The weight of this event.
    */
-  void setWeight(int weight);
+  @Deprecated void setWeight(int weight);
 
 }

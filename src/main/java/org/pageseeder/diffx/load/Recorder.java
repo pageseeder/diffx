@@ -25,7 +25,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * from a specified input.
  *
  * @author Christophe Lauret
- * @version 8 March 2005
+ * @version 0.6.0
  */
 public interface Recorder {
 

@@ -29,7 +29,8 @@ import org.pageseeder.diffx.sequence.EventSequence;
  *
  * @author Christophe Lauret
  *
- * @version 17 October 2006
+ * @version 0.9.0
+ * @since 0.7.0
  */
 public final class TextRecorder implements Recorder {
 
@@ -47,16 +48,9 @@ public final class TextRecorder implements Recorder {
    */
   @Override
   public EventSequence process(File file) throws LoadingException, IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(file));
-    String line = reader.readLine();
-    int count = 0;
-    EventSequence seq = new EventSequence();
-    while (line != null) {
-      seq.addEvent(new LineEvent(line, ++count));
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+      return getEventSequence(reader);
     }
-    reader.close();
-    return seq;
   }
 
   /**
@@ -72,6 +66,10 @@ public final class TextRecorder implements Recorder {
   @Override
   public EventSequence process(String text) throws LoadingException, IOException {
     BufferedReader reader = new BufferedReader(new StringReader(text));
+    return getEventSequence(reader);
+  }
+
+  private EventSequence getEventSequence(BufferedReader reader) throws IOException {
     String line = reader.readLine();
     int count = 0;
     EventSequence seq = new EventSequence();

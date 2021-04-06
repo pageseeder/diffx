@@ -18,9 +18,14 @@ package org.pageseeder.diffx.core;
 import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.algorithm.BaseAlgorithmLevel0Test;
+import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.TestHandler;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Test case for Diff-X algorithm implementations.
@@ -53,7 +58,7 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a/>";
     String xml2 = "<a/>";
     String exp = "<a></a>";
-    assertDiffXMLOK2(xml1, xml2, exp);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
   /**
@@ -71,8 +76,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_IdenticalB() throws IOException, DiffXException {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>X</a>";
-    String exp = "<a>$w{X}</a>";
-    assertDiffXMLOK2(xml1, xml2, exp);
+    String exp = "<a>X</a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
   /**
@@ -90,8 +95,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_IdenticalD() throws IOException, DiffXException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a m='x'/>";
-    String exp = "<a>@{m=x}</a>";
-    assertDiffXMLOK2(xml1, xml2, exp);
+    String exp = "<a>@(m=x)</a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
   /**
@@ -110,10 +115,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='x' n='y'/>";
     String xml2 = "<a n='y' m='x'/>";
     String[] exp = new String[]{
-        "<a>@{m=x}@{n=y}</a>",
-        "<a>@{n=y}@{m=x}</a>"
+        "<a>@(m=x)@(n=y)</a>",
+        "<a>@(n=y)@(m=x)</a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
 // total difference tests ---------------------------------------------------------------
@@ -143,8 +148,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         "-<a>+<b>+</b>-</a>",
         "+<b>-<a>-</a>+</b>",
         "+<b>+</b>-<a>-</a>"};
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -164,8 +169,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml2 = "";
     String exp1 = "+<a>+</a>";
     String exp2 = "-<a>-</a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // modified text test -------------------------------------------------------------------
@@ -186,15 +191,15 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+$w{X}-$w{Y}</a>",
-        "<a>-$w{Y}+$w{X}</a>"
+        "<a>+(X)-(Y)</a>",
+        "<a>-(Y)+(X)</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-$w{X}+$w{Y}</a>",
-        "<a>+$w{Y}-$w{X}</a>"
+        "<a>-(X)+(Y)</a>",
+        "<a>+(Y)-(X)</a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -212,10 +217,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_ModifiedTextB() throws IOException, DiffXException {
     String xml1 = "<a>X </a>";
     String xml2 = "<a>X</a>";
-    String exp1 = "<a>$w{X}+$s{ }</a>";
-    String exp2 = "<a>$w{X}-$s{ }</a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "<a>X+( )</a>";
+    String exp2 = "<a>X-( )</a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 //moved text tests ---------------------------------------------------------------------
@@ -236,10 +241,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_MoveA() throws IOException, DiffXException {
     String xml1 = "<a><b>x</b><c/></a>";
     String xml2 = "<a><b/><c>x</c></a>";
-    String exp1 = "<a><b>+$w{x}</b><c>-$w{x}</c></a>";
-    String exp2 = "<a><b>-$w{x}</b><c>+$w{x}</c></a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "<a><b>+(x)</b><c>-(x)</c></a>";
+    String exp2 = "<a><b>-(x)</b><c>+(x)</c></a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // element tests ------------------------------------------------------------------------
@@ -271,8 +276,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         "<a>+<c>-<b>-</b>+</c></a>",
         "<a>+<c>+</c>-<b>-</b></a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -291,15 +296,15 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     String[] exp1 = new String[]{
-        "-<b>+<a>$w{X}+</a>-</b>",
-        "+<a>-<b>$w{X}-</b>+</a>"
+        "-<b>+<a>X+</a>-</b>",
+        "+<a>-<b>X-</b>+</a>"
     };
     String[] exp2 = new String[]{
-        "+<b>-<a>$w{X}-</a>+</b>",
-        "-<a>+<b>$w{X}+</b>-</a>"
+        "+<b>-<a>X-</a>+</b>",
+        "-<a>+<b>X+</b>-</a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -317,10 +322,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_ElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
-    String exp1 = "+<a><b>-<a>$w{X}-</a></b>+</a>";
-    String exp2 = "+<b><a>-<b>$w{X}-</b></a>+</b>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "+<a><b>-<a>X-</a></b>+</a>";
+    String exp2 = "+<b><a>-<b>X-</b></a>+</b>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // text and elements --------------------------------------------------------------------
@@ -340,10 +345,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_TextElementA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><b>X</b></a>";
-    String exp1 = "<a><b>$w{X}</b>+<c>+$w{Y}+</c></a>";
-    String exp2 = "<a><b>$w{X}</b>-<c>-$w{Y}-</c></a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "<a><b>X</b>+<c>+(Y)+</c></a>";
+    String exp2 = "<a><b>X</b>-<c>-(Y)-</c></a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -361,10 +366,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_TextElementB() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><c>Y</c></a>";
-    String exp1 = "<a>+<b>+$w{X}+</b><c>$w{Y}</c></a>";
-    String exp2 = "<a>-<b>-$w{X}-</b><c>$w{Y}</c></a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "<a>+<b>+(X)+</b><c>Y</c></a>";
+    String exp2 = "<a>-<b>-(X)-</b><c>Y</c></a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // attributes tests ---------------------------------------------------------------------
@@ -379,10 +384,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_AttributeA() throws IOException, DiffXException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a/>";
-    String exp1 = "<a>+@{m=x}</a>";
-    String exp2 = "<a>-@{m=x}</a>";
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    String exp1 = "<a>+@(m=x)</a>";
+    String exp2 = "<a>-@(m=x)</a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -396,15 +401,15 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='y'/>";
     String xml2 = "<a m='x'/>";
     String[] exp1 = new String[]{
-        "<a>-@{m=x}+@{m=y}</a>",
-        "<a>+@{m=y}-@{m=x}</a>",
+        "<a>-@(m=x)+@(m=y)</a>",
+        "<a>+@(m=y)-@(m=x)</a>",
     };
     String[] exp2 = new String[]{
-        "<a>+@{m=x}-@{m=y}</a>",
-        "<a>-@{m=y}+@{m=x}</a>",
+        "<a>+@(m=x)-@(m=y)</a>",
+        "<a>-@(m=y)+@(m=x)</a>",
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -418,11 +423,11 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml2 = "<a n='w' m='x'/>";
     String xml1 = "<a m='y' n='z'/>";
     String[] exp = new String[]{
-        "<a>+@{m=y}+@{n=z}-@{m=x}-@{n=w}</a>",
-        "<a>+@{m=y}-@{m=x}+@{n=z}-@{n=w}</a>",
-        "<a>+@{m=y}-@{m=x}+@{n=z}-@{n=w}</a>",
+        "<a>+@(m=y)+@(n=z)-@(m=x)-@(n=w)</a>",
+        "<a>+@(m=y)-@(m=x)+@(n=z)-@(n=w)</a>",
+        "<a>+@(m=y)-@(m=x)+@(n=z)-@(n=w)</a>",
     };
-    assertDiffXMLOK2(xml1, xml2, exp);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
   /**
@@ -437,15 +442,15 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+@{m=x}+$w{X}-$w{Y}</a>",
-        "<a>+@{m=x}-$w{Y}+$w{X}</a>"
+        "<a>+@(m=x)+(X)-(Y)</a>",
+        "<a>+@(m=x)-(Y)+(X)</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-@{m=x}-$w{X}+$w{Y}</a>",
-        "<a>-@{m=x}+$w{Y}-$w{X}</a>"
+        "<a>-@(m=x)-(X)+(Y)</a>",
+        "<a>-@(m=x)+(Y)-(X)</a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -460,19 +465,19 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a m='y'>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+@{m=x}-@{m=y}+$w{X}-$w{Y}</a>",
-        "<a>+@{m=x}-@{m=y}-$w{Y}+$w{X}</a>",
-        "<a>-@{m=y}+@{m=x}+$w{X}-$w{Y}</a>",
-        "<a>-@{m=y}+@{m=x}-$w{Y}+$w{X}</a>"
+        "<a>+@(m=x)-@(m=y)+(X)-(Y)</a>",
+        "<a>+@(m=x)-@(m=y)-(Y)+(X)</a>",
+        "<a>-@(m=y)+@(m=x)+(X)-(Y)</a>",
+        "<a>-@(m=y)+@(m=x)-(Y)+(X)</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-@{m=x}+@{m=y}-$w{X}+$w{Y}</a>",
-        "<a>-@{m=x}+@{m=y}+$w{Y}-$w{X}</a>",
-        "<a>+@{m=y}-@{m=x}-$w{X}+$w{Y}</a>",
-        "<a>+@{m=y}-@{m=x}+$w{Y}-$w{X}</a>"
+        "<a>-@(m=x)+@(m=y)-(X)+(Y)</a>",
+        "<a>-@(m=x)+@(m=y)+(Y)-(X)</a>",
+        "<a>+@(m=y)-@(m=x)-(X)+(Y)</a>",
+        "<a>+@(m=y)-@(m=x)+(Y)-(X)</a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -514,8 +519,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         "<a>-<a></a>-</a>",
         "-<a><a>-</a></a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
   /**
@@ -529,19 +534,19 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
     String[] exp1 = new String[]{
-        "<a>+<a>$w{x}+</a></a>",
-        "+<a><a>$w{x}</a>+</a>",
-        "<a>+<a>$w{x}</a>+</a>",
-        "+<a><a>$w{x}+</a></a>",
+        "<a>+<a>x+</a></a>",
+        "+<a><a>x</a>+</a>",
+        "<a>+<a>x</a>+</a>",
+        "+<a><a>x+</a></a>",
     };
     String[] exp2 = new String[]{
-        "<a>-<a>$w{x}-</a></a>",
-        "-<a><a>$w{x}</a>-</a>",
-        "<a>-<a>$w{x}</a>-</a>",
-        "-<a><a>$w{x}-</a></a>",
+        "<a>-<a>x-</a></a>",
+        "-<a><a>x</a>-</a>",
+        "<a>-<a>x</a>-</a>",
+        "-<a><a>x-</a></a>",
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // split and merge problems -------------------------------------------------------------
@@ -564,8 +569,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         "<a><b><c></c>-</b>-<b><d></d></b></a>",
         "<a><b><c></c>+<d>+</d></b>-<b>-<d>-</d>-</b></a>"
     };
-    assertDiffXMLOK2(xml1, xml2, exp1);
-    assertDiffXMLOK2(xml2, xml1, exp2);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
 // line tests ---------------------------------------------------------------------------------
@@ -584,8 +589,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String text2 = "line #1\n"
         + "line #2\n"
         + "line #3\n";
-    String exp = "$L1$L2$L3";
-    String diff = processDiffText(text1, text2);
+    String exp = "L1L2L3";
+    String diff = processDiffLines(text1, text2);
     Assert.assertEquals(exp, diff);
   }
 
@@ -604,10 +609,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         + "line #X\n"
         + "line #3\n";
     String[] exp = new String[]{
-        "$L1+$L2-$L2$L3",
-        "$L1-$L2+$L2$L3"
+        "L1+L2-L2L3",
+        "L1-L2+L2L3"
     };
-    assertDiffTextOK(text1, text2, exp);
+    assertDiffLinesOK(text1, text2, exp);
   }
 
   /**
@@ -624,10 +629,10 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String text2 = "line #1\n"
         + "line #3\n";
     String[] exp = new String[]{
-        "$L1+$L2$L2",
-        "$L1+$L2$L3"
+        "L1+L2L2",
+        "L1+L2L3"
     };
-    assertDiffTextOK(text1, text2, exp);
+    assertDiffLinesOK(text1, text2, exp);
   }
 
   /**
@@ -644,10 +649,64 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         + "line #2\n"
         + "line #3\n";
     String[] exp = new String[]{
-        "$L1-$L2$L2",
-        "$L1-$L2$L3"
+        "L1-L2L2",
+        "L1-L2L3"
     };
-    assertDiffTextOK(text1, text2, exp);
+    assertDiffLinesOK(text1, text2, exp);
+  }
+
+  // helpers
+  // --------------------------------------------------------------------------
+
+  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String exp)
+      throws IOException, DiffXException {
+    assertDiffXMLOKTextOnly(xml1, xml2, new String[]{exp});
+  }
+
+  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp)
+      throws IOException, DiffXException {
+    // Record XML
+    List<? extends DiffXEvent> seq1 = Events.recordXMLEvents(xml1, TextGranularity.TEXT);
+    List<? extends DiffXEvent> seq2 = Events.recordXMLEvents(xml2, TextGranularity.TEXT);
+    // Process as list of actions
+    List<Action> actions = diffToActions(seq1, seq2);
+    try {
+      assertDiffIsCorrect(seq1, seq2, actions);
+      assertDiffIsWellFormedXML(actions);
+      assertMatchTestOutput(actions, exp);
+    } catch (AssertionError ex) {
+      printXMLErrorDetails(xml1, xml2, exp, toXML(actions), actions);
+      throw ex;
+    }
+  }
+
+  private void assertDiffLinesOK(String text1, String text2, String[] exp)
+      throws IOException, DiffXException {
+    // process the strings
+    String diffout = processDiffLines(text1, text2);
+    // check the possible values
+    boolean ok = false;
+    try {
+      for (String s : exp) {
+        ok = ok || s.equals(diffout);
+      }
+      if (!ok)
+        Assert.assertEquals(exp[0], diffout);
+    } catch (AssertionError ex) {
+      //printErrorDetails(text1, text2, exp);
+      throw ex;
+    }
+  }
+
+  private String processDiffLines(String text1, String text2)
+      throws IOException, DiffXException, IllegalStateException {
+    // process the strings
+    List<? extends DiffXEvent> seq1 = Events.recordLineEvents(text1);
+    List<? extends DiffXEvent> seq2 = Events.recordLineEvents(text2);
+    DiffProcessor processor = getDiffProcessor();
+    TestHandler handler = new TestHandler();
+    processor.process(seq1, seq2, handler);
+    return handler.getOutput();
   }
 
 }

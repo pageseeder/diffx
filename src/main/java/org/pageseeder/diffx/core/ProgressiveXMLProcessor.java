@@ -15,16 +15,10 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.format.CoalescingFormatter;
-import org.pageseeder.diffx.format.CompareReplaceFormatter;
-import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.CompareReplaceFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,12 +30,29 @@ import java.util.List;
  */
 public final class ProgressiveXMLProcessor implements DiffProcessor {
 
+  private boolean coalesce = true;
+
+  /**
+   * Set whether to consecutive text operations should be coalesced into a single operation.
+   *
+   * <p>This precessor coalesce events by default.</p>
+   *
+   * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
+   */
+  public void setCoalesce(boolean coalesce) {
+    this.coalesce = coalesce;
+  }
+
   @Override
   public void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
-    CoalescingFilter coalesce = new CoalescingFilter(handler);
-    CompareReplaceFilter compare = new CompareReplaceFilter(coalesce);
-    processor.process(first, second, compare);
+    DiffHandler actual = getFilter(handler);
+    processor.process(first, second, actual);
+  }
+
+  private DiffHandler getFilter(DiffHandler handler) {
+    DiffHandler baseHandler = this.coalesce ? new CoalescingFilter(handler) : handler;
+    return new CompareReplaceFilter(baseHandler);
   }
 
 }
