@@ -20,35 +20,35 @@ public class CoalescingFilterTest {
 
   @Test
   public void testCoalesceEmpty() {
-    TextEvent got = CoalescingFilter.coalesceText(Collections.emptyList());
+    TextEvent got = CoalescingFormatter.coalesceText(Collections.emptyList());
     Assert.assertEquals("", got.getCharacters());
   }
 
   @Test
   public void testCoalesceSingle1() {
     TextEvent space = new SpaceEvent(" ");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(space));
+    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(space));
     Assert.assertSame(space, got);
   }
 
   @Test
   public void testCoalesceSingle2() {
     TextEvent text = new CharactersEvent("A big cat");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(text));
+    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(text));
     Assert.assertSame(text, got);
   }
 
   @Test
   public void testCoalesceSingle3() {
     TextEvent word = new WordEvent("cat");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(word));
+    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(word));
     Assert.assertSame(word, got);
   }
 
   @Test
   public void testCoalesceMultiple1() {
     List<TextEvent> events = Events.toTextEvents("A", " ", "big", " ", "cat!");
-    TextEvent got = CoalescingFilter.coalesceText(events);
+    TextEvent got = CoalescingFormatter.coalesceText(events);
     Assert.assertEquals("A big cat!", got.getCharacters());
   }
 
@@ -79,7 +79,7 @@ public class CoalescingFilterTest {
   private List<Operation> coalesceOperations(String... ops) throws IOException{
     List<Operation> operations = asTextOperations(ops);
     OperationFormatter target = new OperationFormatter();
-    CoalescingFilter filter = new CoalescingFilter(target);
+    CoalescingFormatter filter = new CoalescingFormatter(target);
     Operations.format(operations, filter);
     filter.flushText();
     return target.getOperations();

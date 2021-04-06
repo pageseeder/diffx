@@ -15,10 +15,12 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.PrintStream;
+import java.util.List;
 
 /**
  * Build the matrix for the specified events using dynamic programming.
@@ -48,6 +50,21 @@ public final class MatrixProcessor {
    * @return the matrix using dynamic programming
    */
   public Matrix process(EventSequence first, EventSequence second) {
+    Matrix matrix = this.inverse ? computeInverse(first.events(), second.events()) : compute(first.events(), second.events());
+    if (DEBUG) {
+      printDebug(first.events(), second.events(), matrix, System.err);
+    }
+    return matrix;
+  }
+
+  /**
+   *
+   * @param first  The first sequence of events to test.
+   * @param second The second sequence of events to test.
+   *
+   * @return the matrix using dynamic programming
+   */
+  public Matrix process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
     Matrix matrix = this.inverse ? computeInverse(first, second) : compute(first, second);
     if (DEBUG) {
       printDebug(first, second, matrix, System.err);
@@ -55,7 +72,8 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static Matrix compute(EventSequence first, EventSequence second) {
+
+  private static Matrix compute(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
     Matrix matrix = getMatrix(first, second, false);
     int length1 = first.size();
     int length2 = second.size();
@@ -67,7 +85,7 @@ public final class MatrixProcessor {
         if (i == 0 || j == 0) {
           matrix.set(i, j, 0);
         } else {
-          if (first.getEvent(i-1).equals(second.getEvent(j-1))) {
+          if (first.get(i-1).equals(second.get(j-1))) {
             // the events are the same
             matrix.incrementPath(i, j);
           } else {
@@ -80,7 +98,7 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static Matrix computeInverse(EventSequence first, EventSequence second) {
+  private static Matrix computeInverse(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
@@ -92,7 +110,7 @@ public final class MatrixProcessor {
         if (i >= length1 || j >= length2) {
           matrix.set(i, j, 0);
         } else {
-          if (first.getEvent(i).equals(second.getEvent(j))) {
+          if (first.get(i).equals(second.get(j))) {
             // the events are the same
             matrix.incrementPath(i, j);
           } else {
@@ -105,20 +123,19 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static void printDebug(EventSequence first, EventSequence second, Matrix matrix, PrintStream out) {
+  private static void printDebug(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, Matrix matrix, PrintStream out) {
     out.print("A:");
-    for (int i = 0; i < first.size(); i++) {
-      out.print(ShortStringFormatter.toShortString(first.getEvent(i))+"\t");
+    for (DiffXEvent diffXEvent : first) {
+      out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
     }
     out.println();
     out.print("B:");
-    for (int i = 0; i < second.size(); i++) {
-      out.print(ShortStringFormatter.toShortString(second.getEvent(i))+"\t");
+    for (DiffXEvent diffXEvent : second) {
+      out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
     }
     out.println();
     out.println(matrix);
   }
-
 
   /**
    * Determines the most appropriate matrix to use based on the length of the sequences.
@@ -128,7 +145,7 @@ public final class MatrixProcessor {
    *
    * @return The most appropriate matrix.
    */
-  private static Matrix getMatrix(EventSequence first, EventSequence second, boolean inverse) {
+  private static Matrix getMatrix(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, boolean inverse) {
     if (first.size()+1 > Short.MAX_VALUE || second.size()+1 > Short.MAX_VALUE)
       return inverse ? new InvMatrixInt() : new MatrixInt();
     else

@@ -80,16 +80,16 @@ public class Actions {
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
   public static EventSequence apply(EventSequence input, List<Action> actions) {
-    List<DiffXEvent> events = apply(input.events(), actions);
+    List<? extends DiffXEvent> events = apply(input.events(), actions);
     EventSequence out = new EventSequence(events.size());
-    out.addEvents(events);
+    events.forEach(out::addEvent);
     return out;
   }
 
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static List<DiffXEvent> apply(List<DiffXEvent> input, List<Action> actions) {
+  public static List<DiffXEvent> apply(List<? extends DiffXEvent> input, List<Action> actions) {
     List<DiffXEvent> out = new ArrayList<>(input.size());
     int i = 0;
     try {
@@ -117,7 +117,7 @@ public class Actions {
     return out;
   }
 
-  public static boolean isApplicable(List<DiffXEvent> a, List<DiffXEvent> b, List<Action> actions) {
+  public static boolean isApplicable(List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, List<Action> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
     for (Action action : actions) {

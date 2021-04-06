@@ -15,12 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.format.CoalescingFilter;
-import org.pageseeder.diffx.format.CompareReplaceFilter;
+import org.pageseeder.diffx.format.CoalescingFormatter;
+import org.pageseeder.diffx.format.CompareReplaceFormatter;
 import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
@@ -89,8 +86,8 @@ public final class ProgressiveAlgorithm implements DiffXAlgorithm {
    */
   @Override
   public void process(DiffXFormatter formatter) throws IOException {
-    CoalescingFilter coalesce = new CoalescingFilter(formatter);
-    CompareReplaceFilter compare = new CompareReplaceFilter(coalesce);
+    CoalescingFormatter coalesce = new CoalescingFormatter(formatter);
+    CompareReplaceFormatter compare = new CompareReplaceFormatter(coalesce);
     this.main.process(compare);
   }
 

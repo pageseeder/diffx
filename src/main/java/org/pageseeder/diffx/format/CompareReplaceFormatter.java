@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class CompareReplaceFilter implements DiffXFormatter {
+public final class CompareReplaceFormatter implements DiffXFormatter {
 
   /**
    * Target format.
@@ -30,7 +30,7 @@ public final class CompareReplaceFilter implements DiffXFormatter {
   // TODO initialize using config
   private TextTokenizer tokenizer = new TokenizerBySpaceWord(WhiteSpaceProcessing.PRESERVE);
 
-  public CompareReplaceFilter(DiffXFormatter target) {
+  public CompareReplaceFormatter(DiffXFormatter target) {
     this.target = target;
   }
 

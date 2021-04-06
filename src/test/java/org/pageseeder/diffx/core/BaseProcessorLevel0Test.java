@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.algorithm;
+package org.pageseeder.diffx.core;
 
 import org.junit.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
 import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.algorithm.BaseAlgorithmTest;
+import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.core.BaseProcessorTest;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
+import org.pageseeder.diffx.handler.ActionHandler;
+import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +47,7 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
+public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
   @Test
   public final void testLevel0_Empty() throws IOException {
@@ -307,14 +312,14 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
   // --------------------------------------------------------------------------
 
   public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
-    EventSequence seq1 = asSequenceOfCharEvents(text1);
-    EventSequence seq2 = asSequenceOfCharEvents(text2);
+    List<CharEvent> seq1 = toCharEvents(text1);
+    List<CharEvent> seq2 = toCharEvents(text2);
 
     // Setup and process
-    DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
-    ActionFormatter af = new ActionFormatter();
-    CharTestFormatter cf = new CharTestFormatter();
-    diffx.process(new MultiplexFormatter(cf, af));
+    DiffProcessor processor = getDiffProcessor();
+    ActionHandler af = new ActionHandler();
+    CharTestHandler cf = new CharTestHandler();
+    processor.process(seq1, seq2, new MuxHandler(cf, af));
     String got = cf.getOutput();
     List<Action> actions = af.getActions();
 
@@ -326,10 +331,10 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     }
   }
 
-  private static EventSequence asSequenceOfCharEvents(String string) {
-    EventSequence s = new EventSequence();
+  private static List<CharEvent> toCharEvents(String string) {
+    List<CharEvent> s = new ArrayList<>();
     for (char c : string.toCharArray()) {
-      s.addEvent(new CharEvent(c));
+      s.add(new CharEvent(c));
     }
     return s;
   }
@@ -353,27 +358,14 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     System.err.println();
   }
 
-  private static final class CharTestFormatter implements DiffXFormatter {
+  private static final class CharTestHandler implements DiffHandler {
 
     StringBuilder out = new StringBuilder();
 
     @Override
-    public void format(DiffXEvent event) throws IOException, IllegalStateException {
+    public void handle(Operator operator, DiffXEvent event) throws IllegalStateException {
+      if (operator == Operator.INS || operator == Operator.DEL) out.append(operator.toString());
       out.append(((CharEvent) event).getChar());
-    }
-
-    @Override
-    public void insert(DiffXEvent event) throws IOException, IllegalStateException {
-      out.append('+').append(((CharEvent) event).getChar());
-    }
-
-    @Override
-    public void delete(DiffXEvent event) throws IOException, IllegalStateException {
-      out.append('-').append(((CharEvent) event).getChar());
-    }
-
-    @Override
-    public void setConfig(DiffXConfig config) {
     }
 
     String getOutput() {
