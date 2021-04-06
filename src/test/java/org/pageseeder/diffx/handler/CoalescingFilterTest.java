@@ -1,10 +1,10 @@
-package org.pageseeder.diffx.format;
+package org.pageseeder.diffx.handler;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.action.Operation;
-import org.pageseeder.diffx.action.OperationFormatter;
 import org.pageseeder.diffx.action.Operations;
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
@@ -20,35 +20,35 @@ public class CoalescingFilterTest {
 
   @Test
   public void testCoalesceEmpty() {
-    TextEvent got = CoalescingFormatter.coalesceText(Collections.emptyList());
+    TextEvent got = CoalescingFilter.coalesceText(Collections.emptyList());
     Assert.assertEquals("", got.getCharacters());
   }
 
   @Test
   public void testCoalesceSingle1() {
     TextEvent space = new SpaceEvent(" ");
-    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(space));
+    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(space));
     Assert.assertSame(space, got);
   }
 
   @Test
   public void testCoalesceSingle2() {
     TextEvent text = new CharactersEvent("A big cat");
-    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(text));
+    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(text));
     Assert.assertSame(text, got);
   }
 
   @Test
   public void testCoalesceSingle3() {
     TextEvent word = new WordEvent("cat");
-    TextEvent got = CoalescingFormatter.coalesceText(Collections.singletonList(word));
+    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(word));
     Assert.assertSame(word, got);
   }
 
   @Test
   public void testCoalesceMultiple1() {
     List<TextEvent> events = Events.toTextEvents("A", " ", "big", " ", "cat!");
-    TextEvent got = CoalescingFormatter.coalesceText(events);
+    TextEvent got = CoalescingFilter.coalesceText(events);
     Assert.assertEquals("A big cat!", got.getCharacters());
   }
 
@@ -78,19 +78,19 @@ public class CoalescingFilterTest {
 
   private List<Operation> coalesceOperations(String... ops) throws IOException{
     List<Operation> operations = asTextOperations(ops);
-    OperationFormatter target = new OperationFormatter();
-    CoalescingFormatter filter = new CoalescingFormatter(target);
+    OperationHandler target = new OperationHandler();
+    CoalescingFilter filter = new CoalescingFilter(target);
     Operations.format(operations, filter);
     filter.flushText();
     return target.getOperations();
   }
 
   private List<Operation> asTextOperations(String... ops) {
-    OperationFormatter source = new OperationFormatter();
+    OperationHandler source = new OperationHandler();
     for (String op : ops) {
-      if (op.startsWith("+")) source.insert(Events.toTextEvent(op.substring(1)));
-      else if (op.startsWith("-")) source.delete(Events.toTextEvent(op.substring(1)));
-      else source.format(Events.toTextEvent(op));
+      if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextEvent(op.substring(1)));
+      else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextEvent(op.substring(1)));
+      else source.handle(Operator.KEEP, Events.toTextEvent(op));
     }
     return source.getOperations();
   }
