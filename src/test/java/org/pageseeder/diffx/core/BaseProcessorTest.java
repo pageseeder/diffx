@@ -70,11 +70,11 @@ public abstract class BaseProcessorTest {
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {
     // check the possible values
-    String diffout = toTestOutput(actions);
+    String output = toTestOutput(actions);
     for (String s : exp) {
-      if (s.equals(diffout)) return;
+      if (s.equals(output)) return;
     }
-    Assert.assertEquals(exp[0], diffout);
+    Assert.assertEquals(exp[0], output);
   }
 
 

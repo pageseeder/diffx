@@ -21,12 +21,7 @@ import java.io.Writer;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.CharEvent;
-import org.pageseeder.diffx.event.impl.CharactersEventBase;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
-import org.pageseeder.diffx.event.impl.LineEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.pageseeder.diffx.event.impl.WordEvent;
+import org.pageseeder.diffx.event.impl.*;
 
 /**
  * A simple formatter to write the short string version of the events.
@@ -145,6 +140,8 @@ public final class ShortStringFormatter implements DiffXFormatter {
       return '<'+((ElementEvent)e).getName()+"/>";
     // a single line
     if (e instanceof LineEvent) return "L#"+((LineEvent)e).getLineNumber();
+    if (e instanceof CharactersEvent)
+      return '"'+((CharactersEventBase)e).getCharacters()+'"';
     if (e == null) return "-";
     return "???";
   }

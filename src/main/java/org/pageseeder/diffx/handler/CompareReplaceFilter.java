@@ -50,7 +50,7 @@ public final class CompareReplaceFilter implements DiffHandler {
   public void handle(Operator operator, DiffXEvent event) throws IOException {
     if (event instanceof TextEvent && (operator == Operator.DEL || operator == Operator.INS)) {
       if (this.previous != null) {
-        diff((TextEvent)this.previous.event(), (TextEvent) event, this.previous.operator() == Operator.INS);
+        diff((TextEvent) event, (TextEvent)this.previous.event(),operator == Operator.INS);
         this.previous = null;
       } else {
         flushPrevious();
