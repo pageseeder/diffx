@@ -4,7 +4,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 
 import java.io.IOException;
-import java.util.logging.Handler;
 
 public class MuxHandler implements DiffHandler {
 
