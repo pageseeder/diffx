@@ -17,7 +17,7 @@ public class FormattingAdapter implements DiffHandler {
   @Override
   public void handle(Operator operator, DiffXEvent event) throws IOException, IllegalStateException {
     switch (operator) {
-      case KEEP:
+      case MATCH:
         this.formatter.format(event);
         break;
       case INS:

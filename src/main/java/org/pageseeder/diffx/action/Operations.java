@@ -32,7 +32,7 @@ public final class Operations {
     for (Operation operation : operations) {
       if (positive ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
         generated.add(operation.event());
-      } else if (operation.operator() == Operator.KEEP) {
+      } else if (operation.operator() == Operator.MATCH) {
         generated.add(operation.event());
       }
     }
@@ -69,7 +69,7 @@ public final class Operations {
     try {
       for (Operation operation : operations) {
         switch (operation.operator()) {
-          case KEEP:
+          case MATCH:
             out.add(input.get(i));
             i++;
             break;
@@ -93,7 +93,7 @@ public final class Operations {
   public static void format(List<Operation> operations, DiffXFormatter formatter) throws IOException {
     for (Operation operation : operations) {
       switch (operation.operator()) {
-        case KEEP:
+        case MATCH:
           formatter.format(operation.event());
           break;
         case INS:

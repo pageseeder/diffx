@@ -90,7 +90,7 @@ public class CoalescingFilterTest {
     for (String op : ops) {
       if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextEvent(op.substring(1)));
       else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextEvent(op.substring(1)));
-      else source.handle(Operator.KEEP, Events.toTextEvent(op));
+      else source.handle(Operator.MATCH, Events.toTextEvent(op));
     }
     return source.getOperations();
   }

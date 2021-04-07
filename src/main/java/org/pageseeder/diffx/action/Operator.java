@@ -44,7 +44,7 @@ public enum Operator {
   /**
    * A match.
    */
-  KEEP {
+  MATCH {
     public String toString() {
       return "=";
     }

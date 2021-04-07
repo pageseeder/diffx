@@ -1,12 +1,9 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.Assert;
-import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.CloseElementEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.OpenElementEvent;
 import org.pageseeder.diffx.event.impl.CloseElementEventImpl;
@@ -77,9 +74,9 @@ public abstract class BaseProcessorTest {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
     OpenElementEvent root = new OpenElementEventImpl("root");
-    wrapped.add(new Action(Operator.KEEP, Collections.singletonList(root)));
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
     wrapped.addAll(actions);
-    wrapped.add(new Action(Operator.KEEP, Collections.singletonList(new CloseElementEventImpl(root))));
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new CloseElementEventImpl(root))));
     assertIsWellFormedXML(toXML(wrapped));
   }
 

@@ -55,11 +55,11 @@ public final class DiffResult {
   }
 
   public boolean hasChanges() {
-    return this.actions.stream().anyMatch(action -> action.type() != Operator.KEEP);
+    return this.actions.stream().anyMatch(action -> action.type() != Operator.MATCH);
   }
 
   public boolean isIdentical() {
-    return this.actions.stream().noneMatch(action -> action.type() != Operator.KEEP);
+    return this.actions.stream().noneMatch(action -> action.type() != Operator.MATCH);
   }
 
   public int countEvents(Operator operator) {

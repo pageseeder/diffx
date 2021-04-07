@@ -49,10 +49,10 @@ public class OperationFormatter implements DiffXFormatter {
    * Adds the event to an operation of type 'KEEP'.
    *
    * @param event The event to format.
-   * @see Operator#KEEP
+   * @see Operator#MATCH
    */
   public void format(DiffXEvent event) {
-    this.operations.add(new Operation(Operator.KEEP, event));
+    this.operations.add(new Operation(Operator.MATCH, event));
   }
 
   /**

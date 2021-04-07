@@ -69,7 +69,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
         j++;
       } else if (matrix.isSameXY(i, j)) {
         if (e1.equals(e2)) {
-          handler.handle(Operator.KEEP, e1);
+          handler.handle(Operator.MATCH, e1);
           i++; j++;
         } else {
           handler.handle(Operator.INS, e1);

@@ -23,7 +23,6 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * A Diff-X formatter implementation used solely for testing.
@@ -54,7 +53,7 @@ public final class TestHandler implements DiffHandler {
    * Writes the abstract representation.
    */
   public void handle(Operator operator, DiffXEvent event) {
-    if (operator != Operator.KEEP) out.append(operator.toString());
+    if (operator != Operator.MATCH) out.append(operator.toString());
     out.append(toSimpleString(operator, event));
   }
 
@@ -66,7 +65,7 @@ public final class TestHandler implements DiffHandler {
    */
   public void format(EventSequence seq) throws IOException {
     for (int i = 0; i < seq.size(); i++) {
-      handle(Operator.KEEP, seq.getEvent(i));
+      handle(Operator.MATCH, seq.getEvent(i));
     }
   }
 
@@ -92,7 +91,7 @@ public final class TestHandler implements DiffHandler {
     if (e instanceof LineEvent) return "L" + ((LineEvent) e).getLineNumber();
     // a text event
     if (e instanceof TextEvent) {
-      if (operator != Operator.KEEP) return "("+((TextEvent) e).getCharacters()+")";
+      if (operator != Operator.MATCH) return "("+((TextEvent) e).getCharacters()+")";
       return ((TextEvent) e).getCharacters();
     }
     if (e instanceof CharEvent) {

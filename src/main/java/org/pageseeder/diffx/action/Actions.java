@@ -43,7 +43,7 @@ public class Actions {
     for (Action action : actions) {
       if (positive ? action.type() == Operator.INS : action.type() == Operator.DEL) {
         generated.addAll(action.events());
-      } else if (action.type() == Operator.KEEP) {
+      } else if (action.type() == Operator.MATCH) {
         generated.addAll(action.events());
       }
     }
@@ -97,7 +97,7 @@ public class Actions {
       for (Action action : actions) {
         int count = action.events().size();
         switch (action.type()) {
-          case KEEP:
+          case MATCH:
             out.addAll(input.subList(i, i + count));
             i += count;
             break;
@@ -122,7 +122,7 @@ public class Actions {
     int i = 0; // Index of A
     int j = 0; // Index of B
     for (Action action : actions) {
-      if (action.type() == Operator.KEEP) {
+      if (action.type() == Operator.MATCH) {
         for (DiffXEvent e : action.events()) {
           if (i >= a.size() || !e.equals(a.get(i))) return false;
           if (j >= b.size() || !e.equals(b.get(j))) return false;
@@ -147,7 +147,7 @@ public class Actions {
   public static void format(List<Action> actions, DiffXFormatter formatter) throws IOException {
     for (Action action : actions) {
       switch (action.type()) {
-        case KEEP:
+        case MATCH:
           for (DiffXEvent event : action.events()) {
             formatter.format(event);
           }

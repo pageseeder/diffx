@@ -47,7 +47,7 @@ public final class CoalescingFilter implements DiffHandler {
   /**
    * State variable which changes as new events are reported.
    */
-  private Operator current = Operator.KEEP;
+  private Operator current = Operator.MATCH;
 
   public CoalescingFilter(DiffHandler target) {
     this.target = target;

@@ -17,7 +17,7 @@ public class HandlerFormatter implements DiffXFormatter {
 
   @Override
   public void format(DiffXEvent event) throws IOException, IllegalStateException {
-    this.handler.handle(Operator.KEEP, event);
+    this.handler.handle(Operator.MATCH, event);
   }
 
   @Override

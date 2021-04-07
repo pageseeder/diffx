@@ -55,10 +55,10 @@ public class ActionFormatter implements DiffXFormatter {
    * Adds the event to an action of type 'KEEP'.
    *
    * @param e The event to format.
-   * @see Operator#KEEP
+   * @see Operator#MATCH
    */
   public void format(DiffXEvent e) {
-    setupAction(Operator.KEEP);
+    setupAction(Operator.MATCH);
     this.action.add(e);
   }
 
