@@ -51,8 +51,10 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
-    List<DiffXEvent> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.TEXT);
-    List<DiffXEvent> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.TEXT);
+    List<DiffXEvent> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.SPACE_WORD);
+    List<DiffXEvent> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
+    profileX(new DefaultXMLProcessor(), first, second, 10);
+    profileX(new ProgressiveXMLProcessor(), first, second, 10);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new ProgressiveXMLProcessor(), first, second, 10);
     System.out.println(second);

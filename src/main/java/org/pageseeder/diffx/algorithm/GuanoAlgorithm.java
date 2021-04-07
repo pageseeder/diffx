@@ -48,7 +48,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * </ul>
  *
  * @author Christophe Lauret
- * @version 11 May 2010
+ * @version 0.8.0
  */
 public final class GuanoAlgorithm implements DiffXAlgorithm {
 

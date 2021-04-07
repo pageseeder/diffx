@@ -36,14 +36,17 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
   @Override
   public void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+    handler.start();
     // handle the case when one of the two sequences is empty
     if (first.isEmpty()) {
       for (DiffXEvent event : second) handler.handle(Operator.DEL, event);
+      handler.end();
       return;
     }
     // the second sequence is empty, events from the first sequence have been inserted
     if (second.isEmpty()) {
       for (DiffXEvent event : first) handler.handle(Operator.INS, event);
+      handler.end();
       return;
     }
 

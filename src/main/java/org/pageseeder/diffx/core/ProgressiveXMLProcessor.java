@@ -35,8 +35,6 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
   /**
    * Set whether to consecutive text operations should be coalesced into a single operation.
    *
-   * <p>This precessor coalesce events by default.</p>
-   *
    * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
    */
   public void setCoalesce(boolean coalesce) {
