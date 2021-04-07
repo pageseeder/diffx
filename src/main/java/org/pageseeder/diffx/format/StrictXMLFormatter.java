@@ -132,7 +132,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    * Writes the XML declaration.
    */
   private void init() {
-    this.xml.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+    this.xml.print("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
   }
 
   @Override

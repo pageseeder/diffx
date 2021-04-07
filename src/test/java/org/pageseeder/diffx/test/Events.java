@@ -21,7 +21,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
-import org.pageseeder.diffx.format.StrictXMLFormatter;
+import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.load.TextRecorder;
 
@@ -88,7 +88,7 @@ public final class Events {
 
   public static String toXML(List<? extends DiffXEvent> events) throws IOException {
     StringWriter xml = new StringWriter();
-    StrictXMLFormatter f = new StrictXMLFormatter();
+    SmartXMLFormatter f = new SmartXMLFormatter();
     for (DiffXEvent event : events) {
       f.format(event);
     }
