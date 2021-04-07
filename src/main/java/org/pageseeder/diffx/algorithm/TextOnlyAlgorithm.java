@@ -72,6 +72,7 @@ public final class TextOnlyAlgorithm implements DiffXAlgorithm {
   public int length() {
     if (this.length < 0) {
       MatrixProcessor builder = new MatrixProcessor();
+      builder.setInverse(true);
       this.matrix = builder.process(this.sequence1, this.sequence2);
       this.length = this.matrix.getLCSLength();
     }

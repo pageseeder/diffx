@@ -49,6 +49,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();
+    builder.setInverse(true);
     Matrix matrix = builder.process(first, second);
     final int length1 = first.size();
     final int length2 = second.size();
