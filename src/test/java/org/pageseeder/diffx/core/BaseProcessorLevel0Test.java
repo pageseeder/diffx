@@ -302,6 +302,17 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_Complex7() throws IOException {
+    String a = "Saturday";
+    String b = "Sunday";
+    String[] exp = new String[]{
+        "S+a+tu+r-nday",
+        "S+a+tu-n+rday"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
   // helpers
   // --------------------------------------------------------------------------
 
