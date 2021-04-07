@@ -88,4 +88,8 @@ public final class TextOnlyProcessor implements DiffProcessor {
     }
   }
 
+  @Override
+  public String toString() {
+    return "TextOnlyProcessor";
+  }
 }

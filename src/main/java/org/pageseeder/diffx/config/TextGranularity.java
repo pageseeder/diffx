@@ -34,6 +34,11 @@ public enum TextGranularity {
   WORD,
 
   /**
+   * Differences should be reported at the word level but may include space before.
+   */
+  SPACE_WORD,
+
+  /**
    * Differences should be reported for the entire text node.
    */
   TEXT

@@ -55,4 +55,10 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
     return new CompareReplaceFilter(baseHandler);
   }
 
+  @Override
+  public String toString() {
+    return "ProgressiveXMLProcessor{" +
+        "coalesce=" + this.coalesce +
+        '}';
+  }
 }

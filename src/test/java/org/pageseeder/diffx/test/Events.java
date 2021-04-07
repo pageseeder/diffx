@@ -60,6 +60,14 @@ public final class Events {
     return events;
   }
 
+  public static List<CharEvent> toCharEvents(String string) {
+    List<CharEvent> s = new ArrayList<>();
+    for (char c : string.toCharArray()) {
+      s.add(new CharEvent(c));
+    }
+    return s;
+  }
+
   public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException, IOException {
     if (xml.isEmpty()) return Collections.emptyList();
     DiffXConfig config = new DiffXConfig();

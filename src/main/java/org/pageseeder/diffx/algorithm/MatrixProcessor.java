@@ -34,7 +34,7 @@ public final class MatrixProcessor {
   /**
    * Set to <code>true</code> to show debug info.
    */
-  private static final boolean DEBUG = true;
+  private static final boolean DEBUG = false;
 
   private boolean inverse = false;
 

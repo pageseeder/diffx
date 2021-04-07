@@ -49,6 +49,7 @@ public final class TokenizerFactory {
     switch (granularity) {
       case CHARACTER: return new TokenizerByChar();
       case WORD: return new TokenizerByWord(config.getWhiteSpaceProcessing());
+      case SPACE_WORD: return new TokenizerBySpaceWord(config.getWhiteSpaceProcessing());
       case TEXT: return new TokenizerByText(config.getWhiteSpaceProcessing());
       default:
         throw new IllegalArgumentException("Unsupported text granularity "+granularity);

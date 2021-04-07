@@ -24,6 +24,7 @@ import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
+import org.pageseeder.diffx.test.Events;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -317,8 +318,8 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // --------------------------------------------------------------------------
 
   public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
-    List<CharEvent> seq1 = toCharEvents(text1);
-    List<CharEvent> seq2 = toCharEvents(text2);
+    List<CharEvent> seq1 = Events.toCharEvents(text1);
+    List<CharEvent> seq2 = Events.toCharEvents(text2);
 
     // Setup and process
     DiffProcessor processor = getDiffProcessor();
@@ -336,14 +337,6 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;
     }
-  }
-
-  private static List<CharEvent> toCharEvents(String string) {
-    List<CharEvent> s = new ArrayList<>();
-    for (char c : string.toCharArray()) {
-      s.add(new CharEvent(c));
-    }
-    return s;
   }
 
   /**
