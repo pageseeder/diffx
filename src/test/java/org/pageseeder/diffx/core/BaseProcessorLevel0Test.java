@@ -297,7 +297,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     String a = "balaclava";
     String b = "bilabial";
     String[] exp = new String[]{
-        "-t-oo+n+e little"
+        "b+a+l+a+c-ila+v-b-ia-l"
     };
     assertDiffOKLevel0(a, b, exp);
   }
@@ -320,6 +320,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     try {
       assertDiffIsApplicable(seq1, seq2, actions);
       assertDiffIsCorrect(seq1, seq2, actions);
+      assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;

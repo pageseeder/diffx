@@ -17,6 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.*;
+import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.event.impl.LineEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -93,6 +94,9 @@ public final class TestHandler implements DiffHandler {
     if (e instanceof TextEvent) {
       if (operator != Operator.KEEP) return "("+((TextEvent) e).getCharacters()+")";
       return ((TextEvent) e).getCharacters();
+    }
+    if (e instanceof CharEvent) {
+      return Character.toString(((CharEvent) e).getChar());
     }
     // Anything else?
     return e.toString();
