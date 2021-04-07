@@ -68,6 +68,15 @@ public final class EventSequence {
   }
 
   /**
+   * Creates a new event sequence of the specified size.
+   *
+   * @param events The size of the sequence.
+   */
+  public EventSequence(List<DiffXEvent> events) {
+    this.sequence = events;
+  }
+
+  /**
    * Adds a sequence of events to this sequence.
    *
    * @param seq The sequence of events to be added.
@@ -101,7 +110,7 @@ public final class EventSequence {
    *
    * @param events The event to be added.
    */
-  public void addEvents(List<DiffXEvent> events) {
+  public void addEvents(List<? extends DiffXEvent> events) {
     this.sequence.addAll(events);
   }
 

@@ -42,8 +42,8 @@ public class SequenceFolding {
 
   public static SequenceFolding forElements(String[] elements) {
     // Only keep distinct non-null element names
-    List<String> list = Arrays.asList(elements).stream()
-        .filter(i -> i != null || i.length() > 0)
+    List<String> list = Arrays.stream(elements)
+        .filter(i -> i != null && i.length() > 0)
         .distinct()
         .collect(Collectors.toList());
     return new SequenceFolding(list);
@@ -66,7 +66,23 @@ public class SequenceFolding {
     for (DiffXEvent event : input.events()) {
       processor.add(event);
     }
-    return processor.sequence;
+    return processor.sequence();
+  }
+
+  /**
+   * Collapses the specified sequence using the current configuration.
+   *
+   * @param events The input sequence to be collapse
+   *
+   * @return The collapsed sequence.
+   */
+  public List<? extends DiffXEvent> fold(List<? extends DiffXEvent> events) {
+    if (this.elements.isEmpty()) return events;
+    FoldingProcessor processor = new FoldingProcessor();
+    for (DiffXEvent event : events) {
+      processor.add(event);
+    }
+    return processor.events();
   }
 
   private boolean isFoldable(DiffXEvent event) {
@@ -81,9 +97,9 @@ public class SequenceFolding {
 
   private class FoldingProcessor {
 
-    private EventSequence sequence = new EventSequence();
+    private final List<DiffXEvent> events = new ArrayList<>();
 
-    private List<Folder> stack = new ArrayList<>();
+    private final List<Folder> stack = new ArrayList<>();
 
     private Folder current() {
       return this.stack.get(this.stack.size()-1);
@@ -98,14 +114,14 @@ public class SequenceFolding {
         Folder subfolder = new Folder((OpenElementEvent)event);
         this.stack.add(subfolder);
       } else if (this.stack.isEmpty()) {
-        this.sequence.addEvent(event);
+        this.events.add(event);
       } else {
         Folder current = this.current();
         if (isMatching(event, current.open)) {
           ElementEvent element = current.seal((CloseElementEvent) event);
           this.stack.remove(this.stack.size()-1); // pop
           if (this.stack.isEmpty()) {
-            this.sequence.addEvent(element);
+            this.events.add(element);
           } else {
             this.current().add(element);
           }
@@ -115,16 +131,20 @@ public class SequenceFolding {
       }
     }
 
+    List<? extends DiffXEvent> events() {
+      return this.events;
+    }
+
     EventSequence sequence() {
-      return this.sequence;
+      return new EventSequence(this.events);
     }
   }
 
-  private class Folder {
+  private static class Folder {
 
     OpenElementEvent open;
 
-    private List<DiffXEvent> children = new ArrayList<>();
+    private final List<DiffXEvent> children = new ArrayList<>();
 
     Folder(OpenElementEvent open) {
       this.open = open;
