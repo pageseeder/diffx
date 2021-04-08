@@ -34,15 +34,20 @@ import java.util.List;
  */
 public final class TextOnlyProcessor implements DiffProcessor {
 
-  // TODO Refactor method to choose algorithm
-  private int algo = 0;
-
-  public TextOnlyProcessor() {
-    this.algo = 1;
+  public enum Algorithm {
+    HIRSCHBERG,
+    WAGNER_FISCHER
   }
 
-  public TextOnlyProcessor(int algo) {
-    this.algo = algo;
+  // TODO Refactor method to choose algorithm
+  private final Algorithm algo;
+
+  public TextOnlyProcessor() {
+    this(Algorithm.HIRSCHBERG);
+  }
+
+  public TextOnlyProcessor(Algorithm algorithm) {
+    this.algo = algorithm;
   }
 
   @Override
@@ -90,11 +95,15 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
   @Override
   public String toString() {
-    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"/var="+(algo > 1)+"}";
+    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"}";
   }
 
   private DiffAlgorithm getAlgorithm() {
-    return algo > 0? new HirschbergAlgorithm(algo > 1) : new WagnerFischerAlgorithm();
+    switch (this.algo) {
+      case HIRSCHBERG: return new HirschbergAlgorithm();
+      case WAGNER_FISCHER: return new WagnerFischerAlgorithm();
+      default: throw new IllegalStateException("No algorithm defined");
+    }
   }
 
   /**
@@ -133,6 +142,5 @@ public final class TextOnlyProcessor implements DiffProcessor {
     }
     return count;
   }
-
 
 }

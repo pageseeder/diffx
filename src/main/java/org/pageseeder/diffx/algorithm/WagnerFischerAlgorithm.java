@@ -56,7 +56,8 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
       } else if (matrix.isSameXY(i, j)) {
         if (e1.equals(e2)) {
           handler.handle(Operator.MATCH, e1);
-          i++; j++;
+          i++;
+          j++;
         } else {
           handler.handle(Operator.INS, e1);
           i++;

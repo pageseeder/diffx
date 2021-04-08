@@ -21,6 +21,14 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * A diff processor performs comparisons on the specified resources.
+ *
+ * It can be configurable and may use different algorithm depending on the task.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ */
 public interface DiffProcessor {
 
   /**

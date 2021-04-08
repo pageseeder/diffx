@@ -23,18 +23,18 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An implementation of the Hirschberg algorithm algorithm to find the common LCS.
+ * An implementation of the Hirschberg algorithm algorithm to find the longest common subsequence (LS).
+ *
+ * <p>Hirschberg proposed a linear space algorithm for the LCS using a divide and conquer approach.
+ * This algorithm (Algorithm C) finds the intersecting point of the LCS sequence with the m/2 th row and solve
+ * the problem recursively. It solves LCS problem in O(mn) time and in O(m+n) space.
+ *
+ * See "A linear space algorithm for computing maximal common subsequences"
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
 public final class HirschbergAlgorithm implements DiffAlgorithm {
-
-  boolean var = false;
-
-  public HirschbergAlgorithm(boolean var) {
-    this.var = var;
-  }
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -53,22 +53,17 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    * @return the last line of the Needleman-Wunsch score matrix
    */
   private static int[] algorithmB(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b) {
-    // Step 1
-    int[][] k = new int[2][n+1];
-    // Step 2
-    for (int i=1; i<=m; i++) {
-      // Step 3
+    int[][] k = new int[2][n + 1];
+    for (int i = 1; i <= m; i++) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
-      // Step 4
-      for (int j=1; j<=n; j++) {
-        if (a.get(i-1).equals(b.get(j-1))) {
-          k[1][j] = k[0][j-1] + 1;
+      for (int j = 1; j <= n; j++) {
+        if (a.get(i - 1).equals(b.get(j - 1))) {
+          k[1][j] = k[0][j - 1] + 1;
         } else {
-          k[1][j] = Math.max(k[1][j-1], k[0][j]);
+          k[1][j] = Math.max(k[1][j - 1], k[0][j]);
         }
       }
     }
-    // Step 5
     return k[1];
   }
 
@@ -76,22 +71,17 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    * Algorithm B as described by Hirschberg (in reverse)
    */
   private static int[] algorithmBRev(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b) {
-    // Step 1
-    int[][] k = new int[2][n+1];
-    // Step 2
-    for (int i=m-1; i >= 0; i--) {
-      // Step 3
+    int[][] k = new int[2][n + 1];
+    for (int i = m - 1; i >= 0; i--) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
-      // Step 4
-      for (int j = n-1; j >= 0; j--) {
+      for (int j = n - 1; j >= 0; j--) {
         if (a.get(i).equals(b.get(j))) {
-          k[1][n-j] = k[0][n-j-1] + 1;
+          k[1][n - j] = k[0][n - j - 1] + 1;
         } else {
-          k[1][n-j] = Math.max(k[1][n-j-1], k[0][n-j]);
+          k[1][n - j] = Math.max(k[1][n - j - 1], k[0][n - j]);
         }
       }
     }
-    // Step 5
     return k[1];
   }
 
@@ -101,8 +91,8 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static int findK(int[] l1, int[] l2, int n) {
     int m = 0;
     int k = 0;
-    for (int j=0; j <= n; j++) {
-      int s = l1[j]+l2[n-j];
+    for (int j = 0; j <= n; j++) {
+      int s = l1[j] + l2[n - j];
       if (m < s) {
         m = s;
         k = j;
@@ -117,9 +107,8 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) throws IOException {
     int i;
     int j;
-    if (DEBUG) System.out.print("[m="+m+",n="+n+","+a+","+b+"] ->");
+    if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
-    // Step 1
     if (n == 0) {
       if (DEBUG) System.out.println(" Step1 N=0");
       for (DiffXEvent event : a) {
@@ -130,7 +119,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
       if (DEBUG) System.out.println(" Step1 M=1");
       boolean match = false;
       DiffXEvent a0 = a.get(0);
-      for (j=0; j<n; j++) {
+      for (j = 0; j < n; j++) {
         if (a0.equals(b.get(j))) {
           handler.handle(Operator.MATCH, a0);
           match = true;
@@ -140,21 +129,17 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
       }
       if (!match) handler.handle(Operator.INS, a0);
 
-      // Step 2
     } else {
-      if (DEBUG)  System.out.println(" Step2");
-      i = (int) Math.floor(((double)m)/2);
+      if (DEBUG) System.out.println(" Step2");
+      i = (int) Math.floor(((double) m) / 2);
 
-      // Step 3
       int[] l1 = algorithmB(i, n, a.subList(0, i), b);
-      int[] l2 = algorithmBRev(m-i, n, a.subList(i, a.size()), b);
-
-      // Step 4
+      int[] l2 = algorithmBRev(m - i, n, a.subList(i, a.size()), b);
       int k = findK(l1, l2, n);
 
-      // Step 5
+      // Recursive call
       algorithmC(i, k, a.subList(0, i), b.subList(0, k), handler);
-      algorithmC(m-i, n-k, a.subList(i, a.size()), b.subList(k, b.size()), handler);
+      algorithmC(m - i, n - k, a.subList(i, a.size()), b.subList(k, b.size()), handler);
     }
   }
 
