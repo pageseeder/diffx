@@ -17,7 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.core.TextOnlyProcessor;
+import org.pageseeder.diffx.core.HirschbergAlgorithm;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
@@ -65,11 +65,11 @@ public final class CompareReplaceFilter implements DiffHandler {
   private void diff(TextEvent a, TextEvent b, boolean positive) throws IOException {
     List<TextEvent> eventsA = this.tokenizer.tokenize(a.getCharacters());
     List<TextEvent> eventsB = this.tokenizer.tokenize(b.getCharacters());
-    TextOnlyProcessor diff = new TextOnlyProcessor();
+    HirschbergAlgorithm diff = new HirschbergAlgorithm();
     if (positive)
-      diff.process(eventsA, eventsB, this.target);
+      diff.diff(eventsA, eventsB, this.target);
     else
-      diff.process(eventsB, eventsA, this.target);
+      diff.diff(eventsB, eventsA, this.target);
   }
 
   /**
