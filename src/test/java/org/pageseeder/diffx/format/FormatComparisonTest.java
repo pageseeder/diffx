@@ -39,7 +39,7 @@ public class FormatComparisonTest {
     OperationHandler handler = new OperationHandler();
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(true);
-    processor.process(to, from, handler);
+    processor.diff(to, from, handler);
     return handler.getOperations();
   }
 

@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
@@ -51,7 +50,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
   }
 
   @Override
-  public void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (first.isEmpty() || second.isEmpty()) {

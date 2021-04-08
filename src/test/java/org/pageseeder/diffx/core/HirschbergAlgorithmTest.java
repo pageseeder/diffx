@@ -21,11 +21,11 @@ package org.pageseeder.diffx.core;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TextOnlyProcessorTest extends BaseProcessorLevel0Test {
+public final class HirschbergAlgorithmTest extends BaseProcessorLevel0Test {
 
   @Override
   public DiffAlgorithm getDiffAlgorithm() {
-    return new TextOnlyProcessor();
+    return new HirschbergAlgorithm();
   }
 
 }

@@ -31,9 +31,9 @@ public abstract class BaseProcessorTest {
   /**
    * @return The processor instance to use for texting.
    */
-  public abstract DiffProcessor getDiffProcessor();
+  public abstract DiffAlgorithm getDiffAlgorithm();
 
-  public final void assertDiffIsApplicable(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) throws IOException {
+  public final void assertDiffIsApplicable(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) {
     // Ensure that the diff is applicable
     Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1, seq2, actions));
   }
@@ -51,9 +51,9 @@ public abstract class BaseProcessorTest {
   }
 
   public List<Action> diffToActions(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2) throws IOException {
-    DiffProcessor processor = getDiffProcessor();
+    DiffAlgorithm processor = getDiffAlgorithm();
     ActionHandler handler = new ActionHandler();
-    processor.process(seq1, seq2, handler);
+    processor.diff(seq1, seq2, handler);
     return handler.getActions();
   }
 

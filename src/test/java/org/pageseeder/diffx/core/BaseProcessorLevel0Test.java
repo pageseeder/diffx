@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
@@ -27,12 +26,11 @@ import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.Events;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Test case for Diff-X algorithm implementations.
+ * Test case for algorithm implementations.
  *
  * <p>To pass this test an algorithm must only be able to find the correct differences in a piece or text.
  * XML awareness isn't required.
@@ -192,6 +190,22 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_Insert7() throws IOException {
+    String a = "fortaste";
+    String b = "taste";
+    String[] exp = new String[]{"+f+o+rtaste"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete7() throws IOException {
+    String a = "taste";
+    String b = "fortaste";
+    String[] exp = new String[]{"-f-o-rtaste"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
   // Replacements -------------------------------------------------------------
 
   @Test
@@ -324,10 +338,10 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     List<CharEvent> seq2 = Events.toCharEvents(text2);
 
     // Setup and process
-    DiffProcessor processor = getDiffProcessor();
+    DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionHandler af = new ActionHandler();
     CharTestHandler cf = new CharTestHandler();
-    processor.process(seq1, seq2, new MuxHandler(cf, af));
+    algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
     String got = cf.getOutput();
     List<Action> actions = af.getActions();
 

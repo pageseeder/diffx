@@ -35,7 +35,7 @@ import java.util.List;
 public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
 
   @Override
-  public DiffProcessor getDiffProcessor() {
+  public DiffAlgorithm getDiffAlgorithm() {
     return new ProgressiveXMLProcessor();
   }
 

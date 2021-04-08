@@ -42,11 +42,11 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
   }
 
   @Override
-  public void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(this.coalesce);
     DiffHandler actual = new CompareReplaceFilter(handler);
-    processor.process(first, second, actual);
+    processor.diff(first, second, actual);
   }
 
   @Override

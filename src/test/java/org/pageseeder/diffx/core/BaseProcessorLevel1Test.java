@@ -703,9 +703,9 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     // process the strings
     List<? extends DiffXEvent> seq1 = Events.recordLineEvents(text1);
     List<? extends DiffXEvent> seq2 = Events.recordLineEvents(text2);
-    DiffProcessor processor = getDiffProcessor();
+    DiffAlgorithm processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
-    processor.process(seq1, seq2, handler);
+    processor.diff(seq1, seq2, handler);
     return handler.getOutput();
   }
 

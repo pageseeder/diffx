@@ -29,7 +29,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface DiffProcessor {
+public interface DiffProcessor extends DiffAlgorithm {
 
   /**
    * Performs the comparison and uses the specified handler.
@@ -40,6 +40,6 @@ public interface DiffProcessor {
    *
    * @throws IOException If thrown by the formatter.
    */
-  void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException;
+  void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException;
 
 }

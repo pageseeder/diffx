@@ -154,24 +154,24 @@ public class PerformanceTest {
 
   }
 
-  private static long profileX(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
-    System.out.print(processor.toString());
+  private static long profileX(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
+    System.out.print(algorithm.toString());
     System.out.print("\t"+first.size()+"/"+second.size()+" events");
     // We do a dry run first
-    long f = profile(processor, first, second);
+    long f = profile(algorithm, first, second);
     System.out.print(" First:"+f+"ms");
     long total = 0;
     for (int i=0; i < times; i++) {
-      long t = profile(processor, first, second);
+      long t = profile(algorithm, first, second);
       total += t;
     }
     System.out.println(" Avg:"+(total*1.0 / times)+"ms");
     return total;
   }
 
-  private static long profile(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) throws IOException {
+  private static long profile(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) throws IOException {
     long t0 = System.nanoTime();
-    processor.process(first, second, VOID_HANDLER);
+    algorithm.diff(first, second, VOID_HANDLER);
     long t1 = System.nanoTime();
     return (t1 - t0) / 1_000_000;
   }

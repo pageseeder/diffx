@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.algorithm;
+package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
@@ -105,8 +105,6 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    * Algorithm C as described by Hirschberg
    */
   private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) throws IOException {
-    int i;
-    int j;
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
     if (n == 0) {
@@ -115,12 +113,18 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
         handler.handle(Operator.INS, event);
       }
 
+    } else if (m == 0) {
+      if (DEBUG) System.out.println(" Step1 M=0");
+      for (DiffXEvent event : b) {
+        handler.handle(Operator.DEL, event);
+      }
+
     } else if (m == 1) {
       if (DEBUG) System.out.println(" Step1 M=1");
       boolean match = false;
       DiffXEvent a0 = a.get(0);
-      for (j = 0; j < n; j++) {
-        if (a0.equals(b.get(j))) {
+      for (int j = 0; j < n; j++) {
+        if (a0.equals(b.get(j)) && !match) {
           handler.handle(Operator.MATCH, a0);
           match = true;
         } else {
@@ -131,15 +135,15 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
 
     } else {
       if (DEBUG) System.out.println(" Step2");
-      i = (int) Math.floor(((double) m) / 2);
+      int h = (int) Math.floor(((double) m) / 2);
 
-      int[] l1 = algorithmB(i, n, a.subList(0, i), b);
-      int[] l2 = algorithmBRev(m - i, n, a.subList(i, a.size()), b);
+      int[] l1 = algorithmB(h, n, a.subList(0, h), b);
+      int[] l2 = algorithmBRev(m - h, n, a.subList(h, a.size()), b);
       int k = findK(l1, l2, n);
 
       // Recursive call
-      algorithmC(i, k, a.subList(0, i), b.subList(0, k), handler);
-      algorithmC(m - i, n - k, a.subList(i, a.size()), b.subList(k, b.size()), handler);
+      algorithmC(h, k, a.subList(0, h), b.subList(0, k), handler);
+      algorithmC(m - h, n - k, a.subList(h, a.size()), b.subList(k, b.size()), handler);
     }
   }
 

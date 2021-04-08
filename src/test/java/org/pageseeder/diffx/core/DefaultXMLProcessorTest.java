@@ -24,7 +24,7 @@ package org.pageseeder.diffx.core;
 public final class DefaultXMLProcessorTest extends BaseProcessorLevel2Test {
 
   @Override
-  public DiffProcessor getDiffProcessor() {
+  public DiffAlgorithm getDiffAlgorithm() {
     return new DefaultXMLProcessor();
   }
 
