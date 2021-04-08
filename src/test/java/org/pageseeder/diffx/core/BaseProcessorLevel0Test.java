@@ -288,7 +288,9 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     String a = "one little";
     String b = "too little";
     String[] exp = new String[]{
-        "-t-oo+n+e little"
+        "-t-oo+n+e little",
+        "-to+n+e-o little",
+        "-to+n-o+e little"
     };
     assertDiffOKLevel0(a, b, exp);
   }

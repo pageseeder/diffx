@@ -26,6 +26,9 @@ import java.io.IOException;
  *
  * It is designed for text only.
  *
+ * <p>It is a variation on the Wagner-Fischer Algorithm which computes in O(mn) time
+ * and O(mn) space.</p>
+ *
  * @author Christophe Lauret
  * @version 0.9.0
  */

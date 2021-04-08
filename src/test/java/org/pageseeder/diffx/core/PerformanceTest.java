@@ -10,6 +10,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.test.Events;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -34,6 +35,21 @@ public class PerformanceTest {
   }
 
   @Test
+  public void compareWalterFischer_Hirshberg() throws IOException {
+    int[] lengths = new int[]{500, 1000, 2000, 5000};
+    for (int length : lengths) {
+      // Generate content
+      String from = getRandomString(length, false);
+      String to = vary(from, .2);
+      List<CharEvent> second = Events.toCharEvents(from);
+      List<CharEvent> first = Events.toCharEvents(to);
+
+      profileX(new TextOnlyProcessor(0), first, second, 20);
+      profileX(new TextOnlyProcessor(1), first, second, 20);
+    }
+  }
+
+  @Test
   public void compareRandomString_1000_50() throws IOException {
     // Generate content
     String from = getRandomString(1000, false);
@@ -53,8 +69,6 @@ public class PerformanceTest {
     String to = vary(from, .05);
     List<DiffXEvent> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.SPACE_WORD);
     List<DiffXEvent> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
-    profileX(new DefaultXMLProcessor(), first, second, 10);
-    profileX(new ProgressiveXMLProcessor(), first, second, 10);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new ProgressiveXMLProcessor(), first, second, 10);
     System.out.println(second);
@@ -106,14 +120,15 @@ public class PerformanceTest {
 
   private static void profileX(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
     System.out.print(processor.toString());
-    System.out.println("\t"+first.size()+"/"+second.size()+" events");
+    System.out.print("\t"+first.size()+"/"+second.size()+" events");
+    // We do a dry run first
+    long f = profile(processor, first, second);
+    System.out.print(" First:"+f+"ms");
     long total = 0;
     for (int i=0; i < times; i++) {
       long t = profile(processor, first, second);
-      System.out.print(" #"+i+":"+t);
       total += t;
     }
-    System.out.println();
     System.out.println(" Avg:"+(total*1.0 / times)+"ms");
   }
 

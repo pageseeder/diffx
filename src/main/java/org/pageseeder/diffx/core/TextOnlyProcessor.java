@@ -16,83 +16,123 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.algorithm.Matrix;
-import org.pageseeder.diffx.algorithm.MatrixProcessor;
+import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * An implementation of dynamic programming algorithm for computing the LCS.
  *
- * It is designed for text only.
+ * It is designed for text only and designed for simple sequences of events.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
 public final class TextOnlyProcessor implements DiffProcessor {
 
+  // TODO Refactor method to choose algorithm
+  private int algo = 0;
+
+  public TextOnlyProcessor() {
+    this.algo = 1;
+  }
+
+  public TextOnlyProcessor(int algo) {
+    this.algo = algo;
+  }
+
   @Override
   public void process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
     handler.start();
     // handle the case when one of the two sequences is empty
-    if (first.isEmpty()) {
+    if (first.isEmpty() || second.isEmpty()) {
       for (DiffXEvent event : second) handler.handle(Operator.DEL, event);
-      handler.end();
-      return;
-    }
-    // the second sequence is empty, events from the first sequence have been inserted
-    if (second.isEmpty()) {
       for (DiffXEvent event : first) handler.handle(Operator.INS, event);
-      handler.end();
-      return;
-    }
+    } else {
 
-    // calculate the LCS length to fill the matrix
-    MatrixProcessor builder = new MatrixProcessor();
-    builder.setInverse(true);
-    Matrix matrix = builder.process(first, second);
-    final int length1 = first.size();
-    final int length2 = second.size();
-    int i = 0;
-    int j = 0;
-    DiffXEvent e1;
-    DiffXEvent e2;
-    // start walking the matrix
-    while (i < length1 && j < length2) {
-      e1 = first.get(i);
-      e2 = second.get(j);
-      if (matrix.isGreaterX(i, j)) {
-        handler.handle(Operator.INS, e1);
-        i++;
-      } else if (matrix.isGreaterY(i, j)) {
-        handler.handle(Operator.DEL, e2);
-        j++;
-      } else if (matrix.isSameXY(i, j)) {
-        if (e1.equals(e2)) {
-          handler.handle(Operator.MATCH, e1);
-          i++; j++;
+      // Slice the beginning
+      int start = sliceStart(first, second);
+      int end = sliceEnd(first, second, start);
+
+      // Copy the end
+      if (start > 0) {
+        for (int i=0; i < start; i++) handler.handle(Operator.MATCH, first.get(i));
+      }
+
+      // Check the end
+      if (start > 0 || end > 0) {
+        List<? extends DiffXEvent> firstSub = first.subList(start, first.size()-end);
+        List<? extends DiffXEvent> secondSub = second.subList(start, second.size()-end);
+        if (firstSub.isEmpty() || secondSub.isEmpty()) {
+          for (DiffXEvent event : secondSub) handler.handle(Operator.DEL, event);
+          for (DiffXEvent event : firstSub) handler.handle(Operator.INS, event);
         } else {
-          handler.handle(Operator.INS, e1);
-          i++;
+          DiffAlgorithm algorithm = getAlgorithm();
+          algorithm.diff(firstSub, secondSub, handler);
         }
+
+      } else {
+        DiffAlgorithm algorithm = getAlgorithm();
+        algorithm.diff(first, second, handler);
+      }
+
+      // Copy the end
+      if (end > 0) {
+        for (int i=first.size()-end; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
       }
     }
-
-    // finish off the events from the first sequence
-    for (; i < length1; i++) {
-      handler.handle(Operator.INS, first.get(i));
-    }
-    // finish off the events from the second sequence
-    for (; j < length2; j++) {
-      handler.handle(Operator.DEL, second.get(j));
-    }
+    handler.end();
   }
 
   @Override
   public String toString() {
-    return "TextOnlyProcessor";
+    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"}";
   }
+
+  private DiffAlgorithm getAlgorithm() {
+    return algo > 0? new HirschbergAlgorithm() : new WagnerFischerAlgorithm();
+  }
+
+  /**
+   * Slices the start of both sequences.
+   *
+   * @return The number of common elements at the start of the sequences.
+   */
+  public static int sliceStart(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+    int count = 0;
+    Iterator<? extends DiffXEvent> i = first.iterator();
+    Iterator<? extends DiffXEvent> j = second.iterator();
+    while (i.hasNext() && j.hasNext()) {
+      DiffXEvent e = i.next();
+      if (j.next().equals(e)) {
+        count++;
+      } else return count;
+    }
+    return count;
+  }
+
+  /**
+   * Slices the end of both sequences.
+   *
+   * @return The number of common elements at the end of the sequences.
+   *
+   * @throws IllegalStateException If the end buffer is not empty.
+   */
+  public int sliceEnd(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int start) {
+    int count = 0;
+    int i = first.size() - 1, j = second.size() - 1;
+    for (; i >= start && j >= start; i--, j--) {
+      DiffXEvent e1 = first.get(i);
+      if (e1.equals(second.get(j))) {
+        count++;
+      } else return count;
+    }
+    return count;
+  }
+
+
 }
