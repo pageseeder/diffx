@@ -90,11 +90,11 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
   @Override
   public String toString() {
-    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"}";
+    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"/var="+(algo > 1)+"}";
   }
 
   private DiffAlgorithm getAlgorithm() {
-    return algo > 0? new HirschbergAlgorithm() : new WagnerFischerAlgorithm();
+    return algo > 0? new HirschbergAlgorithm(algo > 1) : new WagnerFischerAlgorithm();
   }
 
   /**

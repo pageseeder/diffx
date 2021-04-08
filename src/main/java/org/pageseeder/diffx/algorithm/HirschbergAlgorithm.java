@@ -20,7 +20,6 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +29,12 @@ import java.util.List;
  * @version 0.9.0
  */
 public final class HirschbergAlgorithm implements DiffAlgorithm {
+
+  boolean var = false;
+
+  public HirschbergAlgorithm(boolean var) {
+    this.var = var;
+  }
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -68,6 +73,45 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   }
 
   /**
+   * Algorithm B as described by Hirschberg (in reverse)
+   */
+  private static int[] algorithmBRev(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b) {
+    // Step 1
+    int[][] k = new int[2][n+1];
+    // Step 2
+    for (int i=m-1; i >= 0; i--) {
+      // Step 3
+      if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
+      // Step 4
+      for (int j = n-1; j >= 0; j--) {
+        if (a.get(i).equals(b.get(j))) {
+          k[1][n-j] = k[0][n-j-1] + 1;
+        } else {
+          k[1][n-j] = Math.max(k[1][n-j-1], k[0][n-j]);
+        }
+      }
+    }
+    // Step 5
+    return k[1];
+  }
+
+  /**
+   * Find the index of the maximum sum of L1 and L2, as described by Hirschberg
+   */
+  private static int findK(int[] l1, int[] l2, int n) {
+    int m = 0;
+    int k = 0;
+    for (int j=0; j <= n; j++) {
+      int s = l1[j]+l2[n-j];
+      if (m < s) {
+        m = s;
+        k = j;
+      }
+    }
+    return k;
+  }
+
+  /**
    * Algorithm C as described by Hirschberg
    */
   private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) throws IOException {
@@ -96,14 +140,14 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
       }
       if (!match) handler.handle(Operator.INS, a0);
 
-    // Step 2
+      // Step 2
     } else {
       if (DEBUG)  System.out.println(" Step2");
       i = (int) Math.floor(((double)m)/2);
 
       // Step 3
       int[] l1 = algorithmB(i, n, a.subList(0, i), b);
-      int[] l2 = algorithmB(m-i, n, reverse(a.subList(i, a.size())), reverse(b));
+      int[] l2 = algorithmBRev(m-i, n, a.subList(i, a.size()), b);
 
       // Step 4
       int k = findK(l1, l2, n);
@@ -113,34 +157,5 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
       algorithmC(m-i, n-k, a.subList(i, a.size()), b.subList(k, b.size()), handler);
     }
   }
-
-  /**
-   * Returns the reverse list.
-   */
-  private static List<? extends DiffXEvent> reverse(List<? extends DiffXEvent> events) {
-    // We must use an array list to be able to efficiently access the events as the correct indexes
-    List<DiffXEvent> reverse = new ArrayList<>(events.size());
-    for (int i = events.size()-1; i >= 0; i--) {
-      reverse.add(events.get(i));
-    }
-    return reverse;
-  }
-
-  /**
-   * Find the index of the maximum sum of L1 and L2, as described by Hirschberg
-   */
-  private static int findK(int[] l1, int[] l2, int n) {
-    int m = 0;
-    int k = 0;
-    for (int j=0; j <= n; j++) {
-      int s = l1[j]+l2[n-j];
-      if (m < s) {
-        m = s;
-        k = j;
-      }
-    }
-    return k;
-  }
-
 
 }

@@ -25,7 +25,7 @@ public final class TextOnlyProcessorTest extends BaseProcessorLevel0Test {
 
   @Override
   public DiffProcessor getDiffProcessor() {
-    return new TextOnlyProcessor();
+    return new TextOnlyProcessor(2);
   }
 
 }

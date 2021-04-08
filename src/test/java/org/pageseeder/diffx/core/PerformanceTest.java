@@ -50,6 +50,42 @@ public class PerformanceTest {
   }
 
   @Test
+  public void compareHirshbergVariations() throws IOException {
+    String from = getRandomString(2000, false);
+    String to = vary(from, .2);
+    List<CharEvent> second = Events.toCharEvents(from);
+    List<CharEvent> first = Events.toCharEvents(to);
+
+    // warm up
+    profileX(new TextOnlyProcessor(2), first, second, 10);
+    profileX(new TextOnlyProcessor(1), first, second, 10);
+
+    Random r = new Random();
+    int total1 = 0;
+    int total2 = 0;
+    for (int i=0; i < 2000; i++) {
+      if (i % 100 == 0) System.out.println(i+"...");
+      if (r.nextInt(2) == 0) {
+        total2 += profile(new TextOnlyProcessor(2), first, second);
+        total1 += profile(new TextOnlyProcessor(1), first, second);
+      } else {
+        total1 += profile(new TextOnlyProcessor(1), first, second);
+        total2 += profile(new TextOnlyProcessor(2), first, second);
+      }
+    }
+    System.out.println();
+    System.out.println("Total #1 "+new TextOnlyProcessor(1).toString()+": "+total1);
+    System.out.println("Total #2 "+new TextOnlyProcessor(2).toString()+": "+total2);
+
+    double pct = (total1 > total2)
+        ? (total1 - total2)*100.0 / total1
+        : (total2 - total1)*100.0 / total2;
+
+    System.out.println("Faster: "+((total1 > total2) ? "#2" : "#1")+" by "+pct+"%");
+  }
+
+
+  @Test
   public void compareRandomString_1000_50() throws IOException {
     // Generate content
     String from = getRandomString(1000, false);
@@ -118,7 +154,7 @@ public class PerformanceTest {
 
   }
 
-  private static void profileX(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
+  private static long profileX(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
     System.out.print(processor.toString());
     System.out.print("\t"+first.size()+"/"+second.size()+" events");
     // We do a dry run first
@@ -130,6 +166,7 @@ public class PerformanceTest {
       total += t;
     }
     System.out.println(" Avg:"+(total*1.0 / times)+"ms");
+    return total;
   }
 
   private static long profile(DiffProcessor processor, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) throws IOException {
