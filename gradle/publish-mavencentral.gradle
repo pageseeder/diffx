@@ -1,0 +1,124 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'io.codearte.nexus-staging'
+
+task sourceJar(type: Jar) {
+  description 'Packages up the source in a Jar for Maven publishing'
+  from sourceSets.main.allJava
+  from sourceSets.main.resources
+}
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  description 'Packages up the javadoc in a Jar for Maven publishing'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives sourceJar, javadocJar
+}
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+ext["sonatypeStagingProfileId"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+  Properties p = new Properties()
+  new FileInputStream(secretPropsFile).withCloseable { is ->
+    p.load(is)
+  }
+  p.each { name, value ->
+    ext[name] = value
+  }
+} else {
+  ext["signing.keyId"] = project.properties["SIGNING_KEY_ID"]
+  ext["signing.password"] = project.properties["SIGNING_PASSWORD"]
+  ext["signing.secretKeyRingFile"] = project.properties["SIGNING_SECRET_KEY_RING_FILE"]
+  ext["ossrhUsername"] = project.properties["OSSRH_USERNAME"]
+  ext["ossrhPassword"] = project.properties["OSSRH_PASSWORD"]
+  ext["sonatypeStagingProfileId"] = project.properties["SONATYPE_STAGING_PROFILE_ID"]
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      artifact sourceJar {
+        classifier "sources"
+      }
+
+      artifact javadocJar {
+        classifier 'javadoc'
+      }
+
+      pom.withXml {
+        asNode().children().last() + {
+          resolveStrategy = Closure.DELEGATE_FIRST
+          name        "$title"
+          description "$description"
+          url         "$website"
+
+          licenses {
+            license {
+              name 'The Apache Software License, Version 2.0'
+              url  'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+          }
+
+          organization {
+            name 'Allette Systems'
+            url  'https://www.allette.com.au'
+          }
+
+          scm {
+            url                 "git@github.com:pageseeder/${gitName}.git"
+            connection          "scm:git:git@github.com:pageseeder/${gitName}.git"
+            developerConnection "scm:git:git@github.com:pageseeder/${gitName}.git"
+          }
+
+          developers {
+            developer {
+              id 'asantos'
+              name 'Alberto Santos'
+              email 'asantos@allette.com.au'
+            }
+          }
+
+        }
+      }
+
+    }
+  }
+
+  // The repository to publish to, Sonatype/MavenCentral
+  repositories {
+    maven {
+      def releaseRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+      def snapshotRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+      url = version.endsWith("SNAPSHOT") ? snapshotRepoUrl : releaseRepoUrl
+      name = "sonatype"
+      credentials {
+        username ossrhUsername
+        password ossrhPassword
+      }
+    }
+  }
+}
+
+signing {
+  sign publishing.publications.mavenJava
+}
+
+nexusStaging {
+  packageGroup = group
+  stagingProfileId = sonatypeStagingProfileId
+  serverUrl = "https://s01.oss.sonatype.org/service/local/"
+  username = ossrhUsername
+  password = ossrhPassword
+}
