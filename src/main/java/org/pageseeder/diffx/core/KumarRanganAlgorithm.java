@@ -392,11 +392,6 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         this.handler.handle(Operator.INS, this.first.get(i + startA));
       }
 
-      // we should take care of the removed events from the second subsequence now (?)
-      if (i < p) {
-        deleteUpTo(this.LL[p - i] - 1 + startB);
-      }
-
       // 3.
       i++;
 
@@ -404,7 +399,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       while (i < m) {
         this.handler.handle(Operator.MATCH, this.first.get(i + startA));
         this.J++;
-        deleteUpTo(this.LL[m - i] - 1 + startB);
+        deleteUpTo(this.LL[p - i] - 1 + startB);
         i++;
       }
 

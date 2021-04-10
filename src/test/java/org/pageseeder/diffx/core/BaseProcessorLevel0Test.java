@@ -324,6 +324,93 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_Replace5() throws IOException {
+    String a = "axax";
+    String b = "bxbx";
+    String[] exp = new String[]{
+        "+a-bx+a-bx",
+        "+a-bx-b+ax",
+        "-b+ax+a-bx",
+        "-b+ax-b+ax",
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace6() throws IOException {
+    String a = "xaxa";
+    String b = "xbxb";
+    String[] exp = new String[]{
+        "x+a-bx+a-b",
+        "x+a-bx-b+a",
+        "x-b+ax-b+a",
+        "x-b+ax+a-b"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace7() throws IOException {
+    String a = "axbx";
+    String b = "bxax";
+    String[] exp = new String[]{
+        "+a+xbx-a-x",
+        "+a+xb-x-ax",
+        "-b-xax+b+x"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace8() throws IOException {
+    String a = "axax";
+    String b = "bxbx";
+    String[] exp = new String[]{
+        "+a-bx+a-bx",
+        "+a-bx-b+ax",
+        "-b+ax+a-bx",
+        "-b+ax-b+ax"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace9() throws IOException {
+    String a = "axaxa";
+    String b = "bxbxb";
+    String[] exp = new String[]{
+        "-b+ax-b+ax-b+a",
+        "+a-bx+a-bx-b+a",
+        "+a-bx+a-bx+a-b"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace10() throws IOException {
+    String a = "axbxa";
+    String b = "bxaxb";
+    String[] exp = new String[]{
+        "+a+xbxa-x-b",
+        "-b-xaxb+x+a"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Replace11() throws IOException {
+    String a = "xaxax";
+    String b = "xbxbx";
+    String[] exp = new String[]{
+        "x+a-bx+a-bx",
+        "x+a-bx-b+ax",
+        "x-b+ax+a-bx",
+        "x-b+ax-b+ax"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
   // More complex cases -------------------------------------------------------
 
   @Test
@@ -429,32 +516,56 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
   @Test
   public final void testLevel0_Complex11() throws IOException {
-    String a = "The little red car";
-    String b = "A big blue train";
+    String a = "A car";
+    String b = "A train";
     String[] exp = new String[]{
-        "+T+h-A+e -b+li+t-g- -b+tle r-t-r+e+d+ +ca-i-n+r",
-        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca+r-i-n",
-        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r"
+        "A +c+a-tr-a-i-n",
+        "A -t-r+ca-i-n+r"
     };
     assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
   public final void testLevel0_Complex12() throws IOException {
-    String a = "The little car";
-    String b = "A big train";
+    String a = "The car";
+    String b = "A train";
     String[] exp = new String[]{
-        "+T+h-A+e -b+lit- -t+t+l+e+ -r+ca-i-n+r"
+        "+T+h-A+e -t-r+ca-i-n+r",
+        "+T+h+e-A +c+a-tr-a-i-n"
     };
     assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
   public final void testLevel0_Complex13() throws IOException {
-    String a = "The car";
-    String b = "A train";
+    String a = "The red car";
+    String b = "A blue train";
     String[] exp = new String[]{
-        "+T+h-A+e -t-r+ca-i-n+r"
+        "+T+h+e-A +r-b-l-ue+d +c+a-tr-a-i-n",
+        "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex14() throws IOException {
+    String a = "The little car";
+    String b = "A big train";
+    String[] exp = new String[]{
+        "+T+h+e-A +l-bi+t+t+l+e-g +c+a-tr-a-i-n",
+        "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex15() throws IOException {
+    String a = "The little red car";
+    String b = "A big blue train";
+    String[] exp = new String[]{
+        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca+r-i-n",
+        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r",
+        "+T+h-A+e -b+li+t-g- -b+tl-ue -tr+e+d+ +ca-i-n+r"
     };
     assertDiffOKLevel0(a, b, exp);
   }
