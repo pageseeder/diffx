@@ -88,7 +88,7 @@ public final class Events {
 
   public static String toXML(List<? extends DiffXEvent> events) throws IOException {
     StringWriter xml = new StringWriter();
-    SmartXMLFormatter f = new SmartXMLFormatter();
+    SmartXMLFormatter f = new SmartXMLFormatter(xml);
     for (DiffXEvent event : events) {
       f.format(event);
     }
