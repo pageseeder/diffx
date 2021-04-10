@@ -488,11 +488,11 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
    */
   @Test
   public final void testLevel1_AttributeNamespaces0() throws IOException, DiffXException {
-    String xml1 = "<a e:m='y' xmlns:e='h://e.org'/>";
-    String xml2 = "<a f:m='y' xmlns:f='h://f.org'/>";
+    String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
+    String xml2 = "<a f:m='y' xmlns:f='https://example.net'/>";
     String[] exp = new String[]{};
     // FIXME: write test
-//    assertDiffXMLOK2(xml1, xml2, exp);
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
 // self wrap tests ----------------------------------------------------------------------

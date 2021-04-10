@@ -86,14 +86,6 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
-  @Test
-  public final void testLevel0_Identical100() throws IOException {
-    String a = "abcdefghij";
-    String b = "abcdefghij";
-    String[] exp = new String[]{"abcdefghij"};
-    assertDiffOKLevel0(a, b, exp);
-  }
-
   // Inserts and deletes ------------------------------------------------------
 
   @Test

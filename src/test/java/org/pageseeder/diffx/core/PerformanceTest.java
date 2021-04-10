@@ -35,7 +35,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareWalterFischer_Hirshberg() throws IOException {
+  public void compareRawAlgorithms() throws IOException {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
       // Generate content
@@ -44,7 +44,8 @@ public class PerformanceTest {
       List<CharEvent> second = Events.toCharEvents(from);
       List<CharEvent> first = Events.toCharEvents(to);
 
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
     }
   }
@@ -129,9 +130,6 @@ public class PerformanceTest {
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new ProgressiveXMLProcessor(), firstText, secondText, 10);
-
-    System.out.println(xml1);
-    System.out.println(xml2);
   }
 
   @Test

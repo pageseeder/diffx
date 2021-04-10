@@ -95,8 +95,14 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
   public final void testProg_SplitMergeA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
-    String exp1 = "<a><b>X-( Y)</b>+( )+<b>+(Y)+</b></a>";
-    String exp2 = "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>";
+    String[] exp1 = new String[] {
+        "<a><b>X-( Y)</b>+( )+<b>+(Y)+</b></a>",
+        "<a>+<b>+(X)+</b>+( )<b>-(X)-( Y)+(Y)</b></a>"
+    };
+    String[] exp2 = new String[] {
+        "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>",
+        "<a>-<b>-(X)-</b>-( )<b>+(X)-(Y)+( Y)</b></a>"
+    };
     assertDiffXMLProgOK(xml1, xml2, exp1);
     assertDiffXMLProgOK(xml2, xml1, exp2);
   }
@@ -115,12 +121,14 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
     String[] exp1 = new String[]{
         "<a><b>X+</b> +<b>Y</b></a>",               // tags inserted
         "<a><b>X-( Y)</b>+( )+<b>+(Y)+</b></a>",    // text has moved
-        "<a>+<b>+(X)+</b>+( )<b>+(Y)-(X Y)</b></a>"
+        "<a>+<b>+(X)+</b>+( )<b>+(Y)-(X Y)</b></a>",
+        "<a>+<b>+(X)+</b>+( )<b>-(X)-( Y)+(Y)</b></a>"
     };
     // merge
     String[] exp2 = new String[]{
-        "<a><b>X-</b> -<b>Y</b></a>",             // tags removed
-        "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>"  // text has moved
+        "<a><b>X-</b> -<b>Y</b></a>",                   // tags removed
+        "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>",        // text has moved
+        "<a>-<b>-(X)-</b>-( )<b>+(X)-(Y)+( Y)</b></a>"
     };
     assertDiffXMLProgOK(xml1, xml2, exp1);
     assertDiffXMLProgOK(xml2, xml1, exp2);
@@ -161,7 +169,7 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testSticky() throws IOException, DiffXException {
+  public final void testProg_Sticky() throws IOException, DiffXException {
     String xml1 = "<a>a white cat</a>";
     String xml2 = "<a>a black hat</a>";
     String expA = "<a>a+( white cat)-( black hat)</a>";
@@ -177,9 +185,11 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
   public final void testList() throws IOException, DiffXException {
     String xml1 = "<ul><li>blue</li><li>red</li><li>green</li></ul>";
     String xml2 = "<ul><li>black</li><li>red</li><li>green</li></ul>";
-    String expA = "<ul><li>+(blue)-(black)</li><li>red</li><li>green</li></ul>";
-    String expB = "<ul><li>-(black)+(blue)</li><li>red</li><li>green</li></ul>";
-    assertDiffXMLProgOK(xml1, xml2, expA, expB);
+    String[] exp = new String[] {
+        "<ul><li>+(blue)-(black)</li><li>red</li><li>green</li></ul>",
+        "<ul><li>-(black)+(blue)</li><li>red</li><li>green</li></ul>"
+    };
+    assertDiffXMLProgOK(xml1, xml2, exp);
   }
 
   /**

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 /**
- * Test case for Diff-X algorithm using the text only algorithm
+ * Test case for text only algorithm.
  *
  * @author Christophe Lauret
  * @version 0.9.0

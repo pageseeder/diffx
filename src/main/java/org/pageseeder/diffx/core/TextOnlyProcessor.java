@@ -35,7 +35,8 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
   public enum Algorithm {
     HIRSCHBERG,
-    WAGNER_FISCHER
+    WAGNER_FISCHER,
+    KUMAR_RANGAN
   }
 
   // TODO Refactor method to choose algorithm
@@ -101,6 +102,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
     switch (this.algo) {
       case HIRSCHBERG: return new HirschbergAlgorithm();
       case WAGNER_FISCHER: return new WagnerFischerAlgorithm();
+      case KUMAR_RANGAN: return new KumarRanganAlgorithm();
       default: throw new IllegalStateException("No algorithm defined");
     }
   }

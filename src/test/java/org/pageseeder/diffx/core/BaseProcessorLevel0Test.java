@@ -84,14 +84,6 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
-  @Test
-  public final void testLevel0_Identical100() throws IOException {
-    String a = "abcdefghij";
-    String b = "abcdefghij";
-    String[] exp = new String[]{"abcdefghij"};
-    assertDiffOKLevel0(a, b, exp);
-  }
-
   // Inserts and deletes ------------------------------------------------------
 
   @Test
@@ -192,20 +184,100 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
   @Test
   public final void testLevel0_Insert7() throws IOException {
-    String a = "fortaste";
+    String a = "foretaste";
     String b = "taste";
-    String[] exp = new String[]{"+f+o+rtaste"};
+    String[] exp = new String[]{"+f+o+r+etaste"};
     assertDiffOKLevel0(a, b, exp);
   }
 
   @Test
   public final void testLevel0_Delete7() throws IOException {
     String a = "taste";
-    String b = "fortaste";
-    String[] exp = new String[]{"-f-o-rtaste"};
+    String b = "foretaste";
+    String[] exp = new String[]{"-f-o-r-etaste"};
     assertDiffOKLevel0(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_Insert8() throws IOException {
+    String a = "baobab";
+    String b = "bobb";
+    String[] exp = new String[]{"b+aob+ab"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete8() throws IOException {
+    String a = "bobb";
+    String b = "baobab";
+    String[] exp = new String[]{"b-aob-ab"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Insert9() throws IOException {
+    String a = "alibaba";
+    String b = "libb";
+    String[] exp = new String[]{"+alib+ab+a"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete9() throws IOException {
+    String a = "libb";
+    String b = "alibaba";
+    String[] exp = new String[]{"-alib-ab-a"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Insert10() throws IOException {
+    String a = "links";
+    String b = "ink";
+    String[] exp = new String[]{"+link+s"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete10() throws IOException {
+    String a = "ink";
+    String b = "links";
+    String[] exp = new String[]{"-link-s"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+
+  @Test
+  public final void testLevel0_Insert11() throws IOException {
+    String a = "inks";
+    String b = "ink";
+    String[] exp = new String[]{"ink+s"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete11() throws IOException {
+    String a = "ink";
+    String b = "inks";
+    String[] exp = new String[]{"ink-s"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Insert12() throws IOException {
+    String a = "link";
+    String b = "ink";
+    String[] exp = new String[]{"+link"};
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Delete12() throws IOException {
+    String a = "ink";
+    String b = "link";
+    String[] exp = new String[]{"-link"};
+    assertDiffOKLevel0(a, b, exp);
+  }
   // Replacements -------------------------------------------------------------
 
   @Test
@@ -292,7 +364,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     String a = "one little";
     String b = "two little";
     String[] exp = new String[]{
-        "-t-wo+n+e little"
+      "-t-wo+n+e little"
     };
     assertDiffOKLevel0(a, b, exp);
   }
@@ -314,7 +386,8 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     String a = "balaclava";
     String b = "bilabial";
     String[] exp = new String[]{
-        "b+a+l+a+c-ila+v-b-ia-l"
+        "b+a+l+a+c-ila+v-b-ia-l",
+        "b-i+ala+c-b-i+la+v-l+a"
     };
     assertDiffOKLevel0(a, b, exp);
   }
@@ -326,6 +399,62 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     String[] exp = new String[]{
         "S+a+tu+r-nday",
         "S+a+tu-n+rday"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex9() throws IOException {
+    String a = "Monday Tuesday Sunday";
+    String b = "Monday Sunday";
+    String[] exp = new String[]{
+        "Monday +T+u+e+s+d+a+y+ Sunday",
+        "Monday+ +T+u+e+s+d+a+y Sunday",
+        "Mon+d+a+y+ +T+u+e+sday Sunday"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex10() throws IOException {
+    String a = "Monday Sunday";
+    String b = "Monday Tuesday Sunday";
+    String[] exp = new String[]{
+        "Monday -T-u-e-s-d-a-y- Sunday",
+        "Monday- -T-u-e-s-d-a-y Sunday",
+        "Mon-d-a-y- -T-u-e-sday Sunday"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex11() throws IOException {
+    String a = "The little red car";
+    String b = "A big blue train";
+    String[] exp = new String[]{
+        "+T+h-A+e -b+li+t-g- -b+tle r-t-r+e+d+ +ca-i-n+r",
+        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca+r-i-n",
+        "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex12() throws IOException {
+    String a = "The little car";
+    String b = "A big train";
+    String[] exp = new String[]{
+        "+T+h-A+e -b+lit- -t+t+l+e+ -r+ca-i-n+r"
+    };
+    assertDiffOKLevel0(a, b, exp);
+  }
+
+  @Test
+  public final void testLevel0_Complex13() throws IOException {
+    String a = "The car";
+    String b = "A train";
+    String[] exp = new String[]{
+        "+T+h-A+e -t-r+ca-i-n+r"
     };
     assertDiffOKLevel0(a, b, exp);
   }
