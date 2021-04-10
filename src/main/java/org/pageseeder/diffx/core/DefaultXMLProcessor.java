@@ -40,7 +40,7 @@ public class DefaultXMLProcessor implements DiffProcessor {
     GuanoAlgorithm algorithm = new GuanoAlgorithm();
     DiffHandler actual = getFilter(handler);
     handler.start();
-    algorithm.diff(first, second, handler);
+    algorithm.diff(first, second, actual);
     handler.end();
   }
 
