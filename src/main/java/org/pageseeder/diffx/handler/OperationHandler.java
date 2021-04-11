@@ -33,7 +33,7 @@ import java.util.List;
 public class OperationHandler implements DiffHandler {
 
   /**
-   * The list of actions produced by this formatter.
+   * The list of operations produced by this formatter.
    */
   private final List<Operation> operations = new ArrayList<>();
 

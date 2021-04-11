@@ -40,7 +40,7 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
 
     final int length1 = first.size();
     final int length2 = second.size();

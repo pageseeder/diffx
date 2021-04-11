@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,15 +32,20 @@ import java.util.List;
  */
 public final class TextOnlyProcessor implements DiffProcessor {
 
+  /**
+   * The main algorithms to choose from.
+   */
   public enum Algorithm {
     HIRSCHBERG,
     WAGNER_FISCHER,
     KUMAR_RANGAN
   }
 
-  // TODO Refactor method to choose algorithm
   private final Algorithm algo;
 
+  /**
+   * Create a text only processor using Kumar-Rangan's algorithm.
+   */
   public TextOnlyProcessor() {
     this(Algorithm.HIRSCHBERG);
   }
@@ -51,7 +55,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
   }
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (first.isEmpty() || second.isEmpty()) {

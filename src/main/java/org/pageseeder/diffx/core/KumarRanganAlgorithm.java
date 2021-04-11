@@ -53,7 +53,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
     Instance instance = new Instance(first, second);
     instance.process(handler);
   }
@@ -112,7 +112,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *
      * @throws IOException If thrown by the handler.
      */
-    public void process(DiffHandler handler) throws IOException {
+    public void process(DiffHandler handler) {
       final int m = this.first.size();
       final int n = this.second.size();
       int p = calculateLength(m, n);
@@ -172,10 +172,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param n      The length of the second sequence.
      * @param p      The length of LCS between indexes startA and endA.
      *               Similarly between indexes b_start and b_end
-     *
-     * @throws IOException If thrown by the formatter
      */
-    private void computeLCS(int startA, int endA, int startB, int endB, int m, int n, int p) throws IOException {
+    private void computeLCS(int startA, int endA, int startB, int endB, int m, int n, int p) {
       if (m - p < 2) {
         // (i) Step 1, or the base case (waste is less than 2 characters)
         computeLCSBaseCase(startA, endA, startB, endB, m, n, p);
@@ -355,11 +353,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param m      The length of the first sequence.
      * @param n      The length of the second sequence.
      * @param p      The length of LCS between indexes startA and endA.
-     *
-     * @throws IOException If thrown by the formatter.
      */
-    private void computeLCSBaseCase(int startA, int endA, int startB, int endB, int m, int n, int p)
-        throws IOException {
+    private void computeLCSBaseCase(int startA, int endA, int startB, int endB, int m, int n, int p) {
 
       // 1. Compute LL
       // `LL` contains the relative 1-based index of the event in the second sequence in reverse order
@@ -437,8 +432,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *
      * @throws IOException If thrown by the formatter.
      */
-    private void computeLCSMoreWaste(int startA, int endA, int startB, int endB, int m, int n, int p)
-        throws IOException {
+    private void computeLCSMoreWaste(int startA, int endA, int startB, int endB, int m, int n, int p) {
       // The indexes of the perfect cut
       int u, v;
 
@@ -526,7 +520,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *
      * @throws IOException If thrown by the formatter.
      */
-    private void deleteUpTo(int jSeq2) throws IOException {
+    private void deleteUpTo(int jSeq2) {
       while (jSeq2 > this.J) {
         this.handler.handle(Operator.DEL, this.second.get(this.J++));
       }

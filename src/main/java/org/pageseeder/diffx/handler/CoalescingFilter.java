@@ -20,7 +20,6 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +53,7 @@ public final class CoalescingFilter implements DiffHandler {
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws IOException, IllegalStateException {
+  public void handle(Operator operator, DiffXEvent event) throws IllegalStateException {
     if (event instanceof TextEvent) {
       handleText((TextEvent)event, operator);
     } else {
@@ -67,7 +66,7 @@ public final class CoalescingFilter implements DiffHandler {
   public void end() {
   }
 
-  private void handleText(TextEvent event, Operator operator) throws IOException {
+  private void handleText(TextEvent event, Operator operator) {
     if (this.current != operator) {
       this.flushText();
       this.current = operator;
@@ -77,10 +76,8 @@ public final class CoalescingFilter implements DiffHandler {
 
   /**
    * Flush the text to the target formatter and clear the buffer if there are any text events.
-   *
-   * @throws IOException If thrown by the target filter.
    */
-  public void flushText() throws IOException {
+  public void flushText() {
     if (this.buffer.size() > 0) {
       TextEvent text = coalesceText(this.buffer);
       this.target.handle(this.current, text);

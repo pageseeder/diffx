@@ -44,7 +44,7 @@ public class ActionHandler implements DiffHandler {
   private Action action = null;
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws IOException, IllegalStateException {
+  public void handle(Operator operator, DiffXEvent event) {
     setupAction(operator);
     this.action.add(event);
   }
@@ -58,8 +58,8 @@ public class ActionHandler implements DiffHandler {
 
   /**
    * Sets up the action prior to handling the operation.
-   * <p>
-   * If the action does not exist or is of a different type, create a new one
+   *
+   * <p>If the action does not exist or is of a different type, create a new one
    * and add to the list of actions.
    *
    * @param operator The type of action.

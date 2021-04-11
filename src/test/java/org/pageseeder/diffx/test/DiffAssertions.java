@@ -41,13 +41,8 @@ import java.util.List;
  */
 public final class DiffAssertions {
 
-
   /**
    * Ensure that the list of actions is applicable to the specified sequences.
-   *
-   * @param seq1
-   * @param seq2
-   * @param actions
    */
   public static void assertIsApplicable(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) {
     Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1, seq2, actions));
@@ -55,11 +50,6 @@ public final class DiffAssertions {
 
   /**
    * Asserts that the list of actions lead to the correct XML
-   *
-   * @param seq1
-   * @param seq2
-   * @param actions
-   * @throws IOException
    */
   public static void assertIsCorrect(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) {
     // Apply to second sequence to ensure we get the first

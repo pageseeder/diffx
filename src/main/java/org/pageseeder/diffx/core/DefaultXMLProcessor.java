@@ -36,7 +36,7 @@ public class DefaultXMLProcessor implements DiffProcessor {
   }
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
     GuanoAlgorithm algorithm = new GuanoAlgorithm();
     DiffHandler actual = getFilter(handler);
     handler.start();

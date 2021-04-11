@@ -47,7 +47,7 @@ public final class CompareReplaceFilter implements DiffHandler {
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws IOException {
+  public void handle(Operator operator, DiffXEvent event) {
     if (event instanceof TextEvent && (operator == Operator.DEL || operator == Operator.INS)) {
       if (this.previous != null) {
         diff((TextEvent) event, (TextEvent)this.previous.event(),operator == Operator.INS);
@@ -62,7 +62,7 @@ public final class CompareReplaceFilter implements DiffHandler {
     }
   }
 
-  private void diff(TextEvent a, TextEvent b, boolean positive) throws IOException {
+  private void diff(TextEvent a, TextEvent b, boolean positive) {
     List<TextEvent> eventsA = this.tokenizer.tokenize(a.getCharacters());
     List<TextEvent> eventsB = this.tokenizer.tokenize(b.getCharacters());
     TextOnlyProcessor diff = new TextOnlyProcessor();
@@ -74,10 +74,8 @@ public final class CompareReplaceFilter implements DiffHandler {
 
   /**
    * Flush the previous text event to the target formatter and clear the buffer if there is any text event.
-   *
-   * @throws IOException If thrown by the target filter.
    */
-  public void flushPrevious() throws IOException {
+  public void flushPrevious() {
     if (this.previous != null) {
       this.target.handle(this.previous.operator(), this.previous.event());
       this.previous = null;

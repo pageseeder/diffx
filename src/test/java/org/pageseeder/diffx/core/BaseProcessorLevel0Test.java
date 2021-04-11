@@ -662,14 +662,12 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     CharTestHandler cf = new CharTestHandler();
 
     // Run the diff
-    try {
-      algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
-    } catch (IOException ex) {
-      throw new UncheckedIOException(ex);
-    }
+    algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
+
     // Extract output and actions
     String got = cf.getOutput();
     List<Action> actions = af.getActions();
+
     // Check
     try {
       DiffAssertions.assertIsApplicable(seq1, seq2, actions);

@@ -18,10 +18,12 @@ package org.pageseeder.diffx.handler;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 
-import java.io.IOException;
+import java.io.UncheckedIOException;
 
 /**
  * An interface for handling the output of diff processors.
+ *
+ * <p>Handlers may be used to filter or format the operations of diff processors.
  *
  * @author Christophe Lauret
  *
@@ -37,19 +39,20 @@ public interface DiffHandler {
   default void start() {}
 
   /**
-   * Formats the specified event.
+   * Handles the specified operation reported by the diff processor.
    *
-   * @param event The event to format
+   * @param operator The operator
+   * @param event    The event to handle
    *
-   * @throws IOException Should an I/O exception occurs while formatting.
+   * @throws UncheckedIOException Should an I/O exception occur.
    * @throws IllegalStateException If the handler is not in a state to run this method.
    */
-  void handle(Operator operator, DiffXEvent event) throws IOException, IllegalStateException;
+  void handle(Operator operator, DiffXEvent event) throws UncheckedIOException, IllegalStateException;
 
   /**
    * Receives notification of the end of the processing.
    *
-   * This method is called before any other method.
+   * This method is called after any other method.
    */
   default void end() {}
 

@@ -19,6 +19,7 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 /**
@@ -38,8 +39,10 @@ public interface DiffProcessor extends DiffAlgorithm {
    * @param second  The first list of events to compare (deleted)
    * @param handler The handler for the results of the comparison
    *
-   * @throws IOException If thrown by the formatter.
+   * @throws UncheckedIOException If thrown by the handler while writing output.
+   * @throws IllegalStateException If thrown by the algorithm or handler.
    */
-  void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException;
+  void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler)
+    throws UncheckedIOException, IllegalStateException;
 
 }

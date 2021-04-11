@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -42,7 +41,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) throws IOException {
+  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
     // It is more efficient to supply the sizes than retrieve from lists
     algorithmC(first.size(), second.size(), first, second, handler);
   }
@@ -104,7 +103,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   /**
    * Algorithm C as described by Hirschberg
    */
-  private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) throws IOException {
+  private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) {
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
     if (n == 0) {
