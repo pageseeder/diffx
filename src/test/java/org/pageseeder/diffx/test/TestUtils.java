@@ -15,7 +15,16 @@
  */
 package org.pageseeder.diffx.test;
 
+import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.action.Actions;
+import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.format.XMLDiffXFormatter;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.UncheckedIOException;
+import java.util.List;
 
 /**
  * A testing utility class.
@@ -30,6 +39,8 @@ public class TestUtils {
    */
   private TestUtils() {
   }
+
+
 
   /**
    * Returns the data directory for the class being tested.

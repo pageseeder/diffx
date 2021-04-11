@@ -23,9 +23,12 @@ import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
+import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.RandomStringFactory;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,7 @@ import java.util.stream.Collectors;
 public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
   @Test
-  public final void testLevel0_Empty() throws IOException {
+  public final void testLevel0_Empty() {
     String a = "";
     String b = "";
     String[] exp = new String[]{""};
@@ -53,7 +56,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // Identical ----------------------------------------------------------------
 
   @Test
-  public final void testLevel0_Identical1() throws IOException {
+  public final void testLevel0_Identical1() {
     String a = "x";
     String b = "x";
     String[] exp = new String[]{"x"};
@@ -61,7 +64,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Identical2() throws IOException {
+  public final void testLevel0_Identical2() {
     String a = "xx";
     String b = "xx";
     String[] exp = new String[]{"xx"};
@@ -69,7 +72,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Identical3() throws IOException {
+  public final void testLevel0_Identical3() {
     String a = "xyz";
     String b = "xyz";
     String[] exp = new String[]{"xyz"};
@@ -77,7 +80,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Identical10() throws IOException {
+  public final void testLevel0_Identical10() {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
@@ -87,7 +90,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // Inserts and deletes ------------------------------------------------------
 
   @Test
-  public final void testLevel0_Insert1() throws IOException {
+  public final void testLevel0_Insert1() {
     String a = "x";
     String b = "";
     String[] exp = new String[]{"+x"};
@@ -95,7 +98,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete1() throws IOException {
+  public final void testLevel0_Delete1() {
     String a = "";
     String b = "y";
     String[] exp = new String[]{"-y"};
@@ -103,7 +106,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert2() throws IOException {
+  public final void testLevel0_Insert2() {
     String a = "xx";
     String b = "";
     String[] exp = new String[]{"+x+x"};
@@ -111,7 +114,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete2() throws IOException {
+  public final void testLevel0_Delete2() {
     String a = "";
     String b = "yy";
     String[] exp = new String[]{"-y-y"};
@@ -119,7 +122,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert3() throws IOException {
+  public final void testLevel0_Insert3() {
     String a = "xx";
     String b = "x";
     String[] exp = new String[]{"x+x", "+xx"};
@@ -127,7 +130,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete3() throws IOException {
+  public final void testLevel0_Delete3() {
     String a = "y";
     String b = "yy";
     String[] exp = new String[]{"y-y", "-yy"};
@@ -135,7 +138,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert4() throws IOException {
+  public final void testLevel0_Insert4() {
     String a = "xxx";
     String b = "xx";
     String[] exp = new String[]{"+xxx", "x+xx", "xx+x"};
@@ -143,7 +146,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete4() throws IOException {
+  public final void testLevel0_Delete4() {
     String a = "yy";
     String b = "yyy";
     String[] exp = new String[]{"-yyy", "y-yy", "yy-y"};
@@ -151,7 +154,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert5() throws IOException {
+  public final void testLevel0_Insert5() {
     String a = "   x   ";
     String b = "      ";
     String[] exp = new String[]{"   +x   "};
@@ -159,7 +162,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete5() throws IOException {
+  public final void testLevel0_Delete5() {
     String a = "      ";
     String b = "   y   ";
     String[] exp = new String[]{"   -y   "};
@@ -167,7 +170,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert6() throws IOException {
+  public final void testLevel0_Insert6() {
     String a = "testing";
     String b = "test";
     String[] exp = new String[]{"test+i+n+g"};
@@ -175,7 +178,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete6() throws IOException {
+  public final void testLevel0_Delete6() {
     String a = "test";
     String b = "testing";
     String[] exp = new String[]{"test-i-n-g"};
@@ -183,7 +186,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert7() throws IOException {
+  public final void testLevel0_Insert7() {
     String a = "foretaste";
     String b = "taste";
     String[] exp = new String[]{"+f+o+r+etaste"};
@@ -191,7 +194,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete7() throws IOException {
+  public final void testLevel0_Delete7() {
     String a = "taste";
     String b = "foretaste";
     String[] exp = new String[]{"-f-o-r-etaste"};
@@ -199,7 +202,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert8() throws IOException {
+  public final void testLevel0_Insert8() {
     String a = "baobab";
     String b = "bobb";
     String[] exp = new String[]{"b+aob+ab"};
@@ -207,7 +210,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete8() throws IOException {
+  public final void testLevel0_Delete8() {
     String a = "bobb";
     String b = "baobab";
     String[] exp = new String[]{"b-aob-ab"};
@@ -215,7 +218,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert9() throws IOException {
+  public final void testLevel0_Insert9() {
     String a = "alibaba";
     String b = "libb";
     String[] exp = new String[]{"+alib+ab+a"};
@@ -223,7 +226,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete9() throws IOException {
+  public final void testLevel0_Delete9() {
     String a = "libb";
     String b = "alibaba";
     String[] exp = new String[]{"-alib-ab-a"};
@@ -231,7 +234,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert10() throws IOException {
+  public final void testLevel0_Insert10() {
     String a = "links";
     String b = "ink";
     String[] exp = new String[]{"+link+s"};
@@ -239,7 +242,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete10() throws IOException {
+  public final void testLevel0_Delete10() {
     String a = "ink";
     String b = "links";
     String[] exp = new String[]{"-link-s"};
@@ -248,7 +251,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
 
   @Test
-  public final void testLevel0_Insert11() throws IOException {
+  public final void testLevel0_Insert11() {
     String a = "inks";
     String b = "ink";
     String[] exp = new String[]{"ink+s"};
@@ -256,7 +259,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete11() throws IOException {
+  public final void testLevel0_Delete11() {
     String a = "ink";
     String b = "inks";
     String[] exp = new String[]{"ink-s"};
@@ -264,7 +267,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Insert12() throws IOException {
+  public final void testLevel0_Insert12() {
     String a = "link";
     String b = "ink";
     String[] exp = new String[]{"+link"};
@@ -272,7 +275,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Delete12() throws IOException {
+  public final void testLevel0_Delete12() {
     String a = "ink";
     String b = "link";
     String[] exp = new String[]{"-link"};
@@ -281,7 +284,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // Replacements -------------------------------------------------------------
 
   @Test
-  public final void testLevel0_Replace1() throws IOException {
+  public final void testLevel0_Replace1() {
     String a = "x";
     String b = "y";
     String[] exp = new String[]{"+x-y", "-y+x"};
@@ -289,7 +292,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace2() throws IOException {
+  public final void testLevel0_Replace2() {
     String a = "xx";
     String b = "yy";
     String[] exp = new String[]{
@@ -304,7 +307,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace3() throws IOException {
+  public final void testLevel0_Replace3() {
     String a = "xax";
     String b = "xbx";
     String[] exp = new String[]{"x+a-bx", "x-b+ax"};
@@ -312,7 +315,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace4() throws IOException {
+  public final void testLevel0_Replace4() {
     String a = "axa";
     String b = "bxb";
     String[] exp = new String[]{
@@ -325,7 +328,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace5() throws IOException {
+  public final void testLevel0_Replace5() {
     String a = "axax";
     String b = "bxbx";
     String[] exp = new String[]{
@@ -338,7 +341,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace6() throws IOException {
+  public final void testLevel0_Replace6() {
     String a = "xaxa";
     String b = "xbxb";
     String[] exp = new String[]{
@@ -351,7 +354,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace7() throws IOException {
+  public final void testLevel0_Replace7() {
     String a = "axbx";
     String b = "bxax";
     String[] exp = new String[]{
@@ -363,7 +366,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace8() throws IOException {
+  public final void testLevel0_Replace8() {
     String a = "axax";
     String b = "bxbx";
     String[] exp = new String[]{
@@ -376,7 +379,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace9() throws IOException {
+  public final void testLevel0_Replace9() {
     String a = "axaxa";
     String b = "bxbxb";
     String[] exp = new String[]{
@@ -388,7 +391,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace10() throws IOException {
+  public final void testLevel0_Replace10() {
     String a = "axbxa";
     String b = "bxaxb";
     String[] exp = new String[]{
@@ -399,7 +402,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Replace11() throws IOException {
+  public final void testLevel0_Replace11() {
     String a = "xaxax";
     String b = "xbxbx";
     String[] exp = new String[]{
@@ -414,7 +417,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // More complex cases -------------------------------------------------------
 
   @Test
-  public final void testLevel0_Complex1() throws IOException {
+  public final void testLevel0_Complex1() {
     String a = "aba";
     String b = "bab";
     String[] exp = new String[]{
@@ -425,7 +428,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex2() throws IOException {
+  public final void testLevel0_Complex2() {
     String a = "abab";
     String b = "baba";
     String[] exp = new String[]{
@@ -436,7 +439,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex3() throws IOException {
+  public final void testLevel0_Complex3() {
     String a = "ababa";
     String b = "babab";
     String[] exp = new String[]{
@@ -447,7 +450,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex4() throws IOException {
+  public final void testLevel0_Complex4() {
     String a = "one little";
     String b = "two little";
     String[] exp = new String[]{
@@ -457,7 +460,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex5() throws IOException {
+  public final void testLevel0_Complex5() {
     String a = "one little";
     String b = "too little";
     String[] exp = new String[]{
@@ -469,7 +472,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex6() throws IOException {
+  public final void testLevel0_Complex6() {
     String a = "balaclava";
     String b = "bilabial";
     String[] exp = new String[]{
@@ -480,7 +483,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex7() throws IOException {
+  public final void testLevel0_Complex7() {
     String a = "Saturday";
     String b = "Sunday";
     String[] exp = new String[]{
@@ -491,7 +494,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex9() throws IOException {
+  public final void testLevel0_Complex9() {
     String a = "Monday Tuesday Sunday";
     String b = "Monday Sunday";
     String[] exp = new String[]{
@@ -503,7 +506,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex10() throws IOException {
+  public final void testLevel0_Complex10() {
     String a = "Monday Sunday";
     String b = "Monday Tuesday Sunday";
     String[] exp = new String[]{
@@ -515,7 +518,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex11() throws IOException {
+  public final void testLevel0_Complex11() {
     String a = "A car";
     String b = "A train";
     String[] exp = new String[]{
@@ -526,7 +529,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex12() throws IOException {
+  public final void testLevel0_Complex12() {
     String a = "The car";
     String b = "A train";
     String[] exp = new String[]{
@@ -537,7 +540,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex13() throws IOException {
+  public final void testLevel0_Complex13() {
     String a = "The red car";
     String b = "A blue train";
     String[] exp = new String[]{
@@ -548,7 +551,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex14() throws IOException {
+  public final void testLevel0_Complex14() {
     String a = "The little car";
     String b = "A big train";
     String[] exp = new String[]{
@@ -559,7 +562,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   }
 
   @Test
-  public final void testLevel0_Complex15() throws IOException {
+  public final void testLevel0_Complex15() {
     String a = "The little red car";
     String b = "A big blue train";
     String[] exp = new String[]{
@@ -570,25 +573,110 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     assertDiffOKLevel0(a, b, exp);
   }
 
+  @Test
+  public final void testLevel0_complex16() {
+    String a = "xabx";
+    String b = "abamx";
+    assertDiffOKLevel0(a, b);
+  }
+
+  @Test
+  public final void testLevel0_complex17() {
+    String a = "xabcdefghijkmnopqrx";
+    String b = "abcdefghijkjmnopqrx";
+    assertDiffOKLevel0(a, b);
+  }
+
+  @Test
+  public final void testLevel0_complex18() {
+    String a = "rhxrwpdunx";
+    String b = "rhrwpdpunwx";
+    assertDiffOKLevel0(a, b);
+  }
+
+  @Test
+  public final void testLevel0_complex19() {
+    String a = "tbdcllohjt";
+    String b = "bddcdlohjt";
+    assertDiffOKLevel0(a, b);
+  }
+
+  @Test
+  public final void testLevel0_complex20() {
+    String a = "tbdcl";
+    String b = "bddcdl";
+    assertDiffOKLevel0(a, b);
+  }
+
+
+  // Random variations -------------------------------------------------------
+
+  @Test
+  public final void testLevel0_RandomVariations1() {
+    RandomStringFactory factory = new RandomStringFactory();
+    for (int n=3; n < 20; n++) {
+      for (int i=0; i < 100; i++) {
+        String a = factory.getRandomString(10, false);
+        String b = factory.vary(a, .1);
+        assertDiffOKLevel0(a, b);
+      }
+    }
+  }
+
+  @Test
+  public final void testLevel0_RandomVariations2() {
+    RandomStringFactory factory = new RandomStringFactory();
+    for (int n=3; n < 20; n++) {
+      for (int i=0; i < 100; i++) {
+        String a = factory.getRandomString(100, false);
+        String b = factory.vary(a, .1);
+        assertDiffOKLevel0(a, b);
+      }
+    }
+  }
+
+  @Test
+  public final void testLevel0_RandomVariations3() {
+    RandomStringFactory factory = new RandomStringFactory();
+    for (int n=3; n < 20; n++) {
+      for (int i=0; i < 100; i++) {
+        String a = factory.getRandomString(100, false);
+        String b = factory.vary(a, .2);
+        assertDiffOKLevel0(a, b);
+      }
+    }
+  }
+
   // helpers
   // --------------------------------------------------------------------------
 
-  public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
+  public final void assertDiffOKLevel0(String text1, String text2) {
+    assertDiffOKLevel0(text1, text2, new String[]{});
+  }
+
+  public final void assertDiffOKLevel0(String text1, String text2, String[] exp) {
     List<CharEvent> seq1 = Events.toCharEvents(text1);
     List<CharEvent> seq2 = Events.toCharEvents(text2);
-
-    // Setup and process
     DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionHandler af = new ActionHandler();
     CharTestHandler cf = new CharTestHandler();
-    algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
+
+    // Run the diff
+    try {
+      algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
+    // Extract output and actions
     String got = cf.getOutput();
     List<Action> actions = af.getActions();
-
+    // Check
     try {
-      assertDiffIsApplicable(seq1, seq2, actions);
-      assertDiffIsCorrect(seq1, seq2, actions);
-      assertMatchTestOutput(actions, exp);
+      DiffAssertions.assertIsApplicable(seq1, seq2, actions);
+      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      if (exp.length > 0) {
+        DiffAssertions.assertMatchTestOutput(actions, exp);
+      }
     } catch (AssertionError ex) {
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;
@@ -603,9 +691,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     System.err.println("| Input A: \"" + text1 + "\"");
     System.err.println("| Input B: \"" + text2 + "\"");
     System.err.println("| Output:  \"" + got + "\"");
-    System.err.print("| Expect:  ");
-    for (String s : exp) System.err.print("\"" + s + "\" ");
-    System.err.println();
+    if (exp.length > 0) {
+      System.err.print("| Expect:  ");
+      for (String s : exp) System.err.print("\"" + s + "\" ");
+      System.err.println();
+    }
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
@@ -620,7 +710,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
 
     @Override
     public void handle(Operator operator, DiffXEvent event) throws IllegalStateException {
-      if (operator == Operator.INS || operator == Operator.DEL) out.append(operator.toString());
+      if (operator == Operator.INS || operator == Operator.DEL) out.append(operator);
       out.append(((CharEvent) event).getChar());
     }
 

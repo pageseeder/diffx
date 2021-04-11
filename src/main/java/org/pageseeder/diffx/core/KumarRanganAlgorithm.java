@@ -209,7 +209,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *         begin
      *   2.1     if j > r then lower B := O else lower B := R1(j);
      *           pos B := R2(j-1) - 1;
-     *   2.2     while pos B > lower B and A(i) != B(pos/3) do
+     *   2.2     while pos B > lower B and A(i) != B(pos B) do
      *           pos B := pos B - 1;
      *   2.3     temp := max(pos B, lower B);
      *           if temp = 0 then over := true
@@ -399,8 +399,11 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       while (i < m) {
         this.handler.handle(Operator.MATCH, this.first.get(i + startA));
         this.J++;
-        deleteUpTo(this.LL[p - i] - 1 + startB);
         i++;
+
+        while (i < m && this.J < endB && !this.first.get(i + startA).equals(this.second.get(this.J))) {
+          deleteUpTo(this.J+1);
+        }
       }
 
       // finish writing the missing events from the second subsequence
@@ -533,6 +536,11 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       System.err.print(" LL={");
       for (int element : this.LL) {
         System.err.print(" "+element);
+      }
+      System.err.println(" }");
+      System.err.print("  J={");
+      for (int i=this.LL.length-1; i >= 0; i--) {
+        System.err.print(" "+(this.LL[i] - 1));
       }
       System.err.println(" }");
     }

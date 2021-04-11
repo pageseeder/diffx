@@ -50,7 +50,7 @@ public final class CharEvent extends DiffXEventBase {
 
   @Override
   public int hashCode() {
-    return 79 + this.c;
+    return (int)this.c;
   }
 
   @Override
@@ -61,7 +61,7 @@ public final class CharEvent extends DiffXEventBase {
 
   @Override
   public String toString() {
-    return "char: '"+this.c+'\'';
+    return Character.toString(this.c);
   }
 
   @Override

@@ -21,7 +21,9 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestHandler;
 
 import java.io.IOException;
@@ -671,11 +673,11 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     // Process as list of actions
     List<Action> actions = diffToActions(seq1, seq2);
     try {
-      assertDiffIsCorrect(seq1, seq2, actions);
-      assertDiffIsWellFormedXML(actions);
-      assertMatchTestOutput(actions, exp);
+      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsWellFormedXML(actions);
+      DiffAssertions.assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, toXML(actions), actions);
+      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions), actions);
       throw ex;
     }
   }

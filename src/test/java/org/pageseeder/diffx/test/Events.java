@@ -27,6 +27,7 @@ import org.pageseeder.diffx.load.TextRecorder;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,13 +87,19 @@ public final class Events {
     return new TextRecorder().process(text).events();
   }
 
-  public static String toXML(List<? extends DiffXEvent> events) throws IOException {
-    StringWriter xml = new StringWriter();
-    SmartXMLFormatter f = new SmartXMLFormatter(xml);
-    for (DiffXEvent event : events) {
-      f.format(event);
+  public static String toXML(List<? extends DiffXEvent> events) {
+    try {
+      StringWriter xml = new StringWriter();
+      SmartXMLFormatter f = new SmartXMLFormatter(xml);
+      for (DiffXEvent event : events) {
+        f.format(event);
+      }
+      return xml.toString();
+    } catch (IOException ex) {
+      // Shouldn't occur as we're writing on a StringWriter
+      throw new UncheckedIOException(ex);
     }
-    return xml.toString();
+
   }
 
 }

@@ -8,6 +8,7 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.RandomStringFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -191,42 +192,13 @@ public class PerformanceTest {
   }
 
   private static String getRandomString(int length, boolean spaces) {
-    Random r = new Random();
-    StringBuilder out = new StringBuilder();
-    while (out.length() < length) {
-      out.append((char)('a' +r.nextInt(26)));
-      if (spaces && r.nextInt(5) == 1) out.append(' ');
-    }
-    return out.toString();
+    RandomStringFactory factory = new RandomStringFactory();
+    return factory.getRandomString(length, spaces);
   }
 
-  /**
-   * Make variations on the specified String
-   *
-   * @param source The source string
-   * @param changes The percentage of changes (from 0.0 to 1.0)
-   *
-   * @return A variation according to
-   */
   private static String vary(String source, double changes) {
-    Random r = new Random();
-    StringBuilder out = new StringBuilder();
-    for (char c : source.toCharArray()) {
-      if (changes > r.nextDouble()) {
-        int type = r.nextInt(3);
-        if (type == 0) {
-          // Mutate
-          out.append((char)('a' +r.nextInt(26)));
-        } else if (type == 1) {
-          // insert
-          out.append(c);
-          out.append((char)('a' +r.nextInt(26)));
-        }
-      } else {
-        out.append(c);
-      }
-    }
-    return out.toString();
+    RandomStringFactory factory = new RandomStringFactory();
+    return factory.vary(source, changes);
   }
 
 }
