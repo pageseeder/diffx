@@ -32,12 +32,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.9.0
  */
-public final class CoalescingFilter implements DiffHandler {
-
-  /**
-   * Target format.
-   */
-  private final DiffHandler target;
+public final class CoalescingFilter extends DiffFilter implements DiffHandler {
 
   /**
    * Buffer of text event to coalesce.
@@ -55,12 +50,7 @@ public final class CoalescingFilter implements DiffHandler {
   private Operator current = Operator.MATCH;
 
   public CoalescingFilter(DiffHandler target) {
-    this.target = target;
-  }
-
-  @Override
-  public void start() {
-    this.target.start();
+    super(target);
   }
 
   @Override
@@ -76,7 +66,7 @@ public final class CoalescingFilter implements DiffHandler {
   @Override
   public void end() {
     flushText();
-    this.target.end();
+    super.end();
   }
 
   private void handleText(TextEvent event, Operator operator) {

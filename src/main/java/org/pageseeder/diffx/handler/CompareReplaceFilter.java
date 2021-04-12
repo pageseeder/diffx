@@ -26,12 +26,7 @@ import org.pageseeder.diffx.load.text.TokenizerBySpaceWord;
 
 import java.util.List;
 
-public final class CompareReplaceFilter implements DiffHandler {
-
-  /**
-   * Target format.
-   */
-  private final DiffHandler target;
+public final class CompareReplaceFilter extends DiffFilter implements DiffHandler {
 
   // TODO initialize using config
   private final TextTokenizer tokenizer = new TokenizerBySpaceWord(WhiteSpaceProcessing.PRESERVE);
@@ -42,7 +37,7 @@ public final class CompareReplaceFilter implements DiffHandler {
   private Operation previous = null;
 
   public CompareReplaceFilter(DiffHandler target) {
-    this.target = target;
+    super(target);
   }
 
   @Override
@@ -81,4 +76,9 @@ public final class CompareReplaceFilter implements DiffHandler {
     }
   }
 
+  @Override
+  public void end() {
+    this.flushPrevious();
+    super.end();
+  }
 }
