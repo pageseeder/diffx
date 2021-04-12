@@ -65,8 +65,8 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
 
   @Override
   public void end() {
-    flushText();
     super.end();
+    flushText();
   }
 
   private void handleText(TextEvent event, Operator operator) {

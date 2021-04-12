@@ -24,7 +24,6 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

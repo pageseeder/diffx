@@ -136,7 +136,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void format(DiffXEvent e) throws IOException {
+  public void format(DiffXEvent e) {
     // an element to open
     if (e instanceof OpenElementEvent) {
       if (this.isElementNude) {
@@ -206,7 +206,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(DiffXEvent e) throws IOException {
+  public void insert(DiffXEvent e) {
     // insert element
     if (e instanceof OpenElementEvent) {
       if (this.isElementNude) {
@@ -273,7 +273,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void delete(DiffXEvent e) throws IOException, IllegalStateException {
+  public void delete(DiffXEvent e) throws IllegalStateException {
     // we ignore delete attributes
     if (this.isElementNude) {
       denudeElement();

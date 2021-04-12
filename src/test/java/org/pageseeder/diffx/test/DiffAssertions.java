@@ -102,14 +102,16 @@ public final class DiffAssertions {
     Assert.assertEquals(exp[0], output);
   }
 
+  /**
+   * Handle the specified actions with the handler.
+   *
+   * @param actions Action to handle
+   * @return output of the test handler
+   */
   public static String toTestOutput(List<Action> actions) {
-    try {
-      TestHandler handler = new TestHandler();
-      Actions.format(actions, handler);
-      return handler.getOutput();
-    } catch (IOException ex) {
-      throw new UncheckedIOException(ex);
-    }
+    TestHandler handler = new TestHandler();
+    Actions.handle(actions, handler);
+    return handler.getOutput();
   }
 
 }

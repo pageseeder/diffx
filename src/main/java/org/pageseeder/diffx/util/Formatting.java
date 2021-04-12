@@ -18,7 +18,6 @@ package org.pageseeder.diffx.util;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
-import javax.xml.XMLConstants;
 import java.util.Enumeration;
 
 /**

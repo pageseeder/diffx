@@ -48,7 +48,7 @@ public final class EventSequenceUtils {
   public static boolean isWellFormed(EventSequence sequence) {
     // TODO: if the sequence is null ??
     if (sequence == null) return false;
-    Stack<DiffXEvent> open = new Stack<DiffXEvent>();
+    Stack<DiffXEvent> open = new Stack<>();
     DiffXEvent e = null;
     for (int i = 0; i < sequence.size(); i++) {
       e = sequence.getEvent(i);

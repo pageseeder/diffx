@@ -28,18 +28,16 @@ import org.pageseeder.diffx.event.OpenElementEvent;
  * <p>Non-namespace aware objects are lighter than namespace aware ones.
  *
  * @author Christophe Lauret
- * @version 27 April 2005
+ *
+ * @version 0.9.0
+ * @since 0.5.0
  */
 public final class EventFactory {
-
-  // class attributes ---------------------------------------------------------------------
 
   /**
    * Indicates whether the factory should generate namespace events.
    */
-  private boolean isNamespaceAware = true;
-
-  // constructors -------------------------------------------------------------------------
+  private boolean isNamespaceAware;
 
   /**
    * Creates a new namespace aware factory for events.

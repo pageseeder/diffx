@@ -15,11 +15,6 @@
  */
 package org.pageseeder.diffx.handler;
 
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
-
-import java.io.UncheckedIOException;
-
 /**
  * A base class for handlers acting as filters for events
  */

@@ -29,9 +29,6 @@ public class RecorderFactory {
 
 	/**
 	 * Return a Recorder according the parameter.
-	 *
-	 * @param recorderType
-	 * @return <code>Recorder</code>
 	 */
 	public Recorder getRecorder(String recorderType){
 		Recorder recorder = null;

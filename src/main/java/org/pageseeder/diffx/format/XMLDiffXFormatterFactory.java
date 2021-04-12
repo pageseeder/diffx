@@ -28,10 +28,6 @@ public class XMLDiffXFormatterFactory extends DiffXFormatterFactory{
 
 	/**
 	 * Returna XMLDiffXFormatter according the parameters sent.
-	 * @param formatterType
-	 * @param out
-	 * @return <code>XMLDiffXFormatter</code>
-	 * @throws IOException
 	 */
 	@Override
   public XMLDiffXFormatter getFormatter(String formatterType, Writer out) throws IOException {

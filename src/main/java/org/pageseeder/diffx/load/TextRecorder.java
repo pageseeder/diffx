@@ -47,7 +47,7 @@ public final class TextRecorder implements Recorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public EventSequence process(File file) throws LoadingException, IOException {
+  public EventSequence process(File file) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       return getEventSequence(reader);
     }
@@ -64,7 +64,7 @@ public final class TextRecorder implements Recorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public EventSequence process(String text) throws LoadingException, IOException {
+  public EventSequence process(String text) throws IOException {
     BufferedReader reader = new BufferedReader(new StringReader(text));
     return getEventSequence(reader);
   }

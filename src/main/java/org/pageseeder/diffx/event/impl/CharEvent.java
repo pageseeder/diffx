@@ -51,7 +51,7 @@ public final class CharEvent extends DiffXEventBase implements TextEvent {
 
   @Override
   public int hashCode() {
-    return (int)this.c;
+    return this.c;
   }
 
   @Override

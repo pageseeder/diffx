@@ -103,7 +103,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * The stack of events' weight, should only contain <code>Integer</code>.
    */
-  private transient List<Integer> weights = new ArrayList<Integer>();
+  private transient List<Integer> weights = new ArrayList<>();
 
   /**
    * Indicates whether the given document is a fragment.
@@ -258,7 +258,7 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void load(Element element) throws LoadingException {
     if (this.currentWeight > 0) {
-      this.weights.add(Integer.valueOf(this.currentWeight));
+      this.weights.add(this.currentWeight);
     }
     this.currentWeight = 1;
     // namespace handling
@@ -309,10 +309,8 @@ public final class DOMRecorder implements XMLRecorder {
    * Loads the given text in the current sequence depending on the configuration.
    *
    * @param text The W3C DOM text node to load.
-   *
-   * @throws LoadingException If thrown while parsing.
    */
-  private void load(Text text) throws LoadingException {
+  private void load(Text text)  {
     List<TextEvent> events = this.tokenizer.tokenize(text.getData());
     for (TextEvent e : events) {
       this.sequence.addEvent(e);
@@ -324,10 +322,8 @@ public final class DOMRecorder implements XMLRecorder {
    * Loads the given processing instruction in the current sequence.
    *
    * @param pi The W3C DOM PI node to load.
-   *
-   * @throws LoadingException If thrown while parsing.
    */
-  private void load(ProcessingInstruction pi) throws LoadingException {
+  private void load(ProcessingInstruction pi) {
     this.sequence.addEvent(new ProcessingInstructionEvent(pi.getTarget(), pi.getData()));
     this.currentWeight++;
   }
@@ -339,7 +335,7 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private int popWeight() {
     if (this.weights.size() > 0)
-      return this.weights.remove(this.weights.size() - 1).intValue();
+      return this.weights.remove(this.weights.size() - 1);
     else
       return 0;
   }

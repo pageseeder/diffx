@@ -109,8 +109,6 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * Writes the diff sequence using the specified handler.
      *
      * @param handler The handler for the output.
-     *
-     * @throws IOException If thrown by the handler.
      */
     public void process(DiffHandler handler) {
       final int m = this.first.size();
@@ -429,8 +427,6 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param m      The length of the first sequence.
      * @param n      The length of the second sequence.
      * @param p      The length of LCS between indexes startA and endA.
-     *
-     * @throws IOException If thrown by the formatter.
      */
     private void computeLCSMoreWaste(int startA, int endA, int startB, int endB, int m, int n, int p) {
       // The indexes of the perfect cut
@@ -517,8 +513,6 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * Write the deleted events to the formatter.
      *
      * @param jSeq2 The index of the LL array for the next event of the second sequence.
-     *
-     * @throws IOException If thrown by the formatter.
      */
     private void deleteUpTo(int jSeq2) {
       while (jSeq2 > this.J) {

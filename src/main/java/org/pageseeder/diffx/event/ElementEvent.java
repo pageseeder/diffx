@@ -1,9 +1,5 @@
 package org.pageseeder.diffx.event;
 
-import org.pageseeder.diffx.event.impl.OpenElementEventImpl;
-import org.pageseeder.xmlwriter.XMLWriter;
-
-import java.io.IOException;
 import java.util.List;
 
 public interface ElementEvent extends DiffXEvent {

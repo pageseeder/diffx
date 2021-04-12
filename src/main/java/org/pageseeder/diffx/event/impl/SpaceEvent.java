@@ -110,7 +110,7 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
    * @return A readable string.
    */
   private static String toString(char[] chars) {
-    StringBuffer out = new StringBuffer();
+    StringBuilder out = new StringBuilder();
     for (char c : chars) {
       switch(c) {
         case '\n':

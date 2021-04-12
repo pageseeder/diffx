@@ -167,7 +167,7 @@ public class Actions {
     }
   }
 
-  public static void format(List<Action> actions, DiffHandler handler) throws IOException {
+  public static void handle(List<Action> actions, DiffHandler handler) {
     for (Action action : actions) {
       for (DiffXEvent event : action.events()) {
         handler.handle(action.type(), event);

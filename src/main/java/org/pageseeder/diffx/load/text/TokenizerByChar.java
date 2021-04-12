@@ -17,9 +17,7 @@ package org.pageseeder.diffx.load.text;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.TextEvent;
@@ -47,7 +45,7 @@ public final class TokenizerByChar implements TextTokenizer {
     if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
     List<TextEvent> events = new ArrayList<>(seq.length());
-    Character c;
+    char c;
     for (int i=0; i < seq.length(); i++) {
       c = seq.charAt(i);
       TextEvent e;

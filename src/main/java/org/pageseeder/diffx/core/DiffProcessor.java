@@ -18,7 +18,6 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 

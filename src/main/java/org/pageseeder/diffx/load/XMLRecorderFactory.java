@@ -25,9 +25,6 @@ public class XMLRecorderFactory extends RecorderFactory{
 
 	/**
 	 * Return a XMLRecorder according the parameter.
-	 *
-	 * @param recorderType
-	 * @return <code>XMLRecorder</code>
 	 */
 	@Override
   public XMLRecorder getRecorder(String recorderType){

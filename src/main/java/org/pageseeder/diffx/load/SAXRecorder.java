@@ -44,6 +44,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import javax.xml.XMLConstants;
+
 /**
  * Records the SAX events in an {@link org.pageseeder.diffx.sequence.EventSequence}.
  *
@@ -286,11 +288,11 @@ public final class SAXRecorder implements XMLRecorder {
       SAXRecorder.this.sequence = new EventSequence();
       this.efactory = new EventFactory(SAXRecorder.this.config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
-      SAXRecorder.this.sequence.mapPrefix("http://www.w3.org/XML/1998/namespace", "xml");
+      SAXRecorder.this.sequence.mapPrefix(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
     }
 
     @Override
-    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+    public void startPrefixMapping(String prefix, String uri) {
       SAXRecorder.this.sequence.mapPrefix(uri, prefix);
     }
 
@@ -339,7 +341,7 @@ public final class SAXRecorder implements XMLRecorder {
     }
 
     @Override
-    public void endDocument() throws SAXException {
+    public void endDocument() {
     }
 
     /**
@@ -372,7 +374,7 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private int popWeight() {
       if (this.weights.size() > 0)
-        return this.weights.remove(this.weights.size() - 1).intValue();
+        return this.weights.remove(this.weights.size() - 1);
       else
         return 0;
     }

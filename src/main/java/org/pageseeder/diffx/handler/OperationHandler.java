@@ -17,9 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.format.DiffXFormatter;
 
 import java.util.ArrayList;
 import java.util.List;

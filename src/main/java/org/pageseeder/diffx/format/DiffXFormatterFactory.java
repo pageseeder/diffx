@@ -34,10 +34,6 @@ public class DiffXFormatterFactory {
 
 	/**
 	 * Returna DiffXFormatter according the parameters sent.
-	 * @param formatterType
-	 * @param out
-	 * @return <code>XMLDiffXFormatter</code>
-	 * @throws IOException
 	 */
 	public DiffXFormatter getFormatter(String formatterType, Writer out) throws IOException {
 		DiffXFormatter formatter = null;

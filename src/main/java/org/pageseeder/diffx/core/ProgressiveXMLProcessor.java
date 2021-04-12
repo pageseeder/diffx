@@ -16,11 +16,9 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.CompareReplaceFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
