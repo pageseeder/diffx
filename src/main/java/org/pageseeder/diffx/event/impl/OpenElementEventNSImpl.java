@@ -81,17 +81,11 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
     this.hashCode = toHashCode(uri, name);
   }
 
-  /**
-   * @return Returns the name.
-   */
   @Override
   public String getName() {
     return this.name;
   }
 
-  /**
-   * @return Returns the namespace URI.
-   */
   @Override
   public String getURI() {
     return this.uri;

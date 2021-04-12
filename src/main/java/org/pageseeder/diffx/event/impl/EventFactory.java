@@ -136,7 +136,7 @@ public final class EventFactory {
    * @return The open element event from the uri and name given.
    */
   public AttributeEvent makeAttribute(String uri, String name, String value) {
-    if (this.isNamespaceAware) return new AttributeEventNSImpl("".equals(uri)? null : uri, name, value);
+    if (this.isNamespaceAware) return new AttributeEventNSImpl(uri, name, value);
     else
       return new AttributeEventImpl(name, value);
   }
@@ -158,7 +158,7 @@ public final class EventFactory {
    * @return The open element event from the uri and name given.
    */
   public AttributeEvent makeAttribute(String uri, String localName, String qName, String value) {
-    if (this.isNamespaceAware) return new AttributeEventNSImpl("".equals(uri)? null : uri, localName, value);
+    if (this.isNamespaceAware) return new AttributeEventNSImpl(uri, localName, value);
     else
       return new AttributeEventImpl(qName, value);
   }

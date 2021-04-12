@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -59,8 +60,8 @@ import org.xml.sax.InputSource;
  * <p>This class is not synchronised.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
  *
+ * @version 0.9.0
  * @since 0.7
  */
 public final class DOMRecorder implements XMLRecorder {
@@ -136,18 +137,12 @@ public final class DOMRecorder implements XMLRecorder {
     this.config = config;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public EventSequence process(File file) throws LoadingException, IOException {
     InputStream in = new BufferedInputStream(new FileInputStream(file));
     return process(new InputSource(in));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public EventSequence process(String xml) throws LoadingException {
     return process(new InputSource(new StringReader(xml)));
@@ -355,8 +350,10 @@ public final class DOMRecorder implements XMLRecorder {
    * @param attr The W3C DOM attribute node to load.
    */
   private void load(Attr attr) {
-    handlePrefixMapping(attr.getNamespaceURI(), attr.getPrefix());
-    load(this.efactory.makeAttribute(attr.getNamespaceURI(),
+    String uri = attr.getNamespaceURI();
+    if (uri == null) uri = XMLConstants.NULL_NS_URI;
+    handlePrefixMapping(uri, attr.getPrefix());
+    load(this.efactory.makeAttribute(uri,
         attr.getLocalName(),
         attr.getNodeName(),
         attr.getValue()));
@@ -369,7 +366,7 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void load(AttributeEvent e) {
     // a namespace declaration, translate the event into a prefix mapping
-    if ("http://www.w3.org/2000/xmlns/".equals(e.getURI())) {
+    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(e.getURI())) {
       this.sequence.mapPrefix(e.getValue(), e.getName());
 
       // a regular attribute

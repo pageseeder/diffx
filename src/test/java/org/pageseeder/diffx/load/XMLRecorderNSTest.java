@@ -117,7 +117,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
     String xml = "<elt xmlns='http://ns.org' a='1'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("http://ns.org", "elt"));
-    exp.addEvent(new AttributeEventNSImpl(null, "a", "1"));
+    exp.addEvent(new AttributeEventNSImpl("", "a", "1"));
     exp.addEvent(new CloseElementEventNSImpl("http://ns.org", "elt"));
     assertEquivalent(exp, xml);
   }
@@ -183,7 +183,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
     String xml = "<elt xmlns='x://m.org' xmlns:x='x://m.org' a='1' x:a='2'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("x://m.org", "elt"));
-    exp.addEvent(new AttributeEventNSImpl(null, "a", "1"));
+    exp.addEvent(new AttributeEventNSImpl("", "a", "1"));
     exp.addEvent(new AttributeEventNSImpl("x://m.org", "a", "2"));
     exp.addEvent(new CloseElementEventNSImpl("x://m.org", "elt"));
     assertEquivalent(exp, xml);
@@ -200,7 +200,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
     String xml = "<x:elt xmlns:x='http://m.org' xmlns:y='http://n.org' a='1' x:a='2' y:a='3'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("http://m.org", "elt"));
-    exp.addEvent(new AttributeEventNSImpl(null, "a", "1"));
+    exp.addEvent(new AttributeEventNSImpl("", "a", "1"));
     exp.addEvent(new AttributeEventNSImpl("http://m.org", "a", "2"));
     exp.addEvent(new AttributeEventNSImpl("http://n.org", "a", "3"));
     exp.addEvent(new CloseElementEventNSImpl("http://m.org", "elt"));
@@ -223,7 +223,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
         " a='0' x:a='1' y:a='2' z:a='3'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("", "elt"));
-    exp.addEvent(new AttributeEventNSImpl(null, "a", "0"));
+    exp.addEvent(new AttributeEventNSImpl("", "a", "0"));
     exp.addEvent(new AttributeEventNSImpl("http://x.org", "a", "1"));
     exp.addEvent(new AttributeEventNSImpl("http://y.org", "a", "2"));
     exp.addEvent(new AttributeEventNSImpl("http://z.org", "a", "3"));
@@ -245,7 +245,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
         " a='0' z:a='3' y:a='2' x:a='1'/>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new OpenElementEventNSImpl("", "elt"));
-    exp.addEvent(new AttributeEventNSImpl(null, "a", "0"));
+    exp.addEvent(new AttributeEventNSImpl("", "a", "0"));
     exp.addEvent(new AttributeEventNSImpl("http://x.org", "a", "1"));
     exp.addEvent(new AttributeEventNSImpl("http://y.org", "a", "2"));
     exp.addEvent(new AttributeEventNSImpl("http://z.org", "a", "3"));

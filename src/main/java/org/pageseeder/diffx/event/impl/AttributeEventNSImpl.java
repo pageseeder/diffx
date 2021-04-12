@@ -16,11 +16,12 @@
 package org.pageseeder.diffx.event.impl;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import org.pageseeder.diffx.event.AttributeEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.xmlwriter.XMLWriter;
+
+import javax.xml.XMLConstants;
 
 /**
  * A namespace aware implementation of the attribute event.
@@ -28,6 +29,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  * @version 0.9.0
+ * @since 0.5.0
  */
 public final class AttributeEventNSImpl extends DiffXEventBase implements AttributeEvent {
 
@@ -66,7 +68,7 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
       throw new NullPointerException("The attribute value cannot be null, use \"\".");
     this.name = name;
     this.value = value;
-    this.uri = null;
+    this.uri = XMLConstants.NULL_NS_URI;
     this.hashCode = toHashCode(this.uri, name, value);
   }
 
@@ -84,6 +86,8 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
       throw new NullPointerException("Attribute must have a name.");
     if (value == null)
       throw new NullPointerException("The attribute value cannot be null, use \"\".");
+    if (uri == null)
+      throw new NullPointerException("The uri value cannot be null, use \"\".");
     this.name = name;
     this.value = value;
     this.uri = uri;
@@ -123,12 +127,9 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
     if (e.getClass() != this.getClass())
       return false;
     AttributeEventNSImpl ae = (AttributeEventNSImpl) e;
-    if (!ae.name.equals(this.name))
-      return false;
-    if (!equals(ae.uri, this.uri))
-      return false;
-    if (!ae.value.equals(this.value))
-      return false;
+    if (!ae.name.equals(this.name)) return false;
+    if (!ae.uri.equals(this.uri)) return false;
+    if (!ae.value.equals(this.value)) return false;
     return true;
   }
 
@@ -178,11 +179,12 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String uri, String name, String value) {
+    assert uri != null;
     assert name != null;
     assert value != null;
     // Code below follows from Objects#hash method
     int hash = 17;
-    hash = hash * 31 + (uri != null ? uri.hashCode() : 0);
+    hash = hash * 31 + uri.hashCode();
     hash = hash * 31 + name.hashCode();
     hash = hash * 31 + value.hashCode();
     return hash;

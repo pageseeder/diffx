@@ -21,6 +21,8 @@ import org.pageseeder.diffx.event.AttributeEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
+
 /**
  * A basic implementation of the attribute event.
  *
@@ -72,11 +74,11 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
   }
 
   /**
-   * Always return <code>null</code>.
+   * Always return <code>XMLConstants.NULL_NS_URI</code>.
    */
   @Override
   public String getURI() {
-    return null;
+    return XMLConstants.NULL_NS_URI;
   }
 
   @Override

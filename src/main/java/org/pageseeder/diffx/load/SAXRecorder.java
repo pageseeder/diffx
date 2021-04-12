@@ -61,7 +61,8 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  *
- * @version 0.7.0
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public final class SAXRecorder implements XMLRecorder {
 
@@ -87,7 +88,7 @@ public final class SAXRecorder implements XMLRecorder {
   }
 
   /**
-   * The XML reader class in use (set to the deafult XML reader).
+   * The XML reader class in use (set to the default XML reader).
    */
   private static String readerClassName = DEFAULT_XML_READER;
 
@@ -263,12 +264,12 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * The last open element event, should only contain <code>OpenElementEvent</code>s.
      */
-    private transient List<OpenElementEvent> openElements = new ArrayList<OpenElementEvent>();
+    private transient List<OpenElementEvent> openElements = new ArrayList<>();
 
     /**
      * The stack of weight, should only contain <code>Integer</code>.
      */
-    private transient List<Integer> weights = new ArrayList<Integer>();
+    private transient List<Integer> weights = new ArrayList<>();
 
     /**
      * The factory that will produce events according to the configuration.
@@ -297,7 +298,7 @@ public final class SAXRecorder implements XMLRecorder {
     public void startElement(String uri, String localName, String qName, Attributes atts) {
       recordCharacters();
       if (this.currentWeight > 0) {
-        this.weights.add(new Integer(this.currentWeight));
+        this.weights.add(this.currentWeight);
       }
       this.currentWeight = 1;
       OpenElementEvent open = this.efactory.makeOpenElement(uri, localName, qName);
