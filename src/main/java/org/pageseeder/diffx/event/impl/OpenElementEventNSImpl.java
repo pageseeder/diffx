@@ -108,10 +108,8 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
   public boolean equals(DiffXEvent e) {
     if (e == null) return false;
     if (e.getClass() != this.getClass()) return false;
-    OpenElementEventNSImpl oee = (OpenElementEventNSImpl)e;
-    if (!oee.uri.equals(this.uri)) return false;
-    if (!oee.name.equals(this.name)) return false;
-    return true;
+    OpenElementEventNSImpl other = (OpenElementEventNSImpl)e;
+    return other.uri.equals(this.uri) && other.name.equals(this.name);
   }
 
   @Override

@@ -4,6 +4,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -19,6 +20,19 @@ public final class TestActions {
     try {
       StringWriter xml = new StringWriter();
       XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
+      Actions.format(actions, formatter);
+      return xml.toString();
+    } catch (IOException ex) {
+      // Should not occur
+      throw new UncheckedIOException("Unable to check assertions due to", ex);
+    }
+  }
+
+  public static String toXML(List<Action> actions, PrefixMapping mapping) {
+    try {
+      StringWriter xml = new StringWriter();
+      XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
+      formatter.declarePrefixMapping(mapping);
       Actions.format(actions, formatter);
       return xml.toString();
     } catch (IOException ex) {

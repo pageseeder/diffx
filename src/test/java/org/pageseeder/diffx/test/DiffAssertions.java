@@ -23,6 +23,9 @@ import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.OpenElementEvent;
 import org.pageseeder.diffx.event.impl.CloseElementEventImpl;
 import org.pageseeder.diffx.event.impl.OpenElementEventImpl;
+import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.util.Formatting;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -64,6 +67,21 @@ public final class DiffAssertions {
   }
 
 
+  /**
+   * Asserts that the list of actions lead to the correct XML
+   */
+  public static void assertIsCorrect(EventSequence a, EventSequence b, List<Action> actions) {
+    // Apply to second sequence to ensure we get the first
+    String got1 = Events.toXML(Actions.generate(actions, true), a.getPrefixMapping());
+    String exp1 = Events.toXML(a.events(), a.getPrefixMapping());
+    Assert.assertEquals("Applying diff to #2 did not produce #1 ", exp1, got1);
+
+    // Apply to first sequence to ensure we get the second
+    String got2 = Events.toXML(Actions.generate(actions, false), b.getPrefixMapping());
+    String exp2 = Events.toXML(b.events(), b.getPrefixMapping());
+    Assert.assertEquals("Applying diff to #1 did not produce #2 ", exp2, got2);
+  }
+
   public static void assertIsWellFormedXML(List<Action> actions) {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
@@ -72,6 +90,16 @@ public final class DiffAssertions {
     wrapped.addAll(actions);
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new CloseElementEventImpl(root))));
     DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped));
+  }
+
+  public static void assertIsWellFormedXML(List<Action> actions, PrefixMapping mapping) {
+    List<Action> wrapped = new ArrayList<>();
+    // We wrap the actions in case we have a completely different output
+    OpenElementEvent root = new OpenElementEventImpl("root");
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
+    wrapped.addAll(actions);
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new CloseElementEventImpl(root))));
+    DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped, mapping));
   }
 
   /**

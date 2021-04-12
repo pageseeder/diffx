@@ -16,11 +16,7 @@
 package org.pageseeder.diffx.sequence;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 
@@ -30,14 +26,15 @@ import org.pageseeder.diffx.event.DiffXEvent;
  * <p>This class wraps a list of <code>DiffXEvent</code>s and provide method to
  * access and modify the content of the list using strongly typed methods.
  *
+ * <p>Implementation note: we use an <code>ArrayList</code> to store the events because some algorithms
+ * need random access. Other list implementations may dramatically affect performance.</p>
+ *
  * @author Christophe Lauret
  * @version 0.9.0
  *
  * @since 0.7
  */
-public final class EventSequence {
-
-  // Class attributes ---------------------------------------------------------------------------
+public final class EventSequence implements Iterable<DiffXEvent> {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -47,15 +44,13 @@ public final class EventSequence {
   /**
    * The sequence of events.
    */
-  private final List<DiffXEvent> sequence;
-
-  // Constructors -------------------------------------------------------------------------------
+  private final List<DiffXEvent> events;
 
   /**
    * Creates a new event sequence.
    */
   public EventSequence() {
-    this.sequence = new LinkedList<>();
+    this.events = new ArrayList<>();
   }
 
   /**
@@ -64,16 +59,18 @@ public final class EventSequence {
    * @param size The size of the sequence.
    */
   public EventSequence(int size) {
-    this.sequence = new ArrayList<>(size);
+    this.events = new ArrayList<>(size);
   }
 
   /**
    * Creates a new event sequence of the specified size.
    *
+   * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
+   *
    * @param events The size of the sequence.
    */
   public EventSequence(List<DiffXEvent> events) {
-    this.sequence = events;
+    this.events = events;
   }
 
   /**
@@ -82,7 +79,7 @@ public final class EventSequence {
    * @param seq The sequence of events to be added.
    */
   public void addSequence(EventSequence seq) {
-    this.sequence.addAll(seq.sequence);
+    this.events.addAll(seq.events);
   }
 
   /**
@@ -91,7 +88,7 @@ public final class EventSequence {
    * @param e The event to be added.
    */
   public void addEvent(DiffXEvent e) {
-    this.sequence.add(e);
+    this.events.add(e);
   }
 
   /**
@@ -101,9 +98,8 @@ public final class EventSequence {
    * @param e The event to be added.
    */
   public void addEvent(int i, DiffXEvent e) {
-    this.sequence.add(i, e);
+    this.events.add(i, e);
   }
-
 
   /**
    * Adds an event to this sequence.
@@ -111,7 +107,7 @@ public final class EventSequence {
    * @param events The event to be added.
    */
   public void addEvents(List<? extends DiffXEvent> events) {
-    this.sequence.addAll(events);
+    this.events.addAll(events);
   }
 
   /**
@@ -122,7 +118,7 @@ public final class EventSequence {
    * @return the event at position i.
    */
   public DiffXEvent getEvent(int i) {
-    return this.sequence.get(i);
+    return this.events.get(i);
   }
 
   /**
@@ -134,7 +130,7 @@ public final class EventSequence {
    * @return The event at the previous position.
    */
   public DiffXEvent setEvent(int index, DiffXEvent e) {
-    return this.sequence.set(index, e);
+    return this.events.set(index, e);
   }
 
   /**
@@ -145,7 +141,7 @@ public final class EventSequence {
    * @return The removed event.
    */
   public DiffXEvent removeEvent(int index) {
-    return this.sequence.remove(index);
+    return this.events.remove(index);
   }
 
   /**
@@ -154,7 +150,7 @@ public final class EventSequence {
    * @return The number of events in the sequence.
    */
   public int size() {
-    return this.sequence.size();
+    return this.events.size();
   }
 
   /**
@@ -163,7 +159,7 @@ public final class EventSequence {
    * @return The event iterator for this sequence.
    */
   public EventIterator eventIterator() {
-    return new EventIterator(this.sequence.iterator());
+    return new EventIterator(this.events.iterator());
   }
 
   /**
@@ -172,14 +168,14 @@ public final class EventSequence {
    * @return the sequence of events.
    */
   public List<DiffXEvent> events() {
-    return this.sequence;
+    return this.events;
   }
 
   // Object methods -----------------------------------------------------------------------------
 
   @Override
   public int hashCode() {
-    return this.sequence.size();
+    return this.events.size();
   }
 
   /**
@@ -192,7 +188,7 @@ public final class EventSequence {
    */
   public boolean equals(EventSequence seq) {
     if (seq == null) return false;
-    return equals(this.sequence, seq.sequence);
+    return equals(this.events, seq.events);
   }
 
   /**
@@ -228,7 +224,7 @@ public final class EventSequence {
    * @param w The print writer receiving the SAX events.
    */
   public void export(PrintWriter w) {
-    for (DiffXEvent event : this.sequence) {
+    for (DiffXEvent event : this.events) {
       w.println(event.toString());
     }
     w.flush();
@@ -255,6 +251,11 @@ public final class EventSequence {
    */
   public PrefixMapping getPrefixMapping() {
     return this.prefixMapping;
+  }
+
+  @Override
+  public Iterator<DiffXEvent> iterator() {
+    return this.events().iterator();
   }
 
   /**

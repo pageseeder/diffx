@@ -18,12 +18,13 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.load.TextRecorder;
+import org.pageseeder.diffx.load.LineRecorder;
+import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -69,6 +70,7 @@ public final class Events {
     return s;
   }
 
+
   public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException, IOException {
     if (xml.isEmpty()) return Collections.emptyList();
     DiffXConfig config = new DiffXConfig();
@@ -82,15 +84,35 @@ public final class Events {
     return recorder.process(xml).events();
   }
 
+
+  public static EventSequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException, IOException {
+    if (xml.isEmpty()) return new EventSequence();
+    DiffXConfig config = new DiffXConfig();
+    config.setGranularity(granularity);
+    return recordXMLSequence(xml, config);
+  }
+
+  public static EventSequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException, IOException {
+    SAXRecorder recorder = new SAXRecorder();
+    recorder.setConfig(config);
+    return recorder.process(xml);
+  }
+
   public static List<DiffXEvent> recordLineEvents(String text) throws DiffXException, IOException  {
     if (text.isEmpty()) return Collections.emptyList();
-    return new TextRecorder().process(text).events();
+    return new LineRecorder().process(text).events();
   }
 
   public static String toXML(List<? extends DiffXEvent> events) {
+    return toXML(events, new PrefixMapping());
+  }
+
+  public static String toXML(List<? extends DiffXEvent> events, PrefixMapping mapping) {
     try {
       StringWriter xml = new StringWriter();
       SmartXMLFormatter f = new SmartXMLFormatter(xml);
+      f.declarePrefixMapping(mapping);
+
       for (DiffXEvent event : events) {
         f.format(event);
       }
@@ -101,5 +123,6 @@ public final class Events {
     }
 
   }
+
 
 }

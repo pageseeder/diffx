@@ -99,4 +99,10 @@ public final class PrefixMapping {
     return uri == null? "" : this.mapping.get(uri);
   }
 
+  @Override
+  public String toString() {
+    return "PrefixMapping{" +
+        "mapping=" + mapping +
+        '}';
+  }
 }

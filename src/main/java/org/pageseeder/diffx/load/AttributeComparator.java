@@ -26,7 +26,8 @@ import org.pageseeder.diffx.event.impl.AttributeEventNSImpl;
  * of the attribute name and namespace URI.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 0.9.0
+ * @since 0.8.0
  */
 final class AttributeComparator implements Comparator<AttributeEvent> {
 
@@ -78,7 +79,7 @@ final class AttributeComparator implements Comparator<AttributeEvent> {
    * @return The comparable name.
    */
   private static String toCName(AttributeEventNSImpl att) {
-    return att.getURI() != null? att.getURI() + ':' + att.getName() : att.getName();
+    return att.getURI().isEmpty() ? att.getName() : att.getURI() + ':' + att.getName();
   }
 
 }

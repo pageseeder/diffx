@@ -41,10 +41,7 @@ import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.StrictXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
-import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.load.Recorder;
-import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.load.TextRecorder;
+import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
@@ -398,7 +395,7 @@ public final class Main {
     if ("dom".equals(loaderArg))
       return new DOMRecorder();
     if ("text".equals(loaderArg))
-      return new TextRecorder();
+      return new LineRecorder();
     usage();
     return null;
   }

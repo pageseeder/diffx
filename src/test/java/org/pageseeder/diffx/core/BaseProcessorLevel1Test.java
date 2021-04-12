@@ -21,6 +21,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
@@ -492,8 +493,26 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_AttributeNamespaces0() throws IOException, DiffXException {
     String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='https://example.net'/>";
-    String[] exp = new String[]{};
-    // FIXME: write test
+    String[] exp = new String[]{
+        "<a>+@(m=y)-@(m=y)</a>"
+    };
+    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+  }
+
+
+  /**
+   * Compares two XML documents where two attributes are on a different namespace.
+   *
+   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffXException Should an error occur while parsing XML.
+   */
+  @Test
+  public final void testLevel1_AttributeNamespaces1() throws IOException, DiffXException {
+    String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
+    String xml2 = "<a f:m='y' xmlns:f='https://example.org'/>";
+    String[] exp = new String[]{
+        "<a>@(m=y)</a>"
+    };
     assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
@@ -668,16 +687,20 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp)
       throws IOException, DiffXException {
     // Record XML
-    List<? extends DiffXEvent> seq1 = Events.recordXMLEvents(xml1, TextGranularity.TEXT);
-    List<? extends DiffXEvent> seq2 = Events.recordXMLEvents(xml2, TextGranularity.TEXT);
+    EventSequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.TEXT);
+    EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.TEXT);
+    System.err.println(seq1.getPrefixMapping());
+    System.err.println(seq2.getPrefixMapping());
+    seq1.getPrefixMapping().add(seq2.getPrefixMapping());
+
     // Process as list of actions
-    List<Action> actions = diffToActions(seq1, seq2);
+    List<Action> actions = diffToActions(seq1.events(), seq2.events());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
-      DiffAssertions.assertIsWellFormedXML(actions);
+      DiffAssertions.assertIsWellFormedXML(actions, seq1.getPrefixMapping());
       DiffAssertions.assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions), actions);
+      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, seq1.getPrefixMapping()), actions);
       throw ex;
     }
   }

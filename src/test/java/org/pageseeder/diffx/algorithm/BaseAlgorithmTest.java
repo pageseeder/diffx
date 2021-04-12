@@ -5,7 +5,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.*;
 import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.load.TextRecorder;
+import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.xml.sax.InputSource;
@@ -213,15 +213,14 @@ public abstract class BaseAlgorithmTest {
    * @param text2 The second text.
    * @return The diff output.
    * @throws IOException           Should an I/O exception occur.
-   * @throws DiffXException        Should an error occur while parsing XML.
    * @throws IllegalStateException Should the factory fail to create DiffX algorithm.
    */
   protected String processDiffText(String text1, String text2)
-      throws IOException, DiffXException, IllegalStateException {
+      throws IOException, IllegalStateException {
     // process the strings
-    TextRecorder textRecorder = new TextRecorder();
-    EventSequence seq1 = textRecorder.process(text1);
-    EventSequence seq2 = textRecorder.process(text2);
+    LineRecorder recorder = new LineRecorder();
+    EventSequence seq1 = recorder.process(text1);
+    EventSequence seq2 = recorder.process(text2);
     this.diffx = makeDiffX(seq1, seq2);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);

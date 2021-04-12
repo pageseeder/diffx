@@ -19,7 +19,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.LineEvent;
-import org.pageseeder.diffx.load.TextRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
