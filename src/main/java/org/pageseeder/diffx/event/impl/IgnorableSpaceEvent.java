@@ -144,8 +144,6 @@ public final class IgnorableSpaceEvent implements TextEvent {
 
   /**
    * Ignored.
-   *
-   * {@inheritDoc}
    */
   @Override
   public void setWeight(int weight) {

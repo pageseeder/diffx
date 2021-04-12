@@ -54,14 +54,14 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
   public static final SpaceEvent TAB = new SpaceEvent("\t");
 
   /**
-   * Creates a new word event.
+   * Creates a new space event.
    *
-   * @param w The word as a string.
+   * @param s The space as a string.
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public SpaceEvent(CharSequence w) throws NullPointerException {
-    super(w);
+  public SpaceEvent(CharSequence s) throws NullPointerException {
+    super(s);
   }
 
   @Override
@@ -99,8 +99,7 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
     if (c == '\n') return NEW_LINE;
     if (c == '\t') return TAB;
     // create a new instance
-    // FIXME wasteful!!
-    return new SpaceEvent(c+"");
+    return new SpaceEvent(String.valueOf(c));
   }
 
   /**

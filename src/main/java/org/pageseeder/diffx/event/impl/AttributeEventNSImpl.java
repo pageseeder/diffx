@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.event.impl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.pageseeder.diffx.event.AttributeEvent;
 import org.pageseeder.diffx.event.DiffXEvent;
@@ -26,7 +27,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 28 March 2010
+ * @version 0.9.0
  */
 public final class AttributeEventNSImpl extends DiffXEventBase implements AttributeEvent {
 
@@ -177,10 +178,13 @@ public final class AttributeEventNSImpl extends DiffXEventBase implements Attrib
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String uri, String name, String value) {
+    assert name != null;
+    assert value != null;
+    // Code below follows from Objects#hash method
     int hash = 17;
     hash = hash * 31 + (uri != null ? uri.hashCode() : 0);
-    hash = hash * 31 + (name != null ? name.hashCode() : 0);
-    hash = hash * 31 + (value != null ? value.hashCode() : 0);
+    hash = hash * 31 + name.hashCode();
+    hash = hash * 31 + value.hashCode();
     return hash;
   }
 

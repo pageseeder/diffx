@@ -21,7 +21,7 @@ import org.pageseeder.diffx.event.TextEvent;
  * A text event representing a word.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class WordEvent extends CharactersEventBase implements TextEvent {
 

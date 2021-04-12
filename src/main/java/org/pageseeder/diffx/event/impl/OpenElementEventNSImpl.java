@@ -27,7 +27,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * The event corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class OpenElementEventNSImpl extends DiffXEventBase implements DiffXEvent, OpenElementEvent {
 
@@ -151,9 +151,11 @@ public final class OpenElementEventNSImpl extends DiffXEventBase implements Diff
    * @return a number suitable as a hashcode.
    */
   private int toHashCode(String uri, String name) {
+    assert uri != null;
+    assert name != null;
     int hash = 107;
-    hash = hash * 13 + (uri != null? uri.hashCode() : 0);
-    hash = hash * 13 + (name != null? name.hashCode() : 0);
+    hash = hash * 13 + uri.hashCode();
+    hash = hash * 13 + name.hashCode();
     return hash;
   }
 

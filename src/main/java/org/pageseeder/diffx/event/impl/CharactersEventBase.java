@@ -25,7 +25,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * A base class for all the characters events "characters" SAX event.
  *
  * @author Christophe Lauret
- * @version 28 March 2010
+ * @version 0.9.0
  */
 public abstract class CharactersEventBase extends DiffXEventBase implements TextEvent {
 
@@ -109,7 +109,8 @@ public abstract class CharactersEventBase extends DiffXEventBase implements Text
    * @return a suitable hashcode value.
    */
   private static int toHashCode(CharSequence s) {
-    return 13 * 47 + (s != null ? s.hashCode() : 0);
+    assert s != null;
+    return 13 * 47 + s.hashCode();
   }
 
 }

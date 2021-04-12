@@ -94,8 +94,6 @@ public final class CloseElementEventImpl extends DiffXEventBase implements Close
 
   /**
    * Returns <code>true</code> if the open element has the same name.
-   *
-   * {@inheritDoc}
    */
   @Override
   public boolean match(OpenElementEvent event) {

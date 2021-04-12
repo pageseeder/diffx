@@ -29,7 +29,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 28 March 2010
+ * @version 0.9.0
  */
 public final class AttributeEventImpl extends DiffXEventBase implements AttributeEvent {
 
@@ -66,9 +66,6 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
     this.hashCode = toHashCode(name, value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getName() {
     return this.name;
@@ -76,25 +73,17 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
 
   /**
    * Always return <code>null</code>.
-   *
-   * {@inheritDoc}
    */
   @Override
   public String getURI() {
     return null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getValue() {
     return this.value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return this.hashCode;
@@ -116,25 +105,16 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
     return bae.name.equals(this.name) && bae.value.equals(this.value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return "attribute: " + this.name + "=" + this.value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.name, this.value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     xml.append(' ');
@@ -153,9 +133,11 @@ public final class AttributeEventImpl extends DiffXEventBase implements Attribut
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String name, String value) {
+    assert name != null;
+    assert value != null;
     int hash = 23;
-    hash = hash * 37 + (name != null ? name.hashCode() : 0);
-    hash = hash * 37 + (value != null ? value.hashCode() : 0);
+    hash = hash * 37 + name.hashCode();
+    hash = hash * 37 + value.hashCode();
     return hash;
   }
 

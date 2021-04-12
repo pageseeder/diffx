@@ -25,7 +25,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * An interface for any data that comes from a text node.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class LineEvent extends DiffXEventBase implements TextEvent {
 
@@ -101,8 +101,6 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
   }
 
   /**
-   * Returns the line number.
-   *
    * @return The line number.
    */
   public int getLineNumber() {
@@ -123,11 +121,12 @@ public final class LineEvent extends DiffXEventBase implements TextEvent {
   /**
    * Calculates the hashcode for this event.
    *
-   * @param comment The comment string.
+   * @param line The comment string.
    * @return a number suitable as a hashcode.
    */
-  private int toHashCode(CharSequence comment) {
-    return comment != null? 29*59 + comment.hashCode() : 29*59;
+  private int toHashCode(CharSequence line) {
+    assert line != null;
+    return 29*59 + line.hashCode();
   }
 
 }

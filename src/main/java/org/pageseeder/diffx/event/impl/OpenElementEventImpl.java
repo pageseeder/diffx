@@ -31,7 +31,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * <p>This implementation is not namespace aware.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class OpenElementEventImpl extends DiffXEventBase implements OpenElementEvent {
 
@@ -124,6 +124,7 @@ public final class OpenElementEventImpl extends DiffXEventBase implements OpenEl
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String s) {
-    return 11 * 41 + (s != null? s.hashCode() : 0);
+    assert s != null;
+    return 11 * 41 + s.hashCode();
   }
 }
