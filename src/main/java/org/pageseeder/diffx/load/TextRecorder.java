@@ -27,11 +27,14 @@ import org.pageseeder.diffx.sequence.EventSequence;
 /**
  * Records the line events in a text.
  *
+ * @deprecated Use {@link LineRecorder} instead
+ *
  * @author Christophe Lauret
  *
  * @version 0.9.0
  * @since 0.7.0
  */
+@Deprecated
 public final class TextRecorder implements Recorder {
 
   /**
@@ -43,14 +46,11 @@ public final class TextRecorder implements Recorder {
    *
    * @return The recorded sequence of events.
    *
-   * @throws LoadingException If thrown whilst parsing.
-   * @throws IOException      Should I/O error occur.
+   * @throws IOException Should I/O error occur.
    */
   @Override
   public EventSequence process(File file) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-      return getEventSequence(reader);
-    }
+    return new LineRecorder().process(file);
   }
 
   /**
@@ -60,24 +60,11 @@ public final class TextRecorder implements Recorder {
    *
    * @return The recorded sequence of events.
    *
-   * @throws LoadingException If thrown whilst parsing.
-   * @throws IOException      Should I/O error occur.
+   * @throws IOException Should I/O error occur.
    */
   @Override
   public EventSequence process(String text) throws IOException {
-    BufferedReader reader = new BufferedReader(new StringReader(text));
-    return getEventSequence(reader);
-  }
-
-  private EventSequence getEventSequence(BufferedReader reader) throws IOException {
-    String line = reader.readLine();
-    int count = 0;
-    EventSequence seq = new EventSequence();
-    while (line != null) {
-      seq.addEvent(new LineEvent(line, ++count));
-      line = reader.readLine();
-    }
-    return seq;
+    return new LineRecorder().process(text);
   }
 
 }
