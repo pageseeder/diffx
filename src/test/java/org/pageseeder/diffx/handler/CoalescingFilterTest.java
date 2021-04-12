@@ -1,20 +1,37 @@
+/*
+ * Copyright 2010-2015 Allette Systems (Australia)
+ * http://www.allette.com.au
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.pageseeder.diffx.handler;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
-import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 import org.pageseeder.diffx.event.impl.WordEvent;
 import org.pageseeder.diffx.test.Events;
 
-import java.io.IOException;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.pageseeder.diffx.test.TestOperations.toTextOperations;
+import static org.pageseeder.diffx.test.TestOperations.toCharOperations;
 
 public class CoalescingFilterTest {
 
@@ -53,46 +70,92 @@ public class CoalescingFilterTest {
   }
 
   @Test
-  public void testFilter1() throws IOException {
-    List<Operation> got = coalesceOperations("A", " ", "+big", " ", "castle");
-    List<Operation> exp = asTextOperations("A ", "+big", " castle");
-    assertEquivalentOperations(exp, got);
+  public void testFilter1() {
+    List<Operation> got = toTextOperations("A", " ", "+big", " ", "castle");
+    List<Operation> exp = toTextOperations("A ", "+big", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
-  public void testFilter2() throws IOException {
-    List<Operation> got = coalesceOperations("The", "+ very", "+ big", "- large", "- medieval", " castle");
-    List<Operation> exp = asTextOperations("The", "+ very big", "- large medieval", " castle");
-    assertEquivalentOperations(exp, got);
+  public void testFilter2() {
+    List<Operation> got = toTextOperations("The", "+ very", "+ big", "- large", "- medieval", " castle");
+    List<Operation> exp = toTextOperations("The", "+ very big", "- large medieval", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
-  public void testFilter3() throws IOException {
-    List<Operation> got = coalesceOperations("-A", "+The", "+ very", "+ big", " castle");
-    List<Operation> exp = asTextOperations("-A", "+The very big", " castle");
-    assertEquivalentOperations(exp, got);
+  public void testFilter3() {
+    List<Operation> got = toTextOperations("-A", "+The", "+ very", "+ big", " castle");
+    List<Operation> exp = toTextOperations("-A", "+The very big", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter4() {
+    List<Operation> got = toTextOperations("A", "+ big", "- small", "+ blue", "- red", " castle");
+    List<Operation> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter5() {
+    List<Operation> got = toTextOperations("A", "+ big", "+ blue", "- small", "- red", " castle");
+    List<Operation> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter6() {
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter7() {
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter8() {
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter9() {
+    List<Operation> got = toCharOperations("+AM+A+A-R");
+    List<Operation> exp = toTextOperations("+A", "M", "+AA", "-R");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter10() {
+    List<Operation> got = toCharOperations("+A+AMMM+A+A-D+A-D+A");
+    List<Operation> exp = toTextOperations("+AA", "MMM", "+AAAA", "-DD");
+    assertEquivalentOperations(exp, coalesceOperations(got));
+  }
+
+  @Test
+  public void testFilter11() {
+    List<Operation> got = toCharOperations("+A-D+AMMM-D+A+A-D+A-D+A");
+    List<Operation> exp = toTextOperations("+AA", "-D", "MMM", "-DDD", "+AAAA");
+    assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   // Private helpers
   // --------------------------------------------------------------------------
 
-  private List<Operation> coalesceOperations(String... ops) throws IOException{
-    List<Operation> operations = asTextOperations(ops);
+  private List<Operation> coalesceOperations(List<Operation> operations) {
     OperationHandler target = new OperationHandler();
     CoalescingFilter filter = new CoalescingFilter(target);
-    Operations.format(operations, filter);
-    filter.flushText();
+    filter.start();
+    Operations.handle(operations, filter);
+    filter.end();
     return target.getOperations();
-  }
-
-  private List<Operation> asTextOperations(String... ops) {
-    OperationHandler source = new OperationHandler();
-    for (String op : ops) {
-      if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextEvent(op.substring(1)));
-      else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextEvent(op.substring(1)));
-      else source.handle(Operator.MATCH, Events.toTextEvent(op));
-    }
-    return source.getOperations();
   }
 
   private void assertEquivalentOperations(List<Operation> exp, List<Operation> got) {

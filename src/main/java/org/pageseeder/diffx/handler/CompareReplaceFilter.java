@@ -24,7 +24,6 @@ import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerBySpaceWord;
 
-import java.io.IOException;
 import java.util.List;
 
 public final class CompareReplaceFilter implements DiffHandler {

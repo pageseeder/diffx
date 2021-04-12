@@ -27,6 +27,12 @@ public enum Operator {
    * An insertion.
    */
   INS {
+    /**
+     * @return DEL
+     */
+    public Operator flip() {
+      return DEL;
+    }
     public String toString() {
       return "+";
     }
@@ -36,6 +42,13 @@ public enum Operator {
    * A deletion.
    */
   DEL {
+    /**
+     * @return INS
+     */
+    public Operator flip() {
+      return INS;
+    }
+
     public String toString() {
       return "-";
     }
@@ -45,9 +58,20 @@ public enum Operator {
    * A match.
    */
   MATCH {
+    /**
+     * @return MATCH
+     */
+    public Operator flip() {
+      return this;
+    }
+
     public String toString() {
       return "=";
     }
-  }
+  };
 
+  /**
+   * @return the operator performing the opposite operation.
+   */
+  public abstract Operator flip();
 }

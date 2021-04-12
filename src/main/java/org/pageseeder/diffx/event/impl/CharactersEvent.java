@@ -23,7 +23,8 @@ package org.pageseeder.diffx.event.impl;
  * happen when there is no need to examine the text content of the node.
  *
  * @author Christophe Lauret
- * @version 28 March 2010
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public final class CharactersEvent extends CharactersEventBase {
 
@@ -38,12 +39,9 @@ public final class CharactersEvent extends CharactersEventBase {
     super(seq);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
-    return "characters: \""+getCharacters()+'"';
+    return "\""+getCharacters()+'"';
   }
 
 }

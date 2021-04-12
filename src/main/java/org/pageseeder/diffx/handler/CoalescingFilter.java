@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Formatter to be used as a formatting filter which intercepts diffx events and coalesces consecutive text
- * events for the same operation.
+ * Coalesces consecutive text events for the same operation.
+ *
+ * <p>This handler is </p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -44,12 +45,22 @@ public final class CoalescingFilter implements DiffHandler {
   private final List<TextEvent> buffer = new ArrayList<>();
 
   /**
-   * State variable which changes as new events are reported.
+   * Buffer of text event to coalesce using opposite operation of current.
+   */
+  private final List<TextEvent> altBuffer = new ArrayList<>();
+
+  /**
+   * The operator used for the last event in the buffer.
    */
   private Operator current = Operator.MATCH;
 
   public CoalescingFilter(DiffHandler target) {
     this.target = target;
+  }
+
+  @Override
+  public void start() {
+    this.target.start();
   }
 
   @Override
@@ -64,24 +75,40 @@ public final class CoalescingFilter implements DiffHandler {
 
   @Override
   public void end() {
+    flushText();
+    this.target.end();
   }
 
   private void handleText(TextEvent event, Operator operator) {
-    if (this.current != operator) {
-      this.flushText();
-      this.current = operator;
+    if (this.current == operator) {
+      // Same operator simply add the event
+      this.buffer.add(event);
+    } else {
+      if (this.current == Operator.MATCH || operator == Operator.MATCH) {
+        // Operator is match, flush and update
+        this.flushText();
+        this.current = operator;
+        this.buffer.add(event);
+      } else {
+        // Current is INS or DEL
+        this.altBuffer.add(event);
+      }
     }
-    this.buffer.add(event);
   }
 
   /**
-   * Flush the text to the target formatter and clear the buffer if there are any text events.
+   * Flush the text to the target handler and clear the buffer if there are any text events.
    */
   public void flushText() {
     if (this.buffer.size() > 0) {
       TextEvent text = coalesceText(this.buffer);
       this.target.handle(this.current, text);
       this.buffer.clear();
+      if (this.current != Operator.MATCH && !this.altBuffer.isEmpty()) {
+        TextEvent other = coalesceText(this.altBuffer);
+        this.target.handle(this.current.flip(), other);
+        this.altBuffer.clear();
+      }
     }
   }
 
@@ -103,23 +130,20 @@ public final class CoalescingFilter implements DiffHandler {
     return new CharactersEvent(text.toString());
   }
 
-
   /**
    * Coalesce events that all text nodes
    *
-   * @param events A list of text events
+   * @param events A list of events
    *
-   * @return A single text event
+   * @return A list of events with text events coalesced.
    */
   public static List<DiffXEvent> coalesce(List<DiffXEvent> events) {
     // If there's only one event, no need to coalesce
     if (events.size() <= 1) return events;
-    // TODO Concatenate text of all text nodes
-//    DiffXFormatter f = new asList();
-//    CoalescingFilter filter = new CoalescingFilter(f);
-//
-//    return new CharactersEvent(text.toString());
-    return null;
+    List<DiffXEvent> coalesced = new ArrayList<>();
+    CoalescingFilter filter = new CoalescingFilter((operator, event) -> coalesced.add(event));
+    for (DiffXEvent event : events) filter.handle(Operator.MATCH, event);
+    return coalesced;
   }
 
 }

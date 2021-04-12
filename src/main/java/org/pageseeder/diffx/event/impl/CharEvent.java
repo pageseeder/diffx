@@ -18,6 +18,7 @@ package org.pageseeder.diffx.event.impl;
 import java.io.IOException;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
@@ -28,7 +29,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class CharEvent extends DiffXEventBase {
+public final class CharEvent extends DiffXEventBase implements TextEvent {
 
   /**
    * The character associated with this event.
@@ -80,4 +81,8 @@ public final class CharEvent extends DiffXEventBase {
     }
   }
 
+  @Override
+  public String getCharacters() {
+    return Character.toString(this.c);
+  }
 }
