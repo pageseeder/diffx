@@ -193,12 +193,12 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+(X)-(Y)</a>",
-        "<a>-(Y)+(X)</a>"
+        "<a>+X-Y</a>",
+        "<a>-Y+X</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-(X)+(Y)</a>",
-        "<a>+(Y)-(X)</a>"
+        "<a>-X+Y</a>",
+        "<a>+Y-X</a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
@@ -219,8 +219,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_ModifiedTextB() throws IOException, DiffXException {
     String xml1 = "<a>X </a>";
     String xml2 = "<a>X</a>";
-    String exp1 = "<a>X+( )</a>";
-    String exp2 = "<a>X-( )</a>";
+    String exp1 = "<a>X+ </a>";
+    String exp2 = "<a>X- </a>";
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
@@ -243,8 +243,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_MoveA() throws IOException, DiffXException {
     String xml1 = "<a><b>x</b><c/></a>";
     String xml2 = "<a><b/><c>x</c></a>";
-    String exp1 = "<a><b>+(x)</b><c>-(x)</c></a>";
-    String exp2 = "<a><b>-(x)</b><c>+(x)</c></a>";
+    String exp1 = "<a><b>+x</b><c>-x</c></a>";
+    String exp2 = "<a><b>-x</b><c>+x</c></a>";
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
@@ -347,8 +347,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_TextElementA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><b>X</b></a>";
-    String exp1 = "<a><b>X</b>+<c>+(Y)+</c></a>";
-    String exp2 = "<a><b>X</b>-<c>-(Y)-</c></a>";
+    String exp1 = "<a><b>X</b>+<c>+Y+</c></a>";
+    String exp2 = "<a><b>X</b>-<c>-Y-</c></a>";
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
@@ -368,8 +368,8 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
   public final void testLevel1_TextElementB() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><c>Y</c></a>";
-    String exp1 = "<a>+<b>+(X)+</b><c>Y</c></a>";
-    String exp2 = "<a>-<b>-(X)-</b><c>Y</c></a>";
+    String exp1 = "<a>+<b>+X+</b><c>Y</c></a>";
+    String exp2 = "<a>-<b>-X-</b><c>Y</c></a>";
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
@@ -444,12 +444,12 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+@(m=x)+(X)-(Y)</a>",
-        "<a>+@(m=x)-(Y)+(X)</a>"
+        "<a>+@(m=x)+X-Y</a>",
+        "<a>+@(m=x)-Y+X</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-@(m=x)-(X)+(Y)</a>",
-        "<a>-@(m=x)+(Y)-(X)</a>"
+        "<a>-@(m=x)-X+Y</a>",
+        "<a>-@(m=x)+Y-X</a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
@@ -467,16 +467,16 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a m='y'>Y</a>";
     String[] exp1 = new String[]{
-        "<a>+@(m=x)-@(m=y)+(X)-(Y)</a>",
-        "<a>+@(m=x)-@(m=y)-(Y)+(X)</a>",
-        "<a>-@(m=y)+@(m=x)+(X)-(Y)</a>",
-        "<a>-@(m=y)+@(m=x)-(Y)+(X)</a>"
+        "<a>+@(m=x)-@(m=y)+X-Y</a>",
+        "<a>+@(m=x)-@(m=y)-Y+X</a>",
+        "<a>-@(m=y)+@(m=x)+X-Y</a>",
+        "<a>-@(m=y)+@(m=x)-Y+X</a>"
     };
     String[] exp2 = new String[]{
-        "<a>-@(m=x)+@(m=y)-(X)+(Y)</a>",
-        "<a>-@(m=x)+@(m=y)+(Y)-(X)</a>",
-        "<a>+@(m=y)-@(m=x)-(X)+(Y)</a>",
-        "<a>+@(m=y)-@(m=x)+(Y)-(X)</a>"
+        "<a>-@(m=x)+@(m=y)-X+Y</a>",
+        "<a>-@(m=x)+@(m=y)+Y-X</a>",
+        "<a>+@(m=y)-@(m=x)-X+Y</a>",
+        "<a>+@(m=y)-@(m=x)+Y-X</a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);

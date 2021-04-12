@@ -91,8 +91,9 @@ public final class TestHandler implements DiffHandler {
     if (e instanceof LineEvent) return "L" + ((LineEvent) e).getLineNumber();
     // a text event
     if (e instanceof TextEvent) {
-      if (operator != Operator.MATCH) return "("+((TextEvent) e).getCharacters()+")";
-      return ((TextEvent) e).getCharacters();
+      String chars = ((TextEvent) e).getCharacters();
+      if (operator != Operator.MATCH && chars.length() > 1) return "("+chars+")";
+      return chars;
     }
     if (e instanceof CharEvent) {
       return Character.toString(((CharEvent) e).getChar());

@@ -112,8 +112,8 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_SplitMergeA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
-    String exp1 = "<a><b>X-( )-(Y)</b>+( )+<b>+(Y)+</b></a>";
-    String exp2 = "<a><b>X+( )+(Y)</b>-( )-<b>-(Y)-</b></a>";
+    String exp1 = "<a><b>X- -Y</b>+ +<b>+Y+</b></a>";
+    String exp2 = "<a><b>X+ +Y</b>- -<b>-Y-</b></a>";
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
@@ -131,12 +131,12 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
     // split
     String[] exp1 = new String[]{
         "<a><b>X+</b> +<b>Y</b></a>",               // tags inserted
-        "<a><b>X-( )-(Y)</b>+( )+<b>+(Y)+</b></a>"  // text has moved
+        "<a><b>X- -Y</b>+ +<b>+Y+</b></a>"  // text has moved
     };
     // merge
     String[] exp2 = new String[]{
         "<a><b>X-</b> -<b>Y</b></a>",               // tags removed
-        "<a><b>X+( )+(Y)</b>-( )-<b>-(Y)-</b></a>"  // text has moved
+        "<a><b>X+ +Y</b>- -<b>-Y-</b></a>"  // text has moved
     };
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
@@ -152,8 +152,8 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_MovedBranch() throws IOException, DiffXException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-(A)-</b>-</a></b>+<a>+<b>+(A)+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+(A)+</b>+</a></b>-<a>-<b>-(A)-</b>-</a><b>N</b></a>";
+    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
@@ -221,8 +221,8 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_MoveB() throws IOException, DiffXException {
     String xml1 = "<a><b>x y</b><c/></a>";
     String xml2 = "<a><b/><c>x y</c></a>";
-    String exp1 = "<a><b>+(x)+( )+(y)</b><c>-(x)-( )-(y)</c></a>";
-    String exp2 = "<a><b>-(x)-( )-(y)</b><c>+(x)+( )+(y)</c></a>";
+    String exp1 = "<a><b>+x+ +y</b><c>-x- -y</c></a>";
+    String exp2 = "<a><b>-x- -y</b><c>+x+ +y</c></a>";
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
@@ -242,8 +242,8 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_ModifiedTextC() throws IOException, DiffXException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X</a>";
-    String exp1 = "<a>X+( )+(Y)</a>";
-    String exp2 = "<a>X-( )-(Y)</a>";
+    String exp1 = "<a>X+ +Y</a>";
+    String exp2 = "<a>X- -Y</a>";
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
@@ -258,8 +258,8 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_TextElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
     String xml2 = "<a><b>W X</b></a>";
-    String exp1 = "<a><b>W X</b>+<c>+(Y)+( )+(Z)+</c></a>";
-    String exp2 = "<a><b>W X</b>-<c>-(Y)-( )-(Z)-</c></a>";
+    String exp1 = "<a><b>W X</b>+<c>+Y+ +Z+</c></a>";
+    String exp2 = "<a><b>W X</b>-<c>-Y- -Z-</c></a>";
     assertDiffXMLWordsOK(xml1, xml2, exp1);
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }

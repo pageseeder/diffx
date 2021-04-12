@@ -98,12 +98,12 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     String[] exp1 = new String[] {
-        "<a><b>X-( Y)</b>+( )+<b>+(Y)+</b></a>",
-        "<a>+<b>+(X)+</b>+( )<b>-(X)-( Y)+(Y)</b></a>"
+        "<a><b>X-( Y)</b>+ +<b>+Y+</b></a>",
+        "<a>+<b>+X+</b>+ <b>-X-( Y)+Y</b></a>"
     };
     String[] exp2 = new String[] {
-        "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>",
-        "<a>-<b>-(X)-</b>-( )<b>+(X)-(Y)+( Y)</b></a>"
+        "<a><b>X+( Y)</b>- -<b>-Y-</b></a>",
+        "<a>-<b>-X-</b>- <b>+X-Y+( Y)</b></a>"
     };
     assertDiffXMLProgOK(xml1, xml2, exp1);
     assertDiffXMLProgOK(xml2, xml1, exp2);
@@ -122,15 +122,15 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
     // split
     String[] exp1 = new String[]{
         "<a><b>X+</b> +<b>Y</b></a>",               // tags inserted
-        "<a><b>X-( Y)</b>+( )+<b>+(Y)+</b></a>",    // text has moved
-        "<a>+<b>+(X)+</b>+( )<b>+(Y)-(X Y)</b></a>",
-        "<a>+<b>+(X)+</b>+( )<b>-(X)-( Y)+(Y)</b></a>"
+        "<a><b>X-( Y)</b>+ +<b>+Y+</b></a>",    // text has moved
+        "<a>+<b>+X+</b>+ <b>+Y-(X Y)</b></a>",
+        "<a>+<b>+X+</b>+ <b>-X-( Y)+Y</b></a>"
     };
     // merge
     String[] exp2 = new String[]{
         "<a><b>X-</b> -<b>Y</b></a>",                   // tags removed
-        "<a><b>X+( Y)</b>-( )-<b>-(Y)-</b></a>",        // text has moved
-        "<a>-<b>-(X)-</b>-( )<b>+(X)-(Y)+( Y)</b></a>"
+        "<a><b>X+( Y)</b>- -<b>-Y-</b></a>",        // text has moved
+        "<a>-<b>-X-</b>- <b>+X-Y+( Y)</b></a>"
     };
     assertDiffXMLProgOK(xml1, xml2, exp1);
     assertDiffXMLProgOK(xml2, xml1, exp2);
@@ -140,8 +140,8 @@ public final class ProgressiveXMLProcessorTest extends BaseProcessorLevel1Test {
   public final void testProg_MovedBranch() throws IOException, DiffXException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-(A)-</b>-</a></b>+<a>+<b>+(A)+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+(A)+</b>+</a></b>-<a>-<b>-(A)-</b>-</a><b>N</b></a>";
+    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
     assertDiffXMLProgOK(xml1, xml2, exp1);
     assertDiffXMLProgOK(xml2, xml1, exp2);
   }

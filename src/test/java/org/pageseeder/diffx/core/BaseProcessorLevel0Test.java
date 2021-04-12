@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.DiffHandler;
@@ -26,6 +27,7 @@ import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
+import org.pageseeder.diffx.test.TestHandler;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -659,7 +661,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     List<CharEvent> seq2 = Events.toCharEvents(text2);
     DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionHandler af = new ActionHandler();
-    CharTestHandler cf = new CharTestHandler();
+    TestHandler cf = new TestHandler();
 
     // Run the diff
     algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
@@ -697,24 +699,9 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
-      System.err.print(action.events().stream().map((event) -> ((CharEvent) event).getChar()).collect(Collectors.toList()));
+      System.err.print(action.events().stream().map((event) -> ((TextEvent) event).getCharacters()).collect(Collectors.toList()));
     }
     System.err.println();
-  }
-
-  private static final class CharTestHandler implements DiffHandler {
-
-    StringBuilder out = new StringBuilder();
-
-    @Override
-    public void handle(Operator operator, DiffXEvent event) throws IllegalStateException {
-      if (operator == Operator.INS || operator == Operator.DEL) out.append(operator);
-      out.append(((CharEvent) event).getChar());
-    }
-
-    String getOutput() {
-      return this.out.toString();
-    }
   }
 
 }
