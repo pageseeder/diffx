@@ -1,5 +1,5 @@
 plugins {
-  id "com.jfrog.bintray" version "1.7"
+  id "io.codearte.nexus-staging" version "0.30.0"
 }
 
 group       = 'org.pageseeder.diffx'
@@ -8,7 +8,7 @@ description = "$title"
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply from: 'gradle/publishing.gradle'
+apply from: 'gradle/publish-mavencentral.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -24,8 +24,8 @@ repositories {
 
 dependencies {
 
-  compile 'org.pageseeder.xmlwriter:pso-xmlwriter:1.0.+'
+  implementation 'org.pageseeder.xmlwriter:pso-xmlwriter:1.0.+'
 
-  testCompile'junit:junit:4.12'
+  testImplementation 'junit:junit:4.12'
 
 }
