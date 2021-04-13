@@ -15,10 +15,7 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Provides a mapping of namespace URIs to prefixes.
@@ -28,33 +25,21 @@ import java.util.Map;
  * <p>Note that for each namespace URI there can only be one prefix.
  *
  * @author Christophe Lauret
- * @version 12 May 2010
  *
+ * @version 0.9.0
  * @since 0.7
  */
-public final class PrefixMapping {
+public final class PrefixMapping extends AbstractCollection<Namespace> implements Collection<Namespace> {
 
   /**
-   * Maps namespace URIs to prefixes.
+   * Maps namespace URIs to namespace instances.
    */
-  private final Map<String, String> mapping = new HashMap<>();
+  private final Map<String, Namespace> namespacesByUri = new HashMap<>();
 
   /**
-   * Add the specified mappings if the namespace URI has not been mapped before.
-   *
-   * <p>This method will ensure that the mappings are actually unique, that is that
-   * the namespace URI correspond to one and only one prefix and that the prefix only
-   * corresponds to one and only one namespace URI.
-   *
-   * @param other more mappings (can be null)
+   * Maps prefixes to namespace instances.
    */
-  public void add(PrefixMapping other) {
-    if (other != null) {
-      for (Map.Entry<String, String> mapping : other.mapping.entrySet()) {
-        add(mapping.getKey(), mapping.getValue());
-      }
-    }
-  }
+  private final Map<String, Namespace> namespacesByPrefix = new HashMap<>();
 
   /**
    * Add the specified mapping if the namespace URI has not been mapped before.
@@ -68,41 +53,122 @@ public final class PrefixMapping {
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
-  public void add(String uri, String prefix) throws NullPointerException {
-    if (!this.mapping.containsKey(uri)) {
-      int count = 0;
+  public boolean add(String uri, String prefix) throws NullPointerException {
+    assert uri != null;
+    assert prefix != null;
+    if (!this.namespacesByUri.containsKey(uri)) {
+      int count = 1;
       String actualPrefix = prefix;
-      while (this.mapping.containsValue(actualPrefix)) {
-        actualPrefix = prefix + count++;
+      while (this.namespacesByPrefix.containsKey(actualPrefix)) {
+        actualPrefix = (prefix.isEmpty() ? "ns" : prefix) + count++;
       }
-      this.mapping.put(uri, actualPrefix);
+      Namespace namespace = new Namespace(uri, actualPrefix);
+      this.namespacesByUri.put(uri, namespace);
+      this.namespacesByPrefix.put(actualPrefix, namespace);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Add the specified mappings if the namespace URI has not been mapped before.
+   */
+  @Override
+  public boolean add(Namespace namespace) {
+    return add(namespace.getUri(), namespace.getPrefix());
+  }
+
+  /**
+   * Clears the prefix mapping.
+   */
+  @Override
+  public void clear() {
+    this.namespacesByUri.clear();
+    this.namespacesByPrefix.clear();
+  }
+
+  /**
+   * Returns the size of the
+   */
+  @Override
+  public int size() {
+    return this.namespacesByUri.size();
+  }
+
+  /**
+   * Add the specified mappings if the namespace URI has not been mapped before.
+   *
+   * <p>This method will ensure that the mappings are actually unique, that is that
+   * the namespace URI correspond to one and only one prefix and that the prefix only
+   * corresponds to one and only one namespace URI.
+   *
+   * @param other more mappings (can be null)
+   */
+  public void add(PrefixMapping other) {
+    if (other != null) {
+      for (Namespace namespace : other) {
+        add(namespace);
+      }
     }
   }
 
   /**
-   * Returns an enumeration of the namespace URIs used in this mapping.
-   *
-   * @return An enumeration of the namespace URIs used in this mapping.
+   * @return An iterator over the URIs used in this mapping.
    */
-  public Enumeration<String> getURIs() {
-    return Collections.enumeration(this.mapping.keySet());
+  @Override
+  public Iterator<Namespace> iterator() {
+    return Collections.unmodifiableCollection(this.namespacesByUri.values()).iterator();
+  }
+
+  /**
+   * @return the prefix mapping as a map.
+   */
+  public Map<String, String> toMap() {
+    Map<String,String> map = new HashMap<>(this.namespacesByUri.values().size());
+    this.namespacesByUri.values().forEach(namespace -> map.put(namespace.getUri(), namespace.getPrefix()));
+    return map;
   }
 
   /**
    * Returns the prefix corresponding to the given namespace URI.
    *
-   * @param uri The namespace URI to map.
+   * @param uri The namespace URI.
    *
-   * @return The corresponding prefix.
+   * @return The corresponding prefix or <code>null</code> if not mapped.
    */
   public String getPrefix(String uri) {
-    return uri == null? "" : this.mapping.get(uri);
+    Namespace namespace = this.namespacesByUri.get(uri);
+    return namespace != null ? namespace.getPrefix() : null;
+  }
+
+  /**
+   * Returns the prefix corresponding to the given namespace URI.
+   *
+   * @param prefix The namespace prefix.
+   *
+   * @return The corresponding URI or <code>null</code> if not mapped.
+   */
+  public String getUri(String prefix) {
+    Namespace namespace = this.namespacesByPrefix.get(prefix);
+    return namespace != null ? namespace.getUri() : null;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    PrefixMapping mapping = (PrefixMapping) o;
+    return this.namespacesByUri.equals(mapping.namespacesByUri);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.namespacesByUri.values());
   }
 
   @Override
   public String toString() {
-    return "PrefixMapping{" +
-        "mapping=" + mapping +
-        '}';
+    return "PrefixMapping{" + this.namespacesByUri.values() + '}';
   }
+
 }

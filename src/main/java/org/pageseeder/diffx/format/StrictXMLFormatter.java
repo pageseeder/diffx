@@ -28,6 +28,7 @@ import org.pageseeder.diffx.event.OpenElementEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 import org.pageseeder.diffx.event.impl.WordEvent;
+import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
 
@@ -374,9 +375,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    */
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-      String uri = uris.nextElement();
-      mapping.getPrefix(uri);
+    for (Namespace namespace : mapping) {
       // TODO: does nothing !!!
     }
   }

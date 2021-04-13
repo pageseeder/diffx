@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.util;
 
+import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
@@ -42,9 +43,8 @@ public final class Formatting {
     xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
     xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
     if (mapping != null) {
-      for (Enumeration<String> uris = mapping.getURIs(); uris.hasMoreElements();) {
-        String uri = uris.nextElement();
-        xml.setPrefixMapping(uri, mapping.getPrefix(uri));
+      for (Namespace namespace : mapping) {
+        xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
       }
     }
   }

@@ -22,6 +22,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.impl.*;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.xml.sax.InputSource;
 
@@ -29,7 +30,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Enumeration;
 
 /**
  * Base test class for the XML recorders.
@@ -404,9 +404,8 @@ public abstract class XMLRecorderTest {
       pw2.flush();
       System.err.println("* Prefix Mapping:");
       PrefixMapping mapping = seq.getPrefixMapping();
-      for (Enumeration e = mapping.getURIs(); e.hasMoreElements(); ) {
-        String uri = (String) e.nextElement();
-        System.err.println(uri + " -> " + mapping.getPrefix(uri));
+      for (Namespace namespace : mapping) {
+        System.err.println(namespace.getUri() + " -> " + namespace.getPrefix());
       }
       throw ex;
     }
