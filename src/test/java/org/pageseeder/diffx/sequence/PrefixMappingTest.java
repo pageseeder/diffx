@@ -168,6 +168,74 @@ public class PrefixMappingTest {
   }
 
   @Test
+  public void testReplaceEmpty() {
+    Namespace replacement = new Namespace("https://ns.example", "ns-bis");
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.replace(replacement);
+    Assert.assertEquals(1, mapping.size());
+    Assert.assertTrue(mapping.contains(replacement));
+    Assert.assertEquals("https://ns.example", mapping.getUri("ns-bis"));
+    Assert.assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
+  }
+
+  @Test
+  public void testReplaceUri() {
+    Namespace namespace = new Namespace("https://ns.example", "ns");
+    Namespace replacement = new Namespace("https://ns.example", "ns-bis");
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(namespace);
+    mapping.replace(replacement);
+    Assert.assertEquals(1, mapping.size());
+    Assert.assertFalse(mapping.contains(namespace));
+    Assert.assertTrue(mapping.contains(replacement));
+    Assert.assertEquals("https://ns.example", mapping.getUri("ns-bis"));
+    Assert.assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
+    Assert.assertNull(mapping.getUri("ns"));
+  }
+
+  @Test
+  public void testReplacePrefix() {
+    Namespace namespace = new Namespace("https://os.example", "ns");
+    Namespace replacement = new Namespace("https://ns.example", "ns");
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(namespace);
+    mapping.replace(replacement);
+    Assert.assertEquals(2, mapping.size());
+    Assert.assertFalse(mapping.contains(namespace));
+    Assert.assertTrue(mapping.contains(replacement));
+    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
+    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    Assert.assertNotNull(mapping.getPrefix("https://os.example"));
+  }
+
+  @Test
+  public void testReplaceDefault1() {
+    Namespace replacement = new Namespace("https://ns.example", "");
+    PrefixMapping mapping = PrefixMapping.noNamespace();
+    mapping.replace(replacement);
+    Assert.assertEquals(1, mapping.size());
+    Assert.assertTrue(mapping.contains(replacement));
+    Assert.assertEquals("https://ns.example", mapping.getUri(""));
+    Assert.assertEquals("", mapping.getPrefix("https://ns.example"));
+    Assert.assertNull(mapping.getPrefix(""));
+  }
+
+  @Test
+  public void testReplaceDefault2() {
+    Namespace namespace = new Namespace("https://default.example", "");
+    Namespace replacement = new Namespace("https://ns.example", "");
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(namespace);
+    mapping.replace(replacement);
+    Assert.assertEquals(2, mapping.size());
+    Assert.assertFalse(mapping.contains(namespace));
+    Assert.assertTrue(mapping.contains(replacement));
+    Assert.assertEquals("https://ns.example", mapping.getUri(""));
+    Assert.assertEquals("", mapping.getPrefix("https://ns.example"));
+    Assert.assertNotNull(mapping.getPrefix("https://default.example"));
+  }
+
+  @Test
   public void testClear() {
     PrefixMapping mapping = new PrefixMapping();
     mapping.add("https://ns1.example", "ns1");

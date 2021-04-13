@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.sequence;
 
+import javax.naming.Name;
+import javax.xml.XMLConstants;
 import java.util.*;
 
 /**
@@ -53,6 +55,18 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
   }
 
   /**
+   * Merge two prefix mapping and return a new prefix mapping
+   *
+   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
+   * prefixes, the prefix from first mapping is used.</p>
+   *
+   * @return a new prefix mapping including namespaces from both mappings
+   */
+  public static PrefixMapping noNamespace() {
+    return new PrefixMapping(Namespace.NO_NAMESPACE);
+  }
+
+  /**
    * Add the specified mapping if the namespace URI has not been mapped before.
    *
    * <p>This method will ensure that the mapping is actually unique, that is that
@@ -87,6 +101,58 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
   @Override
   public boolean add(Namespace namespace) {
     return add(namespace.getUri(), namespace.getPrefix());
+  }
+
+  /**
+   * Add the specified mapping if the namespace URI has not been mapped before.
+   *
+   * <p>This method will ensure that the mapping is actually unique, that is that
+   * the namespace URI correspond to one and only one prefix and that the prefix only
+   * corresponds to one and only one namespace URI.
+   *
+   * @param uri    The namespace URI to map.
+   * @param prefix The prefix to use.
+   *
+   * @throws NullPointerException if the URI or prefix is <code>null</code>
+   */
+  public Namespace replace(String uri, String prefix) throws NullPointerException {
+    return this.replace(new Namespace(uri, prefix));
+  }
+
+  /**
+   * Add the specified mapping if the namespace URI has not been mapped before.
+   *
+   * <p>This method will ensure that the mapping is actually unique, that is that
+   * the namespace URI correspond to one and only one prefix and that the prefix only
+   * corresponds to one and only one namespace URI.
+   *
+   * @param namespace The namespace declaration to replace.
+   *
+   * @return the previous namespace mapped to this URI
+   *
+   * @throws NullPointerException if the URI or prefix is <code>null</code>
+   */
+  public Namespace replace(Namespace namespace) throws NullPointerException {
+    if (contains(namespace)) return namespace;
+    // Always replace the mapping for namespace URI directly
+    Namespace previous = this.namespacesByUri.put(namespace.getUri(), namespace);
+    if (previous != null) {
+      // If previously mapped we must removed the old prefix mapping
+      this.namespacesByPrefix.remove(previous.getPrefix());
+    }
+    Namespace matching = this.namespacesByPrefix.put(namespace.getPrefix(), namespace);
+    if (matching != null) {
+      // If previously mapped we must removed the old prefix mapping
+      this.namespacesByUri.remove(matching.getUri());
+    }
+    // But if prefix already used, we need too remap but we cannot remap the null namespace
+    if (matching != null && !matching.getUri().equals(XMLConstants.NULL_NS_URI)) {
+      // By adding it again, it will get a new prefix
+      add(matching);
+    }
+    System.err.println(this.namespacesByUri);
+    System.err.println(this.namespacesByPrefix);
+    return previous;
   }
 
   /**
@@ -193,16 +259,5 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
     return mapping;
   }
 
-  /**
-   * Merge two prefix mapping and return a new prefix mapping
-   *
-   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
-   * prefixes, the prefix from first mapping is used.</p>
-   *
-   * @return a new prefix mapping including namespaces from both mappings
-   */
-  public static PrefixMapping noNamespace() {
-    return new PrefixMapping(Namespace.NO_NAMESPACE);
-  }
 
 }

@@ -78,32 +78,32 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * The factory that will produce events according to the configuration.
    */
-  private transient EventFactory efactory;
+  private EventFactory efactory;
 
   /**
    * The text tokenizer used by this recorder.
    */
-  private transient TextTokenizer tokenizer;
+  private TextTokenizer tokenizer;
 
   /**
    * The sequence of event for this recorder.
    */
-  private transient EventSequence sequence;
+  private EventSequence sequence;
 
   /**
    * The sequence of event for this recorder.
    */
-  private transient PrefixMapping mapping;
+  private PrefixMapping mapping;
 
   /**
    * The weight of the current element.
    */
-  private transient int currentWeight = -1;
+  private int currentWeight = -1;
 
   /**
    * The stack of events' weight, should only contain <code>Integer</code>.
    */
-  private transient List<Integer> weights = new ArrayList<>();
+  private List<Integer> weights = new ArrayList<>();
 
   /**
    * Indicates whether the given document is a fragment.
@@ -115,7 +115,7 @@ public final class DOMRecorder implements XMLRecorder {
    * <p>This option indicates that the recorder should try to generate the prefix mapping without
    * the declaration.
    */
-  private transient boolean isFragment = true;
+  private boolean isFragment = true;
 
   // methods ----------------------------------------------------------------------------------------
 
@@ -139,8 +139,9 @@ public final class DOMRecorder implements XMLRecorder {
 
   @Override
   public EventSequence process(File file) throws LoadingException, IOException {
-    InputStream in = new BufferedInputStream(new FileInputStream(file));
-    return process(new InputSource(in));
+    try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+      return process(new InputSource(in));
+    }
   }
 
   @Override
@@ -363,7 +364,8 @@ public final class DOMRecorder implements XMLRecorder {
   private void load(AttributeEvent e) {
     // a namespace declaration, translate the event into a prefix mapping
     if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(e.getURI())) {
-      this.sequence.mapPrefix(e.getValue(), e.getName());
+      // FIXME Handle default namespace declaration on root element
+      this.sequence.addNamespace(e.getValue(), e.getName());
 
       // a regular attribute
     } else {

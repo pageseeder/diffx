@@ -27,7 +27,7 @@ import org.pageseeder.diffx.event.DiffXEvent;
  * access and modify the content of the list using strongly typed methods.
  *
  * <p>Implementation note: we use an <code>ArrayList</code> to store the events because some algorithms
- * need random access. Other list implementations may dramatically affect performance.</p>
+ * need random access. Other list implementations may affect performance.</p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -145,8 +145,6 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   }
 
   /**
-   * The size of the sequence.
-   *
    * @return The number of events in the sequence.
    */
   public int size() {
@@ -154,17 +152,15 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   }
 
   /**
-   * Returns a event iterator for this list.
-   *
+   * @deprecated Use {@link #iterator()}
    * @return The event iterator for this sequence.
    */
+  @Deprecated
   public EventIterator eventIterator() {
     return new EventIterator(this.events.iterator());
   }
 
   /**
-   * Returns the sequence of events.
-   *
    * @return the sequence of events.
    */
   public List<DiffXEvent> events() {
@@ -233,6 +229,8 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   /**
    * Maps a namespace URI to a prefix.
    *
+   * @deprecated Use {@link #addNamespace(String, String)}
+   *
    * @see PrefixMapping#add(String, String)
    *
    * @param uri    The namespace URI to map.
@@ -240,7 +238,45 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
+  @Deprecated
   public void mapPrefix(String uri, String prefix) throws NullPointerException {
+    this.prefixMapping.add(uri, prefix);
+  }
+
+  /**
+   * Maps a namespace URI to a prefix.
+   *
+   * <p>The replace element is usually used for the document element in order to override the
+   * default namespace.</p>
+   *
+   * @see PrefixMapping#add(String, String)
+   * @see PrefixMapping#replace(String, String)
+   *
+   * @param uri     The namespace URI to map.
+   * @param prefix  The prefix to use.
+   * @param replace Whether to replace the namespace
+   *
+   * @throws NullPointerException if the URI or prefix is <code>null</code>
+   */
+  public void addNamespace(String uri, String prefix, boolean replace) throws NullPointerException {
+    if (replace) {
+      this.prefixMapping.replace(uri, prefix);
+    } else {
+      this.prefixMapping.add(uri, prefix);
+    }
+  }
+
+  /**
+   * Maps a namespace URI to a prefix.
+   *
+   * @see PrefixMapping#add(String, String)
+   *
+   * @param uri    The namespace URI to map.
+   * @param prefix The prefix to use.
+   *
+   * @throws NullPointerException if the URI or prefix is <code>null</code>
+   */
+  public void addNamespace(String uri, String prefix) throws NullPointerException {
     this.prefixMapping.add(uri, prefix);
   }
 

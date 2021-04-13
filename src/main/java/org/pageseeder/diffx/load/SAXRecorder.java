@@ -35,6 +35,7 @@ import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Namespace;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -251,7 +252,7 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * A buffer for character data.
      */
-    private final StringBuffer ch = new StringBuffer();
+    private final StringBuilder ch = new StringBuilder();
 
     /**
      * The comparator in order to sort attribute correctly.
@@ -288,12 +289,15 @@ public final class SAXRecorder implements XMLRecorder {
       SAXRecorder.this.sequence = new EventSequence();
       this.efactory = new EventFactory(SAXRecorder.this.config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
-      SAXRecorder.this.sequence.mapPrefix(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
+      SAXRecorder.this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
+      SAXRecorder.this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
     }
 
     @Override
     public void startPrefixMapping(String prefix, String uri) {
-      SAXRecorder.this.sequence.mapPrefix(uri, prefix);
+      // For the root element only, we may replace the mapping to the default prefix
+      // (this method is called BEFORE the start element)
+      SAXRecorder.this.sequence.addNamespace(uri, prefix, this.openElements.isEmpty());
     }
 
     @Override
