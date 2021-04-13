@@ -21,6 +21,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
@@ -200,10 +201,10 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   public final void testLevel2_Temp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
     String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
-    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+//    String exp1 = "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>";
+//    String exp2 = "<a>+<x:b>+X+</x:b>-<b>-X-</b></a>";
+    assertDiffXMLWordsOK(xml1, xml2);
+    assertDiffXMLWordsOK(xml2, xml1);
   }
 
   /**
@@ -269,6 +270,11 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
   // helpers
   // --------------------------------------------------------------------------
 
+  private void assertDiffXMLWordsOK(String xml1, String xml2)
+      throws IOException, DiffXException {
+    assertDiffXMLWordsOK(xml1, xml2, new String[0]);
+  }
+
   private void assertDiffXMLWordsOK(String xml1, String xml2, String exp)
       throws IOException, DiffXException {
     assertDiffXMLWordsOK(xml1, xml2, new String[]{exp});
@@ -279,14 +285,17 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
     // Record XML
     EventSequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.WORD);
     EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
+    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
     List<Action> actions = diffToActions(seq1.events(), seq2.events());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
-      DiffAssertions.assertIsWellFormedXML(actions);
-      DiffAssertions.assertMatchTestOutput(actions, exp);
+      DiffAssertions.assertIsWellFormedXML(actions, mapping);
+      if (exp.length > 0) {
+        DiffAssertions.assertMatchTestOutput(actions, exp, mapping);
+      }
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions), actions);
+      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, mapping), actions);
       throw ex;
     }
   }

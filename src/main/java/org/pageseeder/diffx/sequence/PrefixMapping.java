@@ -171,4 +171,33 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
     return "PrefixMapping{" + this.namespacesByUri.values() + '}';
   }
 
+  /**
+   * Merge two prefix mapping and return a new prefix mapping
+   *
+   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
+   * prefixes, the prefix from first mapping is used.</p>
+   *
+   * @return a new prefix mapping including namespaces from both mappings
+   */
+  public static PrefixMapping merge(PrefixMapping a, PrefixMapping b) {
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(a);
+    mapping.add(b);
+    return mapping;
+  }
+
+  /**
+   * Merge two prefix mapping and return a new prefix mapping
+   *
+   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
+   * prefixes, the prefix from first mapping is used.</p>
+   *
+   * @return a new prefix mapping including namespaces from both mappings
+   */
+  public static PrefixMapping noNamespace() {
+    PrefixMapping mapping = new PrefixMapping();
+    mapping.add(Namespace.NO_NAMESPACE);
+    return mapping;
+  }
+
 }

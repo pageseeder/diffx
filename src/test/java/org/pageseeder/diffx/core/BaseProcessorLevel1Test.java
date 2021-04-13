@@ -22,6 +22,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
@@ -689,16 +690,14 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     // Record XML
     EventSequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.TEXT);
     EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.TEXT);
-    System.err.println(seq1.getPrefixMapping());
-    System.err.println(seq2.getPrefixMapping());
-    seq1.getPrefixMapping().add(seq2.getPrefixMapping());
+    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
 
     // Process as list of actions
     List<Action> actions = diffToActions(seq1.events(), seq2.events());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
-      DiffAssertions.assertIsWellFormedXML(actions, seq1.getPrefixMapping());
-      DiffAssertions.assertMatchTestOutput(actions, exp);
+      DiffAssertions.assertIsWellFormedXML(actions, mapping);
+      DiffAssertions.assertMatchTestOutput(actions, exp, mapping);
     } catch (AssertionError ex) {
       printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, seq1.getPrefixMapping()), actions);
       throw ex;

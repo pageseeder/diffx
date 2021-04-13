@@ -21,6 +21,7 @@ import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.event.impl.LineEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 
 import java.io.IOException;
 
@@ -37,6 +38,8 @@ import java.io.IOException;
  */
 public final class TestHandler implements DiffHandler {
 
+  private final PrefixMapping mapping;
+
   /**
    * Where the output goes.
    */
@@ -46,6 +49,15 @@ public final class TestHandler implements DiffHandler {
    * Creates a new test formatter
    */
   public TestHandler() {
+    this.mapping = PrefixMapping.noNamespace();
+    this.out = new StringBuilder();
+  }
+
+  /**
+   * Creates a new test formatter
+   */
+  public TestHandler(PrefixMapping mapping) {
+    this.mapping = mapping;
     this.out = new StringBuilder();
   }
 
@@ -54,7 +66,7 @@ public final class TestHandler implements DiffHandler {
    */
   public void handle(Operator operator, DiffXEvent event) {
     if (operator != Operator.MATCH) out.append(operator.toString());
-    out.append(toSimpleString(operator, event));
+    out.append(toSimpleString(operator, event, this.mapping));
   }
 
   /**
@@ -78,29 +90,59 @@ public final class TestHandler implements DiffHandler {
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toSimpleString(Operator operator, DiffXEvent e) {
+    return toSimpleString(operator, e, PrefixMapping.noNamespace());
+  }
+
+  /**
+   * Returns a simple representation for each code event.
+   *
+   * <p>This method will return <code>null</code> if it does not know how to format it.
+   *
+   * @param e The event to format
+   * @return Its 'abstract' representation or <code>null</code>.
+   */
+  public static String toSimpleString(Operator operator, DiffXEvent e, PrefixMapping mapping) {
     // an element to open
-    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
+    if (e instanceof OpenElementEvent) {
+      OpenElementEvent open = (OpenElementEvent)e;
+      return '<' + getQName(open.getURI(), open.getName(), mapping) + '>';
+    }
     // an element to close
-    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
+    if (e instanceof CloseElementEvent) {
+      CloseElementEvent close = (CloseElementEvent)e;
+      return "</" + getQName(close.getURI(), close.getName(), mapping) + '>';
+    }
     // an element
-    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
+    if (e instanceof ElementEvent) {
+      ElementEvent element = (ElementEvent)e;
+      return '<' + getQName(element.getURI(), element.getName(), mapping) + "/>";
+    }
     // an attribute
-    if (e instanceof AttributeEvent)
+    if (e instanceof AttributeEvent) {
       return "@(" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + ')';
+    }
     // a single line
     if (e instanceof LineEvent) return "L" + ((LineEvent) e).getLineNumber();
+    if (e instanceof CharEvent) {
+      return Character.toString(((CharEvent) e).getChar());
+    }
     // a text event
     if (e instanceof TextEvent) {
       String chars = ((TextEvent) e).getCharacters();
       if (operator != Operator.MATCH && chars.length() > 1) return "("+chars+")";
       return chars;
     }
-    if (e instanceof CharEvent) {
-      return Character.toString(((CharEvent) e).getChar());
-    }
     // Anything else?
     return e.toString();
   }
+
+  private static String getQName(String uri, String name, PrefixMapping mapping) {
+    if (uri.isEmpty()) return name;
+    String prefix = mapping.getPrefix(uri);
+    if (prefix == null) prefix = "{"+uri+"}";
+    return prefix.isEmpty() ? name : (prefix+':'+name);
+  }
+
 
   /**
    * @return The output of the handler.

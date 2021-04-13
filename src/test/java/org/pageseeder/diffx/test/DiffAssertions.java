@@ -123,7 +123,16 @@ public final class DiffAssertions {
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp) {
     // check the possible values
-    String output = toTestOutput(actions);
+    String output = toTestOutput(actions, PrefixMapping.noNamespace());
+    for (String s : exp) {
+      if (s.equals(output)) return;
+    }
+    Assert.assertEquals(exp[0], output);
+  }
+
+  public static void assertMatchTestOutput(List<Action> actions, String[] exp, PrefixMapping mapping) {
+    // check the possible values
+    String output = toTestOutput(actions, mapping);
     for (String s : exp) {
       if (s.equals(output)) return;
     }
@@ -136,8 +145,8 @@ public final class DiffAssertions {
    * @param actions Action to handle
    * @return output of the test handler
    */
-  public static String toTestOutput(List<Action> actions) {
-    TestHandler handler = new TestHandler();
+  public static String toTestOutput(List<Action> actions, PrefixMapping mapping) {
+    TestHandler handler = new TestHandler(mapping);
     Actions.handle(actions, handler);
     return handler.getOutput();
   }
