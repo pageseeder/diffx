@@ -41,6 +41,17 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    */
   private final Map<String, Namespace> namespacesByPrefix = new HashMap<>();
 
+  public PrefixMapping() {
+  }
+
+  /**
+   * Create a new prefix mapping with the specified namespace.
+   */
+  public PrefixMapping(Namespace namespace) {
+    this.namespacesByUri.put(namespace.getUri(), namespace);
+    this.namespacesByPrefix.put(namespace.getPrefix(), namespace);
+  }
+
   /**
    * Add the specified mapping if the namespace URI has not been mapped before.
    *
@@ -102,14 +113,10 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    * the namespace URI correspond to one and only one prefix and that the prefix only
    * corresponds to one and only one namespace URI.
    *
-   * @param other more mappings (can be null)
+   * @param other more mappings
    */
   public void add(PrefixMapping other) {
-    if (other != null) {
-      for (Namespace namespace : other) {
-        add(namespace);
-      }
-    }
+    this.addAll(other);
   }
 
   /**
@@ -195,9 +202,7 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    * @return a new prefix mapping including namespaces from both mappings
    */
   public static PrefixMapping noNamespace() {
-    PrefixMapping mapping = new PrefixMapping();
-    mapping.add(Namespace.NO_NAMESPACE);
-    return mapping;
+    return new PrefixMapping(Namespace.NO_NAMESPACE);
   }
 
 }
