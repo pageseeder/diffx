@@ -1,3 +1,7 @@
+plugins {
+  id "io.codearte.nexus-staging" version "0.30.0"
+}
+
 group       = 'org.pageseeder.diffx'
 version     = file('version.txt').text
 description = "$title"
@@ -5,15 +9,6 @@ description = "$title"
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply from: 'gradle/publish-mavencentral.gradle'
-
-buildscript {
-  repositories {
-    maven { url "https://plugins.gradle.org/m2/" }
-  }
-  dependencies {
-    classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0'
-  }
-}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
