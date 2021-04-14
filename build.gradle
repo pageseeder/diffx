@@ -18,8 +18,9 @@ tasks.withType(JavaCompile) {
 }
 
 repositories {
-  maven { url 'http://dl.bintray.com/pageseeder/maven' }
-  jcenter()
+  mavenCentral {
+    url = uri("https://maven-central.storage.googleapis.com/maven2")
+  }
 }
 
 dependencies {
