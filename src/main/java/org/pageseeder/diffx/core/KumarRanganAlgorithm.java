@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.DiffHandler;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 

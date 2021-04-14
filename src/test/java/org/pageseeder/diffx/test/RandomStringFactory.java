@@ -8,7 +8,7 @@ public class RandomStringFactory {
 
   String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
 
-  private char[] vocabulary;
+  private final char[] vocabulary;
 
   public RandomStringFactory() {
     this.vocabulary = LOWER_ALPHA.toCharArray();
@@ -19,7 +19,7 @@ public class RandomStringFactory {
   }
 
   public char nextChar() {
-    return (char) (this.vocabulary[R.nextInt(this.vocabulary.length)]);
+    return this.vocabulary[R.nextInt(this.vocabulary.length)];
   }
 
   /**

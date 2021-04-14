@@ -187,7 +187,6 @@ public abstract class BaseAlgorithmTest {
    * @param text2 The first XML to compare with diffx.
    * @param exp   The expected result as formatted by the TestFormatter.
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   protected void assertDiffTextOK(String text1, String text2, String[] exp) throws IOException {
     // process the strings

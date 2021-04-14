@@ -100,10 +100,8 @@ public final class IgnorableSpaceEvent implements TextEvent {
   public boolean equals(DiffXEvent e) {
     if (this == e)
       return true;
-    if (e.getClass() != this.getClass())
-      return false;
+    return e.getClass() == this.getClass();
     // always return true
-    return true;
   }
 
   /**

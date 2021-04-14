@@ -55,8 +55,6 @@ public final class ShortStringFormatter implements DiffXFormatter {
    * Creates a new formatter using the specified writer.
    *
    * @param w The writer to use.
-   *
-   * @throws IOException should an I/O exception occurs.
    */
   public ShortStringFormatter(Writer w) {
     this.out = w;

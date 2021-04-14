@@ -141,7 +141,7 @@ public final class TestFormatter implements DiffXFormatter {
     // a white space event
     if (e instanceof SpaceEvent) return "$s{" + ((CharactersEventBase) e).getCharacters() + '}';
     // a single character
-    if (e instanceof CharEvent) return "$c{" + ((CharactersEventBase) e).getCharacters() + '}';
+    if (e instanceof CharEvent) return "$c{" + ((CharEvent) e).getCharacters() + '}';
     // an ignorable space event
     if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
     // a single line

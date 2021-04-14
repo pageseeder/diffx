@@ -15,10 +15,8 @@
  */
 package org.pageseeder.diffx.format;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Enumeration;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.AttributeEvent;

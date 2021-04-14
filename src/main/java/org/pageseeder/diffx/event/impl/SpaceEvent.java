@@ -78,10 +78,10 @@ public final class SpaceEvent extends CharactersEventBase implements TextEvent {
    */
   public static SpaceEvent getInstance(CharSequence space) {
     // check constants
-    if (" ".equals(space))  return SINGLE_WHITESPACE;
-    if ("  ".equals(space)) return DOUBLE_WHITESPACE;
-    if ("\n".equals(space)) return NEW_LINE;
-    if ("\t".equals(space)) return TAB;
+    if (" ".contentEquals(space))  return SINGLE_WHITESPACE;
+    if ("  ".contentEquals(space)) return DOUBLE_WHITESPACE;
+    if ("\n".contentEquals(space)) return NEW_LINE;
+    if ("\t".contentEquals(space)) return TAB;
     // create a new instance
     return new SpaceEvent(space);
   }

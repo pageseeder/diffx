@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import javax.naming.Name;
 import javax.xml.XMLConstants;
 import java.util.*;
 

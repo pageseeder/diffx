@@ -68,7 +68,7 @@ public final class DiffXFitopsy extends DiffXAlgorithmBase {
   /**
    * The state of the elements.
    */
-  private transient ElementState estate = new ElementState();
+  private final ElementState estate = new ElementState();
 
   // constructor --------------------------------------------------------------------------------
 

@@ -271,7 +271,7 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * The stack of weight, should only contain <code>Integer</code>.
      */
-    private List<Integer> weights = new ArrayList<>();
+    private final List<Integer> weights = new ArrayList<>();
 
     /**
      * The factory that will produce events according to the configuration.

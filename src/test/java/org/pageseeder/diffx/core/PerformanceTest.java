@@ -179,8 +179,8 @@ public class PerformanceTest {
       int f = r.nextInt(10);
       String from = getRandomString(100+ f*100, true);
       String to = (r.nextInt(10) < 3)? vary(from, .05) : from;
-      xml1.append("  <p>"+from+"</p>\n");
-      xml2.append("  <p>"+to+"</p>\n");
+      xml1.append("  <p>").append(from).append("</p>\n");
+      xml2.append("  <p>").append(to).append("</p>\n");
     }
     xml1.append("</root>");
     xml2.append("</root>");

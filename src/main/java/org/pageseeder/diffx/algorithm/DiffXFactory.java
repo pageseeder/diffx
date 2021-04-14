@@ -54,7 +54,7 @@ public final class DiffXFactory {
   @SuppressWarnings("unchecked")
   public static DiffXAlgorithm newAlgorithm(String className, EventSequence sequence1, EventSequence sequence2)
       throws FactoryException {
-    DiffXAlgorithm algorithm = null;
+    DiffXAlgorithm algorithm;
     try {
       Class<DiffXAlgorithm> cls = (Class<DiffXAlgorithm>)Class.forName(className);
       Constructor<DiffXAlgorithm> cons = cls.getConstructor(ARGS);

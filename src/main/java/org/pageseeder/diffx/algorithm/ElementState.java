@@ -329,11 +329,9 @@ public final class ElementState {
    *         <code>false</code> otherwise.
    */
   public boolean hasPriorityOver(DiffXEvent e1, DiffXEvent e2) {
-    if (e1 instanceof AttributeEvent
+    return e1 instanceof AttributeEvent
         && !(e2 instanceof AttributeEvent)
-        && !isEmpty())
-      return true;
-    return false;
+        && !isEmpty();
   }
 
   // Stack methods ------------------------------------------------------------------------

@@ -49,7 +49,7 @@ public final class EventSequenceUtils {
     // TODO: if the sequence is null ??
     if (sequence == null) return false;
     Stack<DiffXEvent> open = new Stack<>();
-    DiffXEvent e = null;
+    DiffXEvent e;
     for (int i = 0; i < sequence.size(); i++) {
       e = sequence.getEvent(i);
       if (e instanceof OpenElementEvent) {

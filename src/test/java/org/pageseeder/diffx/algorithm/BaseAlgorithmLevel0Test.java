@@ -346,7 +346,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
 
   private static final class CharTestFormatter implements DiffXFormatter {
 
-    StringBuilder out = new StringBuilder();
+    final StringBuilder out = new StringBuilder();
 
     @Override
     public void format(DiffXEvent event) throws IOException, IllegalStateException {

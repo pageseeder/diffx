@@ -103,7 +103,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * The stack of events' weight, should only contain <code>Integer</code>.
    */
-  private List<Integer> weights = new ArrayList<>();
+  private final List<Integer> weights = new ArrayList<>();
 
   /**
    * Indicates whether the given document is a fragment.

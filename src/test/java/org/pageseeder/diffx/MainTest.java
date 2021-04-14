@@ -25,7 +25,6 @@ import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.test.TestUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -35,6 +34,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -44,7 +44,7 @@ import java.util.Date;
  *
  * <p>All use cases are in:
  * <pre>
- *   /data/com/topologi/diffx/Main/source
+ *   /data/org/pageseeder/diffx/Main/source
  * </pre>
  *
  * <p>To add a new use case:
@@ -64,22 +64,22 @@ public final class MainTest {
   /**
    * The source files to test
    */
-  private static File source = TestUtils.getDataDirectory(Main.class);
+  private static final File source = TestUtils.getDataDirectory(Main.class);
 
   /**
    * The folder containing the results.
    */
-  private static File tmp = TestUtils.getTempDirectory(Main.class);
+  private static final File tmp = TestUtils.getTempDirectory(Main.class);
 
   /**
    * Folder containing the resulting Diff XML.
    */
-  private static File result = new File(tmp, "result");
+  private static final File result = new File(tmp, "result");
 
   /**
    * The diff-X configuration.
    */
-  private static DiffXConfig config = new DiffXConfig();
+  private static final DiffXConfig config = new DiffXConfig();
 
   static {
     config.setWhiteSpaceProcessing(WhiteSpaceProcessing.IGNORE);
@@ -102,8 +102,6 @@ public final class MainTest {
 
   /**
    * Ensures that all required folders are created.
-   *
-   * @throws SAXException If one of the features could not be set.
    */
   @BeforeAll
   public static void setUpFolders() {
@@ -169,10 +167,9 @@ public final class MainTest {
     int x = xml1.getName().compareTo(xml2.getName());
     File rc = new File(result, xml1.getParentFile().getName());
     File out = new File(rc, (x > 0) ? "a-b.xml" : "b-a.xml");
-    Writer diff = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), "utf-8"));
-    info.println("  diff(" + xml1.getParent() + "," + xml2.getParent() + ") -> " + out.getName());
     PrintStream tmp = System.err;
-    try {
+    try (Writer diff = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+      info.println("  diff(" + xml1.getParent() + "," + xml2.getParent() + ") -> " + out.getName());
       long t0 = new Date().getTime();
       System.setErr(info);
 //      Main.diff(xmlr1, xmlr2, diff, config);
@@ -188,7 +185,6 @@ public final class MainTest {
       info.println("It generated the following exception:");
       ex.printStackTrace(info);
     } finally {
-      diff.close();
       info.flush();
     }
     verifyWellFormed(out, info);
@@ -226,9 +222,6 @@ public final class MainTest {
       TestFormatter tf1 = new TestFormatter();
       tf1.format(s);
       info.println(tf1.getOutput());
-    } catch (LoadingException ex) {
-      info.println("Could no print the sequence, because of the following error:");
-      ex.printStackTrace(info);
     } catch (Exception ex) {
       info.println("Could no print the sequence, because of the following error:");
       ex.printStackTrace(info);
@@ -268,8 +261,7 @@ public final class MainTest {
     factory.setNamespaceAware(isNSAware);
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
-      Document document = builder.parse(xml);
-      return document;
+      return builder.parse(xml);
     } catch (Exception ex) {
       ex.printStackTrace();
     }

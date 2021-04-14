@@ -35,7 +35,7 @@ public final class LineRecorderTest {
   /**
    * The recorder being tested.
    */
-  LineRecorder recorder = new LineRecorder();
+  final LineRecorder recorder = new LineRecorder();
 
   /**
    * Tests a simple case.

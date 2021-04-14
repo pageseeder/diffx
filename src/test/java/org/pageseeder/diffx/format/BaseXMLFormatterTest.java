@@ -41,7 +41,7 @@ public abstract class BaseXMLFormatterTest {
   /**
    * The loader being tested.
    */
-  private transient SAXRecorder recorder = new SAXRecorder();
+  private final transient SAXRecorder recorder = new SAXRecorder();
 
   /**
    * The formatter being tested.

@@ -85,7 +85,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   /**
    * The state of the elements.
    */
-  private transient ElementState estate = new ElementState();
+  private final transient ElementState estate = new ElementState();
 
   /**
    * The length of the LCS.

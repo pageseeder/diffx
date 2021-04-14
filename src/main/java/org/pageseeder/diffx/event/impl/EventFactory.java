@@ -37,7 +37,7 @@ public final class EventFactory {
   /**
    * Indicates whether the factory should generate namespace events.
    */
-  private boolean isNamespaceAware;
+  private final boolean isNamespaceAware;
 
   /**
    * Creates a new namespace aware factory for events.

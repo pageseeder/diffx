@@ -51,7 +51,7 @@ public final class StrictXMLFormatterTest {
   /**
    * The loader being tested.
    */
-  private SAXRecorder recorder = new SAXRecorder();
+  private final SAXRecorder recorder = new SAXRecorder();
 
   /**
    * The formatter being tested.

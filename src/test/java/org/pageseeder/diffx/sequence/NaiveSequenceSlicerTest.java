@@ -40,7 +40,7 @@ public final class NaiveSequenceSlicerTest {
   /**
    * The loader used for the tests.
    */
-  private SAXRecorder recorder = new SAXRecorder();
+  private final SAXRecorder recorder = new SAXRecorder();
 
   /**
    * The first sequence.

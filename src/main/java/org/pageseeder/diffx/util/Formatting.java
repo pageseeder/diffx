@@ -19,8 +19,6 @@ import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
-import java.util.Enumeration;
-
 /**
  * The set of constants used in this API.
  *
