@@ -316,14 +316,14 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * Writes any attribute that has not be written.
    *
-   * @param atts The attribute stack.
-   * @param uri  The Namespace URI required
+   * @param attributes The attribute stack.
+   * @param uri        The Namespace URI required
    *
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack<AttributeEvent> atts, String uri) throws IOException {
-    while (!atts.empty()) {
-      AttributeEvent att = atts.pop();
+  private void flushAttributes(Stack<AttributeEvent> attributes, String uri) throws IOException {
+    while (!attributes.empty()) {
+      AttributeEvent att = attributes.pop();
       this.xml.openElement(uri, "attribute", false);
       this.xml.attribute("name", att.getName());
       if (att.getURI() != null) {

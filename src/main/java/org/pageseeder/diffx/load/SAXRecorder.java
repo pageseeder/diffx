@@ -300,7 +300,7 @@ public final class SAXRecorder implements XMLRecorder {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes atts) {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
       recordCharacters();
       if (this.currentWeight > 0) {
         this.weights.add(this.currentWeight);
@@ -309,7 +309,7 @@ public final class SAXRecorder implements XMLRecorder {
       OpenElementEvent open = this.efactory.makeOpenElement(uri, localName, qName);
       this.openElements.add(open);
       SAXRecorder.this.sequence.addEvent(open);
-      handleAttributes(atts);
+      handleAttributes(attributes);
     }
 
     @Override
@@ -385,24 +385,24 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * Handles the attributes, will add them to the sequence in order if any.
      *
-     * @param atts The attributes to handle.
+     * @param attributes The attributes to handle.
      */
-    private void handleAttributes(Attributes atts) {
+    private void handleAttributes(Attributes attributes) {
       // only one attribute
-      if (atts.getLength() == 1) {
-        SAXRecorder.this.sequence.addEvent(this.efactory.makeAttribute(atts.getURI(0),
-            atts.getLocalName(0),
-            atts.getQName(0),
-            atts.getValue(0)));
+      if (attributes.getLength() == 1) {
+        SAXRecorder.this.sequence.addEvent(this.efactory.makeAttribute(attributes.getURI(0),
+            attributes.getLocalName(0),
+            attributes.getQName(0),
+            attributes.getValue(0)));
         // several attributes
-      } else if (atts.getLength() > 1) {
+      } else if (attributes.getLength() > 1) {
         // store all the attributes
-        AttributeEvent[] attEvents = new AttributeEvent[atts.getLength()];
-        for (int i = 0; i < atts.getLength(); i++) {
-          attEvents[i] = this.efactory.makeAttribute(atts.getURI(i),
-              atts.getLocalName(i),
-              atts.getQName(i),
-              atts.getValue(i));
+        AttributeEvent[] attEvents = new AttributeEvent[attributes.getLength()];
+        for (int i = 0; i < attributes.getLength(); i++) {
+          attEvents[i] = this.efactory.makeAttribute(attributes.getURI(i),
+              attributes.getLocalName(i),
+              attributes.getQName(i),
+              attributes.getValue(i));
           attEvents[i].setWeight(2);
           this.currentWeight += 2;
         }

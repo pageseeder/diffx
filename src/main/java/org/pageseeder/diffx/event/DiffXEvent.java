@@ -41,7 +41,7 @@ public interface DiffXEvent extends XMLWritable, XMLFormattable {
   /**
    * Indicates whether the specified event is equal to this event.
    *
-   * @param e The event to compare it with thsi one.
+   * @param e The event to compare it with this one.
    *
    * @return <code>true</code> if considered equals;
    *         <code>false</code> otherwise.

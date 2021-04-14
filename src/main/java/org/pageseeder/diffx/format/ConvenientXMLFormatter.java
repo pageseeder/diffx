@@ -294,14 +294,14 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
   /**
    * Writes any attribute that has not be written.
    *
-   * @param atts The attribute stack.
+   * @param attributes The attribute stack.
    * @param mod The modification flag (positive for inserts, negative for deletes).
    *
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack<AttributeEvent> atts, int mod) throws IOException {
-    while (!atts.empty()) {
-      AttributeEvent att = atts.pop();
+  private void flushAttributes(Stack<AttributeEvent> attributes, int mod) throws IOException {
+    while (!attributes.empty()) {
+      AttributeEvent att = attributes.pop();
       this.xml.openElement(Constants.BASE_NS_URI, mod > 0? "ins" : "del", false);
       this.xml.attribute(att.getURI(), att.getName(), att.getValue());
       this.xml.closeElement();

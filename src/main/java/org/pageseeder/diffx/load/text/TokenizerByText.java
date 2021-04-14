@@ -27,7 +27,7 @@ import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
 import org.pageseeder.diffx.event.impl.SpaceEvent;
 
 /**
- * The tokeniser for characters events.
+ * The tokenizer for characters events.
  *
  * <p>This class is not synchronized.
  *

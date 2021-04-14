@@ -79,7 +79,7 @@ public final class NaiveSequenceSlicer {
   /**
    * Slices the start of both sequences.
    *
-   * <p>The common start sequence will be stroed in the class until the next
+   * <p>The common start sequence will be stored in the class until the next
    * {@link #formatStart(DiffXFormatter)} is called.
    *
    * @return The number of common elements at the start of the sequences.

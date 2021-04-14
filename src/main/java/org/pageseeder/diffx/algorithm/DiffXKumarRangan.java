@@ -209,7 +209,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
       position2 = this.R2[j - 1] - 1;
 
       // The real index in the global char table is current_index * sign + beginning
-      // index of the subchararray
+      // index of the sub-char array
       while (position2 > lower2 && !this.sequence1.getEvent((i - 1) * sign + start1)
           .equals(this.sequence2.getEvent((position2 - 1) * sign + start2))) {
         position2--;
@@ -237,7 +237,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param end2   The last index of the second sequence.
    * @param m      The length of the first sequence.
    * @param n      The length of the second sequence.
-   * @param sign   This is used to mark wether to start from the beginning of the string
+   * @param sign   This is used to mark whether to start from the beginning of the string
    *               or from the end of the string.
    * @param waste  The length of characters not included in the LCS between indexes start1 and end1.
    *               Similarly between indexes start2 and end2.
@@ -267,7 +267,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param m      The length of the first sequence.
    * @param n      The length of the second sequence.
    * @param lcs    The length of LCS between indexes start1 and end1.
-   *                Similarly between indexes b_start and b-loppu. (???)
+   *                Similarly between indexes b_start and b_end.
    *
    * @throws IOException If thrown by the formatter
    */

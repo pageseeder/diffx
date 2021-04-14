@@ -276,21 +276,21 @@ public final class DOMRecorder implements XMLRecorder {
     }
 
     this.sequence.addEvent(open);
-    NamedNodeMap atts = element.getAttributes();
+    NamedNodeMap attributes = element.getAttributes();
     // only 1 attribute, just load it
-    if (atts.getLength() == 1) {
-      load((Attr)atts.item(0));
+    if (attributes.getLength() == 1) {
+      load((Attr)attributes.item(0));
       // TODO: also use URI
-    } else if (atts.getLength() > 1) {
+    } else if (attributes.getLength() > 1) {
       // several attributes sort them in alphabetical order
-      String[] names = new String[atts.getLength()];
-      for (int i = 0; i < atts.getLength(); i++) {
-        Attr attr = (Attr)atts.item(i);
+      String[] names = new String[attributes.getLength()];
+      for (int i = 0; i < attributes.getLength(); i++) {
+        Attr attr = (Attr)attributes.item(i);
         names[i] = attr.getName();
       }
       Arrays.sort(names);
       for (String name : names) {
-        load((Attr)atts.getNamedItem(name));
+        load((Attr)attributes.getNamedItem(name));
       }
     }
     // load all the child nodes

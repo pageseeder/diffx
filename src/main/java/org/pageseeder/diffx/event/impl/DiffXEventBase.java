@@ -23,7 +23,7 @@ import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
  * A base class for DiffX events.
  *
  * <p>
- * This class is purely provided for convenience and consistency, it is best, althouhg not strictly
+ * This class is purely provided for convenience and consistency, it is best, although not strictly
  * required, that most <code>DiffXEvent</code> implementations extend this class.
  *
  * @author Christophe Lauret

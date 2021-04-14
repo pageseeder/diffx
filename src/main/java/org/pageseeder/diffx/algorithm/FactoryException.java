@@ -32,7 +32,7 @@ public final class FactoryException extends DiffXException {
   private static final long serialVersionUID = -4029990831933233646L;
 
   /**
-   * Creates a new factory exception wrapping an occuring exception.
+   * Creates a new factory exception wrapping an occurring exception.
    *
    * @param ex The exception to be wrapped.
    */

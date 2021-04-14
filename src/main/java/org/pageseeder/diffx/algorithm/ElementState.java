@@ -134,7 +134,7 @@ public final class ElementState {
    * Searches for the first occurrence of the given argument, testing
    * for equality using the <code>equals</code> method.
    *
-   * @param element The open elemnt to find.
+   * @param element The open element to find.
    *
    * @return The index of the first occurrence of the argument in this list;
    *         returns <code>-1</code if the object is not found.

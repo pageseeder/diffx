@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.config;
 
 /**
- * Defines how should be tokenised and compared.
+ * Defines how should be tokenized and compared.
  *
  * @author Christophe Lauret
  * @version 10 May 2010

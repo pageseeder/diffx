@@ -228,7 +228,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param endB   The last index of the second sequence.
      * @param m      The length of the first sequence.
      * @param n      The length of the second sequence.
-     * @param sign   This is used to mark wether to start from the beginning of the string
+     * @param sign   This is used to mark whether to start from the beginning of the string
      *               or from the end of the string.
      */
     private void fillOne(int startA, int endA, int startB, int endB, int m, int n, int sign) {
@@ -242,7 +242,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         int posB = this.R2[j - 1] - 1;
 
         // The real index in the global char table is:
-        // current_index * sign + beginning index of the subchararray
+        // current_index * sign + beginning index of the sub-char array
         while (posB > lowerB && !this.first.get((i - 1) * sign + startA)
             .equals(this.second.get((posB - 1) * sign + startB))) {
           posB--;
