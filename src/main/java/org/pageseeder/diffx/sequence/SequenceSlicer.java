@@ -106,8 +106,8 @@ public final class SequenceSlicer {
     this.start = new EventSequence();
     int toBeRemoved = 0; // the number of events to be removed
     int depth = 0;       // the depth of the XML or number of open elements
-    Iterator<DiffXEvent> i = this.sequence1.eventIterator();
-    Iterator<DiffXEvent> j = this.sequence2.eventIterator();
+    Iterator<DiffXEvent> i = this.sequence1.iterator();
+    Iterator<DiffXEvent> j = this.sequence2.iterator();
     int counter = 0;
     // calculate the max possible index for slicing.
     while (i.hasNext() && j.hasNext()) {

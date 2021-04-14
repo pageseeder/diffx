@@ -142,7 +142,7 @@ public class SequenceFolding {
 
   private static class Folder {
 
-    OpenElementEvent open;
+    final OpenElementEvent open;
 
     private final List<DiffXEvent> children = new ArrayList<>();
 

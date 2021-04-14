@@ -152,22 +152,11 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   }
 
   /**
-   * @deprecated Use {@link #iterator()}
-   * @return The event iterator for this sequence.
-   */
-  @Deprecated
-  public EventIterator eventIterator() {
-    return new EventIterator(this.events.iterator());
-  }
-
-  /**
    * @return the sequence of events.
    */
   public List<DiffXEvent> events() {
     return this.events;
   }
-
-  // Object methods -----------------------------------------------------------------------------
 
   @Override
   public int hashCode() {
