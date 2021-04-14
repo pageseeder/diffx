@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
@@ -613,7 +614,7 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         + "line #3\n";
     String exp = "L1L2L3";
     String diff = processDiffLines(text1, text2);
-    Assert.assertEquals(exp, diff);
+    assertEquals(exp, diff);
   }
 
   /**
@@ -715,7 +716,7 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
         ok = ok || s.equals(diffout);
       }
       if (!ok)
-        Assert.assertEquals(exp[0], diffout);
+        assertEquals(exp[0], diffout);
     } catch (AssertionError ex) {
       //printErrorDetails(text1, text2, exp);
       throw ex;

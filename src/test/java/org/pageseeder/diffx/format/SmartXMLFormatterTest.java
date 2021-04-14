@@ -15,9 +15,10 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.AttributeEventNSImpl;
 import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
@@ -55,7 +56,7 @@ public final class SmartXMLFormatterTest {
    */
   StringWriter w = null;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     this.w = new StringWriter();
     this.formatter = new SmartXMLFormatter(this.w);
@@ -176,8 +177,8 @@ public final class SmartXMLFormatterTest {
     Reader xmlr2 = new StringReader(this.w.toString());
     EventSequence seq = this.recorder.process(new InputSource(xmlr2));
     try {
-      Assert.assertEquals(exp.size(), seq.size());
-      Assert.assertEquals(exp, seq);
+      assertEquals(exp.size(), seq.size());
+      assertEquals(exp, seq);
     } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);

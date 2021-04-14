@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.impl.*;

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 
 import java.io.IOException;

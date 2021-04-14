@@ -15,7 +15,9 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
 import org.pageseeder.diffx.event.impl.OpenElementEventNSImpl;
@@ -26,8 +28,6 @@ import org.xml.sax.InputSource;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test case for the sequence slicer.

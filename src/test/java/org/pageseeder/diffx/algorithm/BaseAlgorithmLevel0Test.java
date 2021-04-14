@@ -15,12 +15,11 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.core.BaseProcessorTest;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.format.DiffXFormatter;

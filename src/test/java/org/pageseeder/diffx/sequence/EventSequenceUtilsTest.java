@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXRecorder;
 
@@ -40,7 +41,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxDepth1() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a/>");
     int max = EventSequenceUtils.getMaxDepth(seq);
-    Assert.assertEquals(1, max);
+    assertEquals(1, max);
   }
 
   /**
@@ -53,7 +54,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxDepth2() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><a/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
-    Assert.assertEquals(2, max);
+    assertEquals(2, max);
   }
 
   /**
@@ -66,7 +67,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxDepth3() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><b/><b/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
-    Assert.assertEquals(2, max);
+    assertEquals(2, max);
   }
 
   /**
@@ -79,7 +80,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxDepth4() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><b><c/></b><b/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
-    Assert.assertEquals(3, max);
+    assertEquals(3, max);
   }
 
   /**
@@ -92,7 +93,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxElementContent0() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a/>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
-    Assert.assertEquals(0, max);
+    assertEquals(0, max);
   }
 
   /**
@@ -105,7 +106,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxElementContent1() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a>x</a>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
-    Assert.assertEquals(1, max);
+    assertEquals(1, max);
   }
 
   /**
@@ -118,7 +119,7 @@ public final class EventSequenceUtilsTest {
   public void testMaxElementContent2() throws IOException, LoadingException {
     EventSequence seq = new SAXRecorder().process("<a>x y</a>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
-    Assert.assertEquals(3, max);
+    assertEquals(3, max);
   }
 
 }

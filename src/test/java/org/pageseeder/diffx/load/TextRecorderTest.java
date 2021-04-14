@@ -15,14 +15,15 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.LineEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for the text recorder.
@@ -50,7 +51,7 @@ public final class TextRecorderTest {
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("line 1", 1));
     exp.addEvent(new LineEvent("line2", 2));
-    assertEquals(exp, text);
+    assertEqualsXML(exp, text);
   }
 
   /**
@@ -70,7 +71,7 @@ public final class TextRecorderTest {
     exp.addEvent(new LineEvent("line #2", 2));
     exp.addEvent(new LineEvent("line #3", 3));
     exp.addEvent(new LineEvent("line #4", 4));
-    assertEquals(exp, text);
+    assertEqualsXML(exp, text);
   }
 
   /**
@@ -90,7 +91,7 @@ public final class TextRecorderTest {
     exp.addEvent(new LineEvent("", 2));
     exp.addEvent(new LineEvent("line #3", 3));
     exp.addEvent(new LineEvent("line #4", 4));
-    assertEquals(exp, text);
+    assertEqualsXML(exp, text);
   }
 
   /**
@@ -108,7 +109,7 @@ public final class TextRecorderTest {
     String text = "<a>XX</a>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("<a>XX</a>", 1));
-    assertEquals(exp, text);
+    assertEqualsXML(exp, text);
   }
 
   /**
@@ -122,7 +123,7 @@ public final class TextRecorderTest {
     String text = "&lt;";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("&lt;", 1));
-    assertEquals(exp, text);
+    assertEqualsXML(exp, text);
   }
 
   /**
@@ -136,7 +137,7 @@ public final class TextRecorderTest {
     String xml = "&#x8012;";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("&#x8012;", 1));
-    assertEquals(exp, xml);
+    assertEqualsXML(exp, xml);
   }
 
 // helpers ------------------------------------------------------------------------------------
@@ -149,12 +150,12 @@ public final class TextRecorderTest {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  private void assertEquals(EventSequence exp, String xml) throws IOException, DiffXException {
+  private void assertEqualsXML(EventSequence exp, String xml) throws IOException, DiffXException {
     // process the strings
     EventSequence seq = this.recorder.process(xml);
     try {
-      Assert.assertEquals(exp.size(), seq.size());
-      Assert.assertEquals(exp, seq);
+      assertEquals(exp.size(), seq.size());
+      assertEquals(exp, seq);
     } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);

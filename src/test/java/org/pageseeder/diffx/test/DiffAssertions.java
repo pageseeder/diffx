@@ -15,7 +15,8 @@
  */
 package org.pageseeder.diffx.test;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
@@ -25,7 +26,6 @@ import org.pageseeder.diffx.event.impl.CloseElementEventImpl;
 import org.pageseeder.diffx.event.impl.OpenElementEventImpl;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.pageseeder.diffx.util.Formatting;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -48,7 +48,7 @@ public final class DiffAssertions {
    * Ensure that the list of actions is applicable to the specified sequences.
    */
   public static void assertIsApplicable(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2, List<Action> actions) {
-    Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1, seq2, actions));
+    assertTrue(Actions.isApplicable(seq1, seq2, actions), "The resulting diff is not applicable");
   }
 
   /**
@@ -58,12 +58,12 @@ public final class DiffAssertions {
     // Apply to second sequence to ensure we get the first
     String got1 = Events.toXML(Actions.generate(actions, true));
     String exp1 = Events.toXML(seq1);
-    Assert.assertEquals("Applying diff to #2 did not produce #1 ", exp1, got1);
+    assertEquals(exp1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
     String got2 = Events.toXML(Actions.generate(actions, false));
     String exp2 = Events.toXML(seq2);
-    Assert.assertEquals("Applying diff to #1 did not produce #2 ", exp2, got2);
+    assertEquals(exp2, got2, "Applying diff to #1 did not produce #2");
   }
 
 
@@ -74,12 +74,12 @@ public final class DiffAssertions {
     // Apply to second sequence to ensure we get the first
     String got1 = Events.toXML(Actions.generate(actions, true), a.getPrefixMapping());
     String exp1 = Events.toXML(a.events(), a.getPrefixMapping());
-    Assert.assertEquals("Applying diff to #2 did not produce #1 ", exp1, got1);
+    assertEquals(exp1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
     String got2 = Events.toXML(Actions.generate(actions, false), b.getPrefixMapping());
     String exp2 = Events.toXML(b.events(), b.getPrefixMapping());
-    Assert.assertEquals("Applying diff to #1 did not produce #2 ", exp2, got2);
+    assertEquals(exp2, got2, "Applying diff to #1 did not produce #2");
   }
 
   public static void assertIsWellFormedXML(List<Action> actions) {
@@ -127,7 +127,7 @@ public final class DiffAssertions {
     for (String s : exp) {
       if (s.equals(output)) return;
     }
-    Assert.assertEquals(exp[0], output);
+    assertEquals(exp[0], output);
   }
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp, PrefixMapping mapping) {
@@ -136,7 +136,7 @@ public final class DiffAssertions {
     for (String s : exp) {
       if (s.equals(output)) return;
     }
-    Assert.assertEquals(exp[0], output);
+    assertEquals(exp[0], output);
   }
 
   /**

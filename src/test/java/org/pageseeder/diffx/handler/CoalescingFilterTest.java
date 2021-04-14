@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.handler;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.event.TextEvent;
@@ -38,35 +39,35 @@ public class CoalescingFilterTest {
   @Test
   public void testCoalesceEmpty() {
     TextEvent got = CoalescingFilter.coalesceText(Collections.emptyList());
-    Assert.assertEquals("", got.getCharacters());
+    assertEquals("", got.getCharacters());
   }
 
   @Test
   public void testCoalesceSingle1() {
     TextEvent space = new SpaceEvent(" ");
     TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(space));
-    Assert.assertSame(space, got);
+    assertSame(space, got);
   }
 
   @Test
   public void testCoalesceSingle2() {
     TextEvent text = new CharactersEvent("A big cat");
     TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(text));
-    Assert.assertSame(text, got);
+    assertSame(text, got);
   }
 
   @Test
   public void testCoalesceSingle3() {
     TextEvent word = new WordEvent("cat");
     TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(word));
-    Assert.assertSame(word, got);
+    assertSame(word, got);
   }
 
   @Test
   public void testCoalesceMultiple1() {
     List<TextEvent> events = Events.toTextEvents("A", " ", "big", " ", "cat!");
     TextEvent got = CoalescingFilter.coalesceText(events);
-    Assert.assertEquals("A big cat!", got.getCharacters());
+    assertEquals("A big cat!", got.getCharacters());
   }
 
   @Test
@@ -159,7 +160,7 @@ public class CoalescingFilterTest {
   }
 
   private void assertEquivalentOperations(List<Operation> exp, List<Operation> got) {
-    Assert.assertEquals(normalizeOperations(exp), normalizeOperations(got));
+    assertEquals(normalizeOperations(exp), normalizeOperations(got));
   }
 
   private static List<Operation> normalizeOperations(List<Operation> operations) {

@@ -1,12 +1,11 @@
 package org.pageseeder.diffx.format;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
-import org.pageseeder.diffx.core.DiffProcessor;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.test.Events;
@@ -57,7 +56,7 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml.toString());
+    System.out.println(xml);
   }
 
   private static void printConvenientXMLFormatter(List<Operation> operations) throws IOException {
@@ -66,7 +65,7 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml.toString());
+    System.out.println(xml);
   }
 
   private static void printSafeXMLFormatter(List<Operation> operations) throws IOException {
@@ -75,7 +74,7 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml.toString());
+    System.out.println(xml);
   }
 
   private static void printSmartXMLFormatter(List<Operation> operations) throws IOException {
@@ -84,7 +83,7 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml.toString());
+    System.out.println(xml);
   }
 
   private static void printStrictXMLFormatter(List<Operation> operations) throws IOException {
@@ -93,7 +92,7 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml.toString());
+    System.out.println(xml);
   }
 
 }

@@ -15,7 +15,9 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
@@ -23,9 +25,6 @@ import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
 import org.pageseeder.diffx.event.impl.WordEvent;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test case for the tokenizer.
@@ -39,10 +38,10 @@ public final class TokenizerByWordTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNull() {
     TextTokenizer t = new TokenizerByWord(WhiteSpaceProcessing.IGNORE);
-    t.tokenize(null);
+    assertThrows(NullPointerException.class, () -> t.tokenize(null));
   }
 
   /**

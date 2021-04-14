@@ -1,8 +1,7 @@
 package org.pageseeder.diffx.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
@@ -11,16 +10,12 @@ import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class PerformanceTest {
 
-  private static final DiffHandler VOID_HANDLER = new DiffHandler() {
-    @Override
-    public void handle(Operator operator, DiffXEvent event) {}
-  };
+  private static final DiffHandler VOID_HANDLER = (operator, event) -> {};
 
   @Test
   public void compareRandomString_1000_10() throws IOException {

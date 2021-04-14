@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharactersEvent;
@@ -23,7 +23,7 @@ import org.pageseeder.diffx.event.impl.SpaceEvent;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test case for the tokenizer.
@@ -37,10 +37,10 @@ public final class TokenizerByCharTest {
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNull() {
     TokenizerByChar t = new TokenizerByChar();
-    t.tokenize(null);
+    assertThrows(NullPointerException.class, () -> t.tokenize(null));
   }
 
   @Test

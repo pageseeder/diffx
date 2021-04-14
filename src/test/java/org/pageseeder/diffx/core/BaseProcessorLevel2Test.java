@@ -15,11 +15,10 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.test.DiffAssertions;

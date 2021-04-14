@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
@@ -92,7 +92,7 @@ public final class MainTest {
    *
    * @throws SAXException If one of the features could not be set.
    */
-  @BeforeClass
+  @BeforeAll
   public static void setUpXMLReader() throws SAXException {
     reader = XMLReaderFactory.createXMLReader();
     reader.setFeature("http://xml.org/sax/features/validation", false);
@@ -105,7 +105,7 @@ public final class MainTest {
    *
    * @throws SAXException If one of the features could not be set.
    */
-  @BeforeClass
+  @BeforeAll
   public static void setUpFolders() {
     if (!result.exists()) result.mkdirs();
   }

@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.impl.*;
@@ -390,8 +391,8 @@ public abstract class XMLRecorderTest {
     this.recorder = makeXMLRecorder(config);
     EventSequence seq = this.recorder.process(new InputSource(xmlr));
     try {
-      Assert.assertEquals(exp.size(), seq.size());
-      Assert.assertEquals(exp, seq);
+      assertEquals(exp.size(), seq.size());
+      assertEquals(exp, seq);
     } catch (AssertionError ex) {
       System.err.println("_____________");
       System.err.println("* Expected:");

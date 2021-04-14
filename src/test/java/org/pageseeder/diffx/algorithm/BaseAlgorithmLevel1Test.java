@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 
 import java.io.IOException;
@@ -585,7 +586,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
         + "line #3\n";
     String exp = "$L1$L2$L3";
     String diff = processDiffText(text1, text2);
-    Assert.assertEquals(exp, diff);
+    assertEquals(exp, diff);
   }
 
   /**

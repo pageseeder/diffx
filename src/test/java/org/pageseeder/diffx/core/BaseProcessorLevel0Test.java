@@ -15,22 +15,18 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
-import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,14 +1,10 @@
 package org.pageseeder.diffx.core;
 
-import org.junit.Assert;
 import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
-import org.pageseeder.diffx.test.TestHandler;
 
-import java.io.IOException;
 import java.util.List;
 
 public abstract class BaseProcessorTest {
@@ -18,7 +14,7 @@ public abstract class BaseProcessorTest {
    */
   public abstract DiffAlgorithm getDiffAlgorithm();
 
-  public List<Action> diffToActions(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2) throws IOException {
+  public List<Action> diffToActions(List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2) {
     DiffAlgorithm processor = getDiffAlgorithm();
     ActionHandler handler = new ActionHandler();
     processor.diff(seq1, seq2, handler);

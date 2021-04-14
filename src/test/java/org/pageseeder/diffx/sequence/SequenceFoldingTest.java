@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.xml.sax.InputSource;
@@ -30,63 +31,63 @@ public class SequenceFoldingTest {
   public void testEmpty() throws IOException {
     EventSequence sequence = new EventSequence();
     EventSequence out = SequenceFolding.forAllElements().fold(sequence);
-    Assert.assertEquals(0, out.size());
+    assertEquals(0, out.size());
   }
 
   @Test
-  public void testSimple() throws IOException {
+  public void testSimple() {
     EventSequence sequence = getSequence("<a/>");
     EventSequence out = SequenceFolding.forAllElements().fold(sequence);
-    Assert.assertEquals(1, out.size());
+    assertEquals(1, out.size());
   }
 
   @Test
-  public void testSimple1a() throws IOException {
+  public void testSimple1a() {
     EventSequence sequence = getSequence("<a><b/></a>");
     EventSequence out = SequenceFolding.forAllElements().fold(sequence);
-    Assert.assertEquals(1, out.size());
+    assertEquals(1, out.size());
   }
 
   @Test
-  public void testSimple1b() throws IOException {
+  public void testSimple1b() {
     EventSequence sequence = getSequence("<a><b/></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"a"}).fold(sequence);
-    Assert.assertEquals(1, out.size());
+    assertEquals(1, out.size());
   }
 
   @Test
-  public void testSimple1c() throws IOException {
+  public void testSimple1c() {
     EventSequence sequence = getSequence("<a><b/></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"b"}).fold(sequence);
-    Assert.assertEquals(3, out.size());
+    assertEquals(3, out.size());
   }
 
   @Test
-  public void testDeep1a() throws IOException {
+  public void testDeep1a() {
     EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"a"}).fold(sequence);
-    Assert.assertEquals(1, out.size());
+    assertEquals(1, out.size());
   }
 
   @Test
-  public void testDeep1b() throws IOException {
+  public void testDeep1b() {
     EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"b"}).fold(sequence);
-    Assert.assertEquals(3, out.size());
+    assertEquals(3, out.size());
   }
 
   @Test
-  public void testDeep1c() throws IOException {
+  public void testDeep1c() {
     EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"c"}).fold(sequence);
-    Assert.assertEquals(5, out.size());
+    assertEquals(5, out.size());
   }
 
   @Test
-  public void testDeep1d() throws IOException {
+  public void testDeep1d() {
     EventSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
     EventSequence out = SequenceFolding.forElements(new String[]{"d"}).fold(sequence);
-    Assert.assertEquals(7, out.size());
+    assertEquals(7, out.size());
   }
 
   private static EventSequence getSequence(String xml) {

@@ -15,39 +15,40 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class PrefixMappingTest {
 
   @Test
   public void testEmpty() {
     PrefixMapping mapping = new PrefixMapping();
-    Assert.assertTrue(mapping.isEmpty());
-    Assert.assertEquals(0, mapping.size());
-    Assert.assertFalse(mapping.iterator().hasNext());
-    Assert.assertNull(mapping.getUri("ns"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://ns.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertTrue(mapping.isEmpty());
+    assertEquals(0, mapping.size());
+    assertFalse(mapping.iterator().hasNext());
+    assertNull(mapping.getUri("ns"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://ns.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
   public void testAddSingle() {
     PrefixMapping mapping = new PrefixMapping();
     mapping.add("https://ns.example", "ns");
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertTrue(mapping.iterator().hasNext());
-    Assert.assertEquals(new Namespace("https://ns.example", "ns"), mapping.iterator().next());
+    assertFalse(mapping.isEmpty());
+    assertEquals(1, mapping.size());
+    assertTrue(mapping.iterator().hasNext());
+    assertEquals(new Namespace("https://ns.example", "ns"), mapping.iterator().next());
     // Match
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
-    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    assertEquals("https://ns.example", mapping.getUri("ns"));
+    assertEquals("ns", mapping.getPrefix("https://ns.example"));
     // No Match
-    Assert.assertNull(mapping.getUri("test"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("test"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -55,20 +56,20 @@ public class PrefixMappingTest {
     PrefixMapping mapping = new PrefixMapping();
     Namespace namespace = new Namespace("https://ns.example", "ns");
     boolean added = mapping.add(namespace);
-    Assert.assertTrue(added);
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertTrue(mapping.contains(namespace));
-    Assert.assertTrue(mapping.iterator().hasNext());
-    Assert.assertEquals(namespace, mapping.iterator().next());
+    assertTrue(added);
+    assertFalse(mapping.isEmpty());
+    assertEquals(1, mapping.size());
+    assertTrue(mapping.contains(namespace));
+    assertTrue(mapping.iterator().hasNext());
+    assertEquals(namespace, mapping.iterator().next());
     // Match
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
-    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    assertEquals("https://ns.example", mapping.getUri("ns"));
+    assertEquals("ns", mapping.getPrefix("https://ns.example"));
     // No match
-    Assert.assertNull(mapping.getUri("test"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("test"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -77,20 +78,20 @@ public class PrefixMappingTest {
     mapping.add("https://ns1.example", "ns1");
     mapping.add("https://ns2.example", "ns2");
     mapping.add("https://ns3.example", "ns3");
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(3, mapping.size());
-    Assert.assertTrue(mapping.iterator().hasNext());
-    Assert.assertEquals("https://ns1.example", mapping.getUri("ns1"));
-    Assert.assertEquals("https://ns2.example", mapping.getUri("ns2"));
-    Assert.assertEquals("https://ns3.example", mapping.getUri("ns3"));
-    Assert.assertEquals("ns1", mapping.getPrefix("https://ns1.example"));
-    Assert.assertEquals("ns2", mapping.getPrefix("https://ns2.example"));
-    Assert.assertEquals("ns3", mapping.getPrefix("https://ns3.example"));
+    assertFalse(mapping.isEmpty());
+    assertEquals(3, mapping.size());
+    assertTrue(mapping.iterator().hasNext());
+    assertEquals("https://ns1.example", mapping.getUri("ns1"));
+    assertEquals("https://ns2.example", mapping.getUri("ns2"));
+    assertEquals("https://ns3.example", mapping.getUri("ns3"));
+    assertEquals("ns1", mapping.getPrefix("https://ns1.example"));
+    assertEquals("ns2", mapping.getPrefix("https://ns2.example"));
+    assertEquals("ns3", mapping.getPrefix("https://ns3.example"));
     // No match
-    Assert.assertNull(mapping.getUri("test"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("test"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -100,20 +101,20 @@ public class PrefixMappingTest {
     Namespace override = new Namespace("https://ns.example", "os");
     boolean added = mapping.add(namespace);
     boolean overridden = mapping.add(override);
-    Assert.assertTrue(added);
-    Assert.assertFalse(overridden);
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertTrue(mapping.contains(namespace));
-    Assert.assertTrue(mapping.iterator().hasNext());
+    assertTrue(added);
+    assertFalse(overridden);
+    assertFalse(mapping.isEmpty());
+    assertEquals(1, mapping.size());
+    assertTrue(mapping.contains(namespace));
+    assertTrue(mapping.iterator().hasNext());
     // Match
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
-    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    assertEquals("https://ns.example", mapping.getUri("ns"));
+    assertEquals("ns", mapping.getPrefix("https://ns.example"));
     // No match
-    Assert.assertNull(mapping.getUri("os"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("os"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -123,24 +124,24 @@ public class PrefixMappingTest {
     Namespace override = new Namespace("https://os.example", "ns");
     boolean added = mapping.add(namespace);
     boolean overridden = mapping.add(override);
-    Assert.assertTrue(added);
-    Assert.assertTrue(overridden);
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(2, mapping.size());
-    Assert.assertTrue(mapping.contains(namespace));
-    Assert.assertFalse(mapping.contains(override));
-    Assert.assertTrue(mapping.iterator().hasNext());
+    assertTrue(added);
+    assertTrue(overridden);
+    assertFalse(mapping.isEmpty());
+    assertEquals(2, mapping.size());
+    assertTrue(mapping.contains(namespace));
+    assertFalse(mapping.contains(override));
+    assertTrue(mapping.iterator().hasNext());
     // Match
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
-    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
-    Assert.assertNotNull(mapping.getPrefix("https://os.example"));
+    assertEquals("https://ns.example", mapping.getUri("ns"));
+    assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    assertNotNull(mapping.getPrefix("https://os.example"));
     String newPrefix = mapping.getPrefix("https://os.example");
-    Assert.assertEquals("https://os.example", mapping.getUri(newPrefix));
+    assertEquals("https://os.example", mapping.getUri(newPrefix));
     // No match
-    Assert.assertNull(mapping.getUri("test"));
-    Assert.assertNull(mapping.getUri(""));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("test"));
+    assertNull(mapping.getUri(""));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -150,21 +151,21 @@ public class PrefixMappingTest {
     Namespace override = new Namespace("https://os.example", "");
     mapping.add(namespace);
     mapping.add(override);
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(2, mapping.size());
-    Assert.assertTrue(mapping.contains(namespace));
-    Assert.assertFalse(mapping.contains(override));
-    Assert.assertTrue(mapping.iterator().hasNext());
+    assertFalse(mapping.isEmpty());
+    assertEquals(2, mapping.size());
+    assertTrue(mapping.contains(namespace));
+    assertFalse(mapping.contains(override));
+    assertTrue(mapping.iterator().hasNext());
     // Match
-    Assert.assertEquals("https://ns.example", mapping.getUri(""));
-    Assert.assertEquals("", mapping.getPrefix("https://ns.example"));
-    Assert.assertNotNull(mapping.getPrefix("https://os.example"));
+    assertEquals("https://ns.example", mapping.getUri(""));
+    assertEquals("", mapping.getPrefix("https://ns.example"));
+    assertNotNull(mapping.getPrefix("https://os.example"));
     String newPrefix = mapping.getPrefix("https://os.example");
-    Assert.assertEquals("https://os.example", mapping.getUri(newPrefix));
+    assertEquals("https://os.example", mapping.getUri(newPrefix));
     // No match
-    Assert.assertNull(mapping.getUri("test"));
-    Assert.assertNull(mapping.getPrefix("https://test.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertNull(mapping.getUri("test"));
+    assertNull(mapping.getPrefix("https://test.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -172,10 +173,10 @@ public class PrefixMappingTest {
     Namespace replacement = new Namespace("https://ns.example", "ns-bis");
     PrefixMapping mapping = new PrefixMapping();
     mapping.replace(replacement);
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertTrue(mapping.contains(replacement));
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns-bis"));
-    Assert.assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
+    assertEquals(1, mapping.size());
+    assertTrue(mapping.contains(replacement));
+    assertEquals("https://ns.example", mapping.getUri("ns-bis"));
+    assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
   }
 
   @Test
@@ -185,12 +186,12 @@ public class PrefixMappingTest {
     PrefixMapping mapping = new PrefixMapping();
     mapping.add(namespace);
     mapping.replace(replacement);
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertFalse(mapping.contains(namespace));
-    Assert.assertTrue(mapping.contains(replacement));
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns-bis"));
-    Assert.assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
-    Assert.assertNull(mapping.getUri("ns"));
+    assertEquals(1, mapping.size());
+    assertFalse(mapping.contains(namespace));
+    assertTrue(mapping.contains(replacement));
+    assertEquals("https://ns.example", mapping.getUri("ns-bis"));
+    assertEquals("ns-bis", mapping.getPrefix("https://ns.example"));
+    assertNull(mapping.getUri("ns"));
   }
 
   @Test
@@ -200,12 +201,12 @@ public class PrefixMappingTest {
     PrefixMapping mapping = new PrefixMapping();
     mapping.add(namespace);
     mapping.replace(replacement);
-    Assert.assertEquals(2, mapping.size());
-    Assert.assertFalse(mapping.contains(namespace));
-    Assert.assertTrue(mapping.contains(replacement));
-    Assert.assertEquals("https://ns.example", mapping.getUri("ns"));
-    Assert.assertEquals("ns", mapping.getPrefix("https://ns.example"));
-    Assert.assertNotNull(mapping.getPrefix("https://os.example"));
+    assertEquals(2, mapping.size());
+    assertFalse(mapping.contains(namespace));
+    assertTrue(mapping.contains(replacement));
+    assertEquals("https://ns.example", mapping.getUri("ns"));
+    assertEquals("ns", mapping.getPrefix("https://ns.example"));
+    assertNotNull(mapping.getPrefix("https://os.example"));
   }
 
   @Test
@@ -213,11 +214,11 @@ public class PrefixMappingTest {
     Namespace replacement = new Namespace("https://ns.example", "");
     PrefixMapping mapping = PrefixMapping.noNamespace();
     mapping.replace(replacement);
-    Assert.assertEquals(1, mapping.size());
-    Assert.assertTrue(mapping.contains(replacement));
-    Assert.assertEquals("https://ns.example", mapping.getUri(""));
-    Assert.assertEquals("", mapping.getPrefix("https://ns.example"));
-    Assert.assertNull(mapping.getPrefix(""));
+    assertEquals(1, mapping.size());
+    assertTrue(mapping.contains(replacement));
+    assertEquals("https://ns.example", mapping.getUri(""));
+    assertEquals("", mapping.getPrefix("https://ns.example"));
+    assertNull(mapping.getPrefix(""));
   }
 
   @Test
@@ -227,12 +228,12 @@ public class PrefixMappingTest {
     PrefixMapping mapping = new PrefixMapping();
     mapping.add(namespace);
     mapping.replace(replacement);
-    Assert.assertEquals(2, mapping.size());
-    Assert.assertFalse(mapping.contains(namespace));
-    Assert.assertTrue(mapping.contains(replacement));
-    Assert.assertEquals("https://ns.example", mapping.getUri(""));
-    Assert.assertEquals("", mapping.getPrefix("https://ns.example"));
-    Assert.assertNotNull(mapping.getPrefix("https://default.example"));
+    assertEquals(2, mapping.size());
+    assertFalse(mapping.contains(namespace));
+    assertTrue(mapping.contains(replacement));
+    assertEquals("https://ns.example", mapping.getUri(""));
+    assertEquals("", mapping.getPrefix("https://ns.example"));
+    assertNotNull(mapping.getPrefix("https://default.example"));
   }
 
   @Test
@@ -241,13 +242,13 @@ public class PrefixMappingTest {
     mapping.add("https://ns1.example", "ns1");
     mapping.add("https://ns2.example", "ns2");
     mapping.add("https://ns3.example", "ns3");
-    Assert.assertFalse(mapping.isEmpty());
-    Assert.assertEquals(3, mapping.size());
+    assertFalse(mapping.isEmpty());
+    assertEquals(3, mapping.size());
     mapping.clear();
-    Assert.assertTrue(mapping.isEmpty());
-    Assert.assertEquals(0, mapping.size());
-    Assert.assertNull(mapping.getPrefix("ns1"));
-    Assert.assertNull(mapping.getUri("https://ns1.example"));
+    assertTrue(mapping.isEmpty());
+    assertEquals(0, mapping.size());
+    assertNull(mapping.getPrefix("ns1"));
+    assertNull(mapping.getUri("https://ns1.example"));
   }
 
   @Test
@@ -256,9 +257,9 @@ public class PrefixMappingTest {
     PrefixMapping mapping1 = new PrefixMapping(namespace1);
     PrefixMapping mapping2 = new PrefixMapping(namespace1);
     PrefixMapping merged = PrefixMapping.merge(mapping1, mapping2);
-    Assert.assertFalse(merged.isEmpty());
-    Assert.assertEquals(1, merged.size());
-    Assert.assertTrue(merged.contains(namespace1));
+    assertFalse(merged.isEmpty());
+    assertEquals(1, merged.size());
+    assertTrue(merged.contains(namespace1));
   }
 
   @Test
@@ -268,10 +269,10 @@ public class PrefixMappingTest {
     PrefixMapping mapping1 = new PrefixMapping(namespace1);
     PrefixMapping mapping2 = new PrefixMapping(namespace2);
     PrefixMapping merged = PrefixMapping.merge(mapping1, mapping2);
-    Assert.assertFalse(merged.isEmpty());
-    Assert.assertEquals(2, merged.size());
-    Assert.assertTrue(merged.contains(namespace1));
-    Assert.assertTrue(merged.contains(namespace2));
+    assertFalse(merged.isEmpty());
+    assertEquals(2, merged.size());
+    assertTrue(merged.contains(namespace1));
+    assertTrue(merged.contains(namespace2));
   }
 
   @Test
@@ -280,9 +281,9 @@ public class PrefixMappingTest {
     PrefixMapping mapping1 = new PrefixMapping(namespace1);
     PrefixMapping mapping2 = new PrefixMapping(namespace1);
     PrefixMapping merged = PrefixMapping.merge(mapping1, mapping2);
-    Assert.assertFalse(merged.isEmpty());
-    Assert.assertEquals(1, merged.size());
-    Assert.assertTrue(merged.contains(namespace1));
+    assertFalse(merged.isEmpty());
+    assertEquals(1, merged.size());
+    assertTrue(merged.contains(namespace1));
   }
 
 }

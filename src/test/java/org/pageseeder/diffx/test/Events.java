@@ -98,7 +98,7 @@ public final class Events {
     return recorder.process(xml);
   }
 
-  public static List<DiffXEvent> recordLineEvents(String text) throws DiffXException, IOException  {
+  public static List<DiffXEvent> recordLineEvents(String text) throws IOException  {
     if (text.isEmpty()) return Collections.emptyList();
     return new LineRecorder().process(text).events();
   }

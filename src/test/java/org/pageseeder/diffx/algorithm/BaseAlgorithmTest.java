@@ -1,6 +1,7 @@
 package org.pageseeder.diffx.algorithm;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.*;
 import org.pageseeder.diffx.format.*;
@@ -116,7 +117,7 @@ public abstract class BaseAlgorithmTest {
         ok = ok || s.equals(diffout);
       }
       if (!ok)
-        Assert.assertEquals(exp[0], diffout);
+        assertEquals(exp[0], diffout);
     } catch (AssertionError ex) {
       printErrorDetails(xml1, xml2, exp);
       throw ex;
@@ -175,7 +176,7 @@ public abstract class BaseAlgorithmTest {
     this.diffx.process(tf);
     // check for validity
     List<Action> actions = af.getActions();
-    Assert.assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions));
+    assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions));
     return tf.getOutput();
   }
 
@@ -188,8 +189,7 @@ public abstract class BaseAlgorithmTest {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  protected void assertDiffTextOK(String text1, String text2, String[] exp)
-      throws IOException, DiffXException {
+  protected void assertDiffTextOK(String text1, String text2, String[] exp) throws IOException {
     // process the strings
     String diffout = processDiffText(text1, text2);
     // check the possible values
@@ -199,7 +199,7 @@ public abstract class BaseAlgorithmTest {
         ok = ok || s.equals(diffout);
       }
       if (!ok)
-        Assert.assertEquals(exp[0], diffout);
+        assertEquals(exp[0], diffout);
     } catch (AssertionError ex) {
       printErrorDetails(text1, text2, exp);
       throw ex;
@@ -248,7 +248,7 @@ public abstract class BaseAlgorithmTest {
     System.err.println("| Old XML:");
     System.err.println(xml2);
     System.err.println("| Diff-X XML Output:");
-    System.err.println(sw.toString());
+    System.err.println(sw);
     System.err.println("| Normalised Diff-X output:");
     System.err.println(tf.getOutput());
     for (int i = 0; i < exp.length; i++) {
@@ -257,17 +257,17 @@ public abstract class BaseAlgorithmTest {
     }
   }
 
-  public final void assertDiffIsCorrect(EventSequence seq1, EventSequence seq2, List<Action> actions) throws IOException {
+  public final void assertDiffIsCorrect(EventSequence seq1, EventSequence seq2, List<Action> actions) {
     // Ensure that the diff is applicable
-    Assert.assertTrue("The resulting diff is not applicable", Actions.isApplicable(seq1.events(), seq2.events(), actions));
+    assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions), "The resulting diff is not applicable");
 
     // Apply to second sequence to ensure we get the first
     EventSequence got1 = Actions.apply(seq2, actions);
-    Assert.assertEquals("Applying diff to #2 did not produce #1 ", seq1, got1);
+    assertEquals(seq1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
     EventSequence got2 = Actions.apply(seq1, Actions.reverse(actions));
-    Assert.assertEquals("Applying diff to #1 did not produce #2 ", seq2, got2);
+    assertEquals(seq2, got2, "Applying diff to #1 did not produce #2");
   }
 
   public DiffResult processResult(EventSequence seq1, EventSequence seq2) throws IOException {
@@ -307,7 +307,7 @@ public abstract class BaseAlgorithmTest {
     for (String s : exp) {
       if (s.equals(diffout)) return;
     }
-    Assert.assertEquals(exp[0], diffout);
+    assertEquals(exp[0], diffout);
   }
 
 

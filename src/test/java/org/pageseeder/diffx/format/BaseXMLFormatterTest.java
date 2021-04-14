@@ -15,9 +15,10 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -52,7 +53,7 @@ public abstract class BaseXMLFormatterTest {
    */
   private transient StringWriter w = null;
 
-  @Before
+  @BeforeEach
   protected final void setUp() throws Exception {
     this.w = new StringWriter();
     this.formatter = makeFormatter(this.w);
@@ -353,8 +354,8 @@ public abstract class BaseXMLFormatterTest {
     Reader xmlr2 = new StringReader(this.w.toString());
     EventSequence seq = this.recorder.process(new InputSource(xmlr2));
     try {
-      Assert.assertEquals(exp.size(), seq.size());
-      Assert.assertEquals(exp, seq);
+      assertEquals(exp.size(), seq.size());
+      assertEquals(exp, seq);
     } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);

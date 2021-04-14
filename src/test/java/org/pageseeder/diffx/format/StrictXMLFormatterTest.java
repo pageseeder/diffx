@@ -15,8 +15,10 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.AttributeEventNSImpl;
 import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
@@ -27,8 +29,6 @@ import org.pageseeder.diffx.util.Constants;
 import org.xml.sax.InputSource;
 
 import java.io.*;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for the strict formatter.
@@ -63,7 +63,7 @@ public final class StrictXMLFormatterTest {
    */
   private StringWriter w = null;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.w = new StringWriter();
     this.formatter = new StrictXMLFormatter(this.w);

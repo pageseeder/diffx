@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.pageseeder.diffx.DiffXException;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.event.impl.LineEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -41,26 +41,24 @@ public final class LineRecorderTest {
    * Tests a simple case.
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testSimpleLine0() throws IOException, DiffXException {
+  public void testSimpleLine0() throws IOException {
     String text = "line 1\n"
         + "line2\n";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("line 1", 1));
     exp.addEvent(new LineEvent("line2", 2));
-    assertEquals(exp, text);
+    assertEqualsText(exp, text);
   }
 
   /**
    * Tests a simple case.
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testSimpleLine2() throws IOException, DiffXException {
+  public void testSimpleLine2() throws IOException {
     String text = "line #1\n"
         + "line #2\n"
         + "line #3\n"
@@ -70,17 +68,16 @@ public final class LineRecorderTest {
     exp.addEvent(new LineEvent("line #2", 2));
     exp.addEvent(new LineEvent("line #3", 3));
     exp.addEvent(new LineEvent("line #4", 4));
-    assertEquals(exp, text);
+    assertEqualsText(exp, text);
   }
 
   /**
    * Tests a simple case.
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testEmptyLine() throws IOException, DiffXException {
+  public void testEmptyLine() throws IOException {
     String text = "line #1\n"
         + "\n"
         + "line #3\n"
@@ -90,7 +87,7 @@ public final class LineRecorderTest {
     exp.addEvent(new LineEvent("", 2));
     exp.addEvent(new LineEvent("line #3", 3));
     exp.addEvent(new LineEvent("line #4", 4));
-    assertEquals(exp, text);
+    assertEqualsText(exp, text);
   }
 
   /**
@@ -101,42 +98,39 @@ public final class LineRecorderTest {
    * </pre>
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testXMLLine0() throws IOException, DiffXException {
+  public void testXMLLine0() throws IOException {
     String text = "<a>XX</a>";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("<a>XX</a>", 1));
-    assertEquals(exp, text);
+    assertEqualsText(exp, text);
   }
 
   /**
    * Tests parsing the &amp;lt;, it should remain the same.
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testEncoding1() throws IOException, DiffXException {
+  public void testEncoding1() throws IOException {
     String text = "&lt;";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("&lt;", 1));
-    assertEquals(exp, text);
+    assertEqualsText(exp, text);
   }
 
   /**
    * Tests parsing character &amp;#x8012;, it should remain the same.
    *
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while reading the text.
    */
   @Test
-  public void testEncoding3() throws IOException, DiffXException {
+  public void testEncoding3() throws IOException {
     String xml = "&#x8012;";
     EventSequence exp = new EventSequence();
     exp.addEvent(new LineEvent("&#x8012;", 1));
-    assertEquals(exp, xml);
+    assertEqualsText(exp, xml);
   }
 
 // helpers ------------------------------------------------------------------------------------
@@ -148,11 +142,11 @@ public final class LineRecorderTest {
    * @param text The text to parse
    * @throws IOException    Should an I/O exception occur.
    */
-  private void assertEquals(EventSequence exp, String text) throws IOException {
+  private void assertEqualsText(EventSequence exp, String text) throws IOException {
     EventSequence seq = this.recorder.process(text);
     try {
-      Assert.assertEquals(exp.size(), seq.size());
-      Assert.assertEquals(exp, seq);
+      assertEquals(exp.size(), seq.size());
+      assertEquals(exp, seq);
     } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);

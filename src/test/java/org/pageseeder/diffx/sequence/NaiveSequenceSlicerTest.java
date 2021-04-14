@@ -15,8 +15,9 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
 import org.pageseeder.diffx.event.impl.OpenElementEventNSImpl;
@@ -355,11 +356,11 @@ public final class NaiveSequenceSlicerTest {
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
     int slen = slicer.sliceStart();
-    Assert.assertEquals(exp.size(), slen);
-    Assert.assertEquals(len1, this.seq1.size());
-    Assert.assertEquals(len2, this.seq2.size());
+    assertEquals(exp.size(), slen);
+    assertEquals(len1, this.seq1.size());
+    assertEquals(len2, this.seq2.size());
     // check the start sequence is as expected
-    Assert.assertEquals(exp, slicer.getStart());
+    assertEquals(exp, slicer.getStart());
   }
 
   /**
@@ -373,11 +374,11 @@ public final class NaiveSequenceSlicerTest {
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
     int slen = slicer.sliceEnd();
-    Assert.assertEquals(exp.size(), slen);
-    Assert.assertEquals(len1, this.seq1.size());
-    Assert.assertEquals(len2, this.seq2.size());
+    assertEquals(exp.size(), slen);
+    assertEquals(len1, this.seq1.size());
+    assertEquals(len2, this.seq2.size());
     // check the start sequence is as expected
-    Assert.assertEquals(exp, slicer.getEnd());
+    assertEquals(exp, slicer.getEnd());
   }
 
 }

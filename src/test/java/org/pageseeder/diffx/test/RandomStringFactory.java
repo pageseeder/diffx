@@ -7,15 +7,6 @@ public class RandomStringFactory {
   private final Random R = new Random();
 
   String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
-  String DIGITS = "0123456789";
-  String PUNCTUATION = ",.;:";
-
-//  public enum Vocabulary {
-//    LOWER_ALPHA,
-//    UPPER_ALPHA,
-//    ALPHA,
-//    ALPHA_NUM
-//  }
 
   private char[] vocabulary;
 
