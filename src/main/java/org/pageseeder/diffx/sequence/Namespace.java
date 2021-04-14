@@ -46,6 +46,11 @@ public final class Namespace {
   public static final Namespace NO_NAMESPACE = new Namespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
 
   /**
+   * Namespace instance for the built-in XML namespace.
+   */
+  public static final Namespace XML_NAMESPACE = new Namespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
+
+  /**
    * The namespace URI.
    */
   private final String uri;
