@@ -17,13 +17,14 @@ package org.pageseeder.diffx.util;
 
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 /**
- * The set of constants used in this API.
+ *
  *
  * @author Christophe Lauret
- * @version 17 May 2005
+ * @version 0.9.0
  */
 public final class Formatting {
 
@@ -36,7 +37,7 @@ public final class Formatting {
   /**
    * Write the namespace mapping to the XML output
    */
-  public static void declareNamespaces(XMLWriterNSImpl xml, PrefixMapping mapping) {
+  public static void declareNamespaces(XMLWriter xml, PrefixMapping mapping) {
     xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
     xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
     xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");

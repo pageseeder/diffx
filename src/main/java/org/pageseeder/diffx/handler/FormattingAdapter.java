@@ -24,7 +24,7 @@ import java.io.UncheckedIOException;
 
 public class FormattingAdapter implements DiffHandler {
 
-  private final DiffXFormatter formatter;
+  protected final DiffXFormatter formatter;
 
   public FormattingAdapter(DiffXFormatter formatter) {
     this.formatter = formatter;
