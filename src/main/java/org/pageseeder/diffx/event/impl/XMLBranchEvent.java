@@ -99,6 +99,12 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
     return xml;
   }
 
+  @Override
+  public String getType() {
+    // TODO Consider using "element"
+    return "branch";
+  }
+
   /**
    * Calculates the hashcode for this event.
    *

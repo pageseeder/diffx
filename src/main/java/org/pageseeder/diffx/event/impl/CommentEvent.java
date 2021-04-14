@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.event.impl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -45,16 +46,14 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
    *
    * @param comment the comment string.
    *
-   * @throws NullPointerException if any of the argument is <code>null</code>.
+   * @throws NullPointerException if the comment is <code>null</code>.
    */
   public CommentEvent(String comment) throws NullPointerException {
-    this.comment = comment;
+    this.comment = Objects.requireNonNull(comment);
     this.hashCode = toHashcode(comment);
   }
 
   /**
-   * Returns the comment.
-   *
    * @return the comment string.
    */
   public String getComment() {
@@ -78,8 +77,8 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   public boolean equals(DiffXEvent e) {
     if (e.getClass() != this.getClass())
       return false;
-    CommentEvent ce = (CommentEvent) e;
-    return ce.comment == null && this.comment == null || ce.comment.equals(this.comment);
+    CommentEvent other = (CommentEvent) e;
+    return other.comment.equals(this.comment);
   }
 
   @Override
@@ -94,10 +93,15 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
 
   @Override
   public StringBuffer toXML(StringBuffer xml) {
-    // xml.append("<!--");
+    xml.append("<!--");
     xml.append(this.comment);
-    // xml.append("-->");
+    xml.append("-->");
     return xml;
+  }
+
+  @Override
+  public String getType() {
+    return "comment";
   }
 
   /**

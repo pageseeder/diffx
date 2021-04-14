@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.event.impl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -52,8 +53,8 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public ProcessingInstructionEvent(String target, String data) throws NullPointerException {
-    this.target = target;
-    this.data = data;
+    this.target = Objects.requireNonNull(target);
+    this.data = Objects.requireNonNull(data);
     this.hashCode = toHashCode(target, data);
   }
 
@@ -115,6 +116,11 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
     xml.append(this.data);
     xml.append("?>");
     return xml;
+  }
+
+  @Override
+  public String getType() {
+    return "processing-instruction";
   }
 
   /**
