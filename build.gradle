@@ -1,4 +1,6 @@
 plugins {
+  id 'java-library'
+  id 'maven-publish'
   id "io.codearte.nexus-staging" version "0.30.0"
 }
 
@@ -6,12 +8,10 @@ group       = 'org.pageseeder.diffx'
 version     = file('version.txt').text
 description = "$title"
 
-apply plugin: 'java'
-apply plugin: 'maven-publish'
 apply from: 'gradle/publish-mavencentral.gradle'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType(JavaCompile) {
   options.encoding = 'UTF-8'
