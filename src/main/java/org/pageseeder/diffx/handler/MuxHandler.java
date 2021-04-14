@@ -18,6 +18,9 @@ package org.pageseeder.diffx.handler;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class MuxHandler implements DiffHandler {
 
   private final DiffHandler[] handlers;
@@ -39,5 +42,10 @@ public class MuxHandler implements DiffHandler {
   @Override
   public void end() {
     for (DiffHandler handler : handlers) handler.end();
+  }
+
+  @Override
+  public String toString() {
+    return "MuxHandler -> " + Arrays.toString(this.handlers);
   }
 }

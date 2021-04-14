@@ -79,6 +79,11 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
   @Override
   public void end() {
     this.flushPrevious();
-    super.end();
+    this.target.end();
+  }
+
+  @Override
+  public String toString() {
+    return "CompareReplaceFilter -> " + target;
   }
 }

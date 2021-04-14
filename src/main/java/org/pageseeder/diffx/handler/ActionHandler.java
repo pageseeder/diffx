@@ -68,4 +68,9 @@ public class ActionHandler implements DiffHandler {
     }
   }
 
+  @Override
+  public String toString() {
+    return "ActionHandler";
+  }
+
 }

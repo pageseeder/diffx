@@ -50,4 +50,10 @@ public class FormattingAdapter implements DiffHandler {
       throw new UncheckedIOException(ex);
     }
   }
+
+  @Override
+  public String toString() {
+    return "FormattingAdapter("+this.formatter+")";
+  }
+
 }

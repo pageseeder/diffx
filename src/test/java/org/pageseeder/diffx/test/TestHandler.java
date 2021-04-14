@@ -151,4 +151,9 @@ public final class TestHandler implements DiffHandler {
     return this.out.toString();
   }
 
+  @Override
+  public String toString() {
+    return "TestHandler";
+  }
+
 }

@@ -50,4 +50,9 @@ public class OperationHandler implements DiffHandler {
     return this.operations;
   }
 
+  @Override
+  public String toString() {
+    return "OperationHandler";
+  }
+
 }
