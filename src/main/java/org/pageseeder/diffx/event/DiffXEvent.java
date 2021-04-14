@@ -39,6 +39,11 @@ import org.pageseeder.xmlwriter.XMLWritable;
 public interface DiffXEvent extends XMLWritable, XMLFormattable {
 
   /**
+   * @return The type of event.
+   */
+  String getType();
+
+  /**
    * Indicates whether the specified event is equal to this event.
    *
    * @param e The event to compare it with this one.

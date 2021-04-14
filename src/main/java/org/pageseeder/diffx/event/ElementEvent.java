@@ -2,7 +2,7 @@ package org.pageseeder.diffx.event;
 
 import java.util.List;
 
-public interface ElementEvent extends DiffXEvent {
+public interface ElementEvent extends Namespaceable, DiffXEvent {
 
   /**
    * @return The local name of the element.
@@ -22,4 +22,6 @@ public interface ElementEvent extends DiffXEvent {
    */
   List<DiffXEvent> getEvents();
 
+  @Override
+  default String getType() { return "element"; }
 }

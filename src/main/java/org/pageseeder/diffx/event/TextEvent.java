@@ -33,4 +33,7 @@ public interface TextEvent extends DiffXEvent {
    */
   String getCharacters();
 
+  @Override
+  default String getType() { return "text"; }
+
 }

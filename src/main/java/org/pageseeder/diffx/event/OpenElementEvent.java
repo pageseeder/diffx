@@ -21,7 +21,7 @@ package org.pageseeder.diffx.event;
  * @author Christophe Lauret
  * @version 23 December 2004
  */
-public interface OpenElementEvent extends DiffXEvent {
+public interface OpenElementEvent extends Namespaceable, DiffXEvent {
 
   /**
    * Returns the local name of the element.
@@ -37,4 +37,6 @@ public interface OpenElementEvent extends DiffXEvent {
    */
   String getURI();
 
+  @Override
+  default String getType() { return "open-element"; }
 }

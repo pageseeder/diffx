@@ -21,7 +21,7 @@ package org.pageseeder.diffx.event;
  * @author Christophe Lauret
  * @version 3 April 2005
  */
-public interface AttributeEvent extends DiffXEvent {
+public interface AttributeEvent extends Namespaceable, DiffXEvent {
 
   /**
    * Returns the local name of the attribute.
@@ -50,5 +50,8 @@ public interface AttributeEvent extends DiffXEvent {
    * @return The namespace URI the attribute belongs to or <code>null</code>.
    */
   String getURI();
+
+  @Override
+  default String getType() { return "attribute"; }
 
 }

@@ -21,7 +21,7 @@ package org.pageseeder.diffx.event;
  * @author Christophe Lauret (Allette Systems)
  * @version 3 April 2005
  */
-public interface CloseElementEvent extends DiffXEvent {
+public interface CloseElementEvent extends Namespaceable, DiffXEvent {
 
   /**
    * Returns the local name of the element.
@@ -61,5 +61,8 @@ public interface CloseElementEvent extends DiffXEvent {
    *         <code>false</code> otherwise.
    */
   boolean match(OpenElementEvent event);
+
+  @Override
+  default String getType() { return "close-element"; }
 
 }
