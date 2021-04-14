@@ -35,7 +35,6 @@ import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.Namespace;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -109,7 +108,7 @@ public final class SAXRecorder implements XMLRecorder {
   /**
    * The sequence of event for this recorder.
    */
-  protected transient EventSequence sequence;
+  protected EventSequence sequence;
 
   /**
    * Runs the recorder on the specified file.
@@ -262,27 +261,27 @@ public final class SAXRecorder implements XMLRecorder {
     /**
      * The weight of the current element.
      */
-    private transient int currentWeight = -1;
+    private int currentWeight = -1;
 
     /**
      * The last open element event, should only contain <code>OpenElementEvent</code>s.
      */
-    private transient List<OpenElementEvent> openElements = new ArrayList<>();
+    private final List<OpenElementEvent> openElements = new ArrayList<>();
 
     /**
      * The stack of weight, should only contain <code>Integer</code>.
      */
-    private transient List<Integer> weights = new ArrayList<>();
+    private List<Integer> weights = new ArrayList<>();
 
     /**
      * The factory that will produce events according to the configuration.
      */
-    private transient EventFactory efactory;
+    private EventFactory efactory;
 
     /**
      * The text tokenizer according to the configuration.
      */
-    private transient TextTokenizer tokenizer;
+    private TextTokenizer tokenizer;
 
     @Override
     public void startDocument() {
@@ -352,7 +351,7 @@ public final class SAXRecorder implements XMLRecorder {
      * Records the characters which are in the buffer.
      */
     private void recordCharacters() {
-      if (this.ch != null) {
+      if (this.ch.length() > 0) {
         List<TextEvent> events = this.tokenizer.tokenize(this.ch);
         for (TextEvent e : events) {
           SAXRecorder.this.sequence.addEvent(e);

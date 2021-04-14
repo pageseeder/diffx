@@ -108,7 +108,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * Indicates whether the given document is a fragment.
    *
-   * <p>An fragment is a portion of XML that is not necessarily well-formed by itself, because the
+   * <p>A fragment is a portion of XML that is not necessarily well-formed by itself, because the
    * namespace has been declared higher in the hierarchy, in which if the DOM tree was serialised
    * it would not produce well-formed XML.
    *
@@ -263,7 +263,7 @@ public final class DOMRecorder implements XMLRecorder {
     }
     this.currentWeight = 1;
     // namespace handling
-    OpenElementEvent open = null;
+    OpenElementEvent open;
     // namespace aware configuration
     if (this.config.isNamespaceAware()) {
       String uri = element.getNamespaceURI() == null? "" : element.getNamespaceURI();
@@ -280,9 +280,9 @@ public final class DOMRecorder implements XMLRecorder {
     // only 1 attribute, just load it
     if (atts.getLength() == 1) {
       load((Attr)atts.item(0));
-      // several attributes sort them in alphabetical order
       // TODO: also use URI
     } else if (atts.getLength() > 1) {
+      // several attributes sort them in alphabetical order
       String[] names = new String[atts.getLength()];
       for (int i = 0; i < atts.getLength(); i++) {
         Attr attr = (Attr)atts.item(i);
