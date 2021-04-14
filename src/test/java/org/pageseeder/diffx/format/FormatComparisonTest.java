@@ -21,7 +21,7 @@ public class FormatComparisonTest {
     String xml1 = "<body><p class='test'>Hello</p><ul><li>Monday evening</li><li>Tuesday night</li></ul></body>";
     String xml2 = "<body><p id='a'>Hello</p><ol><li>Monday</li><li>Thursday night</li></ol></body>";
     List<Operation> operations = toOperations(xml1, xml2);
-    printAll(operations);
+    printAllFormats(operations);
   }
 
   @Test
@@ -29,7 +29,23 @@ public class FormatComparisonTest {
     String xml1 = "<body><p id='1'>Other representations might be used by specialist equipment</p></body>";
     String xml2 = "<body><p id='2'>Another representation may be used by specialist equipment.</p></body>";
     List<Operation> operations = toOperations(xml1, xml2);
-    printAll(operations);
+    printAllFormats(operations);
+  }
+
+  @Test
+  public void compareOutputExample1() throws IOException, DiffXException {
+    String xml1 = "<body><p class='test'>Hello</p><ul><li>Monday evening</li><li>Tuesday night</li></ul></body>";
+    String xml2 = "<body><p id='a'>Hello</p><ol><li>Monday</li><li>Thursday night</li></ol></body>";
+    List<Operation> operations = toOperations(xml1, xml2);
+    printAllOutputs(operations);
+  }
+
+  @Test
+  public void compareOutputExample2() throws IOException, DiffXException {
+    String xml1 = "<body><p id='1'>Other representations might be used by specialist equipment</p></body>";
+    String xml2 = "<body><p id='2'>Another representation may be used by specialist equipment.</p></body>";
+    List<Operation> operations = toOperations(xml1, xml2);
+    printAllOutputs(operations);
   }
 
   private static List<Operation> toOperations(String xml1, String xml2) throws IOException, DiffXException {
@@ -42,7 +58,8 @@ public class FormatComparisonTest {
     return handler.getOperations();
   }
 
-  private static void printAll(List<Operation> operations) throws IOException {
+
+  private static void printAllFormats(List<Operation> operations) throws IOException {
     printBasicXMLFormatter(operations);
     printConvenientXMLFormatter(operations);
     printSafeXMLFormatter(operations);
@@ -50,9 +67,15 @@ public class FormatComparisonTest {
     printStrictXMLFormatter(operations);
   }
 
+  private static void printAllOutputs(List<Operation> operations) throws IOException {
+    printDefaultXMLOutput(operations);
+    printLegacyXMLOutput(operations);
+  }
+
   private static void printBasicXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new BasicXMLFormatter(xml);
+    formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
@@ -62,6 +85,7 @@ public class FormatComparisonTest {
   private static void printConvenientXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new ConvenientXMLFormatter(xml);
+    formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
@@ -71,6 +95,7 @@ public class FormatComparisonTest {
   private static void printSafeXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
+    formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
@@ -80,6 +105,7 @@ public class FormatComparisonTest {
   private static void printSmartXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
+    formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
@@ -89,10 +115,30 @@ public class FormatComparisonTest {
   private static void printStrictXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new StrictXMLFormatter(xml);
+    formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
     System.out.println(xml);
   }
 
+  private static void printDefaultXMLOutput(List<Operation> operations) throws IOException {
+    StringWriter xml = new StringWriter();
+    DefaultXMDiffOutput output = new DefaultXMDiffOutput(xml);
+    output.setWriteXMLDeclaration(false);
+    Operations.handle(operations, output);
+    xml.flush();
+    System.out.println(output.getClass().getSimpleName());
+    System.out.println(xml);
+  }
+
+  private static void printLegacyXMLOutput(List<Operation> operations) throws IOException {
+    StringWriter xml = new StringWriter();
+    LegacyXMLDiffOutput output = new LegacyXMLDiffOutput(xml);
+    output.setWriteXMLDeclaration(false);
+    Operations.handle(operations, output);
+    xml.flush();
+    System.out.println(output.getClass().getSimpleName());
+    System.out.println(xml);
+  }
 }
