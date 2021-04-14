@@ -84,6 +84,11 @@ publishing {
 
           developers {
             developer {
+              id 'clauret'
+              name 'Christophe Lauret'
+              email 'clauret@weborganic.com'
+            }
+            developer {
               id 'asantos'
               name 'Alberto Santos'
               email 'asantos@allette.com.au'
