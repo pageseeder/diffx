@@ -150,8 +150,6 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
       // By adding it again, it will get a new prefix
       add(matching);
     }
-    System.err.println(this.namespacesByUri);
-    System.err.println(this.namespacesByPrefix);
     return previous;
   }
 
