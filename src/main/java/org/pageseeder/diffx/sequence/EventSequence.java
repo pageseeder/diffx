@@ -193,14 +193,12 @@ public final class EventSequence implements Iterable<DiffXEvent> {
     return this.equals((EventSequence)o);
   }
 
-  /**
-   * Returns the string representation of this sequence.
-   *
-   * @return The string representation of this sequence.
-   */
   @Override
   public String toString() {
-    return "Event Sequence ["+size()+"]";
+    return "EventSequence{" +
+        "prefixMapping=" + prefixMapping +
+        ", events=" + events +
+        '}';
   }
 
   /**
