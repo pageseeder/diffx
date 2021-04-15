@@ -22,16 +22,33 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
+/**
+ * A handler wrapping a formatter so that the formatter can be used in the new API.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ */
 public class FormattingAdapter implements DiffHandler {
 
+  /**
+   * The target formatter protected to allow any subclasses to access it.
+   */
   protected final DiffXFormatter formatter;
 
   public FormattingAdapter(DiffXFormatter formatter) {
     this.formatter = formatter;
   }
 
+  /**
+   * Invoke the formatter's method correspding to the operator.
+   *
+   * @param operator The operator
+   * @param event    The event to handle
+   *
+   * @throws UncheckedIOException Wraps any IO exception thrown by the formatter
+   */
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException {
     try {
       switch (operator) {
         case MATCH:
@@ -44,7 +61,7 @@ public class FormattingAdapter implements DiffHandler {
           this.formatter.delete(event);
           break;
         default:
-          // Ignore
+          // Ignore and do nothing
       }
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
