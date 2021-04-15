@@ -55,12 +55,16 @@ public final class LineRecorder implements Recorder {
    *
    * @return The recorded sequence of events.
    *
-   * @throws IOException      Should I/O error occur.
+   * @throws UncheckedIOException Should I/O error occur.
    */
   @Override
-  public EventSequence process(String text) throws IOException {
-    BufferedReader reader = new BufferedReader(new StringReader(text));
-    return getEventSequence(reader);
+  public EventSequence process(String text) throws UncheckedIOException {
+    try {
+      BufferedReader reader = new BufferedReader(new StringReader(text));
+      return getEventSequence(reader);
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
   }
 
   private EventSequence getEventSequence(BufferedReader reader) throws IOException {

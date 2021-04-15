@@ -18,7 +18,6 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.TextEvent;
 import org.pageseeder.diffx.event.impl.CharEvent;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
@@ -41,256 +40,256 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
+public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
-  public final void testLevel0_Empty() {
+  public final void testGeneral_Empty() {
     String a = "";
     String b = "";
     String[] exp = new String[]{""};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   // Identical ----------------------------------------------------------------
 
   @Test
-  public final void testLevel0_Identical1() {
+  public final void testGeneral_Identical1() {
     String a = "x";
     String b = "x";
     String[] exp = new String[]{"x"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Identical2() {
+  public final void testGeneral_Identical2() {
     String a = "xx";
     String b = "xx";
     String[] exp = new String[]{"xx"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Identical3() {
+  public final void testGeneral_Identical3() {
     String a = "xyz";
     String b = "xyz";
     String[] exp = new String[]{"xyz"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Identical10() {
+  public final void testGeneral_Identical10() {
     String a = "abcdefghij";
     String b = "abcdefghij";
     String[] exp = new String[]{"abcdefghij"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   // Inserts and deletes ------------------------------------------------------
 
   @Test
-  public final void testLevel0_Insert1() {
+  public final void testGeneral_Insert1() {
     String a = "x";
     String b = "";
     String[] exp = new String[]{"+x"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete1() {
+  public final void testGeneral_Delete1() {
     String a = "";
     String b = "y";
     String[] exp = new String[]{"-y"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert2() {
+  public final void testGeneral_Insert2() {
     String a = "xx";
     String b = "";
     String[] exp = new String[]{"+x+x"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete2() {
+  public final void testGeneral_Delete2() {
     String a = "";
     String b = "yy";
     String[] exp = new String[]{"-y-y"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert3() {
+  public final void testGeneral_Insert3() {
     String a = "xx";
     String b = "x";
     String[] exp = new String[]{"x+x", "+xx"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete3() {
+  public final void testGeneral_Delete3() {
     String a = "y";
     String b = "yy";
     String[] exp = new String[]{"y-y", "-yy"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert4() {
+  public final void testGeneral_Insert4() {
     String a = "xxx";
     String b = "xx";
     String[] exp = new String[]{"+xxx", "x+xx", "xx+x"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete4() {
+  public final void testGeneral_Delete4() {
     String a = "yy";
     String b = "yyy";
     String[] exp = new String[]{"-yyy", "y-yy", "yy-y"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert5() {
+  public final void testGeneral_Insert5() {
     String a = "   x   ";
     String b = "      ";
     String[] exp = new String[]{"   +x   "};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete5() {
+  public final void testGeneral_Delete5() {
     String a = "      ";
     String b = "   y   ";
     String[] exp = new String[]{"   -y   "};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert6() {
+  public final void testGeneral_Insert6() {
     String a = "testing";
     String b = "test";
     String[] exp = new String[]{"test+i+n+g"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete6() {
+  public final void testGeneral_Delete6() {
     String a = "test";
     String b = "testing";
     String[] exp = new String[]{"test-i-n-g"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert7() {
+  public final void testGeneral_Insert7() {
     String a = "foretaste";
     String b = "taste";
     String[] exp = new String[]{"+f+o+r+etaste"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete7() {
+  public final void testGeneral_Delete7() {
     String a = "taste";
     String b = "foretaste";
     String[] exp = new String[]{"-f-o-r-etaste"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert8() {
+  public final void testGeneral_Insert8() {
     String a = "baobab";
     String b = "bobb";
     String[] exp = new String[]{"b+aob+ab"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete8() {
+  public final void testGeneral_Delete8() {
     String a = "bobb";
     String b = "baobab";
     String[] exp = new String[]{"b-aob-ab"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert9() {
+  public final void testGeneral_Insert9() {
     String a = "alibaba";
     String b = "libb";
     String[] exp = new String[]{"+alib+ab+a"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete9() {
+  public final void testGeneral_Delete9() {
     String a = "libb";
     String b = "alibaba";
     String[] exp = new String[]{"-alib-ab-a"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert10() {
+  public final void testGeneral_Insert10() {
     String a = "links";
     String b = "ink";
     String[] exp = new String[]{"+link+s"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete10() {
+  public final void testGeneral_Delete10() {
     String a = "ink";
     String b = "links";
     String[] exp = new String[]{"-link-s"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
 
   @Test
-  public final void testLevel0_Insert11() {
+  public final void testGeneral_Insert11() {
     String a = "inks";
     String b = "ink";
     String[] exp = new String[]{"ink+s"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete11() {
+  public final void testGeneral_Delete11() {
     String a = "ink";
     String b = "inks";
     String[] exp = new String[]{"ink-s"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Insert12() {
+  public final void testGeneral_Insert12() {
     String a = "link";
     String b = "ink";
     String[] exp = new String[]{"+link"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Delete12() {
+  public final void testGeneral_Delete12() {
     String a = "ink";
     String b = "link";
     String[] exp = new String[]{"-link"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
   // Replacements -------------------------------------------------------------
 
   @Test
-  public final void testLevel0_Replace1() {
+  public final void testGeneral_Replace1() {
     String a = "x";
     String b = "y";
     String[] exp = new String[]{"+x-y", "-y+x"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace2() {
+  public final void testGeneral_Replace2() {
     String a = "xx";
     String b = "yy";
     String[] exp = new String[]{
@@ -301,19 +300,19 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "-y-y+x+x",
         "-y+x+x-y"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace3() {
+  public final void testGeneral_Replace3() {
     String a = "xax";
     String b = "xbx";
     String[] exp = new String[]{"x+a-bx", "x-b+ax"};
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace4() {
+  public final void testGeneral_Replace4() {
     String a = "axa";
     String b = "bxb";
     String[] exp = new String[]{
@@ -322,11 +321,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "-b+ax+a-b",
         "-b+ax-b+a",
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace5() {
+  public final void testGeneral_Replace5() {
     String a = "axax";
     String b = "bxbx";
     String[] exp = new String[]{
@@ -335,11 +334,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "-b+ax+a-bx",
         "-b+ax-b+ax",
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace6() {
+  public final void testGeneral_Replace6() {
     String a = "xaxa";
     String b = "xbxb";
     String[] exp = new String[]{
@@ -348,11 +347,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "x-b+ax-b+a",
         "x-b+ax+a-b"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace7() {
+  public final void testGeneral_Replace7() {
     String a = "axbx";
     String b = "bxax";
     String[] exp = new String[]{
@@ -360,11 +359,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "+a+xb-x-ax",
         "-b-xax+b+x"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace8() {
+  public final void testGeneral_Replace8() {
     String a = "axax";
     String b = "bxbx";
     String[] exp = new String[]{
@@ -373,11 +372,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "-b+ax+a-bx",
         "-b+ax-b+ax"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace9() {
+  public final void testGeneral_Replace9() {
     String a = "axaxa";
     String b = "bxbxb";
     String[] exp = new String[]{
@@ -385,22 +384,22 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "+a-bx+a-bx-b+a",
         "+a-bx+a-bx+a-b"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace10() {
+  public final void testGeneral_Replace10() {
     String a = "axbxa";
     String b = "bxaxb";
     String[] exp = new String[]{
         "+a+xbxa-x-b",
         "-b-xaxb+x+a"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Replace11() {
+  public final void testGeneral_Replace11() {
     String a = "xaxax";
     String b = "xbxbx";
     String[] exp = new String[]{
@@ -409,56 +408,56 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "x-b+ax+a-bx",
         "x-b+ax-b+ax"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   // More complex cases -------------------------------------------------------
 
   @Test
-  public final void testLevel0_Complex1() {
+  public final void testGeneral_Complex1() {
     String a = "aba";
     String b = "bab";
     String[] exp = new String[]{
         "+aba-b",
         "-bab+a"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex2() {
+  public final void testGeneral_Complex2() {
     String a = "abab";
     String b = "baba";
     String[] exp = new String[]{
         "+abab-a",
         "-baba+b"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex3() {
+  public final void testGeneral_Complex3() {
     String a = "ababa";
     String b = "babab";
     String[] exp = new String[]{
         "+ababa-b",
         "-babab+a",
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex4() {
+  public final void testGeneral_Complex4() {
     String a = "one little";
     String b = "two little";
     String[] exp = new String[]{
       "-t-wo+n+e little"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex5() {
+  public final void testGeneral_Complex5() {
     String a = "one little";
     String b = "too little";
     String[] exp = new String[]{
@@ -466,33 +465,33 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "-to+n+e-o little",
         "-to+n-o+e little"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex6() {
+  public final void testGeneral_Complex6() {
     String a = "balaclava";
     String b = "bilabial";
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
         "b-i+ala+c-b-i+la+v-l+a"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex7() {
+  public final void testGeneral_Complex7() {
     String a = "Saturday";
     String b = "Sunday";
     String[] exp = new String[]{
         "S+a+tu+r-nday",
         "S+a+tu-n+rday"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex9() {
+  public final void testGeneral_Complex9() {
     String a = "Monday Tuesday Sunday";
     String b = "Monday Sunday";
     String[] exp = new String[]{
@@ -500,11 +499,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "Monday+ +T+u+e+s+d+a+y Sunday",
         "Mon+d+a+y+ +T+u+e+sday Sunday"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex10() {
+  public final void testGeneral_Complex10() {
     String a = "Monday Sunday";
     String b = "Monday Tuesday Sunday";
     String[] exp = new String[]{
@@ -512,55 +511,55 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "Monday- -T-u-e-s-d-a-y Sunday",
         "Mon-d-a-y- -T-u-e-sday Sunday"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex11() {
+  public final void testGeneral_Complex11() {
     String a = "A car";
     String b = "A train";
     String[] exp = new String[]{
         "A +c+a-tr-a-i-n",
         "A -t-r+ca-i-n+r"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex12() {
+  public final void testGeneral_Complex12() {
     String a = "The car";
     String b = "A train";
     String[] exp = new String[]{
         "+T+h-A+e -t-r+ca-i-n+r",
         "+T+h+e-A +c+a-tr-a-i-n"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex13() {
+  public final void testGeneral_Complex13() {
     String a = "The red car";
     String b = "A blue train";
     String[] exp = new String[]{
         "+T+h+e-A +r-b-l-ue+d +c+a-tr-a-i-n",
         "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex14() {
+  public final void testGeneral_Complex14() {
     String a = "The little car";
     String b = "A big train";
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t+l+e-g +c+a-tr-a-i-n",
         "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_Complex15() {
+  public final void testGeneral_Complex15() {
     String a = "The little red car";
     String b = "A big blue train";
     String[] exp = new String[]{
@@ -568,79 +567,79 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
         "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r",
         "+T+h-A+e -b+li+t-g- -b+tl-ue -tr+e+d+ +ca-i-n+r"
     };
-    assertDiffOKLevel0(a, b, exp);
+    assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
-  public final void testLevel0_complex16() {
+  public final void testGeneral_complex16() {
     String a = "xabx";
     String b = "abamx";
-    assertDiffOKLevel0(a, b);
+    assertGeneralDiffOK(a, b);
   }
 
   @Test
-  public final void testLevel0_complex17() {
+  public final void testGeneral_complex17() {
     String a = "xabcdefghijkmnopqrx";
     String b = "abcdefghijkjmnopqrx";
-    assertDiffOKLevel0(a, b);
+    assertGeneralDiffOK(a, b);
   }
 
   @Test
-  public final void testLevel0_complex18() {
+  public final void testGeneral_complex18() {
     String a = "rhxrwpdunx";
     String b = "rhrwpdpunwx";
-    assertDiffOKLevel0(a, b);
+    assertGeneralDiffOK(a, b);
   }
 
   @Test
-  public final void testLevel0_complex19() {
+  public final void testGeneral_complex19() {
     String a = "tbdcllohjt";
     String b = "bddcdlohjt";
-    assertDiffOKLevel0(a, b);
+    assertGeneralDiffOK(a, b);
   }
 
   @Test
-  public final void testLevel0_complex20() {
+  public final void testGeneral_complex20() {
     String a = "tbdcl";
     String b = "bddcdl";
-    assertDiffOKLevel0(a, b);
+    assertGeneralDiffOK(a, b);
   }
 
 
   // Random variations -------------------------------------------------------
 
   @Test
-  public final void testLevel0_RandomVariations1() {
+  public final void testGeneral_RandomVariations1() {
     RandomStringFactory factory = new RandomStringFactory();
     for (int n=3; n < 20; n++) {
       for (int i=0; i < 100; i++) {
         String a = factory.getRandomString(10, false);
         String b = factory.vary(a, .1);
-        assertDiffOKLevel0(a, b);
+        assertGeneralDiffOK(a, b);
       }
     }
   }
 
   @Test
-  public final void testLevel0_RandomVariations2() {
+  public final void testGeneral_RandomVariations2() {
     RandomStringFactory factory = new RandomStringFactory();
     for (int n=3; n < 20; n++) {
       for (int i=0; i < 100; i++) {
         String a = factory.getRandomString(100, false);
         String b = factory.vary(a, .1);
-        assertDiffOKLevel0(a, b);
+        assertGeneralDiffOK(a, b);
       }
     }
   }
 
   @Test
-  public final void testLevel0_RandomVariations3() {
+  public final void testGeneral_RandomVariations3() {
     RandomStringFactory factory = new RandomStringFactory();
     for (int n=3; n < 20; n++) {
       for (int i=0; i < 100; i++) {
         String a = factory.getRandomString(100, false);
         String b = factory.vary(a, .2);
-        assertDiffOKLevel0(a, b);
+        assertGeneralDiffOK(a, b);
       }
     }
   }
@@ -648,11 +647,11 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
   // helpers
   // --------------------------------------------------------------------------
 
-  public final void assertDiffOKLevel0(String text1, String text2) {
-    assertDiffOKLevel0(text1, text2, new String[]{});
+  public final void assertGeneralDiffOK(String text1, String text2) {
+    assertGeneralDiffOK(text1, text2, new String[]{});
   }
 
-  public final void assertDiffOKLevel0(String text1, String text2, String[] exp) {
+  public final void assertGeneralDiffOK(String text1, String text2, String[] exp) {
     List<CharEvent> seq1 = Events.toCharEvents(text1);
     List<CharEvent> seq2 = Events.toCharEvents(text2);
     DiffAlgorithm algorithm = getDiffAlgorithm();
@@ -695,7 +694,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
-      System.err.print(action.events().stream().map((event) -> ((TextEvent) event).getCharacters()).collect(Collectors.toList()));
+      System.err.print(action.events().stream().map(Object::toString).collect(Collectors.toList()));
     }
     System.err.println();
   }

@@ -17,6 +17,7 @@ package org.pageseeder.diffx.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
@@ -159,4 +160,12 @@ public final class DiffAssertions {
     return handler.getOutput();
   }
 
+
+  public static void assertEqualsAny(String[] expected, String actual) {
+    // check the possible values
+    for (String exp : expected) {
+      if (exp.equals(actual)) return;
+    }
+    throw new AssertionFailedError("Actual value did not match any of the expected values", expected, actual);
+  }
 }

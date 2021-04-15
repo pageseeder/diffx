@@ -38,7 +38,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
+public abstract class AdvancedXMLDiff1Test extends AlgorithmTest {
 
   /**
    * Compares two identical XML documents.
@@ -286,7 +286,7 @@ public abstract class BaseProcessorLevel2Test extends BaseProcessorLevel1Test {
     EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
-    List<Action> actions = diffToActions(seq1.events(), seq2.events());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.events(), seq2.events());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);

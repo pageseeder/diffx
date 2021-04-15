@@ -1,3 +1,18 @@
+/*
+ * Copyright 2010-2015 Allette Systems (Australia)
+ * http://www.allette.com.au
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
@@ -18,7 +33,7 @@ public class PerformanceTest {
   private static final DiffHandler VOID_HANDLER = (operator, event) -> {};
 
   @Test
-  public void compareRandomString_1000_10() throws IOException {
+  public void compareRandomString_1000_10() {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .10);
@@ -31,7 +46,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareRawAlgorithms() throws IOException {
+  public void compareGeneralAlgorithms() {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
       // Generate content
@@ -83,7 +98,7 @@ public class PerformanceTest {
 
 
   @Test
-  public void compareRandomString_1000_50() throws IOException {
+  public void compareRandomString_1000_50() {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .50);
@@ -104,8 +119,6 @@ public class PerformanceTest {
     List<DiffXEvent> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new ProgressiveXMLProcessor(), first, second, 10);
-    System.out.println(second);
-    System.out.println(first);
   }
 
   @Test
@@ -120,9 +133,6 @@ public class PerformanceTest {
     List<DiffXEvent> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
     List<DiffXEvent> secondWord = Events.recordXMLEvents(xml1.toString(), TextGranularity.SPACE_WORD);
     List<DiffXEvent> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
-
-    System.out.println(firstText.size()+"/"+secondText.size());
-    System.out.println(firstWord.size()+"/"+secondWord.size());
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new ProgressiveXMLProcessor(), firstText, secondText, 10);
@@ -148,7 +158,7 @@ public class PerformanceTest {
 
   }
 
-  private static long profileX(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) throws IOException {
+  private static long profileX(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) {
     System.out.print(algorithm.toString());
     System.out.print("\t"+first.size()+"/"+second.size()+" events");
     // We do a dry run first
@@ -163,7 +173,7 @@ public class PerformanceTest {
     return total;
   }
 
-  private static long profile(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) throws IOException {
+  private static long profile(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
     long t0 = System.nanoTime();
     algorithm.diff(first, second, VOID_HANDLER);
     long t1 = System.nanoTime();

@@ -15,19 +15,15 @@
  */
 package org.pageseeder.diffx.core;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.DiffXEvent;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
-import org.pageseeder.diffx.test.TestHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +41,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
+public abstract class BasicXMLDiffTest extends AlgorithmTest {
 
   /**
    * Compares two identical XML documents.
@@ -596,88 +592,6 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
-// line tests ---------------------------------------------------------------------------------
-
-  /**
-   * Tests that the line diff also work.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_SameLine0() throws IOException, DiffXException {
-    String text1 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String exp = "L1L2L3";
-    String diff = processDiffLines(text1, text2);
-    assertEquals(exp, diff);
-  }
-
-  /**
-   * Tests that the line diff also work.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_LineChange0() throws IOException, DiffXException {
-    String text1 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
-        + "line #X\n"
-        + "line #3\n";
-    String[] exp = new String[]{
-        "L1+L2-L2L3",
-        "L1-L2+L2L3"
-    };
-    assertDiffLinesOK(text1, text2, exp);
-  }
-
-  /**
-   * Tests that the line diff also work.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_LineInsert0() throws IOException, DiffXException {
-    String text1 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
-        + "line #3\n";
-    String[] exp = new String[]{
-        "L1+L2L2",
-        "L1+L2L3"
-    };
-    assertDiffLinesOK(text1, text2, exp);
-  }
-
-  /**
-   * Tests that the line diff also work.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  @Test
-  public final void testLevel1_LineRemove0() throws IOException, DiffXException {
-    String text1 = "line #1\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String[] exp = new String[]{
-        "L1-L2L2",
-        "L1-L2L3"
-    };
-    assertDiffLinesOK(text1, text2, exp);
-  }
-
   // helpers
   // --------------------------------------------------------------------------
 
@@ -694,7 +608,7 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
 
     // Process as list of actions
-    List<Action> actions = diffToActions(seq1.events(), seq2.events());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.events(), seq2.events());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);
@@ -703,35 +617,6 @@ public abstract class BaseProcessorLevel1Test extends BaseProcessorLevel0Test {
       printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, seq1.getPrefixMapping()), actions);
       throw ex;
     }
-  }
-
-  private void assertDiffLinesOK(String text1, String text2, String[] exp)
-      throws IOException, DiffXException {
-    // process the strings
-    String diffout = processDiffLines(text1, text2);
-    // check the possible values
-    boolean ok = false;
-    try {
-      for (String s : exp) {
-        ok = ok || s.equals(diffout);
-      }
-      if (!ok)
-        assertEquals(exp[0], diffout);
-    } catch (AssertionError ex) {
-      //printErrorDetails(text1, text2, exp);
-      throw ex;
-    }
-  }
-
-  private String processDiffLines(String text1, String text2)
-      throws IOException, DiffXException, IllegalStateException {
-    // process the strings
-    List<? extends DiffXEvent> seq1 = Events.recordLineEvents(text1);
-    List<? extends DiffXEvent> seq2 = Events.recordLineEvents(text2);
-    DiffAlgorithm processor = getDiffAlgorithm();
-    TestHandler handler = new TestHandler();
-    processor.diff(seq1, seq2, handler);
-    return handler.getOutput();
   }
 
 }

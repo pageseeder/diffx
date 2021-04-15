@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.CompareReplaceFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public final class ProgressiveXMLProcessor implements DiffProcessor {
 
-  private boolean coalesce = true;
+  private boolean coalesce = false;
 
   /**
    * Set whether to consecutive text operations should be coalesced into a single operation.
@@ -41,10 +42,13 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
 
   @Override
   public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
-    DefaultXMLProcessor processor = new DefaultXMLProcessor();
-    processor.setCoalesce(this.coalesce);
-    DiffHandler actual = new CompareReplaceFilter(handler);
-    processor.diff(first, second, actual);
+    GuanoAlgorithm algorithm = new GuanoAlgorithm();
+    DiffHandler actual = handler;
+    if (coalesce) actual = new CoalescingFilter(actual);
+  //  actual = new CompareReplaceFilter(actual);
+    handler.start();
+    algorithm.diff(first, second, actual);
+    handler.end();
   }
 
   @Override
