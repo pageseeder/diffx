@@ -95,7 +95,7 @@ public class ActionFormatter implements DiffXFormatter {
    * @param type The type of action.
    */
   private void setupAction(Operator type) {
-    if (action == null || action.type() != type) {
+    if (action == null || action.operator() != type) {
       this.action = new Action(type);
       this.actions.add(this.action);
     }

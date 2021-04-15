@@ -143,7 +143,7 @@ public final class SmartXMLFormatterTest {
     this.formatter.format(new OpenElementEventNSImpl("a"));
     this.formatter.insert(new AttributeEventNSImpl("", "x", "y"));
     this.formatter.format(new CloseElementEventNSImpl("a"));
-    assertEquivalentToXML("<a x='y' ins:a='true' xmlns:ins='http://www.topologi.com/2005/Diff-X/Insert'/>");
+    assertEquivalentToXML("<a x='y' ins:x='true' xmlns:ins='http://www.topologi.com/2005/Diff-X/Insert'/>");
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
+ * Copyright 2010-2021 Allette Systems (Australia)
  * http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ import java.io.UncheckedIOException;
 import java.util.List;
 
 /**
- * A raw diff algorithm.
+ * A diff algorithm reports the differences between two lists of events.
  *
  * @author Christophe Lauret
  * @version 0.9.0

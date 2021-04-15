@@ -333,7 +333,7 @@ public abstract class BaseAlgorithmTest {
     System.err.println();
     System.err.print("| Actions: ");
     for (Action action : actions) {
-      System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
+      System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.events());
     }
     System.err.println();

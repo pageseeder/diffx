@@ -338,7 +338,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     System.err.println();
     System.err.print("| Actions: ");
     for (Action action : actions) {
-      System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
+      System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.events().stream().map((event) -> ((CharEvent) event).getChar()).collect(Collectors.toList()));
     }
     System.err.println();

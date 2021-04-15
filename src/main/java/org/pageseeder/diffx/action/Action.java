@@ -40,7 +40,7 @@ public class Action {
   /**
    * The type of this action.
    */
-  private final Operator type;
+  private final Operator operator;
 
   /**
    * The list of events associated with this action.
@@ -50,34 +50,34 @@ public class Action {
   /**
    * Creates a new action.
    *
-   * @param type The type of action.
+   * @param operator The type of action.
    * @throws NullPointerException If the given type is <code>null</code>.
    */
-  public Action(Operator type) {
-    if (type == null) throw new NullPointerException("An action must have a type.");
-    this.type = type;
+  public Action(Operator operator) {
+    if (operator == null) throw new NullPointerException("An action must have a type.");
+    this.operator = operator;
     this.events = new LinkedList<>();
   }
 
   /**
    * Creates a new action.
    *
-   * @param type The type of action.
+   * @param operator The type of action.
    * @throws NullPointerException If the given type is <code>null</code>.
    */
-  public Action(Operator type, List<DiffXEvent> events) {
-    if (type == null) throw new NullPointerException("An action must have a type.");
-    this.type = type;
+  public Action(Operator operator, List<DiffXEvent> events) {
+    if (operator == null) throw new NullPointerException("An action must have a type.");
+    this.operator = operator;
     this.events = events;
   }
 
   /**
-   * Add a DiffX event to the list for this action.
+   * Add an event to the list for this action.
    *
-   * @param e The event to add.
+   * @param event The event to add.
    */
-  public void add(DiffXEvent e) {
-    this.events.add(e);
+  public void add(DiffXEvent event) {
+    this.events.add(event);
   }
 
   /**
@@ -88,17 +88,18 @@ public class Action {
   }
 
   /**
-   * @return The type of this action.
+   * @return The operator of this action.
    */
-  public Operator type() {
-    return this.type;
+  public Operator operator() {
+    return this.operator;
   }
 
   /**
-   * @return the reserve action by swapping INS with DEL.
+   * @return A new action using the opposite operator by swapping INS with DEL;
+   *         or the same actions if operator is MATCH.
    */
-  public Action reverse() {
-    switch (this.type) {
+  public Action flip() {
+    switch (this.operator) {
       case DEL:
         return new Action(Operator.INS, this.events);
       case INS:

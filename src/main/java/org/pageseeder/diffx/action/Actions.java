@@ -41,9 +41,9 @@ public class Actions {
   public static List<DiffXEvent> generate(List<Action> actions, boolean positive) {
     List<DiffXEvent> generated = new LinkedList<>();
     for (Action action : actions) {
-      if (positive ? action.type() == Operator.INS : action.type() == Operator.DEL) {
+      if (positive ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
         generated.addAll(action.events());
-      } else if (action.type() == Operator.MATCH) {
+      } else if (action.operator() == Operator.MATCH) {
         generated.addAll(action.events());
       }
     }
@@ -58,7 +58,7 @@ public class Actions {
   public static List<Operation> toOperations(List<Action> actions) {
     List<Operation> operations = new LinkedList<>();
     for (Action action : actions) {
-      Operator operator = action.type();
+      Operator operator = action.operator();
       for (DiffXEvent event : action.events()) {
         operations.add(new Operation(operator, event));
       }
@@ -72,7 +72,7 @@ public class Actions {
   public static List<Action> reverse(List<Action> actions) {
     List<Action> reverse = new ArrayList<>(actions.size());
     for (Action action : actions) {
-      reverse.add(action.reverse());
+      reverse.add(action.flip());
     }
     return reverse;
   }
@@ -96,7 +96,7 @@ public class Actions {
     try {
       for (Action action : actions) {
         int count = action.events().size();
-        switch (action.type()) {
+        switch (action.operator()) {
           case MATCH:
             out.addAll(input.subList(i, i + count));
             i += count;
@@ -122,19 +122,19 @@ public class Actions {
     int i = 0; // Index of A
     int j = 0; // Index of B
     for (Action action : actions) {
-      if (action.type() == Operator.MATCH) {
+      if (action.operator() == Operator.MATCH) {
         for (DiffXEvent e : action.events()) {
           if (i >= a.size() || !e.equals(a.get(i))) return false;
           if (j >= b.size() || !e.equals(b.get(j))) return false;
           i++;
           j++;
         }
-      } else if (action.type() == Operator.INS) {
+      } else if (action.operator() == Operator.INS) {
         for (DiffXEvent e : action.events()) {
           if (i >= a.size() || !e.equals(a.get(i))) return false;
           i++;
         }
-      } else if (action.type() == Operator.DEL) {
+      } else if (action.operator() == Operator.DEL) {
         for (DiffXEvent e : action.events()) {
           if (j >= b.size() || !e.equals(b.get(j))) return false;
           j++;
@@ -146,7 +146,7 @@ public class Actions {
 
   public static void format(List<Action> actions, DiffXFormatter formatter) throws IOException {
     for (Action action : actions) {
-      switch (action.type()) {
+      switch (action.operator()) {
         case MATCH:
           for (DiffXEvent event : action.events()) {
             formatter.format(event);
@@ -170,7 +170,7 @@ public class Actions {
   public static void handle(List<Action> actions, DiffHandler handler) {
     for (Action action : actions) {
       for (DiffXEvent event : action.events()) {
-        handler.handle(action.type(), event);
+        handler.handle(action.operator(), event);
       }
     }
   }

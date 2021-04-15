@@ -24,6 +24,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A Diff-X formatter implementation used solely for testing.
@@ -69,16 +70,33 @@ public final class TestHandler implements DiffHandler {
     out.append(toSimpleString(operator, event, this.mapping));
   }
 
+
+  // Static helpers -------------------------------------------------------------------
+
   /**
    * Formats the entire sequence by formatting each event.
    *
    * @param seq The event sequence to format
-   * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
    */
-  public void format(EventSequence seq) throws IOException {
-    for (int i = 0; i < seq.size(); i++) {
-      handle(Operator.MATCH, seq.getEvent(i));
+  public static String format(EventSequence seq) {
+    TestHandler handler = new TestHandler();
+    for (DiffXEvent event : seq) {
+      handler.handle(Operator.MATCH, event);
     }
+    return handler.getOutput();
+  }
+
+  /**
+   * Formats the entire sequence by formatting each event.
+   *
+   * @param events The events to format
+   */
+  public static String format(List<? extends DiffXEvent> events) {
+    TestHandler handler = new TestHandler();
+    for (DiffXEvent event : events) {
+      handler.handle(Operator.MATCH, event);
+    }
+    return handler.getOutput();
   }
 
   /**
@@ -142,7 +160,6 @@ public final class TestHandler implements DiffHandler {
     if (prefix == null) prefix = "{"+uri+"}";
     return prefix.isEmpty() ? name : (prefix+':'+name);
   }
-
 
   /**
    * @return The output of the handler.

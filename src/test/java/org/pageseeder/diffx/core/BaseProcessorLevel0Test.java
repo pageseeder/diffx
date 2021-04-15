@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * <p>To pass this test an algorithm must only be able to find the correct differences in a piece or text.
  * XML awareness isn't required.
  *
- * <p>All algorithms must pass this test to show they produce correct results.</p>
+ * <p>All algorithms must pass this test to show that they produce correct results.</p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -694,7 +694,7 @@ public abstract class BaseProcessorLevel0Test extends BaseProcessorTest {
     }
     System.err.print("| Actions: ");
     for (Action action : actions) {
-      System.err.print(action.type() == Operator.DEL ? '-' : action.type() == Operator.INS ? '+' : '=');
+      System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.events().stream().map((event) -> ((TextEvent) event).getCharacters()).collect(Collectors.toList()));
     }
     System.err.println();

@@ -62,7 +62,7 @@ public class ActionHandler implements DiffHandler {
    * @param operator The type of action.
    */
   private void setupAction(Operator operator) {
-    if (this.action == null || this.action.type() != operator) {
+    if (this.action == null || this.action.operator() != operator) {
       this.action = new Action(operator);
       this.actions.add(this.action);
     }
