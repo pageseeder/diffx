@@ -53,47 +53,16 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * <p><a href="http://users.utu.fi/~tuiisa/Java/">http://users.utu.fi/~tuiisa/Java/</a>
  *
  * @author Christophe Lauret
- * @version 9 March 2005
+ *
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public final class DiffXKumarRangan extends DiffXAlgorithmBase {
-
-  /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = false;
-
-  // state variables ----------------------------------------------------------------------------
-
-  // Global integer arrays needed in the computation of the LCS
-  private int[] R1, R2;
-  private int[] LL, LL1, LL2;
-
-  /**
-   * Global integer variable needed in the computation of the LCS.
-   */
-  private int R;
-
-  /**
-   * Global integer variable needed in the computation of the LCS.
-   */
-  private int S;
-
-  /**
-   * A counter for the index of the second sequence when generating the diff.
-   */
-  private int iSeq2 = 0;
 
   /**
    * The length of the LCS.
    */
   private int length = -1;
-
-  /**
-   * The formatter to use for the write diff function.
-   */
-  private DiffXFormatter df = null;
-
-  // constructor --------------------------------------------------------------------------------
 
   /**
    * Creates a new DiffXAlgorithmBase.
@@ -104,8 +73,6 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
   public DiffXKumarRangan(EventSequence first, EventSequence second) {
     super(first, second);
   }
-
-  // methods ------------------------------------------------------------------------------------
 
   /**
    * Calculates the length of LCS and returns it.
@@ -121,12 +88,15 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    */
   @Override
   public int length() {
-    DiffAlgorithm algo = new KumarRanganAlgorithm();
-    AtomicInteger length = new AtomicInteger();
-    algo.diff(this.sequence1.events(), this.sequence2.events(), (operator, event) -> {
-      if (operator == Operator.MATCH) length.getAndIncrement();
-    });
-    return length.get();
+    if (this.length < 0) {
+      DiffAlgorithm algo = new KumarRanganAlgorithm();
+      AtomicInteger length = new AtomicInteger();
+      algo.diff(this.sequence1.events(), this.sequence2.events(), (operator, event) -> {
+        if (operator == Operator.MATCH) length.getAndIncrement();
+      });
+      this.length = length.get();
+    }
+    return this.length;
   }
 
   /**
