@@ -122,7 +122,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printDefaultXMLOutput(List<Operation> operations) throws IOException {
+  private static void printDefaultXMLOutput(List<Operation> operations) {
     StringWriter xml = new StringWriter();
     DefaultXMDiffOutput output = new DefaultXMDiffOutput(xml);
     output.setWriteXMLDeclaration(false);

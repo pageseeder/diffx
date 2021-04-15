@@ -23,11 +23,10 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
- * A Diff-X formatter implementation used solely for testing.
+ * A handler implementation used solely for testing.
  *
  * <p>This formatter which write exactly what receives using the abstract representation of
  * each event and adding a plus / minus sign for insertions / deletion. This class is useful

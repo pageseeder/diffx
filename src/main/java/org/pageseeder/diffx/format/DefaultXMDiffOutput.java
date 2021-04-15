@@ -214,10 +214,10 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     String namespace = useDiffNamespaceForElements ? DIFF_NS_URI : XMLConstants.NULL_NS_URI;
     // Attributes first
     if (!this.insertedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "ins-attributes", this.insertedAttributes.stream().map(attribute -> attribute.getName()).collect(Collectors.joining(" ")));
+      this.xml.attribute(DIFF_NS_URI, "ins-attributes", this.insertedAttributes.stream().map(AttributeEvent::getName).collect(Collectors.joining(" ")));
     }
     if (!this.deletedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "del-attributes", this.deletedAttributes.stream().map(attribute -> attribute.getName()).collect(Collectors.joining(" ")));
+      this.xml.attribute(DIFF_NS_URI, "del-attributes", this.deletedAttributes.stream().map(AttributeEvent::getName).collect(Collectors.joining(" ")));
     }
     // Elements
     if (!this.insertedAttributes.isEmpty()) {

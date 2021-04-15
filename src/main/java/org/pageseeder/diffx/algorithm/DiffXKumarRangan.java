@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.pageseeder.diffx.action.Operator;
@@ -109,8 +110,13 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
   @Override
   public void process(DiffXFormatter formatter) throws IOException {
     DiffAlgorithm algo = new KumarRanganAlgorithm();
-    FormattingAdapter adapter = new FormattingAdapter(formatter);
-    algo.diff(this.sequence1.events(), this.sequence2.events(), adapter);
+    try {
+      FormattingAdapter adapter = new FormattingAdapter(formatter);
+      algo.diff(this.sequence1.events(), this.sequence2.events(), adapter);
+    } catch (UncheckedIOException ex) {
+      // Unwrap
+      throw ex.getCause();
+    }
   }
 
 }

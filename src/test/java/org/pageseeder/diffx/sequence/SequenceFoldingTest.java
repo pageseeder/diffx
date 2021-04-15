@@ -28,7 +28,7 @@ import java.io.StringReader;
 public class SequenceFoldingTest {
 
   @Test
-  public void testEmpty() throws IOException {
+  public void testEmpty() {
     EventSequence sequence = new EventSequence();
     EventSequence out = SequenceFolding.forAllElements().fold(sequence);
     assertEquals(0, out.size());

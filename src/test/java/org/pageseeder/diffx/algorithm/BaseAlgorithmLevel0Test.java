@@ -349,17 +349,17 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     final StringBuilder out = new StringBuilder();
 
     @Override
-    public void format(DiffXEvent event) throws IOException, IllegalStateException {
+    public void format(DiffXEvent event) throws IllegalStateException {
       out.append(((CharEvent) event).getChar());
     }
 
     @Override
-    public void insert(DiffXEvent event) throws IOException, IllegalStateException {
+    public void insert(DiffXEvent event) throws IllegalStateException {
       out.append('+').append(((CharEvent) event).getChar());
     }
 
     @Override
-    public void delete(DiffXEvent event) throws IOException, IllegalStateException {
+    public void delete(DiffXEvent event) throws IllegalStateException {
       out.append('-').append(((CharEvent) event).getChar());
     }
 

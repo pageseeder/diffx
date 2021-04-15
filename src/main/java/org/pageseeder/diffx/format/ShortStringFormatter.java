@@ -47,7 +47,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
    *
    * @throws IOException should an I/O exception occurs.
    */
-  public ShortStringFormatter() throws IOException {
+  public ShortStringFormatter() {
     this(new PrintWriter(System.out));
   }
 

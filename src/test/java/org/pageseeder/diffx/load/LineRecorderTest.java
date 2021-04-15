@@ -142,7 +142,7 @@ public final class LineRecorderTest {
    * @param text The text to parse
    * @throws IOException    Should an I/O exception occur.
    */
-  private void assertEqualsText(EventSequence exp, String text) throws IOException {
+  private void assertEqualsText(EventSequence exp, String text) {
     EventSequence seq = this.recorder.process(text);
     try {
       assertEquals(exp.size(), seq.size());

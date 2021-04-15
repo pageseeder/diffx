@@ -18,7 +18,6 @@ package org.pageseeder.diffx.action;
 import org.pageseeder.diffx.event.DiffXEvent;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

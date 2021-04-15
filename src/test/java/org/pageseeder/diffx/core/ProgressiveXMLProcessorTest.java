@@ -16,18 +16,6 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.Events;
-import org.pageseeder.diffx.test.TestActions;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Test case for progressive XML processor.

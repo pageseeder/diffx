@@ -40,7 +40,7 @@ public class FormattingAdapter implements DiffHandler {
   }
 
   /**
-   * Invoke the formatter's method correspding to the operator.
+   * Invoke the formatter's method corresponding to the operator.
    *
    * @param operator The operator
    * @param event    The event to handle

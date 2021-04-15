@@ -38,7 +38,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth1() throws IOException, LoadingException {
+  public void testMaxDepth1() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a/>");
     int max = EventSequenceUtils.getMaxDepth(seq);
     assertEquals(1, max);
@@ -51,7 +51,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth2() throws IOException, LoadingException {
+  public void testMaxDepth2() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><a/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
     assertEquals(2, max);
@@ -64,7 +64,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth3() throws IOException, LoadingException {
+  public void testMaxDepth3() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><b/><b/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
     assertEquals(2, max);
@@ -77,7 +77,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth4() throws IOException, LoadingException {
+  public void testMaxDepth4() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a><b><c/></b><b/></a>");
     int max = EventSequenceUtils.getMaxDepth(seq);
     assertEquals(3, max);
@@ -90,7 +90,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent0() throws IOException, LoadingException {
+  public void testMaxElementContent0() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a/>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
     assertEquals(0, max);
@@ -103,7 +103,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent1() throws IOException, LoadingException {
+  public void testMaxElementContent1() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a>x</a>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
     assertEquals(1, max);
@@ -116,7 +116,7 @@ public final class EventSequenceUtilsTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent2() throws IOException, LoadingException {
+  public void testMaxElementContent2() throws LoadingException {
     EventSequence seq = new SAXRecorder().process("<a>x y</a>");
     int max = EventSequenceUtils.getMaxElementContent(seq);
     assertEquals(3, max);

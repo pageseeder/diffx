@@ -577,7 +577,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_SameLine0() throws IOException, DiffXException {
+  public final void testLevel1_SameLine0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
         + "line #3\n";
@@ -596,7 +596,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_LineChange0() throws IOException, DiffXException {
+  public final void testLevel1_LineChange0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
         + "line #3\n";
@@ -617,7 +617,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_LineInsert0() throws IOException, DiffXException {
+  public final void testLevel1_LineInsert0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
         + "line #3\n";
@@ -637,7 +637,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_LineRemove0() throws IOException, DiffXException {
+  public final void testLevel1_LineRemove0() throws IOException {
     String text1 = "line #1\n"
         + "line #3\n";
     String text2 = "line #1\n"

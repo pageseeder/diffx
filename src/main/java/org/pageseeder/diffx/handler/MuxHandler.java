@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.DiffXEvent;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class MuxHandler implements DiffHandler {
 

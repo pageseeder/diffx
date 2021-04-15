@@ -6,7 +6,7 @@ public class RandomStringFactory {
 
   private final Random R = new Random();
 
-  String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
+  private final String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
 
   private final char[] vocabulary;
 

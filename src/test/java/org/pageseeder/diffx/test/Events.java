@@ -71,28 +71,28 @@ public final class Events {
   }
 
 
-  public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException, IOException {
+  public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return Collections.emptyList();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     return recordXMLEvents(xml, config);
   }
 
-  public static List<DiffXEvent> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException, IOException {
+  public static List<DiffXEvent> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException {
     SAXRecorder recorder = new SAXRecorder();
     recorder.setConfig(config);
     return recorder.process(xml).events();
   }
 
 
-  public static EventSequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException, IOException {
+  public static EventSequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return new EventSequence();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     return recordXMLSequence(xml, config);
   }
 
-  public static EventSequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException, IOException {
+  public static EventSequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException {
     SAXRecorder recorder = new SAXRecorder();
     recorder.setConfig(config);
     return recorder.process(xml);
