@@ -283,60 +283,6 @@ public final class EventSequence implements Iterable<DiffXEvent> {
     return this.events().iterator();
   }
 
-  /**
-   * An iterator over the event elements in the sequences.
-   *
-   * @author Christophe Lauret
-   * @version 0.9.0
-   */
-  public static final class EventIterator implements Iterator<DiffXEvent> {
-
-    /**
-     * The wrapped iterator.
-     */
-    private final Iterator<DiffXEvent> iterator;
-
-    /**
-     * Creates a new iterator wrapping the specified list iterator.
-     *
-     * @param iterator The iterator to wrap.
-     */
-    private EventIterator(Iterator<DiffXEvent> iterator) {
-      this.iterator = iterator;
-    }
-
-    @Override
-    public boolean hasNext() {
-      return this.iterator.hasNext();
-    }
-
-    @Override
-    public DiffXEvent next() {
-      return this.iterator.next();
-    }
-
-    /**
-     * Returns the next event.
-     *
-     * @see java.util.Iterator#next()
-     *
-     * @return the next element in the iteration.
-     * @throws NoSuchElementException iteration has no more event elements.
-     */
-    public DiffXEvent nextEvent() throws NoSuchElementException {
-      return this.iterator.next();
-    }
-
-    /**
-     * @see java.util.Iterator#remove()
-     */
-    @Override
-    public void remove() {
-      this.iterator.remove();
-    }
-
-  }
-
   private static boolean equals(List<DiffXEvent> first, List<DiffXEvent> second) {
     if (first.size() != second.size()) return false;
     DiffXEvent x1;
@@ -348,4 +294,5 @@ public final class EventSequence implements Iterable<DiffXEvent> {
     }
     return true;
   }
+
 }
