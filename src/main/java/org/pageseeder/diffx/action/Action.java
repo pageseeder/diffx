@@ -17,6 +17,7 @@ package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.event.DiffXEvent;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,10 +36,10 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class Action {
+public final class Action {
 
   /**
-   * The type of this action.
+   * The type of action.
    */
   private final Operator operator;
 
@@ -51,16 +52,14 @@ public class Action {
    * Creates a new action.
    *
    * @param operator The type of action.
-   * @throws NullPointerException If the given type is <code>null</code>.
+   * @throws NullPointerException If the specified operator is <code>null</code>.
    */
   public Action(Operator operator) {
-    if (operator == null) throw new NullPointerException("An action must have a type.");
-    this.operator = operator;
-    this.events = new LinkedList<>();
+    this(operator, new ArrayList<>());
   }
 
   /**
-   * Creates a new action.
+   * Creates a new action from a list of events.
    *
    * @param operator The type of action.
    * @throws NullPointerException If the given type is <code>null</code>.
@@ -109,4 +108,27 @@ public class Action {
     }
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Action action = (Action) o;
+    if (this.operator != action.operator) return false;
+    return this.events.equals(action.events);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = operator.hashCode();
+    result = 31 * result + events.hashCode();
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "Action{" +
+        "operator=" + operator +
+        ", events=" + events +
+        '}';
+  }
 }
