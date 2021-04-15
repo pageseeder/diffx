@@ -16,7 +16,10 @@
 package org.pageseeder.diffx.algorithm;
 
 /**
- * A matrix implementation which backbone is a matrix of short numbers.
+ * A matrix implementation which uses the {@code short} instead of {@code int} so that it takes less
+ * memory space during processing.
+ *
+ * <p>It can only be used when the max value to store is 32767.
  *
  * @author Christophe Lauret (Allette Systems)
  * @version 0.9.0
