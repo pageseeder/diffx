@@ -8,6 +8,7 @@ import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -61,7 +62,7 @@ public abstract class BaseAlgorithmTest {
     DiffResult result = processResult(seq1, seq2);
     try {
       assertDiffIsCorrect(seq1, seq2, result.actions());
-      assertDiffIsWellFormedXML(result.actions());
+      DiffAssertions.assertIsWellFormedXML(result.actions());
     } catch (AssertionError ex) {
       printXMLErrorDetails(xml1, xml2, new String[]{}, toXML(result.actions()), result.actions());
       throw ex;
@@ -143,7 +144,7 @@ public abstract class BaseAlgorithmTest {
     List<Action> actions = diffToActions(seq1, seq2);
     try {
       assertDiffIsCorrect(seq1, seq2, actions);
-      assertDiffIsWellFormedXML(actions);
+      DiffAssertions.assertIsWellFormedXML(actions);
       assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
       printXMLErrorDetails(xml1, xml2, exp, toXML(actions), actions);
@@ -294,10 +295,6 @@ public abstract class BaseAlgorithmTest {
     TestFormatter formatter = new TestFormatter();
     Actions.format(actions, formatter);
     return formatter.getOutput();
-  }
-
-  public static void assertDiffIsWellFormedXML(List<Action> actions) throws IOException {
-    assertIsWellFormedXML(toXML(actions));
   }
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {

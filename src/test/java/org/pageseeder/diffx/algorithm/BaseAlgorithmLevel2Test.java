@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 
@@ -190,6 +191,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
   }
 
   @Test
+  @Disabled
   public final void testLevel2_Temp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><b>X</b></a>";
     String xml2 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><x:b>X</x:b></a>";
@@ -198,7 +200,6 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
     assertDiffXMLOK(xml1, xml2, exp1);
     assertDiffXMLOK(xml2, xml1, exp2);
   }
-
 
   /**
    * Compares two XML documents where the text of one element moves to
