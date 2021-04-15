@@ -28,7 +28,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.DiffXFitopsy;
 import org.pageseeder.diffx.algorithm.DiffXKumarRangan;
 import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
@@ -424,8 +423,6 @@ public final class Main {
     String loaderArg = CommandLine.getParameter("-A", args);
     if (loaderArg == null || "guano".equals(loaderArg))
       return new GuanoAlgorithm(seq1, seq2);
-    if ("fitopsy".equals(loaderArg))
-      return new DiffXFitopsy(seq1, seq2);
     if ("kumar".equals(loaderArg))
       return new DiffXKumarRangan(seq1, seq2);
     usage();

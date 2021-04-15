@@ -27,7 +27,9 @@ import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
  * required, that most <code>DiffXEvent</code> implementations extend this class.
  *
  * @author Christophe Lauret
- * @version 3 February 2005
+ *
+ * @version 0.9.0
+ * @since 0.6.0
  */
 abstract class DiffXEventBase implements DiffXEvent {
 
@@ -35,11 +37,6 @@ abstract class DiffXEventBase implements DiffXEvent {
    * For use by the events to escape XML chars.
    */
   static final XMLEscape ESC = XMLEscapeUTF8.UTF8_ESCAPE;
-
-  /**
-   *
-   */
-  int weight = 1;
 
   @Override
   public abstract int hashCode();
@@ -68,16 +65,6 @@ abstract class DiffXEventBase implements DiffXEvent {
   @Override
   public String toXML() {
     return this.toXML(new StringBuffer()).toString();
-  }
-
-  @Override
-  public int getWeight() {
-    return this.weight;
-  }
-
-  @Override
-  public void setWeight(int weight) {
-    this.weight = weight;
   }
 
 }

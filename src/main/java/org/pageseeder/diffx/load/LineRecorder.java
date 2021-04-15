@@ -39,7 +39,7 @@ public final class LineRecorder implements Recorder {
    *
    * @return The recorded sequence of events.
    *
-   * @throws IOException      Should I/O error occur.
+   * @throws IOException Should an I/O error occur.
    */
   @Override
   public EventSequence process(File file) throws IOException {
@@ -54,11 +54,9 @@ public final class LineRecorder implements Recorder {
    * @param text The text string to process.
    *
    * @return The recorded sequence of events.
-   *
-   * @throws UncheckedIOException Should I/O error occur.
    */
   @Override
-  public EventSequence process(String text) throws UncheckedIOException {
+  public EventSequence process(String text) {
     try {
       BufferedReader reader = new BufferedReader(new StringReader(text));
       return getEventSequence(reader);

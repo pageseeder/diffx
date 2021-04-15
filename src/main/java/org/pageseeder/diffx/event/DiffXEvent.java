@@ -53,23 +53,4 @@ public interface DiffXEvent extends XMLWritable, XMLFormattable {
    */
   boolean equals(DiffXEvent e);
 
-  /**
-   * Returns the weight of this event.
-   *
-   * <p>The default weight should be 1.
-   *
-   * @return The weight of this event.
-   */
-  @Deprecated int getWeight();
-
-  /**
-   * Sets the weight of this event.
-   *
-   * <p>This method is intended for use by algorithms, optimisers and loaders in order
-   * to adjust the importance of an event.
-   *
-   * @param weight The weight of this event.
-   */
-  @Deprecated void setWeight(int weight);
-
 }

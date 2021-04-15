@@ -24,7 +24,8 @@ import org.xml.sax.InputSource;
  * Defines recorders that are specific to XML.
  *
  * @author Christophe Lauret
- * @version 14 April 2005
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public interface XMLRecorder extends Recorder {
 

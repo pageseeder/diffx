@@ -15,12 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,11 +135,14 @@ public final class SAXRecorder implements XMLRecorder {
    * @return The recorded sequence of events.
    *
    * @throws LoadingException If thrown while parsing.
-   * @throws IOException      Should I/O error occur.
    */
   @Override
-  public EventSequence process(String xml) throws LoadingException, IOException {
-    return this.process(new InputSource(new StringReader(xml)));
+  public EventSequence process(String xml) throws LoadingException {
+    try {
+      return this.process(new InputSource(new StringReader(xml)));
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
   }
 
   /**
@@ -259,19 +257,9 @@ public final class SAXRecorder implements XMLRecorder {
     private final AttributeComparator comparator = new AttributeComparator();
 
     /**
-     * The weight of the current element.
-     */
-    private int currentWeight = -1;
-
-    /**
      * The last open element event, should only contain <code>OpenElementEvent</code>s.
      */
     private final List<OpenElementEvent> openElements = new ArrayList<>();
-
-    /**
-     * The stack of weight, should only contain <code>Integer</code>.
-     */
-    private final List<Integer> weights = new ArrayList<>();
 
     /**
      * The factory that will produce events according to the configuration.
@@ -302,10 +290,6 @@ public final class SAXRecorder implements XMLRecorder {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
       recordCharacters();
-      if (this.currentWeight > 0) {
-        this.weights.add(this.currentWeight);
-      }
-      this.currentWeight = 1;
       OpenElementEvent open = this.efactory.makeOpenElement(uri, localName, qName);
       this.openElements.add(open);
       SAXRecorder.this.sequence.addEvent(open);
@@ -316,12 +300,8 @@ public final class SAXRecorder implements XMLRecorder {
     public void endElement(String uri, String localName, String qName) {
       recordCharacters();
       OpenElementEvent open = popLastOpenElement();
-      open.setWeight(this.currentWeight);
       CloseElementEvent close = this.efactory.makeCloseElement(open);
-      close.setWeight(this.currentWeight);
       SAXRecorder.this.sequence.addEvent(close);
-      // calculate weights
-      this.currentWeight += popWeight();
     }
 
     @Override
@@ -340,7 +320,6 @@ public final class SAXRecorder implements XMLRecorder {
     @Override
     public void processingInstruction(String target, String data) {
       SAXRecorder.this.sequence.addEvent(new ProcessingInstructionEvent(target, data));
-      this.currentWeight++;
     }
 
     @Override
@@ -356,7 +335,6 @@ public final class SAXRecorder implements XMLRecorder {
         for (TextEvent e : events) {
           SAXRecorder.this.sequence.addEvent(e);
         }
-        this.currentWeight += events.size();
         this.ch.setLength(0);
       }
     }
@@ -368,18 +346,6 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private OpenElementEvent popLastOpenElement() {
       return this.openElements.remove(this.openElements.size() - 1);
-    }
-
-    /**
-     * Returns the last weight and remove it from the stack.
-     *
-     * @return The weight on top of the stack.
-     */
-    private int popWeight() {
-      if (this.weights.size() > 0)
-        return this.weights.remove(this.weights.size() - 1);
-      else
-        return 0;
     }
 
     /**
@@ -403,8 +369,6 @@ public final class SAXRecorder implements XMLRecorder {
               attributes.getLocalName(i),
               attributes.getQName(i),
               attributes.getValue(i));
-          attEvents[i].setWeight(2);
-          this.currentWeight += 2;
         }
         // sort them
         Arrays.sort(attEvents, this.comparator);

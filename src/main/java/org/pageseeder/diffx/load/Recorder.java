@@ -17,6 +17,7 @@ package org.pageseeder.diffx.load;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -25,7 +26,9 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * from a specified input.
  *
  * @author Christophe Lauret
- * @version 0.6.0
+ *
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public interface Recorder {
 
@@ -44,13 +47,13 @@ public interface Recorder {
   /**
    * Runs the recorder on the specified string.
    *
-   * @param xml The string to process.
+   * @param source The string to process.
    *
    * @return The recorded sequence of events.
    *
-   * @throws LoadingException If thrown while parsing.
-   * @throws IOException      Should I/O error occur.
+   * @throws LoadingException     If thrown while parsing.
+   * @throws UncheckedIOException Should I/O error occur.
    */
-  EventSequence process(String xml) throws LoadingException, IOException;
+  EventSequence process(String source) throws LoadingException, UncheckedIOException;
 
 }

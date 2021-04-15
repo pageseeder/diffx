@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -94,16 +93,6 @@ public final class DOMRecorder implements XMLRecorder {
    * The sequence of event for this recorder.
    */
   private PrefixMapping mapping;
-
-  /**
-   * The weight of the current element.
-   */
-  private int currentWeight = -1;
-
-  /**
-   * The stack of events' weight, should only contain <code>Integer</code>.
-   */
-  private final List<Integer> weights = new ArrayList<>();
 
   /**
    * Indicates whether the given document is a fragment.
@@ -258,10 +247,6 @@ public final class DOMRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   private void load(Element element) throws LoadingException {
-    if (this.currentWeight > 0) {
-      this.weights.add(this.currentWeight);
-    }
-    this.currentWeight = 1;
     // namespace handling
     OpenElementEvent open;
     // namespace aware configuration
@@ -300,10 +285,6 @@ public final class DOMRecorder implements XMLRecorder {
     }
     CloseElementEvent close = this.efactory.makeCloseElement(open);
     this.sequence.addEvent(close);
-    // handle the weights
-    close.setWeight(this.currentWeight);
-    open.setWeight(this.currentWeight);
-    this.currentWeight += popWeight();
   }
 
   /**
@@ -316,7 +297,6 @@ public final class DOMRecorder implements XMLRecorder {
     for (TextEvent e : events) {
       this.sequence.addEvent(e);
     }
-    this.currentWeight += events.size();
   }
 
   /**
@@ -326,19 +306,6 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void load(ProcessingInstruction pi) {
     this.sequence.addEvent(new ProcessingInstructionEvent(pi.getTarget(), pi.getData()));
-    this.currentWeight++;
-  }
-
-  /**
-   * Returns the last weight and remove it from the stack.
-   *
-   * @return The weight on top of the stack.
-   */
-  private int popWeight() {
-    if (this.weights.size() > 0)
-      return this.weights.remove(this.weights.size() - 1);
-    else
-      return 0;
   }
 
   /**
@@ -369,8 +336,6 @@ public final class DOMRecorder implements XMLRecorder {
 
       // a regular attribute
     } else {
-      e.setWeight(2);
-      this.currentWeight += 2;
       this.sequence.addEvent(e);
     }
   }

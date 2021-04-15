@@ -135,16 +135,4 @@ public final class IgnorableSpaceEvent implements TextEvent {
     return xml;
   }
 
-  @Override
-  public int getWeight() {
-    return 1;
-  }
-
-  /**
-   * Ignored.
-   */
-  @Override
-  public void setWeight(int weight) {
-  }
-
 }
