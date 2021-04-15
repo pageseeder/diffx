@@ -336,7 +336,8 @@ public abstract class BaseXMLFormatterTest {
 //helpers ------------------------------------------------------------------------------------
 
   /**
-   * Prepare the sequences and returns a sequence slicer on them.
+   * Asserts that loading and formatting the XML, and loading the output of the format
+   * returns the same events.
    *
    * @param xml The first XML to test.
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.

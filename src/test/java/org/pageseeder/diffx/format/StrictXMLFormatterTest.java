@@ -41,7 +41,7 @@ public final class StrictXMLFormatterTest {
   /**
    * The namespace declaration.
    */
-  private static final String XML_DECL = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
+  private static final String XML_DECL = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
   /**
    * The namespace declaration.
@@ -97,7 +97,7 @@ public final class StrictXMLFormatterTest {
   @Test
   public void testAttributes0() throws DiffXException, IOException {
     this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new AttributeEventNSImpl("x", "", "y"));
+    this.formatter.format(new AttributeEventNSImpl("", "x", "y"));
     this.formatter.format(new CloseElementEventNSImpl("a"));
     assertEquivalentToXML("<a x='y'/>");
     String xml = XML_DECL + "<a " + NS_DECL + " x=\"y\"></a>";
@@ -119,6 +119,7 @@ public final class StrictXMLFormatterTest {
     EventSequence exp = this.recorder.process(new InputSource(xmlr));
     // process the output of the formatter
     Reader xmlr2 = new StringReader(this.w.toString());
+    System.err.println(this.w.toString());
     EventSequence seq = this.recorder.process(new InputSource(xmlr2));
     try {
       assertEquals(exp.size(), seq.size());

@@ -155,9 +155,9 @@ public final class SmartXMLFormatterTest {
   @Test
   public void testAttributes2() throws DiffXException, IOException {
     this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.delete(new AttributeEventNSImpl("http://www.topologi.org/2004/Diff-X/Delete", "x", "y"));
+    this.formatter.delete(new AttributeEventNSImpl("", "x", "y"));
     this.formatter.format(new CloseElementEventNSImpl("a"));
-    assertEquivalentToXML("<a xmlns:del='http://www.topologi.org/2004/Diff-X/Delete' del:x='y'/>");
+    assertEquivalentToXML("<a xmlns:del='http://www.topologi.com/2005/Diff-X/Delete' del:x='y'/>");
   }
 
 // helpers ------------------------------------------------------------------------------------
@@ -183,9 +183,9 @@ public final class SmartXMLFormatterTest {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);
       pw.flush();
+      System.err.println(this.w.toString());
       throw ex;
     }
-    System.err.println(this.w.toString());
   }
 
   /**
