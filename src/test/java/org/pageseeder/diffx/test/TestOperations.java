@@ -17,7 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.handler.OperationHandler;
 
 import java.util.List;

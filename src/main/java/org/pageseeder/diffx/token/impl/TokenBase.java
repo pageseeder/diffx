@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event.impl;
+package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.esc.XMLEscape;
 import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
 

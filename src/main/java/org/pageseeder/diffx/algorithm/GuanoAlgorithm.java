@@ -17,8 +17,8 @@ package org.pageseeder.diffx.algorithm;
 
 import java.io.IOException;
 
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;

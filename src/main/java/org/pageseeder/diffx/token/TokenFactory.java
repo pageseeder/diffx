@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event;
+package org.pageseeder.diffx.token;
 
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.StartElementToken;
-import org.pageseeder.diffx.event.impl.*;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.impl.*;
 
 /**
  * Factory for tokens.

@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.StartElementToken;
 
 /**
  * Maintains the state of open and closed elements during the processing the Diff-X
@@ -139,7 +139,7 @@ public final class ElementState {
    * @return The index of the first occurrence of the argument in this list;
    *         returns <code>-1</code if the object is not found.
    *
-   * @see org.pageseeder.diffx.event.Token#equals(Token)
+   * @see org.pageseeder.diffx.token.Token#equals(Token)
    */
   public int indexOf(StartElementToken element) {
     if (element == null) {

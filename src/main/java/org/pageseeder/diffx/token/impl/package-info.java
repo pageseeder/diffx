@@ -13,31 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event;
-
-import java.util.List;
-
-public interface ElementToken extends Namespaceable, Token {
-
-  /**
-   * @return The local name of the element.
-   */
-  String getName();
-
-  /**
-   * @return The namespace URI the element belongs to.
-   */
-  String getURI();
-
-  /**
-   * Returns all the tokens for this element, starting with the
-   * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
-   *
-   * @return the list of tokens making up this element
-   */
-  List<Token> getEvents();
-
-  @Override
-  default TokenType getType() { return TokenType.ELEMENT; }
-
-}
+/**
+ * The tokens implementations used by the Diff-X.
+ */
+package org.pageseeder.diffx.token.impl;

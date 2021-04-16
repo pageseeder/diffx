@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
-import org.pageseeder.diffx.event.TextToken;
-import org.pageseeder.diffx.event.impl.CharactersToken;
-import org.pageseeder.diffx.event.impl.SpaceToken;
-import org.pageseeder.diffx.event.impl.WordToken;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.impl.CharactersToken;
+import org.pageseeder.diffx.token.impl.SpaceToken;
+import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.test.Events;
 
 

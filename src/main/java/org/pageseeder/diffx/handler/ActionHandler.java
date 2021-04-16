@@ -17,7 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;

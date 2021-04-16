@@ -13,46 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event;
+package org.pageseeder.diffx.token;
 
-/**
- * Assign a type of event that can affect processing of the diff.
- *
- * @author Christophe Lauret
- *
- * @version 0.9.0
- * @since 0.9.0
- */
-public enum TokenType {
+import java.util.List;
+
+public interface ElementToken extends Namespaceable, Token {
 
   /**
-   * Text only.
+   * @return The local name of the element.
    */
-  TEXT,
+  String getName();
 
   /**
-   * An XML attribute.
+   * @return The namespace URI the element belongs to.
    */
-  ATTRIBUTE,
+  String getURI();
 
   /**
-   * An XML element.
+   * Returns all the tokens for this element, starting with the
+   * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
+   *
+   * @return the list of tokens making up this element
    */
-  ELEMENT,
+  List<Token> getEvents();
 
-  /**
-   * The start of an XML element.
-   */
-  START_ELEMENT,
-
-  /**
-   * The end of an XML element.
-   */
-  END_ELEMENT,
-
-  /**
-   * Any other type.
-   */
-  OTHER;
+  @Override
+  default TokenType getType() { return TokenType.ELEMENT; }
 
 }

@@ -18,7 +18,7 @@ package org.pageseeder.diffx.sequence;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 

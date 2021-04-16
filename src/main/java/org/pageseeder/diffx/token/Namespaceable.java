@@ -1,6 +1,6 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
- * http://www.allette.com.au
+ * Copyright 2010-2021 Allette Systems (Australia)
+ *    http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event;
+
+package org.pageseeder.diffx.token;
 
 /**
- * The event corresponding to the <code>startElement</code> SAX event.
+ * Indicates that the token belong to a namespace.
  *
  * @author Christophe Lauret
- * @version 23 December 2004
+ *
+ * @version 0.9.0
+ * @since 0.9.0
  */
-public interface StartElementToken extends Namespaceable, Token {
+public interface Namespaceable {
 
   /**
-   * Returns the local name of the element.
+   * Returns the local name of the token.
    *
-   * @return The local name of the element.
+   * <p>This method should never return <code>null</code>.
+   *
+   * @return The local name of the attribute.
    */
   String getName();
 
   /**
-   * Returns the namespace URI the element belongs to.
+   * Returns the namespace URI the token.
    *
-   * @return The namespace URI the element belongs to.
+   * <p>This method should return <code>""</code> (empty string) if the implementation
+   * is not namespace aware or if the token is not bound to any namespace.
+   *
+   * @return The namespace URI the attribute belongs to or <code>""</code>.
    */
   String getURI();
 
-  @Override
-  default TokenType getType() { return TokenType.START_ELEMENT; }
 }

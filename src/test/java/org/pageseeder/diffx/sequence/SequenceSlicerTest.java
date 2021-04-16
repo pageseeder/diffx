@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.event.impl.EndElementTokenNSImpl;
-import org.pageseeder.diffx.event.impl.StartElementTokenNSImpl;
-import org.pageseeder.diffx.event.impl.WordToken;
+import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
+import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
+import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.xml.sax.InputSource;
 

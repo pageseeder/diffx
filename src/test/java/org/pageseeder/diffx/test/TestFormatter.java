@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.*;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -57,7 +57,7 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.token.Token)
    */
   public void format(Token e) {
     out.write(toAbstractString(e));
@@ -68,7 +68,7 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a plus sign '+' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.token.Token)
    */
   public void insert(Token e) {
     out.write("+" + toAbstractString(e));
@@ -79,7 +79,7 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a minus sign '-' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.token.Token)
    */
   public void delete(Token e) {
     out.write("-" + toAbstractString(e));

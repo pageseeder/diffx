@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event.impl;
+package org.pageseeder.diffx.token.impl;
 
 import java.io.IOException;
 
-import javax.xml.XMLConstants;
-
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- * A basic implementation of the close element token.
- *
- * <p>It corresponds to the <code>endElement</code> SAX token.
- *
- * <p>This implementation is not namespace aware.
+ * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 17 May 2005
+ * @version 28 March 2010
  */
-public final class EndElementTokenImpl extends TokenBase implements EndElementToken {
+public final class EndElementTokenNSImpl extends TokenBase implements EndElementToken {
 
   /**
    * The corresponding open element token.
@@ -42,28 +36,44 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   private final StartElementToken open;
 
   /**
-   * Creates a new close element token.
+   * Creates a new close element token on the default namespace URI.
    *
    * @param name The local name of the element
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public EndElementTokenImpl(String name) throws NullPointerException {
+  public EndElementTokenNSImpl(String name) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new StartElementTokenImpl(name);
+    this.open = new StartElementTokenNSImpl(name);
   }
 
   /**
-   * Creates a new close element token that corresponds to the given open element.
+   * Creates a new close element token.
    *
-   * @param token The corresponding open element.
+   * @param uri  The namespace URI of the element
+   * @param name The local name of the element
+   *
+   * @throws NullPointerException if any of the argument is <code>null</code>.
+   */
+  public EndElementTokenNSImpl(String uri, String name) throws NullPointerException {
+    if (uri == null)
+      throw new NullPointerException("The URI cannot be null, use \"\".");
+    if (name == null)
+      throw new NullPointerException("Element must have a name.");
+    this.open = new StartElementTokenNSImpl(uri, name);
+  }
+
+  /**
+   * Creates a new close element token from the corresponding open element token.
+   *
+   * @param token The corresponding open element token.
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public EndElementTokenImpl(StartElementToken token) throws NullPointerException {
+  public EndElementTokenNSImpl(StartElementToken token) throws NullPointerException {
     if (token == null)
-      throw new NullPointerException("A close element must correspond to an open element.");
+      throw new NullPointerException("Element must have a name.");
     this.open = token;
   }
 
@@ -76,15 +86,11 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   }
 
   /**
-   * Always return the empty URI.
-   *
-   * @see XMLConstants#NULL_NS_URI
-   *
-   * @return Returns the uri.
+   * @return Returns the namespace URI.
    */
   @Override
   public String getURI() {
-    return XMLConstants.NULL_NS_URI;
+    return this.open.getURI();
   }
 
   @Override
@@ -92,24 +98,21 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
     return this.open;
   }
 
-  /**
-   * Returns <code>true</code> if the open element has the same name.
-   */
   @Override
   public boolean match(StartElementToken token) {
     if (token == null) return false;
     if (token == this.open) return true;
-    return token.getName().equals(getName());
+    return token.getURI().equals(getURI())
+        &&  token.getName().equals(getName());
   }
 
   @Override
   public int hashCode() {
-    return 53 + this.open.hashCode();
+    return 89 + this.open.hashCode();
   }
 
   /**
-   * Returns <code>true</code> if the token is a close element
-   * and has the same name.
+   * Returns <code>true</code> if the token is a close element token.
    *
    * @param e The token to compare with this token.
    *
@@ -119,13 +122,14 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   @Override
   public boolean equals(Token e) {
     if (e.getClass() != this.getClass()) return false;
-    EndElementTokenImpl ce = (EndElementTokenImpl)e;
-    return ce.getName().equals(getName());
+    EndElementTokenNSImpl ce = (EndElementTokenNSImpl)e;
+    return ce.getURI().equals(getURI())
+        &&  ce.getName().equals(getName());
   }
 
   @Override
   public String toString() {
-    return "closeElement: "+getName();
+    return "closeElement: "+getName()+" ["+getURI()+"]";
   }
 
   @Override
@@ -135,8 +139,8 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
 
   @Override
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+    // TODO: handle namespaces.
     xml.append("</").append(getName()).append('>');
     return xml;
   }
-
 }

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.token.TextToken;
 
 import java.util.List;
 

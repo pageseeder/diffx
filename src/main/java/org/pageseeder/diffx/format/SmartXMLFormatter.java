@@ -16,13 +16,13 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.StartElementToken;
-import org.pageseeder.diffx.event.impl.CharToken;
-import org.pageseeder.diffx.event.impl.CharactersTokenBase;
-import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.impl.CharToken;
+import org.pageseeder.diffx.token.impl.CharactersTokenBase;
+import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Formatting;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;

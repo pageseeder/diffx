@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.StartElementToken;
-import org.pageseeder.diffx.event.TextToken;
-import org.pageseeder.diffx.event.TokenFactory;
-import org.pageseeder.diffx.event.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.TokenFactory;
+import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;

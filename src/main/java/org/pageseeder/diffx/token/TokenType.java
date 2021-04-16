@@ -13,32 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event.impl;
-
-import org.pageseeder.diffx.event.TextToken;
+package org.pageseeder.diffx.token;
 
 /**
- * A text token representing a word.
+ * Assign a type of event that can affect processing of the diff.
  *
  * @author Christophe Lauret
+ *
  * @version 0.9.0
+ * @since 0.9.0
  */
-public final class WordToken extends CharactersTokenBase implements TextToken {
+public enum TokenType {
 
   /**
-   * Creates a new word token.
-   *
-   * @param w The word as a string.
-   *
-   * @throws NullPointerException If the given String is <code>null</code>.
+   * Text only.
    */
-  public WordToken(CharSequence w) throws NullPointerException {
-    super(w);
-  }
+  TEXT,
 
-  @Override
-  public String toString() {
-    return "word: \""+getCharacters()+'"';
-  }
+  /**
+   * An XML attribute.
+   */
+  ATTRIBUTE,
+
+  /**
+   * An XML element.
+   */
+  ELEMENT,
+
+  /**
+   * The start of an XML element.
+   */
+  START_ELEMENT,
+
+  /**
+   * The end of an XML element.
+   */
+  END_ELEMENT,
+
+  /**
+   * Any other type.
+   */
+  OTHER;
 
 }

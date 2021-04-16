@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerBySpaceWord;
 

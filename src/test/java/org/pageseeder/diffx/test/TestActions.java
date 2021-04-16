@@ -3,7 +3,7 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.core.DiffAlgorithm;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;

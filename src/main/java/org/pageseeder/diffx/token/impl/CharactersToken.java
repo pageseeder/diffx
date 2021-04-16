@@ -13,29 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event;
+package org.pageseeder.diffx.token.impl;
+
+import org.pageseeder.diffx.token.TextToken;
 
 /**
- * An interface for any data that comes from a text node.
+ * An token corresponds to the "characters" SAX event.
+ *
+ * <p>
+ * This event can be used to represent the text content of entire element. Typically, this would
+ * happen when there is no need to examine the text content of the node.
  *
  * @author Christophe Lauret
  *
  * @version 0.9.0
- * @since 0.5.0
+ * @since 0.6.0
  */
-public interface TextToken extends Token {
+public final class CharactersToken extends CharactersTokenBase implements TextToken {
 
   /**
-   * Returns the characters that this token represents.
+   * Creates a new characters event.
    *
-   * <p>Note: this method will return the characters as used by Java (ie. Unicode), they
-   * may not be suitable for writing to an XML string.
+   * @param seq The char sequence.
    *
-   * @return The characters that this token represents.
+   * @throws NullPointerException If the given String is <code>null</code>.
    */
-  String getCharacters();
+  public CharactersToken(CharSequence seq) throws NullPointerException {
+    super(seq);
+  }
 
   @Override
-  default TokenType getType() { return TokenType.TEXT; }
+  public String toString() {
+    return "\""+getCharacters()+'"';
+  }
 
 }

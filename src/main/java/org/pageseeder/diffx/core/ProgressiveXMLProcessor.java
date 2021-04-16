@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 

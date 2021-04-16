@@ -20,9 +20,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.TextToken;
-import org.pageseeder.diffx.event.impl.CharactersToken;
-import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.impl.CharactersToken;
+import org.pageseeder.diffx.token.impl.SpaceToken;
 
 /**
  * The tokenizer for characters tokens.

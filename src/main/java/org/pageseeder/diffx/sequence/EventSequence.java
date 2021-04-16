@@ -18,7 +18,7 @@ package org.pageseeder.diffx.sequence;
 import java.io.PrintWriter;
 import java.util.*;
 
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 
 /**
  * A sequence of tokens used for the Diff-X algorithm.

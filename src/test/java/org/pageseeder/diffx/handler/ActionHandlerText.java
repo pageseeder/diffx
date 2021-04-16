@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.Arrays;
 import java.util.Collections;

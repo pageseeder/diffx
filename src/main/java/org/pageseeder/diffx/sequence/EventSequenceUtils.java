@@ -17,9 +17,9 @@ package org.pageseeder.diffx.sequence;
 
 import java.util.Stack;
 
-import org.pageseeder.diffx.event.EndElementToken;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.token.EndElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.StartElementToken;
 
 /**
  * A utility class for event sequences.

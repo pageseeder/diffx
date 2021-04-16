@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.load.text;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.TextToken;
-import org.pageseeder.diffx.event.impl.CharactersToken;
-import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.impl.CharactersToken;
+import org.pageseeder.diffx.token.impl.SpaceToken;
 
 import java.util.List;
 

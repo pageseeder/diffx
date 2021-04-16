@@ -17,9 +17,9 @@ package org.pageseeder.diffx.load;
 
 import java.util.Comparator;
 
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.impl.AttributeTokenImpl;
-import org.pageseeder.diffx.event.impl.AttributeTokenNSImpl;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.impl.AttributeTokenImpl;
+import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
 
 /**
  * A comparator in order to put attributes in the correct order, that is in the alphabetical order

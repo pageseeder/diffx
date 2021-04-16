@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;

@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.impl.LineToken;
+import org.pageseeder.diffx.token.impl.LineToken;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;

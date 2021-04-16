@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.TextToken;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceToken;
-import org.pageseeder.diffx.event.impl.SpaceToken;
-import org.pageseeder.diffx.event.impl.WordToken;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
+import org.pageseeder.diffx.token.impl.SpaceToken;
+import org.pageseeder.diffx.token.impl.WordToken;
 
 /**
  * The tokenizer for characters tokens.

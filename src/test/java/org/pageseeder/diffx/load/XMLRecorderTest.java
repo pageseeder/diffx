@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.impl.*;
+import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Namespace;

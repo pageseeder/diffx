@@ -18,7 +18,7 @@ package org.pageseeder.diffx.format;
 import java.io.IOException;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.Token;
 
 /**
  * An interface for formatting the output of the Diff-X algorithm.

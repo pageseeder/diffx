@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event.impl;
+package org.pageseeder.diffx.token.impl;
 
 import java.io.IOException;
 
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;

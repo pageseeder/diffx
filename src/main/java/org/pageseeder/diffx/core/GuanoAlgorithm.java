@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.ElementState;
 import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
-import org.pageseeder.diffx.event.AttributeToken;
-import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 

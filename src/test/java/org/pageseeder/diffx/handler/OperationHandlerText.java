@@ -18,8 +18,8 @@ package org.pageseeder.diffx.handler;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.Token;
-import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.List;
 

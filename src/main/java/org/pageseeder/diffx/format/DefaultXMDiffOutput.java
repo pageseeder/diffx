@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriter;

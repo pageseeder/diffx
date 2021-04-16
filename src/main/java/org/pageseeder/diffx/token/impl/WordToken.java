@@ -13,38 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.event.impl;
+package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.token.TextToken;
 
 /**
- * An token corresponds to the "characters" SAX event.
- *
- * <p>
- * This event can be used to represent the text content of entire element. Typically, this would
- * happen when there is no need to examine the text content of the node.
+ * A text token representing a word.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
- * @since 0.6.0
  */
-public final class CharactersToken extends CharactersTokenBase implements TextToken {
+public final class WordToken extends CharactersTokenBase implements TextToken {
 
   /**
-   * Creates a new characters event.
+   * Creates a new word token.
    *
-   * @param seq The char sequence.
+   * @param w The word as a string.
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public CharactersToken(CharSequence seq) throws NullPointerException {
-    super(seq);
+  public WordToken(CharSequence w) throws NullPointerException {
+    super(w);
   }
 
   @Override
   public String toString() {
-    return "\""+getCharacters()+'"';
+    return "word: \""+getCharacters()+'"';
   }
 
 }
