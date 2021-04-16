@@ -76,26 +76,25 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
     assertDiffXMLCoalesceOK(xml1, xml2, expA, expB);
   }
 
+  @Test
+  public final void testProg_MovedBranch() throws IOException, DiffXException {
+    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
+    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
+    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
+    assertDiffXMLCoalesceOK(xml1, xml2, exp1);
+    assertDiffXMLCoalesceOK(xml2, xml1, exp2);
+  }
 
-//  @Test
-//  public final void testProg_MovedBranch() throws IOException, DiffXException {
-//    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-//    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-//    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
-//    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
-//    assertDiffXMLProgOK(xml1, xml2, exp1);
-//    assertDiffXMLProgOK(xml2, xml1, exp2);
-//  }
-//
-//  @Test
-//  public final void testProg_BestPath() throws IOException, DiffXException {
-//    String xml1 = "<a><b>X</b></a>";
-//    String xml2 = "<a><b/><b>X</b></a>";
-//    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-//    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-//    assertDiffXMLProgOK(xml1, xml2, exp1);
-//    assertDiffXMLProgOK(xml2, xml1, exp2);
-//  }
+  @Test
+  public final void testProg_BestPath() throws IOException, DiffXException {
+    String xml1 = "<a><b>X</b></a>";
+    String xml2 = "<a><b/><b>X</b></a>";
+    String exp1 = "<a>-<b>-</b><b>X</b></a>";
+    String exp2 = "<a>+<b>+</b><b>X</b></a>";
+    assertDiffXMLCoalesceOK(xml1, xml2, exp1);
+    assertDiffXMLCoalesceOK(xml2, xml1, exp2);
+  }
 
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
@@ -118,9 +117,6 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
 
     TestHandler th = new TestHandler();
     Actions.handle(actions, th);
-    System.err.println("----");
-    System.err.println(th.getOutput());
-    System.err.println("----");
 
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
