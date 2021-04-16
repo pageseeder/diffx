@@ -42,7 +42,7 @@ abstract class TokenBase implements Token {
   public abstract int hashCode();
 
   @Override
-  public abstract boolean equals(Token e);
+  public abstract boolean equals(Token token);
 
   /**
    * Invokes the {@link Token#equals(Token)} method if the specified object if not

@@ -94,7 +94,7 @@ public final class TestFormatter implements DiffXFormatter {
   }
 
   /**
-   * Formats the entire sequence by formatting each event.
+   * Formats the entire sequence by formatting each token.
    *
    * @param seq The token sequence to format
    * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
@@ -122,31 +122,31 @@ public final class TestFormatter implements DiffXFormatter {
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The token to format
+   * @param token The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toAbstractString(Token e) {
+  public static String toAbstractString(Token token) {
     // TODO: handle unknown token implementations nicely.
     // an element to open
-    if (e instanceof StartElementToken) return '<' + ((StartElementToken) e).getName() + '>';
+    if (token instanceof StartElementToken) return '<' + ((StartElementToken) token).getName() + '>';
     // an element to close
-    if (e instanceof EndElementToken) return "</" + ((EndElementToken) e).getName() + '>';
+    if (token instanceof EndElementToken) return "</" + ((EndElementToken) token).getName() + '>';
     // an element
-    if (e instanceof ElementToken) return '<' + ((ElementToken) e).getName() + "/>";
+    if (token instanceof ElementToken) return '<' + ((ElementToken) token).getName() + "/>";
     // an attribute
-    if (e instanceof AttributeToken)
-      return "@{" + ((AttributeToken) e).getName() + '=' + ((AttributeToken) e).getValue() + '}';
+    if (token instanceof AttributeToken)
+      return "@{" + ((AttributeToken) token).getName() + '=' + ((AttributeToken) token).getValue() + '}';
     // a word
-    if (e instanceof WordToken) return "$w{" + ((CharactersTokenBase) e).getCharacters() + '}';
+    if (token instanceof WordToken) return "$w{" + ((CharactersTokenBase) token).getCharacters() + '}';
     // a white space token
-    if (e instanceof SpaceToken) return "$s{" + ((CharactersTokenBase) e).getCharacters() + '}';
+    if (token instanceof SpaceToken) return "$s{" + ((CharactersTokenBase) token).getCharacters() + '}';
     // a single character
-    if (e instanceof CharToken) return "$c{" + ((CharToken) e).getCharacters() + '}';
+    if (token instanceof CharToken) return "$c{" + ((CharToken) token).getCharacters() + '}';
     // an ignorable space token
-    if (e instanceof IgnorableSpaceToken) return "$i{" + ((IgnorableSpaceToken) e).getCharacters() + '}';
+    if (token instanceof IgnorableSpaceToken) return "$i{" + ((IgnorableSpaceToken) token).getCharacters() + '}';
     // a single line
-    if (e instanceof LineToken) return "$L" + ((LineToken) e).getLineNumber();
-    return e.getClass().toString();
+    if (token instanceof LineToken) return "$L" + ((LineToken) token).getLineNumber();
+    return token.getClass().toString();
   }
 
 }

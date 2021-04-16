@@ -136,9 +136,9 @@ public final class LineRecorderTest {
 // helpers ------------------------------------------------------------------------------------
 
   /**
-   * Checks that the given XML is equivalent to the given event sequence.
+   * Checks that the given XML is equivalent to the given token sequence.
    *
-   * @param exp The expected event sequence.
+   * @param exp The expected token sequence.
    * @param text The text to parse
    * @throws IOException    Should an I/O exception occur.
    */

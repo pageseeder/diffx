@@ -359,8 +359,8 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     }
 
     @Override
-    public void delete(Token event) throws IllegalStateException {
-      out.append('-').append(((CharToken) event).getChar());
+    public void delete(Token token) throws IllegalStateException {
+      out.append('-').append(((CharToken) token).getChar());
     }
 
     @Override

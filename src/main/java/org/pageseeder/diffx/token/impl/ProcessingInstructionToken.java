@@ -23,7 +23,7 @@ import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- * A processing instruction event.
+ * A processing instruction token.
  *
  * @author Christophe Lauret
  * @version 27 March 2010
@@ -41,12 +41,12 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   private final String data;
 
   /**
-   * Hashcode value for this event.
+   * Hashcode value for this token.
    */
   private final int hashCode;
 
   /**
-   * Creates a new processing instruction event.
+   * Creates a new processing instruction token.
    *
    * @param target The target of the processing instruction.
    * @param data   The data of the processing instruction.
@@ -83,17 +83,17 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   }
 
   /**
-   * Returns <code>true</code> if the event is a processing instruction.
+   * Returns <code>true</code> if the token is a processing instruction.
    *
-   * @param e The event to compare with this event.
+   * @param token The token to compare with this token.
    *
-   * @return <code>true</code> if this event is equal to the specified event;
+   * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass()) return false;
-    ProcessingInstructionToken pi = (ProcessingInstructionToken)e;
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass()) return false;
+    ProcessingInstructionToken pi = (ProcessingInstructionToken) token;
     // TODO: handle nulls
     return pi.target.equals(this.target)
         && pi.data.equals(this.data);
@@ -125,7 +125,7 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   }
 
   /**
-   * Calculates the hashcode for this event.
+   * Calculates the hashcode for this token.
    *
    * @param s1 A string to calculate the value from.
    * @param s2 Another string to calculate the value from.

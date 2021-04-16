@@ -114,15 +114,15 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
   /**
    * Returns <code>true</code> if the token is a close element token.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass()) return false;
-    EndElementTokenNSImpl ce = (EndElementTokenNSImpl)e;
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass()) return false;
+    EndElementTokenNSImpl ce = (EndElementTokenNSImpl) token;
     return ce.getURI().equals(getURI())
         &&  ce.getName().equals(getName());
   }

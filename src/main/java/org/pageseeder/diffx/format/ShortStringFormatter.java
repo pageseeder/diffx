@@ -108,39 +108,39 @@ public final class ShortStringFormatter implements DiffXFormatter {
   /**
    * Returns the short string for the given token.
    *
-   * @param e The token.
+   * @param token The token.
    *
    * @return The short string for the given token.
    */
-  public static String toShortString(Token e) {
+  public static String toShortString(Token token) {
     // an element to open
-    if (e instanceof StartElementToken)
-      return '<'+((StartElementToken)e).getName()+'>';
+    if (token instanceof StartElementToken)
+      return '<'+((StartElementToken)token).getName()+'>';
     // an element to close
-    if (e instanceof EndElementToken)
-      return "</"+((EndElementToken)e).getName()+'>';
+    if (token instanceof EndElementToken)
+      return "</"+((EndElementToken)token).getName()+'>';
     // an attribute
-    if (e instanceof AttributeToken)
-      return "@"+((AttributeToken)e).getName();
+    if (token instanceof AttributeToken)
+      return "@"+((AttributeToken)token).getName();
     // a word
-    if (e instanceof WordToken)
-      return '"'+((CharactersToken)e).getCharacters()+'"';
+    if (token instanceof WordToken)
+      return '"'+((CharactersToken)token).getCharacters()+'"';
     // a white space token
-    if (e instanceof SpaceToken)
+    if (token instanceof SpaceToken)
       return "_s_";
     // a single character
-    if (e instanceof CharToken)
-      return "'"+((CharToken)e).getChar()+'\'';
+    if (token instanceof CharToken)
+      return "'"+((CharToken)token).getChar()+'\'';
     // an ignorable space token
-    if (e instanceof IgnorableSpaceToken)
+    if (token instanceof IgnorableSpaceToken)
       return "_i_";
-    if (e instanceof ElementToken)
-      return '<'+((ElementToken)e).getName()+"/>";
+    if (token instanceof ElementToken)
+      return '<'+((ElementToken)token).getName()+"/>";
     // a single line
-    if (e instanceof LineToken) return "L#"+((LineToken)e).getLineNumber();
-    if (e instanceof CharactersToken)
-      return '"'+((CharactersToken)e).getCharacters()+'"';
-    if (e == null) return "-";
+    if (token instanceof LineToken) return "L#"+((LineToken)token).getLineNumber();
+    if (token instanceof CharactersToken)
+      return '"'+((CharactersToken)token).getCharacters()+'"';
+    if (token == null) return "-";
     return "???";
   }
 

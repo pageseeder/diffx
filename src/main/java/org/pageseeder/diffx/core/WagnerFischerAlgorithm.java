@@ -41,26 +41,26 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
     final int length2 = second.size();
     int i = 0;
     int j = 0;
-    Token e1;
-    Token e2;
+    Token t1;
+    Token t2;
 
     // Backtrack start walking the matrix
     while (i < length1 && j < length2) {
-      e1 = first.get(i);
-      e2 = second.get(j);
+      t1 = first.get(i);
+      t2 = second.get(j);
       if (matrix.isGreaterX(i, j)) {
-        handler.handle(Operator.INS, e1);
+        handler.handle(Operator.INS, t1);
         i++;
       } else if (matrix.isGreaterY(i, j)) {
-        handler.handle(Operator.DEL, e2);
+        handler.handle(Operator.DEL, t2);
         j++;
       } else if (matrix.isSameXY(i, j)) {
-        if (e1.equals(e2)) {
-          handler.handle(Operator.MATCH, e1);
+        if (t1.equals(t2)) {
+          handler.handle(Operator.MATCH, t1);
           i++;
           j++;
         } else {
-          handler.handle(Operator.INS, e1);
+          handler.handle(Operator.INS, t1);
           i++;
         }
       }

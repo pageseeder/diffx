@@ -335,8 +335,8 @@ public final class SAXRecorder implements XMLRecorder {
     private void recordCharacters() {
       if (this.ch.length() > 0) {
         List<TextToken> tokens = this.tokenizer.tokenize(this.ch);
-        for (TextToken e : tokens) {
-          SAXRecorder.this.sequence.addToken(e);
+        for (TextToken token : tokens) {
+          SAXRecorder.this.sequence.addToken(token);
         }
         this.ch.setLength(0);
       }

@@ -103,11 +103,11 @@ public final class TestHandler implements DiffHandler {
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The token to format
+   * @param token The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, Token e) {
-    return toSimpleString(operator, e, PrefixMapping.noNamespace());
+  public static String toSimpleString(Operator operator, Token token) {
+    return toSimpleString(operator, token, PrefixMapping.noNamespace());
   }
 
   /**
@@ -115,42 +115,42 @@ public final class TestHandler implements DiffHandler {
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The token to format
+   * @param token The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, Token e, PrefixMapping mapping) {
+  public static String toSimpleString(Operator operator, Token token, PrefixMapping mapping) {
     // an element to open
-    if (e instanceof StartElementToken) {
-      StartElementToken open = (StartElementToken)e;
+    if (token instanceof StartElementToken) {
+      StartElementToken open = (StartElementToken)token;
       return '<' + getQName(open.getURI(), open.getName(), mapping) + '>';
     }
     // an element to close
-    if (e instanceof EndElementToken) {
-      EndElementToken close = (EndElementToken)e;
+    if (token instanceof EndElementToken) {
+      EndElementToken close = (EndElementToken)token;
       return "</" + getQName(close.getURI(), close.getName(), mapping) + '>';
     }
     // an element
-    if (e instanceof ElementToken) {
-      ElementToken element = (ElementToken)e;
+    if (token instanceof ElementToken) {
+      ElementToken element = (ElementToken)token;
       return '<' + getQName(element.getURI(), element.getName(), mapping) + "/>";
     }
     // an attribute
-    if (e instanceof AttributeToken) {
-      return "@(" + ((AttributeToken) e).getName() + '=' + ((AttributeToken) e).getValue() + ')';
+    if (token instanceof AttributeToken) {
+      return "@(" + ((AttributeToken) token).getName() + '=' + ((AttributeToken) token).getValue() + ')';
     }
     // a single line
-    if (e instanceof LineToken) return "L" + ((LineToken) e).getLineNumber();
-    if (e instanceof CharToken) {
-      return Character.toString(((CharToken) e).getChar());
+    if (token instanceof LineToken) return "L" + ((LineToken) token).getLineNumber();
+    if (token instanceof CharToken) {
+      return Character.toString(((CharToken) token).getChar());
     }
     // a text token
-    if (e instanceof TextToken) {
-      String chars = ((TextToken) e).getCharacters();
+    if (token instanceof TextToken) {
+      String chars = ((TextToken) token).getCharacters();
       if (operator != Operator.MATCH && chars.length() > 1) return "("+chars+")";
       return chars;
     }
     // Anything else?
-    return e.toString();
+    return token.toString();
   }
 
   private static String getQName(String uri, String name, PrefixMapping mapping) {

@@ -19,39 +19,38 @@ import org.pageseeder.xmlwriter.XMLFormattable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
 /**
- * Defines and event that can be processed by DiffX.
+ * Defines and token that can be processed by DiffX.
  *
- * <p>The main characteristics of a Diff-X event is that it can be compared for
- * equality with another Diff-X event.
+ * <p>The main characteristics of a Diff-X token is that it can be compared for
+ * equality with another Diff-X token.
  *
  * <p>Events can be associated with a weight that can be used or ignored by an algorithm.
- * The more weight the less likely an event will be considered to have been modified. The
+ * The more weight the less likely an token will be considered to have been modified. The
  * weight can change depending on the algorithm or configuration used.
  *
  * <p>For convenience, this interface extends the <code>XMLWritable</code> and
- * <code>XMLFormattable</code> in order to turn an event into XML easily. <b>This
+ * <code>XMLFormattable</code> in order to turn an token into XML easily. <b>This
  * may change in the future, if the impact on performance is too heavy</b>.
  *
  * @author Christophe Lauret
  *
  * @version 0.9.0
- * @since 0.5.0
  */
 public interface Token extends XMLWritable, XMLFormattable {
 
   /**
-   * @return The type of event.
+   * @return The type of token.
    */
   TokenType getType();
 
   /**
-   * Indicates whether the specified event is equal to this event.
+   * Indicates whether the specified token is equal to this token.
    *
-   * @param e The event to compare it with this one.
+   * @param token The token to compare it with this one.
    *
    * @return <code>true</code> if considered equals;
    *         <code>false</code> otherwise.
    */
-  boolean equals(Token e);
+  boolean equals(Token token);
 
 }

@@ -117,16 +117,16 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   /**
    * Returns <code>true</code> if the token is an attribute token.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass())
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass())
       return false;
-    AttributeTokenNSImpl ae = (AttributeTokenNSImpl) e;
+    AttributeTokenNSImpl ae = (AttributeTokenNSImpl) token;
     if (!ae.name.equals(this.name)) return false;
     if (!ae.uri.equals(this.uri)) return false;
     if (!ae.value.equals(this.value)) return false;

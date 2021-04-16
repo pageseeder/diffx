@@ -22,7 +22,7 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.StartElementToken;
 
 /**
- * A utility class for event sequences.
+ * A utility class for token sequences.
  *
  * @author Christophe Lauret
  * @version 3 April 2005
@@ -49,16 +49,16 @@ public final class EventSequenceUtils {
     // TODO: if the sequence is null ??
     if (sequence == null) return false;
     Stack<Token> open = new Stack<>();
-    Token e;
+    Token token;
     for (int i = 0; i < sequence.size(); i++) {
-      e = sequence.getToken(i);
-      if (e instanceof StartElementToken) {
-        open.push(e);
-      } else if (e instanceof EndElementToken) {
+      token = sequence.getToken(i);
+      if (token instanceof StartElementToken) {
+        open.push(token);
+      } else if (token instanceof EndElementToken) {
         if (open.empty()) return false;
         StartElementToken o = (StartElementToken)open.peek();
         String lastOpenElementName = o.getName();
-        String closeElementName = ((EndElementToken)e).getName();
+        String closeElementName = ((EndElementToken)token).getName();
         if (!closeElementName.equals(lastOpenElementName)) return false;
       }
     }
@@ -104,10 +104,10 @@ public final class EventSequenceUtils {
     int max = 0;
     int tmp = 0;
     for (int i = 0; i < sequence.size(); i++) {
-      Token e = sequence.getToken(i);
-      if (e instanceof StartElementToken) {
+      Token token = sequence.getToken(i);
+      if (token instanceof StartElementToken) {
         tmp = 0;
-      } else if (e instanceof EndElementToken) {
+      } else if (token instanceof EndElementToken) {
         if (tmp > max) {
           max = tmp;
         }

@@ -18,7 +18,7 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.TextToken;
 
 /**
- * A particular type of event reserved for white spaces.
+ * A particular type of token reserved for white spaces.
  *
  * @author Christophe Lauret
  * @version 27 March 2010
@@ -54,7 +54,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
   public static final SpaceToken TAB = new SpaceToken("\t");
 
   /**
-   * Creates a new space event.
+   * Creates a new space token.
    *
    * @param s The space as a string.
    *
@@ -70,9 +70,9 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
   }
 
   /**
-   * Returns the white space event corresponding to the given string.
+   * Returns the white space token corresponding to the given string.
    *
-   * @param space The string for the white space event.
+   * @param space The string for the white space token.
    *
    * @return A readable string.
    */
@@ -87,9 +87,9 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
   }
 
   /**
-   * Returns the white space event corresponding to the given string.
+   * Returns the white space token corresponding to the given string.
    *
-   * @param c The string for the white space event.
+   * @param c The string for the white space token.
    *
    * @return A readable string.
    */

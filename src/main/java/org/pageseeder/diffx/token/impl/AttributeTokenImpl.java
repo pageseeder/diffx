@@ -94,7 +94,7 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
   /**
    * Returns <code>true</code> if the token is an attribute token.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.

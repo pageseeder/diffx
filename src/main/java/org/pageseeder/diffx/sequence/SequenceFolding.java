@@ -63,8 +63,8 @@ public class SequenceFolding {
   public EventSequence fold(EventSequence input) {
     if (this.elements.isEmpty()) return input;
     FoldingProcessor processor = new FoldingProcessor();
-    for (Token event : input.tokens()) {
-      processor.add(event);
+    for (Token token : input.tokens()) {
+      processor.add(token);
     }
     return processor.sequence();
   }
@@ -79,20 +79,20 @@ public class SequenceFolding {
   public List<? extends Token> fold(List<? extends Token> tokens) {
     if (this.elements.isEmpty()) return tokens;
     FoldingProcessor processor = new FoldingProcessor();
-    for (Token event : tokens) {
-      processor.add(event);
+    for (Token token : tokens) {
+      processor.add(token);
     }
     return processor.tokens();
   }
 
-  private boolean isFoldable(Token event) {
-    if (!(event instanceof StartElementToken)) return false;
+  private boolean isFoldable(Token token) {
+    if (!(token instanceof StartElementToken)) return false;
     if (this.elements == ALL) return true;
-    return this.elements.contains(((StartElementToken) event).getName());
+    return this.elements.contains(((StartElementToken) token).getName());
   }
 
-  private boolean isMatching(Token event, StartElementToken open) {
-    return event instanceof EndElementToken && ((EndElementToken) event).match(open);
+  private boolean isMatching(Token token, StartElementToken open) {
+    return token instanceof EndElementToken && ((EndElementToken) token).match(open);
   }
 
   private class FoldingProcessor {
@@ -109,16 +109,16 @@ public class SequenceFolding {
       return this.stack.size() > 0;
     }
 
-    void add(Token event) {
-      if (isFoldable(event)) {
-        Folder subfolder = new Folder((StartElementToken)event);
+    void add(Token token) {
+      if (isFoldable(token)) {
+        Folder subfolder = new Folder((StartElementToken)token);
         this.stack.add(subfolder);
       } else if (this.stack.isEmpty()) {
-        this.tokens.add(event);
+        this.tokens.add(token);
       } else {
         Folder current = this.current();
-        if (isMatching(event, current.open)) {
-          ElementToken element = current.seal((EndElementToken) event);
+        if (isMatching(token, current.open)) {
+          ElementToken element = current.seal((EndElementToken) token);
           this.stack.remove(this.stack.size()-1); // pop
           if (this.stack.isEmpty()) {
             this.tokens.add(element);
@@ -126,7 +126,7 @@ public class SequenceFolding {
             this.current().add(element);
           }
         } else {
-          current.add(event);
+          current.add(token);
         }
       }
     }
@@ -150,8 +150,8 @@ public class SequenceFolding {
       this.open = open;
     }
 
-    void add(Token event) {
-      this.children.add(event);
+    void add(Token token) {
+      this.children.add(token);
     }
 
     ElementToken seal(EndElementToken close) {

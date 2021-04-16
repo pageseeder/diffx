@@ -94,12 +94,12 @@ public final class NaiveSequenceSlicer {
     Iterator<Token> i = this.sequence1.iterator();
     Iterator<Token> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      Token e = i.next();
-      if (j.next().equals(e)) {
+      Token token = i.next();
+      if (j.next().equals(token)) {
         count++;
         i.remove();
         j.remove();
-        this.start.addToken(e);
+        this.start.addToken(token);
       } else return count;
     }
     return count;
@@ -123,12 +123,12 @@ public final class NaiveSequenceSlicer {
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
     while (pos1 >= 0 && pos2 >= 0) {
-      Token e1 = this.sequence1.getToken(pos1);
-      if (e1.equals(this.sequence2.getToken(pos2))) {
+      Token token1 = this.sequence1.getToken(pos1);
+      if (token1.equals(this.sequence2.getToken(pos2))) {
         count++;
         this.sequence1.removeToken(pos1--);
         this.sequence2.removeToken(pos2--);
-        this.end.addToken(0, e1);
+        this.end.addToken(0, token1);
       } else {
         break;
       }
@@ -160,12 +160,12 @@ public final class NaiveSequenceSlicer {
     Iterator<Token> i = this.sequence1.iterator();
     Iterator<Token> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      Token e = i.next();
-      if (j.next().equals(e)) {
+      Token token = i.next();
+      if (j.next().equals(token)) {
         count++;
         i.remove();
         j.remove();
-        formatter.format(e);
+        formatter.format(token);
       } else {
         break;
       }

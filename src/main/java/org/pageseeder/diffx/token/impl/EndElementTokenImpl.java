@@ -27,7 +27,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
 /**
  * A basic implementation of the close element token.
  *
- * <p>It corresponds to the <code>endElement</code> SAX token.
+ * <p>It corresponds to the <code>endElement</code> SAX event.
  *
  * <p>This implementation is not namespace aware.
  *
@@ -111,15 +111,15 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
    * Returns <code>true</code> if the token is a close element
    * and has the same name.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass()) return false;
-    EndElementTokenImpl ce = (EndElementTokenImpl)e;
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass()) return false;
+    EndElementTokenImpl ce = (EndElementTokenImpl) token;
     return ce.getName().equals(getName());
   }
 

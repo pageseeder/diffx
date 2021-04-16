@@ -48,13 +48,13 @@ public final class TokenizerByChar implements TextTokenizer {
     char c;
     for (int i=0; i < seq.length(); i++) {
       c = seq.charAt(i);
-      TextToken e;
+      TextToken token;
       if (Character.isWhitespace(c)) {
-        e = SpaceToken.getInstance(c);
+        token = SpaceToken.getInstance(c);
       } else {
-        e = new CharactersToken(Character.toString(c));
+        token = new CharactersToken(Character.toString(c));
       }
-      tokens.add(e);
+      tokens.add(token);
     }
     return tokens;
   }

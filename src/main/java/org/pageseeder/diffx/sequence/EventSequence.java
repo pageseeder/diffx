@@ -47,14 +47,14 @@ public final class EventSequence implements Iterable<Token> {
   private final List<Token> tokens;
 
   /**
-   * Creates a new event sequence.
+   * Creates a new token sequence.
    */
   public EventSequence() {
     this.tokens = new ArrayList<>();
   }
 
   /**
-   * Creates a new event sequence of the specified size.
+   * Creates a new token sequence of the specified size.
    *
    * @param size The size of the sequence.
    */
@@ -63,7 +63,7 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Creates a new event sequence of the specified size.
+   * Creates a new token sequence of the specified size.
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
@@ -83,7 +83,7 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Adds an event to this sequence.
+   * Adds an token to this sequence.
    *
    * @param token The token to be added.
    */
@@ -92,9 +92,9 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Inserts an event to this sequence at the specified position.
+   * Inserts an token to this sequence at the specified position.
    *
-   * @param i The position of the event.
+   * @param i The position of the token.
    * @param token The token to be added.
    */
   public void addToken(int i, Token token) {
@@ -102,43 +102,43 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Adds an event to this sequence.
+   * Adds an token to this sequence.
    *
-   * @param tokens The event to be added.
+   * @param tokens The tokens to be added.
    */
   public void addTokens(List<? extends Token> tokens) {
     this.tokens.addAll(tokens);
   }
 
   /**
-   * Returns the event at position i.
+   * Returns the token at position i.
    *
-   * @param i The position of the event.
+   * @param i The position of the token.
    *
-   * @return the event at position i.
+   * @return the token at position i.
    */
   public Token getToken(int i) {
     return this.tokens.get(i);
   }
 
   /**
-   * Replaces an event of this sequence at the specified position.
+   * Replaces an token of this sequence at the specified position.
    *
    * @param index The 0-based index of the position.
-   * @param e     The event to be inserted.
+   * @param token     The token to be inserted.
    *
-   * @return The event at the previous position.
+   * @return The token at the previous position.
    */
-  public Token setToken(int index, Token e) {
-    return this.tokens.set(index, e);
+  public Token setToken(int index, Token token) {
+    return this.tokens.set(index, token);
   }
 
   /**
-   * Removes an event from this sequence at the specified position.
+   * Removes an token from this sequence at the specified position.
    *
    * @param index The 0-based index of the position.
    *
-   * @return The removed event.
+   * @return The removed token.
    */
   public Token removeToken(int index) {
     return this.tokens.remove(index);
@@ -164,11 +164,11 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Returns <code>true</code> if the specified event sequence is the same as this one.
+   * Returns <code>true</code> if the specified token sequence is the same as this one.
    *
    * @param seq The sequence of tokens to compare with this one.
    *
-   * @return <code>true</code> if the specified event sequence is equal to this one;
+   * @return <code>true</code> if the specified token sequence is equal to this one;
    *         <code>false</code> otherwise.
    */
   public boolean equals(EventSequence seq) {
@@ -177,14 +177,14 @@ public final class EventSequence implements Iterable<Token> {
   }
 
   /**
-   * Returns <code>true</code> if the specified event sequence is the same as this one.
+   * Returns <code>true</code> if the specified token sequence is the same as this one.
    *
    * <p>This method will redirect to the {@link #equals(EventSequence)} method if the
    * specified object is an instance of {@link EventSequence}.
    *
    * @param o The sequence of tokens to compare with this one.
    *
-   * @return <code>true</code> if the specified event sequence is equal to this one;
+   * @return <code>true</code> if the specified token sequence is equal to this one;
    *         <code>false</code> otherwise.
    */
   @Override
@@ -204,11 +204,11 @@ public final class EventSequence implements Iterable<Token> {
   /**
    * Export the sequence.
    *
-   * @param w The print writer receiving the SAX tokens.
+   * @param w The print writer receiving the SAX events.
    */
   public void export(PrintWriter w) {
-    for (Token event : this.tokens) {
-      w.println(event.toString());
+    for (Token token : this.tokens) {
+      w.println(token.toString());
     }
     w.flush();
   }

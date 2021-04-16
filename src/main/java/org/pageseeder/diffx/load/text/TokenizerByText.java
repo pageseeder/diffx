@@ -61,8 +61,8 @@ public final class TokenizerByText implements TextTokenizer {
     int y = TokenizerUtils.getTrailingWhiteSpace(seq);
     // no leading or trailing spaces return a singleton in all configurations
     if (x == 0 && y == 0) {
-      TextToken e = new CharactersToken(seq);
-      return Collections.singletonList(e);
+      TextToken token = new CharactersToken(seq);
+      return Collections.singletonList(token);
     }
     // The text node is only white space (white space = leading space)
     if (x == seq.length()) {
@@ -75,8 +75,8 @@ public final class TokenizerByText implements TextTokenizer {
           return Collections.emptyList();
         default:
       }
-      TextToken e = new CharactersToken(seq);
-      return Collections.singletonList(e);
+      TextToken token = new CharactersToken(seq);
+      return Collections.singletonList(token);
     }
     // some trailing or leading whitespace, behaviour changes depending on whitespace processing
     List<TextToken> tokens = null;
@@ -102,8 +102,8 @@ public final class TokenizerByText implements TextTokenizer {
         }
         break;
       case IGNORE:
-        TextToken e = new CharactersToken(seq.subSequence(x, seq.length()-y));
-        tokens = Collections.singletonList(e);
+        TextToken token = new CharactersToken(seq.subSequence(x, seq.length()-y));
+        tokens = Collections.singletonList(token);
         break;
       default:
     }

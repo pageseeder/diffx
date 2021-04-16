@@ -73,17 +73,17 @@ public final class LineToken extends TokenBase implements TextToken {
   /**
    * Returns <code>true</code> if the token is a character token and the content is equivalent.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e == null) return false;
-    if (this == e) return true;
-    if (e.getClass() != LineToken.class) return false;
-    LineToken ce = (LineToken)e;
+  public boolean equals(Token token) {
+    if (token == null) return false;
+    if (this == token) return true;
+    if (token.getClass() != LineToken.class) return false;
+    LineToken ce = (LineToken) token;
     return ce.characters.equals(this.characters);
   }
 

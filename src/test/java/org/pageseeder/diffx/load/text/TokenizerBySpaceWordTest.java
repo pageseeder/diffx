@@ -113,26 +113,26 @@ public final class TokenizerBySpaceWordTest {
 
   @Test
   public void testWordsWithLeadingSpace() {
-    List<TextToken> events = TokenizerBySpaceWord.tokenize(" A great story", WhiteSpaceProcessing.PRESERVE);
-    assertEquals(toTextTokens(" A", " great", " story"), events);
+    List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story", WhiteSpaceProcessing.PRESERVE);
+    assertEquals(toTextTokens(" A", " great", " story"), tokens);
   }
 
   @Test
   public void testWordsWithTrailingSpace() {
-    List<TextToken> events = TokenizerBySpaceWord.tokenize("A great story ", WhiteSpaceProcessing.PRESERVE);
-    assertEquals(toTextTokens("A", " great", " story", " "), events);
+    List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A great story ", WhiteSpaceProcessing.PRESERVE);
+    assertEquals(toTextTokens("A", " great", " story", " "), tokens);
   }
 
   @Test
   public void testWordsWithLeadingTrailingSpace() {
-    List<TextToken> events = TokenizerBySpaceWord.tokenize(" A great story ", WhiteSpaceProcessing.PRESERVE);
-    assertEquals(toTextTokens(" A", " great", " story", " "), events);
+    List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story ", WhiteSpaceProcessing.PRESERVE);
+    assertEquals(toTextTokens(" A", " great", " story", " "), tokens);
   }
 
   @Test
   public void testWordsWithPunctuation1() {
-    List<TextToken> events = TokenizerBySpaceWord.tokenize(" A great story!", WhiteSpaceProcessing.PRESERVE);
-    assertEquals(toTextTokens(" A", " great", " story", "!"), events);
+    List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story!", WhiteSpaceProcessing.PRESERVE);
+    assertEquals(toTextTokens(" A", " great", " story", "!"), tokens);
   }
 
   /**
@@ -140,8 +140,8 @@ public final class TokenizerBySpaceWordTest {
    */
   @Test
   public void testWordsWithPunctuation2() {
-    List<TextToken> events = TokenizerBySpaceWord.tokenize("Blue, white, and red.", WhiteSpaceProcessing.PRESERVE);
-    assertEquals(toTextTokens("Blue", ",", " white", ",", " and", " red", "."), events);
+    List<TextToken> tokens = TokenizerBySpaceWord.tokenize("Blue, white, and red.", WhiteSpaceProcessing.PRESERVE);
+    assertEquals(toTextTokens("Blue", ",", " white", ",", " and", " red", "."), tokens);
   }
 
 }

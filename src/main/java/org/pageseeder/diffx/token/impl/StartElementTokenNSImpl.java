@@ -97,18 +97,18 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
   }
 
   /**
-   * Returns <code>true</code> if the token is a open element event.
+   * Returns <code>true</code> if the token is a open element token.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
-   * @return <code>true</code> if this token is equal to the specified event;
+   * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e == null) return false;
-    if (e.getClass() != this.getClass()) return false;
-    StartElementTokenNSImpl other = (StartElementTokenNSImpl)e;
+  public boolean equals(Token token) {
+    if (token == null) return false;
+    if (token.getClass() != this.getClass()) return false;
+    StartElementTokenNSImpl other = (StartElementTokenNSImpl)token;
     return other.uri.equals(this.uri) && other.name.equals(this.name);
   }
 

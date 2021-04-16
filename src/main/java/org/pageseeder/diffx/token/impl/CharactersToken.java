@@ -21,7 +21,7 @@ import org.pageseeder.diffx.token.TextToken;
  * An token corresponds to the "characters" SAX event.
  *
  * <p>
- * This event can be used to represent the text content of entire element. Typically, this would
+ * This token can be used to represent the text content of entire element. Typically, this would
  * happen when there is no need to examine the text content of the node.
  *
  * @author Christophe Lauret
@@ -32,7 +32,7 @@ import org.pageseeder.diffx.token.TextToken;
 public final class CharactersToken extends CharactersTokenBase implements TextToken {
 
   /**
-   * Creates a new characters event.
+   * Creates a new characters token.
    *
    * @param seq The char sequence.
    *

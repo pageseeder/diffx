@@ -113,14 +113,14 @@ public final class SequenceSlicer {
     int counter = 0;
     // calculate the max possible index for slicing.
     while (i.hasNext() && j.hasNext()) {
-      Token e = i.next();
-      if (j.next().equals(e)) {
+      Token token = i.next();
+      if (j.next().equals(token)) {
         counter++;
         // increase the depth
-        if (e instanceof StartElementToken) {
+        if (token instanceof StartElementToken) {
           depth++;
           // decrease the depth
-        } else if (e instanceof EndElementToken) {
+        } else if (token instanceof EndElementToken) {
           depth--;
         }
         // if depth = 1, it is a direct child of the document element,
@@ -134,9 +134,9 @@ public final class SequenceSlicer {
     }
     // slice the beginning of the file
     for (int k = 0; k < toBeRemoved; k++) {
-      Token e = this.sequence1.removeToken(0);
+      Token token = this.sequence1.removeToken(0);
       this.sequence2.removeToken(0);
-      this.start.addToken(e);
+      this.start.addToken(token);
     }
     return toBeRemoved;
   }
@@ -161,13 +161,13 @@ public final class SequenceSlicer {
     int pos1 = this.sequence1.size() - 1;  // current position of the first sequence
     int pos2 = this.sequence2.size() - 1;  // current position of the second sequence
     while (pos1 >= 0 && pos2 >= 0) {
-      Token e1 = this.sequence1.getToken(pos1);
-      if (e1.equals(this.sequence2.getToken(pos2))) {
+      Token token = this.sequence1.getToken(pos1);
+      if (token.equals(this.sequence2.getToken(pos2))) {
         counter++;
         // increase the depth for close, decrease for open
-        if (e1 instanceof EndElementToken) {
+        if (token instanceof EndElementToken) {
           depth++;
-        } else if (e1 instanceof StartElementToken) {
+        } else if (token instanceof StartElementToken) {
           depth--;
         }
         // if depth = 1, it is a direct child of the document element,
@@ -183,8 +183,8 @@ public final class SequenceSlicer {
     // slice the end of the first sequence
     int downTo = this.sequence1.size() - toBeRemoved;
     for (int k = this.sequence1.size() - 1; k >= downTo; k--) {
-      Token e = this.sequence1.removeToken(k);
-      this.end.addToken(0, e);
+      Token token = this.sequence1.removeToken(k);
+      this.end.addToken(0, token);
     }
     // slice the end of the second sequence
     downTo = this.sequence2.size() - toBeRemoved;

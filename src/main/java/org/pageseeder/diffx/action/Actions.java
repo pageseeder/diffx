@@ -123,20 +123,20 @@ public class Actions {
     int j = 0; // Index of B
     for (Action action : actions) {
       if (action.operator() == Operator.MATCH) {
-        for (Token e : action.tokens()) {
-          if (i >= a.size() || !e.equals(a.get(i))) return false;
-          if (j >= b.size() || !e.equals(b.get(j))) return false;
+        for (Token token : action.tokens()) {
+          if (i >= a.size() || !token.equals(a.get(i))) return false;
+          if (j >= b.size() || !token.equals(b.get(j))) return false;
           i++;
           j++;
         }
       } else if (action.operator() == Operator.INS) {
-        for (Token e : action.tokens()) {
-          if (i >= a.size() || !e.equals(a.get(i))) return false;
+        for (Token token : action.tokens()) {
+          if (i >= a.size() || !token.equals(a.get(i))) return false;
           i++;
         }
       } else if (action.operator() == Operator.DEL) {
-        for (Token e : action.tokens()) {
-          if (j >= b.size() || !e.equals(b.get(j))) return false;
+        for (Token token : action.tokens()) {
+          if (j >= b.size() || !token.equals(b.get(j))) return false;
           j++;
         }
       }

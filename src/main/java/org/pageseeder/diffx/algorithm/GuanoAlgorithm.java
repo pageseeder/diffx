@@ -24,7 +24,7 @@ import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 /**
- * A matrix-based algorithm using weighted events which produces correct results, but may require
+ * A matrix-based algorithm using weighted tokens which produces correct results, but may require
  * minor adjustments during formatting.
  *
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
@@ -138,39 +138,39 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     length();
     int i = 0;
     int j = 0;
-    Token e1;
-    Token e2;
+    Token t1;
+    Token t2;
     // start walking the matrix
     while (i < this.length1 && j < this.length2) {
-      e1 = this.sequence1.getToken(i);
-      e2 = this.sequence2.getToken(j);
+      t1 = this.sequence1.getToken(i);
+      t2 = this.sequence2.getToken(j);
       // we can only insert or delete, priority to insert
       if (this.matrix.isGreaterX(i, j)) {
         // follow the natural path and insert
-        if (this.estate.okInsert(e1) && !this.estate.hasPriorityOver(e2, e1)) {
+        if (this.estate.okInsert(t1) && !this.estate.hasPriorityOver(t2, t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] >i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] >i +"+ShortStringFormatter.toShortString(t1));
           }
-          formatter.insert(e1);
-          this.estate.insert(e1);
+          formatter.insert(t1);
+          this.estate.insert(t1);
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (e1.equals(e2) && this.estate.okFormat(e1)) {
+        } else if (t1.equals(t2) && this.estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] >f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] >f "+ShortStringFormatter.toShortString(t1));
           }
-          formatter.format(e1);
-          this.estate.format(e1);
+          formatter.format(t1);
+          this.estate.format(t1);
           i++; j++;
 
           // go counter current and delete
-        } else if (this.estate.okDelete(e2)) {
+        } else if (this.estate.okDelete(t2)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] >d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] >d -"+ShortStringFormatter.toShortString(t2));
           }
-          formatter.delete(e2);
-          this.estate.delete(e2);
+          formatter.delete(t2);
+          this.estate.delete(t2);
           j++;
 
         } else {
@@ -186,30 +186,30 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
         // we can only insert or delete, priority to delete
       } else if (this.matrix.isGreaterY(i, j)) {
         // follow the natural and delete
-        if (this.estate.okDelete(e2) && !this.estate.hasPriorityOver(e1, e2)) {
+        if (this.estate.okDelete(t2) && !this.estate.hasPriorityOver(t1, t2)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] <d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] <d -"+ShortStringFormatter.toShortString(t2));
           }
-          formatter.delete(e2);
-          this.estate.delete(e2);
+          formatter.delete(t2);
+          this.estate.delete(t2);
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (e1.equals(e2) && this.estate.okFormat(e1)) {
+        } else if (t1.equals(t2) && this.estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] <f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] <f "+ShortStringFormatter.toShortString(t1));
           }
-          formatter.format(e1);
-          this.estate.format(e1);
+          formatter.format(t1);
+          this.estate.format(t1);
           i++; j++;
 
           // insert (counter-current)
-        } else if (this.estate.okInsert(e1)) {
+        } else if (this.estate.okInsert(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] <i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] <i +"+ShortStringFormatter.toShortString(t1));
           }
-          formatter.insert(e1);
-          this.estate.insert(e1);
+          formatter.insert(t1);
+          this.estate.insert(t1);
           i++;
 
         } else {
@@ -226,32 +226,32 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
         // we have to make a choice for where we are going
       } else if (this.matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (e1.equals(e2) && this.estate.okFormat(e1)) {
+        if (t1.equals(t2) && this.estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] =f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] =f "+ShortStringFormatter.toShortString(t1));
           }
-          formatter.format(e1);
-          this.estate.format(e1);
+          formatter.format(t1);
+          this.estate.format(t1);
           i++; j++;
 
           // we can insert the closing tag
-        } else if (this.estate.okInsert(e1)
-            && !(e2 instanceof AttributeToken && !(e1 instanceof AttributeToken))) {
+        } else if (this.estate.okInsert(t1)
+            && !(t2 instanceof AttributeToken && !(t1 instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(t1));
           }
-          this.estate.insert(e1);
-          formatter.insert(e1);
+          this.estate.insert(t1);
+          formatter.insert(t1);
           i++;
 
           // we can delete the closing tag
-        } else if (this.estate.okDelete(e2)
-            && !(e1 instanceof AttributeToken && !(e2 instanceof AttributeToken))) {
+        } else if (this.estate.okDelete(t2)
+            && !(t1 instanceof AttributeToken && !(t2 instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(t2));
           }
-          formatter.delete(e2);
-          this.estate.delete(e2);
+          formatter.delete(t2);
+          this.estate.delete(t2);
           j++;
 
         } else {
@@ -350,22 +350,22 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @param j The Y position.
    */
   private void printLost(int i, int j) {
-    Token e1 = this.sequence1.getToken(i);
-    Token e2 = this.sequence2.getToken(j);
+    Token t1 = this.sequence1.getToken(i);
+    Token t2 = this.sequence2.getToken(j);
     System.err.println("(!) Ambiguous choice in ("+i+","+j+")");
-    System.err.println(" ? +"+ShortStringFormatter.toShortString(e1));
-    System.err.println(" ? -"+ShortStringFormatter.toShortString(e2));
+    System.err.println(" ? +"+ShortStringFormatter.toShortString(t1));
+    System.err.println(" ? -"+ShortStringFormatter.toShortString(t2));
     System.err.println(" current="+ShortStringFormatter.toShortString(this.estate.current()));
     System.err.println(" value in X+1="+this.matrix.get(i+1, j));
     System.err.println(" value in Y+1="+this.matrix.get(i, j+1));
-    System.err.println(" equals="+e1.equals(e2));
+    System.err.println(" equals="+t1.equals(t2));
     System.err.println(" greaterX="+this.matrix.isGreaterX(i, j));
     System.err.println(" greaterY="+this.matrix.isGreaterY(i, j));
     System.err.println(" sameXY="+this.matrix.isSameXY(i, j));
-    System.err.println(" okFormat1="+this.estate.okFormat(e1));
-    System.err.println(" okFormat2="+this.estate.okFormat(e2));
-    System.err.println(" okInsert="+this.estate.okInsert(e1));
-    System.err.println(" okDelete="+this.estate.okDelete(e2));
+    System.err.println(" okFormat1="+this.estate.okFormat(t1));
+    System.err.println(" okFormat2="+this.estate.okFormat(t2));
+    System.err.println(" okInsert="+this.estate.okInsert(t1));
+    System.err.println(" okDelete="+this.estate.okDelete(t2));
   }
 
 }

@@ -206,29 +206,29 @@ public final class ElementState {
    * Indicates whether the specified token is a close element that
    * matches the name and URI of the current open element.
    *
-   * @param e The token to check.
+   * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
    *         <code>false</code> otherwise.
    */
-  public boolean matchCurrent(Token e) {
+  public boolean matchCurrent(Token token) {
     // cannot match if empty
     if (isEmpty()) return false;
     // cannot match if not a close element token
-    if (!(e instanceof EndElementToken)) return false;
+    if (!(token instanceof EndElementToken)) return false;
     // check if they match
-    return ((EndElementToken)e).match(current());
+    return ((EndElementToken)token).match(current());
   }
 
   /**
    * Updates the state from the inserted token.
    *
-   * @param e The inserted token.
+   * @param token The inserted token.
    */
-  public void insert(Token e) {
-    if (e instanceof StartElementToken) {
-      push((StartElementToken)e, '+');
-    } else if (e instanceof EndElementToken) {
+  public void insert(Token token) {
+    if (token instanceof StartElementToken) {
+      push((StartElementToken)token, '+');
+    } else if (token instanceof EndElementToken) {
       pop();
     }
   }
@@ -236,12 +236,12 @@ public final class ElementState {
   /**
    * Updates the state from the formatted token.
    *
-   * @param e The formatted token.
+   * @param token The formatted token.
    */
-  public void format(Token e) {
-    if (e instanceof StartElementToken) {
-      push((StartElementToken)e, '=');
-    } else if (e instanceof EndElementToken) {
+  public void format(Token token) {
+    if (token instanceof StartElementToken) {
+      push((StartElementToken)token, '=');
+    } else if (token instanceof EndElementToken) {
       pop();
     }
   }
@@ -282,13 +282,13 @@ public final class ElementState {
    * Indicates whether the specified token is a close element that
    * matches the name and URI of the current open element.
    *
-   * @param token The event to check.
+   * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
    *         <code>false</code> otherwise.
    */
   public boolean okInsert(Token token) {
-    // cannot match if not a close element event
+    // cannot match if not a close element token
     if (!(token instanceof EndElementToken)) return true;
     // cannot match if empty
     if (isEmpty()) return false;
@@ -298,16 +298,16 @@ public final class ElementState {
   }
 
   /**
-   * Indicates whether the specified event is a close element that
+   * Indicates whether the specified token is a close element that
    * matches the name and URI of the current open element.
    *
-   * @param token The event to check.
+   * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
    *         <code>false</code> otherwise.
    */
   public boolean okDelete(Token token) {
-    // cannot match if not a close element event
+    // cannot match if not a close element token
     if (!(token instanceof EndElementToken)) return true;
     // cannot match if empty
     if (isEmpty()) return false;
@@ -317,7 +317,7 @@ public final class ElementState {
   }
 
   /**
-   * Indicates whether the first specified event has priority over the second element.
+   * Indicates whether the first specified token has priority over the second element.
    *
    * It only seem to be the case when the algorithm has the choice between an attribute and another
    * element.
@@ -325,7 +325,7 @@ public final class ElementState {
    * @param token1 The token assumed to have priority.
    * @param token2 The other token.
    *
-   * @return <code>true</code> if first specified event has priority over the second element;
+   * @return <code>true</code> if first specified token has priority over the second element;
    *         <code>false</code> otherwise.
    */
   public boolean hasPriorityOver(Token token1, Token token2) {

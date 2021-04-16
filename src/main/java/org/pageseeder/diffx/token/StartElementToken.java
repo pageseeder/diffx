@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token;
 
 /**
- * The event corresponding to the <code>startElement</code> SAX event.
+ * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
  * @version 23 December 2004

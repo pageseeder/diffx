@@ -110,12 +110,12 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
    * @return the corresponding word token
    */
   private TextToken getWordEvent(String word) {
-    TextToken e = this.recycling.get(word);
-    if (e == null) {
-      e = new WordToken(word);
-      this.recycling.put(word, e);
+    TextToken token = this.recycling.get(word);
+    if (token == null) {
+      token = new WordToken(word);
+      this.recycling.put(word, token);
     }
-    return e;
+    return token;
   }
 
   /**
@@ -126,16 +126,16 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
    */
   private TextToken getSpaceEvent(String space) {
     // preserve the actual white space used
-    TextToken e = this.recycling.get(space);
-    if (e == null) {
+    TextToken token = this.recycling.get(space);
+    if (token == null) {
       if (this.whitespace == WhiteSpaceProcessing.PRESERVE) {
-        e = new IgnorableSpaceToken(space);
+        token = new IgnorableSpaceToken(space);
       } else {
-        e = SpaceToken.getInstance(space);
+        token = SpaceToken.getInstance(space);
       }
-      this.recycling.put(space, e);
+      this.recycling.put(space, token);
     }
-    return e;
+    return token;
   }
 
 }

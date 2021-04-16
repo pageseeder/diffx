@@ -70,16 +70,16 @@ public final class CommentToken extends TokenBase implements Token {
   /**
    * Returns <code>true</code> if the token is a comment token.
    *
-   * @param e The token to compare with this token.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass())
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass())
       return false;
-    CommentToken other = (CommentToken) e;
+    CommentToken other = (CommentToken) token;
     return other.comment.equals(this.comment);
   }
 

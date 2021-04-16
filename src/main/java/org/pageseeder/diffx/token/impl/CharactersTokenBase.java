@@ -30,17 +30,17 @@ import org.pageseeder.xmlwriter.XMLWriter;
 public abstract class CharactersTokenBase extends TokenBase implements TextToken {
 
   /**
-   * The characters for this event.
+   * The characters for this token.
    */
   private final String characters;
 
   /**
-   * A suitable hashCode for this event.
+   * A suitable hashCode for this token.
    */
   private final int hashCode;
 
   /**
-   * Creates a new characters event.
+   * Creates a new characters token.
    *
    * @param seq The char sequence.
    *
@@ -62,30 +62,30 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
   }
 
   /**
-   * Returns <code>true</code> if the event is a character event and its content is equivalent.
+   * Returns <code>true</code> if the token is a character token and its content is equivalent.
    *
-   * @param e The event to compare with this event.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if considered equal; <code>false</code> otherwise.
    */
   @Override
-  public final boolean equals(Token e) {
-    if (this == e)
+  public final boolean equals(Token token) {
+    if (this == token)
       return true;
-    if (e.getClass() != this.getClass())
+    if (token.getClass() != this.getClass())
       return false;
-    CharactersTokenBase ce = (CharactersTokenBase) e;
+    CharactersTokenBase ce = (CharactersTokenBase) token;
     return ce.characters.equals(this.characters);
   }
 
   /**
-   * Returns the characters that this event represents.
+   * Returns the characters that this token represents.
    *
    * <p>
    * Note: this method will return the characters as used by Java (ie. Unicode), they may not be
    * suitable for writing to an XML string.
    *
-   * @return The characters that this event represents.
+   * @return The characters that this token represents.
    */
   @Override
   public final String getCharacters() {

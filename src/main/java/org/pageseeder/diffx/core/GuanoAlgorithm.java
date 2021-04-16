@@ -65,39 +65,39 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
 
     int i = 0;
     int j = 0;
-    Token e1;
-    Token e2;
+    Token t1;
+    Token t2;
     // start walking the matrix
     while (i < length1 && j < length2) {
-      e1 = first.get(i);
-      e2 = second.get(j);
+      t1 = first.get(i);
+      t2 = second.get(j);
       // we can only insert or delete, priority to insert
       if (matrix.isGreaterX(i, j)) {
         // follow the natural path and insert
-        if (estate.okInsert(e1) && !estate.hasPriorityOver(e2, e1)) {
+        if (estate.okInsert(t1) && !estate.hasPriorityOver(t2, t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] >i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] >i +"+ShortStringFormatter.toShortString(t1));
           }
-          handler.handle(Operator.INS, e1);
-          estate.insert(e1);
+          handler.handle(Operator.INS, t1);
+          estate.insert(t1);
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (e1.equals(e2) && estate.okFormat(e1)) {
+        } else if (t1.equals(t2) && estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] >f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] >f "+ShortStringFormatter.toShortString(t1));
           }
-          handler.handle(Operator.MATCH, e1);
-          estate.format(e1);
+          handler.handle(Operator.MATCH, t1);
+          estate.format(t1);
           i++; j++;
 
           // go counter current and delete
-        } else if (estate.okDelete(e2)) {
+        } else if (estate.okDelete(t2)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] >d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] >d -"+ShortStringFormatter.toShortString(t2));
           }
-          handler.handle(Operator.DEL, e2);
-          estate.delete(e2);
+          handler.handle(Operator.DEL, t2);
+          estate.delete(t2);
           j++;
 
         } else {
@@ -113,30 +113,30 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
         // we can only insert or delete, priority to delete
       } else if (matrix.isGreaterY(i, j)) {
         // follow the natural and delete
-        if (estate.okDelete(e2) && !estate.hasPriorityOver(e1, e2)) {
+        if (estate.okDelete(t2) && !estate.hasPriorityOver(t1, t2)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] <d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] <d -"+ShortStringFormatter.toShortString(t2));
           }
-          handler.handle(Operator.DEL, e2);
-          estate.delete(e2);
+          handler.handle(Operator.DEL, t2);
+          estate.delete(t2);
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (e1.equals(e2) && estate.okFormat(e1)) {
+        } else if (t1.equals(t2) && estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] <f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] <f "+ShortStringFormatter.toShortString(t1));
           }
-          handler.handle(Operator.MATCH, e1);
-          estate.format(e1);
+          handler.handle(Operator.MATCH, t1);
+          estate.format(t1);
           i++; j++;
 
           // insert (counter-current)
-        } else if (estate.okInsert(e1)) {
+        } else if (estate.okInsert(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] <i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] <i +"+ShortStringFormatter.toShortString(t1));
           }
-          handler.handle(Operator.INS, e1);
-          estate.insert(e1);
+          handler.handle(Operator.INS, t1);
+          estate.insert(t1);
           i++;
 
         } else {
@@ -153,32 +153,32 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
         // we have to make a choice for where we are going
       } else if (matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (e1.equals(e2) && estate.okFormat(e1)) {
+        if (t1.equals(t2) && estate.okFormat(t1)) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] =f "+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] =f "+ShortStringFormatter.toShortString(t1));
           }
-          handler.handle(Operator.MATCH, e1);
-          estate.format(e1);
+          handler.handle(Operator.MATCH, t1);
+          estate.format(t1);
           i++; j++;
 
           // we can insert the closing tag
-        } else if (estate.okInsert(e1)
-            && !(e2 instanceof AttributeToken && !(e1 instanceof AttributeToken))) {
+        } else if (estate.okInsert(t1)
+            && !(t2 instanceof AttributeToken && !(t1 instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(e1));
+            System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(t1));
           }
-          estate.insert(e1);
-          handler.handle(Operator.INS, e1);
+          estate.insert(t1);
+          handler.handle(Operator.INS, t1);
           i++;
 
           // we can delete the closing tag
-        } else if (estate.okDelete(e2)
-            && !(e1 instanceof AttributeToken && !(e2 instanceof AttributeToken))) {
+        } else if (estate.okDelete(t2)
+            && !(t1 instanceof AttributeToken && !(t2 instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(e2));
+            System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(t2));
           }
-          handler.handle(Operator.DEL, e2);
-          estate.delete(e2);
+          handler.handle(Operator.DEL, t2);
+          estate.delete(t2);
           j++;
 
         } else {
@@ -232,22 +232,22 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
    * @param j The Y position.
    */
   private void printLost(int i, int j, Matrix matrix, ElementState estate, List<? extends Token> first, List<? extends Token> second) {
-    Token e1 = first.get(i);
-    Token e2 = second.get(j);
+    Token t1 = first.get(i);
+    Token t2 = second.get(j);
     System.err.println("(!) Ambiguous choice in ("+i+","+j+")");
-    System.err.println(" ? +"+ShortStringFormatter.toShortString(e1));
-    System.err.println(" ? -"+ShortStringFormatter.toShortString(e2));
+    System.err.println(" ? +"+ShortStringFormatter.toShortString(t1));
+    System.err.println(" ? -"+ShortStringFormatter.toShortString(t2));
     System.err.println(" current="+ShortStringFormatter.toShortString(estate.current()));
     System.err.println(" value in X+1="+matrix.get(i+1, j));
     System.err.println(" value in Y+1="+matrix.get(i, j+1));
-    System.err.println(" equals="+e1.equals(e2));
+    System.err.println(" equals="+t1.equals(t2));
     System.err.println(" greaterX="+matrix.isGreaterX(i, j));
     System.err.println(" greaterY="+matrix.isGreaterY(i, j));
     System.err.println(" sameXY="+matrix.isSameXY(i, j));
-    System.err.println(" okFormat1="+estate.okFormat(e1));
-    System.err.println(" okFormat2="+estate.okFormat(e2));
-    System.err.println(" okInsert="+estate.okInsert(e1));
-    System.err.println(" okDelete="+estate.okDelete(e2));
+    System.err.println(" okFormat1="+estate.okFormat(t1));
+    System.err.println(" okFormat2="+estate.okFormat(t2));
+    System.err.println(" okInsert="+estate.okInsert(t1));
+    System.err.println(" okDelete="+estate.okDelete(t2));
   }
 
 }

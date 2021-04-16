@@ -363,10 +363,10 @@ public abstract class XMLRecorderTest {
 // helpers ------------------------------------------------------------------------------------
 
   /**
-   * Checks that the given XML is equivalent to the given event sequence using the
+   * Checks that the given XML is equivalent to the given token sequence using the
    * default Diff-X configuration.
    *
-   * @param exp The expected event sequence.
+   * @param exp The expected token sequence.
    * @param xml The XML to test.
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
@@ -376,9 +376,9 @@ public abstract class XMLRecorderTest {
   }
 
   /**
-   * Checks that the given XML is equivalent to the given event sequence.
+   * Checks that the given XML is equivalent to the given token sequence.
    *
-   * @param exp    The expected event sequence.
+   * @param exp    The expected token sequence.
    * @param xml    The XML to test.
    * @param config The configuration to use for the XML
    * @throws IOException    Should an I/O exception occur.

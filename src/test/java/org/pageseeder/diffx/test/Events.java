@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Utility class for events and testing.
+ * Utility class for tokens and testing.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -55,11 +55,11 @@ public final class Events {
   }
 
   public static List<TextToken> toTextTokens(String... words) {
-    List<TextToken> events = new ArrayList<>();
+    List<TextToken> tokens = new ArrayList<>();
     for (String word : words) {
-      events.add(toTextToken(word));
+      tokens.add(toTextToken(word));
     }
-    return events;
+    return tokens;
   }
 
   public static List<CharToken> toCharTokens(String string) {
@@ -103,18 +103,18 @@ public final class Events {
     return new LineRecorder().process(text).tokens();
   }
 
-  public static String toXML(List<? extends Token> events) {
-    return toXML(events, new PrefixMapping());
+  public static String toXML(List<? extends Token> tokens) {
+    return toXML(tokens, new PrefixMapping());
   }
 
-  public static String toXML(List<? extends Token> events, PrefixMapping mapping) {
+  public static String toXML(List<? extends Token> tokens, PrefixMapping mapping) {
     try {
       StringWriter xml = new StringWriter();
       SmartXMLFormatter f = new SmartXMLFormatter(xml);
       f.declarePrefixMapping(mapping);
 
-      for (Token event : events) {
-        f.format(event);
+      for (Token token : tokens) {
+        f.format(token);
       }
       return xml.toString();
     } catch (IOException ex) {

@@ -24,7 +24,7 @@ import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- * A basic implementation of the close element event.
+ * A basic implementation of the close element token.
  *
  * <p>It corresponds to the <code>startElement</code> SAX event.
  *
@@ -41,12 +41,12 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
   private final String name;
 
   /**
-   * Hashcode value for this event.
+   * Hashcode value for this token.
    */
   private final int hashCode;
 
   /**
-   * Creates a new open element event.
+   * Creates a new open element token.
    *
    * @param name The local name of the element
    *
@@ -81,17 +81,17 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
   }
 
   /**
-   * Returns <code>true</code> if the event is an open element event.
+   * Returns <code>true</code> if the token is an open element token.
    *
-   * @param e The event to compare with this event.
+   * @param token The token to compare with this token.
    *
-   * @return <code>true</code> if this event is equal to the specified event;
+   * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass()) return false;
-    StartElementTokenImpl oee = (StartElementTokenImpl)e;
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass()) return false;
+    StartElementTokenImpl oee = (StartElementTokenImpl) token;
     return oee.name.equals(this.name);
   }
 
@@ -106,7 +106,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
   }
 
   /**
-   * Converts this event to an XML open tag.
+   * Converts this token to an XML open tag.
    *
    * <p>Note that this method does not allow attributes to be put after this element.
    *
@@ -118,7 +118,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
   }
 
   /**
-   * Calculates the hashcode for this event.
+   * Calculates the hashcode for this token.
    *
    * @param s String from which the hashcode is calculated.
    * @return a number suitable as a hashcode.

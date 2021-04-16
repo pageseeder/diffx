@@ -65,13 +65,13 @@ public final class XMLBranchToken extends TokenBase implements Token {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Token e) {
-    if (e.getClass() != this.getClass()) return false;
-    if (e.hashCode() != this.hashCode) return false;
-    XMLBranchToken be = (XMLBranchToken)e;
+  public boolean equals(Token token) {
+    if (token.getClass() != this.getClass()) return false;
+    if (token.hashCode() != this.hashCode) return false;
+    XMLBranchToken be = (XMLBranchToken) token;
     // branch must have the same length
     if (this.branch.length != be.branch.length) return false;
-    // every single event must be equal
+    // every single token must be equal
     for (int i = 0; i < this.branch.length; i++) {
       if (!be.branch[i].equals(this.branch[i]))
         return false;
@@ -106,15 +106,15 @@ public final class XMLBranchToken extends TokenBase implements Token {
   }
 
   /**
-   * Calculates the hashcode for this event.
+   * Calculates the hashcode for this token.
    *
    * @param tokens Events to calculate the value from.
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(Token[] tokens) {
     int hash = 17;
-    for (Token e : tokens) {
-      hash = hash * 13 + (e != null? e.hashCode() : 0);
+    for (Token token : tokens) {
+      hash = hash * 13 + (token != null? token.hashCode() : 0);
     }
     return hash;
   }

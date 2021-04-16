@@ -294,8 +294,8 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void load(Text text)  {
     List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
-    for (TextToken e : tokens) {
-      this.sequence.addToken(e);
+    for (TextToken token : tokens) {
+      this.sequence.addToken(token);
     }
   }
 
@@ -326,17 +326,17 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * Loads the given attribute in the current sequence.
    *
-   * @param e An attribute token.
+   * @param attribute An attribute token.
    */
-  private void load(AttributeToken e) {
+  private void load(AttributeToken attribute) {
     // a namespace declaration, translate the token into a prefix mapping
-    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(e.getURI())) {
+    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attribute.getURI())) {
       // FIXME Handle default namespace declaration on root element
-      this.sequence.addNamespace(e.getValue(), e.getName());
+      this.sequence.addNamespace(attribute.getValue(), attribute.getName());
 
       // a regular attribute
     } else {
-      this.sequence.addToken(e);
+      this.sequence.addToken(attribute);
     }
   }
 

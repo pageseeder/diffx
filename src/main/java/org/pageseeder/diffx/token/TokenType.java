@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token;
 
 /**
- * Assign a type of event that can affect processing of the diff.
+ * Assign a type of token that can affect processing of the diff.
  *
  * @author Christophe Lauret
  *

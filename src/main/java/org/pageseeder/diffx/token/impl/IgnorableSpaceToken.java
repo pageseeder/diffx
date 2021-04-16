@@ -22,11 +22,11 @@ import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- * A particular type of event reserved for ignored white spaces.
+ * A particular type of token reserved for ignored white spaces.
  *
  * <p>
  * This class can be used to ignore whitespaces for processing but preserve them for formatting.
- * This event keeps the exact formatting of the white space henceby preserving it, but will consider
+ * This token keeps the exact formatting of the white space henceby preserving it, but will consider
  * any instances of this class to be equal regardless of their actual formatting so that the
  * algorithm ignores the differences.
  *
@@ -36,12 +36,12 @@ import org.pageseeder.xmlwriter.XMLWriter;
 public final class IgnorableSpaceToken implements TextToken {
 
   /**
-   * The characters for this event.
+   * The characters for this token.
    */
   private final String characters;
 
   /**
-   * Creates a new ignorable white space event.
+   * Creates a new ignorable white space token.
    *
    * @param seq The char sequence.
    *
@@ -74,10 +74,10 @@ public final class IgnorableSpaceToken implements TextToken {
   }
 
   /**
-   * Returns <code>true</code> if the event is an ignorable white space, regardless of the
+   * Returns <code>true</code> if the token is an ignorable white space, regardless of the
    * characters that it matches.
    *
-   * @param o The event to compare with this event.
+   * @param o The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
@@ -88,30 +88,30 @@ public final class IgnorableSpaceToken implements TextToken {
   }
 
   /**
-   * Returns <code>true</code> if the event is an ignorable white space, regardless of the
+   * Returns <code>true</code> if the token is an ignorable white space, regardless of the
    * characters that it matches.
    *
-   * @param e The event to compare with this event.
+   * @param token The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token e) {
-    if (this == e)
+  public boolean equals(Token token) {
+    if (this == token)
       return true;
-    return e.getClass() == this.getClass();
+    return token.getClass() == this.getClass();
     // always return true
   }
 
   /**
-   * Returns the characters that this event represents.
+   * Returns the characters that this token represents.
    *
    * <p>
    * Note: this method will return the characters as used by Java (ie. Unicode), they may not be
    * suitable for writing to an XML string.
    *
-   * @return The characters that this event represents.
+   * @return The characters that this token represents.
    */
   @Override
   public String getCharacters() {

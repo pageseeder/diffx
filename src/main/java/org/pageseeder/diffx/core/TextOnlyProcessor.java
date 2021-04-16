@@ -121,8 +121,8 @@ public final class TextOnlyProcessor implements DiffProcessor {
     Iterator<? extends Token> i = first.iterator();
     Iterator<? extends Token> j = second.iterator();
     while (i.hasNext() && j.hasNext()) {
-      Token e = i.next();
-      if (j.next().equals(e)) {
+      Token token = i.next();
+      if (j.next().equals(token)) {
         count++;
       } else return count;
     }
@@ -140,8 +140,8 @@ public final class TextOnlyProcessor implements DiffProcessor {
     int count = 0;
     int i = first.size() - 1, j = second.size() - 1;
     for (; i >= start && j >= start; i--, j--) {
-      Token e1 = first.get(i);
-      if (e1.equals(second.get(j))) {
+      Token token = first.get(i);
+      if (token.equals(second.get(j))) {
         count++;
       } else return count;
     }
