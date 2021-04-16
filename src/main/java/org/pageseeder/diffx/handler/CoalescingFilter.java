@@ -94,11 +94,11 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
       TextToken text = coalesceText(this.buffer);
       this.target.handle(this.current, text);
       this.buffer.clear();
-      if (this.current != Operator.MATCH && !this.altBuffer.isEmpty()) {
-        TextToken other = coalesceText(this.altBuffer);
-        this.target.handle(this.current.flip(), other);
-        this.altBuffer.clear();
-      }
+    }
+    if (this.current != Operator.MATCH && !this.altBuffer.isEmpty()) {
+      TextToken other = coalesceText(this.altBuffer);
+      this.target.handle(this.current.flip(), other);
+      this.altBuffer.clear();
     }
   }
 
