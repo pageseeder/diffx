@@ -15,10 +15,14 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.StartElementToken;
+
+import java.io.UncheckedIOException;
 
 /**
  * Maintains the state of open and closed elements during the processing the Diff-X
@@ -34,9 +38,11 @@ import org.pageseeder.diffx.token.StartElementToken;
  * <p>This class is not synchronised and is not meant to be serializable.
  *
  * @author Christophe Lauret
- * @version 12 May 2005
+ *
+ * @version 0.9.0
+ * @since 0.7.0
  */
-public final class ElementState {
+public final class ElementState implements DiffHandler {
 
   /**
    * The stack of open elements.
@@ -44,9 +50,9 @@ public final class ElementState {
   private transient StartElementToken[] openElements;
 
   /**
-   * The stack open elements changes.
+   * The operator corresponding to the stack
    */
-  private transient char[] openChanges;
+  private transient Operator[] openChanges;
 
   /**
    * The size of both lists (the number of elements they contains).
@@ -63,7 +69,7 @@ public final class ElementState {
     if (initialCapacity < 0)
       throw new IllegalArgumentException("Illegal Capacity: "+initialCapacity);
     this.openElements = new StartElementToken[initialCapacity];
-    this.openChanges = new char[initialCapacity];
+    this.openChanges = new Operator[initialCapacity];
   }
 
   /**
@@ -85,14 +91,14 @@ public final class ElementState {
     if (minCapacity > oldCapacity) {
       // make a copy of the old arrays.
       StartElementToken[] oldElements = this.openElements;
-      char[] oldChanges = this.openChanges;
+      Operator[] oldChanges = this.openChanges;
       int newCapacity = oldCapacity * 3 / 2 + 1;
       if (newCapacity < minCapacity) {
         newCapacity = minCapacity;
       }
       // create new arrays
       this.openElements = new StartElementToken[newCapacity];
-      this.openChanges = new char[newCapacity];
+      this.openChanges = new Operator[newCapacity];
       // copy the values of the old arrays into the new ones
       System.arraycopy(oldElements, 0, this.openElements, 0, this.size);
       System.arraycopy(oldChanges, 0, this.openChanges, 0, this.size);
@@ -195,11 +201,11 @@ public final class ElementState {
    *
    * @return The change of the current open element; or ' ' if none.
    */
-  public char currentChange() {
+  public Operator currentChange() {
     if (!isEmpty())
       return this.openChanges[this.size - 1];
     else
-      return ' ';
+      return null;
   }
 
   /**
@@ -221,99 +227,46 @@ public final class ElementState {
   }
 
   /**
-   * Updates the state from the inserted token.
+   * Updates the state from the specified token.
    *
-   * @param token The inserted token.
-   */
-  public void insert(Token token) {
-    if (token instanceof StartElementToken) {
-      push((StartElementToken)token, '+');
-    } else if (token instanceof EndElementToken) {
-      pop();
-    }
-  }
-
-  /**
-   * Updates the state from the formatted token.
+   * <p>If the token is a START_ELEMENT token, it is pushed into the stack along with the corresponding operation.</p>
    *
-   * @param token The formatted token.
-   */
-  public void format(Token token) {
-    if (token instanceof StartElementToken) {
-      push((StartElementToken)token, '=');
-    } else if (token instanceof EndElementToken) {
-      pop();
-    }
-  }
-
-  /**
-   * Updates the state from the deleted token.
+   * <p>If the token is an END_ELEMENT token, it is popped from the stack.</p>
    *
    * @param token The deleted token.
+   * @param operator The corresponding operator
    */
-  public void delete(Token token) {
+  @Override
+  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (token instanceof StartElementToken) {
-      push((StartElementToken)token, '-');
+      push((StartElementToken)token, operator);
     } else if (token instanceof EndElementToken) {
       pop();
     }
   }
 
   /**
-   * Indicates whether the specified token is a close element that
-   * matches the name and URI of the current open element.
+   * Indicates whether the specified operation is allowed.
+   *
+   * <p>It is allowed if:</p>
+   * <ul>
+   *   <li>The token is not an END_ELEMENT token type</li>
+   *   <li>OR the token is an END_ELEMENT token that matches the last START_ELEMENT token and operator</li>
+   * </ul>
    *
    * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
    *         <code>false</code> otherwise.
    */
-  public boolean okFormat(Token token) {
+  public boolean isAllowed(Operator operator, Token token) {
     // cannot match if not a close element token
     if (!(token instanceof EndElementToken)) return true;
     // cannot match if empty
     if (isEmpty()) return false;
     // check if they match
     return ((EndElementToken)token).match(current())
-        && this.openChanges[this.size - 1] == '=';
-  }
-
-  /**
-   * Indicates whether the specified token is a close element that
-   * matches the name and URI of the current open element.
-   *
-   * @param token The token to check.
-   *
-   * @return <code>true</code> if it matches the current element;
-   *         <code>false</code> otherwise.
-   */
-  public boolean okInsert(Token token) {
-    // cannot match if not a close element token
-    if (!(token instanceof EndElementToken)) return true;
-    // cannot match if empty
-    if (isEmpty()) return false;
-    // check if they match
-    return ((EndElementToken)token).match(current())
-        && this.openChanges[this.size - 1] == '+';
-  }
-
-  /**
-   * Indicates whether the specified token is a close element that
-   * matches the name and URI of the current open element.
-   *
-   * @param token The token to check.
-   *
-   * @return <code>true</code> if it matches the current element;
-   *         <code>false</code> otherwise.
-   */
-  public boolean okDelete(Token token) {
-    // cannot match if not a close element token
-    if (!(token instanceof EndElementToken)) return true;
-    // cannot match if empty
-    if (isEmpty()) return false;
-    // check if they match
-    return ((EndElementToken)token).match(current())
-        && this.openChanges[this.size - 1] == '-';
+        && this.openChanges[this.size - 1] == operator;
   }
 
   /**
@@ -340,12 +293,12 @@ public final class ElementState {
    * Push the specified open element and flags it with the specified change.
    *
    * @param token The open element to push.
-   * @param c The character corresponding to change.
+   * @param operator The operator.
    */
-  private void push(StartElementToken token, char c) {
+  private void push(StartElementToken token, Operator operator) {
     ensureCapacity(this.size + 1);
     this.openElements[this.size] = token;
-    this.openChanges[this.size] = c;
+    this.openChanges[this.size] = operator;
     this.size++;
   }
 

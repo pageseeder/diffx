@@ -23,7 +23,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class GuanoAlgorithmTest extends BaseAlgorithmLevel2Test {
+public final class MatrixXMLAlgorithmTest extends BaseAlgorithmLevel2Test {
 
   public DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2) {
     return new GuanoAlgorithm(seq1, seq2);

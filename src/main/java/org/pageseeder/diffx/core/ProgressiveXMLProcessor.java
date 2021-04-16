@@ -41,7 +41,7 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    GuanoAlgorithm algorithm = new GuanoAlgorithm();
+    MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     DiffHandler actual = handler;
     if (coalesce) actual = new CoalescingFilter(actual);
   //  actual = new CompareReplaceFilter(actual);

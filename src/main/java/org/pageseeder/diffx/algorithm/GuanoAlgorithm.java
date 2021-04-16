@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import java.io.IOException;
 
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
@@ -30,22 +31,6 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
  * sequences, but will not necessarily return tokens that can be serialised as well-formed
  * XML as they stand.
- *
- * <p>Known problem in this implementation: elements that contain themselves tend to
- * generate tokens that are harder to serialise as XML.
- *
- * <p>This class is said 'fit' because it will adapt the matrix to the sequences that it
- * is being given in order to improve performance.
- *
- * <p>Note: The name of this class comes from a contracted version of the features of
- * this algorithm, as explained below:
- * <ul>
- *   <li><b>Weighted, each token is has a given weight;</li>
- *   <li><b>Symmetrical, when possible, the algorithm will try to choose a path
- *      that is symmetrical in regards to the arrangement of the tokens;</li>
- *   <li><b>Matrix, this class uses a matrix for its internal representation;</li>
- *   </li>
- * </ul>
  *
  * @author Christophe Lauret
  * @version 0.8.0
@@ -147,30 +132,30 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
       // we can only insert or delete, priority to insert
       if (this.matrix.isGreaterX(i, j)) {
         // follow the natural path and insert
-        if (this.estate.okInsert(t1) && !this.estate.hasPriorityOver(t2, t1)) {
+        if (this.estate.isAllowed(Operator.INS, t1) && !this.estate.hasPriorityOver(t2, t1)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] >i +"+ShortStringFormatter.toShortString(t1));
           }
           formatter.insert(t1);
-          this.estate.insert(t1);
+          this.estate.handle(Operator.INS, t1);
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (t1.equals(t2) && this.estate.okFormat(t1)) {
+        } else if (t1.equals(t2) && this.estate.isAllowed(Operator.MATCH, t1)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] >f "+ShortStringFormatter.toShortString(t1));
           }
           formatter.format(t1);
-          this.estate.format(t1);
+          this.estate.handle(Operator.MATCH, t1);
           i++; j++;
 
           // go counter current and delete
-        } else if (this.estate.okDelete(t2)) {
+        } else if (this.estate.isAllowed(Operator.DEL, t2)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] >d -"+ShortStringFormatter.toShortString(t2));
           }
           formatter.delete(t2);
-          this.estate.delete(t2);
+          this.estate.handle(Operator.DEL, t2);
           j++;
 
         } else {
@@ -186,30 +171,30 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
         // we can only insert or delete, priority to delete
       } else if (this.matrix.isGreaterY(i, j)) {
         // follow the natural and delete
-        if (this.estate.okDelete(t2) && !this.estate.hasPriorityOver(t1, t2)) {
+        if (this.estate.isAllowed(Operator.DEL, t2) && !this.estate.hasPriorityOver(t1, t2)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] <d -"+ShortStringFormatter.toShortString(t2));
           }
           formatter.delete(t2);
-          this.estate.delete(t2);
+          this.estate.handle(Operator.DEL, t2);
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (t1.equals(t2) && this.estate.okFormat(t1)) {
+        } else if (t1.equals(t2) && this.estate.isAllowed(Operator.MATCH, t1)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] <f "+ShortStringFormatter.toShortString(t1));
           }
           formatter.format(t1);
-          this.estate.format(t1);
+          this.estate.handle(Operator.MATCH, t1);
           i++; j++;
 
           // insert (counter-current)
-        } else if (this.estate.okInsert(t1)) {
+        } else if (this.estate.isAllowed(Operator.INS, t1)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] <i +"+ShortStringFormatter.toShortString(t1));
           }
           formatter.insert(t1);
-          this.estate.insert(t1);
+          this.estate.handle(Operator.INS, t1);
           i++;
 
         } else {
@@ -226,32 +211,32 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
         // we have to make a choice for where we are going
       } else if (this.matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (t1.equals(t2) && this.estate.okFormat(t1)) {
+        if (t1.equals(t2) && this.estate.isAllowed(Operator.MATCH, t1)) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+(j+1)+"] =f "+ShortStringFormatter.toShortString(t1));
           }
           formatter.format(t1);
-          this.estate.format(t1);
+          this.estate.handle(Operator.MATCH, t1);
           i++; j++;
 
           // we can insert the closing tag
-        } else if (this.estate.okInsert(t1)
+        } else if (this.estate.isAllowed(Operator.INS, t1)
             && !(t2 instanceof AttributeToken && !(t1 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(t1));
           }
-          this.estate.insert(t1);
+          this.estate.handle(Operator.INS, t1);
           formatter.insert(t1);
           i++;
 
           // we can delete the closing tag
-        } else if (this.estate.okDelete(t2)
+        } else if (this.estate.isAllowed(Operator.DEL, t2)
             && !(t1 instanceof AttributeToken && !(t2 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(t2));
           }
           formatter.delete(t2);
-          this.estate.delete(t2);
+          this.estate.handle(Operator.DEL, t2);
           j++;
 
         } else {
@@ -282,7 +267,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
       if (DEBUG) {
         System.err.println("["+i+","+j+"]->["+(i+1)+","+j+"] _i -"+ShortStringFormatter.toShortString(this.sequence1.getToken(i)));
       }
-      this.estate.insert(this.sequence1.getToken(i));
+      this.estate.handle(Operator.INS, this.sequence1.getToken(i));
       formatter.insert(this.sequence1.getToken(i));
       i++;
     }
@@ -291,7 +276,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
       if (DEBUG) {
         System.err.println("["+i+","+j+"]->["+i+","+(j+1)+"] _d -"+ShortStringFormatter.toShortString(this.sequence2.getToken(j)));
       }
-      this.estate.delete(this.sequence2.getToken(j));
+      this.estate.handle(Operator.DEL, this.sequence2.getToken(j));
       formatter.delete(this.sequence2.getToken(j));
       j++;
     }
@@ -362,10 +347,10 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     System.err.println(" greaterX="+this.matrix.isGreaterX(i, j));
     System.err.println(" greaterY="+this.matrix.isGreaterY(i, j));
     System.err.println(" sameXY="+this.matrix.isSameXY(i, j));
-    System.err.println(" okFormat1="+this.estate.okFormat(t1));
-    System.err.println(" okFormat2="+this.estate.okFormat(t2));
-    System.err.println(" okInsert="+this.estate.okInsert(t1));
-    System.err.println(" okDelete="+this.estate.okDelete(t2));
+    System.err.println(" okFormat1="+this.estate.isAllowed(Operator.MATCH, t1));
+    System.err.println(" okFormat2="+this.estate.isAllowed(Operator.MATCH, t2));
+    System.err.println(" okInsert="+this.estate.isAllowed(Operator.INS, t1));
+    System.err.println(" okDelete="+this.estate.isAllowed(Operator.DEL, t2));
   }
 
 }

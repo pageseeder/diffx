@@ -36,7 +36,7 @@ public class DefaultXMLProcessor implements DiffProcessor {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    GuanoAlgorithm algorithm = new GuanoAlgorithm();
+    MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     DiffHandler actual = getFilter(handler);
     handler.start();
     algorithm.diff(first, second, actual);
