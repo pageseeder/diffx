@@ -31,7 +31,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
  * @version 0.9.0
  * @since 0.6.0
  */
-public final class CommentEvent extends TokenBase implements Token {
+public final class CommentToken extends TokenBase implements Token {
 
   /**
    * The comment string.
@@ -50,7 +50,7 @@ public final class CommentEvent extends TokenBase implements Token {
    *
    * @throws NullPointerException if the comment is <code>null</code>.
    */
-  public CommentEvent(String comment) throws NullPointerException {
+  public CommentToken(String comment) throws NullPointerException {
     this.comment = Objects.requireNonNull(comment);
     this.hashCode = toHashcode(comment);
   }
@@ -79,7 +79,7 @@ public final class CommentEvent extends TokenBase implements Token {
   public boolean equals(Token e) {
     if (e.getClass() != this.getClass())
       return false;
-    CommentEvent other = (CommentEvent) e;
+    CommentToken other = (CommentToken) e;
     return other.comment.equals(this.comment);
   }
 
