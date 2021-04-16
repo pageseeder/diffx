@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * The events implementations used by the Diff-X.
+ * The tokens implementations used by the Diff-X.
  */
 package org.pageseeder.diffx.event.impl;

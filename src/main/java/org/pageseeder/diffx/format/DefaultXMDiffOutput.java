@@ -17,7 +17,7 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -70,12 +70,12 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
   /**
    * Holds the list of attributes inserted to the previous element.
    */
-  private final List<AttributeEvent> insertedAttributes = new ArrayList<>();
+  private final List<AttributeToken> insertedAttributes = new ArrayList<>();
 
   /**
    * Holds the list of attributes deleted from the previous element.
    */
-  private final List<AttributeEvent> deletedAttributes = new ArrayList<>();
+  private final List<AttributeToken> deletedAttributes = new ArrayList<>();
 
   /**
    * Used to know if all elements have been closed, in which case the namespace
@@ -121,69 +121,69 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException, IllegalStateException {
-    if (DEBUG) System.err.println(operator.toString()+event);
+  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+    if (DEBUG) System.err.println(operator.toString()+token);
     try {
       // We must flush the inserted/deleted attributes
-      if (!(event instanceof AttributeEvent)) {
+      if (!(token instanceof AttributeToken)) {
         this.flushAttributes();
       }
       // namespaces declaration
-      if (event instanceof OpenElementEvent) {
+      if (token instanceof StartElementToken) {
         if (this.openElements == 0) declareNamespaces();
         this.openElements++;
-      } else if (event instanceof CloseElementEvent) {
+      } else if (token instanceof EndElementToken) {
         this.openElements--;
       }
       // Handle matches and clashes
-      if (operator == Operator.MATCH) handleMatch(event);
-      else handleClash(operator, event);
+      if (operator == Operator.MATCH) handleMatch(token);
+      else handleClash(operator, token);
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
   }
 
-  private void handleMatch(DiffXEvent event) throws IOException {
-    event.toXML(this.xml);
-    this.insertSpaceIfRequired(event);
+  private void handleMatch(Token token) throws IOException {
+    token.toXML(this.xml);
+    this.insertSpaceIfRequired(token);
   }
 
-  private void handleClash(Operator operator, DiffXEvent event) throws IOException {
+  private void handleClash(Operator operator, Token token) throws IOException {
     // insert an attribute to specify
-    if (event instanceof OpenElementEvent) {
+    if (token instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
         declareNamespaces();
         this.openElements++;
       }
-      event.toXML(this.xml);
+      token.toXML(this.xml);
       this.xml.attribute(DIFF_NS_URI, operator == Operator.INS ? "ins" : "del", "true");
 
       // just output the new line
-    } else if (event == SpaceEvent.NEW_LINE) {
-      event.toXML(this.xml);
+    } else if (token == SpaceToken.NEW_LINE) {
+      token.toXML(this.xml);
 
       // wrap the characters in a <ins> element
-    } else if (event instanceof TextEvent) {
+    } else if (token instanceof TextToken) {
       this.xml.openElement(DIFF_NS_URI, operator == Operator.INS ? "ins" : "del", false);
-      event.toXML(this.xml);
+      token.toXML(this.xml);
       this.xml.closeElement();
-      this.insertSpaceIfRequired(event);
+      this.insertSpaceIfRequired(token);
 
-    } else if (event instanceof AttributeEvent) {
+    } else if (token instanceof AttributeToken) {
       if (operator == Operator.INS) {
-        event.toXML(this.xml);
-        this.insertedAttributes.add((AttributeEvent) event);
+        token.toXML(this.xml);
+        this.insertedAttributes.add((AttributeToken) token);
       } else {
-        this.deletedAttributes.add((AttributeEvent) event);
+        this.deletedAttributes.add((AttributeToken) token);
       }
 
-    } else if (event instanceof CloseElementEvent) {
+    } else if (token instanceof EndElementToken) {
       this.openElements--;
-      event.toXML(this.xml);
+      token.toXML(this.xml);
 
     } else {
-      event.toXML(this.xml);
+      token.toXML(this.xml);
     }
   }
 
@@ -199,8 +199,8 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     }
   }
 
-  private void insertSpaceIfRequired(DiffXEvent event) throws IOException {
-//    if (event instanceof TextEvent && !(event instanceof CharEvent) && this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
+  private void insertSpaceIfRequired(Token token) throws IOException {
+//    if (token instanceof TextToken && !(token instanceof CharToken) && this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
 //      this.xml.writeXML(" ");
 //    }
   }
@@ -214,15 +214,15 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     String namespace = useDiffNamespaceForElements ? DIFF_NS_URI : XMLConstants.NULL_NS_URI;
     // Attributes first
     if (!this.insertedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "ins-attributes", this.insertedAttributes.stream().map(AttributeEvent::getName).collect(Collectors.joining(" ")));
+      this.xml.attribute(DIFF_NS_URI, "ins-attributes", this.insertedAttributes.stream().map(AttributeToken::getName).collect(Collectors.joining(" ")));
     }
     if (!this.deletedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "del-attributes", this.deletedAttributes.stream().map(AttributeEvent::getName).collect(Collectors.joining(" ")));
+      this.xml.attribute(DIFF_NS_URI, "del-attributes", this.deletedAttributes.stream().map(AttributeToken::getName).collect(Collectors.joining(" ")));
     }
     // Elements
     if (!this.insertedAttributes.isEmpty()) {
       this.xml.openElement(namespace, "ins", false);
-      for (AttributeEvent attribute : this.insertedAttributes) {
+      for (AttributeToken attribute : this.insertedAttributes) {
         this.xml.attribute(attribute.getURI(), attribute.getName(), attribute.getValue());
       }
       this.xml.closeElement();
@@ -230,7 +230,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     }
     if (!this.deletedAttributes.isEmpty()) {
       this.xml.openElement(namespace, "del", false);
-      for (AttributeEvent attribute : this.deletedAttributes) {
+      for (AttributeToken attribute : this.deletedAttributes) {
         this.xml.attribute(attribute.getURI(), attribute.getName(), attribute.getValue());
       }
       this.xml.closeElement();

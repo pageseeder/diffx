@@ -30,7 +30,7 @@ import java.io.*;
  * Test class common to all XML formatters.
  *
  * <p>XML formatters should be able to round trip some XML document, in order words, if they
- * are given a sequence of events generated from one XML, they should be able to generate an
+ * are given a sequence of tokens generated from one XML, they should be able to generate an
  * XML document that is equivalent.
  *
  * @author Christophe Lauret
@@ -337,7 +337,7 @@ public abstract class BaseXMLFormatterTest {
 
   /**
    * Asserts that loading and formatting the XML, and loading the output of the format
-   * returns the same events.
+   * returns the same tokens.
    *
    * @param xml The first XML to test.
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
@@ -349,7 +349,7 @@ public abstract class BaseXMLFormatterTest {
     EventSequence exp = this.recorder.process(new InputSource(xmlr));
     // format the sequence
     for (int i = 0; i < exp.size(); i++) {
-      this.formatter.format(exp.getEvent(i));
+      this.formatter.format(exp.getToken(i));
     }
     // process the output of the formatter
     Reader xmlr2 = new StringReader(this.w.toString());

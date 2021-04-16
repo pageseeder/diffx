@@ -22,7 +22,7 @@ import java.io.UncheckedIOException;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 /**
- * A class implementing this interface must be able to produce a sequence of event
+ * A class implementing this interface must be able to produce a sequence of token
  * from a specified input.
  *
  * @author Christophe Lauret
@@ -37,7 +37,7 @@ public interface Recorder {
    *
    * @param file The file to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
@@ -49,7 +49,7 @@ public interface Recorder {
    *
    * @param source The string to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException     If thrown while parsing.
    * @throws UncheckedIOException Should I/O error occur.

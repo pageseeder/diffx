@@ -18,7 +18,7 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
 public final class WagnerFischerAlgorithm implements DiffAlgorithm {
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();
     builder.setInverse(true);
@@ -41,8 +41,8 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
     final int length2 = second.size();
     int i = 0;
     int j = 0;
-    DiffXEvent e1;
-    DiffXEvent e2;
+    Token e1;
+    Token e2;
 
     // Backtrack start walking the matrix
     while (i < length1 && j < length2) {
@@ -66,11 +66,11 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
       }
     }
 
-    // finish off the events from the first sequence
+    // finish off the tokens from the first sequence
     for (; i < length1; i++) {
       handler.handle(Operator.INS, first.get(i));
     }
-    // finish off the events from the second sequence
+    // finish off the tokens from the second sequence
     for (; j < length2; j++) {
       handler.handle(Operator.DEL, second.get(j));
     }

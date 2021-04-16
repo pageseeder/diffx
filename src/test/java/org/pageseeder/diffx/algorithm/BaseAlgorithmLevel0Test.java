@@ -20,8 +20,8 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.ActionFormatter;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.impl.CharToken;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -298,8 +298,8 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
   // --------------------------------------------------------------------------
 
   public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
-    EventSequence seq1 = asSequenceOfCharEvents(text1);
-    EventSequence seq2 = asSequenceOfCharEvents(text2);
+    EventSequence seq1 = asSequenceOfCharTokens(text1);
+    EventSequence seq2 = asSequenceOfCharTokens(text2);
 
     // Setup and process
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
@@ -317,10 +317,10 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     }
   }
 
-  private static EventSequence asSequenceOfCharEvents(String string) {
+  private static EventSequence asSequenceOfCharTokens(String string) {
     EventSequence s = new EventSequence();
     for (char c : string.toCharArray()) {
-      s.addEvent(new CharEvent(c));
+      s.addToken(new CharToken(c));
     }
     return s;
   }
@@ -339,7 +339,7 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
-      System.err.print(action.events().stream().map((event) -> ((CharEvent) event).getChar()).collect(Collectors.toList()));
+      System.err.print(action.tokens().stream().map((token) -> ((CharToken) token).getChar()).collect(Collectors.toList()));
     }
     System.err.println();
   }
@@ -349,18 +349,18 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     final StringBuilder out = new StringBuilder();
 
     @Override
-    public void format(DiffXEvent event) throws IllegalStateException {
-      out.append(((CharEvent) event).getChar());
+    public void format(Token token) throws IllegalStateException {
+      out.append(((CharToken) token).getChar());
     }
 
     @Override
-    public void insert(DiffXEvent event) throws IllegalStateException {
-      out.append('+').append(((CharEvent) event).getChar());
+    public void insert(Token token) throws IllegalStateException {
+      out.append('+').append(((CharToken) token).getChar());
     }
 
     @Override
-    public void delete(DiffXEvent event) throws IllegalStateException {
-      out.append('-').append(((CharEvent) event).getChar());
+    public void delete(Token event) throws IllegalStateException {
+      out.append('-').append(((CharToken) event).getChar());
     }
 
     @Override

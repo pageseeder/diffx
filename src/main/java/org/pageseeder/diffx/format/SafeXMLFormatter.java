@@ -17,13 +17,13 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.impl.CharEvent;
-import org.pageseeder.diffx.event.impl.CharactersEventBase;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.event.impl.CharactersTokenBase;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
@@ -119,19 +119,19 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   // methods ------------------------------------------------------------------------------------
 
   @Override
-  public void format(DiffXEvent e) throws IOException {
+  public void format(Token e) throws IOException {
     if (DEBUG) {
       System.err.println("="+e);
     }
     // namespaces declaration
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
       this.openElements++;
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       this.openElements--;
     }
     e.toXML(this.xml);
-    if (e instanceof CharactersEventBase)
+    if (e instanceof CharactersTokenBase)
       if (this.config.getWhiteSpaceProcessing() == WhiteSpaceProcessing.IGNORE) {
         this.xml.writeXML(" ");
       }
@@ -139,12 +139,12 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(DiffXEvent e) throws IOException {
+  public void insert(Token e) throws IOException {
     if (DEBUG) {
       System.err.println("+"+e);
     }
     // insert an attribute to specify
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
         Formatting.declareNamespaces(this.xml, this.mapping);
@@ -154,11 +154,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       this.xml.attribute("dfx:insert", "true");
 
       // just output the new line
-    } else if (e == SpaceEvent.NEW_LINE) {
+    } else if (e == SpaceToken.NEW_LINE) {
       e.toXML(this.xml);
 
       // wrap the characters in a <ins> element
-    } else if (e instanceof CharactersEventBase) {
+    } else if (e instanceof CharactersTokenBase) {
       this.xml.openElement(Constants.BASE_NS_URI, "ins", false); //this.xml.openElement("ins", false);
       e.toXML(this.xml);
       this.xml.closeElement();
@@ -167,17 +167,17 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       }
 
       // display the attribute normally
-    } else if (e instanceof AttributeEvent) {
+    } else if (e instanceof AttributeToken) {
       e.toXML(this.xml);
-      this.xml.attribute("ins:"+((AttributeEvent)e).getName(), "true");
+      this.xml.attribute("ins:"+((AttributeToken)e).getName(), "true");
 
       // wrap the char in a <ins> element
-    } else if (e instanceof CharEvent) {
+    } else if (e instanceof CharToken) {
       this.xml.openElement(Constants.BASE_NS_URI, "ins", false); //this.xml.openElement("ins", false);
       e.toXML(this.xml);
       this.xml.closeElement();
 
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       this.openElements--;
       e.toXML(this.xml);
 
@@ -189,12 +189,12 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void delete(DiffXEvent e) throws IOException {
+  public void delete(Token e) throws IOException {
     if (DEBUG) {
       System.err.println("-"+e);
     }
     // insert an attribute to specify
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
         Formatting.declareNamespaces(this.xml, this.mapping);
@@ -204,11 +204,11 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       this.xml.attribute("dfx:delete", "true");
 
       // just output the new line
-    } else if (e == SpaceEvent.NEW_LINE) {
+    } else if (e == SpaceToken.NEW_LINE) {
       e.toXML(this.xml);
 
       // wrap the characters in a <del> element
-    } else if (e instanceof CharactersEventBase) {
+    } else if (e instanceof CharactersTokenBase) {
       this.xml.openElement(Constants.BASE_NS_URI, "del", false); //this.xml.openElement("del", false);
       e.toXML(this.xml);
       this.xml.closeElement();
@@ -217,16 +217,16 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       }
 
       // put the attribute as part of the 'delete' namespace
-    } else if (e instanceof AttributeEvent) {
-      this.xml.attribute("del:"+((AttributeEvent)e).getName(), ((AttributeEvent)e).getValue());
+    } else if (e instanceof AttributeToken) {
+      this.xml.attribute("del:"+((AttributeToken)e).getName(), ((AttributeToken)e).getValue());
 
       // wrap the char in a <del> element
-    } else if (e instanceof CharEvent) {
+    } else if (e instanceof CharToken) {
       this.xml.openElement(Constants.BASE_NS_URI, "del", false); //this.xml.openElement("del", false);
       e.toXML(this.xml);
       this.xml.closeElement();
 
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       this.openElements--;
       e.toXML(this.xml);
 

@@ -18,9 +18,9 @@ package org.pageseeder.diffx.sequence;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.StartElementToken;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 /**
@@ -35,7 +35,9 @@ import org.pageseeder.diffx.format.DiffXFormatter;
  * that helps the Diff-X algorithm ensuring that the XML is well-formed.
  *
  * @author Christophe Lauret
- * @version 15 January 2007
+ *
+ * @version 0.9.0
+ * @since 0.7.0
  */
 public final class SequenceSlicer {
   // FIXME: symmetrical slicing.
@@ -43,12 +45,12 @@ public final class SequenceSlicer {
   // class attributes ---------------------------------------------------------------------------
 
   /**
-   * The first sequence of events to test.
+   * The first sequence of tokens to test.
    */
   final EventSequence sequence1;
 
   /**
-   * The second sequence of events to test.
+   * The second sequence of tokens to test.
    */
   final EventSequence sequence2;
 
@@ -104,21 +106,21 @@ public final class SequenceSlicer {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     this.start = new EventSequence();
-    int toBeRemoved = 0; // the number of events to be removed
+    int toBeRemoved = 0; // the number of tokens to be removed
     int depth = 0;       // the depth of the XML or number of open elements
-    Iterator<DiffXEvent> i = this.sequence1.iterator();
-    Iterator<DiffXEvent> j = this.sequence2.iterator();
+    Iterator<Token> i = this.sequence1.iterator();
+    Iterator<Token> j = this.sequence2.iterator();
     int counter = 0;
     // calculate the max possible index for slicing.
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = i.next();
+      Token e = i.next();
       if (j.next().equals(e)) {
         counter++;
         // increase the depth
-        if (e instanceof OpenElementEvent) {
+        if (e instanceof StartElementToken) {
           depth++;
           // decrease the depth
-        } else if (e instanceof CloseElementEvent) {
+        } else if (e instanceof EndElementToken) {
           depth--;
         }
         // if depth = 1, it is a direct child of the document element,
@@ -132,9 +134,9 @@ public final class SequenceSlicer {
     }
     // slice the beginning of the file
     for (int k = 0; k < toBeRemoved; k++) {
-      DiffXEvent e = this.sequence1.removeEvent(0);
-      this.sequence2.removeEvent(0);
-      this.start.addEvent(e);
+      Token e = this.sequence1.removeToken(0);
+      this.sequence2.removeToken(0);
+      this.start.addToken(e);
     }
     return toBeRemoved;
   }
@@ -154,18 +156,18 @@ public final class SequenceSlicer {
       throw new IllegalStateException("The end buffer already contains a subsequence.");
     this.end = new EventSequence();
     int depth = 0;       // the depth of the XML or number of open elements
-    int toBeRemoved = 0; // number of events to be removed from the end
-    int counter = 0;     // number of events evaluated
+    int toBeRemoved = 0; // number of tokens to be removed from the end
+    int counter = 0;     // number of tokens evaluated
     int pos1 = this.sequence1.size() - 1;  // current position of the first sequence
     int pos2 = this.sequence2.size() - 1;  // current position of the second sequence
     while (pos1 >= 0 && pos2 >= 0) {
-      DiffXEvent e1 = this.sequence1.getEvent(pos1);
-      if (e1.equals(this.sequence2.getEvent(pos2))) {
+      Token e1 = this.sequence1.getToken(pos1);
+      if (e1.equals(this.sequence2.getToken(pos2))) {
         counter++;
         // increase the depth for close, decrease for open
-        if (e1 instanceof CloseElementEvent) {
+        if (e1 instanceof EndElementToken) {
           depth++;
-        } else if (e1 instanceof OpenElementEvent) {
+        } else if (e1 instanceof StartElementToken) {
           depth--;
         }
         // if depth = 1, it is a direct child of the document element,
@@ -181,13 +183,13 @@ public final class SequenceSlicer {
     // slice the end of the first sequence
     int downTo = this.sequence1.size() - toBeRemoved;
     for (int k = this.sequence1.size() - 1; k >= downTo; k--) {
-      DiffXEvent e = this.sequence1.removeEvent(k);
-      this.end.addEvent(0, e);
+      Token e = this.sequence1.removeToken(k);
+      this.end.addToken(0, e);
     }
     // slice the end of the second sequence
     downTo = this.sequence2.size() - toBeRemoved;
     for (int k = this.sequence2.size() - 1; k >= downTo; k--) {
-      this.sequence2.removeEvent(k);
+      this.sequence2.removeToken(k);
     }
     return toBeRemoved;
   }
@@ -206,7 +208,7 @@ public final class SequenceSlicer {
   public void formatStart(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.start == null) return;
     for (int i = 0; i < this.start.size(); i++) {
-      formatter.format(this.start.getEvent(i));
+      formatter.format(this.start.getToken(i));
     }
     this.start = null;
   }
@@ -225,7 +227,7 @@ public final class SequenceSlicer {
   public void formatEnd(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.end == null) return;
     for (int i = 0; i < this.end.size(); i++) {
-      formatter.format(this.end.getEvent(i));
+      formatter.format(this.end.getToken(i));
     }
     this.end = null;
   }

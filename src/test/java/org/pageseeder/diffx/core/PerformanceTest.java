@@ -18,8 +18,8 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.impl.CharToken;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
@@ -30,15 +30,15 @@ import java.util.Random;
 
 public class PerformanceTest {
 
-  private static final DiffHandler VOID_HANDLER = (operator, event) -> {};
+  private static final DiffHandler VOID_HANDLER = (operator, token) -> {};
 
   @Test
   public void compareRandomString_1000_10() {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .10);
-    List<CharEvent> second = Events.toCharEvents(from);
-    List<CharEvent> first = Events.toCharEvents(to);
+    List<CharToken> second = Events.toCharTokens(from);
+    List<CharToken> first = Events.toCharTokens(to);
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
@@ -52,8 +52,8 @@ public class PerformanceTest {
       // Generate content
       String from = getRandomString(length, false);
       String to = vary(from, .2);
-      List<CharEvent> second = Events.toCharEvents(from);
-      List<CharEvent> first = Events.toCharEvents(to);
+      List<CharToken> second = Events.toCharTokens(from);
+      List<CharToken> first = Events.toCharTokens(to);
 
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
@@ -65,8 +65,8 @@ public class PerformanceTest {
 //  public void compareHirshbergVariations() throws IOException {
 //    String from = getRandomString(2000, false);
 //    String to = vary(from, .2);
-//    List<CharEvent> second = Events.toCharEvents(from);
-//    List<CharEvent> first = Events.toCharEvents(to);
+//    List<CharToken> second = Events.toCharTokens(from);
+//    List<CharToken> first = Events.toCharTokens(to);
 //
 //    // warm up
 //    profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
@@ -102,8 +102,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .50);
-    List<CharEvent> second = Events.toCharEvents(from);
-    List<CharEvent> first = Events.toCharEvents(to);
+    List<CharToken> second = Events.toCharTokens(from);
+    List<CharToken> first = Events.toCharTokens(to);
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
@@ -115,8 +115,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
-    List<DiffXEvent> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.SPACE_WORD);
-    List<DiffXEvent> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
+    List<Token> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.SPACE_WORD);
+    List<Token> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new ProgressiveXMLProcessor(), first, second, 10);
   }
@@ -128,11 +128,11 @@ public class PerformanceTest {
     StringBuilder xml2 = new StringBuilder();
     generateXML(xml1, xml2, 10);
 
-    // Parse events
-    List<DiffXEvent> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
-    List<DiffXEvent> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
-    List<DiffXEvent> secondWord = Events.recordXMLEvents(xml1.toString(), TextGranularity.SPACE_WORD);
-    List<DiffXEvent> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
+    // Parse tokens
+    List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
+    List<Token> secondWord = Events.recordXMLEvents(xml1.toString(), TextGranularity.SPACE_WORD);
+    List<Token> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new ProgressiveXMLProcessor(), firstText, secondText, 10);
@@ -145,9 +145,9 @@ public class PerformanceTest {
     StringBuilder xml2 = new StringBuilder();
     generateXML(xml1, xml2, 100);
 
-    // Parse events
-    List<DiffXEvent> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
-    List<DiffXEvent> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
+    // Parse tokens
+    List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
 
     ProgressiveXMLProcessor coalescingProcessor = new ProgressiveXMLProcessor();
     coalescingProcessor.setCoalesce(true);
@@ -158,9 +158,9 @@ public class PerformanceTest {
 
   }
 
-  private static long profileX(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int times) {
+  private static long profileX(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second, int times) {
     System.out.print(algorithm.toString());
-    System.out.print("\t"+first.size()+"/"+second.size()+" events");
+    System.out.print("\t"+first.size()+"/"+second.size()+" tokens");
     // We do a dry run first
     long f = profile(algorithm, first, second);
     System.out.print(" First:"+f+"ms");
@@ -173,7 +173,7 @@ public class PerformanceTest {
     return total;
   }
 
-  private static long profile(DiffAlgorithm algorithm, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+  private static long profile(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second) {
     long t0 = System.nanoTime();
     algorithm.diff(first, second, VOID_HANDLER);
     long t1 = System.nanoTime();

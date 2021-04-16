@@ -3,7 +3,7 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.core.DiffAlgorithm;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
@@ -20,7 +20,7 @@ import java.util.List;
 public final class TestActions {
 
 
-  public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends DiffXEvent> seq1, List<? extends DiffXEvent> seq2) {
+  public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends Token> seq1, List<? extends Token> seq2) {
     ActionHandler handler = new ActionHandler();
     algorithm.diff(seq1, seq2, handler);
     return handler.getActions();

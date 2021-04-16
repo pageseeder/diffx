@@ -18,7 +18,7 @@ package org.pageseeder.diffx.format;
 import java.io.IOException;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 /**
  * An interface for formatting the output of the Diff-X algorithm.
@@ -30,34 +30,34 @@ import org.pageseeder.diffx.event.DiffXEvent;
 public interface DiffXFormatter {
 
   /**
-   * Formats the specified event.
+   * Formats the specified token.
    *
-   * @param event The event to format
-   *
-   * @throws IOException Should an I/O exception occurs while formatting.
-   * @throws IllegalStateException If the formatter is not in a state to run this method.
-   */
-  void format(DiffXEvent event) throws IOException, IllegalStateException;
-
-  /**
-   * Formats the specified inserted event.
-   *
-   * @param event The event to format
+   * @param token The token to format
    *
    * @throws IOException Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void insert(DiffXEvent event) throws IOException, IllegalStateException;
+  void format(Token token) throws IOException, IllegalStateException;
 
   /**
-   * Formats the specified deleted event.
+   * Formats the specified inserted token.
    *
-   * @param event The event to format
+   * @param token The token to format
+   *
+   * @throws IOException Should an I/O exception occurs while formatting.
+   * @throws IllegalStateException If the formatter is not in a state to run this method.
+   */
+  void insert(Token token) throws IOException, IllegalStateException;
+
+  /**
+   * Formats the specified deleted token.
+   *
+   * @param token The token to format
    *
    * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void delete(DiffXEvent event) throws IOException, IllegalStateException;
+  void delete(Token token) throws IOException, IllegalStateException;
 
   /**
    * Sets the configuration to use with this formatter.

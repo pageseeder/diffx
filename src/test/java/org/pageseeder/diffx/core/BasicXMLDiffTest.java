@@ -608,7 +608,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.events(), seq2.events());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);

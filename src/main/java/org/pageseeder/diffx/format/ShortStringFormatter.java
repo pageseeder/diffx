@@ -24,7 +24,7 @@ import org.pageseeder.diffx.event.*;
 import org.pageseeder.diffx.event.impl.*;
 
 /**
- * A simple formatter to write the short string version of the events.
+ * A simple formatter to write the short string version of the tokens.
  *
  * @author Christophe Lauret
  * @version 18 March 2005
@@ -63,33 +63,33 @@ public final class ShortStringFormatter implements DiffXFormatter {
   // methods ------------------------------------------------------------------------------
 
   /**
-   * Writes the event as a short string.
+   * Writes the token as a short string.
    *
    * {@inheritDoc}
    */
   @Override
-  public void format(DiffXEvent e) throws IOException, IllegalStateException {
+  public void format(Token e) throws IOException, IllegalStateException {
     this.out.write(toShortString(e));
   }
 
   /**
-   * Writes the event as a short string preceded by '+'.
+   * Writes the token as a short string preceded by '+'.
    *
    * {@inheritDoc}
    */
   @Override
-  public void insert(DiffXEvent e) throws IOException, IllegalStateException {
+  public void insert(Token e) throws IOException, IllegalStateException {
     this.out.write("+");
     this.out.write(toShortString(e));
   }
 
   /**
-   * Writes the event as a short string preceded by '+'.
+   * Writes the token as a short string preceded by '+'.
    *
    * {@inheritDoc}
    */
   @Override
-  public void delete(DiffXEvent e) throws IOException, IllegalStateException {
+  public void delete(Token e) throws IOException, IllegalStateException {
     this.out.write("-");
     this.out.write(toShortString(e));
   }
@@ -106,40 +106,40 @@ public final class ShortStringFormatter implements DiffXFormatter {
   // private helpers ----------------------------------------------------------------------
 
   /**
-   * Returns the short string for the given event.
+   * Returns the short string for the given token.
    *
-   * @param e The event.
+   * @param e The token.
    *
-   * @return The short string for the given event.
+   * @return The short string for the given token.
    */
-  public static String toShortString(DiffXEvent e) {
+  public static String toShortString(Token e) {
     // an element to open
-    if (e instanceof OpenElementEvent)
-      return '<'+((OpenElementEvent)e).getName()+'>';
+    if (e instanceof StartElementToken)
+      return '<'+((StartElementToken)e).getName()+'>';
     // an element to close
-    if (e instanceof CloseElementEvent)
-      return "</"+((CloseElementEvent)e).getName()+'>';
+    if (e instanceof EndElementToken)
+      return "</"+((EndElementToken)e).getName()+'>';
     // an attribute
-    if (e instanceof AttributeEvent)
-      return "@"+((AttributeEvent)e).getName();
+    if (e instanceof AttributeToken)
+      return "@"+((AttributeToken)e).getName();
     // a word
-    if (e instanceof WordEvent)
-      return '"'+((CharactersEventBase)e).getCharacters()+'"';
-    // a white space event
-    if (e instanceof SpaceEvent)
+    if (e instanceof WordToken)
+      return '"'+((CharactersToken)e).getCharacters()+'"';
+    // a white space token
+    if (e instanceof SpaceToken)
       return "_s_";
     // a single character
-    if (e instanceof CharEvent)
-      return "'"+((CharEvent)e).getChar()+'\'';
-    // an ignorable space event
-    if (e instanceof IgnorableSpaceEvent)
+    if (e instanceof CharToken)
+      return "'"+((CharToken)e).getChar()+'\'';
+    // an ignorable space token
+    if (e instanceof IgnorableSpaceToken)
       return "_i_";
-    if (e instanceof ElementEvent)
-      return '<'+((ElementEvent)e).getName()+"/>";
+    if (e instanceof ElementToken)
+      return '<'+((ElementToken)e).getName()+"/>";
     // a single line
-    if (e instanceof LineEvent) return "L#"+((LineEvent)e).getLineNumber();
-    if (e instanceof CharactersEvent)
-      return '"'+((CharactersEventBase)e).getCharacters()+'"';
+    if (e instanceof LineToken) return "L#"+((LineToken)e).getLineNumber();
+    if (e instanceof CharactersToken)
+      return '"'+((CharactersToken)e).getCharacters()+'"';
     if (e == null) return "-";
     return "???";
   }

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -36,19 +36,19 @@ public final class Operations {
   private Operations() {}
 
   /**
-   * Generates the list of events from the list of operations.
+   * Generates the list of tokens from the list of operations.
    *
    * @param operations  The list of operations.
-   * @param positive <code>true</code> for generating the new sequence;
-   *                 <code>false</code> for generating the old sequence.
+   * @param positive <code>true</code> for generating the new sequence (INS or MATCH);
+   *                 <code>false</code> for generating the old sequence (DEL or MATCH).
    */
-  public static List<DiffXEvent> generate(List<Operation> operations, boolean positive) {
-    List<DiffXEvent> generated = new LinkedList<>();
+  public static List<Token> generate(List<Operation> operations, boolean positive) {
+    List<Token> generated = new LinkedList<>();
     for (Operation operation : operations) {
       if (positive ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
-        generated.add(operation.event());
+        generated.add(operation.token());
       } else if (operation.operator() == Operator.MATCH) {
-        generated.add(operation.event());
+        generated.add(operation.token());
       }
     }
     return generated;
@@ -69,17 +69,17 @@ public final class Operations {
    * Apply the specified list of operations to the input sequence and return the corresponding output.
    */
   public static EventSequence apply(EventSequence input, List<Operation> operations) {
-    List<DiffXEvent> events = apply(input.events(), operations);
-    EventSequence out = new EventSequence(events.size());
-    out.addEvents(events);
+    List<Token> tokens = apply(input.tokens(), operations);
+    EventSequence out = new EventSequence(tokens.size());
+    out.addTokens(tokens);
     return out;
   }
 
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static List<DiffXEvent> apply(List<DiffXEvent> input, List<Operation> operations) {
-    List<DiffXEvent> out = new ArrayList<>(input.size());
+  public static List<Token> apply(List<Token> input, List<Operation> operations) {
+    List<Token> out = new ArrayList<>(input.size());
     int i = 0;
     try {
       for (Operation operation : operations) {
@@ -89,7 +89,7 @@ public final class Operations {
             i++;
             break;
           case INS:
-            out.add(operation.event());
+            out.add(operation.token());
             break;
           case DEL:
             i++;
@@ -109,13 +109,13 @@ public final class Operations {
     for (Operation operation : operations) {
       switch (operation.operator()) {
         case MATCH:
-          formatter.format(operation.event());
+          formatter.format(operation.token());
           break;
         case INS:
-          formatter.insert(operation.event());
+          formatter.insert(operation.token());
           break;
         case DEL:
-          formatter.delete(operation.event());
+          formatter.delete(operation.token());
           break;
         default:
       }
@@ -124,7 +124,7 @@ public final class Operations {
 
   public static void handle(List<Operation> operations, DiffHandler handler) {
     for (Operation operation : operations) {
-      handler.handle(operation.operator(), operation.event());
+      handler.handle(operation.operator(), operation.token());
     }
   }
 }

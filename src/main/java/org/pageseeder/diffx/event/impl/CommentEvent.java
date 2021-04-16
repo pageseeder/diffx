@@ -18,19 +18,20 @@ package org.pageseeder.diffx.event.impl;
 import java.io.IOException;
 import java.util.Objects;
 
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.EventType;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.TokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- * A comment event.
+ * A comment token.
  *
  * @author Christophe Lauret
  * @author Jason Harrop
  *
- * @version 27 March 2010
+ * @version 0.9.0
+ * @since 0.6.0
  */
-public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
+public final class CommentEvent extends TokenBase implements Token {
 
   /**
    * The comment string.
@@ -38,12 +39,12 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   private final String comment;
 
   /**
-   * Hashcode value for this event.
+   * Hashcode value for this token.
    */
   private final int hashCode;
 
   /**
-   * Creates a new comment event.
+   * Creates a new comment token.
    *
    * @param comment the comment string.
    *
@@ -67,15 +68,15 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   /**
-   * Returns <code>true</code> if the event is a comment event.
+   * Returns <code>true</code> if the token is a comment token.
    *
-   * @param e The event to compare with this event.
+   * @param e The token to compare with this token.
    *
-   * @return <code>true</code> if this event is equal to the specified event;
+   * @return <code>true</code> if this token is equal to the specified token;
    *         <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(DiffXEvent e) {
+  public boolean equals(Token e) {
     if (e.getClass() != this.getClass())
       return false;
     CommentEvent other = (CommentEvent) e;
@@ -101,12 +102,12 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   @Override
-  public EventType getType() {
-    return EventType.OTHER;
+  public TokenType getType() {
+    return TokenType.OTHER;
   }
 
   /**
-   * Calculates the hashcode for this event.
+   * Calculates the hashcode for this token.
    *
    * @param comment The comment string.
    * @return a number suitable as a hashcode.

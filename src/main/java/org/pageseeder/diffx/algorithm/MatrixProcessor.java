@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -23,7 +23,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 /**
- * Build the matrix for the specified events using dynamic programming.
+ * Build the matrix for the specified tokens using dynamic programming.
  *
  * @author Christophe Lauret
  *
@@ -44,27 +44,27 @@ public final class MatrixProcessor {
 
   /**
    *
-   * @param first  The first sequence of events to test.
-   * @param second The second sequence of events to test.
+   * @param first  The first sequence of tokens to test.
+   * @param second The second sequence of tokens to test.
    *
    * @return the matrix using dynamic programming
    */
   public Matrix process(EventSequence first, EventSequence second) {
-    Matrix matrix = this.inverse ? computeInverse(first.events(), second.events()) : compute(first.events(), second.events());
+    Matrix matrix = this.inverse ? computeInverse(first.tokens(), second.tokens()) : compute(first.tokens(), second.tokens());
     if (DEBUG) {
-      printDebug(first.events(), second.events(), matrix, System.err);
+      printDebug(first.tokens(), second.tokens(), matrix, System.err);
     }
     return matrix;
   }
 
   /**
    *
-   * @param first  The first sequence of events to test.
-   * @param second The second sequence of events to test.
+   * @param first  The first sequence of tokens to test.
+   * @param second The second sequence of tokens to test.
    *
    * @return the matrix using dynamic programming
    */
-  public Matrix process(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+  public Matrix process(List<? extends Token> first, List<? extends Token> second) {
     Matrix matrix = this.inverse ? computeInverse(first, second) : compute(first, second);
     if (DEBUG) {
       printDebug(first, second, matrix, System.err);
@@ -73,7 +73,7 @@ public final class MatrixProcessor {
   }
 
 
-  private static Matrix compute(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+  private static Matrix compute(List<? extends Token> first, List<? extends Token> second) {
     Matrix matrix = getMatrix(first, second, false);
     int length1 = first.size();
     int length2 = second.size();
@@ -86,10 +86,10 @@ public final class MatrixProcessor {
           matrix.set(i, j, 0);
         } else {
           if (first.get(i-1).equals(second.get(j-1))) {
-            // the events are the same
+            // the tokens are the same
             matrix.incrementPath(i, j);
           } else {
-            // different events
+            // different tokens
             matrix.incrementByMaxPath(i, j);
           }
         }
@@ -98,7 +98,7 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static Matrix computeInverse(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+  private static Matrix computeInverse(List<? extends Token> first, List<? extends Token> second) {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
@@ -111,10 +111,10 @@ public final class MatrixProcessor {
           matrix.set(i, j, 0);
         } else {
           if (first.get(i).equals(second.get(j))) {
-            // the events are the same
+            // the tokens are the same
             matrix.incrementPath(i, j);
           } else {
-            // different events
+            // different tokens
             matrix.incrementByMaxPath(i, j);
           }
         }
@@ -123,14 +123,14 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static void printDebug(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, Matrix matrix, PrintStream out) {
+  private static void printDebug(List<? extends Token> first, List<? extends Token> second, Matrix matrix, PrintStream out) {
     out.print("A:");
-    for (DiffXEvent diffXEvent : first) {
+    for (Token diffXEvent : first) {
       out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
     }
     out.println();
     out.print("B:");
-    for (DiffXEvent diffXEvent : second) {
+    for (Token diffXEvent : second) {
       out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
     }
     out.println();
@@ -145,7 +145,7 @@ public final class MatrixProcessor {
    *
    * @return The most appropriate matrix.
    */
-  private static Matrix getMatrix(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, boolean inverse) {
+  private static Matrix getMatrix(List<? extends Token> first, List<? extends Token> second, boolean inverse) {
     if (first.size()+1 > Short.MAX_VALUE || second.size()+1 > Short.MAX_VALUE)
       return inverse ? new InvMatrixInt() : new MatrixInt();
     else

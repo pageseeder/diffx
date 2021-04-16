@@ -24,7 +24,7 @@ import org.pageseeder.diffx.load.SAXRecorder;
 import java.io.IOException;
 
 /**
- * Test case for the event sequence utility.
+ * Test case for the token sequence utility.
  *
  * @author Christophe Lauret
  * @version 0.9.0

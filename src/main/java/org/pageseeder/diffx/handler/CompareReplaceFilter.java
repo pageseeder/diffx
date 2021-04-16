@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.TextEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.TextToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerBySpaceWord;
 
@@ -41,37 +41,37 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) {
-    if (event instanceof TextEvent && (operator == Operator.DEL || operator == Operator.INS)) {
+  public void handle(Operator operator, Token token) {
+    if (token instanceof TextToken && (operator == Operator.DEL || operator == Operator.INS)) {
       if (this.previous != null) {
-        diff((TextEvent) event, (TextEvent)this.previous.event(),operator == Operator.INS);
+        diff((TextToken) token, (TextToken)this.previous.token(),operator == Operator.INS);
         this.previous = null;
       } else {
         flushPrevious();
-        this.previous = new Operation(operator, event);
+        this.previous = new Operation(operator, token);
       }
     } else {
       flushPrevious();
-      this.target.handle(operator, event);
+      this.target.handle(operator, token);
     }
   }
 
-  private void diff(TextEvent a, TextEvent b, boolean positive) {
-    List<TextEvent> eventsA = this.tokenizer.tokenize(a.getCharacters());
-    List<TextEvent> eventsB = this.tokenizer.tokenize(b.getCharacters());
+  private void diff(TextToken a, TextToken b, boolean positive) {
+    List<TextToken> tokensA = this.tokenizer.tokenize(a.getCharacters());
+    List<TextToken> tokensB = this.tokenizer.tokenize(b.getCharacters());
     TextOnlyProcessor diff = new TextOnlyProcessor();
     if (positive)
-      diff.diff(eventsA, eventsB, this.target);
+      diff.diff(tokensA, tokensB, this.target);
     else
-      diff.diff(eventsB, eventsA, this.target);
+      diff.diff(tokensB, tokensA, this.target);
   }
 
   /**
-   * Flush the previous text event to the target formatter and clear the buffer if there is any text event.
+   * Flush the previous text token to the target formatter and clear the buffer if there is any text token.
    */
   public void flushPrevious() {
     if (this.previous != null) {
-      this.target.handle(this.previous.operator(), this.previous.event());
+      this.target.handle(this.previous.operator(), this.previous.token());
       this.previous = null;
     }
   }

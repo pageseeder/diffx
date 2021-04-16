@@ -27,6 +27,7 @@ public enum Operator {
    * An insertion.
    */
   INS {
+
     /**
      * @return DEL
      */
@@ -42,6 +43,7 @@ public enum Operator {
    * A deletion.
    */
   DEL {
+
     /**
      * @return INS
      */
@@ -58,6 +60,7 @@ public enum Operator {
    * A match.
    */
   MATCH {
+
     /**
      * @return MATCH
      */

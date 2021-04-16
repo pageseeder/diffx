@@ -34,7 +34,7 @@ public interface XMLRecorder extends Recorder {
    *
    * @param is The input source.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should I/O error occur.

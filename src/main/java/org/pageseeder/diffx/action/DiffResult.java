@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
@@ -42,12 +42,12 @@ public final class DiffResult {
     Actions.format(this.actions, formatter);
   }
 
-  public boolean isApplicableTo(List<DiffXEvent> to, List<DiffXEvent> from) {
+  public boolean isApplicableTo(List<Token> to, List<Token> from) {
     return Actions.isApplicable(to, from, this.actions);
   }
 
-  public List<DiffXEvent> apply(List<DiffXEvent> events) {
-    return Actions.apply(events, this.actions);
+  public List<Token> apply(List<Token> tokens) {
+    return Actions.apply(tokens, this.actions);
   }
 
   public EventSequence apply(EventSequence sequence) {
@@ -65,7 +65,7 @@ public final class DiffResult {
   public int countEvents(Operator operator) {
     return this.actions.stream()
         .filter(action -> action.operator() == operator)
-        .mapToInt(action -> action.events().size())
+        .mapToInt(action -> action.tokens().size())
         .sum();
   }
 

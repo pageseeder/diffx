@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     // It is more efficient to supply the sizes than retrieve from lists
     algorithmC(first.size(), second.size(), first, second, handler);
   }
@@ -51,7 +51,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    *
    * @return the last line of the Needleman-Wunsch score matrix
    */
-  private static int[] algorithmB(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b) {
+  private static int[] algorithmB(int m, int n, List<? extends Token> a, List<? extends Token> b) {
     int[][] k = new int[2][n + 1];
     for (int i = 1; i <= m; i++) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
@@ -69,7 +69,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   /**
    * Algorithm B as described by Hirschberg (in reverse)
    */
-  private static int[] algorithmBRev(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b) {
+  private static int[] algorithmBRev(int m, int n, List<? extends Token> a, List<? extends Token> b) {
     int[][] k = new int[2][n + 1];
     for (int i = m - 1; i >= 0; i--) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
@@ -103,25 +103,25 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   /**
    * Algorithm C as described by Hirschberg
    */
-  private static void algorithmC(int m, int n, List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, DiffHandler handler) {
+  private static void algorithmC(int m, int n, List<? extends Token> a, List<? extends Token> b, DiffHandler handler) {
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
     if (n == 0) {
       if (DEBUG) System.out.println(" Step1 N=0");
-      for (DiffXEvent event : a) {
-        handler.handle(Operator.INS, event);
+      for (Token token : a) {
+        handler.handle(Operator.INS, token);
       }
 
     } else if (m == 0) {
       if (DEBUG) System.out.println(" Step1 M=0");
-      for (DiffXEvent event : b) {
-        handler.handle(Operator.DEL, event);
+      for (Token token : b) {
+        handler.handle(Operator.DEL, token);
       }
 
     } else if (m == 1) {
       if (DEBUG) System.out.println(" Step1 M=1");
       boolean match = false;
-      DiffXEvent a0 = a.get(0);
+      Token a0 = a.get(0);
       for (int j = 0; j < n; j++) {
         if (a0.equals(b.get(j)) && !match) {
           handler.handle(Operator.MATCH, a0);

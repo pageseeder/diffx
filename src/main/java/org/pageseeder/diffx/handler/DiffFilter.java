@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.handler;
 
 /**
- * A base class for handlers acting as filters for events
+ * A base class for handlers acting as filters for tokens
  */
 public abstract class DiffFilter implements DiffHandler {
 

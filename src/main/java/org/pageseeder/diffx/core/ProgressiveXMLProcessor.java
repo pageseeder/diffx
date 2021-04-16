@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 
@@ -40,7 +40,7 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
   }
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     GuanoAlgorithm algorithm = new GuanoAlgorithm();
     DiffHandler actual = handler;
     if (coalesce) actual = new CoalescingFilter(actual);

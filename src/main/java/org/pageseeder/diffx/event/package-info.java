@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * The event interfaces used by the Diff-X algorithm.
+ * The token interfaces used by the Diff-X algorithm.
  */
 package org.pageseeder.diffx.event;

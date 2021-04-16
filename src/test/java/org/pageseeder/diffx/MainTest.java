@@ -145,7 +145,7 @@ public final class MainTest {
         // process the diff
         long ta = processDiffX(xml1, xml2, info);
         long tb = processDiffX(xml2, xml1, info);
-        System.out.println("Processed " + uc.getName() + " " + s1.size() + "x" + s2.size() + " events in " + ta + "ms / " + tb + "ms (" + xml1.length() + "x" + xml2.length() + " bytes) ");
+        System.out.println("Processed " + uc.getName() + " " + s1.size() + "x" + s2.size() + " tokens in " + ta + "ms / " + tb + "ms (" + xml1.length() + "x" + xml2.length() + " bytes) ");
       }
     }
   }

@@ -17,8 +17,8 @@ package org.pageseeder.diffx.algorithm;
 
 import java.io.IOException;
 
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -28,11 +28,11 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * minor adjustments during formatting.
  *
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
- * sequences, but will not necessarily return events that can be serialised as well-formed
+ * sequences, but will not necessarily return tokens that can be serialised as well-formed
  * XML as they stand.
  *
  * <p>Known problem in this implementation: elements that contain themselves tend to
- * generate events that are harder to serialise as XML.
+ * generate tokens that are harder to serialise as XML.
  *
  * <p>This class is said 'fit' because it will adapt the matrix to the sequences that it
  * is being given in order to improve performance.
@@ -58,12 +58,12 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   private static final boolean DEBUG = false;
 
   /**
-   * The first sequence of events to test.
+   * The first sequence of tokens to test.
    */
   private final EventSequence sequence1;
 
   /**
-   * The second sequence of events to test.
+   * The second sequence of tokens to test.
    */
   private final EventSequence sequence2;
 
@@ -138,12 +138,12 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     length();
     int i = 0;
     int j = 0;
-    DiffXEvent e1;
-    DiffXEvent e2;
+    Token e1;
+    Token e2;
     // start walking the matrix
     while (i < this.length1 && j < this.length2) {
-      e1 = this.sequence1.getEvent(i);
-      e2 = this.sequence2.getEvent(j);
+      e1 = this.sequence1.getToken(i);
+      e2 = this.sequence2.getToken(j);
       // we can only insert or delete, priority to insert
       if (this.matrix.isGreaterX(i, j)) {
         // follow the natural path and insert
@@ -236,7 +236,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
 
           // we can insert the closing tag
         } else if (this.estate.okInsert(e1)
-            && !(e2 instanceof AttributeEvent && !(e1 instanceof AttributeEvent))) {
+            && !(e2 instanceof AttributeToken && !(e1 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(e1));
           }
@@ -246,7 +246,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
 
           // we can delete the closing tag
         } else if (this.estate.okDelete(e2)
-            && !(e1 instanceof AttributeEvent && !(e2 instanceof AttributeEvent))) {
+            && !(e1 instanceof AttributeToken && !(e2 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(e2));
           }
@@ -277,22 +277,22 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
       }
     }
 
-    // finish off the events from the first sequence
+    // finish off the tokens from the first sequence
     while (i < this.length1) {
       if (DEBUG) {
-        System.err.println("["+i+","+j+"]->["+(i+1)+","+j+"] _i -"+ShortStringFormatter.toShortString(this.sequence1.getEvent(i)));
+        System.err.println("["+i+","+j+"]->["+(i+1)+","+j+"] _i -"+ShortStringFormatter.toShortString(this.sequence1.getToken(i)));
       }
-      this.estate.insert(this.sequence1.getEvent(i));
-      formatter.insert(this.sequence1.getEvent(i));
+      this.estate.insert(this.sequence1.getToken(i));
+      formatter.insert(this.sequence1.getToken(i));
       i++;
     }
-    // finish off the events from the second sequence
+    // finish off the tokens from the second sequence
     while (j < this.length2) {
       if (DEBUG) {
-        System.err.println("["+i+","+j+"]->["+i+","+(j+1)+"] _d -"+ShortStringFormatter.toShortString(this.sequence2.getEvent(j)));
+        System.err.println("["+i+","+j+"]->["+i+","+(j+1)+"] _d -"+ShortStringFormatter.toShortString(this.sequence2.getToken(j)));
       }
-      this.estate.delete(this.sequence2.getEvent(j));
-      formatter.delete(this.sequence2.getEvent(j));
+      this.estate.delete(this.sequence2.getToken(j));
+      formatter.delete(this.sequence2.getToken(j));
       j++;
     }
     // free some resources
@@ -328,16 +328,16 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @throws IOException If thrown by the formatter.
    */
   private void processEmpty(DiffXFormatter formatter) throws IOException {
-    // the first sequence is empty, events from the second sequence have been deleted
+    // the first sequence is empty, tokens from the second sequence have been deleted
     if (this.length1 == 0) {
       for (int i = 0; i < this.length2; i++) {
-        formatter.delete(this.sequence2.getEvent(i));
+        formatter.delete(this.sequence2.getToken(i));
       }
     }
-    // the second sequence is empty, events from the first sequence have been inserted
+    // the second sequence is empty, tokens from the first sequence have been inserted
     if (this.length2 == 0) {
       for (int i = 0; i < this.length1; i++) {
-        formatter.insert(this.sequence1.getEvent(i));
+        formatter.insert(this.sequence1.getToken(i));
       }
     }
   }
@@ -350,8 +350,8 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @param j The Y position.
    */
   private void printLost(int i, int j) {
-    DiffXEvent e1 = this.sequence1.getEvent(i);
-    DiffXEvent e2 = this.sequence2.getEvent(j);
+    Token e1 = this.sequence1.getToken(i);
+    Token e2 = this.sequence2.getToken(j);
     System.err.println("(!) Ambiguous choice in ("+i+","+j+")");
     System.err.println(" ? +"+ShortStringFormatter.toShortString(e1));
     System.err.println(" ? -"+ShortStringFormatter.toShortString(e2));

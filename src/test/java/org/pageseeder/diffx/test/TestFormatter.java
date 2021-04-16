@@ -28,7 +28,7 @@ import java.io.StringWriter;
  * A Diff-X formatter implementation used solely for testing.
  *
  * <p>This formatter which write exactly what receives using the abstract representation of
- * each event and adding a plus / minus sign for insertions / deletion. This class is useful
+ * each token and adding a plus / minus sign for insertions / deletion. This class is useful
  * to test the output of an algorithm.
  *
  * @author Christophe Lauret
@@ -57,9 +57,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.DiffXEvent)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.event.Token)
    */
-  public void format(DiffXEvent e) {
+  public void format(Token e) {
     out.write(toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println(toAbstractString(e));
@@ -68,9 +68,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a plus sign '+' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.DiffXEvent)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.event.Token)
    */
-  public void insert(DiffXEvent e) {
+  public void insert(Token e) {
     out.write("+" + toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println("+" + toAbstractString(e));
@@ -79,9 +79,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a minus sign '-' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.DiffXEvent)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.event.Token)
    */
-  public void delete(DiffXEvent e) {
+  public void delete(Token e) {
     out.write("-" + toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println("-" + toAbstractString(e));
@@ -96,12 +96,12 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Formats the entire sequence by formatting each event.
    *
-   * @param seq The event sequence to format
+   * @param seq The token sequence to format
    * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
    */
   public void format(EventSequence seq) throws IOException {
     for (int i = 0; i < seq.size(); i++) {
-      format(seq.getEvent(i));
+      format(seq.getToken(i));
     }
     out.flush();
   }
@@ -117,35 +117,35 @@ public final class TestFormatter implements DiffXFormatter {
 
 
   /**
-   * Returns a simple representation for each event in order to recognise them depending on
+   * Returns a simple representation for each token in order to recognise them depending on
    * their class.
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The event to format
+   * @param e The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toAbstractString(DiffXEvent e) {
-    // TODO: handle unknown event implementations nicely.
+  public static String toAbstractString(Token e) {
+    // TODO: handle unknown token implementations nicely.
     // an element to open
-    if (e instanceof OpenElementEvent) return '<' + ((OpenElementEvent) e).getName() + '>';
+    if (e instanceof StartElementToken) return '<' + ((StartElementToken) e).getName() + '>';
     // an element to close
-    if (e instanceof CloseElementEvent) return "</" + ((CloseElementEvent) e).getName() + '>';
+    if (e instanceof EndElementToken) return "</" + ((EndElementToken) e).getName() + '>';
     // an element
-    if (e instanceof ElementEvent) return '<' + ((ElementEvent) e).getName() + "/>";
+    if (e instanceof ElementToken) return '<' + ((ElementToken) e).getName() + "/>";
     // an attribute
-    if (e instanceof AttributeEvent)
-      return "@{" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + '}';
+    if (e instanceof AttributeToken)
+      return "@{" + ((AttributeToken) e).getName() + '=' + ((AttributeToken) e).getValue() + '}';
     // a word
-    if (e instanceof WordEvent) return "$w{" + ((CharactersEventBase) e).getCharacters() + '}';
-    // a white space event
-    if (e instanceof SpaceEvent) return "$s{" + ((CharactersEventBase) e).getCharacters() + '}';
+    if (e instanceof WordToken) return "$w{" + ((CharactersTokenBase) e).getCharacters() + '}';
+    // a white space token
+    if (e instanceof SpaceToken) return "$s{" + ((CharactersTokenBase) e).getCharacters() + '}';
     // a single character
-    if (e instanceof CharEvent) return "$c{" + ((CharEvent) e).getCharacters() + '}';
-    // an ignorable space event
-    if (e instanceof IgnorableSpaceEvent) return "$i{" + ((IgnorableSpaceEvent) e).getCharacters() + '}';
+    if (e instanceof CharToken) return "$c{" + ((CharToken) e).getCharacters() + '}';
+    // an ignorable space token
+    if (e instanceof IgnorableSpaceToken) return "$i{" + ((IgnorableSpaceToken) e).getCharacters() + '}';
     // a single line
-    if (e instanceof LineEvent) return "$L" + ((LineEvent) e).getLineNumber();
+    if (e instanceof LineToken) return "$L" + ((LineToken) e).getLineNumber();
     return e.getClass().toString();
   }
 

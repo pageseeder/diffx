@@ -17,9 +17,9 @@ package org.pageseeder.diffx.sequence;
 
 import java.util.Stack;
 
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.StartElementToken;
 
 /**
  * A utility class for event sequences.
@@ -48,17 +48,17 @@ public final class EventSequenceUtils {
   public static boolean isWellFormed(EventSequence sequence) {
     // TODO: if the sequence is null ??
     if (sequence == null) return false;
-    Stack<DiffXEvent> open = new Stack<>();
-    DiffXEvent e;
+    Stack<Token> open = new Stack<>();
+    Token e;
     for (int i = 0; i < sequence.size(); i++) {
-      e = sequence.getEvent(i);
-      if (e instanceof OpenElementEvent) {
+      e = sequence.getToken(i);
+      if (e instanceof StartElementToken) {
         open.push(e);
-      } else if (e instanceof CloseElementEvent) {
+      } else if (e instanceof EndElementToken) {
         if (open.empty()) return false;
-        OpenElementEvent o = (OpenElementEvent)open.peek();
+        StartElementToken o = (StartElementToken)open.peek();
         String lastOpenElementName = o.getName();
-        String closeElementName = ((CloseElementEvent)e).getName();
+        String closeElementName = ((EndElementToken)e).getName();
         if (!closeElementName.equals(lastOpenElementName)) return false;
       }
     }
@@ -69,7 +69,7 @@ public final class EventSequenceUtils {
    * Returns the maximum depth of the sequence.
    *
    * <p>This method assumes that the sequence is well-formed, and counts
-   * the maximum number of open element events.
+   * the maximum number of open element tokens.
    *
    * @param sequence The sequence
    *
@@ -79,9 +79,9 @@ public final class EventSequenceUtils {
     int max = 0;
     int depth = 0;
     for (int i = 0; i < sequence.size(); i++) {
-      if (sequence.getEvent(i) instanceof OpenElementEvent) {
+      if (sequence.getToken(i) instanceof StartElementToken) {
         depth++;
-      } else if (sequence.getEvent(i) instanceof CloseElementEvent) {
+      } else if (sequence.getToken(i) instanceof EndElementToken) {
         depth--;
       }
       if (depth > max) {
@@ -104,10 +104,10 @@ public final class EventSequenceUtils {
     int max = 0;
     int tmp = 0;
     for (int i = 0; i < sequence.size(); i++) {
-      DiffXEvent e = sequence.getEvent(i);
-      if (e instanceof OpenElementEvent) {
+      Token e = sequence.getToken(i);
+      if (e instanceof StartElementToken) {
         tmp = 0;
-      } else if (e instanceof CloseElementEvent) {
+      } else if (e instanceof EndElementToken) {
         if (tmp > max) {
           max = tmp;
         }

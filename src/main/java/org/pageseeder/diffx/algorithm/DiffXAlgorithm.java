@@ -21,7 +21,7 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 /**
- * Performs the diff comparison of sequences of events.
+ * Performs the diff comparison of sequences of tokens.
  *
  * @author Christophe Lauret
  * @version 0.7.0

@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.ElementState;
 import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 
@@ -39,20 +39,20 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
 
     final int length1 = first.size();
     final int length2 = second.size();
 
     // handle the case when one of the two sequences is empty
     if (length1 == 0 || length2 == 0) {
-      // the first sequence is empty, events from the second sequence have been deleted
-      for (DiffXEvent event : second) {
-        handler.handle(Operator.DEL, event);
+      // the first sequence is empty, tokens from the second sequence have been deleted
+      for (Token token : second) {
+        handler.handle(Operator.DEL, token);
       }
-      // the second sequence is empty, events from the first sequence have been inserted
-      for (DiffXEvent event : first) {
-        handler.handle(Operator.INS, event);
+      // the second sequence is empty, tokens from the first sequence have been inserted
+      for (Token token : first) {
+        handler.handle(Operator.INS, token);
       }
       return;
     }
@@ -65,8 +65,8 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
 
     int i = 0;
     int j = 0;
-    DiffXEvent e1;
-    DiffXEvent e2;
+    Token e1;
+    Token e2;
     // start walking the matrix
     while (i < length1 && j < length2) {
       e1 = first.get(i);
@@ -163,7 +163,7 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
 
           // we can insert the closing tag
         } else if (estate.okInsert(e1)
-            && !(e2 instanceof AttributeEvent && !(e1 instanceof AttributeEvent))) {
+            && !(e2 instanceof AttributeToken && !(e1 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+(i+1)+","+j+"] =i +"+ShortStringFormatter.toShortString(e1));
           }
@@ -173,7 +173,7 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
 
           // we can delete the closing tag
         } else if (estate.okDelete(e2)
-            && !(e1 instanceof AttributeEvent && !(e2 instanceof AttributeEvent))) {
+            && !(e1 instanceof AttributeToken && !(e2 instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("["+i+","+j+"]->["+i+","+(j+1)+"] =d -"+ShortStringFormatter.toShortString(e2));
           }
@@ -204,7 +204,7 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
       }
     }
 
-    // finish off the events from the first sequence
+    // finish off the tokens from the first sequence
     while (i < length1) {
       if (DEBUG) {
         System.err.println("["+i+","+j+"]->["+(i+1)+","+j+"] _i -"+ShortStringFormatter.toShortString(first.get(i)));
@@ -213,7 +213,7 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
       handler.handle(Operator.INS, first.get(i));
       i++;
     }
-    // finish off the events from the second sequence
+    // finish off the tokens from the second sequence
     while (j < length2) {
       if (DEBUG) {
         System.err.println("["+i+","+j+"]->["+i+","+(j+1)+"] _d -"+ShortStringFormatter.toShortString(second.get(j)));
@@ -231,9 +231,9 @@ public final class GuanoAlgorithm implements DiffAlgorithm {
    * @param i The X position.
    * @param j The Y position.
    */
-  private void printLost(int i, int j, Matrix matrix, ElementState estate, List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
-    DiffXEvent e1 = first.get(i);
-    DiffXEvent e2 = second.get(j);
+  private void printLost(int i, int j, Matrix matrix, ElementState estate, List<? extends Token> first, List<? extends Token> second) {
+    Token e1 = first.get(i);
+    Token e2 = second.get(j);
     System.err.println("(!) Ambiguous choice in ("+i+","+j+")");
     System.err.println(" ? +"+ShortStringFormatter.toShortString(e1));
     System.err.println(" ? -"+ShortStringFormatter.toShortString(e2));

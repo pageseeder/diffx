@@ -17,7 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.impl.CharToken;
 import org.pageseeder.diffx.handler.OperationHandler;
 
 import java.util.List;
@@ -27,9 +27,9 @@ public class TestOperations {
   public static List<Operation> toTextOperations(String... ops) {
     OperationHandler source = new OperationHandler();
     for (String op : ops) {
-      if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextEvent(op.substring(1)));
-      else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextEvent(op.substring(1)));
-      else source.handle(Operator.MATCH, Events.toTextEvent(op));
+      if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextToken(op.substring(1)));
+      else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextToken(op.substring(1)));
+      else source.handle(Operator.MATCH, Events.toTextToken(op));
     }
     return source.getOperations();
   }
@@ -39,9 +39,9 @@ public class TestOperations {
     char[] chars = ops.toCharArray();
     for (int i=0; i < chars.length; i++) {
       char c = chars[i];
-      if (c == '+' && (i+1) < chars.length) source.handle(Operator.INS, new CharEvent(chars[++i]));
-      else if (c == '-' && (i+1) < chars.length) source.handle(Operator.DEL, new CharEvent(chars[++i]));
-      else source.handle(Operator.MATCH, new CharEvent(c));
+      if (c == '+' && (i+1) < chars.length) source.handle(Operator.INS, new CharToken(chars[++i]));
+      else if (c == '-' && (i+1) < chars.length) source.handle(Operator.DEL, new CharToken(chars[++i]));
+      else source.handle(Operator.MATCH, new CharToken(c));
     }
     return source.getOperations();
   }

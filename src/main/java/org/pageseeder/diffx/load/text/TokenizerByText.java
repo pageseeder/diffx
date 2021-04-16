@@ -21,13 +21,13 @@ import java.util.List;
 
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
+import org.pageseeder.diffx.event.impl.IgnorableSpaceToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 
 /**
- * The tokenizer for characters events.
+ * The tokenizer for characters tokens.
  *
  * <p>This class is not synchronized.
  *
@@ -54,60 +54,60 @@ public final class TokenizerByText implements TextTokenizer {
   }
 
   @Override
-  public List<TextEvent> tokenize(CharSequence seq) {
+  public List<TextToken> tokenize(CharSequence seq) {
     if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
     int x = TokenizerUtils.getLeadingWhiteSpace(seq);
     int y = TokenizerUtils.getTrailingWhiteSpace(seq);
     // no leading or trailing spaces return a singleton in all configurations
     if (x == 0 && y == 0) {
-      TextEvent e = new CharactersEvent(seq);
+      TextToken e = new CharactersToken(seq);
       return Collections.singletonList(e);
     }
     // The text node is only white space (white space = leading space)
     if (x == seq.length()) {
       switch (this.whitespace) {
         case COMPARE:
-          return Collections.singletonList(SpaceEvent.getInstance(seq.toString()));
+          return Collections.singletonList(SpaceToken.getInstance(seq.toString()));
         case PRESERVE:
-          return Collections.singletonList(new IgnorableSpaceEvent(seq.toString()));
+          return Collections.singletonList(new IgnorableSpaceToken(seq.toString()));
         case IGNORE:
           return Collections.emptyList();
         default:
       }
-      TextEvent e = new CharactersEvent(seq);
+      TextToken e = new CharactersToken(seq);
       return Collections.singletonList(e);
     }
     // some trailing or leading whitespace, behaviour changes depending on whitespace processing
-    List<TextEvent> events = null;
+    List<TextToken> tokens = null;
     switch (this.whitespace) {
       case COMPARE:
-        events = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
+        tokens = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
         if (x > 0) {
-          events.add(SpaceEvent.getInstance(seq.subSequence(0, x)));
+          tokens.add(SpaceToken.getInstance(seq.subSequence(0, x)));
         }
-        events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
+        tokens.add(new CharactersToken(seq.subSequence(x, seq.length()-y)));
         if (y > 0) {
-          events.add(SpaceEvent.getInstance(seq.subSequence(seq.length()-y, seq.length())));
+          tokens.add(SpaceToken.getInstance(seq.subSequence(seq.length()-y, seq.length())));
         }
         break;
       case PRESERVE:
-        events = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
+        tokens = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
         if (x > 0) {
-          events.add(new IgnorableSpaceEvent(seq.subSequence(0, x)));
+          tokens.add(new IgnorableSpaceToken(seq.subSequence(0, x)));
         }
-        events.add(new CharactersEvent(seq.subSequence(x, seq.length()-y)));
+        tokens.add(new CharactersToken(seq.subSequence(x, seq.length()-y)));
         if (y > 0) {
-          events.add(new IgnorableSpaceEvent(seq.subSequence(seq.length()-y, seq.length())));
+          tokens.add(new IgnorableSpaceToken(seq.subSequence(seq.length()-y, seq.length())));
         }
         break;
       case IGNORE:
-        TextEvent e = new CharactersEvent(seq.subSequence(x, seq.length()-y));
-        events = Collections.singletonList(e);
+        TextToken e = new CharactersToken(seq.subSequence(x, seq.length()-y));
+        tokens = Collections.singletonList(e);
         break;
       default:
     }
-    return events;
+    return tokens;
   }
 
   /**

@@ -18,12 +18,12 @@ package org.pageseeder.diffx.load.text;
 import java.util.List;
 
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.TextEvent;
+import org.pageseeder.diffx.event.TextToken;
 
 /**
  * An interface for text tokenizers.
  *
- * <p>Text tokenizers are used to return a list of {@link org.pageseeder.diffx.event.TextEvent}
+ * <p>Text tokenizers are used to return a list of {@link org.pageseeder.diffx.event.TextToken}
  * from a piece of text.
  *
  * @author Christophe Lauret
@@ -32,12 +32,12 @@ import org.pageseeder.diffx.event.TextEvent;
 public interface TextTokenizer {
 
   /**
-   * Returns the list of {@link TextEvent} corresponding to the specified character sequence.
+   * Returns the list of {@link TextToken} corresponding to the specified character sequence.
    *
    * @param seq the character sequence to tokenize.
    * @return the corresponding list.
    */
-  List<TextEvent> tokenize(CharSequence seq);
+  List<TextToken> tokenize(CharSequence seq);
 
   /**
    * @return the text granularity of this tokenizer.

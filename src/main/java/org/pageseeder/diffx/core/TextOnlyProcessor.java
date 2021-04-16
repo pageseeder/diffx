@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.util.Iterator;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * An implementation of dynamic programming algorithm for computing the LCS.
  *
- * It is designed for text only and designed for simple sequences of events.
+ * It is designed for text only and designed for simple sequences of tokens.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -55,12 +55,12 @@ public final class TextOnlyProcessor implements DiffProcessor {
   }
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (first.isEmpty() || second.isEmpty()) {
-      for (DiffXEvent event : second) handler.handle(Operator.DEL, event);
-      for (DiffXEvent event : first) handler.handle(Operator.INS, event);
+      for (Token token : second) handler.handle(Operator.DEL, token);
+      for (Token token : first) handler.handle(Operator.INS, token);
     } else {
 
       // Slice the beginning
@@ -74,11 +74,11 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
       // Check the end
       if (start > 0 || end > 0) {
-        List<? extends DiffXEvent> firstSub = first.subList(start, first.size()-end);
-        List<? extends DiffXEvent> secondSub = second.subList(start, second.size()-end);
+        List<? extends Token> firstSub = first.subList(start, first.size()-end);
+        List<? extends Token> secondSub = second.subList(start, second.size()-end);
         if (firstSub.isEmpty() || secondSub.isEmpty()) {
-          for (DiffXEvent event : secondSub) handler.handle(Operator.DEL, event);
-          for (DiffXEvent event : firstSub) handler.handle(Operator.INS, event);
+          for (Token token : secondSub) handler.handle(Operator.DEL, token);
+          for (Token token : firstSub) handler.handle(Operator.INS, token);
         } else {
           DiffAlgorithm algorithm = getAlgorithm();
           algorithm.diff(firstSub, secondSub, handler);
@@ -116,12 +116,12 @@ public final class TextOnlyProcessor implements DiffProcessor {
    *
    * @return The number of common elements at the start of the sequences.
    */
-  public static int sliceStart(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+  public static int sliceStart(List<? extends Token> first, List<? extends Token> second) {
     int count = 0;
-    Iterator<? extends DiffXEvent> i = first.iterator();
-    Iterator<? extends DiffXEvent> j = second.iterator();
+    Iterator<? extends Token> i = first.iterator();
+    Iterator<? extends Token> j = second.iterator();
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = i.next();
+      Token e = i.next();
       if (j.next().equals(e)) {
         count++;
       } else return count;
@@ -136,11 +136,11 @@ public final class TextOnlyProcessor implements DiffProcessor {
    *
    * @throws IllegalStateException If the end buffer is not empty.
    */
-  public int sliceEnd(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, int start) {
+  public int sliceEnd(List<? extends Token> first, List<? extends Token> second, int start) {
     int count = 0;
     int i = first.size() - 1, j = second.size() - 1;
     for (; i >= start && j >= start; i--, j--) {
-      DiffXEvent e1 = first.get(i);
+      Token e1 = first.get(i);
       if (e1.equals(second.get(j))) {
         count++;
       } else return count;

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     Instance instance = new Instance(first, second);
     instance.process(handler);
   }
@@ -91,15 +91,15 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      */
     private int J = 0;
 
-    private final List<? extends DiffXEvent> first;
-    private final List<? extends DiffXEvent> second;
+    private final List<? extends Token> first;
+    private final List<? extends Token> second;
 
     /**
      * Events are reported here.
      */
     private DiffHandler handler;
 
-    Instance(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second) {
+    Instance(List<? extends Token> first, List<? extends Token> second) {
       this.first = Objects.requireNonNull(first);
       this.second = Objects.requireNonNull(second);
     }
@@ -314,7 +314,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
     /**
      * Computes the longest common subsequence for the specified boundaries when the waste
-     * is (strictly) less than 2 events.
+     * is (strictly) less than 2 tokens.
      *
      * <p>This method is iterative; NOT recursive.
      *
@@ -354,7 +354,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
     private void computeLCSBaseCase(int startA, int endA, int startB, int endB, int m, int n, int p) {
 
       // 1. Compute LL
-      // `LL` contains the relative 1-based index of the event in the second sequence in reverse order
+      // `LL` contains the relative 1-based index of the token in the second sequence in reverse order
       // `m - p` is number of diffs with the first subsequence
       this.LL = calMid(startA, endA, startB, endB, m, n, 1, m - p);
       if (DEBUG) {
@@ -374,12 +374,12 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         this.J++;
         i++;
         if (i < p) {
-          // removed events from the second subsequence
+          // removed tokens from the second subsequence
           deleteUpTo(this.LL[p - i] - 1 + startB);
         }
       }
 
-      // possibly an event from the first subsequence to insert
+      // possibly an token from the first subsequence to insert
       if (i < m) {
         this.handler.handle(Operator.INS, this.first.get(i + startA));
       }
@@ -398,7 +398,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         }
       }
 
-      // finish writing the missing events from the second subsequence
+      // finish writing the missing tokens from the second subsequence
       deleteUpTo(this.LL[0] - 1 + startB);
     }
 
@@ -509,9 +509,9 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
     }
 
     /**
-     * Write the deleted events to the formatter.
+     * Write the deleted tokens to the formatter.
      *
-     * @param jSeq2 The index of the LL array for the next event of the second sequence.
+     * @param jSeq2 The index of the LL array for the next token of the second sequence.
      */
     private void deleteUpTo(int jSeq2) {
       while (jSeq2 > this.J) {

@@ -16,15 +16,15 @@
 package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Coalesces consecutive text events for the same operation.
+ * Coalesces consecutive text tokens for the same operation.
  *
  * <p>This handler is </p>
  *
@@ -35,17 +35,17 @@ import java.util.List;
 public final class CoalescingFilter extends DiffFilter implements DiffHandler {
 
   /**
-   * Buffer of text event to coalesce.
+   * Buffer of text token to coalesce.
    */
-  private final List<TextEvent> buffer = new ArrayList<>();
+  private final List<TextToken> buffer = new ArrayList<>();
 
   /**
-   * Buffer of text event to coalesce using opposite operation of current.
+   * Buffer of text token to coalesce using opposite operation of current.
    */
-  private final List<TextEvent> altBuffer = new ArrayList<>();
+  private final List<TextToken> altBuffer = new ArrayList<>();
 
   /**
-   * The operator used for the last event in the buffer.
+   * The operator used for the last token in the buffer.
    */
   private Operator current = Operator.MATCH;
 
@@ -54,12 +54,12 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws IllegalStateException {
-    if (event instanceof TextEvent) {
-      handleText((TextEvent)event, operator);
+  public void handle(Operator operator, Token token) throws IllegalStateException {
+    if (token instanceof TextToken) {
+      handleText((TextToken)token, operator);
     } else {
       flushText();
-      this.target.handle(operator, event);
+      this.target.handle(operator, token);
     }
   }
 
@@ -69,33 +69,33 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
     this.target.end();
   }
 
-  private void handleText(TextEvent event, Operator operator) {
+  private void handleText(TextToken token, Operator operator) {
     if (this.current == operator) {
-      // Same operator simply add the event
-      this.buffer.add(event);
+      // Same operator simply add the token
+      this.buffer.add(token);
     } else {
       if (this.current == Operator.MATCH || operator == Operator.MATCH) {
         // Operator is match, flush and update
         this.flushText();
         this.current = operator;
-        this.buffer.add(event);
+        this.buffer.add(token);
       } else {
         // Current is INS or DEL
-        this.altBuffer.add(event);
+        this.altBuffer.add(token);
       }
     }
   }
 
   /**
-   * Flush the text to the target handler and clear the buffer if there are any text events.
+   * Flush the text to the target handler and clear the buffer if there are any text tokens.
    */
   public void flushText() {
     if (this.buffer.size() > 0) {
-      TextEvent text = coalesceText(this.buffer);
+      TextToken text = coalesceText(this.buffer);
       this.target.handle(this.current, text);
       this.buffer.clear();
       if (this.current != Operator.MATCH && !this.altBuffer.isEmpty()) {
-        TextEvent other = coalesceText(this.altBuffer);
+        TextToken other = coalesceText(this.altBuffer);
         this.target.handle(this.current.flip(), other);
         this.altBuffer.clear();
       }
@@ -103,36 +103,36 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
   }
 
   /**
-   * Coalesce text events into a single one.
+   * Coalesce text tokens into a single one.
    *
-   * @param events A list of text events
+   * @param tokens A list of text tokens
    *
-   * @return A single text event
+   * @return A single text token
    */
-  public static TextEvent coalesceText(List<TextEvent> events) {
-    // If there's only one event, no need to coalesce
-    if (events.size() == 1) return events.get(0);
+  public static TextToken coalesceText(List<TextToken> tokens) {
+    // If there's only one token, no need to coalesce
+    if (tokens.size() == 1) return tokens.get(0);
     // Concatenate text of all text nodes
     StringBuilder text = new StringBuilder();
-    for (TextEvent event : events) {
-      text.append(event.getCharacters());
+    for (TextToken token : tokens) {
+      text.append(token.getCharacters());
     }
-    return new CharactersEvent(text.toString());
+    return new CharactersToken(text.toString());
   }
 
   /**
-   * Coalesce events that all text nodes
+   * Coalesce tokens that all text nodes
    *
-   * @param events A list of events
+   * @param tokens A list of tokens
    *
-   * @return A list of events with text events coalesced.
+   * @return A list of tokens with text tokens coalesced.
    */
-  public static List<DiffXEvent> coalesce(List<DiffXEvent> events) {
-    // If there's only one event, no need to coalesce
-    if (events.size() <= 1) return events;
-    List<DiffXEvent> coalesced = new ArrayList<>();
-    CoalescingFilter filter = new CoalescingFilter((operator, event) -> coalesced.add(event));
-    for (DiffXEvent event : events) filter.handle(Operator.MATCH, event);
+  public static List<Token> coalesce(List<Token> tokens) {
+    // If there's only one token, no need to coalesce
+    if (tokens.size() <= 1) return tokens;
+    List<Token> coalesced = new ArrayList<>();
+    CoalescingFilter filter = new CoalescingFilter((operator, token) -> coalesced.add(token));
+    for (Token token : tokens) filter.handle(Operator.MATCH, token);
     return coalesced;
   }
 

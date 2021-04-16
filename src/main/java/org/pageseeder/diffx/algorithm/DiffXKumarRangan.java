@@ -33,7 +33,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
  * sequences, but suffers from two main problems:
  * <ul>
- *   <li>When the events are formatted directly from reading the matrix, the XML is not
+ *   <li>When the tokens are formatted directly from reading the matrix, the XML is not
  *   necessarily well-formed, this occurs mostly when some elements are swapped, because
  *   the closing tags will not necessarily reported in an order that allows the XML to
  *   be well-formed.<br>
@@ -92,7 +92,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     if (this.length < 0) {
       DiffAlgorithm algo = new KumarRanganAlgorithm();
       AtomicInteger length = new AtomicInteger();
-      algo.diff(this.sequence1.events(), this.sequence2.events(), (operator, event) -> {
+      algo.diff(this.sequence1.tokens(), this.sequence2.tokens(), (operator, token) -> {
         if (operator == Operator.MATCH) length.getAndIncrement();
       });
       this.length = length.get();
@@ -112,7 +112,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     DiffAlgorithm algo = new KumarRanganAlgorithm();
     try {
       FormattingAdapter adapter = new FormattingAdapter(formatter);
-      algo.diff(this.sequence1.events(), this.sequence2.events(), adapter);
+      algo.diff(this.sequence1.tokens(), this.sequence2.tokens(), adapter);
     } catch (UncheckedIOException ex) {
       // Unwrap
       throw ex.getCause();

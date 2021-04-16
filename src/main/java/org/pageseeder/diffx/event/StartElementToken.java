@@ -16,43 +16,27 @@
 package org.pageseeder.diffx.event;
 
 /**
- * Assign a type of event that can affect processing of the diff.
+ * The event corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- *
- * @version 0.9.0
- * @since 0.9.0
+ * @version 23 December 2004
  */
-public enum EventType {
+public interface StartElementToken extends Namespaceable, Token {
 
   /**
-   * Text only.
+   * Returns the local name of the element.
+   *
+   * @return The local name of the element.
    */
-  TEXT,
+  String getName();
 
   /**
-   * An XML attribute.
+   * Returns the namespace URI the element belongs to.
+   *
+   * @return The namespace URI the element belongs to.
    */
-  ATTRIBUTE,
+  String getURI();
 
-  /**
-   * An XML element.
-   */
-  ELEMENT,
-
-  /**
-   * The start of an XML element.
-   */
-  START_ELEMENT,
-
-  /**
-   * The end of an XML element.
-   */
-  END_ELEMENT,
-
-  /**
-   * Any other type.
-   */
-  OTHER;
-
+  @Override
+  default TokenType getType() { return TokenType.START_ELEMENT; }
 }

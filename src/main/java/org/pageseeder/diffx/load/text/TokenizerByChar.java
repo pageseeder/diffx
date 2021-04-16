@@ -20,12 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 
 /**
- * The tokenizer for characters events.
+ * The tokenizer for characters tokens.
  *
  * <p>This class is not synchronized.
  *
@@ -41,22 +41,22 @@ public final class TokenizerByChar implements TextTokenizer {
   }
 
   @Override
-  public List<TextEvent> tokenize(CharSequence seq) {
+  public List<TextToken> tokenize(CharSequence seq) {
     if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
-    List<TextEvent> events = new ArrayList<>(seq.length());
+    List<TextToken> tokens = new ArrayList<>(seq.length());
     char c;
     for (int i=0; i < seq.length(); i++) {
       c = seq.charAt(i);
-      TextEvent e;
+      TextToken e;
       if (Character.isWhitespace(c)) {
-        e = SpaceEvent.getInstance(c);
+        e = SpaceToken.getInstance(c);
       } else {
-        e = new CharactersEvent(Character.toString(c));
+        e = new CharactersToken(Character.toString(c));
       }
-      events.add(e);
+      tokens.add(e);
     }
-    return events;
+    return tokens;
   }
 
   /**

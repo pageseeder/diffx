@@ -143,7 +143,7 @@ public final class Main {
    */
   public static void diff(Node xml1, Node xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
-    // records the events from the XML
+    // records the tokens from the XML
     DOMRecorder loader = new DOMRecorder();
     if (config != null) {
       loader.setConfig(config);
@@ -169,7 +169,7 @@ public final class Main {
    */
   public static void diff(NodeList xml1, NodeList xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
-    // records the events from the XML
+    // records the tokens from the XML
     DOMRecorder loader = new DOMRecorder();
     if (config != null) {
       loader.setConfig(config);
@@ -193,7 +193,7 @@ public final class Main {
    */
   public static void diff(Reader xml1, Reader xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
-    // records the events from the XML
+    // records the tokens from the XML
     SAXRecorder recorder = new SAXRecorder();
     if (config != null) {
       recorder.setConfig(config);
@@ -216,7 +216,7 @@ public final class Main {
    */
   public static void diff(Reader xml1, Reader xml2, Writer out)
       throws DiffXException, IOException {
-    // records the events from the XML
+    // records the tokens from the XML
     SAXRecorder recorder = new SAXRecorder();
     EventSequence seq1 = recorder.process(new InputSource(xml1));
     EventSequence seq2 = recorder.process(new InputSource(xml2));
@@ -236,7 +236,7 @@ public final class Main {
    */
   public static void diff(InputStream xml1, InputStream xml2, OutputStream out)
       throws DiffXException, IOException {
-    // records the events from the XML
+    // records the tokens from the XML
     SAXRecorder recorder = new SAXRecorder();
     EventSequence seq1 = recorder.process(new InputSource(xml1));
     EventSequence seq2 = recorder.process(new InputSource(xml2));

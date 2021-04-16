@@ -15,13 +15,13 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.event.impl.LineEvent;
+import org.pageseeder.diffx.event.impl.LineToken;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.*;
 
 /**
- * Records the line events in a text.
+ * Records the line tokens in a text.
  *
  * @author Christophe Lauret
  *
@@ -37,7 +37,7 @@ public final class LineRecorder implements Recorder {
    *
    * @param file The file to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws IOException Should an I/O error occur.
    */
@@ -53,7 +53,7 @@ public final class LineRecorder implements Recorder {
    *
    * @param text The text string to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    */
   @Override
   public EventSequence process(String text) {
@@ -70,7 +70,7 @@ public final class LineRecorder implements Recorder {
     int count = 0;
     EventSequence sequence = new EventSequence();
     while (line != null) {
-      sequence.addEvent(new LineEvent(line, ++count));
+      sequence.addToken(new LineToken(line, ++count));
       line = reader.readLine();
     }
     return sequence;

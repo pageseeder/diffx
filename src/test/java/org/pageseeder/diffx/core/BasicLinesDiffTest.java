@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestHandler;
@@ -95,8 +95,8 @@ public abstract class BasicLinesDiffTest extends AlgorithmTest {
   }
 
   private String processDiffLines(String text1, String text2) {
-    List<? extends DiffXEvent> seq1 = Events.recordLineEvents(text1);
-    List<? extends DiffXEvent> seq2 = Events.recordLineEvents(text2);
+    List<? extends Token> seq1 = Events.recordLineEvents(text1);
+    List<? extends Token> seq2 = Events.recordLineEvents(text2);
     DiffAlgorithm processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
     processor.diff(seq1, seq2, handler);

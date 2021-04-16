@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.impl.LineEvent;
+import org.pageseeder.diffx.event.impl.LineToken;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
@@ -47,8 +47,8 @@ public final class LineRecorderTest {
     String text = "line 1\n"
         + "line2\n";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("line 1", 1));
-    exp.addEvent(new LineEvent("line2", 2));
+    exp.addToken(new LineToken("line 1", 1));
+    exp.addToken(new LineToken("line2", 2));
     assertEqualsText(exp, text);
   }
 
@@ -64,10 +64,10 @@ public final class LineRecorderTest {
         + "line #3\n"
         + "line #4";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("line #1", 1));
-    exp.addEvent(new LineEvent("line #2", 2));
-    exp.addEvent(new LineEvent("line #3", 3));
-    exp.addEvent(new LineEvent("line #4", 4));
+    exp.addToken(new LineToken("line #1", 1));
+    exp.addToken(new LineToken("line #2", 2));
+    exp.addToken(new LineToken("line #3", 3));
+    exp.addToken(new LineToken("line #4", 4));
     assertEqualsText(exp, text);
   }
 
@@ -83,10 +83,10 @@ public final class LineRecorderTest {
         + "line #3\n"
         + "line #4";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("line #1", 1));
-    exp.addEvent(new LineEvent("", 2));
-    exp.addEvent(new LineEvent("line #3", 3));
-    exp.addEvent(new LineEvent("line #4", 4));
+    exp.addToken(new LineToken("line #1", 1));
+    exp.addToken(new LineToken("", 2));
+    exp.addToken(new LineToken("line #3", 3));
+    exp.addToken(new LineToken("line #4", 4));
     assertEqualsText(exp, text);
   }
 
@@ -103,7 +103,7 @@ public final class LineRecorderTest {
   public void testXMLLine0() throws IOException {
     String text = "<a>XX</a>";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("<a>XX</a>", 1));
+    exp.addToken(new LineToken("<a>XX</a>", 1));
     assertEqualsText(exp, text);
   }
 
@@ -116,7 +116,7 @@ public final class LineRecorderTest {
   public void testEncoding1() throws IOException {
     String text = "&lt;";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("&lt;", 1));
+    exp.addToken(new LineToken("&lt;", 1));
     assertEqualsText(exp, text);
   }
 
@@ -129,7 +129,7 @@ public final class LineRecorderTest {
   public void testEncoding3() throws IOException {
     String xml = "&#x8012;";
     EventSequence exp = new EventSequence();
-    exp.addEvent(new LineEvent("&#x8012;", 1));
+    exp.addToken(new LineToken("&#x8012;", 1));
     assertEqualsText(exp, xml);
   }
 

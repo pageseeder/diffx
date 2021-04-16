@@ -17,7 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +41,9 @@ public class ActionHandler implements DiffHandler {
   private Action action = null;
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) {
+  public void handle(Operator operator, Token token) {
     setupAction(operator);
-    this.action.add(event);
+    this.action.add(token);
   }
 
   /**

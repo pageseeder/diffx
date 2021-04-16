@@ -15,14 +15,14 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.io.UncheckedIOException;
 import java.util.List;
 
 /**
- * A diff algorithm reports the differences between two lists of events.
+ * A diff algorithm reports the differences between two lists of tokens.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -32,11 +32,11 @@ public interface DiffAlgorithm {
   /**
    * Performs the comparison and report changes to the specified handler.
    *
-   * @param first   The first list of events to compare (inserted)
-   * @param second  The first list of events to compare (deleted)
+   * @param first   The first list of tokens to compare (inserted)
+   * @param second  The first list of tokens to compare (deleted)
    * @param handler The handler for the results of the comparison
    */
-  void diff(List<? extends DiffXEvent> first, List<? extends DiffXEvent> second, DiffHandler handler)
+  void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler)
     throws UncheckedIOException, IllegalStateException;
 
 }

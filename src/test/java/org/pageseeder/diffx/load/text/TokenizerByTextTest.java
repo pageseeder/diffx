@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
+import org.pageseeder.diffx.event.impl.IgnorableSpaceToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public final class TokenizerByTextTest {
   @Test
   public void testEmpty() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
-    List<TextEvent> e = t.tokenize("");
+    List<TextToken> e = t.tokenize("");
     assertEquals(0, e.size());
   }
 
@@ -119,114 +119,114 @@ public final class TokenizerByTextTest {
   }
 
   /**
-   * Tests that the tokenizer finds a space event as token.
+   * Tests that the tokenizer finds a space token as token.
    */
   @Test
   public void testSpace1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize(" ");
+    List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
-    DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent(" "), space);
-    assertSame(SpaceEvent.SINGLE_WHITESPACE, space);
+    Token space = e.get(0);
+    assertEquals(new SpaceToken(" "), space);
+    assertSame(SpaceToken.SINGLE_WHITESPACE, space);
   }
 
   /**
-   * Tests that the tokenizer finds a space event as token.
+   * Tests that the tokenizer finds a space token as token.
    */
   @Test
   public void testSpace2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize("  ");
+    List<TextToken> e = t.tokenize("  ");
     assertEquals(1, e.size());
-    DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent("  "), space);
-    assertSame(SpaceEvent.DOUBLE_WHITESPACE, space);
+    Token space = e.get(0);
+    assertEquals(new SpaceToken("  "), space);
+    assertSame(SpaceToken.DOUBLE_WHITESPACE, space);
   }
 
   /**
-   * Tests that the tokenizer finds a space event as token.
+   * Tests that the tokenizer finds a space token as token.
    */
   @Test
   public void testSpace3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize("\n");
+    List<TextToken> e = t.tokenize("\n");
     assertEquals(1, e.size());
-    DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent("\n"), space);
-    assertSame(SpaceEvent.NEW_LINE, space);
+    Token space = e.get(0);
+    assertEquals(new SpaceToken("\n"), space);
+    assertSame(SpaceToken.NEW_LINE, space);
   }
 
   /**
-   * Tests that the tokenizer finds a word event as token.
+   * Tests that the tokenizer finds a word token as token.
    */
   @Test
   public void testWord1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
-    List<TextEvent> e = t.tokenize("x");
+    List<TextToken> e = t.tokenize("x");
     assertEquals(1, e.size());
-//    assertEquals(new WordEvent("x"), e.get(0));
+//    assertEquals(new WordToken("x"), e.get(0));
   }
 
   /**
-   * Tests that the tokenizer finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
   public void testSeq1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
-    List<TextEvent> e = t.tokenize("xx  ");
+    List<TextToken> e = t.tokenize("xx  ");
     assertEquals(2, e.size());
-//    assertEquals(new WordEvent("xx"), e.get(0));
-    assertEquals(new IgnorableSpaceEvent("  "), e.get(1));
+//    assertEquals(new WordToken("xx"), e.get(0));
+    assertEquals(new IgnorableSpaceToken("  "), e.get(1));
   }
 
   /**
-   * Tests that the tokenizer finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
   public void testSeq2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize("  xx");
+    List<TextToken> e = t.tokenize("  xx");
     assertEquals(2, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
-    assertEquals(new CharactersEvent("xx"), e.get(1));
+    assertEquals(new SpaceToken("  "), e.get(0));
+    assertEquals(new CharactersToken("xx"), e.get(1));
   }
 
   /**
-   * Tests that the tokenizer finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
   public void testSeq3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize("  xx\n");
+    List<TextToken> e = t.tokenize("  xx\n");
     assertEquals(3, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
-    assertEquals(new CharactersEvent("xx"), e.get(1));
-    assertEquals(SpaceEvent.NEW_LINE, e.get(2));
+    assertEquals(new SpaceToken("  "), e.get(0));
+    assertEquals(new CharactersToken("xx"), e.get(1));
+    assertEquals(SpaceToken.NEW_LINE, e.get(2));
   }
 
   /**
-   * Tests that the tokenizer finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
   public void testSeq4() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
-    List<TextEvent> e = t.tokenize("  xx\n\n");
+    List<TextToken> e = t.tokenize("  xx\n\n");
     assertEquals(3, e.size());
-    assertEquals(new SpaceEvent("  "), e.get(0));
-    assertEquals(new CharactersEvent("xx"), e.get(1));
+    assertEquals(new SpaceToken("  "), e.get(0));
+    assertEquals(new CharactersToken("xx"), e.get(1));
   }
 
   /**
-   * Tests that the tokenizer finds the correct sequence of events.
+   * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
   public void testSeq5() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
-    List<TextEvent> e = t.tokenize("  \n\nxx");
+    List<TextToken> e = t.tokenize("  \n\nxx");
     assertEquals(2, e.size());
-    assertEquals(new IgnorableSpaceEvent("  "), e.get(0));
-    assertEquals(new CharactersEvent("xx"), e.get(1));
+    assertEquals(new IgnorableSpaceToken("  "), e.get(0));
+    assertEquals(new CharactersToken("xx"), e.get(1));
   }
 
 }

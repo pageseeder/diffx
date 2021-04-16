@@ -20,7 +20,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
@@ -203,8 +203,8 @@ public abstract class AdvancedXMLDiff2Test extends AlgorithmTest {
     // Record XML
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(TextGranularity.TEXT);
-    List<? extends DiffXEvent> seq1 = Events.recordXMLEvents(xml1, config);
-    List<? extends DiffXEvent> seq2 = Events.recordXMLEvents(xml2, config);
+    List<? extends Token> seq1 = Events.recordXMLEvents(xml1, config);
+    List<? extends Token> seq2 = Events.recordXMLEvents(xml2, config);
 
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1, seq2);

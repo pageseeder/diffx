@@ -177,7 +177,7 @@ public abstract class BaseAlgorithmTest {
     this.diffx.process(tf);
     // check for validity
     List<Action> actions = af.getActions();
-    assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions));
+    assertTrue(Actions.isApplicable(seq1.tokens(), seq2.tokens(), actions));
     return tf.getOutput();
   }
 
@@ -259,7 +259,7 @@ public abstract class BaseAlgorithmTest {
 
   public final void assertDiffIsCorrect(EventSequence seq1, EventSequence seq2, List<Action> actions) {
     // Ensure that the diff is applicable
-    assertTrue(Actions.isApplicable(seq1.events(), seq2.events(), actions), "The resulting diff is not applicable");
+    assertTrue(Actions.isApplicable(seq1.tokens(), seq2.tokens(), actions), "The resulting diff is not applicable");
 
     // Apply to second sequence to ensure we get the first
     EventSequence got1 = Actions.apply(seq2, actions);
@@ -331,7 +331,7 @@ public abstract class BaseAlgorithmTest {
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
-      System.err.print(action.events());
+      System.err.print(action.tokens());
     }
     System.err.println();
   }

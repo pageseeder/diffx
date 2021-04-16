@@ -47,41 +47,41 @@ public final class Events {
   private Events() {
   }
 
-  public static TextEvent toTextEvent(String text) {
+  public static TextToken toTextToken(String text) {
     if (text.matches("\\s+")) {
-      return new IgnorableSpaceEvent(text);
+      return new IgnorableSpaceToken(text);
     }
-    return new WordEvent(text);
+    return new WordToken(text);
   }
 
-  public static List<TextEvent> toTextEvents(String... words) {
-    List<TextEvent> events = new ArrayList<>();
+  public static List<TextToken> toTextTokens(String... words) {
+    List<TextToken> events = new ArrayList<>();
     for (String word : words) {
-      events.add(toTextEvent(word));
+      events.add(toTextToken(word));
     }
     return events;
   }
 
-  public static List<CharEvent> toCharEvents(String string) {
-    List<CharEvent> s = new ArrayList<>();
+  public static List<CharToken> toCharTokens(String string) {
+    List<CharToken> s = new ArrayList<>();
     for (char c : string.toCharArray()) {
-      s.add(new CharEvent(c));
+      s.add(new CharToken(c));
     }
     return s;
   }
 
 
-  public static List<DiffXEvent> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException {
+  public static List<Token> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return Collections.emptyList();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     return recordXMLEvents(xml, config);
   }
 
-  public static List<DiffXEvent> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException {
+  public static List<Token> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException {
     SAXRecorder recorder = new SAXRecorder();
     recorder.setConfig(config);
-    return recorder.process(xml).events();
+    return recorder.process(xml).tokens();
   }
 
 
@@ -98,22 +98,22 @@ public final class Events {
     return recorder.process(xml);
   }
 
-  public static List<DiffXEvent> recordLineEvents(String text)  {
+  public static List<Token> recordLineEvents(String text)  {
     if (text.isEmpty()) return Collections.emptyList();
-    return new LineRecorder().process(text).events();
+    return new LineRecorder().process(text).tokens();
   }
 
-  public static String toXML(List<? extends DiffXEvent> events) {
+  public static String toXML(List<? extends Token> events) {
     return toXML(events, new PrefixMapping());
   }
 
-  public static String toXML(List<? extends DiffXEvent> events, PrefixMapping mapping) {
+  public static String toXML(List<? extends Token> events, PrefixMapping mapping) {
     try {
       StringWriter xml = new StringWriter();
       SmartXMLFormatter f = new SmartXMLFormatter(xml);
       f.declarePrefixMapping(mapping);
 
-      for (DiffXEvent event : events) {
+      for (Token event : events) {
         f.format(event);
       }
       return xml.toString();

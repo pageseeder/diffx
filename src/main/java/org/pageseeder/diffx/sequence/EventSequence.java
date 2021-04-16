@@ -18,15 +18,15 @@ package org.pageseeder.diffx.sequence;
 import java.io.PrintWriter;
 import java.util.*;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 /**
- * A sequence of events used for the Diff-X algorithm.
+ * A sequence of tokens used for the Diff-X algorithm.
  *
- * <p>This class wraps a list of <code>DiffXEvent</code>s and provide method to
+ * <p>This class wraps a list of <code>Token</code>s and provide method to
  * access and modify the content of the list using strongly typed methods.
  *
- * <p>Implementation note: we use an <code>ArrayList</code> to store the events because some algorithms
+ * <p>Implementation note: we use an <code>ArrayList</code> to store the tokens because some algorithms
  * need random access. Other list implementations may affect performance.</p>
  *
  * @author Christophe Lauret
@@ -34,7 +34,7 @@ import org.pageseeder.diffx.event.DiffXEvent;
  *
  * @since 0.7
  */
-public final class EventSequence implements Iterable<DiffXEvent> {
+public final class EventSequence implements Iterable<Token> {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -42,15 +42,15 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   private final PrefixMapping prefixMapping = new PrefixMapping();
 
   /**
-   * The sequence of events.
+   * The sequence of tokens.
    */
-  private final List<DiffXEvent> events;
+  private final List<Token> tokens;
 
   /**
    * Creates a new event sequence.
    */
   public EventSequence() {
-    this.events = new ArrayList<>();
+    this.tokens = new ArrayList<>();
   }
 
   /**
@@ -59,7 +59,7 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    * @param size The size of the sequence.
    */
   public EventSequence(int size) {
-    this.events = new ArrayList<>(size);
+    this.tokens = new ArrayList<>(size);
   }
 
   /**
@@ -67,47 +67,47 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
-   * @param events The size of the sequence.
+   * @param tokens The size of the sequence.
    */
-  public EventSequence(List<DiffXEvent> events) {
-    this.events = events;
+  public EventSequence(List<Token> tokens) {
+    this.tokens = tokens;
   }
 
   /**
-   * Adds a sequence of events to this sequence.
+   * Adds a sequence of tokens to this sequence.
    *
-   * @param seq The sequence of events to be added.
+   * @param seq The sequence of tokens to be added.
    */
   public void addSequence(EventSequence seq) {
-    this.events.addAll(seq.events);
+    this.tokens.addAll(seq.tokens);
   }
 
   /**
    * Adds an event to this sequence.
    *
-   * @param e The event to be added.
+   * @param token The token to be added.
    */
-  public void addEvent(DiffXEvent e) {
-    this.events.add(e);
+  public void addToken(Token token) {
+    this.tokens.add(token);
   }
 
   /**
    * Inserts an event to this sequence at the specified position.
    *
    * @param i The position of the event.
-   * @param e The event to be added.
+   * @param token The token to be added.
    */
-  public void addEvent(int i, DiffXEvent e) {
-    this.events.add(i, e);
+  public void addToken(int i, Token token) {
+    this.tokens.add(i, token);
   }
 
   /**
    * Adds an event to this sequence.
    *
-   * @param events The event to be added.
+   * @param tokens The event to be added.
    */
-  public void addEvents(List<? extends DiffXEvent> events) {
-    this.events.addAll(events);
+  public void addTokens(List<? extends Token> tokens) {
+    this.tokens.addAll(tokens);
   }
 
   /**
@@ -117,8 +117,8 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    *
    * @return the event at position i.
    */
-  public DiffXEvent getEvent(int i) {
-    return this.events.get(i);
+  public Token getToken(int i) {
+    return this.tokens.get(i);
   }
 
   /**
@@ -129,8 +129,8 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    *
    * @return The event at the previous position.
    */
-  public DiffXEvent setEvent(int index, DiffXEvent e) {
-    return this.events.set(index, e);
+  public Token setToken(int index, Token e) {
+    return this.tokens.set(index, e);
   }
 
   /**
@@ -140,40 +140,40 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    *
    * @return The removed event.
    */
-  public DiffXEvent removeEvent(int index) {
-    return this.events.remove(index);
+  public Token removeToken(int index) {
+    return this.tokens.remove(index);
   }
 
   /**
-   * @return The number of events in the sequence.
+   * @return The number of tokens in the sequence.
    */
   public int size() {
-    return this.events.size();
+    return this.tokens.size();
   }
 
   /**
-   * @return the sequence of events.
+   * @return the sequence of tokens.
    */
-  public List<DiffXEvent> events() {
-    return this.events;
+  public List<Token> tokens() {
+    return this.tokens;
   }
 
   @Override
   public int hashCode() {
-    return this.events.size();
+    return this.tokens.size();
   }
 
   /**
    * Returns <code>true</code> if the specified event sequence is the same as this one.
    *
-   * @param seq The sequence of events to compare with this one.
+   * @param seq The sequence of tokens to compare with this one.
    *
    * @return <code>true</code> if the specified event sequence is equal to this one;
    *         <code>false</code> otherwise.
    */
   public boolean equals(EventSequence seq) {
     if (seq == null) return false;
-    return equals(this.events, seq.events);
+    return equals(this.tokens, seq.tokens);
   }
 
   /**
@@ -182,7 +182,7 @@ public final class EventSequence implements Iterable<DiffXEvent> {
    * <p>This method will redirect to the {@link #equals(EventSequence)} method if the
    * specified object is an instance of {@link EventSequence}.
    *
-   * @param o The sequence of events to compare with this one.
+   * @param o The sequence of tokens to compare with this one.
    *
    * @return <code>true</code> if the specified event sequence is equal to this one;
    *         <code>false</code> otherwise.
@@ -197,17 +197,17 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   public String toString() {
     return "EventSequence{" +
         "prefixMapping=" + prefixMapping +
-        ", events=" + events +
+        ", tokens=" + tokens +
         '}';
   }
 
   /**
    * Export the sequence.
    *
-   * @param w The print writer receiving the SAX events.
+   * @param w The print writer receiving the SAX tokens.
    */
   public void export(PrintWriter w) {
-    for (DiffXEvent event : this.events) {
+    for (Token event : this.tokens) {
       w.println(event.toString());
     }
     w.flush();
@@ -277,14 +277,14 @@ public final class EventSequence implements Iterable<DiffXEvent> {
   }
 
   @Override
-  public Iterator<DiffXEvent> iterator() {
-    return this.events().iterator();
+  public Iterator<Token> iterator() {
+    return this.tokens().iterator();
   }
 
-  private static boolean equals(List<DiffXEvent> first, List<DiffXEvent> second) {
+  private static boolean equals(List<Token> first, List<Token> second) {
     if (first.size() != second.size()) return false;
-    DiffXEvent x1;
-    DiffXEvent x2;
+    Token x1;
+    Token x2;
     for (int i = 0; i < first.size(); i++) {
       x1 = first.get(i);
       x2 = second.get(i);

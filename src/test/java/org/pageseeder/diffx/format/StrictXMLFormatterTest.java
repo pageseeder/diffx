@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.event.impl.AttributeEventNSImpl;
-import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
-import org.pageseeder.diffx.event.impl.OpenElementEventNSImpl;
+import org.pageseeder.diffx.event.impl.AttributeTokenNSImpl;
+import org.pageseeder.diffx.event.impl.EndElementTokenNSImpl;
+import org.pageseeder.diffx.event.impl.StartElementTokenNSImpl;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.util.Constants;
@@ -79,8 +79,8 @@ public final class StrictXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a/>");
     String xml = XML_DECL + "<a " + NS_DECL + "></a>";
     assertEquals(xml, this.w.toString());
@@ -96,9 +96,9 @@ public final class StrictXMLFormatterTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new AttributeEventNSImpl("", "x", "y"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.format(new AttributeTokenNSImpl("", "x", "y"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a x='y'/>");
     String xml = XML_DECL + "<a " + NS_DECL + " x=\"y\"></a>";
     assertEquals(xml, this.w.toString());

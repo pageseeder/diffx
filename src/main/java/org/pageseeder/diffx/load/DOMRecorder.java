@@ -29,12 +29,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.EventFactory;
-import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.TokenFactory;
+import org.pageseeder.diffx.event.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -50,7 +50,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
 /**
- * Loads a DOM documents as a sequence of events.
+ * Loads a DOM documents as a sequence of tokens.
  *
  * <p>This class implements the methods {@link Recorder#process(File)} and
  * {@link Recorder#process(String)} for convenience, but is it much more efficient
@@ -75,9 +75,9 @@ public final class DOMRecorder implements XMLRecorder {
   // state variables --------------------------------------------------------------------------------
 
   /**
-   * The factory that will produce events according to the configuration.
+   * The factory that will produce tokens according to the configuration.
    */
-  private EventFactory efactory;
+  private TokenFactory tokenFactory;
 
   /**
    * The text tokenizer used by this recorder.
@@ -85,12 +85,12 @@ public final class DOMRecorder implements XMLRecorder {
   private TextTokenizer tokenizer;
 
   /**
-   * The sequence of event for this recorder.
+   * The sequence of token for this recorder.
    */
   private EventSequence sequence;
 
   /**
-   * The sequence of event for this recorder.
+   * The sequence of token for this recorder.
    */
   private PrefixMapping mapping;
 
@@ -143,7 +143,7 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @param is The input source.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    */
@@ -164,17 +164,17 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Processes the given node and returns the corresponding event sequence.
+   * Processes the given node and returns the corresponding token sequence.
    *
    * @param node The W3C DOM node to be processed.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    */
   public EventSequence process(Node node) throws LoadingException {
     // initialise the state variables.
-    this.efactory = new EventFactory(this.config.isNamespaceAware());
+    this.tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     this.tokenizer = TokenizerFactory.get(this.config);
     this.sequence = new EventSequence();
     this.mapping = this.sequence.getPrefixMapping();
@@ -185,14 +185,14 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   /**
-   * Processes the given node list and returns the corresponding event sequence.
+   * Processes the given node list and returns the corresponding token sequence.
    *
-   * <p>This method only returns the event sequence from the first node in the node list, if the
+   * <p>This method only returns the token sequence from the first node in the node list, if the
    * node list is empty, this method returns an empty sequence.
    *
    * @param node The W3C DOM node to be processed.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    */
@@ -248,19 +248,19 @@ public final class DOMRecorder implements XMLRecorder {
    */
   private void load(Element element) throws LoadingException {
     // namespace handling
-    OpenElementEvent open;
+    StartElementToken open;
     // namespace aware configuration
     if (this.config.isNamespaceAware()) {
       String uri = element.getNamespaceURI() == null? "" : element.getNamespaceURI();
       String name = element.getLocalName();
       handlePrefixMapping(uri, element.getPrefix());
-      open = this.efactory.makeOpenElement(uri, name);
+      open = this.tokenFactory.makeOpenElement(uri, name);
       // not namespace aware
     } else {
-      open = this.efactory.makeOpenElement(null, element.getNodeName());
+      open = this.tokenFactory.makeOpenElement(null, element.getNodeName());
     }
 
-    this.sequence.addEvent(open);
+    this.sequence.addToken(open);
     NamedNodeMap attributes = element.getAttributes();
     // only 1 attribute, just load it
     if (attributes.getLength() == 1) {
@@ -283,8 +283,8 @@ public final class DOMRecorder implements XMLRecorder {
     for (int i = 0; i < list.getLength(); i++) {
       loadNode(list.item(i));
     }
-    CloseElementEvent close = this.efactory.makeCloseElement(open);
-    this.sequence.addEvent(close);
+    EndElementToken close = this.tokenFactory.makeCloseElement(open);
+    this.sequence.addToken(close);
   }
 
   /**
@@ -293,9 +293,9 @@ public final class DOMRecorder implements XMLRecorder {
    * @param text The W3C DOM text node to load.
    */
   private void load(Text text)  {
-    List<TextEvent> events = this.tokenizer.tokenize(text.getData());
-    for (TextEvent e : events) {
-      this.sequence.addEvent(e);
+    List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
+    for (TextToken e : tokens) {
+      this.sequence.addToken(e);
     }
   }
 
@@ -305,7 +305,7 @@ public final class DOMRecorder implements XMLRecorder {
    * @param pi The W3C DOM PI node to load.
    */
   private void load(ProcessingInstruction pi) {
-    this.sequence.addEvent(new ProcessingInstructionEvent(pi.getTarget(), pi.getData()));
+    this.sequence.addToken(new ProcessingInstructionToken(pi.getTarget(), pi.getData()));
   }
 
   /**
@@ -317,7 +317,7 @@ public final class DOMRecorder implements XMLRecorder {
     String uri = attr.getNamespaceURI();
     if (uri == null) uri = XMLConstants.NULL_NS_URI;
     handlePrefixMapping(uri, attr.getPrefix());
-    load(this.efactory.makeAttribute(uri,
+    load(this.tokenFactory.makeAttribute(uri,
         attr.getLocalName(),
         attr.getNodeName(),
         attr.getValue()));
@@ -326,17 +326,17 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * Loads the given attribute in the current sequence.
    *
-   * @param e An attribute event.
+   * @param e An attribute token.
    */
-  private void load(AttributeEvent e) {
-    // a namespace declaration, translate the event into a prefix mapping
+  private void load(AttributeToken e) {
+    // a namespace declaration, translate the token into a prefix mapping
     if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(e.getURI())) {
       // FIXME Handle default namespace declaration on root element
       this.sequence.addNamespace(e.getValue(), e.getName());
 
       // a regular attribute
     } else {
-      this.sequence.addEvent(e);
+      this.sequence.addToken(e);
     }
   }
 

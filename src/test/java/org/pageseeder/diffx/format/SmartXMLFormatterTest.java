@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.event.impl.AttributeEventNSImpl;
-import org.pageseeder.diffx.event.impl.CloseElementEventNSImpl;
-import org.pageseeder.diffx.event.impl.OpenElementEventNSImpl;
+import org.pageseeder.diffx.event.impl.AttributeTokenNSImpl;
+import org.pageseeder.diffx.event.impl.EndElementTokenNSImpl;
+import org.pageseeder.diffx.event.impl.StartElementTokenNSImpl;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.xml.sax.InputSource;
@@ -67,8 +67,8 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -80,8 +80,8 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose1() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new CloseElementEventNSImpl("b"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.format(new EndElementTokenNSImpl("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -93,8 +93,8 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose2() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.insert(new CloseElementEventNSImpl("b"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.insert(new EndElementTokenNSImpl("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -106,8 +106,8 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose3() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.delete(new CloseElementEventNSImpl("b"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.delete(new EndElementTokenNSImpl("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -121,9 +121,9 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.format(new AttributeEventNSImpl("", "x", "y"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.format(new AttributeTokenNSImpl("", "x", "y"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a x='y'/>");
   }
 
@@ -135,9 +135,9 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testAttributes1() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.insert(new AttributeEventNSImpl("", "x", "y"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.insert(new AttributeTokenNSImpl("", "x", "y"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a x='y' ins:x='true' xmlns:ins='http://www.topologi.com/2005/Diff-X/Insert'/>");
   }
 
@@ -149,9 +149,9 @@ public final class SmartXMLFormatterTest {
    */
   @Test
   public void testAttributes2() throws DiffXException, IOException {
-    this.formatter.format(new OpenElementEventNSImpl("a"));
-    this.formatter.delete(new AttributeEventNSImpl("", "x", "y"));
-    this.formatter.format(new CloseElementEventNSImpl("a"));
+    this.formatter.format(new StartElementTokenNSImpl("a"));
+    this.formatter.delete(new AttributeTokenNSImpl("", "x", "y"));
+    this.formatter.format(new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a xmlns:del='http://www.topologi.com/2005/Diff-X/Delete' del:x='y'/>");
   }
 

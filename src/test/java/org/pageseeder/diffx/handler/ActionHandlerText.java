@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.impl.CharToken;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,53 +39,53 @@ public class ActionHandlerText {
 
   @Test
   public void testSingle() {
-    DiffXEvent event = new CharEvent('x');
+    Token token = new CharToken('x');
     for (Operator operator : Operator.values()) {
       ActionHandler handler = new ActionHandler();
-      handler.handle(operator, event);
+      handler.handle(operator, token);
       List<Action> actions = handler.getActions();
       assertEquals(1, actions.size());
       Action action = actions.get(0);
       assertEquals(operator, action.operator());
-      assertEquals(1, action.events().size());
-      assertEquals(event, action.events().get(0));
+      assertEquals(1, action.tokens().size());
+      assertEquals(token, action.tokens().get(0));
     }
   }
 
   @Test
   public void testDouble() {
-    DiffXEvent event1 = new CharEvent('x');
-    DiffXEvent event2 = new CharEvent('y');
+    Token token1 = new CharToken('x');
+    Token token2 = new CharToken('y');
     for (Operator operator : Operator.values()) {
       ActionHandler handler = new ActionHandler();
-      handler.handle(operator, event1);
-      handler.handle(operator, event2);
+      handler.handle(operator, token1);
+      handler.handle(operator, token2);
       List<Action> actions = handler.getActions();
       assertEquals(1, actions.size());
       Action action = actions.get(0);
       assertEquals(operator, action.operator());
-      assertEquals(2, action.events().size());
-      assertEquals(event1, action.events().get(0));
-      assertEquals(event2, action.events().get(1));
+      assertEquals(2, action.tokens().size());
+      assertEquals(token1, action.tokens().get(0));
+      assertEquals(token2, action.tokens().get(1));
     }
   }
 
   @Test
   public void testMixed() {
-    DiffXEvent event1 = new CharEvent('x');
-    DiffXEvent event2 = new CharEvent('y');
+    Token token1 = new CharToken('x');
+    Token token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       Iterable<Operator> others = Arrays.stream(Operator.values()).filter(o -> o != operator1).collect(Collectors.toSet());
       for (Operator operator2 : others) {
         ActionHandler handler = new ActionHandler();
-        handler.handle(operator1, event1);
-        handler.handle(operator2, event2);
+        handler.handle(operator1, token1);
+        handler.handle(operator2, token2);
         List<Action> actions = handler.getActions();
         assertEquals(2, actions.size());
         Action action1 = actions.get(0);
         Action action2 = actions.get(1);
-        assertEquals(new Action(operator1, Collections.singletonList(event1)), action1);
-        assertEquals(new Action(operator2, Collections.singletonList(event2)), action2);
+        assertEquals(new Action(operator1, Collections.singletonList(token1)), action1);
+        assertEquals(new Action(operator2, Collections.singletonList(token2)), action2);
       }
     }
   }

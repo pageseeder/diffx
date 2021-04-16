@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.EventFactory;
-import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.TokenFactory;
+import org.pageseeder.diffx.event.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -101,7 +101,7 @@ public final class SAXRecorder implements XMLRecorder {
   private DiffXConfig config = new DiffXConfig();
 
   /**
-   * The sequence of event for this recorder.
+   * The sequence of token for this recorder.
    */
   protected EventSequence sequence;
 
@@ -112,7 +112,7 @@ public final class SAXRecorder implements XMLRecorder {
    *
    * @param file The file to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
@@ -132,7 +132,7 @@ public final class SAXRecorder implements XMLRecorder {
    *
    * @param xml The XML string to process.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown while parsing.
    */
@@ -150,7 +150,7 @@ public final class SAXRecorder implements XMLRecorder {
    *
    * @param is The input source.
    *
-   * @return The recorded sequence of events.
+   * @return The recorded sequence of tokens.
    *
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should I/O error occur.
@@ -236,13 +236,16 @@ public final class SAXRecorder implements XMLRecorder {
   // static inner class for processing the XML files --------------------------------------------
 
   /**
-   * A SAX2 handler that records XML events.
+   * A SAX2 handler that records XML tokens.
    *
    * <p>This class is an inner class as there is no reason to expose its method to the
    * public API.
    *
-   * @author Christophe Lauret, Jean-Baptiste Reure
-   * @version 0.6.0
+   * @author Christophe Lauret
+   * @author Jean-Baptiste Reure
+   *
+   * @version 0.9.0
+   * @since 0.6.0
    */
   private final class RecorderHandler extends DefaultHandler {
 
@@ -257,14 +260,14 @@ public final class SAXRecorder implements XMLRecorder {
     private final AttributeComparator comparator = new AttributeComparator();
 
     /**
-     * The last open element event, should only contain <code>OpenElementEvent</code>s.
+     * The last open element token, should only contain <code>StartElementToken</code>s.
      */
-    private final List<OpenElementEvent> openElements = new ArrayList<>();
+    private final List<StartElementToken> openElements = new ArrayList<>();
 
     /**
-     * The factory that will produce events according to the configuration.
+     * The factory that will produce tokens according to the configuration.
      */
-    private EventFactory efactory;
+    private TokenFactory tokenFactory;
 
     /**
      * The text tokenizer according to the configuration.
@@ -274,7 +277,7 @@ public final class SAXRecorder implements XMLRecorder {
     @Override
     public void startDocument() {
       SAXRecorder.this.sequence = new EventSequence();
-      this.efactory = new EventFactory(SAXRecorder.this.config.isNamespaceAware());
+      this.tokenFactory = new TokenFactory(SAXRecorder.this.config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
       SAXRecorder.this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
       SAXRecorder.this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
@@ -290,18 +293,18 @@ public final class SAXRecorder implements XMLRecorder {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
       recordCharacters();
-      OpenElementEvent open = this.efactory.makeOpenElement(uri, localName, qName);
+      StartElementToken open = this.tokenFactory.makeOpenElement(uri, localName, qName);
       this.openElements.add(open);
-      SAXRecorder.this.sequence.addEvent(open);
+      SAXRecorder.this.sequence.addToken(open);
       handleAttributes(attributes);
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
       recordCharacters();
-      OpenElementEvent open = popLastOpenElement();
-      CloseElementEvent close = this.efactory.makeCloseElement(open);
-      SAXRecorder.this.sequence.addEvent(close);
+      StartElementToken open = popLastOpenElement();
+      EndElementToken close = this.tokenFactory.makeCloseElement(open);
+      SAXRecorder.this.sequence.addToken(close);
     }
 
     @Override
@@ -319,7 +322,7 @@ public final class SAXRecorder implements XMLRecorder {
 
     @Override
     public void processingInstruction(String target, String data) {
-      SAXRecorder.this.sequence.addEvent(new ProcessingInstructionEvent(target, data));
+      SAXRecorder.this.sequence.addToken(new ProcessingInstructionToken(target, data));
     }
 
     @Override
@@ -331,9 +334,9 @@ public final class SAXRecorder implements XMLRecorder {
      */
     private void recordCharacters() {
       if (this.ch.length() > 0) {
-        List<TextEvent> events = this.tokenizer.tokenize(this.ch);
-        for (TextEvent e : events) {
-          SAXRecorder.this.sequence.addEvent(e);
+        List<TextToken> tokens = this.tokenizer.tokenize(this.ch);
+        for (TextToken e : tokens) {
+          SAXRecorder.this.sequence.addToken(e);
         }
         this.ch.setLength(0);
       }
@@ -344,7 +347,7 @@ public final class SAXRecorder implements XMLRecorder {
      *
      * @return The last open element.
      */
-    private OpenElementEvent popLastOpenElement() {
+    private StartElementToken popLastOpenElement() {
       return this.openElements.remove(this.openElements.size() - 1);
     }
 
@@ -356,16 +359,16 @@ public final class SAXRecorder implements XMLRecorder {
     private void handleAttributes(Attributes attributes) {
       // only one attribute
       if (attributes.getLength() == 1) {
-        SAXRecorder.this.sequence.addEvent(this.efactory.makeAttribute(attributes.getURI(0),
+        SAXRecorder.this.sequence.addToken(this.tokenFactory.makeAttribute(attributes.getURI(0),
             attributes.getLocalName(0),
             attributes.getQName(0),
             attributes.getValue(0)));
         // several attributes
       } else if (attributes.getLength() > 1) {
         // store all the attributes
-        AttributeEvent[] attEvents = new AttributeEvent[attributes.getLength()];
+        AttributeToken[] attEvents = new AttributeToken[attributes.getLength()];
         for (int i = 0; i < attributes.getLength(); i++) {
-          attEvents[i] = this.efactory.makeAttribute(attributes.getURI(i),
+          attEvents[i] = this.tokenFactory.makeAttribute(attributes.getURI(i),
               attributes.getLocalName(i),
               attributes.getQName(i),
               attributes.getValue(i));
@@ -373,8 +376,8 @@ public final class SAXRecorder implements XMLRecorder {
         // sort them
         Arrays.sort(attEvents, this.comparator);
         // add them to the sequence
-        for (AttributeEvent attEvent : attEvents) {
-          SAXRecorder.this.sequence.addEvent(attEvent);
+        for (AttributeToken attEvent : attEvents) {
+          SAXRecorder.this.sequence.addToken(attEvent);
         }
       }
     }

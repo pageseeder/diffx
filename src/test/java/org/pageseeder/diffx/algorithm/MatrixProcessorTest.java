@@ -3,7 +3,7 @@ package org.pageseeder.diffx.algorithm;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.impl.CharToken;
 import org.pageseeder.diffx.sequence.EventSequence;
 
 public class MatrixProcessorTest {
@@ -20,7 +20,7 @@ public class MatrixProcessorTest {
   @Test
   public void testFirstEmpty() {
     EventSequence s1 = new EventSequence();
-    EventSequence s2 = asSequenceOfCharEvents("y");
+    EventSequence s2 = asSequenceOfCharTokens("y");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(2, matrix.size()); // 1x2
     assertEquals(0, matrix.getLCSLength());
@@ -28,7 +28,7 @@ public class MatrixProcessorTest {
 
   @Test
   public void testSecondEmpty() {
-    EventSequence s1 = asSequenceOfCharEvents("x");
+    EventSequence s1 = asSequenceOfCharTokens("x");
     EventSequence s2 = new EventSequence();
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     matrix.get(0, 0);
@@ -38,8 +38,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testOneByOne() {
-    EventSequence s1 = asSequenceOfCharEvents("x");
-    EventSequence s2 = asSequenceOfCharEvents("x");
+    EventSequence s1 = asSequenceOfCharTokens("x");
+    EventSequence s2 = asSequenceOfCharTokens("x");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(4, matrix.size()); // 2x2
@@ -48,8 +48,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testTwoByTwo() {
-    EventSequence s1 = asSequenceOfCharEvents("xy");
-    EventSequence s2 = asSequenceOfCharEvents("xy");
+    EventSequence s1 = asSequenceOfCharTokens("xy");
+    EventSequence s2 = asSequenceOfCharTokens("xy");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(9, matrix.size()); // 3x3
@@ -58,8 +58,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testIdentical() {
-    EventSequence s1 = asSequenceOfCharEvents("xyz");
-    EventSequence s2 = asSequenceOfCharEvents("xyz");
+    EventSequence s1 = asSequenceOfCharTokens("xyz");
+    EventSequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(16, matrix.size()); // 4x4
@@ -68,8 +68,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testDifference1() {
-    EventSequence s1 = asSequenceOfCharEvents("xyz");
-    EventSequence s2 = asSequenceOfCharEvents("xuz");
+    EventSequence s1 = asSequenceOfCharTokens("xyz");
+    EventSequence s2 = asSequenceOfCharTokens("xuz");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(16, matrix.size()); // 4x4
     assertEquals(2, matrix.getLCSLength()); // 'x' 'z'
@@ -77,8 +77,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testDifference2() {
-    EventSequence s1 = asSequenceOfCharEvents("xyz");
-    EventSequence s2 = asSequenceOfCharEvents("xuv");
+    EventSequence s1 = asSequenceOfCharTokens("xyz");
+    EventSequence s2 = asSequenceOfCharTokens("xuv");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(16, matrix.size()); // 4x4
     assertEquals(1, matrix.getLCSLength()); // 'x'
@@ -86,8 +86,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testNoCommon() {
-    EventSequence s1 = asSequenceOfCharEvents("abc");
-    EventSequence s2 = asSequenceOfCharEvents("xyz");
+    EventSequence s1 = asSequenceOfCharTokens("abc");
+    EventSequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     // Only zeros!
     for (int i = 0; i < matrix.lengthX(); i++) {
@@ -101,8 +101,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testExample1() {
-    EventSequence s1 = asSequenceOfCharEvents("GCCCTAGCG");
-    EventSequence s2 = asSequenceOfCharEvents("GCGCAATG");
+    EventSequence s1 = asSequenceOfCharTokens("GCCCTAGCG");
+    EventSequence s2 = asSequenceOfCharTokens("GCGCAATG");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(90, matrix.size()); // 10x9
     assertEquals(5, matrix.getLCSLength()); // "GCGAG"
@@ -110,17 +110,17 @@ public class MatrixProcessorTest {
 
   @Test
   public void testExample2() {
-    EventSequence s1 = asSequenceOfCharEvents("acbdeacbed");
-    EventSequence s2 = asSequenceOfCharEvents("debabb");
+    EventSequence s1 = asSequenceOfCharTokens("acbdeacbed");
+    EventSequence s2 = asSequenceOfCharTokens("debabb");
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(77, matrix.size()); // 11x7
     assertEquals(4, matrix.getLCSLength()); // "deab"
   }
 
-  private static EventSequence asSequenceOfCharEvents(String string) {
+  private static EventSequence asSequenceOfCharTokens(String string) {
     EventSequence s = new EventSequence();
     for (char c : string.toCharArray()) {
-      s.addEvent(new CharEvent(c));
+      s.addToken(new CharToken(c));
     }
     return s;
   }

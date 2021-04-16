@@ -41,7 +41,7 @@ public final class DiffXFactory {
   private static final Class<?>[] ARGS = new Class<?>[]{EventSequence.class, EventSequence.class};
 
   /**
-   * Creates a Diff-X instance using the specified class name and event sequences.
+   * Creates a Diff-X instance using the specified class name and token sequences.
    *
    * @param className The class name of the Diff-X algorithm implementation to use.
    * @param sequence1 The first sequence to use for the Diff-X constructor.

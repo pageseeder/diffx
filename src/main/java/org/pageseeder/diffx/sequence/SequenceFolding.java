@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.ElementEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.impl.ElementEventImpl;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.ElementToken;
+import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.event.impl.ElementTokenImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class SequenceFolding {
   public EventSequence fold(EventSequence input) {
     if (this.elements.isEmpty()) return input;
     FoldingProcessor processor = new FoldingProcessor();
-    for (DiffXEvent event : input.events()) {
+    for (Token event : input.tokens()) {
       processor.add(event);
     }
     return processor.sequence();
@@ -72,32 +72,32 @@ public class SequenceFolding {
   /**
    * Collapses the specified sequence using the current configuration.
    *
-   * @param events The input sequence to be collapse
+   * @param tokens The input sequence to be collapse
    *
    * @return The collapsed sequence.
    */
-  public List<? extends DiffXEvent> fold(List<? extends DiffXEvent> events) {
-    if (this.elements.isEmpty()) return events;
+  public List<? extends Token> fold(List<? extends Token> tokens) {
+    if (this.elements.isEmpty()) return tokens;
     FoldingProcessor processor = new FoldingProcessor();
-    for (DiffXEvent event : events) {
+    for (Token event : tokens) {
       processor.add(event);
     }
-    return processor.events();
+    return processor.tokens();
   }
 
-  private boolean isFoldable(DiffXEvent event) {
-    if (!(event instanceof OpenElementEvent)) return false;
+  private boolean isFoldable(Token event) {
+    if (!(event instanceof StartElementToken)) return false;
     if (this.elements == ALL) return true;
-    return this.elements.contains(((OpenElementEvent) event).getName());
+    return this.elements.contains(((StartElementToken) event).getName());
   }
 
-  private boolean isMatching(DiffXEvent event, OpenElementEvent open) {
-    return event instanceof CloseElementEvent && ((CloseElementEvent) event).match(open);
+  private boolean isMatching(Token event, StartElementToken open) {
+    return event instanceof EndElementToken && ((EndElementToken) event).match(open);
   }
 
   private class FoldingProcessor {
 
-    private final List<DiffXEvent> events = new ArrayList<>();
+    private final List<Token> tokens = new ArrayList<>();
 
     private final List<Folder> stack = new ArrayList<>();
 
@@ -109,19 +109,19 @@ public class SequenceFolding {
       return this.stack.size() > 0;
     }
 
-    void add(DiffXEvent event) {
+    void add(Token event) {
       if (isFoldable(event)) {
-        Folder subfolder = new Folder((OpenElementEvent)event);
+        Folder subfolder = new Folder((StartElementToken)event);
         this.stack.add(subfolder);
       } else if (this.stack.isEmpty()) {
-        this.events.add(event);
+        this.tokens.add(event);
       } else {
         Folder current = this.current();
         if (isMatching(event, current.open)) {
-          ElementEvent element = current.seal((CloseElementEvent) event);
+          ElementToken element = current.seal((EndElementToken) event);
           this.stack.remove(this.stack.size()-1); // pop
           if (this.stack.isEmpty()) {
-            this.events.add(element);
+            this.tokens.add(element);
           } else {
             this.current().add(element);
           }
@@ -131,31 +131,31 @@ public class SequenceFolding {
       }
     }
 
-    List<? extends DiffXEvent> events() {
-      return this.events;
+    List<? extends Token> tokens() {
+      return this.tokens;
     }
 
     EventSequence sequence() {
-      return new EventSequence(this.events);
+      return new EventSequence(this.tokens);
     }
   }
 
   private static class Folder {
 
-    final OpenElementEvent open;
+    final StartElementToken open;
 
-    private final List<DiffXEvent> children = new ArrayList<>();
+    private final List<Token> children = new ArrayList<>();
 
-    Folder(OpenElementEvent open) {
+    Folder(StartElementToken open) {
       this.open = open;
     }
 
-    void add(DiffXEvent event) {
+    void add(Token event) {
       this.children.add(event);
     }
 
-    ElementEvent seal(CloseElementEvent close) {
-      return new ElementEventImpl(this.open, close, this.children);
+    ElementToken seal(EndElementToken close) {
+      return new ElementTokenImpl(this.open, close, this.children);
     }
   }
 }

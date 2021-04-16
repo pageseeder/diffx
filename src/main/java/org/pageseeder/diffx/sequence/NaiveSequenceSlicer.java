@@ -18,7 +18,7 @@ package org.pageseeder.diffx.sequence;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 
@@ -42,12 +42,12 @@ public final class NaiveSequenceSlicer {
   // class attributes ---------------------------------------------------------------------------
 
   /**
-   * The first sequence of events to test.
+   * The first sequence of tokens to test.
    */
   final EventSequence sequence1;
 
   /**
-   * The second sequence of events to test.
+   * The second sequence of tokens to test.
    */
   final EventSequence sequence2;
 
@@ -91,15 +91,15 @@ public final class NaiveSequenceSlicer {
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     this.start = new EventSequence();
     int count = 0;
-    Iterator<DiffXEvent> i = this.sequence1.iterator();
-    Iterator<DiffXEvent> j = this.sequence2.iterator();
+    Iterator<Token> i = this.sequence1.iterator();
+    Iterator<Token> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = i.next();
+      Token e = i.next();
       if (j.next().equals(e)) {
         count++;
         i.remove();
         j.remove();
-        this.start.addEvent(e);
+        this.start.addToken(e);
       } else return count;
     }
     return count;
@@ -123,12 +123,12 @@ public final class NaiveSequenceSlicer {
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
     while (pos1 >= 0 && pos2 >= 0) {
-      DiffXEvent e1 = this.sequence1.getEvent(pos1);
-      if (e1.equals(this.sequence2.getEvent(pos2))) {
+      Token e1 = this.sequence1.getToken(pos1);
+      if (e1.equals(this.sequence2.getToken(pos2))) {
         count++;
-        this.sequence1.removeEvent(pos1--);
-        this.sequence2.removeEvent(pos2--);
-        this.end.addEvent(0, e1);
+        this.sequence1.removeToken(pos1--);
+        this.sequence2.removeToken(pos2--);
+        this.end.addToken(0, e1);
       } else {
         break;
       }
@@ -142,7 +142,7 @@ public final class NaiveSequenceSlicer {
    *
    * <p>Implementation note: although this is functionally equivalent to call successively the
    * methods {@link #sliceStart()} and {@link #formatStart(DiffXFormatter)}, this method is
-   * optimised and passes the event directly to the formatter without using a buffer.
+   * optimised and passes the token directly to the formatter without using a buffer.
    *
    * @param formatter The formatter that will handle the output.
    *
@@ -157,10 +157,10 @@ public final class NaiveSequenceSlicer {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     int count = 0;
-    Iterator<DiffXEvent> i = this.sequence1.iterator();
-    Iterator<DiffXEvent> j = this.sequence2.iterator();
+    Iterator<Token> i = this.sequence1.iterator();
+    Iterator<Token> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      DiffXEvent e = i.next();
+      Token e = i.next();
       if (j.next().equals(e)) {
         count++;
         i.remove();
@@ -209,7 +209,7 @@ public final class NaiveSequenceSlicer {
   public void formatStart(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.start == null) return;
     for (int i = 0; i < this.start.size(); i++) {
-      formatter.format(this.start.getEvent(i));
+      formatter.format(this.start.getToken(i));
     }
     this.start = null;
   }
@@ -228,7 +228,7 @@ public final class NaiveSequenceSlicer {
   public void formatEnd(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.end == null) return;
     for (int i = 0; i < this.end.size(); i++) {
-      formatter.format(this.end.getEvent(i));
+      formatter.format(this.end.getToken(i));
     }
     this.end = null;
   }

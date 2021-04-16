@@ -26,12 +26,12 @@ import org.pageseeder.diffx.sequence.EventSequence;
 public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
 
   /**
-   * The first sequence of events to test.
+   * The first sequence of tokens to test.
    */
   protected final EventSequence sequence1;
 
   /**
-   * The second sequence of events to test.
+   * The second sequence of tokens to test.
    */
   protected final EventSequence sequence2;
 

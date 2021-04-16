@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 import java.util.ArrayList;
@@ -41,36 +41,36 @@ public class ActionFormatter implements DiffXFormatter {
   private Action action = null;
 
   /**
-   * Adds the event to an action of type 'DEL'.
+   * Adds the token to an action of type 'DEL'.
    *
-   * @param e The event to delete.
+   * @param token The token to delete.
    * @see Operator#DEL
    */
-  public void delete(DiffXEvent e) {
+  public void delete(Token token) {
     setupAction(Operator.DEL);
-    this.action.add(e);
+    this.action.add(token);
   }
 
   /**
-   * Adds the event to an action of type 'KEEP'.
+   * Adds the token to an action of type 'KEEP'.
    *
-   * @param e The event to format.
+   * @param token The token to format.
    * @see Operator#MATCH
    */
-  public void format(DiffXEvent e) {
+  public void format(Token token) {
     setupAction(Operator.MATCH);
-    this.action.add(e);
+    this.action.add(token);
   }
 
   /**
-   * Adds the event to an action type 'INS'.
+   * Adds the token to an action type 'INS'.
    *
-   * @param e The event to insert.
+   * @param token The token to insert.
    * @see Operator#INS
    */
-  public void insert(DiffXEvent e) {
+  public void insert(Token token) {
     setupAction(Operator.INS);
-    this.action.add(e);
+    this.action.add(token);
   }
 
   /**

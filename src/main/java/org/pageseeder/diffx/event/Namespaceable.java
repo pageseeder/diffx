@@ -16,10 +16,18 @@
 
 package org.pageseeder.diffx.event;
 
+/**
+ * Indicates that the token belong to a namespace.
+ *
+ * @author Christophe Lauret
+ *
+ * @version 0.9.0
+ * @since 0.9.0
+ */
 public interface Namespaceable {
 
   /**
-   * Returns the local name of the attribute.
+   * Returns the local name of the token.
    *
    * <p>This method should never return <code>null</code>.
    *
@@ -28,12 +36,12 @@ public interface Namespaceable {
   String getName();
 
   /**
-   * Returns the namespace URI the attribute belongs to.
+   * Returns the namespace URI the token.
    *
-   * <p>This method should return <code>null</code> if the implementation
-   * is not namespace aware or if the attribute is not bound to any namespace.
+   * <p>This method should return <code>""</code> (empty string) if the implementation
+   * is not namespace aware or if the token is not bound to any namespace.
    *
-   * @return The namespace URI the attribute belongs to or <code>null</code>.
+   * @return The namespace URI the attribute belongs to or <code>""</code>.
    */
   String getURI();
 

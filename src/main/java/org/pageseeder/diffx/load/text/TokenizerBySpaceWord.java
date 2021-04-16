@@ -17,17 +17,17 @@ package org.pageseeder.diffx.load.text;
 
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.IgnorableSpaceEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.pageseeder.diffx.event.impl.WordEvent;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.IgnorableSpaceToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.event.impl.WordToken;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The tokenizer for characters events.
+ * The tokenizer for characters tokens.
  *
  * <p>This class is not synchronized.
  *
@@ -37,9 +37,9 @@ import java.util.regex.Pattern;
 public final class TokenizerBySpaceWord implements TextTokenizer {
 
   /**
-   * Map characters to events in order to recycle events as they are created.
+   * Map characters to tokens in order to recycle tokens as they are created.
    */
-  private final Map<String, TextEvent> recycling = new HashMap<>();
+  private final Map<String, TextToken> recycling = new HashMap<>();
 
   /**
    * Define the whitespace processing.
@@ -59,11 +59,11 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
   }
 
   @Override
-  public List<TextEvent> tokenize(CharSequence seq) {
+  public List<TextToken> tokenize(CharSequence seq) {
     if (seq == null) throw new NullPointerException("Character sequence is null");
     if (seq.length() == 0) return Collections.emptyList();
-    // We assume that on average we generate 1 event per 4 chars
-    List<TextEvent> events = new ArrayList<>(seq.length() / 4);
+    // We assume that on average we generate 1 token per 4 chars
+    List<TextToken> tokens = new ArrayList<>(seq.length() / 4);
 
     Pattern p = Pattern.compile("( ?[A-Za-z_'-]+)|(\\S)");
     Matcher m = p.matcher(seq);
@@ -73,21 +73,21 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
     while (m.find()) {
       if (index != m.start() && whitespace != WhiteSpaceProcessing.IGNORE) {
         String space = seq.subSequence(index, m.start()).toString();
-        events.add(getSpaceEvent(space));
+        tokens.add(getSpaceEvent(space));
       }
       // We don't even need to record a white space if they are ignored!
       String word = seq.subSequence(m.start(), m.end()).toString();
-      events.add(getWordEvent(word));
+      tokens.add(getWordEvent(word));
       index = m.end();
     }
 
     // Add remaining word if any
     if (index != seq.length()) {
       String space = seq.subSequence(index, seq.length()).toString();
-      events.add(getSpaceEvent(space));
+      tokens.add(getSpaceEvent(space));
     }
 
-    return events;
+    return tokens;
   }
 
   /**
@@ -98,40 +98,40 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
     return TextGranularity.SPACE_WORD;
   }
 
-  public static List<TextEvent> tokenize(CharSequence seq, WhiteSpaceProcessing whitespace) {
+  public static List<TextToken> tokenize(CharSequence seq, WhiteSpaceProcessing whitespace) {
     TokenizerBySpaceWord tokenizer = new TokenizerBySpaceWord(whitespace);
     return tokenizer.tokenize(seq);
   }
 
   /**
-   * Returns the word event corresponding to the specified characters.
+   * Returns the word token corresponding to the specified characters.
    *
    * @param word the characters of the word
-   * @return the corresponding word event
+   * @return the corresponding word token
    */
-  private TextEvent getWordEvent(String word) {
-    TextEvent e = this.recycling.get(word);
+  private TextToken getWordEvent(String word) {
+    TextToken e = this.recycling.get(word);
     if (e == null) {
-      e = new WordEvent(word);
+      e = new WordToken(word);
       this.recycling.put(word, e);
     }
     return e;
   }
 
   /**
-   * Returns the space event corresponding to the specified characters.
+   * Returns the space token corresponding to the specified characters.
    *
    * @param space the characters of the space
-   * @return the corresponding space event
+   * @return the corresponding space token
    */
-  private TextEvent getSpaceEvent(String space) {
+  private TextToken getSpaceEvent(String space) {
     // preserve the actual white space used
-    TextEvent e = this.recycling.get(space);
+    TextToken e = this.recycling.get(space);
     if (e == null) {
       if (this.whitespace == WhiteSpaceProcessing.PRESERVE) {
-        e = new IgnorableSpaceEvent(space);
+        e = new IgnorableSpaceToken(space);
       } else {
-        e = SpaceEvent.getInstance(space);
+        e = SpaceToken.getInstance(space);
       }
       this.recycling.put(space, e);
     }

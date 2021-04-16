@@ -25,7 +25,6 @@ import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.io.Writer;
-import java.util.Locale;
 
 /**
  * Provide an XML report of the XML diff.
@@ -83,20 +82,20 @@ public class XMLDiffReporter implements XMLDiffOutput {
   }
 
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     try {
       xml.openElement(toElementName(operator));
-      xml.attribute("type", event.getType().toString());
-      if (event instanceof Namespaceable) {
-        xml.attribute("name", ((Namespaceable)event).getName());
-        xml.attribute("namespace-uri", ((Namespaceable)event).getURI());
+      xml.attribute("type", token.getType().toString());
+      if (token instanceof Namespaceable) {
+        xml.attribute("name", ((Namespaceable)token).getName());
+        xml.attribute("namespace-uri", ((Namespaceable)token).getURI());
       }
-      if (event instanceof AttributeEvent) {
-        xml.attribute("value", ((AttributeEvent)event).getValue());
+      if (token instanceof AttributeToken) {
+        xml.attribute("value", ((AttributeToken)token).getValue());
       }
-      xml.attribute("class-name", event.getClass().getSimpleName());
-      if (event instanceof TextEvent) {
-        xml.writeText(((TextEvent) event).getCharacters());
+      xml.attribute("class-name", token.getClass().getSimpleName());
+      if (token instanceof TextToken) {
+        xml.writeText(((TextToken) token).getCharacters());
       }
       xml.closeElement();
     } catch (IOException ex) {

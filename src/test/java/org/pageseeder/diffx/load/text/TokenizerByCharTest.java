@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.load.text;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public final class TokenizerByCharTest {
   @Test
   public void testEmpty() {
     TokenizerByChar t = new TokenizerByChar();
-    List<TextEvent> e = t.tokenize("");
+    List<TextToken> e = t.tokenize("");
     assertEquals(0, e.size());
   }
 
@@ -81,29 +81,29 @@ public final class TokenizerByCharTest {
   @Test
   public void testSpace1() {
     TokenizerByChar t = new TokenizerByChar();
-    List<TextEvent> e = t.tokenize(" ");
+    List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
-    DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent(" "), space);
-    assertSame(SpaceEvent.SINGLE_WHITESPACE, space);
+    Token space = e.get(0);
+    assertEquals(new SpaceToken(" "), space);
+    assertSame(SpaceToken.SINGLE_WHITESPACE, space);
   }
 
   @Test
   public void testSpace3() {
     TokenizerByChar t = new TokenizerByChar();
-    List<TextEvent> e = t.tokenize("\n");
+    List<TextToken> e = t.tokenize("\n");
     assertEquals(1, e.size());
-    DiffXEvent space = e.get(0);
-    assertEquals(new SpaceEvent("\n"), space);
-    assertSame(SpaceEvent.NEW_LINE, space);
+    Token space = e.get(0);
+    assertEquals(new SpaceToken("\n"), space);
+    assertSame(SpaceToken.NEW_LINE, space);
   }
 
   @Test
   public void testWord1() {
     TokenizerByChar t = new TokenizerByChar();
-    List<TextEvent> e = t.tokenize("x");
+    List<TextToken> e = t.tokenize("x");
     assertEquals(1, e.size());
-    assertEquals(new CharactersEvent("x"), e.get(0));
+    assertEquals(new CharactersToken("x"), e.get(0));
   }
 
 }

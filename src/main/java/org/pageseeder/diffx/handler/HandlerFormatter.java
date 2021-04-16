@@ -17,7 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 public class HandlerFormatter implements DiffXFormatter {
@@ -29,18 +29,18 @@ public class HandlerFormatter implements DiffXFormatter {
   }
 
   @Override
-  public void format(DiffXEvent event) throws IllegalStateException {
-    this.handler.handle(Operator.MATCH, event);
+  public void format(Token token) throws IllegalStateException {
+    this.handler.handle(Operator.MATCH, token);
   }
 
   @Override
-  public void insert(DiffXEvent event) throws IllegalStateException {
-    this.handler.handle(Operator.INS, event);
+  public void insert(Token token) throws IllegalStateException {
+    this.handler.handle(Operator.INS, token);
   }
 
   @Override
-  public void delete(DiffXEvent event) throws IllegalStateException {
-    this.handler.handle(Operator.DEL, event);
+  public void delete(Token token) throws IllegalStateException {
+    this.handler.handle(Operator.DEL, token);
   }
 
   @Override

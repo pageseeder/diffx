@@ -17,8 +17,8 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.CharEvent;
-import org.pageseeder.diffx.event.impl.LineEvent;
+import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.event.impl.LineToken;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
@@ -29,7 +29,7 @@ import java.util.List;
  * A handler implementation used solely for testing.
  *
  * <p>This formatter which write exactly what receives using the abstract representation of
- * each event and adding a plus / minus sign for insertions / deletion. This class is useful
+ * each token and adding a plus / minus sign for insertions / deletion. This class is useful
  * to test the output of an algorithm.
  *
  * @author Christophe Lauret
@@ -64,88 +64,88 @@ public final class TestHandler implements DiffHandler {
   /**
    * Writes the abstract representation.
    */
-  public void handle(Operator operator, DiffXEvent event) {
+  public void handle(Operator operator, Token token) {
     if (operator != Operator.MATCH) out.append(operator.toString());
-    out.append(toSimpleString(operator, event, this.mapping));
+    out.append(toSimpleString(operator, token, this.mapping));
   }
 
 
   // Static helpers -------------------------------------------------------------------
 
   /**
-   * Formats the entire sequence by formatting each event.
+   * Formats the entire sequence by formatting each token.
    *
-   * @param seq The event sequence to format
+   * @param seq The token sequence to format
    */
   public static String format(EventSequence seq) {
     TestHandler handler = new TestHandler();
-    for (DiffXEvent event : seq) {
-      handler.handle(Operator.MATCH, event);
+    for (Token token : seq) {
+      handler.handle(Operator.MATCH, token);
     }
     return handler.getOutput();
   }
 
   /**
-   * Formats the entire sequence by formatting each event.
+   * Formats the entire sequence by formatting each token.
    *
-   * @param events The events to format
+   * @param tokens The tokens to format
    */
-  public static String format(List<? extends DiffXEvent> events) {
+  public static String format(List<? extends Token> tokens) {
     TestHandler handler = new TestHandler();
-    for (DiffXEvent event : events) {
-      handler.handle(Operator.MATCH, event);
+    for (Token token : tokens) {
+      handler.handle(Operator.MATCH, token);
     }
     return handler.getOutput();
   }
 
   /**
-   * Returns a simple representation for each code event.
+   * Returns a simple representation for each code token.
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The event to format
+   * @param e The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, DiffXEvent e) {
+  public static String toSimpleString(Operator operator, Token e) {
     return toSimpleString(operator, e, PrefixMapping.noNamespace());
   }
 
   /**
-   * Returns a simple representation for each code event.
+   * Returns a simple representation for each code token.
    *
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
-   * @param e The event to format
+   * @param e The token to format
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, DiffXEvent e, PrefixMapping mapping) {
+  public static String toSimpleString(Operator operator, Token e, PrefixMapping mapping) {
     // an element to open
-    if (e instanceof OpenElementEvent) {
-      OpenElementEvent open = (OpenElementEvent)e;
+    if (e instanceof StartElementToken) {
+      StartElementToken open = (StartElementToken)e;
       return '<' + getQName(open.getURI(), open.getName(), mapping) + '>';
     }
     // an element to close
-    if (e instanceof CloseElementEvent) {
-      CloseElementEvent close = (CloseElementEvent)e;
+    if (e instanceof EndElementToken) {
+      EndElementToken close = (EndElementToken)e;
       return "</" + getQName(close.getURI(), close.getName(), mapping) + '>';
     }
     // an element
-    if (e instanceof ElementEvent) {
-      ElementEvent element = (ElementEvent)e;
+    if (e instanceof ElementToken) {
+      ElementToken element = (ElementToken)e;
       return '<' + getQName(element.getURI(), element.getName(), mapping) + "/>";
     }
     // an attribute
-    if (e instanceof AttributeEvent) {
-      return "@(" + ((AttributeEvent) e).getName() + '=' + ((AttributeEvent) e).getValue() + ')';
+    if (e instanceof AttributeToken) {
+      return "@(" + ((AttributeToken) e).getName() + '=' + ((AttributeToken) e).getValue() + ')';
     }
     // a single line
-    if (e instanceof LineEvent) return "L" + ((LineEvent) e).getLineNumber();
-    if (e instanceof CharEvent) {
-      return Character.toString(((CharEvent) e).getChar());
+    if (e instanceof LineToken) return "L" + ((LineToken) e).getLineNumber();
+    if (e instanceof CharToken) {
+      return Character.toString(((CharToken) e).getChar());
     }
-    // a text event
-    if (e instanceof TextEvent) {
-      String chars = ((TextEvent) e).getCharacters();
+    // a text token
+    if (e instanceof TextToken) {
+      String chars = ((TextToken) e).getCharacters();
       if (operator != Operator.MATCH && chars.length() > 1) return "("+chars+")";
       return chars;
     }

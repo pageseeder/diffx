@@ -19,13 +19,13 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.AttributeEvent;
-import org.pageseeder.diffx.event.CloseElementEvent;
-import org.pageseeder.diffx.event.DiffXEvent;
-import org.pageseeder.diffx.event.OpenElementEvent;
-import org.pageseeder.diffx.event.impl.CharEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.pageseeder.diffx.event.impl.WordEvent;
+import org.pageseeder.diffx.event.AttributeToken;
+import org.pageseeder.diffx.event.EndElementToken;
+import org.pageseeder.diffx.event.Token;
+import org.pageseeder.diffx.event.StartElementToken;
+import org.pageseeder.diffx.event.impl.CharToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.event.impl.WordToken;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
@@ -33,7 +33,7 @@ import org.pageseeder.diffx.util.Constants;
 /**
  * A simple XML formatter that writes strictly what it is given.
  *
- * <p>This formatter will write the events exactly in the order in which they are given,
+ * <p>This formatter will write the tokens exactly in the order in which they are given,
  * in other words, there is no way to prevent this class from writing malformed XML.
  * On other hand, the {@link org.pageseeder.diffx.format.SmartXMLFormatter} will close
  * XML elements automatically, therefore rectifying a lot of the errors that lead to
@@ -135,9 +135,9 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void format(DiffXEvent e) {
+  public void format(Token e) {
     // an element to open
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       if (this.isElementNude) {
         denudeElement();
       }
@@ -148,7 +148,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       if (this.isDeleting) {
         closeDel();
       }
-      OpenElementEvent oee = (OpenElementEvent)e;
+      StartElementToken oee = (StartElementToken)e;
       this.xml.print('<'+oee.getName());
       if (this.declareNamespace) {
         this.xml.print(" xmlns:dfx=\""+Constants.BASE_NS_URI+"\"");
@@ -157,7 +157,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       this.isElementNude = true;
 
       // an element to close
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       if (this.isElementNude) {
         denudeElement();
       }
@@ -171,7 +171,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       this.xml.print(e.toXML());
 
       // an attribute
-    } else if (e instanceof AttributeEvent) {
+    } else if (e instanceof AttributeToken) {
       if (this.isElementNude) {
         this.xml.print(e.toXML());
       } else
@@ -192,12 +192,12 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       }
 
       // a character sequence
-      if (e instanceof WordEvent || e instanceof SpaceEvent) {
+      if (e instanceof WordToken || e instanceof SpaceToken) {
         this.xml.print(e.toXML());
 
         // a single character
-      } else if (e instanceof CharEvent) {
-        this.xml.print(((CharEvent)e).c);
+      } else if (e instanceof CharToken) {
+        this.xml.print(((CharToken)e).c);
       }
 
     }
@@ -205,16 +205,16 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(DiffXEvent e) {
+  public void insert(Token e) {
     // insert element
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       if (this.isElementNude) {
         denudeElement();
       }
       if (this.isDeleting) {
         closeDel();
       }
-      OpenElementEvent oee = (OpenElementEvent)e;
+      StartElementToken oee = (StartElementToken)e;
       this.xml.print('<'+oee.getName());
       if (this.declareNamespace) {
         this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
@@ -223,7 +223,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       this.isElementNude = true;
 
       // an element to close
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       if (this.isElementNude) {
         denudeElement();
       }
@@ -231,15 +231,15 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
         closeDel();
       }
       this.xml.print("</");
-      this.xml.print(((CloseElementEvent)e).getName());
+      this.xml.print(((EndElementToken)e).getName());
       this.xml.print('>');
 
-    } else if (e instanceof AttributeEvent) {
+    } else if (e instanceof AttributeToken) {
       if (this.isElementNude) {
         this.xml.print(" ");
-        this.xml.print(((AttributeEvent)e).getName());
+        this.xml.print(((AttributeToken)e).getName());
         this.xml.print("=\"");
-        this.xml.print(((AttributeEvent)e).getValue());
+        this.xml.print(((AttributeToken)e).getValue());
         this.xml.print('"');
       } else throw new IllegalStateException("Cannot insert an attribute once the element is closed");
     } else {
@@ -252,19 +252,19 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
         closeDel();
       }
       // a word
-      if (e instanceof WordEvent) {
+      if (e instanceof WordToken) {
         if (!this.isInserting) {
           openIns();
         }
         this.xml.print(e.toXML());
 
         // a white space
-      } else if (e instanceof SpaceEvent) {
+      } else if (e instanceof SpaceToken) {
         this.xml.print(e.toXML());
 
         // wrap the char in a <ins> element
-      } else if (e instanceof CharEvent) {
-        this.xml.print(((CharEvent)e).c);
+      } else if (e instanceof CharToken) {
+        this.xml.print(((CharToken)e).c);
       }
 
     }
@@ -272,7 +272,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void delete(DiffXEvent e) throws IllegalStateException {
+  public void delete(Token e) throws IllegalStateException {
     // we ignore delete attributes
     if (this.isElementNude) {
       denudeElement();
@@ -282,8 +282,8 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
     }
 
     // delete an element
-    if (e instanceof OpenElementEvent) {
-      OpenElementEvent oee = (OpenElementEvent)e;
+    if (e instanceof StartElementToken) {
+      StartElementToken oee = (StartElementToken)e;
       this.xml.print('<'+oee.getName());
       if (this.declareNamespace) {
         this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
@@ -292,28 +292,28 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       this.xml.print('>');
 
       // an element to close
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       this.xml.print("</");
-      this.xml.print(((CloseElementEvent)e).getName());
+      this.xml.print(((EndElementToken)e).getName());
       this.xml.print('>');
 
       // text
     } else {
 
       // a word
-      if (e instanceof WordEvent) {
+      if (e instanceof WordToken) {
         if (!this.isDeleting) {
           openDel();
         }
         this.xml.print(e.toXML());
 
         // a white space
-      } else if (e instanceof SpaceEvent) {
+      } else if (e instanceof SpaceToken) {
         this.xml.print(e.toXML());
 
         // wrap the char in a <ins> element
-      } else if (e instanceof CharEvent) {
-        this.xml.print(((CharEvent)e).c);
+      } else if (e instanceof CharToken) {
+        this.xml.print(((CharToken)e).c);
       }
     }
     this.xml.flush();

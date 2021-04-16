@@ -6,7 +6,7 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.test.Events;
 
@@ -49,8 +49,8 @@ public class FormatComparisonTest {
   }
 
   private static List<Operation> toOperations(String xml1, String xml2) throws IOException, DiffXException {
-    List<? extends DiffXEvent> from = Events.recordXMLEvents(xml1, TextGranularity.SPACE_WORD);
-    List<? extends DiffXEvent> to = Events.recordXMLEvents(xml2, TextGranularity.SPACE_WORD);
+    List<? extends Token> from = Events.recordXMLEvents(xml1, TextGranularity.SPACE_WORD);
+    List<? extends Token> to = Events.recordXMLEvents(xml2, TextGranularity.SPACE_WORD);
     OperationHandler handler = new OperationHandler();
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(true);

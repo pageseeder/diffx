@@ -286,7 +286,7 @@ public abstract class AdvancedXMLDiff1Test extends AlgorithmTest {
     EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.events(), seq2.events());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);

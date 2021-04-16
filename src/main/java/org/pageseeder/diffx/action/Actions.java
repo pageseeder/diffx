@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
@@ -32,19 +32,19 @@ import java.util.*;
 public class Actions {
 
   /**
-   * Generates the list of events from the list of actions.
+   * Generates the list of tokens from the list of actions.
    *
    * @param actions  The list of actions.
    * @param positive <code>true</code> for generating the new sequence;
    *                 <code>false</code> for generating the old sequence.
    */
-  public static List<DiffXEvent> generate(List<Action> actions, boolean positive) {
-    List<DiffXEvent> generated = new LinkedList<>();
+  public static List<Token> generate(List<Action> actions, boolean positive) {
+    List<Token> generated = new LinkedList<>();
     for (Action action : actions) {
       if (positive ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
-        generated.addAll(action.events());
+        generated.addAll(action.tokens());
       } else if (action.operator() == Operator.MATCH) {
-        generated.addAll(action.events());
+        generated.addAll(action.tokens());
       }
     }
     return generated;
@@ -59,8 +59,8 @@ public class Actions {
     List<Operation> operations = new LinkedList<>();
     for (Action action : actions) {
       Operator operator = action.operator();
-      for (DiffXEvent event : action.events()) {
-        operations.add(new Operation(operator, event));
+      for (Token token : action.tokens()) {
+        operations.add(new Operation(operator, token));
       }
     }
     return operations;
@@ -81,28 +81,28 @@ public class Actions {
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
   public static EventSequence apply(EventSequence input, List<Action> actions) {
-    List<? extends DiffXEvent> events = apply(input.events(), actions);
-    EventSequence out = new EventSequence(events.size());
-    events.forEach(out::addEvent);
+    List<? extends Token> tokens = apply(input.tokens(), actions);
+    EventSequence out = new EventSequence(tokens.size());
+    tokens.forEach(out::addToken);
     return out;
   }
 
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static List<DiffXEvent> apply(List<? extends DiffXEvent> input, List<Action> actions) {
-    List<DiffXEvent> out = new ArrayList<>(input.size());
+  public static List<Token> apply(List<? extends Token> input, List<Action> actions) {
+    List<Token> out = new ArrayList<>(input.size());
     int i = 0;
     try {
       for (Action action : actions) {
-        int count = action.events().size();
+        int count = action.tokens().size();
         switch (action.operator()) {
           case MATCH:
             out.addAll(input.subList(i, i + count));
             i += count;
             break;
           case INS:
-            out.addAll(action.events());
+            out.addAll(action.tokens());
             break;
           case DEL:
             i += count;
@@ -118,24 +118,24 @@ public class Actions {
     return out;
   }
 
-  public static boolean isApplicable(List<? extends DiffXEvent> a, List<? extends DiffXEvent> b, List<Action> actions) {
+  public static boolean isApplicable(List<? extends Token> a, List<? extends Token> b, List<Action> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
     for (Action action : actions) {
       if (action.operator() == Operator.MATCH) {
-        for (DiffXEvent e : action.events()) {
+        for (Token e : action.tokens()) {
           if (i >= a.size() || !e.equals(a.get(i))) return false;
           if (j >= b.size() || !e.equals(b.get(j))) return false;
           i++;
           j++;
         }
       } else if (action.operator() == Operator.INS) {
-        for (DiffXEvent e : action.events()) {
+        for (Token e : action.tokens()) {
           if (i >= a.size() || !e.equals(a.get(i))) return false;
           i++;
         }
       } else if (action.operator() == Operator.DEL) {
-        for (DiffXEvent e : action.events()) {
+        for (Token e : action.tokens()) {
           if (j >= b.size() || !e.equals(b.get(j))) return false;
           j++;
         }
@@ -148,18 +148,18 @@ public class Actions {
     for (Action action : actions) {
       switch (action.operator()) {
         case MATCH:
-          for (DiffXEvent event : action.events()) {
-            formatter.format(event);
+          for (Token token : action.tokens()) {
+            formatter.format(token);
           }
           break;
         case INS:
-          for (DiffXEvent event : action.events()) {
-            formatter.insert(event);
+          for (Token token : action.tokens()) {
+            formatter.insert(token);
           }
           break;
         case DEL:
-          for (DiffXEvent event : action.events()) {
-            formatter.delete(event);
+          for (Token token : action.tokens()) {
+            formatter.delete(token);
           }
           break;
         default:
@@ -169,8 +169,8 @@ public class Actions {
 
   public static void handle(List<Action> actions, DiffHandler handler) {
     for (Action action : actions) {
-      for (DiffXEvent event : action.events()) {
-        handler.handle(action.operator(), event);
+      for (Token token : action.tokens()) {
+        handler.handle(action.operator(), token);
       }
     }
   }

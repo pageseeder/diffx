@@ -15,21 +15,21 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An action associated to a sequence of DiffX events.
+ * An action associated to a sequence of DiffX tokens.
  * <p>
- * Wraps an event and binds it with an action type.
+ * Wraps an token and binds it with an action type.
  * <p>
- * A type of action for the events:
+ * A type of action for the tokens:
  * <ul>
- *   <li>Add a diffx event to a sequence (+);</li>
- *   <li>Remove a diffx event to sequence (-);</li>
- *   <li>Preserve a diffx event.</li>
+ *   <li>Add a diffx token to a sequence (+);</li>
+ *   <li>Remove a diffx token to sequence (-);</li>
+ *   <li>Preserve a diffx token.</li>
  * </ul>
  *
  * @author Christophe Lauret
@@ -43,9 +43,9 @@ public final class Action {
   private final Operator operator;
 
   /**
-   * The list of events associated with this action.
+   * The list of tokens associated with this action.
    */
-  private final List<DiffXEvent> events;
+  private final List<Token> tokens;
 
   /**
    * Creates a new action.
@@ -58,31 +58,31 @@ public final class Action {
   }
 
   /**
-   * Creates a new action from a list of events.
+   * Creates a new action from a list of tokens.
    *
    * @param operator The type of action.
    * @throws NullPointerException If the given type is <code>null</code>.
    */
-  public Action(Operator operator, List<DiffXEvent> events) {
+  public Action(Operator operator, List<Token> tokens) {
     if (operator == null) throw new NullPointerException("An action must have a type.");
     this.operator = operator;
-    this.events = events;
+    this.tokens = tokens;
   }
 
   /**
-   * Add an event to the list for this action.
+   * Add an token to the list for this action.
    *
-   * @param event The event to add.
+   * @param token The token to add.
    */
-  public void add(DiffXEvent event) {
-    this.events.add(event);
+  public void add(Token token) {
+    this.tokens.add(token);
   }
 
   /**
-   * @return the list of DiffXEvents.
+   * @return the list of Tokens.
    */
-  public List<DiffXEvent> events() {
-    return this.events;
+  public List<Token> tokens() {
+    return this.tokens;
   }
 
   /**
@@ -99,9 +99,9 @@ public final class Action {
   public Action flip() {
     switch (this.operator) {
       case DEL:
-        return new Action(Operator.INS, this.events);
+        return new Action(Operator.INS, this.tokens);
       case INS:
-        return new Action(Operator.DEL, this.events);
+        return new Action(Operator.DEL, this.tokens);
       default:
         return this;
     }
@@ -113,13 +113,13 @@ public final class Action {
     if (o == null || getClass() != o.getClass()) return false;
     Action action = (Action) o;
     if (this.operator != action.operator) return false;
-    return this.events.equals(action.events);
+    return this.tokens.equals(action.tokens);
   }
 
   @Override
   public int hashCode() {
     int result = operator.hashCode();
-    result = 31 * result + events.hashCode();
+    result = 31 * result + tokens.hashCode();
     return result;
   }
 
@@ -127,7 +127,7 @@ public final class Action {
   public String toString() {
     return "Action{" +
         "operator=" + operator +
-        ", events=" + events +
+        ", tokens=" + tokens +
         '}';
   }
 }

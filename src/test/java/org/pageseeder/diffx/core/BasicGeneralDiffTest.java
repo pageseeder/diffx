@@ -18,7 +18,7 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.impl.CharEvent;
+import org.pageseeder.diffx.event.impl.CharToken;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
@@ -652,8 +652,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   }
 
   public final void assertGeneralDiffOK(String text1, String text2, String[] exp) {
-    List<CharEvent> seq1 = Events.toCharEvents(text1);
-    List<CharEvent> seq2 = Events.toCharEvents(text2);
+    List<CharToken> seq1 = Events.toCharTokens(text1);
+    List<CharToken> seq2 = Events.toCharTokens(text2);
     DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionHandler af = new ActionHandler();
     TestHandler cf = new TestHandler();
@@ -694,7 +694,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     System.err.print("| Actions: ");
     for (Action action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
-      System.err.print(action.events().stream().map(Object::toString).collect(Collectors.toList()));
+      System.err.print(action.tokens().stream().map(Object::toString).collect(Collectors.toList()));
     }
     System.err.println();
   }

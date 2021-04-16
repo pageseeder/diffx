@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 /**
- * An atomic Diff operation associated with a single event.
+ * An atomic Diff operation associated with a single token.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -27,24 +27,24 @@ public final class Operation {
 
   private final Operator operator;
 
-  private final DiffXEvent event;
+  private final Token token;
 
-  public Operation(Operator operator, DiffXEvent event) {
+  public Operation(Operator operator, Token token) {
     this.operator = operator;
-    this.event = event;
+    this.token = token;
   }
 
   public Operator operator() {
     return operator;
   }
 
-  public DiffXEvent event() {
-    return event;
+  public Token token() {
+    return token;
   }
 
   @Override
   public int hashCode() {
-    return this.operator.hashCode()+ 31*this.event.hashCode();
+    return this.operator.hashCode()+ 31*this.token.hashCode();
   }
 
   @Override
@@ -58,19 +58,19 @@ public final class Operation {
       return false;
     if (operation == this)
       return true;
-    return operation.operator == this.operator && operation.event.equals(this.event);
+    return operation.operator == this.operator && operation.token.equals(this.token);
   }
 
   @Override
   public String toString() {
-    return this.operator.toString()+this.event;
+    return this.operator.toString()+this.token;
   }
 
   /**
    * @return the reserve operation by swapping INS with DEL.
    */
   public Operation flip() {
-    return this.operator == Operator.MATCH ? this : new Operation(this.operator.flip(), this.event);
+    return this.operator == Operator.MATCH ? this : new Operation(this.operator.flip(), this.token);
   }
 
 }

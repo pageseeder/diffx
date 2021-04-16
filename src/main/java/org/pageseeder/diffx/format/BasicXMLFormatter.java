@@ -17,7 +17,7 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.event.*;
-import org.pageseeder.diffx.event.impl.ProcessingInstructionEvent;
+import org.pageseeder.diffx.event.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
@@ -106,12 +106,12 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   /**
    * A stack of attributes to insert.
    */
-  private final transient Stack<AttributeEvent> insAttributes = new Stack<>();
+  private final transient Stack<AttributeToken> insAttributes = new Stack<>();
 
   /**
    * A stack of attributes to delete.
    */
-  private final transient Stack<AttributeEvent> delAttributes = new Stack<>();
+  private final transient Stack<AttributeToken> delAttributes = new Stack<>();
 
   /**
    * Creates a new formatter using the specified writer.
@@ -127,21 +127,21 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void format(DiffXEvent e) throws IOException {
+  public void format(Token e) throws IOException {
     if (!this.isSetup) {
       setUpXML();
     }
     endTextChange();
-    if (!(e instanceof AttributeEvent)) {
+    if (!(e instanceof AttributeToken)) {
       flushAttributes();
-    } else if (e instanceof OpenElementEvent) {
+    } else if (e instanceof StartElementToken) {
       if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
       this.openElements++;
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       this.openElements--;
     }
     e.toXML(this.xml);
-    if (e instanceof TextEvent)
+    if (e instanceof TextToken)
       if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
       }
@@ -149,29 +149,29 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(DiffXEvent e) throws IOException {
+  public void insert(Token e) throws IOException {
     change(e, +1);
   }
 
   @Override
-  public void delete(DiffXEvent e) throws IOException {
+  public void delete(Token e) throws IOException {
     change(e, -1);
   }
 
   /**
    * Reports a change in XML.
    *
-   * @param e   The diff-x event that has been inserted or deleted.
+   * @param e   The diff-x token that has been inserted or deleted.
    * @param mod The modification flag (positive for inserts, negative for deletes).
    *
    * @throws IOException an I/O exception if an error occurs.
    */
-  private void change(DiffXEvent e, int mod) throws IOException {
+  private void change(Token e, int mod) throws IOException {
     if (!this.isSetup) {
       setUpXML();
     }
     // change in element
-    if (e instanceof OpenElementEvent) {
+    if (e instanceof StartElementToken) {
       flushAttributes();
       endTextChange();
       // namespaces declaration
@@ -180,18 +180,18 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
         this.openElements++;
       }
       this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
-      this.xml.attribute("name", ((OpenElementEvent)e).getName());
-      this.xml.attribute("ns-uri", ((OpenElementEvent)e).getURI());
+      this.xml.attribute("name", ((StartElementToken)e).getName());
+      this.xml.attribute("ns-uri", ((StartElementToken)e).getURI());
 
       // change in element
-    } else if (e instanceof CloseElementEvent) {
+    } else if (e instanceof EndElementToken) {
       flushAttributes();
       endTextChange();
       this.xml.closeElement();
       this.openElements--;
 
       // change in text
-    } else if (e instanceof TextEvent) {
+    } else if (e instanceof TextToken) {
       flushAttributes();
       switchTextChange(mod);
       e.toXML(this.xml);
@@ -200,20 +200,20 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
       }
 
       // put the attribute as part of the 'delete' namespace
-    } else if (e instanceof AttributeEvent) {
+    } else if (e instanceof AttributeToken) {
       if (mod > 0) {
-        this.insAttributes.push((AttributeEvent)e);
+        this.insAttributes.push((AttributeToken)e);
       } else {
-        this.delAttributes.push((AttributeEvent)e);
+        this.delAttributes.push((AttributeToken)e);
       }
 
       // put the attribute as part of the 'delete' namespace
-    } else if (e instanceof ProcessingInstructionEvent) {
+    } else if (e instanceof ProcessingInstructionToken) {
       flushAttributes();
       endTextChange();
       this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "processing-instruction", false);
-      this.xml.attribute("data", ((ProcessingInstructionEvent)e).getData());
-      this.xml.attribute("target", ((ProcessingInstructionEvent)e).getTarget());
+      this.xml.attribute("data", ((ProcessingInstructionToken)e).getData());
+      this.xml.attribute("target", ((ProcessingInstructionToken)e).getTarget());
 
       // just format naturally
     } else {
@@ -321,9 +321,9 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
    *
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack<AttributeEvent> attributes, String uri) throws IOException {
+  private void flushAttributes(Stack<AttributeToken> attributes, String uri) throws IOException {
     while (!attributes.empty()) {
-      AttributeEvent att = attributes.pop();
+      AttributeToken att = attributes.pop();
       this.xml.openElement(uri, "attribute", false);
       this.xml.attribute("name", att.getName());
       if (att.getURI() != null) {

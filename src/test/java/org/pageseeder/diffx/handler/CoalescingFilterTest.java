@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
-import org.pageseeder.diffx.event.TextEvent;
-import org.pageseeder.diffx.event.impl.CharactersEvent;
-import org.pageseeder.diffx.event.impl.SpaceEvent;
-import org.pageseeder.diffx.event.impl.WordEvent;
+import org.pageseeder.diffx.event.TextToken;
+import org.pageseeder.diffx.event.impl.CharactersToken;
+import org.pageseeder.diffx.event.impl.SpaceToken;
+import org.pageseeder.diffx.event.impl.WordToken;
 import org.pageseeder.diffx.test.Events;
 
 
@@ -38,35 +38,35 @@ public class CoalescingFilterTest {
 
   @Test
   public void testCoalesceEmpty() {
-    TextEvent got = CoalescingFilter.coalesceText(Collections.emptyList());
+    TextToken got = CoalescingFilter.coalesceText(Collections.emptyList());
     assertEquals("", got.getCharacters());
   }
 
   @Test
   public void testCoalesceSingle1() {
-    TextEvent space = new SpaceEvent(" ");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(space));
+    TextToken space = new SpaceToken(" ");
+    TextToken got = CoalescingFilter.coalesceText(Collections.singletonList(space));
     assertSame(space, got);
   }
 
   @Test
   public void testCoalesceSingle2() {
-    TextEvent text = new CharactersEvent("A big cat");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(text));
+    TextToken text = new CharactersToken("A big cat");
+    TextToken got = CoalescingFilter.coalesceText(Collections.singletonList(text));
     assertSame(text, got);
   }
 
   @Test
   public void testCoalesceSingle3() {
-    TextEvent word = new WordEvent("cat");
-    TextEvent got = CoalescingFilter.coalesceText(Collections.singletonList(word));
+    TextToken word = new WordToken("cat");
+    TextToken got = CoalescingFilter.coalesceText(Collections.singletonList(word));
     assertSame(word, got);
   }
 
   @Test
   public void testCoalesceMultiple1() {
-    List<TextEvent> events = Events.toTextEvents("A", " ", "big", " ", "cat!");
-    TextEvent got = CoalescingFilter.coalesceText(events);
+    List<TextToken> tokens = Events.toTextTokens("A", " ", "big", " ", "cat!");
+    TextToken got = CoalescingFilter.coalesceText(tokens);
     assertEquals("A big cat!", got.getCharacters());
   }
 
@@ -168,8 +168,8 @@ public class CoalescingFilterTest {
   }
 
   private static Operation normalizeOperation(Operation operation) {
-    if (operation.event() instanceof TextEvent)
-      return new Operation(operation.operator(), new CharactersEvent(((TextEvent)operation.event()).getCharacters()));
+    if (operation.token() instanceof TextToken)
+      return new Operation(operation.operator(), new CharactersToken(((TextToken)operation.token()).getCharacters()));
     return operation;
   }
 

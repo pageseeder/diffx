@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 
 import java.io.IOException;
@@ -43,22 +43,22 @@ public class FormattingAdapter implements DiffHandler {
    * Invoke the formatter's method corresponding to the operator.
    *
    * @param operator The operator
-   * @param event    The event to handle
+   * @param token    The token to handle
    *
    * @throws UncheckedIOException Wraps any IO exception thrown by the formatter
    */
   @Override
-  public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException {
+  public void handle(Operator operator, Token token) throws UncheckedIOException {
     try {
       switch (operator) {
         case MATCH:
-          this.formatter.format(event);
+          this.formatter.format(token);
           break;
         case INS:
-          this.formatter.insert(event);
+          this.formatter.insert(token);
           break;
         case DEL:
-          this.formatter.delete(event);
+          this.formatter.delete(token);
           break;
         default:
           // Ignore and do nothing

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.Token;
 
 /**
  * A formatter which can relay the method calls to multiple formatters.
@@ -73,21 +73,21 @@ public final class MultiplexFormatter implements DiffXFormatter {
   }
 
   @Override
-  public void format(DiffXEvent e) throws IOException {
+  public void format(Token e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.format(e);
     }
   }
 
   @Override
-  public void insert(DiffXEvent e) throws IOException {
+  public void insert(Token e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.insert(e);
     }
   }
 
   @Override
-  public void delete(DiffXEvent e) throws IOException, IllegalStateException {
+  public void delete(Token e) throws IOException, IllegalStateException {
     for (DiffXFormatter f : this.formatters) {
       f.delete(e);
     }
