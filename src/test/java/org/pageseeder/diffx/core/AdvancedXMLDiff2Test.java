@@ -20,10 +20,10 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
 import java.util.List;

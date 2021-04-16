@@ -16,12 +16,12 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CharToken;
-import org.pageseeder.diffx.token.impl.LineToken;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.CharToken;
+import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.util.List;
 

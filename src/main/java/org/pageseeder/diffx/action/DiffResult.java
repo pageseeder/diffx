@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
 import java.util.List;

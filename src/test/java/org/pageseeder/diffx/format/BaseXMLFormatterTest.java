@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.format;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
@@ -25,6 +23,8 @@ import org.pageseeder.diffx.sequence.EventSequence;
 import org.xml.sax.InputSource;
 
 import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class common to all XML formatters.

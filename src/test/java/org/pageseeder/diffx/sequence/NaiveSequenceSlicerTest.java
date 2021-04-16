@@ -15,19 +15,19 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
 import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
 import org.pageseeder.diffx.token.impl.WordToken;
-import org.pageseeder.diffx.load.SAXRecorder;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test case for the sequence slicer.

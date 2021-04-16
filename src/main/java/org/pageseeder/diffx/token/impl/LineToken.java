@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import java.io.IOException;
-
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
+
+import java.io.IOException;
 
 /**
  * A text token representing a single line.

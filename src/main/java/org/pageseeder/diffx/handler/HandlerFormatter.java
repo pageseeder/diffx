@@ -17,8 +17,8 @@ package org.pageseeder.diffx.handler;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.token.Token;
 
 public class HandlerFormatter implements DiffXFormatter {
 

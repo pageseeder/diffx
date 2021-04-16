@@ -15,12 +15,12 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test case for Diff-X algorithm implementations.

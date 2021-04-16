@@ -15,13 +15,13 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.token.Token;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.Token;
 
 /**
  * A formatter which can relay the method calls to multiple formatters.

@@ -15,14 +15,14 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.pageseeder.diffx.test.Events.toTextTokens;
 
 /**

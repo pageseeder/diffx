@@ -15,12 +15,11 @@
  */
 package org.pageseeder.diffx.sequence;
 
+import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.token.Token;
+
 import java.io.IOException;
 import java.util.Iterator;
-
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.format.DiffXFormatter;
-
 
 /**
  * The slicer takes two sequences and removes the common elements from the beginning

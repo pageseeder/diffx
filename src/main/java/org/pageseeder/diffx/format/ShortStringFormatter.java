@@ -15,13 +15,13 @@
  */
 package org.pageseeder.diffx.format;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /**
  * A simple formatter to write the short string version of the tokens.

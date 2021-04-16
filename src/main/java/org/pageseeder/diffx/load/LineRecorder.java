@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.token.impl.LineToken;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.*;
 

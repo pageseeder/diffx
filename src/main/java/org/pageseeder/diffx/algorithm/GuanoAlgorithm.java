@@ -15,14 +15,14 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import java.io.IOException;
-
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.Token;
+
+import java.io.IOException;
 
 /**
  * A matrix-based algorithm using weighted tokens which produces correct results, but may require

@@ -15,16 +15,16 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.core.DiffAlgorithm;
 import org.pageseeder.diffx.core.KumarRanganAlgorithm;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.FormattingAdapter;
 import org.pageseeder.diffx.sequence.EventSequence;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Performs the diff comparison using an optimized version of the linear space algorithm

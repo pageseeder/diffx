@@ -15,14 +15,14 @@
  */
 package org.pageseeder.diffx.load;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.token.impl.LineToken;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for the text recorder.

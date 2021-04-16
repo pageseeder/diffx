@@ -15,22 +15,22 @@
  */
 package org.pageseeder.diffx.load;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.token.impl.*;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Base test class for the XML recorders.

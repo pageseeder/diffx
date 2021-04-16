@@ -1,10 +1,10 @@
 package org.pageseeder.diffx.algorithm;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.impl.CharToken;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MatrixProcessorTest {
 

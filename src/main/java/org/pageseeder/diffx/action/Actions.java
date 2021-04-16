@@ -15,13 +15,15 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Utility class for actions.

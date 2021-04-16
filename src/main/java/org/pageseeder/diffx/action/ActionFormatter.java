@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;

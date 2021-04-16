@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.ElementToken;
+import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.ElementTokenImpl;
 
 import java.util.ArrayList;

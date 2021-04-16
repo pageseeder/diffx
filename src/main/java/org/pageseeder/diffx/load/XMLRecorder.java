@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.load;
 
-import java.io.IOException;
-
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.xml.sax.InputSource;
+
+import java.io.IOException;
 
 /**
  * Defines recorders that are specific to XML.

@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import java.io.IOException;
-
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+
+import java.io.IOException;
 
 /**
  * Performs the diff comparison of sequences of tokens.

@@ -15,18 +15,16 @@
  */
 package org.pageseeder.diffx.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.impl.EndElementTokenImpl;
-import org.pageseeder.diffx.token.impl.StartElementTokenImpl;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.impl.EndElementTokenImpl;
+import org.pageseeder.diffx.token.impl.StartElementTokenImpl;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -39,6 +37,9 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * A utility class providing a collection of assertions for testing diff.

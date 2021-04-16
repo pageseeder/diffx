@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 

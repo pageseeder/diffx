@@ -16,9 +16,12 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.token.AttributeToken;
+import org.pageseeder.diffx.token.Namespaceable;
+import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 

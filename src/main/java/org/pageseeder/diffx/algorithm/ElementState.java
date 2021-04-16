@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.UncheckedIOException;
 

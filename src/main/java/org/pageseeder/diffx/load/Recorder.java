@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.pageseeder.diffx.sequence.EventSequence;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-
-import org.pageseeder.diffx.sequence.EventSequence;
 
 /**
  * A class implementing this interface must be able to produce a sequence of token

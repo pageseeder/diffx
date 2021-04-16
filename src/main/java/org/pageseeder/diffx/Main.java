@@ -15,32 +15,17 @@
  */
 package org.pageseeder.diffx;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-
 import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
 import org.pageseeder.diffx.algorithm.DiffXKumarRangan;
 import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.format.BasicXMLFormatter;
-import org.pageseeder.diffx.format.ConvenientXMLFormatter;
-import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.format.SafeXMLFormatter;
-import org.pageseeder.diffx.format.SmartXMLFormatter;
-import org.pageseeder.diffx.format.StrictXMLFormatter;
-import org.pageseeder.diffx.format.XMLDiffXFormatter;
-import org.pageseeder.diffx.load.*;
+import org.pageseeder.diffx.format.*;
+import org.pageseeder.diffx.load.DOMRecorder;
+import org.pageseeder.diffx.load.LineRecorder;
+import org.pageseeder.diffx.load.Recorder;
+import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
@@ -48,6 +33,9 @@ import org.pageseeder.diffx.util.CommandLine;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility class to centralise the access to this API from the command line.

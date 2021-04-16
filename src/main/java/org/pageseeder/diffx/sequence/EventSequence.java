@@ -15,10 +15,12 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import java.io.PrintWriter;
-import java.util.*;
-
 import org.pageseeder.diffx.token.Token;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A sequence of tokens used for the Diff-X algorithm.
@@ -125,7 +127,7 @@ public final class EventSequence implements Iterable<Token> {
    * Replaces an token of this sequence at the specified position.
    *
    * @param index The 0-based index of the position.
-   * @param token     The token to be inserted.
+   * @param token The token to be inserted.
    *
    * @return The token at the previous position.
    */

@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test case for the tokenizer utility class.

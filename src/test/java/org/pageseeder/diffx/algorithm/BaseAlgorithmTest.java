@@ -1,12 +1,13 @@
 package org.pageseeder.diffx.algorithm;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.*;
-import org.pageseeder.diffx.format.*;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.format.MultiplexFormatter;
+import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.load.LineRecorder;
+import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestFormatter;
@@ -21,6 +22,9 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class BaseAlgorithmTest {
 

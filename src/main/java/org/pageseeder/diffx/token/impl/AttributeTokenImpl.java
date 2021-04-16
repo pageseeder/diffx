@@ -15,13 +15,12 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import java.io.IOException;
-
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
+import java.io.IOException;
 
 /**
  * A basic implementation of the attribute token.

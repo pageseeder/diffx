@@ -15,17 +15,6 @@
  */
 package org.pageseeder.diffx;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Hashtable;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
 import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
@@ -40,6 +29,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * To use Diff-X as an XSLT extension.

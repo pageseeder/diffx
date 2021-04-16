@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import java.util.List;
-
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.token.TextToken;
+
+import java.util.List;
 
 /**
  * An interface for text tokenizers.

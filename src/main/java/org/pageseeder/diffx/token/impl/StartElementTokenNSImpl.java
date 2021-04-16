@@ -15,13 +15,12 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import java.io.IOException;
+import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
-
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.xmlwriter.XMLWriter;
+import java.io.IOException;
 
 /**
  * The token corresponding to the <code>startElement</code> SAX event.

@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.UncheckedIOException;
 import java.util.List;

@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PrefixMappingTest {
 

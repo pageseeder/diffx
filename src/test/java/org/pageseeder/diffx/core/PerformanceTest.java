@@ -18,11 +18,11 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.io.IOException;
 import java.util.List;

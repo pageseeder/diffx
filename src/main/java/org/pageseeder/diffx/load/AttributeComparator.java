@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.load;
 
-import java.util.Comparator;
-
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.impl.AttributeTokenImpl;
 import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
+
+import java.util.Comparator;
 
 /**
  * A comparator in order to put attributes in the correct order, that is in the alphabetical order

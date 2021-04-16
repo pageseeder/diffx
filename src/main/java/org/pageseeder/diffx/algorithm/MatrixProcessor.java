@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.PrintStream;
 import java.util.List;

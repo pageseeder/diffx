@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.impl.*;
 
 /**

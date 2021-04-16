@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import java.lang.reflect.Constructor;
-
 import org.pageseeder.diffx.sequence.EventSequence;
+
+import java.lang.reflect.Constructor;
 
 /**
  * Factory for creating a Diff-X algorithm instance.

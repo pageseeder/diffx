@@ -18,8 +18,8 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 

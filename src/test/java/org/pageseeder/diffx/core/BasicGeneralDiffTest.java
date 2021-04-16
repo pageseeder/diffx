@@ -18,13 +18,13 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.List;
 import java.util.stream.Collectors;

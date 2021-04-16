@@ -15,13 +15,13 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXRecorder;
 
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test case for the token sequence utility.

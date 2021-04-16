@@ -18,8 +18,8 @@ package org.pageseeder.diffx.load;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.impl.*;
 
 import java.io.IOException;
 

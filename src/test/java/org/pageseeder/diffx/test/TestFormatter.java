@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.*;
 
 import java.io.IOException;
 import java.io.StringWriter;

@@ -15,11 +15,11 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import java.util.Stack;
-
 import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.Token;
+
+import java.util.Stack;
 
 /**
  * A utility class for token sequences.

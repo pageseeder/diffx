@@ -6,9 +6,9 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
 import java.io.StringWriter;

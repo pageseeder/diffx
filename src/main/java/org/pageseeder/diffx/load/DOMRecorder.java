@@ -15,39 +15,22 @@
  */
 package org.pageseeder.diffx.load;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.TokenFactory;
-import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.w3c.dom.*;
 import org.xml.sax.InputSource;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Loads a DOM documents as a sequence of tokens.

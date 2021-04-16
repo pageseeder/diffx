@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.load.text;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 

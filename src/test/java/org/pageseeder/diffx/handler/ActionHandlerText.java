@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.handler;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
@@ -27,6 +25,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ActionHandlerText {
 

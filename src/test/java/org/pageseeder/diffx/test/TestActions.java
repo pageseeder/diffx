@@ -3,11 +3,11 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.core.DiffAlgorithm;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
 import java.io.StringWriter;

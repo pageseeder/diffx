@@ -15,20 +15,20 @@
  */
 package org.pageseeder.diffx.format;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
 import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
 import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
-import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.util.Constants;
 import org.xml.sax.InputSource;
 
 import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for the strict formatter.

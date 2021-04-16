@@ -15,16 +15,16 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The tokenizer for characters tokens.

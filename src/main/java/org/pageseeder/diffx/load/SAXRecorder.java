@@ -15,31 +15,21 @@
  */
 package org.pageseeder.diffx.load;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.TokenFactory;
-import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
+import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.XMLConstants;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Records the SAX events in an {@link org.pageseeder.diffx.sequence.EventSequence}.
