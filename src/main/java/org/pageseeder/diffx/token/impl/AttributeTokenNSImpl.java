@@ -134,7 +134,11 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
 
   @Override
   public String toString() {
-    return "attribute: " + this.name + "=" + this.value + " [" + this.uri + "]";
+    if (this.uri.isEmpty()) {
+      return "@"+ this.name + "=" + this.value;
+    } else {
+      return "@{"+this.uri+"}"+this.name + "=" + this.value;
+    }
   }
 
   @Override

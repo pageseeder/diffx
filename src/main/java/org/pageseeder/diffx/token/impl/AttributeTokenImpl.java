@@ -108,7 +108,7 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
 
   @Override
   public String toString() {
-    return "attribute: " + this.name + "=" + this.value;
+    return "@" + this.name + "=" + this.value;
   }
 
   @Override

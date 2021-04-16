@@ -129,7 +129,11 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
 
   @Override
   public String toString() {
-    return "closeElement: "+getName()+" ["+getURI()+"]";
+    if (open.getURI().isEmpty()) {
+      return "</"+getName()+'>';
+    } else {
+      return "</{"+getURI()+"}:"+getName()+'>';
+    }
   }
 
   @Override

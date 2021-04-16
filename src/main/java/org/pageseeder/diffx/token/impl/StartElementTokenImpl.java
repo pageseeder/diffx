@@ -96,7 +96,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
 
   @Override
   public String toString() {
-    return "openElement: "+this.name;
+    return "<"+this.name+">";
   }
 
   @Override

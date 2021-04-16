@@ -113,7 +113,11 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
 
   @Override
   public String toString() {
-    return "openElement: "+this.name+" ["+this.uri+"]";
+    if (this.uri.isEmpty()) {
+      return "<"+this.name+'>';
+    } else {
+      return "<{"+this.uri+"}:"+this.name+'>';
+    }
   }
 
   @Override

@@ -124,7 +124,7 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
 
   @Override
   public String toString() {
-    return "closeElement: "+getName();
+    return "</"+getName()+'>';
   }
 
   @Override
