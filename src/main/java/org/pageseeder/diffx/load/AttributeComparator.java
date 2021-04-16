@@ -25,7 +25,10 @@ import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
  * A comparator in order to put attributes in the correct order, that is in the alphabetical order
  * of the attribute name and namespace URI.
  *
+ * <p>Sorting attribute allows for more efficient diffing.</p>
+ *
  * @author Christophe Lauret
+ *
  * @version 0.9.0
  * @since 0.8.0
  */
