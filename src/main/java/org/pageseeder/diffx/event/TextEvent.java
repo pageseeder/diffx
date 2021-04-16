@@ -19,7 +19,9 @@ package org.pageseeder.diffx.event;
  * An interface for any data that comes from a text node.
  *
  * @author Christophe Lauret
- * @version 21 December 2004
+ *
+ * @version 0.9.0
+ * @since 0.5.0
  */
 public interface TextEvent extends DiffXEvent {
 
@@ -34,6 +36,6 @@ public interface TextEvent extends DiffXEvent {
   String getCharacters();
 
   @Override
-  default String getType() { return "text"; }
+  default EventType getType() { return EventType.TEXT; }
 
 }

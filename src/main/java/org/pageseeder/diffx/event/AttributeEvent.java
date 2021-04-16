@@ -19,7 +19,9 @@ package org.pageseeder.diffx.event;
  * An event for attributes.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ *
+ * @version 0.9.0
+ * @since 0.5.0
  */
 public interface AttributeEvent extends Namespaceable, DiffXEvent {
 
@@ -52,6 +54,6 @@ public interface AttributeEvent extends Namespaceable, DiffXEvent {
   String getURI();
 
   @Override
-  default String getType() { return "attribute"; }
+  default EventType getType() { return EventType.ATTRIBUTE; }
 
 }

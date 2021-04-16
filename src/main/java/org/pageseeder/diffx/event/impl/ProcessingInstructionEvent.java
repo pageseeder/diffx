@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.EventType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
@@ -119,8 +120,8 @@ public final class ProcessingInstructionEvent extends DiffXEventBase implements 
   }
 
   @Override
-  public String getType() {
-    return "processing-instruction";
+  public EventType getType() {
+    return EventType.OTHER;
   }
 
   /**

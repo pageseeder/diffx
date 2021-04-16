@@ -15,29 +15,44 @@
  */
 package org.pageseeder.diffx.event;
 
-import java.util.List;
-
-public interface ElementEvent extends Namespaceable, DiffXEvent {
-
-  /**
-   * @return The local name of the element.
-   */
-  String getName();
-
-  /**
-   * @return The namespace URI the element belongs to.
-   */
-  String getURI();
+/**
+ * Assign a type of event that can affect processing of the diff.
+ *
+ * @author Christophe Lauret
+ *
+ * @version 0.9.0
+ * @since 0.9.0
+ */
+public enum EventType {
 
   /**
-   * Returns all the events for this element, starting with the
-   * <code>OpenElementEvent</code> and ending with the <code>CloseElementEvent</code>.
-   *
-   * @return the list of events making up this element
+   * Text only.
    */
-  List<DiffXEvent> getEvents();
+  TEXT,
 
-  @Override
-  default EventType getType() { return EventType.ELEMENT; }
+  /**
+   * An XML attribute.
+   */
+  ATTRIBUTE,
+
+  /**
+   * An XML element.
+   */
+  ELEMENT,
+
+  /**
+   * The start of an XML element.
+   */
+  START_ELEMENT,
+
+  /**
+   * The end of an XML element.
+   */
+  END_ELEMENT,
+
+  /**
+   * Any other type.
+   */
+  OTHER;
 
 }

@@ -18,8 +18,10 @@ package org.pageseeder.diffx.event;
 /**
  * The event corresponding to the <code>endElement</code> SAX event.
  *
- * @author Christophe Lauret (Allette Systems)
- * @version 3 April 2005
+ * @author Christophe Lauret
+ *
+ * @version 0.9.0
+ * @since 0.5.0
  */
 public interface CloseElementEvent extends Namespaceable, DiffXEvent {
 
@@ -63,6 +65,6 @@ public interface CloseElementEvent extends Namespaceable, DiffXEvent {
   boolean match(OpenElementEvent event);
 
   @Override
-  default String getType() { return "close-element"; }
+  default EventType getType() { return EventType.END_ELEMENT; }
 
 }

@@ -38,5 +38,5 @@ public interface OpenElementEvent extends Namespaceable, DiffXEvent {
   String getURI();
 
   @Override
-  default String getType() { return "open-element"; }
+  default EventType getType() { return EventType.START_ELEMENT; }
 }

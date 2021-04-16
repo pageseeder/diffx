@@ -18,6 +18,7 @@ package org.pageseeder.diffx.event.impl;
 import java.io.IOException;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.EventType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
@@ -100,9 +101,8 @@ public final class XMLBranchEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   @Override
-  public String getType() {
-    // TODO Consider using "element"
-    return "branch";
+  public EventType getType() {
+    return EventType.ELEMENT;
   }
 
   /**

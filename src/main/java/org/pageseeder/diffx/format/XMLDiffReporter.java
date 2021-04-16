@@ -25,6 +25,7 @@ import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.io.Writer;
+import java.util.Locale;
 
 /**
  * Provide an XML report of the XML diff.
@@ -85,7 +86,7 @@ public class XMLDiffReporter implements XMLDiffOutput {
   public void handle(Operator operator, DiffXEvent event) throws UncheckedIOException, IllegalStateException {
     try {
       xml.openElement(toElementName(operator));
-      xml.attribute("type", event.getType());
+      xml.attribute("type", event.getType().toString());
       if (event instanceof Namespaceable) {
         xml.attribute("name", ((Namespaceable)event).getName());
         xml.attribute("namespace-uri", ((Namespaceable)event).getURI());

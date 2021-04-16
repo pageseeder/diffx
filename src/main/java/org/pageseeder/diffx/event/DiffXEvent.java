@@ -33,15 +33,16 @@ import org.pageseeder.xmlwriter.XMLWritable;
  * may change in the future, if the impact on performance is too heavy</b>.
  *
  * @author Christophe Lauret
+ *
  * @version 0.9.0
- * @since 0.7.0
+ * @since 0.5.0
  */
 public interface DiffXEvent extends XMLWritable, XMLFormattable {
 
   /**
    * @return The type of event.
    */
-  String getType();
+  EventType getType();
 
   /**
    * Indicates whether the specified event is equal to this event.

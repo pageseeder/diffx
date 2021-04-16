@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.pageseeder.diffx.event.DiffXEvent;
+import org.pageseeder.diffx.event.EventType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
@@ -100,8 +101,8 @@ public final class CommentEvent extends DiffXEventBase implements DiffXEvent {
   }
 
   @Override
-  public String getType() {
-    return "comment";
+  public EventType getType() {
+    return EventType.OTHER;
   }
 
   /**
