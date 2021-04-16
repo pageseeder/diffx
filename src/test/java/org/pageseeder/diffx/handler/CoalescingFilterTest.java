@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -145,6 +146,43 @@ public class CoalescingFilterTest {
     List<Operation> exp = toTextOperations("+AA", "-D", "MMM", "-DDD", "+AAAA");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
+
+  @Test
+  public void testMixFilter1() {
+    List<Operation> src = TestHandler.parse("<a>A+BC</a>");
+    List<Operation> exp = TestHandler.parse("<a>A+BC</a>");
+    assertEquivalentOperations(exp, coalesceOperations(src));
+  }
+
+  @Test
+  public void testMixFilter2() {
+    List<Operation> src = TestHandler.parse("<a>+A-B+C</a>");
+    List<Operation> exp = TestHandler.parse("<a>+(AC)-B</a>");
+    assertEquivalentOperations(exp, coalesceOperations(src));
+  }
+
+  @Test
+  public void testMixFilter3() {
+    List<Operation> src = TestHandler.parse("<a>A+BC-D</a>");
+    List<Operation> exp = TestHandler.parse("<a>A+BC-D</a>");
+    assertEquivalentOperations(exp, coalesceOperations(src));
+  }
+
+  @Test
+  public void testMixFilter4() {
+    List<Operation> src = TestHandler.parse("<a><b>X- -Y</b> +<b>+Y+</b></a>");
+    System.out.println(src);
+    List<Operation> exp = TestHandler.parse("<a><b>X-( Y)</b> +<b>+Y+</b></a>");
+    assertEquivalentOperations(exp, coalesceOperations(src));
+  }
+
+  @Test
+  public void testMixFilter5() {
+    List<Operation> src = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
+    List<Operation> exp = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
+    assertEquivalentOperations(exp, coalesceOperations(src));
+  }
+
 
   // Private helpers
   // --------------------------------------------------------------------------

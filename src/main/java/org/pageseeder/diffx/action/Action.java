@@ -125,9 +125,6 @@ public final class Action {
 
   @Override
   public String toString() {
-    return "Action{" +
-        "operator=" + operator +
-        ", tokens=" + tokens +
-        '}';
+    return "Action{" + operator + "," + tokens + '}';
   }
 }

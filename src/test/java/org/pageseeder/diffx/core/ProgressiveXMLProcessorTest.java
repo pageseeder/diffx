@@ -54,10 +54,21 @@ public final class ProgressiveXMLProcessorTest {
   }
 
   @Nested
-  public class AdvancedXMLDiff1 extends AdvancedXMLDiff1Test {
+  public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      ProgressiveXMLProcessor processor = new ProgressiveXMLProcessor();
+      processor.setCoalesce(true);
+      return processor;
+    }
+  }
+
 }

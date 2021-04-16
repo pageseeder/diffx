@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested;
  */
 public final class DefaultXMLProcessorTest {
 
-  private DiffAlgorithm newAlgorithm() {
+  private DefaultXMLProcessor newAlgorithm() {
     return new DefaultXMLProcessor();
   }
 
@@ -54,10 +54,21 @@ public final class DefaultXMLProcessorTest {
   }
 
   @Nested
-  public class AdvancedXMLDiff1 extends AdvancedXMLDiff1Test {
+  public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      DefaultXMLProcessor processor = newAlgorithm();
+      processor.setCoalesce(true);
+      return processor;
+    }
+  }
+
 }

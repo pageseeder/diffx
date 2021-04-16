@@ -46,7 +46,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_IdenticalC() throws IOException, DiffXException {
+  public final void testAdvanced_IdenticalC() throws IOException, DiffXException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X Y</a>";
     String exp = "<a>$w{X}$s{ }$w{Y}</a>";
@@ -60,7 +60,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_SelfWrapA() throws IOException, DiffXException {
+  public final void testAdvanced_SelfWrapA() throws IOException, DiffXException {
     String xml1 = "<a><a/></a>";
     String xml2 = "<a></a>";
     String[] exp1 = new String[]{
@@ -82,7 +82,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_SelfWrapB() throws IOException, DiffXException {
+  public final void testAdvanced_SelfWrapB() throws IOException, DiffXException {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
     String[] exp1 = new String[]{
@@ -104,7 +104,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_SplitMergeA() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeA() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     String exp1 = "<a><b>$w{X}-$s{ }-$w{Y}</b>+$s{ }+<b>+$w{Y}+</b></a>";
@@ -120,7 +120,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_SplitMergeA1() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeA1() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     // split
@@ -144,7 +144,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_MovedBranch() throws IOException, DiffXException {
+  public final void testAdvanced_MovedBranch() throws IOException, DiffXException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String exp1 = "<a><b>$w{M}-<a>-<b>-$w{A}-</b>-</a></b>+<a>+<b>+$w{A}+</b>+</a><b>$w{N}</b></a>";
@@ -160,7 +160,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_SplitMergeB() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeB() throws IOException, DiffXException {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
     String exp1 = "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>";
@@ -181,7 +181,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_BestPath() throws IOException, DiffXException {
+  public final void testAdvanced_BestPath() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<a><b/><b>X</b></a>";
     String exp1 = "<a>-<b>-</b><b>$w{X}</b></a>";
@@ -192,7 +192,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
 
   @Test
   @Disabled
-  public final void testLevel2_Temp() throws IOException, DiffXException {
+  public final void testAdvanced_Temp() throws IOException, DiffXException {
     String xml1 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><b>X</b></a>";
     String xml2 = "<a xmlns:x='XXX' xmlns:y='YYY' xmlns='ns'><x:b>X</x:b></a>";
     String exp1 = "<a>-<b>-</b><b>$w{X}</b></a>";
@@ -214,7 +214,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_MoveB() throws IOException, DiffXException {
+  public final void testAdvanced_MoveB() throws IOException, DiffXException {
     String xml1 = "<a><b>x y</b><c/></a>";
     String xml2 = "<a><b/><c>x y</c></a>";
     String exp1 = "<a><b>+$w{x}+$s{ }+$w{y}</b><c>-$w{x}-$s{ }-$w{y}</c></a>";
@@ -235,7 +235,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_ModifiedTextC() throws IOException, DiffXException {
+  public final void testAdvanced_ModifiedTextC() throws IOException, DiffXException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X</a>";
     String exp1 = "<a>$w{X}+$s{ }+$w{Y}</a>";
@@ -251,7 +251,7 @@ public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel2_TextElementC() throws IOException, DiffXException {
+  public final void testAdvanced_TextElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
     String xml2 = "<a><b>W X</b></a>";
     String exp1 = "<a><b>$w{W}$s{ }$w{X}</b>+<c>+$w{Y}+$s{ }+$w{Z}+</c></a>";

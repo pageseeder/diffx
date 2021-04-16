@@ -114,6 +114,7 @@ public final class Events {
     try {
       StringWriter xml = new StringWriter();
       SmartXMLFormatter f = new SmartXMLFormatter(xml);
+      f.setWriteXMLDeclaration(false);
       f.declarePrefixMapping(mapping);
 
       for (Token token : tokens) {

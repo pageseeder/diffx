@@ -15,14 +15,16 @@
  */
 package org.pageseeder.diffx.test;
 
+import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CharToken;
-import org.pageseeder.diffx.token.impl.LineToken;
+import org.pageseeder.diffx.token.impl.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -172,4 +174,82 @@ public final class TestHandler implements DiffHandler {
     return "TestHandler";
   }
 
+  /**
+   *
+   * @param ops
+   * @return
+   */
+  public static List<Operation> parse(String ops) {
+    OperationHandler source = new OperationHandler();
+    char[] chars = ops.toCharArray();
+    for (int i=0; i < chars.length; i++) {
+      Operator operator = Operator.MATCH;
+      if (chars[i] == '+' && (i+1) < chars.length) {
+        operator = Operator.INS;
+        i++;
+      } else if (chars[i] == '-' && (i+1) < chars.length) {
+        operator = Operator.DEL;
+        i++;
+      }
+      i = parseToken(chars, i, source, operator);
+    }
+    return source.getOperations();
+  }
+
+  private static int parseToken(char[] chars, int i, OperationHandler source, Operator operator) {
+    int j = i;
+    Token token;
+    if (isStartElement(chars, i)) {
+      token = new StartElementTokenImpl(Character.toString(chars[i+1]));
+      j = i+2;
+    } else if (isEndElement(chars, i)) {
+      token = new EndElementTokenImpl(Character.toString(chars[i + 2]));
+      j = i + 3;
+    } else if (isText(chars, i)) {
+      int to = indexOf(chars, ')', i+1);
+      token = new CharactersToken(new String(Arrays.copyOfRange(chars, i+1, to)));
+      j = to;
+    } else if (isAttribute(chars, i)) {
+      char name = chars[i+1];
+      if ((i+3) < chars.length && chars[i+2] == '=') {
+        token = new AttributeTokenImpl(Character.toString(name), Character.toString(chars[i+3]));
+        j = i+3;
+      } else  {
+        token = new AttributeTokenImpl(Character.toString(name), "");
+        j = i+1;
+      }
+    } else if (isSpace(chars, i)) {
+      token = SpaceToken.getInstance(chars[i]);
+    } else {
+      token = new CharToken(chars[i]);
+    }
+    // Add the token and operator
+    source.handle(operator, token);
+    return j;
+  }
+
+  private static int indexOf(char[] chars, char c, int from) {
+    for (int i=from; i < chars.length; i++) if (chars[i] == c) return i;
+    return -1;
+  }
+
+  private static boolean isSpace(char[] chars, int i) {
+    return chars[i] == ' ' || chars[i] == '\n' || chars[i] == '\t';
+  }
+
+  private static boolean isStartElement(char[] chars, int i) {
+    return chars[i] == '<' && (i+2) < chars.length && chars[i+2] == '>';
+  }
+
+  private static boolean isEndElement(char[] chars, int i) {
+    return chars[i] == '<' && (i+3) < chars.length && chars[i+1] == '/' && chars[i+3] == '>';
+  }
+
+  private static boolean isAttribute(char[] chars, int i) {
+    return chars[i] == '@' && (i+1) < chars.length;
+  }
+
+  private static boolean isText(char[] chars, int i) {
+    return chars[i] == '(' && (i+2) < chars.length && indexOf(chars, ')', i+1) > i+2;
+  }
 }
