@@ -22,8 +22,8 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -56,7 +56,7 @@ import java.util.Map;
  * <pre>{@code
  * <xsl:copy-of select="diffx:diff(/node1/to/compare, /node2/to/compare, 'IGNORE', 'TEXT')"/>
  * }</pre>
- *
+ * <p>
  * Note: the method signatures requires DOM arguments, include the <code>Saxon-DOM</code> jar
  * on your classpath to use this extension function with Saxon.
  *
@@ -71,6 +71,7 @@ public final class Extension {
    * <p>This is because some XSLT processors will only accept certain types DOM objects.
    */
   private static final Map<String, String> BUILDERS = new Hashtable<>();
+
   static {
     BUILDERS.put("net.sf.saxon.dom", "net.sf.saxon.dom.DocumentBuilderFactoryImpl");
   }
@@ -124,7 +125,7 @@ public final class Extension {
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
@@ -186,8 +187,8 @@ public final class Extension {
    */
   private static String getFactoryClass(Node xml1, Node xml2) {
     Package pkg = xml1 != null ? xml1.getClass().getPackage()
-                : xml2 != null ? xml2.getClass().getPackage()
-                : null;
+        : xml2 != null ? xml2.getClass().getPackage()
+        : null;
     return pkg == null ? null : BUILDERS.get(pkg.getName());
   }
 

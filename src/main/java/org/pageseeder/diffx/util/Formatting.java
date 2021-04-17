@@ -20,8 +20,6 @@ import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
- *
- *
  * @author Christophe Lauret
  * @version 0.9.0
  */

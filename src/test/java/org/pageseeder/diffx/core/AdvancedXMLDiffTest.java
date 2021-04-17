@@ -19,8 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
@@ -273,7 +273,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   public final void testAdvanced_List() throws IOException, DiffXException {
     String xml1 = "<ul><li>blue</li><li>red</li><li>green</li></ul>";
     String xml2 = "<ul><li>black</li><li>red</li><li>green</li></ul>";
-    String[] exp = new String[] {
+    String[] exp = new String[]{
         "<ul><li>+(blue)-(black)</li><li>red</li><li>green</li></ul>",
         "<ul><li>-(black)+(blue)</li><li>red</li><li>green</li></ul>"
     };

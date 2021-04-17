@@ -21,7 +21,7 @@ package org.pageseeder.diffx.util;
  * <p>The methods in this class would typically be used in the <code>main(String[])</code>
  * method of a class.
  *
- * @author  Christophe Lauret
+ * @author Christophe Lauret
  * @version 17 May 2005
  */
 public final class CommandLine {
@@ -46,8 +46,8 @@ public final class CommandLine {
     if (args == null || args.length < 2 || name == null) return null;
     // find the argument
     for (int i = 0; i < args.length; i++) {
-      if (name.equals(args[i]) && i+1 < args.length)
-        return args[i+1];
+      if (name.equals(args[i]) && i + 1 < args.length)
+        return args[i + 1];
     }
     return null;
   }

@@ -40,19 +40,22 @@ public final class TokenizerFactory {
    * @param config The configuration to use.
    *
    * @return the corresponding tokenizer.
-   *
    * @throws NullPointerException If the configuration is <code>null</code>.
    */
   public static TextTokenizer get(DiffXConfig config) {
     if (config == null) throw new NullPointerException("The config should be specified");
     TextGranularity granularity = config.getGranularity();
     switch (granularity) {
-      case CHARACTER: return new TokenizerByChar();
-      case WORD: return new TokenizerByWord(config.getWhiteSpaceProcessing());
-      case SPACE_WORD: return new TokenizerBySpaceWord(config.getWhiteSpaceProcessing());
-      case TEXT: return new TokenizerByText(config.getWhiteSpaceProcessing());
+      case CHARACTER:
+        return new TokenizerByChar();
+      case WORD:
+        return new TokenizerByWord(config.getWhiteSpaceProcessing());
+      case SPACE_WORD:
+        return new TokenizerBySpaceWord(config.getWhiteSpaceProcessing());
+      case TEXT:
+        return new TokenizerByText(config.getWhiteSpaceProcessing());
       default:
-        throw new IllegalArgumentException("Unsupported text granularity "+granularity);
+        throw new IllegalArgumentException("Unsupported text granularity " + granularity);
     }
   }
 

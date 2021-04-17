@@ -28,7 +28,6 @@ import java.util.Comparator;
  * <p>Sorting attribute allows for more efficient diffing.</p>
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.8.0
  */
@@ -36,15 +35,15 @@ final class AttributeComparator implements Comparator<AttributeToken> {
 
   /**
    * Compares two objects if they are attributes.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
   public int compare(AttributeToken o1, AttributeToken o2) throws ClassCastException {
     if (o1 instanceof AttributeTokenImpl && o2 instanceof AttributeTokenImpl)
-      return compare((AttributeTokenImpl)o1, (AttributeTokenImpl)o2);
+      return compare((AttributeTokenImpl) o1, (AttributeTokenImpl) o2);
     else if (o1 instanceof AttributeTokenNSImpl && o2 instanceof AttributeTokenNSImpl)
-      return compare((AttributeTokenNSImpl)o1, (AttributeTokenNSImpl)o2);
+      return compare((AttributeTokenNSImpl) o1, (AttributeTokenNSImpl) o2);
     else
       return 0;
   }
@@ -56,7 +55,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    * @param att2 The second attribute to be compared.
    *
    * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater
-   *         than the second.
+   * than the second.
    */
   public int compare(AttributeTokenImpl att1, AttributeTokenImpl att2) {
     return att1.getName().compareTo(att2.getName());
@@ -69,7 +68,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    * @param att2 The second attribute to be compared.
    *
    * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater
-   *         than the second.
+   * than the second.
    */
   public int compare(AttributeTokenNSImpl att1, AttributeTokenNSImpl att2) {
     return toCName(att1).compareTo(toCName(att2));
@@ -79,6 +78,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    * Returns a comparable name from the given attribute's namespace URI and name.
    *
    * @param att The attribute.
+   *
    * @return The comparable name.
    */
   private static String toCName(AttributeTokenNSImpl att) {

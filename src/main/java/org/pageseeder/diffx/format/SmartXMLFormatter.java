@@ -91,10 +91,9 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * <p>This constructor is equivalent to:
    * <pre>new SmartXMLFormatter(new PrintWriter(System.out));</pre>.
    *
+   * @throws IOException should an I/O exception occurs.
    * @see System#out
    * @see #SmartXMLFormatter(Writer)
-   *
-   * @throws IOException should an I/O exception occurs.
    */
   public SmartXMLFormatter() throws IOException {
     this(new PrintWriter(System.out));
@@ -120,7 +119,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
   @Override
   public void format(Token e) throws IOException {
     if (DEBUG) {
-      System.err.println("="+e);
+      System.err.println("=" + e);
     }
     // namespaces declaration
     if (e instanceof StartElementToken) {
@@ -140,7 +139,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
   @Override
   public void insert(Token e) throws IOException {
     if (DEBUG) {
-      System.err.println("+"+e);
+      System.err.println("+" + e);
     }
     // insert an attribute to specify
     if (e instanceof StartElementToken) {
@@ -168,7 +167,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
       // display the attribute normally
     } else if (e instanceof AttributeToken) {
       e.toXML(this.xml);
-      this.xml.attribute("ins:"+((AttributeToken)e).getName(), "true");
+      this.xml.attribute("ins:" + ((AttributeToken) e).getName(), "true");
 
       // wrap the char in a <ins> element
     } else if (e instanceof CharToken) {
@@ -179,7 +178,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     } else if (e instanceof EndElementToken) {
       this.openElements--;
       e.toXML(this.xml);
-    // just format naturally
+      // just format naturally
     } else {
       e.toXML(this.xml);
     }
@@ -189,7 +188,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
   @Override
   public void delete(Token e) throws IOException {
     if (DEBUG) {
-      System.err.println("-"+e);
+      System.err.println("-" + e);
     }
     // insert an attribute to specify
     if (e instanceof StartElementToken) {
@@ -216,7 +215,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeToken) {
-      this.xml.attribute("del:"+((AttributeToken)e).getName(), ((AttributeToken)e).getValue());
+      this.xml.attribute("del:" + ((AttributeToken) e).getName(), ((AttributeToken) e).getValue());
 
       // wrap the char in a <del> element
     } else if (e instanceof CharToken) {
@@ -227,7 +226,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
     } else if (e instanceof EndElementToken) {
       this.openElements--;
       e.toXML(this.xml);
-    // just format naturally
+      // just format naturally
     } else {
       e.toXML(this.xml);
     }

@@ -22,7 +22,6 @@ import org.pageseeder.diffx.token.Token;
 import java.util.List;
 
 /**
- *
  * @author Christophe Lauret
  * @version 0.9.0
  */
@@ -44,7 +43,7 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     DiffHandler actual = handler;
     if (coalesce) actual = new CoalescingFilter(actual);
-  //  actual = new CompareReplaceFilter(actual);
+    //  actual = new CompareReplaceFilter(actual);
     handler.start();
     algorithm.diff(first, second, actual);
     handler.end();

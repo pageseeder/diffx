@@ -38,7 +38,6 @@ import java.io.UncheckedIOException;
  * <p>This class is not synchronised and is not meant to be serializable.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7.0
  */
@@ -62,12 +61,13 @@ public final class ElementState implements DiffHandler {
   /**
    * Constructs an stack of elements with the specified initial capacity.
    *
-   * @param  initialCapacity  The initial capacity of the list.
+   * @param initialCapacity The initial capacity of the list.
+   *
    * @throws IllegalArgumentException if the specified initial capacity is negative.
    */
   public ElementState(int initialCapacity) throws IllegalArgumentException {
     if (initialCapacity < 0)
-      throw new IllegalArgumentException("Illegal Capacity: "+initialCapacity);
+      throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
     this.openElements = new StartElementToken[initialCapacity];
     this.openChanges = new Operator[initialCapacity];
   }
@@ -108,7 +108,7 @@ public final class ElementState implements DiffHandler {
   /**
    * Returns the number of elements in this stack.
    *
-   * @return  the number of elements in this stack.
+   * @return the number of elements in this stack.
    */
   public int size() {
     return this.size;
@@ -117,8 +117,8 @@ public final class ElementState implements DiffHandler {
   /**
    * Tests if this list has no elements.
    *
-   * @return  <code>true</code> if this list has no elements;
-   *          <code>false</code> otherwise.
+   * @return <code>true</code> if this list has no elements;
+   * <code>false</code> otherwise.
    */
   public boolean isEmpty() {
     return this.size == 0;
@@ -129,8 +129,8 @@ public final class ElementState implements DiffHandler {
    *
    * @param element Element whose presence is to be tested.
    *
-   * @return  <code>true</code> if the specified element is present;
-   *          <code>false</code> otherwise.
+   * @return <code>true</code> if the specified element is present;
+   * <code>false</code> otherwise.
    */
   public boolean contains(StartElementToken element) {
     return indexOf(element) >= 0;
@@ -143,8 +143,7 @@ public final class ElementState implements DiffHandler {
    * @param element The open element to find.
    *
    * @return The index of the first occurrence of the argument in this list;
-   *         returns <code>-1</code if the object is not found.
-   *
+   * returns <code>-1</code if the object is not found.
    * @see org.pageseeder.diffx.token.Token#equals(Token)
    */
   public int indexOf(StartElementToken element) {
@@ -167,7 +166,7 @@ public final class ElementState implements DiffHandler {
    * @param element The desired element.
    *
    * @return The index of the last occurrence of the specified open element;
-   *         or -1 if not found.
+   * or -1 if not found.
    */
   public int lastIndexOf(StartElementToken element) {
     if (element == null) {
@@ -215,7 +214,7 @@ public final class ElementState implements DiffHandler {
    * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean matchCurrent(Token token) {
     // cannot match if empty
@@ -223,7 +222,7 @@ public final class ElementState implements DiffHandler {
     // cannot match if not a close element token
     if (!(token instanceof EndElementToken)) return false;
     // check if they match
-    return ((EndElementToken)token).match(current());
+    return ((EndElementToken) token).match(current());
   }
 
   /**
@@ -233,13 +232,13 @@ public final class ElementState implements DiffHandler {
    *
    * <p>If the token is an END_ELEMENT token, it is popped from the stack.</p>
    *
-   * @param token The deleted token.
+   * @param token    The deleted token.
    * @param operator The corresponding operator
    */
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (token instanceof StartElementToken) {
-      push((StartElementToken)token, operator);
+      push((StartElementToken) token, operator);
     } else if (token instanceof EndElementToken) {
       pop();
     }
@@ -257,7 +256,7 @@ public final class ElementState implements DiffHandler {
    * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean isAllowed(Operator operator, Token token) {
     // cannot match if not a close element token
@@ -265,13 +264,13 @@ public final class ElementState implements DiffHandler {
     // cannot match if empty
     if (isEmpty()) return false;
     // check if they match
-    return ((EndElementToken)token).match(current())
+    return ((EndElementToken) token).match(current())
         && this.openChanges[this.size - 1] == operator;
   }
 
   /**
    * Indicates whether the first specified token has priority over the second element.
-   *
+   * <p>
    * It only seem to be the case when the algorithm has the choice between an attribute and another
    * element.
    *
@@ -279,7 +278,7 @@ public final class ElementState implements DiffHandler {
    * @param token2 The other token.
    *
    * @return <code>true</code> if first specified token has priority over the second element;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean hasPriorityOver(Token token1, Token token2) {
     return token1 instanceof AttributeToken
@@ -292,7 +291,7 @@ public final class ElementState implements DiffHandler {
   /**
    * Push the specified open element and flags it with the specified change.
    *
-   * @param token The open element to push.
+   * @param token    The open element to push.
    * @param operator The operator.
    */
   private void push(StartElementToken token, Operator operator) {
@@ -320,12 +319,11 @@ public final class ElementState implements DiffHandler {
   /**
    * Returns the open element at the specified position in this list.
    *
-   * @param  index index of element to return.
+   * @param index index of element to return.
    *
    * @return The element at the specified position in this list.
-   *
    * @throws IndexOutOfBoundsException if index is out of range
-   *         <code>(index &lt; 0 || index &gt;= size())</code>.
+   *                                   <code>(index &lt; 0 || index &gt;= size())</code>.
    */
   public StartElementToken get(int index) throws IndexOutOfBoundsException {
     checkRange(index);
@@ -340,16 +338,15 @@ public final class ElementState implements DiffHandler {
    * @param index The index of the element to removed.
    *
    * @return The element that was removed from the list.
-   *
    * @throws IndexOutOfBoundsException if index is out of range
-   *         <code>(index &lt; 0 || index &gt;= size())</code>.
+   *                                   <code>(index &lt; 0 || index &gt;= size())</code>.
    */
   public StartElementToken remove(int index) throws IndexOutOfBoundsException {
     checkRange(index);
     StartElementToken oldValue = this.openElements[index];
     int numMoved = this.size - index - 1;
     if (numMoved > 0) {
-      System.arraycopy(this.openElements, index+1, this.openElements, index, numMoved);
+      System.arraycopy(this.openElements, index + 1, this.openElements, index, numMoved);
     }
     this.openElements[--this.size] = null; // Let gc do its work
     return oldValue;
@@ -376,11 +373,11 @@ public final class ElementState implements DiffHandler {
    * @param index The index to check.
    *
    * @throws IndexOutOfBoundsException if index is out of range
-   *         <code>(index &lt; 0 || index &gt;= size())</code>.
+   *                                   <code>(index &lt; 0 || index &gt;= size())</code>.
    */
   private void checkRange(int index) throws IndexOutOfBoundsException {
     if (index >= this.size)
-      throw new IndexOutOfBoundsException("Index: "+index+", Size: "+this.size);
+      throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
   }
 
 }

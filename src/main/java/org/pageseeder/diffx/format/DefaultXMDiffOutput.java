@@ -122,7 +122,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
 
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
-    if (DEBUG) System.err.println(operator.toString()+token);
+    if (DEBUG) System.err.println(operator.toString() + token);
     try {
       // We must flush the inserted/deleted attributes
       if (!(token instanceof AttributeToken)) {
@@ -207,7 +207,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
 
   /**
    * Flush the inserted or deleted attributes on the element.
-   *
+   * <p>
    * This method must be called before we finish writing the start element tag.
    */
   private void flushAttributes() throws IOException {

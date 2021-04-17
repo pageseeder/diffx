@@ -19,8 +19,8 @@ import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.EndElementTokenImpl;
@@ -117,7 +117,7 @@ public final class DiffAssertions {
    *
    * @param xml THe XML string to test
    */
-  public static void assertIsWellFormedXML(String xml)  {
+  public static void assertIsWellFormedXML(String xml) {
     try {
       InputSource source = new InputSource(new StringReader(xml));
       SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -153,6 +153,7 @@ public final class DiffAssertions {
    * Handle the specified actions with the handler.
    *
    * @param actions Action to handle
+   *
    * @return output of the test handler
    */
   public static String toTestOutput(List<Action> actions, PrefixMapping mapping) {

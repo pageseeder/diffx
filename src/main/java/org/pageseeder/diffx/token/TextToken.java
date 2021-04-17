@@ -19,7 +19,6 @@ package org.pageseeder.diffx.token;
  * An interface for any data that comes from a text node.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.5.0
  */
@@ -36,6 +35,8 @@ public interface TextToken extends Token {
   String getCharacters();
 
   @Override
-  default TokenType getType() { return TokenType.TEXT; }
+  default TokenType getType() {
+    return TokenType.TEXT;
+  }
 
 }

@@ -389,6 +389,7 @@ public final class SequenceSlicerTest {
    *
    * @param xml1 The first XML to test.
    * @param xml2 The second XML to test.
+   *
    * @return The sequence slicer on the 2 sequences.
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML with SAX.

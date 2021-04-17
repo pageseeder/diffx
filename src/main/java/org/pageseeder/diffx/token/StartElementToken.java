@@ -38,5 +38,7 @@ public interface StartElementToken extends Namespaceable, Token {
   String getURI();
 
   @Override
-  default TokenType getType() { return TokenType.START_ELEMENT; }
+  default TokenType getType() {
+    return TokenType.START_ELEMENT;
+  }
 }

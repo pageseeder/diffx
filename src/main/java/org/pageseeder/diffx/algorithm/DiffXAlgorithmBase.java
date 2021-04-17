@@ -53,7 +53,7 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
   /**
    * Creates a new DiffX algorithm base class.
    *
-   * @param first The first sequence to compare.
+   * @param first  The first sequence to compare.
    * @param second The second sequence to compare.
    */
   public DiffXAlgorithmBase(Sequence first, Sequence second) {

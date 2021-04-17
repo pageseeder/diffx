@@ -26,7 +26,6 @@ import java.util.*;
  * <p>Note that for each namespace URI there can only be one prefix.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7
  */
@@ -128,7 +127,6 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    * @param namespace The namespace declaration to replace.
    *
    * @return the previous namespace mapped to this URI
-   *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
   public Namespace replace(Namespace namespace) throws NullPointerException {
@@ -194,7 +192,7 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    * @return the prefix mapping as a map.
    */
   public Map<String, String> toMap() {
-    Map<String,String> map = new HashMap<>(this.namespacesByUri.values().size());
+    Map<String, String> map = new HashMap<>(this.namespacesByUri.values().size());
     this.namespacesByUri.values().forEach(namespace -> map.put(namespace.getUri(), namespace.getPrefix()));
     return map;
   }

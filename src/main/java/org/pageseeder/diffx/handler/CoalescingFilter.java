@@ -56,7 +56,7 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
   @Override
   public void handle(Operator operator, Token token) throws IllegalStateException {
     if (token instanceof TextToken) {
-      handleText((TextToken)token, operator);
+      handleText((TextToken) token, operator);
     } else {
       flushText();
       this.target.handle(operator, token);

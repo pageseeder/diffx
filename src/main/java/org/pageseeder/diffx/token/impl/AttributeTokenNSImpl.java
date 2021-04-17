@@ -55,7 +55,7 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   /**
    * Creates a new attribute token.
    *
-   * @param name The local name of the attribute.
+   * @param name  The local name of the attribute.
    * @param value The value of the attribute.
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -74,8 +74,8 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   /**
    * Creates a new attribute token.
    *
-   * @param uri The uri of the attribute.
-   * @param name The local name of the attribute.
+   * @param uri   The uri of the attribute.
+   * @param name  The local name of the attribute.
    * @param value The value of the attribute.
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -119,7 +119,7 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -135,9 +135,9 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   @Override
   public String toString() {
     if (this.uri.isEmpty()) {
-      return "@"+ this.name + "=" + this.value;
+      return "@" + this.name + "=" + this.value;
     } else {
-      return "@{"+this.uri+"}"+this.name + "=" + this.value;
+      return "@{" + this.uri + "}" + this.name + "=" + this.value;
     }
   }
 
@@ -176,9 +176,10 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   /**
    * Calculates the hashcode for this token.
    *
-   * @param uri The URI.
-   * @param name The attribute name.
+   * @param uri   The URI.
+   * @param name  The attribute name.
    * @param value The attribute value.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String uri, String name, String value) {

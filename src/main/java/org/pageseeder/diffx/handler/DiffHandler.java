@@ -26,7 +26,6 @@ import java.io.UncheckedIOException;
  * <p>Handlers may be used to filter or format the operations of diff processors.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  */
 @FunctionalInterface
@@ -34,10 +33,11 @@ public interface DiffHandler {
 
   /**
    * Receives notification of the start of the processing.
-   *
+   * <p>
    * This method is called before any other method.
    */
-  default void start() {}
+  default void start() {
+  }
 
   /**
    * Handles the specified operation reported by the diff processor.
@@ -45,16 +45,17 @@ public interface DiffHandler {
    * @param operator The operator
    * @param token    The token to handle
    *
-   * @throws UncheckedIOException Should an I/O exception occur.
+   * @throws UncheckedIOException  Should an I/O exception occur.
    * @throws IllegalStateException If the handler is not in a state to run this method.
    */
   void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException;
 
   /**
    * Receives notification of the end of the processing.
-   *
+   * <p>
    * This method is called after any other method.
    */
-  default void end() {}
+  default void end() {
+  }
 
 }

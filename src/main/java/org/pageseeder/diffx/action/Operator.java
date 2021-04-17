@@ -20,6 +20,7 @@ package org.pageseeder.diffx.action;
  *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @since 0.9.0
  */
 public enum Operator {
 
@@ -27,14 +28,16 @@ public enum Operator {
    * An insertion.
    */
   INS(true) {
-
     /**
-     * @return DEL
+     * @return Always DEL
      */
     public Operator flip() {
       return DEL;
     }
 
+    /**
+     * @return Always "+"
+     */
     public String toString() {
       return "+";
     }
@@ -44,14 +47,16 @@ public enum Operator {
    * A deletion.
    */
   DEL(true) {
-
     /**
-     * @return INS
+     * @return Always INS
      */
     public Operator flip() {
       return INS;
     }
 
+    /**
+     * @return Always "-"
+     */
     public String toString() {
       return "-";
     }
@@ -61,14 +66,16 @@ public enum Operator {
    * A match.
    */
   MATCH(false) {
-
     /**
-     * @return MATCH
+     * @return Always MATCH
      */
     public Operator flip() {
       return this;
     }
 
+    /**
+     * @return Always "="
+     */
     public String toString() {
       return "=";
     }

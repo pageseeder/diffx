@@ -24,7 +24,6 @@ import java.io.IOException;
  * An interface for formatting the output of the Diff-X algorithm.
  *
  * @author Christophe Lauret
- *
  * @version 0.6.0
  */
 public interface DiffXFormatter {
@@ -34,7 +33,7 @@ public interface DiffXFormatter {
    *
    * @param token The token to format
    *
-   * @throws IOException Should an I/O exception occurs while formatting.
+   * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
   void format(Token token) throws IOException, IllegalStateException;
@@ -44,7 +43,7 @@ public interface DiffXFormatter {
    *
    * @param token The token to format
    *
-   * @throws IOException Should an I/O exception occurs while formatting.
+   * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
   void insert(Token token) throws IOException, IllegalStateException;

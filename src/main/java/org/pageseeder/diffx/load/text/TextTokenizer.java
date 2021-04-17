@@ -35,6 +35,7 @@ public interface TextTokenizer {
    * Returns the list of {@link TextToken} corresponding to the specified character sequence.
    *
    * @param seq the character sequence to tokenize.
+   *
    * @return the corresponding list.
    */
   List<TextToken> tokenize(CharSequence seq);

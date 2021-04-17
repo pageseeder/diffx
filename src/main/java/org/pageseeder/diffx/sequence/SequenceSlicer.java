@@ -35,7 +35,6 @@ import java.util.Iterator;
  * that helps the Diff-X algorithm ensuring that the XML is well-formed.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7.0
  */
@@ -99,7 +98,6 @@ public final class SequenceSlicer {
    * {@link #formatStart(DiffXFormatter)} is called.
    *
    * @return The number of common elements at the start of the sequences.
-   *
    * @throws IllegalStateException If the start buffer is not empty.
    */
   public int sliceStart() throws IllegalStateException {
@@ -148,7 +146,6 @@ public final class SequenceSlicer {
    * {@link #formatEnd(DiffXFormatter)} is called.
    *
    * @return The number of common elements at the end of the sequences.
-   *
    * @throws IllegalStateException If the end buffer is not empty.
    */
   public int sliceEnd() throws IllegalStateException {
@@ -175,7 +172,8 @@ public final class SequenceSlicer {
         if (depth == 1 || depth == 0) {
           toBeRemoved = counter;
         }
-        pos1--; pos2--;
+        pos1--;
+        pos2--;
       } else {
         break;
       }
@@ -203,7 +201,7 @@ public final class SequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws IOException          If an error occurs whilst writing with the formatter.
    */
   public void formatStart(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.start == null) return;
@@ -222,7 +220,7 @@ public final class SequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws IOException          If an error occurs whilst writing with the formatter.
    */
   public void formatEnd(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.end == null) return;

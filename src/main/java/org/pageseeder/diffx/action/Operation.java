@@ -44,12 +44,12 @@ public final class Operation {
 
   @Override
   public int hashCode() {
-    return this.operator.hashCode()+ 31*this.token.hashCode();
+    return this.operator.hashCode() + 31 * this.token.hashCode();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof Operation) return equals((Operation)obj);
+    if (obj instanceof Operation) return equals((Operation) obj);
     return false;
   }
 
@@ -63,7 +63,7 @@ public final class Operation {
 
   @Override
   public String toString() {
-    return this.operator.toString()+this.token;
+    return this.operator.toString() + this.token;
   }
 
   /**

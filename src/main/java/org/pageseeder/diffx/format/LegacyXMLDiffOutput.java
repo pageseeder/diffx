@@ -30,12 +30,12 @@ public class LegacyXMLDiffOutput extends FormattingAdapter implements XMLDiffOut
 
   @Override
   public void setWriteXMLDeclaration(boolean show) {
-    ((SmartXMLFormatter)super.formatter).setWriteXMLDeclaration(show);
+    ((SmartXMLFormatter) super.formatter).setWriteXMLDeclaration(show);
   }
 
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    ((SmartXMLFormatter)super.formatter).declarePrefixMapping(mapping);
+    ((SmartXMLFormatter) super.formatter).declarePrefixMapping(mapping);
   }
 
 }

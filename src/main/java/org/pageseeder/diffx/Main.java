@@ -26,8 +26,8 @@ import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.Recorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;
 import org.w3c.dom.Node;
@@ -61,8 +61,7 @@ public final class Main {
    * @param xml2 The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
-   *         <code>false</code> otherwise.
-   *
+   * <code>false</code> otherwise.
    * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
@@ -82,8 +81,7 @@ public final class Main {
    * @param xml2 The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
-   *         <code>false</code> otherwise.
-   *
+   * <code>false</code> otherwise.
    * @throws DiffXException Should a Diff-X exception occur.
    * @throws IOException    Should an I/O exception occur.
    */
@@ -103,8 +101,7 @@ public final class Main {
    * @param xml2 The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
-   *         <code>false</code> otherwise.
-   *
+   * <code>false</code> otherwise.
    * @throws DiffXException If a DiffX exception is reported by the recorders.
    * @throws IOException    Should an I/O exception occur.
    */
@@ -239,7 +236,7 @@ public final class Main {
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
@@ -290,7 +287,7 @@ public final class Main {
       Sequence seq2 = recorder.process(xml2);
       long t1 = System.currentTimeMillis();
       if (profile) {
-        System.err.println("Loaded files in "+(t1 - t0)+"ms");
+        System.err.println("Loaded files in " + (t1 - t0) + "ms");
       }
 
       // get the config
@@ -298,7 +295,7 @@ public final class Main {
       config.setGranularity(getTextGranularity(args));
       config.setWhiteSpaceProcessing(getWhiteSpaceProcessing(args));
       if (!quiet) {
-        System.err.println("Whitespace processing: "+getTextGranularity(args)+" "+getWhiteSpaceProcessing(args));
+        System.err.println("Whitespace processing: " + getTextGranularity(args) + " " + getWhiteSpaceProcessing(args));
       }
 
       // get and setup the formatter
@@ -308,7 +305,7 @@ public final class Main {
         PrefixMapping mapping = new PrefixMapping();
         mapping.add(seq1.getPrefixMapping());
         mapping.add(seq2.getPrefixMapping());
-        ((XMLDiffXFormatter)formatter).declarePrefixMapping(mapping);
+        ((XMLDiffXFormatter) formatter).declarePrefixMapping(mapping);
       }
       if (formatter == null) return;
       formatter.setConfig(config);
@@ -322,7 +319,7 @@ public final class Main {
 
       // start algorithm
       if (!quiet) {
-        System.err.println("Matrix: "+seq1.size()+"x"+seq2.size());
+        System.err.println("Matrix: " + seq1.size() + "x" + seq2.size());
       }
       DiffXAlgorithm df = getAlgorithm(args, seq1, seq2);
       if (df == null) return;
@@ -335,7 +332,7 @@ public final class Main {
 
       long t2 = System.currentTimeMillis();
       if (profile) {
-        System.err.println("Executed algorithm files in "+(t2 - t1)+"ms");
+        System.err.println("Executed algorithm files in " + (t2 - t1) + "ms");
       }
 
     } catch (Throwable ex) {
@@ -373,6 +370,7 @@ public final class Main {
 
   /**
    * @param args The command line arguments.
+   *
    * @return The recorder to use.
    */
   private static Recorder getRecorder(String[] args) {
@@ -389,8 +387,8 @@ public final class Main {
 
   /**
    * @param args The command line arguments.
-   * @return The output to use.
    *
+   * @return The output to use.
    * @throws FileNotFoundException If the file does not exist.
    */
   private static OutputStream getOutput(String[] args) throws FileNotFoundException {
@@ -404,6 +402,7 @@ public final class Main {
    * @param args The command line arguments.
    * @param seq1 The first sequence.
    * @param seq2 The second sequence.
+   *
    * @return The algorithm to use.
    */
   private static DiffXAlgorithm getAlgorithm(String[] args, Sequence seq1, Sequence seq2) {
@@ -420,6 +419,7 @@ public final class Main {
   /**
    * @param args The command line arguments.
    * @param out  The writer to use.
+   *
    * @return The formatter to use.
    * @throws IOException Should and I/O error occur
    */
@@ -441,6 +441,7 @@ public final class Main {
 
   /**
    * @param args The command line arguments.
+   *
    * @return The formatter to use.
    */
   private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) {
@@ -457,6 +458,7 @@ public final class Main {
 
   /**
    * @param args The command line arguments.
+   *
    * @return The formatter to use.
    */
   private static TextGranularity getTextGranularity(String[] args) {

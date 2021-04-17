@@ -19,7 +19,6 @@ package org.pageseeder.diffx.token;
  * An token for attributes.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.5.0
  */
@@ -54,6 +53,8 @@ public interface AttributeToken extends Namespaceable, Token {
   String getURI();
 
   @Override
-  default TokenType getType() { return TokenType.ATTRIBUTE; }
+  default TokenType getType() {
+    return TokenType.ATTRIBUTE;
+  }
 
 }

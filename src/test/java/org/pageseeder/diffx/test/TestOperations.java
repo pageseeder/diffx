@@ -37,10 +37,10 @@ public class TestOperations {
   public static List<Operation> toCharOperations(String ops) {
     OperationHandler source = new OperationHandler();
     char[] chars = ops.toCharArray();
-    for (int i=0; i < chars.length; i++) {
+    for (int i = 0; i < chars.length; i++) {
       char c = chars[i];
-      if (c == '+' && (i+1) < chars.length) source.handle(Operator.INS, new CharToken(chars[++i]));
-      else if (c == '-' && (i+1) < chars.length) source.handle(Operator.DEL, new CharToken(chars[++i]));
+      if (c == '+' && (i + 1) < chars.length) source.handle(Operator.INS, new CharToken(chars[++i]));
+      else if (c == '-' && (i + 1) < chars.length) source.handle(Operator.DEL, new CharToken(chars[++i]));
       else source.handle(Operator.MATCH, new CharToken(c));
     }
     return source.getOperations();

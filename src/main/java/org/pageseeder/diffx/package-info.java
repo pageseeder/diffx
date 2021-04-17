@@ -20,6 +20,5 @@
  * <p>It also corresponds to the class that is being called from the command-line. To to a diff
  * of two XML documents, it there best to use one of the two <code>Main.diff</code> methods, it
  * will be plugged to the most stable algorithm implementation and formatter.</p>
- *
  */
 package org.pageseeder.diffx;

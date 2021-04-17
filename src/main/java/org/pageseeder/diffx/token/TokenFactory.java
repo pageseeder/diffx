@@ -26,7 +26,6 @@ import org.pageseeder.diffx.token.impl.*;
  * <p>Non-namespace aware objects are lighter than namespace aware ones.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.5.0
  */

@@ -48,11 +48,10 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
   /**
    * Creates a new open element token with the default URI.
    *
-   * @see XMLConstants#NULL_NS_URI
-   *
    * @param name The local name of the element
    *
    * @throws NullPointerException if the name is <code>null</code>.
+   * @see XMLConstants#NULL_NS_URI
    */
   public StartElementTokenNSImpl(String name) throws NullPointerException {
     if (name == null)
@@ -101,22 +100,22 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
     if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
-    StartElementTokenNSImpl other = (StartElementTokenNSImpl)token;
+    StartElementTokenNSImpl other = (StartElementTokenNSImpl) token;
     return other.uri.equals(this.uri) && other.name.equals(this.name);
   }
 
   @Override
   public String toString() {
     if (this.uri.isEmpty()) {
-      return "<"+this.name+'>';
+      return "<" + this.name + '>';
     } else {
-      return "<{"+this.uri+"}:"+this.name+'>';
+      return "<{" + this.uri + "}:" + this.name + '>';
     }
   }
 
@@ -129,7 +128,7 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
    * Converts this token to an XML open tag.
    *
    * <p>Note that this method does not allow attributes to be put after this element.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -141,8 +140,9 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
   /**
    * Calculates the hashcode for this token.
    *
-   * @param uri The namespace URI.
+   * @param uri  The namespace URI.
    * @param name The element name.
+   *
    * @return a number suitable as a hashcode.
    */
   private int toHashCode(String uri, String name) {

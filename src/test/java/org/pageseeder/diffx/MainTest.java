@@ -158,6 +158,7 @@ public final class MainTest {
    * @param xml1 The first XML doc.
    * @param xml2 The second XML doc.
    * @param info The print writer where additional info goes.
+   *
    * @throws IOException Should an error occur.
    */
   private long processDiffX(File xml1, File xml2, PrintStream info) throws IOException {
@@ -196,6 +197,7 @@ public final class MainTest {
    *
    * @param xml  The XML doc which sequence needs to be printed.;
    * @param info Where the additional information goes.
+   *
    * @throws IOException Should an error occur.
    */
   private Sequence printSequence(File xml, PrintStream info) throws IOException {
@@ -236,6 +238,7 @@ public final class MainTest {
    *
    * @param xml  The file to check.
    * @param info Where the additional info goes.
+   *
    * @throws IOException Should an error occur.
    */
   private void verifyWellFormed(File xml, PrintStream info) throws IOException {
@@ -254,6 +257,7 @@ public final class MainTest {
    *
    * @param xml       The reader on the XML.
    * @param isNSAware Whether the factory should be namespace aware.
+   *
    * @return The corresponding node.
    */
   private Node toNode(File xml, boolean isNSAware) {

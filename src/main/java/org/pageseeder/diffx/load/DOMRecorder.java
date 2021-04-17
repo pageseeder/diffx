@@ -18,8 +18,8 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.w3c.dom.*;
@@ -42,7 +42,6 @@ import java.util.List;
  * <p>This class is not synchronised.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7
  */
@@ -127,7 +126,6 @@ public final class DOMRecorder implements XMLRecorder {
    * @param is The input source.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    */
   @Override
@@ -152,7 +150,6 @@ public final class DOMRecorder implements XMLRecorder {
    * @param node The W3C DOM node to be processed.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    */
   public Sequence process(Node node) throws LoadingException {
@@ -176,7 +173,6 @@ public final class DOMRecorder implements XMLRecorder {
    * @param node The W3C DOM node to be processed.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    */
   public Sequence process(NodeList node) throws LoadingException {
@@ -197,16 +193,16 @@ public final class DOMRecorder implements XMLRecorder {
   private void loadNode(Node node) throws LoadingException {
     // dispatch to the correct loader performance: order by occurrence
     if (node instanceof Element) {
-      load((Element)node);
+      load((Element) node);
     }
     if (node instanceof Text) {
-      load((Text)node);
+      load((Text) node);
     } else if (node instanceof Attr) {
-      load((Attr)node);
+      load((Attr) node);
     } else if (node instanceof Document) {
-      load((Document)node);
+      load((Document) node);
     } else if (node instanceof ProcessingInstruction) {
-      load((ProcessingInstruction)node);
+      load((ProcessingInstruction) node);
       // all other node types are ignored
     }
   }
@@ -234,7 +230,7 @@ public final class DOMRecorder implements XMLRecorder {
     StartElementToken open;
     // namespace aware configuration
     if (this.config.isNamespaceAware()) {
-      String uri = element.getNamespaceURI() == null? "" : element.getNamespaceURI();
+      String uri = element.getNamespaceURI() == null ? "" : element.getNamespaceURI();
       String name = element.getLocalName();
       handlePrefixMapping(uri, element.getPrefix());
       open = this.tokenFactory.makeOpenElement(uri, name);
@@ -247,18 +243,18 @@ public final class DOMRecorder implements XMLRecorder {
     NamedNodeMap attributes = element.getAttributes();
     // only 1 attribute, just load it
     if (attributes.getLength() == 1) {
-      load((Attr)attributes.item(0));
+      load((Attr) attributes.item(0));
       // TODO: also use URI
     } else if (attributes.getLength() > 1) {
       // several attributes sort them in alphabetical order
       String[] names = new String[attributes.getLength()];
       for (int i = 0; i < attributes.getLength(); i++) {
-        Attr attr = (Attr)attributes.item(i);
+        Attr attr = (Attr) attributes.item(i);
         names[i] = attr.getName();
       }
       Arrays.sort(names);
       for (String name : names) {
-        load((Attr)attributes.getNamedItem(name));
+        load((Attr) attributes.getNamedItem(name));
       }
     }
     // load all the child nodes
@@ -275,7 +271,7 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @param text The W3C DOM text node to load.
    */
-  private void load(Text text)  {
+  private void load(Text text) {
     List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
     for (TextToken token : tokens) {
       this.sequence.addToken(token);
@@ -325,7 +321,7 @@ public final class DOMRecorder implements XMLRecorder {
 
   /**
    * Handles the prefix mapping.
-   *
+   * <p>
    * If the current process is working on a fragment,
    *
    * @param uri    The namespace URI.

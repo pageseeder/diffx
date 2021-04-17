@@ -27,7 +27,6 @@ import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
  * required, that most <code>Token</code> implementations extend this class.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.6.0
  */
@@ -51,7 +50,7 @@ abstract class TokenBase implements Token {
    * @param o The object to compare.
    *
    * @return <code>true</code> if the specified object is equal;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public final boolean equals(Object o) {

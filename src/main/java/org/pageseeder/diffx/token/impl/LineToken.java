@@ -62,7 +62,7 @@ public final class LineToken extends TokenBase implements TextToken {
 
   @Override
   public String toString() {
-    return "line:"+this.lineNumber+": \""+getCharacters()+'"';
+    return "line:" + this.lineNumber + ": \"" + getCharacters() + '"';
   }
 
   @Override
@@ -76,7 +76,7 @@ public final class LineToken extends TokenBase implements TextToken {
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -122,11 +122,12 @@ public final class LineToken extends TokenBase implements TextToken {
    * Calculates the hashcode for this token.
    *
    * @param line The comment string.
+   *
    * @return a number suitable as a hashcode.
    */
   private int toHashCode(CharSequence line) {
     assert line != null;
-    return 29*59 + line.hashCode();
+    return 29 * 59 + line.hashCode();
   }
 
 }

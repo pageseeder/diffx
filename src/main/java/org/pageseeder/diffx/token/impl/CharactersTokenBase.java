@@ -106,6 +106,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    * Calculates the hashcode value from a string.
    *
    * @param s A string from which to calculate the hashcode.
+   *
    * @return a suitable hashcode value.
    */
   private static int toHashCode(CharSequence s) {

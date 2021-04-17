@@ -72,7 +72,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
   /**
    * A stateful instance.
-   *
+   * <p>
    * Where possible, the name of the variables match the names used in the algorithm published in
    * "A Linear Space Algorithm for the LCS Problem".
    */
@@ -127,11 +127,11 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param n The length of the second sequence
      */
     private void init(int n) {
-      this.R1 = new int[n+1];
-      this.R2 = new int[n+1];
-      this.LL = new int[n+1];
-      this.LL1 = new int[n+1];
-      this.LL2 = new int[n+1];
+      this.R1 = new int[n + 1];
+      this.R2 = new int[n + 1];
+      this.LL = new int[n + 1];
+      this.LL1 = new int[n + 1];
+      this.LL2 = new int[n + 1];
       this.J = 0;
     }
 
@@ -235,7 +235,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       int i = this.S;
       int j = 1;
       boolean over = false;
-      this.R2[0] = n+1;
+      this.R2[0] = n + 1;
 
       while (i > 0 & !over) {
         int lowerB = (j > this.R) ? 0 : this.R1[j];
@@ -298,10 +298,10 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param x      The length of characters not included in the LCS between indexes startA and endA.
      *               Similarly between indexes startB and endB.
      *
-     * @return       Array of 1-indexes of B in LCS
+     * @return Array of 1-indexes of B in LCS
      */
     private int[] calMid(int startA, int endA, int startB, int endB, int m, int n, int sign, int x) {
-      this.LL = new int[n+1];
+      this.LL = new int[n + 1];
       this.R = 0;
       for (this.S = m; this.S >= m - x; this.S--) {
         fillOne(startA, endA, startB, endB, m, n, sign);
@@ -358,7 +358,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       // `m - p` is number of diffs with the first subsequence
       this.LL = calMid(startA, endA, startB, endB, m, n, 1, m - p);
       if (DEBUG) {
-        System.err.println("SEQ1={"+startA+" -> "+endA+"} SEQ2={"+startB+" -> "+endB+"}  M="+m+" n="+n+" p="+p);
+        System.err.println("SEQ1={" + startA + " -> " + endA + "} SEQ2={" + startB + " -> " + endB + "}  M=" + m + " n=" + n + " p=" + p);
         printLL();
       }
 
@@ -394,7 +394,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         i++;
 
         while (i < m && this.J < endB && !this.first.get(i + startA).equals(this.second.get(this.J))) {
-          deleteUpTo(this.J+1);
+          deleteUpTo(this.J + 1);
         }
       }
 
@@ -433,7 +433,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
       int r1, r2;
 
-      int waste1 = (int)Math.ceil((m - p) / 2.0f);
+      int waste1 = (int) Math.ceil((m - p) / 2.0f);
       this.LL1 = calMid(endA, startA, endB, startB, m, n, -1, waste1);
 
       // Saves the value changed in calmid from global variable R to variable r1
@@ -442,7 +442,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         this.LL1[j] = n + 1 - this.LL1[j];
       }
 
-      int waste2 = (int)Math.floor((m - p) / 2.0f);
+      int waste2 = (int) Math.floor((m - p) / 2.0f);
       this.LL2 = calMid(startA, endA, startB, endB, m, n, 1, waste2);
 
       // Saves the value changed in calmid from global variable R to variable r2
@@ -462,7 +462,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       v = this.LL1[k];
 
       // recursively call the LCS method to process the two subsequences
-      computeLCS(startA, startA + u - 1, startB, startB + v - 1, u - 1+1, v - 1+1, u - waste1);
+      computeLCS(startA, startA + u - 1, startB, startB + v - 1, u - 1 + 1, v - 1 + 1, u - waste1);
       computeLCS(startA + u, endA, startB + v, endB, endA - startA + 1 - u, endB - startB + 1 - v, m - u - waste2);
     }
 
@@ -503,7 +503,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
       }
       // both R1 and R2 now contain the indexes(+1) of the first sequence that forms the LCS
       if (DEBUG) {
-        System.err.println("LCS length="+this.S);
+        System.err.println("LCS length=" + this.S);
       }
       return this.S;
     }
@@ -522,12 +522,12 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
     private void printLL() {
       System.err.print(" LL={");
       for (int element : this.LL) {
-        System.err.print(" "+element);
+        System.err.print(" " + element);
       }
       System.err.println(" }");
       System.err.print("  J={");
-      for (int i=this.LL.length-1; i >= 0; i--) {
-        System.err.print(" "+(this.LL[i] - 1));
+      for (int i = this.LL.length - 1; i >= 0; i--) {
+        System.err.print(" " + (this.LL[i] - 1));
       }
       System.err.println(" }");
     }

@@ -41,12 +41,11 @@ package org.pageseeder.diffx.config;
  * <code>http://xml.org/sax/features/namespace-prefixes</code> both set to
  * <code>false</code>.
  *
+ * @author Christophe Lauret
+ * @version 10 May 2010
  * @see org.pageseeder.diffx.load.XMLRecorder
  * @see org.pageseeder.diffx.algorithm.DiffXAlgorithm
  * @see org.pageseeder.diffx.format.DiffXFormatter
- *
- * @author Christophe Lauret
- * @version 10 May 2010
  */
 public final class DiffXConfig {
 
@@ -165,7 +164,7 @@ public final class DiffXConfig {
    * Indicates whether the Diff-X takes namespaces into account.
    *
    * @return <code>true</code> to preserve the white spaces;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean isNamespaceAware() {
     return this.isNamespaceAware;
@@ -175,7 +174,7 @@ public final class DiffXConfig {
    * Returns whether the differences in prefixes are reported.
    *
    * @return <code>true</code> to report differences in prefixes;
-   *         <code>false</code> to ignore them.
+   * <code>false</code> to ignore them.
    */
   public boolean isReportPrefixDifferences() {
     return this.reportPrefixDifferences;
@@ -203,7 +202,7 @@ public final class DiffXConfig {
    * Indicates whether the differences in white spaces should be ignored or not.
    *
    * @return <code>true</code> except if white space processing is set to COMPARE
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean isIgnoreWhiteSpace() {
     return this.whitespace != WhiteSpaceProcessing.COMPARE;
@@ -213,7 +212,7 @@ public final class DiffXConfig {
    * Indicates whether the white spaces are preserved or not.
    *
    * @return <code>true</code> except if white space processing is set to IGNORE
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean isPreserveWhiteSpace() {
     return this.whitespace != WhiteSpaceProcessing.IGNORE;

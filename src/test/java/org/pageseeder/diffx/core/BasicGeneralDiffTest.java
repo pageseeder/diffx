@@ -451,7 +451,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String a = "one little";
     String b = "two little";
     String[] exp = new String[]{
-      "-t-wo+n+e little"
+        "-t-wo+n+e little"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -611,8 +611,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   @Test
   public final void testGeneral_RandomVariations1() {
     RandomStringFactory factory = new RandomStringFactory();
-    for (int n=3; n < 20; n++) {
-      for (int i=0; i < 100; i++) {
+    for (int n = 3; n < 20; n++) {
+      for (int i = 0; i < 100; i++) {
         String a = factory.getRandomString(10, false);
         String b = factory.vary(a, .1);
         assertGeneralDiffOK(a, b);
@@ -623,8 +623,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   @Test
   public final void testGeneral_RandomVariations2() {
     RandomStringFactory factory = new RandomStringFactory();
-    for (int n=3; n < 20; n++) {
-      for (int i=0; i < 100; i++) {
+    for (int n = 3; n < 20; n++) {
+      for (int i = 0; i < 100; i++) {
         String a = factory.getRandomString(100, false);
         String b = factory.vary(a, .1);
         assertGeneralDiffOK(a, b);
@@ -635,8 +635,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   @Test
   public final void testGeneral_RandomVariations3() {
     RandomStringFactory factory = new RandomStringFactory();
-    for (int n=3; n < 20; n++) {
-      for (int i=0; i < 100; i++) {
+    for (int n = 3; n < 20; n++) {
+      for (int i = 0; i < 100; i++) {
         String a = factory.getRandomString(100, false);
         String b = factory.vary(a, .2);
         assertGeneralDiffOK(a, b);

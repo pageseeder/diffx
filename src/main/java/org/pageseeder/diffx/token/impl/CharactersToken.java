@@ -25,7 +25,6 @@ import org.pageseeder.diffx.token.TextToken;
  * happen when there is no need to examine the text content of the node.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.6.0
  */
@@ -44,7 +43,7 @@ public final class CharactersToken extends CharactersTokenBase implements TextTo
 
   @Override
   public String toString() {
-    return "\""+getCharacters()+'"';
+    return "\"" + getCharacters() + '"';
   }
 
 }

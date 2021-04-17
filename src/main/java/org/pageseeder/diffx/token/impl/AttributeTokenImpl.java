@@ -52,7 +52,7 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
   /**
    * Creates a new attribute token.
    *
-   * @param name The local name of the attribute.
+   * @param name  The local name of the attribute.
    * @param value The value of the attribute.
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
@@ -96,7 +96,7 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -129,8 +129,9 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
   /**
    * Calculates the hashcode for this token.
    *
-   * @param name The attribute name.
+   * @param name  The attribute name.
    * @param value The attribute value.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String name, String value) {

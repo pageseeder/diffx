@@ -32,7 +32,6 @@ public class TestUtils {
   }
 
 
-
   /**
    * Returns the data directory for the class being tested.
    *
@@ -40,6 +39,7 @@ public class TestUtils {
    * (eg. source data, etc...)
    *
    * @param c The class being tested.
+   *
    * @return the corresponding data directory.
    */
   public static File getDataDirectory(Class<?> c) {
@@ -55,6 +55,7 @@ public class TestUtils {
    * (eg. generated index, etc...)
    *
    * @param c The class being tested.
+   *
    * @return the corresponding data directory.
    */
   public static File getTempDirectory(Class<?> c) {

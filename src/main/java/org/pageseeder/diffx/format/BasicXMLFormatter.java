@@ -96,7 +96,7 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Indicates whether some text is being inserted or removed.
-   *
+   * <p>
    * 0 = indicate format or no open text element.
    * +1 = indicates an insert open text element.
    * -1 = indicates an delete open text element.
@@ -179,9 +179,9 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
         Formatting.declareNamespaces(this.xml, this.mapping);
         this.openElements++;
       }
-      this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
-      this.xml.attribute("name", ((StartElementToken)e).getName());
-      this.xml.attribute("ns-uri", ((StartElementToken)e).getURI());
+      this.xml.openElement(mod > 0 ? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
+      this.xml.attribute("name", ((StartElementToken) e).getName());
+      this.xml.attribute("ns-uri", ((StartElementToken) e).getURI());
 
       // change in element
     } else if (e instanceof EndElementToken) {
@@ -202,18 +202,18 @@ public final class BasicXMLFormatter implements XMLDiffXFormatter {
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeToken) {
       if (mod > 0) {
-        this.insAttributes.push((AttributeToken)e);
+        this.insAttributes.push((AttributeToken) e);
       } else {
-        this.delAttributes.push((AttributeToken)e);
+        this.delAttributes.push((AttributeToken) e);
       }
 
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof ProcessingInstructionToken) {
       flushAttributes();
       endTextChange();
-      this.xml.openElement(mod > 0? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "processing-instruction", false);
-      this.xml.attribute("data", ((ProcessingInstructionToken)e).getData());
-      this.xml.attribute("target", ((ProcessingInstructionToken)e).getTarget());
+      this.xml.openElement(mod > 0 ? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "processing-instruction", false);
+      this.xml.attribute("data", ((ProcessingInstructionToken) e).getData());
+      this.xml.attribute("target", ((ProcessingInstructionToken) e).getTarget());
 
       // just format naturally
     } else {

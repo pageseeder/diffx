@@ -44,6 +44,7 @@ public class ActionFormatter implements DiffXFormatter {
    * Adds the token to an action of type 'DEL'.
    *
    * @param token The token to delete.
+   *
    * @see Operator#DEL
    */
   public void delete(Token token) {
@@ -55,6 +56,7 @@ public class ActionFormatter implements DiffXFormatter {
    * Adds the token to an action of type 'KEEP'.
    *
    * @param token The token to format.
+   *
    * @see Operator#MATCH
    */
   public void format(Token token) {
@@ -66,6 +68,7 @@ public class ActionFormatter implements DiffXFormatter {
    * Adds the token to an action type 'INS'.
    *
    * @param token The token to insert.
+   *
    * @see Operator#INS
    */
   public void insert(Token token) {

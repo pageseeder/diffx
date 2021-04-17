@@ -22,7 +22,7 @@ import java.lang.reflect.Constructor;
 /**
  * Factory for creating a Diff-X algorithm instance.
  *
- * @author  Christophe Lauret
+ * @author Christophe Lauret
  * @version 11 May 2010
  */
 public final class DiffXFactory {
@@ -48,7 +48,6 @@ public final class DiffXFactory {
    * @param sequence2 The second sequence to use for the Diff-X constructor.
    *
    * @return A Diff-X algorithm instance.
-   *
    * @throws FactoryException Should an error occur when trying to instantiate the class.
    */
   @SuppressWarnings("unchecked")
@@ -56,7 +55,7 @@ public final class DiffXFactory {
       throws FactoryException {
     DiffXAlgorithm algorithm;
     try {
-      Class<DiffXAlgorithm> cls = (Class<DiffXAlgorithm>)Class.forName(className);
+      Class<DiffXAlgorithm> cls = (Class<DiffXAlgorithm>) Class.forName(className);
       Constructor<DiffXAlgorithm> cons = cls.getConstructor(ARGS);
       algorithm = cons.newInstance(sequence1, sequence2);
     } catch (Exception ex) {

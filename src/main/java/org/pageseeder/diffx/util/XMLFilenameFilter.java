@@ -23,7 +23,7 @@ import java.io.FileFilter;
  *
  * <p>This filter assumes that an file simply as the .xml file extension.
  *
- * @author  Christophe Lauret
+ * @author Christophe Lauret
  * @version 0.9.0
  */
 public final class XMLFilenameFilter implements FileFilter {
@@ -68,7 +68,6 @@ public final class XMLFilenameFilter implements FileFilter {
    * @param pathname The abstract pathname to be tested;
    *
    * @return <code>true</code> if and only if pathname has an extension matching "xml".
-   *
    * @throws NullPointerException If the path name is <code>null</code>.
    */
   @Override
@@ -77,8 +76,8 @@ public final class XMLFilenameFilter implements FileFilter {
     String name = pathname.getName();
     int dot = name.lastIndexOf('.');
     if (dot == -1) return false;
-    String local = name.substring(dot+1);
-    return this.ignoreCase? DEFAULT_EXTENSION.equalsIgnoreCase(local) : DEFAULT_EXTENSION.equals(local);
+    String local = name.substring(dot + 1);
+    return this.ignoreCase ? DEFAULT_EXTENSION.equalsIgnoreCase(local) : DEFAULT_EXTENSION.equals(local);
   }
 
 }

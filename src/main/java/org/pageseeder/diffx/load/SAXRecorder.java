@@ -47,7 +47,6 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- *
  * @version 0.9.0
  * @since 0.6.0
  */
@@ -62,6 +61,7 @@ public final class SAXRecorder implements XMLRecorder {
    * The default XML reader in use.
    */
   private static final String DEFAULT_XML_READER;
+
   static {
     String className;
     try {
@@ -103,7 +103,6 @@ public final class SAXRecorder implements XMLRecorder {
    * @param file The file to process.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
@@ -123,7 +122,6 @@ public final class SAXRecorder implements XMLRecorder {
    * @param xml The XML string to process.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    */
   @Override
@@ -141,7 +139,6 @@ public final class SAXRecorder implements XMLRecorder {
    * @param is The input source.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should I/O error occur.
    */
@@ -233,7 +230,6 @@ public final class SAXRecorder implements XMLRecorder {
    *
    * @author Christophe Lauret
    * @author Jean-Baptiste Reure
-   *
    * @version 0.9.0
    * @since 0.6.0
    */
@@ -376,7 +372,7 @@ public final class SAXRecorder implements XMLRecorder {
 
   /**
    * A tight error handler that will throw an exception for any error type.
-   *
+   * <p>
    * ErrorHandler used only so that namespace related errors are reported ???
    * (they are error type and not fatal error).
    *

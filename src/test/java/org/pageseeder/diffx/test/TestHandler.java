@@ -19,8 +19,8 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationHandler;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
 
@@ -106,6 +106,7 @@ public final class TestHandler implements DiffHandler {
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
    * @param token The token to format
+   *
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toSimpleString(Operator operator, Token token) {
@@ -118,22 +119,23 @@ public final class TestHandler implements DiffHandler {
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
    * @param token The token to format
+   *
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toSimpleString(Operator operator, Token token, PrefixMapping mapping) {
     // an element to open
     if (token instanceof StartElementToken) {
-      StartElementToken open = (StartElementToken)token;
+      StartElementToken open = (StartElementToken) token;
       return '<' + getQName(open.getURI(), open.getName(), mapping) + '>';
     }
     // an element to close
     if (token instanceof EndElementToken) {
-      EndElementToken close = (EndElementToken)token;
+      EndElementToken close = (EndElementToken) token;
       return "</" + getQName(close.getURI(), close.getName(), mapping) + '>';
     }
     // an element
     if (token instanceof ElementToken) {
-      ElementToken element = (ElementToken)token;
+      ElementToken element = (ElementToken) token;
       return '<' + getQName(element.getURI(), element.getName(), mapping) + "/>";
     }
     // an attribute
@@ -148,7 +150,7 @@ public final class TestHandler implements DiffHandler {
     // a text token
     if (token instanceof TextToken) {
       String chars = ((TextToken) token).getCharacters();
-      if (operator != Operator.MATCH && chars.length() > 1) return "("+chars+")";
+      if (operator != Operator.MATCH && chars.length() > 1) return "(" + chars + ")";
       return chars;
     }
     // Anything else?
@@ -158,8 +160,8 @@ public final class TestHandler implements DiffHandler {
   private static String getQName(String uri, String name, PrefixMapping mapping) {
     if (uri.isEmpty()) return name;
     String prefix = mapping.getPrefix(uri);
-    if (prefix == null) prefix = "{"+uri+"}";
-    return prefix.isEmpty() ? name : (prefix+':'+name);
+    if (prefix == null) prefix = "{" + uri + "}";
+    return prefix.isEmpty() ? name : (prefix + ':' + name);
   }
 
   /**
@@ -175,19 +177,19 @@ public final class TestHandler implements DiffHandler {
   }
 
   /**
-   *
    * @param ops
+   *
    * @return
    */
   public static List<Operation> parse(String ops) {
     OperationHandler source = new OperationHandler();
     char[] chars = ops.toCharArray();
-    for (int i=0; i < chars.length; i++) {
+    for (int i = 0; i < chars.length; i++) {
       Operator operator = Operator.MATCH;
-      if (chars[i] == '+' && (i+1) < chars.length) {
+      if (chars[i] == '+' && (i + 1) < chars.length) {
         operator = Operator.INS;
         i++;
-      } else if (chars[i] == '-' && (i+1) < chars.length) {
+      } else if (chars[i] == '-' && (i + 1) < chars.length) {
         operator = Operator.DEL;
         i++;
       }
@@ -200,23 +202,23 @@ public final class TestHandler implements DiffHandler {
     int j = i;
     Token token;
     if (isStartElement(chars, i)) {
-      token = new StartElementTokenImpl(Character.toString(chars[i+1]));
-      j = i+2;
+      token = new StartElementTokenImpl(Character.toString(chars[i + 1]));
+      j = i + 2;
     } else if (isEndElement(chars, i)) {
       token = new EndElementTokenImpl(Character.toString(chars[i + 2]));
       j = i + 3;
     } else if (isText(chars, i)) {
-      int to = indexOf(chars, ')', i+1);
-      token = new CharactersToken(new String(Arrays.copyOfRange(chars, i+1, to)));
+      int to = indexOf(chars, ')', i + 1);
+      token = new CharactersToken(new String(Arrays.copyOfRange(chars, i + 1, to)));
       j = to;
     } else if (isAttribute(chars, i)) {
-      char name = chars[i+1];
-      if ((i+3) < chars.length && chars[i+2] == '=') {
-        token = new AttributeTokenImpl(Character.toString(name), Character.toString(chars[i+3]));
-        j = i+3;
-      } else  {
+      char name = chars[i + 1];
+      if ((i + 3) < chars.length && chars[i + 2] == '=') {
+        token = new AttributeTokenImpl(Character.toString(name), Character.toString(chars[i + 3]));
+        j = i + 3;
+      } else {
         token = new AttributeTokenImpl(Character.toString(name), "");
-        j = i+1;
+        j = i + 1;
       }
     } else if (isSpace(chars, i)) {
       token = SpaceToken.getInstance(chars[i]);
@@ -229,7 +231,7 @@ public final class TestHandler implements DiffHandler {
   }
 
   private static int indexOf(char[] chars, char c, int from) {
-    for (int i=from; i < chars.length; i++) if (chars[i] == c) return i;
+    for (int i = from; i < chars.length; i++) if (chars[i] == c) return i;
     return -1;
   }
 
@@ -238,18 +240,18 @@ public final class TestHandler implements DiffHandler {
   }
 
   private static boolean isStartElement(char[] chars, int i) {
-    return chars[i] == '<' && (i+2) < chars.length && chars[i+2] == '>';
+    return chars[i] == '<' && (i + 2) < chars.length && chars[i + 2] == '>';
   }
 
   private static boolean isEndElement(char[] chars, int i) {
-    return chars[i] == '<' && (i+3) < chars.length && chars[i+1] == '/' && chars[i+3] == '>';
+    return chars[i] == '<' && (i + 3) < chars.length && chars[i + 1] == '/' && chars[i + 3] == '>';
   }
 
   private static boolean isAttribute(char[] chars, int i) {
-    return chars[i] == '@' && (i+1) < chars.length;
+    return chars[i] == '@' && (i + 1) < chars.length;
   }
 
   private static boolean isText(char[] chars, int i) {
-    return chars[i] == '(' && (i+2) < chars.length && indexOf(chars, ')', i+1) > i+2;
+    return chars[i] == '(' && (i + 2) < chars.length && indexOf(chars, ')', i + 1) > i + 2;
   }
 }

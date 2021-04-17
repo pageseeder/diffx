@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.*;
 import org.xml.sax.InputSource;
 
@@ -58,6 +58,7 @@ public abstract class XMLRecorderTest {
    * Returns the Diff-X Algorithm instance from the specified sequences.
    *
    * @param config The configuration to use for the recorder.
+   *
    * @return The Diff-X Algorithm instance.
    */
   public abstract XMLRecorder makeXMLRecorder(DiffXConfig config);
@@ -368,6 +369,7 @@ public abstract class XMLRecorderTest {
    *
    * @param exp The expected token sequence.
    * @param xml The XML to test.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -381,6 +383,7 @@ public abstract class XMLRecorderTest {
    * @param exp    The expected token sequence.
    * @param xml    The XML to test.
    * @param config The configuration to use for the XML
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -416,6 +419,7 @@ public abstract class XMLRecorderTest {
    * Prints an XML file as a sequence using the <code>SmartXMLFormatter</code>.
    *
    * @param xml The XML to test.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */

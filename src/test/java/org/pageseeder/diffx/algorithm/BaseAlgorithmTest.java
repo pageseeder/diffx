@@ -58,6 +58,7 @@ public abstract class BaseAlgorithmTest {
    *
    * @param seq1 The first sequence.
    * @param seq2 The second sequence.
+   *
    * @return The Diff-X Algorithm instance.
    */
   public abstract DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2);
@@ -94,6 +95,7 @@ public abstract class BaseAlgorithmTest {
    * @param xml1 The first XML to compare with diffx.
    * @param xml2 The first XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -109,6 +111,7 @@ public abstract class BaseAlgorithmTest {
    * @param xml1 The first XML to compare with diffx.
    * @param xml2 The first XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -123,6 +126,7 @@ public abstract class BaseAlgorithmTest {
    * @param xml1 The first XML to compare with diffx.
    * @param xml2 The first XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -150,6 +154,7 @@ public abstract class BaseAlgorithmTest {
    * @param xml1 The first XML to compare with diffx.
    * @param xml2 The first XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
+   *
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
@@ -176,6 +181,7 @@ public abstract class BaseAlgorithmTest {
    *
    * @param xml1 The first XML doc.
    * @param xml2 The second XML doc.
+   *
    * @return The diff output.
    * @throws IOException           Should an I/O exception occur.
    * @throws DiffXException        Should an error occur while parsing XML.
@@ -206,7 +212,8 @@ public abstract class BaseAlgorithmTest {
    * @param text1 The first XML to compare with diffx.
    * @param text2 The first XML to compare with diffx.
    * @param exp   The expected result as formatted by the TestFormatter.
-   * @throws IOException    Should an I/O exception occur.
+   *
+   * @throws IOException Should an I/O exception occur.
    */
   protected void assertDiffTextOK(String text1, String text2, String[] exp) throws IOException {
     // process the strings
@@ -230,6 +237,7 @@ public abstract class BaseAlgorithmTest {
    *
    * @param text1 The first text.
    * @param text2 The second text.
+   *
    * @return The diff output.
    * @throws IOException           Should an I/O exception occur.
    * @throws IllegalStateException Should the factory fail to create DiffX algorithm.
@@ -252,6 +260,7 @@ public abstract class BaseAlgorithmTest {
    * @param xml1 The new XML.
    * @param xml2 The old XML.
    * @param exp  The expected output
+   *
    * @throws IOException Should an error occur.
    */
   private void printErrorDetails(String xml1, String xml2, String[] exp) throws IOException {

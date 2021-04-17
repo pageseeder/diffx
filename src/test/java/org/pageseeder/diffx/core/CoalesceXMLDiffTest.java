@@ -105,7 +105,7 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
    *
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, String ...exp) throws DiffXException {
+  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, String... exp) throws DiffXException {
     // Record XML
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(TextGranularity.SPACE_WORD);

@@ -40,7 +40,7 @@ public final class Namespace {
 
   /**
    * Namespace instance to use to represent that there is no Namespace.
-   *
+   * <p>
    * Defined by the Namespace specification to be "".
    */
   public static final Namespace NO_NAMESPACE = new Namespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);

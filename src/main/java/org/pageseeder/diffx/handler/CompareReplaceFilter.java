@@ -44,7 +44,7 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
   public void handle(Operator operator, Token token) {
     if (token instanceof TextToken && (operator == Operator.DEL || operator == Operator.INS)) {
       if (this.previous != null) {
-        diff((TextToken) token, (TextToken)this.previous.token(),operator == Operator.INS);
+        diff((TextToken) token, (TextToken) this.previous.token(), operator == Operator.INS);
         this.previous = null;
       } else {
         flushPrevious();

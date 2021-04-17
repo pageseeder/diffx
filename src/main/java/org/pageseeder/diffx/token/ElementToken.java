@@ -38,6 +38,8 @@ public interface ElementToken extends Namespaceable, Token {
   List<Token> getEvents();
 
   @Override
-  default TokenType getType() { return TokenType.ELEMENT; }
+  default TokenType getType() {
+    return TokenType.ELEMENT;
+  }
 
 }

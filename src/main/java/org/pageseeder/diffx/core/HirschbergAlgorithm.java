@@ -27,7 +27,7 @@ import java.util.List;
  * <p>Hirschberg proposed a linear space algorithm for the LCS using a divide and conquer approach.
  * This algorithm (Algorithm C) finds the intersecting point of the LCS sequence with the m/2 th row and solve
  * the problem recursively. It solves LCS problem in O(mn) time and in O(m+n) space.
- *
+ * <p>
  * See "A linear space algorithm for computing maximal common subsequences"
  *
  * @author Christophe Lauret

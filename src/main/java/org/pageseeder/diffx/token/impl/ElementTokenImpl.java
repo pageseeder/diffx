@@ -41,12 +41,12 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
 
   @Override
   public String getName() {
-    return ((StartElementToken)this.tokens.get(0)).getName();
+    return ((StartElementToken) this.tokens.get(0)).getName();
   }
 
   @Override
   public String getURI() {
-    return ((StartElementToken)this.tokens.get(0)).getURI();
+    return ((StartElementToken) this.tokens.get(0)).getURI();
   }
 
   @Override
@@ -65,12 +65,12 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
     if (token.getClass() != this.getClass()) return false;
-    ElementTokenImpl element = (ElementTokenImpl)token;
+    ElementTokenImpl element = (ElementTokenImpl) token;
     if (element.hashCode != this.hashCode) return false;
     if (element.tokens.size() != this.tokens.size()) return false;
     return element.tokens.equals(this.tokens);
@@ -78,7 +78,7 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
 
   @Override
   public String toString() {
-    return "element: "+this.getName();
+    return "element: " + this.getName();
   }
 
   @Override
@@ -100,6 +100,7 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
    * Calculates the hashcode for this token.
    *
    * @param tokens List of tokens
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(List<Token> tokens) {

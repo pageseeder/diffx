@@ -51,6 +51,7 @@ public final class Action {
    * Creates a new action.
    *
    * @param operator The type of action.
+   *
    * @throws NullPointerException If the specified operator is <code>null</code>.
    */
   public Action(Operator operator) {
@@ -61,6 +62,7 @@ public final class Action {
    * Creates a new action from a list of tokens.
    *
    * @param operator The type of action.
+   *
    * @throws NullPointerException If the given type is <code>null</code>.
    */
   public Action(Operator operator, List<Token> tokens) {
@@ -94,7 +96,7 @@ public final class Action {
 
   /**
    * @return A new action using the opposite operator by swapping INS with DEL;
-   *         or the same actions if operator is MATCH.
+   * or the same actions if operator is MATCH.
    */
   public Action flip() {
     switch (this.operator) {

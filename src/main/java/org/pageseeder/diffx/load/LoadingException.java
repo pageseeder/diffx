@@ -59,7 +59,7 @@ public final class LoadingException extends DiffXException {
    * Creates a new loading exception wrapping an occurring exception.
    *
    * @param message The message explaining the exception.
-   * @param ex The exception to be wrapped.
+   * @param ex      The exception to be wrapped.
    */
   public LoadingException(String message, Exception ex) {
     super(message, ex);

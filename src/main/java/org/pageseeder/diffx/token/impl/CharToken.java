@@ -25,7 +25,6 @@ import java.io.IOException;
  * Token corresponding to a single character.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7.0
  */
@@ -57,7 +56,7 @@ public final class CharToken extends TokenBase implements TextToken {
   @Override
   public boolean equals(Token token) {
     if (token.getClass() != this.getClass()) return false;
-    return this.c == ((CharToken)token).c;
+    return this.c == ((CharToken) token).c;
   }
 
   @Override
@@ -74,10 +73,14 @@ public final class CharToken extends TokenBase implements TextToken {
   public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
     // The code below assumes, this token is only used for text nodes (not within an attribute)
     switch (this.c) {
-      case '<': return xml.append("&lt;");
-      case '&': return xml.append("&amp;");
-      case '>': return xml.append("&gt;");
-      default: return xml.append(this.c);
+      case '<':
+        return xml.append("&lt;");
+      case '&':
+        return xml.append("&amp;");
+      case '>':
+        return xml.append("&gt;");
+      default:
+        return xml.append(this.c);
     }
   }
 

@@ -33,14 +33,15 @@ import java.util.List;
  */
 public final class Operations {
 
-  private Operations() {}
+  private Operations() {
+  }
 
   /**
    * Generates the list of tokens from the list of operations.
    *
-   * @param operations  The list of operations.
-   * @param positive <code>true</code> for generating the new sequence (INS or MATCH);
-   *                 <code>false</code> for generating the old sequence (DEL or MATCH).
+   * @param operations The list of operations.
+   * @param positive   <code>true</code> for generating the new sequence (INS or MATCH);
+   *                   <code>false</code> for generating the old sequence (DEL or MATCH).
    */
   public static List<Token> generate(List<Operation> operations, boolean positive) {
     List<Token> generated = new LinkedList<>();

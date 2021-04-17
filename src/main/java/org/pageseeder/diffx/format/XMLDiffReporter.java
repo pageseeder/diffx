@@ -90,11 +90,11 @@ public class XMLDiffReporter implements XMLDiffOutput {
       xml.openElement(toElementName(operator));
       xml.attribute("type", token.getType().toString());
       if (token instanceof Namespaceable) {
-        xml.attribute("name", ((Namespaceable)token).getName());
-        xml.attribute("namespace-uri", ((Namespaceable)token).getURI());
+        xml.attribute("name", ((Namespaceable) token).getName());
+        xml.attribute("namespace-uri", ((Namespaceable) token).getURI());
       }
       if (token instanceof AttributeToken) {
-        xml.attribute("value", ((AttributeToken)token).getValue());
+        xml.attribute("value", ((AttributeToken) token).getValue());
       }
       xml.attribute("class-name", token.getClass().getSimpleName());
       if (token instanceof TextToken) {
@@ -109,10 +109,14 @@ public class XMLDiffReporter implements XMLDiffOutput {
   private static String toElementName(Operator operator) {
     assert operator != null;
     switch (operator) {
-      case DEL: return "delete";
-      case INS: return "insert";
-      case MATCH: return "match";
-      default: return "other";
+      case DEL:
+        return "delete";
+      case INS:
+        return "insert";
+      case MATCH:
+        return "match";
+      default:
+        return "other";
     }
   }
 

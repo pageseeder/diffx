@@ -103,7 +103,7 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
     if (token == null) return false;
     if (token == this.open) return true;
     return token.getURI().equals(getURI())
-        &&  token.getName().equals(getName());
+        && token.getName().equals(getName());
   }
 
   @Override
@@ -117,22 +117,22 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
     if (token.getClass() != this.getClass()) return false;
     EndElementTokenNSImpl ce = (EndElementTokenNSImpl) token;
     return ce.getURI().equals(getURI())
-        &&  ce.getName().equals(getName());
+        && ce.getName().equals(getName());
   }
 
   @Override
   public String toString() {
     if (open.getURI().isEmpty()) {
-      return "</"+getName()+'>';
+      return "</" + getName() + '>';
     } else {
-      return "</{"+getURI()+"}:"+getName()+'>';
+      return "</{" + getURI() + "}:" + getName() + '>';
     }
   }
 

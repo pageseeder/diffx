@@ -40,7 +40,7 @@ public final class LineRecorderTest {
   /**
    * Tests a simple case.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testSimpleLine0() throws IOException {
@@ -55,7 +55,7 @@ public final class LineRecorderTest {
   /**
    * Tests a simple case.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testSimpleLine2() throws IOException {
@@ -74,7 +74,7 @@ public final class LineRecorderTest {
   /**
    * Tests a simple case.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testEmptyLine() throws IOException {
@@ -97,7 +97,7 @@ public final class LineRecorderTest {
    *   &lt;a&gt;XX&lt;/a&gt;
    * </pre>
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testXMLLine0() throws IOException {
@@ -110,7 +110,7 @@ public final class LineRecorderTest {
   /**
    * Tests parsing the &amp;lt;, it should remain the same.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testEncoding1() throws IOException {
@@ -123,7 +123,7 @@ public final class LineRecorderTest {
   /**
    * Tests parsing character &amp;#x8012;, it should remain the same.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public void testEncoding3() throws IOException {
@@ -138,9 +138,10 @@ public final class LineRecorderTest {
   /**
    * Checks that the given XML is equivalent to the given token sequence.
    *
-   * @param exp The expected token sequence.
+   * @param exp  The expected token sequence.
    * @param text The text to parse
-   * @throws IOException    Should an I/O exception occur.
+   *
+   * @throws IOException Should an I/O exception occur.
    */
   private void assertEqualsText(Sequence exp, String text) {
     Sequence seq = this.recorder.process(text);

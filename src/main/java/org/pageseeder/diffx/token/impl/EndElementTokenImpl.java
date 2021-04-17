@@ -77,9 +77,8 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   /**
    * Always return the empty URI.
    *
-   * @see XMLConstants#NULL_NS_URI
-   *
    * @return Returns the uri.
+   * @see XMLConstants#NULL_NS_URI
    */
   @Override
   public String getURI() {
@@ -113,7 +112,7 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -124,7 +123,7 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
 
   @Override
   public String toString() {
-    return "</"+getName()+'>';
+    return "</" + getName() + '>';
   }
 
   @Override

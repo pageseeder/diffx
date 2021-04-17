@@ -43,9 +43,8 @@ public final class ShortStringFormatter implements DiffXFormatter {
   /**
    * Creates a new formatter on the standard output.
    *
-   * @see System#out
-   *
    * @throws IOException should an I/O exception occurs.
+   * @see System#out
    */
   public ShortStringFormatter() {
     this(new PrintWriter(System.out));
@@ -64,7 +63,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Writes the token as a short string.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -74,7 +73,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Writes the token as a short string preceded by '+'.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -85,7 +84,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Writes the token as a short string preceded by '+'.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -96,7 +95,7 @@ public final class ShortStringFormatter implements DiffXFormatter {
 
   /**
    * Ignored.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -115,31 +114,31 @@ public final class ShortStringFormatter implements DiffXFormatter {
   public static String toShortString(Token token) {
     // an element to open
     if (token instanceof StartElementToken)
-      return '<'+((StartElementToken)token).getName()+'>';
+      return '<' + ((StartElementToken) token).getName() + '>';
     // an element to close
     if (token instanceof EndElementToken)
-      return "</"+((EndElementToken)token).getName()+'>';
+      return "</" + ((EndElementToken) token).getName() + '>';
     // an attribute
     if (token instanceof AttributeToken)
-      return "@"+((AttributeToken)token).getName();
+      return "@" + ((AttributeToken) token).getName();
     // a word
     if (token instanceof WordToken)
-      return '"'+((CharactersToken)token).getCharacters()+'"';
+      return '"' + ((CharactersToken) token).getCharacters() + '"';
     // a white space token
     if (token instanceof SpaceToken)
       return "_s_";
     // a single character
     if (token instanceof CharToken)
-      return "'"+((CharToken)token).getChar()+'\'';
+      return "'" + ((CharToken) token).getChar() + '\'';
     // an ignorable space token
     if (token instanceof IgnorableSpaceToken)
       return "_i_";
     if (token instanceof ElementToken)
-      return '<'+((ElementToken)token).getName()+"/>";
+      return '<' + ((ElementToken) token).getName() + "/>";
     // a single line
-    if (token instanceof LineToken) return "L#"+((LineToken)token).getLineNumber();
+    if (token instanceof LineToken) return "L#" + ((LineToken) token).getLineNumber();
     if (token instanceof CharactersToken)
-      return '"'+((CharactersToken)token).getCharacters()+'"';
+      return '"' + ((CharactersToken) token).getCharacters() + '"';
     if (token == null) return "-";
     return "???";
   }

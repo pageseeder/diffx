@@ -41,7 +41,6 @@ public interface Matrix {
    *
    * @param i The column index.
    * @param j The row index.
-   *
    * @param x The value to set.
    */
   void set(int i, int j, int x);
@@ -85,7 +84,7 @@ public interface Matrix {
    * @param j The row index.
    *
    * @return <code>true</code> to move to i+1;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   boolean isGreaterX(int i, int j);
 
@@ -98,7 +97,7 @@ public interface Matrix {
    * @param j The row index.
    *
    * @return <code>true</code> to move to j+1;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   boolean isGreaterY(int i, int j);
 
@@ -112,7 +111,7 @@ public interface Matrix {
    * @param j The row index.
    *
    * @return <code>true</code> if it is the same;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   boolean isSameXY(int i, int j);
 

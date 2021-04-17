@@ -68,17 +68,17 @@ public abstract class MatrixIntBase implements Matrix {
 
   @Override
   public boolean isGreaterX(int i, int j) {
-    return this.matrix[i+1][j] > this.matrix[i][j+1];
+    return this.matrix[i + 1][j] > this.matrix[i][j + 1];
   }
 
   @Override
   public boolean isGreaterY(int i, int j) {
-    return this.matrix[i+1][j] < this.matrix[i][j+1];
+    return this.matrix[i + 1][j] < this.matrix[i][j + 1];
   }
 
   @Override
   public boolean isSameXY(int i, int j) {
-    return this.matrix[i+1][j] == this.matrix[i][j+1];
+    return this.matrix[i + 1][j] == this.matrix[i][j + 1];
   }
 
   @Override

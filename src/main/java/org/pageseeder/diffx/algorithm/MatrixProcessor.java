@@ -26,7 +26,6 @@ import java.util.List;
  * Build the matrix for the specified tokens using dynamic programming.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  */
 public final class MatrixProcessor {
@@ -43,7 +42,6 @@ public final class MatrixProcessor {
   }
 
   /**
-   *
    * @param first  The first sequence of tokens to test.
    * @param second The second sequence of tokens to test.
    *
@@ -58,7 +56,6 @@ public final class MatrixProcessor {
   }
 
   /**
-   *
    * @param first  The first sequence of tokens to test.
    * @param second The second sequence of tokens to test.
    *
@@ -77,15 +74,15 @@ public final class MatrixProcessor {
     Matrix matrix = getMatrix(first, second, false);
     int length1 = first.size();
     int length2 = second.size();
-    matrix.setup(length1+1, length2+1);
+    matrix.setup(length1 + 1, length2 + 1);
     // allocate storage for array L;
-    for (int i = 0; i < length1+1; i++) {
-      for (int j = 0; j < length2+1; j++) {
+    for (int i = 0; i < length1 + 1; i++) {
+      for (int j = 0; j < length2 + 1; j++) {
         // we reach the end of the sequence (fill with 0)
         if (i == 0 || j == 0) {
           matrix.set(i, j, 0);
         } else {
-          if (first.get(i-1).equals(second.get(j-1))) {
+          if (first.get(i - 1).equals(second.get(j - 1))) {
             // the tokens are the same
             matrix.incrementPath(i, j);
           } else {
@@ -102,7 +99,7 @@ public final class MatrixProcessor {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
-    matrix.setup(length1+1, length2+1);
+    matrix.setup(length1 + 1, length2 + 1);
     // allocate storage for array L;
     for (int i = length1; i >= 0; i--) {
       for (int j = length2; j >= 0; j--) {
@@ -140,13 +137,13 @@ public final class MatrixProcessor {
   /**
    * Determines the most appropriate matrix to use based on the length of the sequences.
    *
-   * @param first The first sequence.
+   * @param first  The first sequence.
    * @param second The second sequence.
    *
    * @return The most appropriate matrix.
    */
   private static Matrix getMatrix(List<? extends Token> first, List<? extends Token> second, boolean inverse) {
-    if (first.size()+1 > Short.MAX_VALUE || second.size()+1 > Short.MAX_VALUE)
+    if (first.size() + 1 > Short.MAX_VALUE || second.size() + 1 > Short.MAX_VALUE)
       return inverse ? new InvMatrixInt() : new MatrixInt();
     else
       return inverse ? new InvMatrixShort() : new MatrixShort();

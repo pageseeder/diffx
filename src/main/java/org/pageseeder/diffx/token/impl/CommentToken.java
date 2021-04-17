@@ -27,7 +27,6 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  * @author Jason Harrop
- *
  * @version 0.9.0
  * @since 0.6.0
  */
@@ -73,7 +72,7 @@ public final class CommentToken extends TokenBase implements Token {
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -110,10 +109,11 @@ public final class CommentToken extends TokenBase implements Token {
    * Calculates the hashcode for this token.
    *
    * @param comment The comment string.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashcode(String comment) {
-    return comment != null? 19*37 + comment.hashCode() : 19*37;
+    return comment != null ? 19 * 37 + comment.hashCode() : 19 * 37;
   }
 
 }

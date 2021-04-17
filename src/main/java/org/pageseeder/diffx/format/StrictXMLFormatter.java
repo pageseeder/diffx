@@ -104,7 +104,6 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   private transient boolean isElementNude = false;
 
 
-
   // constructors -------------------------------------------------------------------------------
 
   /**
@@ -148,10 +147,10 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       if (this.isDeleting) {
         closeDel();
       }
-      StartElementToken oee = (StartElementToken)e;
-      this.xml.print('<'+oee.getName());
+      StartElementToken oee = (StartElementToken) e;
+      this.xml.print('<' + oee.getName());
       if (this.declareNamespace) {
-        this.xml.print(" xmlns:dfx=\""+Constants.BASE_NS_URI+"\"");
+        this.xml.print(" xmlns:dfx=\"" + Constants.BASE_NS_URI + "\"");
         this.declareNamespace = false;
       }
       this.isElementNude = true;
@@ -197,7 +196,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
         // a single character
       } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken)e).c);
+        this.xml.print(((CharToken) e).c);
       }
 
     }
@@ -214,8 +213,8 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       if (this.isDeleting) {
         closeDel();
       }
-      StartElementToken oee = (StartElementToken)e;
-      this.xml.print('<'+oee.getName());
+      StartElementToken oee = (StartElementToken) e;
+      this.xml.print('<' + oee.getName());
       if (this.declareNamespace) {
         this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
       }
@@ -231,15 +230,15 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
         closeDel();
       }
       this.xml.print("</");
-      this.xml.print(((EndElementToken)e).getName());
+      this.xml.print(((EndElementToken) e).getName());
       this.xml.print('>');
 
     } else if (e instanceof AttributeToken) {
       if (this.isElementNude) {
         this.xml.print(" ");
-        this.xml.print(((AttributeToken)e).getName());
+        this.xml.print(((AttributeToken) e).getName());
         this.xml.print("=\"");
-        this.xml.print(((AttributeToken)e).getValue());
+        this.xml.print(((AttributeToken) e).getValue());
         this.xml.print('"');
       } else throw new IllegalStateException("Cannot insert an attribute once the element is closed");
     } else {
@@ -264,7 +263,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
         // wrap the char in a <ins> element
       } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken)e).c);
+        this.xml.print(((CharToken) e).c);
       }
 
     }
@@ -283,8 +282,8 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
     // delete an element
     if (e instanceof StartElementToken) {
-      StartElementToken oee = (StartElementToken)e;
-      this.xml.print('<'+oee.getName());
+      StartElementToken oee = (StartElementToken) e;
+      this.xml.print('<' + oee.getName());
       if (this.declareNamespace) {
         this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
       }
@@ -294,7 +293,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
       // an element to close
     } else if (e instanceof EndElementToken) {
       this.xml.print("</");
-      this.xml.print(((EndElementToken)e).getName());
+      this.xml.print(((EndElementToken) e).getName());
       this.xml.print('>');
 
       // text
@@ -313,7 +312,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
         // wrap the char in a <ins> element
       } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken)e).c);
+        this.xml.print(((CharToken) e).c);
       }
     }
     this.xml.flush();

@@ -37,6 +37,6 @@ public interface DiffAlgorithm {
    * @param handler The handler for the results of the comparison
    */
   void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler)
-    throws UncheckedIOException, IllegalStateException;
+      throws UncheckedIOException, IllegalStateException;
 
 }

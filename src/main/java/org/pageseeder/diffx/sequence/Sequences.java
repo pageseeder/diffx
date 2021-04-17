@@ -26,7 +26,6 @@ import java.util.Stack;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- *
  * @since 0.6
  */
 public final class Sequences {
@@ -43,7 +42,7 @@ public final class Sequences {
    * @param sequence The sequence.
    *
    * @return <code>true</code> if the sequence is "well-formed";
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public static boolean isWellFormed(Sequence sequence) {
     // TODO: if the sequence is null ??
@@ -56,9 +55,9 @@ public final class Sequences {
         open.push(token);
       } else if (token instanceof EndElementToken) {
         if (open.empty()) return false;
-        StartElementToken o = (StartElementToken)open.peek();
+        StartElementToken o = (StartElementToken) open.peek();
         String lastOpenElementName = o.getName();
-        String closeElementName = ((EndElementToken)token).getName();
+        String closeElementName = ((EndElementToken) token).getName();
         if (!closeElementName.equals(lastOpenElementName)) return false;
       }
     }

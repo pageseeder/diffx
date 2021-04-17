@@ -61,7 +61,7 @@ public final class XMLBranchToken extends TokenBase implements Token {
 
   /**
    * Returns <code>true</code> if the diffX tokens in the branch are all equal.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -82,7 +82,7 @@ public final class XMLBranchToken extends TokenBase implements Token {
 
   /**
    * Write the DiffX tokens in order.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -109,12 +109,13 @@ public final class XMLBranchToken extends TokenBase implements Token {
    * Calculates the hashcode for this token.
    *
    * @param tokens Events to calculate the value from.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(Token[] tokens) {
     int hash = 17;
     for (Token token : tokens) {
-      hash = hash * 13 + (token != null? token.hashCode() : 0);
+      hash = hash * 13 + (token != null ? token.hashCode() : 0);
     }
     return hash;
   }

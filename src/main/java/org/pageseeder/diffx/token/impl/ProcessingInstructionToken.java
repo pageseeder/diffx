@@ -88,7 +88,7 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -101,7 +101,7 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
 
   @Override
   public String toString() {
-    return "pi: "+this.target+": "+this.data;
+    return "pi: " + this.target + ": " + this.data;
   }
 
   @Override
@@ -129,12 +129,13 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    *
    * @param s1 A string to calculate the value from.
    * @param s2 Another string to calculate the value from.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String s1, String s2) {
     int hash = 7;
-    hash = hash * 103 + (s1 != null? s1.hashCode() : 0);
-    hash = hash * 103 + (s2 != null? s2.hashCode() : 0);
+    hash = hash * 103 + (s1 != null ? s1.hashCode() : 0);
+    hash = hash * 103 + (s2 != null ? s2.hashCode() : 0);
     return hash;
   }
 

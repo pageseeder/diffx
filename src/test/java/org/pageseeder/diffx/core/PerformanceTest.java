@@ -30,7 +30,8 @@ import java.util.Random;
 
 public class PerformanceTest {
 
-  private static final DiffHandler VOID_HANDLER = (operator, token) -> {};
+  private static final DiffHandler VOID_HANDLER = (operator, token) -> {
+  };
 
   @Test
   public void compareRandomString_1000_10() {
@@ -115,8 +116,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
-    List<Token> second = Events.recordXMLEvents("<root>"+from+"</root>", TextGranularity.SPACE_WORD);
-    List<Token> first = Events.recordXMLEvents("<root>"+to+"</root>", TextGranularity.SPACE_WORD);
+    List<Token> second = Events.recordXMLEvents("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
+    List<Token> first = Events.recordXMLEvents("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new ProgressiveXMLProcessor(), first, second, 10);
   }
@@ -160,16 +161,16 @@ public class PerformanceTest {
 
   private static long profileX(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second, int times) {
     System.out.print(algorithm.toString());
-    System.out.print("\t"+first.size()+"/"+second.size()+" tokens");
+    System.out.print("\t" + first.size() + "/" + second.size() + " tokens");
     // We do a dry run first
     long f = profile(algorithm, first, second);
-    System.out.print(" First:"+f+"ms");
+    System.out.print(" First:" + f + "ms");
     long total = 0;
-    for (int i=0; i < times; i++) {
+    for (int i = 0; i < times; i++) {
       long t = profile(algorithm, first, second);
       total += t;
     }
-    System.out.println(" Avg:"+(total*1.0 / times)+"ms");
+    System.out.println(" Avg:" + (total * 1.0 / times) + "ms");
     return total;
   }
 
@@ -187,8 +188,8 @@ public class PerformanceTest {
     xml2.append("<root>\n");
     for (int i = 0; i < elements; i++) {
       int f = r.nextInt(10);
-      String from = getRandomString(100+ f*100, true);
-      String to = (r.nextInt(10) < 3)? vary(from, .05) : from;
+      String from = getRandomString(100 + f * 100, true);
+      String to = (r.nextInt(10) < 3) ? vary(from, .05) : from;
       xml1.append("  <p>").append(from).append("</p>\n");
       xml2.append("  <p>").append(to).append("</p>\n");
     }

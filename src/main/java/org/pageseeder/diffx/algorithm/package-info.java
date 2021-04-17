@@ -15,6 +15,5 @@
  */
 /**
  * Main algorithm implementations.
- *
  */
 package org.pageseeder.diffx.algorithm;

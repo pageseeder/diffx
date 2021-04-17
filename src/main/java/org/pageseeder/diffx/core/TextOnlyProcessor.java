@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * An implementation of dynamic programming algorithm for computing the LCS.
- *
+ * <p>
  * It is designed for text only and designed for simple sequences of tokens.
  *
  * @author Christophe Lauret
@@ -69,13 +69,13 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
       // Copy the end
       if (start > 0) {
-        for (int i=0; i < start; i++) handler.handle(Operator.MATCH, first.get(i));
+        for (int i = 0; i < start; i++) handler.handle(Operator.MATCH, first.get(i));
       }
 
       // Check the end
       if (start > 0 || end > 0) {
-        List<? extends Token> firstSub = first.subList(start, first.size()-end);
-        List<? extends Token> secondSub = second.subList(start, second.size()-end);
+        List<? extends Token> firstSub = first.subList(start, first.size() - end);
+        List<? extends Token> secondSub = second.subList(start, second.size() - end);
         if (firstSub.isEmpty() || secondSub.isEmpty()) {
           for (Token token : secondSub) handler.handle(Operator.DEL, token);
           for (Token token : firstSub) handler.handle(Operator.INS, token);
@@ -91,7 +91,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
       // Copy the end
       if (end > 0) {
-        for (int i=first.size()-end; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
+        for (int i = first.size() - end; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
       }
     }
     handler.end();
@@ -99,15 +99,19 @@ public final class TextOnlyProcessor implements DiffProcessor {
 
   @Override
   public String toString() {
-    return "TextOnlyProcessor{algo="+getAlgorithm().getClass().getSimpleName()+"}";
+    return "TextOnlyProcessor{algo=" + getAlgorithm().getClass().getSimpleName() + "}";
   }
 
   private DiffAlgorithm getAlgorithm() {
     switch (this.algo) {
-      case HIRSCHBERG: return new HirschbergAlgorithm();
-      case WAGNER_FISCHER: return new WagnerFischerAlgorithm();
-      case KUMAR_RANGAN: return new KumarRanganAlgorithm();
-      default: throw new IllegalStateException("No algorithm defined");
+      case HIRSCHBERG:
+        return new HirschbergAlgorithm();
+      case WAGNER_FISCHER:
+        return new WagnerFischerAlgorithm();
+      case KUMAR_RANGAN:
+        return new KumarRanganAlgorithm();
+      default:
+        throw new IllegalStateException("No algorithm defined");
     }
   }
 
@@ -133,7 +137,6 @@ public final class TextOnlyProcessor implements DiffProcessor {
    * Slices the end of both sequences.
    *
    * @return The number of common elements at the end of the sequences.
-   *
    * @throws IllegalStateException If the end buffer is not empty.
    */
   public int sliceEnd(List<? extends Token> first, List<? extends Token> second, int start) {

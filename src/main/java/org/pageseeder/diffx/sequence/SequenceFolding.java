@@ -102,7 +102,7 @@ public class SequenceFolding {
     private final List<Folder> stack = new ArrayList<>();
 
     private Folder current() {
-      return this.stack.get(this.stack.size()-1);
+      return this.stack.get(this.stack.size() - 1);
     }
 
     private boolean hasCurrent() {
@@ -111,7 +111,7 @@ public class SequenceFolding {
 
     void add(Token token) {
       if (isFoldable(token)) {
-        Folder subfolder = new Folder((StartElementToken)token);
+        Folder subfolder = new Folder((StartElementToken) token);
         this.stack.add(subfolder);
       } else if (this.stack.isEmpty()) {
         this.tokens.add(token);
@@ -119,7 +119,7 @@ public class SequenceFolding {
         Folder current = this.current();
         if (isMatching(token, current.open)) {
           ElementToken element = current.seal((EndElementToken) token);
-          this.stack.remove(this.stack.size()-1); // pop
+          this.stack.remove(this.stack.size() - 1); // pop
           if (this.stack.isEmpty()) {
             this.tokens.add(element);
           } else {

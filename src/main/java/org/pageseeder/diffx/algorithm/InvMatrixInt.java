@@ -25,15 +25,15 @@ public final class InvMatrixInt extends MatrixIntBase {
 
   @Override
   public void incrementPath(int i, int j) {
-    this.matrix[i][j] = this.matrix[i+1][j+1] + 1;
+    this.matrix[i][j] = this.matrix[i + 1][j + 1] + 1;
   }
 
   @Override
   public void incrementByMaxPath(int i, int j) {
-    this.matrix[i][j] = Math.max(this.matrix[i+1][j], this.matrix[i][j+1]);
+    this.matrix[i][j] = Math.max(this.matrix[i + 1][j], this.matrix[i][j + 1]);
   }
 
   public int getLCSLength() {
-    return this.get(0,0);
+    return this.get(0, 0);
   }
 }

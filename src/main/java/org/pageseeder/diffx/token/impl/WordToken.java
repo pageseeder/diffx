@@ -38,7 +38,7 @@ public final class WordToken extends CharactersTokenBase implements TextToken {
 
   @Override
   public String toString() {
-    return "\""+getCharacters()+'"';
+    return "\"" + getCharacters() + '"';
   }
 
 }

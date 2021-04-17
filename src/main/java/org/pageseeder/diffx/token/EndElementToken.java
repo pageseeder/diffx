@@ -19,7 +19,6 @@ package org.pageseeder.diffx.token;
  * The token corresponding to the <code>endElement</code> SAX event.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.5.0
  */
@@ -60,11 +59,13 @@ public interface EndElementToken extends Namespaceable, Token {
    * @param token The open element token to test.
    *
    * @return <code>true</code> if there is a match;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   boolean match(StartElementToken token);
 
   @Override
-  default TokenType getType() { return TokenType.END_ELEMENT; }
+  default TokenType getType() {
+    return TokenType.END_ELEMENT;
+  }
 
 }

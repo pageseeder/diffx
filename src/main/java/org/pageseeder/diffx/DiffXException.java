@@ -26,7 +26,9 @@ package org.pageseeder.diffx;
  */
 public class DiffXException extends Exception {
 
-  /** As per requirement by the Serializable interface. */
+  /**
+   * As per requirement by the Serializable interface.
+   */
   private static final long serialVersionUID = 3572025323967229569L;
 
   /**

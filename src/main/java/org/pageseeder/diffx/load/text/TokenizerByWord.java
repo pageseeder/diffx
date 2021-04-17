@@ -108,6 +108,7 @@ public final class TokenizerByWord implements TextTokenizer {
    * Returns the word token corresponding to the specified characters.
    *
    * @param word the characters of the word
+   *
    * @return the corresponding word token
    */
   private TextToken getWordEvent(String word) {
@@ -123,6 +124,7 @@ public final class TokenizerByWord implements TextTokenizer {
    * Returns the space token corresponding to the specified characters.
    *
    * @param space the characters of the space
+   *
    * @return the corresponding space token
    */
   private TextToken getSpaceEvent(String space) {

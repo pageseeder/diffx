@@ -86,9 +86,9 @@ public final class TokenizerByText implements TextTokenizer {
         if (x > 0) {
           tokens.add(SpaceToken.getInstance(seq.subSequence(0, x)));
         }
-        tokens.add(new CharactersToken(seq.subSequence(x, seq.length()-y)));
+        tokens.add(new CharactersToken(seq.subSequence(x, seq.length() - y)));
         if (y > 0) {
-          tokens.add(SpaceToken.getInstance(seq.subSequence(seq.length()-y, seq.length())));
+          tokens.add(SpaceToken.getInstance(seq.subSequence(seq.length() - y, seq.length())));
         }
         break;
       case PRESERVE:
@@ -96,13 +96,13 @@ public final class TokenizerByText implements TextTokenizer {
         if (x > 0) {
           tokens.add(new IgnorableSpaceToken(seq.subSequence(0, x)));
         }
-        tokens.add(new CharactersToken(seq.subSequence(x, seq.length()-y)));
+        tokens.add(new CharactersToken(seq.subSequence(x, seq.length() - y)));
         if (y > 0) {
-          tokens.add(new IgnorableSpaceToken(seq.subSequence(seq.length()-y, seq.length())));
+          tokens.add(new IgnorableSpaceToken(seq.subSequence(seq.length() - y, seq.length())));
         }
         break;
       case IGNORE:
-        TextToken token = new CharactersToken(seq.subSequence(x, seq.length()-y));
+        TextToken token = new CharactersToken(seq.subSequence(x, seq.length() - y));
         tokens = Collections.singletonList(token);
         break;
       default:

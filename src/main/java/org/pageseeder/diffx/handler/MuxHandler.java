@@ -24,7 +24,7 @@ public class MuxHandler implements DiffHandler {
 
   private final DiffHandler[] handlers;
 
-  public MuxHandler(DiffHandler ...handlers) {
+  public MuxHandler(DiffHandler... handlers) {
     this.handlers = handlers;
   }
 

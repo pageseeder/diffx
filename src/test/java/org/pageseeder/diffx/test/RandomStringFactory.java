@@ -54,6 +54,7 @@ public class RandomStringFactory {
    *
    * @param source  The source string
    * @param changes The percentage of changes (from 0.0 to 1.0)
+   *
    * @return A variation according to
    */
   public String vary(String source, double changes) {

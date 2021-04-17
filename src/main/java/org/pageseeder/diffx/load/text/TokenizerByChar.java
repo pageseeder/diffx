@@ -46,7 +46,7 @@ public final class TokenizerByChar implements TextTokenizer {
     if (seq.length() == 0) return Collections.emptyList();
     List<TextToken> tokens = new ArrayList<>(seq.length());
     char c;
-    for (int i=0; i < seq.length(); i++) {
+    for (int i = 0; i < seq.length(); i++) {
       c = seq.charAt(i);
       TextToken token;
       if (Character.isWhitespace(c)) {

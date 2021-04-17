@@ -66,7 +66,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
 
   @Override
   public String toString() {
-    return "space: \""+toString(getCharacters().toCharArray())+'"';
+    return "space: \"" + toString(getCharacters().toCharArray()) + '"';
   }
 
   /**
@@ -78,7 +78,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
    */
   public static SpaceToken getInstance(CharSequence space) {
     // check constants
-    if (" ".contentEquals(space))  return SINGLE_WHITESPACE;
+    if (" ".contentEquals(space)) return SINGLE_WHITESPACE;
     if ("  ".contentEquals(space)) return DOUBLE_WHITESPACE;
     if ("\n".contentEquals(space)) return NEW_LINE;
     if ("\t".contentEquals(space)) return TAB;
@@ -95,7 +95,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
    */
   public static SpaceToken getInstance(char c) {
     // check constants
-    if (c == ' ')  return SINGLE_WHITESPACE;
+    if (c == ' ') return SINGLE_WHITESPACE;
     if (c == '\n') return NEW_LINE;
     if (c == '\t') return TAB;
     // create a new instance
@@ -112,14 +112,14 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
   private static String toString(char[] chars) {
     StringBuilder out = new StringBuilder();
     for (char c : chars) {
-      switch(c) {
+      switch (c) {
         case '\n':
           out.append("\\n");
           break;
         case '\t':
           out.append("\\t");
           break;
-        default :
+        default:
           out.append(c);
       }
     }

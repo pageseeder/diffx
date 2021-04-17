@@ -23,7 +23,9 @@ package org.pageseeder.diffx.load.text;
  */
 final class TokenizerUtils {
 
-  /** Utility class. */
+  /**
+   * Utility class.
+   */
   private TokenizerUtils() {
   }
 
@@ -31,6 +33,7 @@ final class TokenizerUtils {
    * Returns the length in characters of the leading white space in the given char sequence.
    *
    * @param s the char sequence to look at.
+   *
    * @return the number of whitespace characters at the beginning of the sequence..
    */
   public static int getLeadingWhiteSpace(CharSequence s) {
@@ -51,6 +54,7 @@ final class TokenizerUtils {
    * Returns the length in characters of the trailing white spaces in the given char sequence.
    *
    * @param s the char sequence to look at.
+   *
    * @return the number of whitespace characters at the end of the sequence..
    */
   public static int getTrailingWhiteSpace(CharSequence s) {

@@ -85,7 +85,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if this token is equal to the specified token;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
@@ -96,7 +96,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
 
   @Override
   public String toString() {
-    return "<"+this.name+">";
+    return "<" + this.name + ">";
   }
 
   @Override
@@ -108,7 +108,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
    * Converts this token to an XML open tag.
    *
    * <p>Note that this method does not allow attributes to be put after this element.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -120,6 +120,7 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
    * Calculates the hashcode for this token.
    *
    * @param s String from which the hashcode is calculated.
+   *
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String s) {

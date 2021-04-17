@@ -55,7 +55,7 @@ public class Actions {
   /**
    * Converts the list of actions into a list of atomic operations.
    *
-   * @param actions  The list of actions.
+   * @param actions The list of actions.
    */
   public static List<Operation> toOperations(List<Action> actions) {
     List<Operation> operations = new LinkedList<>();

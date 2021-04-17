@@ -32,7 +32,6 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- *
  * @since 0.7
  */
 public final class Sequence implements Iterable<Token> {
@@ -95,7 +94,7 @@ public final class Sequence implements Iterable<Token> {
   /**
    * Inserts an token to this sequence at the specified position.
    *
-   * @param i The position of the token.
+   * @param i     The position of the token.
    * @param token The token to be added.
    */
   public void addToken(int i, Token token) {
@@ -170,7 +169,7 @@ public final class Sequence implements Iterable<Token> {
    * @param seq The sequence of tokens to compare with this one.
    *
    * @return <code>true</code> if the specified token sequence is equal to this one;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   public boolean equals(Sequence seq) {
     if (seq == null) return false;
@@ -186,12 +185,12 @@ public final class Sequence implements Iterable<Token> {
    * @param o The sequence of tokens to compare with this one.
    *
    * @return <code>true</code> if the specified token sequence is equal to this one;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof Sequence)) return false;
-    return this.equals((Sequence)o);
+    return this.equals((Sequence) o);
   }
 
   @Override
@@ -217,14 +216,12 @@ public final class Sequence implements Iterable<Token> {
   /**
    * Maps a namespace URI to a prefix.
    *
-   * @deprecated Use {@link #addNamespace(String, String)}
-   *
-   * @see PrefixMapping#add(String, String)
-   *
    * @param uri    The namespace URI to map.
    * @param prefix The prefix to use.
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
+   * @see PrefixMapping#add(String, String)
+   * @deprecated Use {@link #addNamespace(String, String)}
    */
   @Deprecated
   public void mapPrefix(String uri, String prefix) throws NullPointerException {
@@ -237,14 +234,13 @@ public final class Sequence implements Iterable<Token> {
    * <p>The replace element is usually used for the document element in order to override the
    * default namespace.</p>
    *
-   * @see PrefixMapping#add(String, String)
-   * @see PrefixMapping#replace(String, String)
-   *
    * @param uri     The namespace URI to map.
    * @param prefix  The prefix to use.
    * @param replace Whether to replace the namespace
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
+   * @see PrefixMapping#add(String, String)
+   * @see PrefixMapping#replace(String, String)
    */
   public void addNamespace(String uri, String prefix, boolean replace) throws NullPointerException {
     if (replace) {
@@ -257,12 +253,11 @@ public final class Sequence implements Iterable<Token> {
   /**
    * Maps a namespace URI to a prefix.
    *
-   * @see PrefixMapping#add(String, String)
-   *
    * @param uri    The namespace URI to map.
    * @param prefix The prefix to use.
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
+   * @see PrefixMapping#add(String, String)
    */
   public void addNamespace(String uri, String prefix) throws NullPointerException {
     this.prefixMapping.add(uri, prefix);

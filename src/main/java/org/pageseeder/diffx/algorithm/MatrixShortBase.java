@@ -37,7 +37,7 @@ public abstract class MatrixShortBase implements Matrix {
    * @return The maximum of the two values.
    */
   protected static short max(short a, short b) {
-    return a >= b? a : b;
+    return a >= b ? a : b;
   }
 
   /**
@@ -53,7 +53,7 @@ public abstract class MatrixShortBase implements Matrix {
    */
   @Override
   public void set(int i, int j, int x) {
-    this.matrix[i][j] = (short)x;
+    this.matrix[i][j] = (short) x;
   }
 
   /**
@@ -79,7 +79,7 @@ public abstract class MatrixShortBase implements Matrix {
    */
   @Override
   public boolean isGreaterX(int i, int j) {
-    return this.matrix[i+1][j] > this.matrix[i][j+1];
+    return this.matrix[i + 1][j] > this.matrix[i][j + 1];
   }
 
   /**
@@ -87,7 +87,7 @@ public abstract class MatrixShortBase implements Matrix {
    */
   @Override
   public boolean isGreaterY(int i, int j) {
-    return this.matrix[i+1][j] < this.matrix[i][j+1];
+    return this.matrix[i + 1][j] < this.matrix[i][j + 1];
   }
 
   /**
@@ -95,7 +95,7 @@ public abstract class MatrixShortBase implements Matrix {
    */
   @Override
   public boolean isSameXY(int i, int j) {
-    return this.matrix[i+1][j] == this.matrix[i][j+1];
+    return this.matrix[i + 1][j] == this.matrix[i][j + 1];
   }
 
   /**

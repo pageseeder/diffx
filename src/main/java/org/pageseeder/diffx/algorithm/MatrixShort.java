@@ -32,7 +32,7 @@ public final class MatrixShort extends MatrixShortBase {
    */
   @Override
   public void incrementPath(int i, int j) {
-    this.matrix[i][j] = (short)(this.matrix[i-1][j-1] + 1);
+    this.matrix[i][j] = (short) (this.matrix[i - 1][j - 1] + 1);
   }
 
   /**
@@ -40,10 +40,10 @@ public final class MatrixShort extends MatrixShortBase {
    */
   @Override
   public void incrementByMaxPath(int i, int j) {
-    this.matrix[i][j] = max(this.matrix[i-1][j], this.matrix[i][j-1]);
+    this.matrix[i][j] = max(this.matrix[i - 1][j], this.matrix[i][j - 1]);
   }
 
   public int getLCSLength() {
-    return this.get(this.matrix.length-1,this.matrix[0].length-1);
+    return this.get(this.matrix.length - 1, this.matrix[0].length - 1);
   }
 }

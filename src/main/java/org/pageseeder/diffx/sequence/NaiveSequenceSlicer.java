@@ -82,7 +82,6 @@ public final class NaiveSequenceSlicer {
    * {@link #formatStart(DiffXFormatter)} is called.
    *
    * @return The number of common elements at the start of the sequences.
-   *
    * @throws IllegalStateException If the start buffer is not empty.
    */
   public int sliceStart() throws IllegalStateException {
@@ -111,7 +110,6 @@ public final class NaiveSequenceSlicer {
    * {@link #formatEnd(DiffXFormatter)} is called.
    *
    * @return The number of common elements at the end of the sequences.
-   *
    * @throws IllegalStateException If the end buffer is not empty.
    */
   public int sliceEnd() throws IllegalStateException {
@@ -146,10 +144,9 @@ public final class NaiveSequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @return The number of common elements at the start of the sequences.
-   *
    * @throws IllegalStateException If the start buffer is not empty.
-   * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws NullPointerException  If the specified formatter is <code>null</code>.
+   * @throws IOException           If an error occurs whilst writing with the formatter.
    */
   public int sliceStart(DiffXFormatter formatter)
       throws IllegalStateException, NullPointerException, IOException {
@@ -182,10 +179,9 @@ public final class NaiveSequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @return The number of common elements at the end of the sequences.
-   *
    * @throws IllegalStateException If the end buffer is not empty.
-   * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws NullPointerException  If the specified formatter is <code>null</code>.
+   * @throws IOException           If an error occurs whilst writing with the formatter.
    */
   public int sliceEnd(DiffXFormatter formatter)
       throws IllegalStateException, NullPointerException, IOException {
@@ -203,7 +199,7 @@ public final class NaiveSequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws IOException          If an error occurs whilst writing with the formatter.
    */
   public void formatStart(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.start == null) return;
@@ -222,7 +218,7 @@ public final class NaiveSequenceSlicer {
    * @param formatter The formatter that will handle the output.
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
-   * @throws IOException If an error occurs whilst writing with the formatter.
+   * @throws IOException          If an error occurs whilst writing with the formatter.
    */
   public void formatEnd(DiffXFormatter formatter) throws NullPointerException, IOException {
     if (this.end == null) return;

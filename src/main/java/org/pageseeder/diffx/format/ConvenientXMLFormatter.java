@@ -77,7 +77,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Indicates whether some text is being inserted or removed.
-   *
+   * <p>
    * 0 = indicate format or no open text element.
    * +1 = indicates an insert open text element.
    * -1 = indicates an delete open text element.
@@ -168,7 +168,7 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
         this.openElements++;
       }
       e.toXML(this.xml);
-      this.xml.attribute(Constants.BASE_NS_URI, mod > 0? "insert" : "delete", "true");
+      this.xml.attribute(Constants.BASE_NS_URI, mod > 0 ? "insert" : "delete", "true");
 
       // change in element
     } else if (e instanceof EndElementToken) {
@@ -190,9 +190,9 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
     } else if (e instanceof AttributeToken) {
       if (mod > 0) {
         e.toXML(this.xml);
-        this.insAttributes.push((AttributeToken)e);
+        this.insAttributes.push((AttributeToken) e);
       } else {
-        this.delAttributes.push((AttributeToken)e);
+        this.delAttributes.push((AttributeToken) e);
       }
 
       // just format naturally
@@ -295,14 +295,14 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * Writes any attribute that has not be written.
    *
    * @param attributes The attribute stack.
-   * @param mod The modification flag (positive for inserts, negative for deletes).
+   * @param mod        The modification flag (positive for inserts, negative for deletes).
    *
    * @throws IOException Should an I/O error occur.
    */
   private void flushAttributes(Stack<AttributeToken> attributes, int mod) throws IOException {
     while (!attributes.empty()) {
       AttributeToken att = attributes.pop();
-      this.xml.openElement(Constants.BASE_NS_URI, mod > 0? "ins" : "del", false);
+      this.xml.openElement(Constants.BASE_NS_URI, mod > 0 ? "ins" : "del", false);
       this.xml.attribute(att.getURI(), att.getName(), att.getValue());
       this.xml.closeElement();
     }

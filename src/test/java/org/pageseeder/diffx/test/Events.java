@@ -21,8 +21,8 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
@@ -101,7 +101,7 @@ public final class Events {
     return recorder.process(xml);
   }
 
-  public static List<Token> recordLineEvents(String text)  {
+  public static List<Token> recordLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();
     return new LineRecorder().process(text).tokens();
   }

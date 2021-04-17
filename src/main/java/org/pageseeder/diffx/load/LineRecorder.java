@@ -24,7 +24,6 @@ import java.io.*;
  * Records the line tokens in a text.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.7.0
  */
@@ -38,7 +37,6 @@ public final class LineRecorder implements Recorder {
    * @param file The file to process.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws IOException Should an I/O error occur.
    */
   @Override

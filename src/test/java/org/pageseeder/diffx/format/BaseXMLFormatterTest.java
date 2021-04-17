@@ -63,6 +63,7 @@ public abstract class BaseXMLFormatterTest {
    * Generates the formatter to be tested by this class.
    *
    * @param writer The writer this formatter should use.
+   *
    * @return The XML Diffx Formatter to use.
    * @throws IOException Should and error occur
    */
@@ -340,6 +341,7 @@ public abstract class BaseXMLFormatterTest {
    * returns the same tokens.
    *
    * @param xml The first XML to test.
+   *
    * @throws DiffXException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */

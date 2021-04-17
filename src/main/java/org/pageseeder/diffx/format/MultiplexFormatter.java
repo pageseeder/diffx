@@ -58,7 +58,7 @@ public final class MultiplexFormatter implements DiffXFormatter {
    *
    * @param f The formatter to use.
    */
-  public MultiplexFormatter(DiffXFormatter ...f) {
+  public MultiplexFormatter(DiffXFormatter... f) {
     this.formatters = new ArrayList<>(f.length);
     this.formatters.addAll(Arrays.asList(f));
   }

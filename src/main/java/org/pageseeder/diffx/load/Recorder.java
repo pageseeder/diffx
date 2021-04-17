@@ -26,7 +26,6 @@ import java.io.UncheckedIOException;
  * from a specified input.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.6.0
  */
@@ -38,7 +37,6 @@ public interface Recorder {
    * @param file The file to process.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
@@ -50,7 +48,6 @@ public interface Recorder {
    * @param source The string to process.
    *
    * @return The recorded sequence of tokens.
-   *
    * @throws LoadingException     If thrown while parsing.
    * @throws UncheckedIOException Should I/O error occur.
    */

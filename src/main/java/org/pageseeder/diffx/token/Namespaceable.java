@@ -20,7 +20,6 @@ package org.pageseeder.diffx.token;
  * Indicates that the token belong to a namespace.
  *
  * @author Christophe Lauret
- *
  * @version 0.9.0
  * @since 0.9.0
  */

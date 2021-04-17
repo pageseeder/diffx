@@ -97,6 +97,7 @@ public final class TestFormatter implements DiffXFormatter {
    * Formats the entire sequence by formatting each token.
    *
    * @param seq The token sequence to format
+   *
    * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
    */
   public void format(Sequence seq) throws IOException {
@@ -123,6 +124,7 @@ public final class TestFormatter implements DiffXFormatter {
    * <p>This method will return <code>null</code> if it does not know how to format it.
    *
    * @param token The token to format
+   *
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toAbstractString(Token token) {

@@ -107,21 +107,21 @@ public class CoalescingFilterTest {
 
   @Test
   public void testFilter6() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
     List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter7() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
     List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter8() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue",  "- red", " castle");
+    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
     List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
@@ -206,7 +206,7 @@ public class CoalescingFilterTest {
 
   private static Operation normalizeOperation(Operation operation) {
     if (operation.token() instanceof TextToken)
-      return new Operation(operation.operator(), new CharactersToken(((TextToken)operation.token()).getCharacters()));
+      return new Operation(operation.operator(), new CharactersToken(((TextToken) operation.token()).getCharacters()));
     return operation;
   }
 

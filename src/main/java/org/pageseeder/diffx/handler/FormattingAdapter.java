@@ -70,7 +70,7 @@ public class FormattingAdapter implements DiffHandler {
 
   @Override
   public String toString() {
-    return "FormattingAdapter("+this.formatter+")";
+    return "FormattingAdapter(" + this.formatter + ")";
   }
 
 }

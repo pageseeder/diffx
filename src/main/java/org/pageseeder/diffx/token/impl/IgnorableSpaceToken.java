@@ -55,7 +55,7 @@ public final class IgnorableSpaceToken implements TextToken {
 
   /**
    * Returns "ignorable-space".
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -65,7 +65,7 @@ public final class IgnorableSpaceToken implements TextToken {
 
   /**
    * Always returns the same value.
-   *
+   * <p>
    * {@inheritDoc}
    */
   @Override
@@ -80,7 +80,7 @@ public final class IgnorableSpaceToken implements TextToken {
    * @param o The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Object o) {
@@ -94,7 +94,7 @@ public final class IgnorableSpaceToken implements TextToken {
    * @param token The token to compare with this token.
    *
    * @return <code>true</code> if considered equal;
-   *         <code>false</code> otherwise.
+   * <code>false</code> otherwise.
    */
   @Override
   public boolean equals(Token token) {
