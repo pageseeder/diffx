@@ -1,7 +1,7 @@
 plugins {
   id 'java-library'
   id 'maven-publish'
-  id "io.codearte.nexus-staging" version "0.30.0"
+  id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
 group       = 'org.pageseeder.diffx'
