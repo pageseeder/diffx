@@ -50,4 +50,13 @@ public final class DOMRecorderTest {
       return configureRecorder(config);
     }
   }
+
+  @Nested
+  @DisplayName("SpaceWord / Namespace aware")
+  public class SpaceWord_NamespaceAware extends XMLRecorder_SpaceWord_NS {
+    @Override
+    public XMLRecorder newXMLRecorder(DiffXConfig config) {
+      return configureRecorder(config);
+    }
+  }
 }

@@ -51,7 +51,6 @@ public final class SAXRecorderTest {
     }
   }
 
-
   @Nested
   @DisplayName("SpaceWord / Namespace aware")
   public class SpaceWord_NamespaceAware extends XMLRecorder_SpaceWord_NS {
