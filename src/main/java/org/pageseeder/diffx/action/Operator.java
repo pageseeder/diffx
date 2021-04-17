@@ -81,7 +81,7 @@ public enum Operator {
     }
   };
 
-  private boolean isEdit;
+  private final boolean isEdit;
 
   Operator(boolean isEdit) {
     this.isEdit = isEdit;
