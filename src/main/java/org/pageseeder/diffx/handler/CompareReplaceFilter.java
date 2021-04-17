@@ -67,7 +67,7 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
   }
 
   /**
-   * Flush the previous text token to the target formatter and clear the buffer if there is any text token.
+   * Flush the previous text token to the target handler and clear the buffer if there is any text token.
    */
   public void flushPrevious() {
     if (this.previous != null) {
