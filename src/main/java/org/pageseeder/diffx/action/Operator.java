@@ -26,7 +26,7 @@ public enum Operator {
   /**
    * An insertion.
    */
-  INS {
+  INS(true) {
 
     /**
      * @return DEL
@@ -34,6 +34,7 @@ public enum Operator {
     public Operator flip() {
       return DEL;
     }
+
     public String toString() {
       return "+";
     }
@@ -42,7 +43,7 @@ public enum Operator {
   /**
    * A deletion.
    */
-  DEL {
+  DEL(true) {
 
     /**
      * @return INS
@@ -59,7 +60,7 @@ public enum Operator {
   /**
    * A match.
    */
-  MATCH {
+  MATCH(false) {
 
     /**
      * @return MATCH
@@ -73,8 +74,22 @@ public enum Operator {
     }
   };
 
+  private boolean isEdit;
+
+  Operator(boolean isEdit) {
+    this.isEdit = isEdit;
+  }
+
   /**
    * @return the operator performing the opposite operation.
    */
   public abstract Operator flip();
+
+  /**
+   * @return true if the operator is an edit (insertion or deletion).
+   */
+  public boolean isEdit() {
+    return isEdit;
+  }
+
 }
