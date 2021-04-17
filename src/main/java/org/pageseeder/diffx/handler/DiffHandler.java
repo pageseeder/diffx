@@ -29,6 +29,7 @@ import java.io.UncheckedIOException;
  *
  * @version 0.9.0
  */
+@FunctionalInterface
 public interface DiffHandler {
 
   /**
