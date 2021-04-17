@@ -60,10 +60,9 @@ public class XMLDiffReporter implements XMLDiffOutput {
       if (includeXMLDeclaration)
         this.xml.xmlDecl();
       xml.openElement("diff-report", true);
-      // Include any namespace (except XML and no namespace)
+      // Include any declarable namespace
       for (Namespace namespace : this.mapping) {
-        if (!Namespace.NO_NAMESPACE.equals(namespace)
-            && !Namespace.XML_NAMESPACE.equals(namespace)) {
+        if (Namespace.isDeclarable(namespace)) {
           xml.openElement("namespace");
           xml.attribute("uri", namespace.getUri());
           xml.attribute("prefix", namespace.getPrefix());

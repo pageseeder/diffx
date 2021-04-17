@@ -51,6 +51,11 @@ public final class Namespace {
   public static final Namespace XML_NAMESPACE = new Namespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
 
   /**
+   * Pseudo-namespace instance for XML namespace declarations.
+   */
+  public static final Namespace XMLNS_ATTRIBUTE = new Namespace(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLConstants.XMLNS_ATTRIBUTE);
+
+  /**
    * The namespace URI.
    */
   private final String uri;
@@ -91,4 +96,13 @@ public final class Namespace {
     return "{" + this.uri + "=" + this.prefix + "}";
   }
 
+  /**
+   * @param namespace namespace to check.
+   *
+   * @return true if the namespace should be declared; false if it matches no namespace of built-in XML namespaces.
+   */
+  public static boolean isDeclarable(Namespace namespace) {
+    return !(XML_NAMESPACE.equals(namespace) || XMLNS_ATTRIBUTE.equals(namespace) || NO_NAMESPACE.equals(namespace)
+    );
+  }
 }

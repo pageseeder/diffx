@@ -15,20 +15,13 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.impl.*;
 import org.xml.sax.InputSource;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,339 +36,26 @@ public abstract class XMLRecorderTest {
   /**
    * The XML recorder to use.
    */
-  private transient XMLRecorder recorder = null;
-
-  /**
-   * The XML recorder to use.
-   */
-  private static final DiffXConfig SIMPLE = new DiffXConfig();
+  private static final DiffXConfig NOT_NS_AWARE;
 
   static {
-    SIMPLE.setNamespaceAware(false);
+    NOT_NS_AWARE = new DiffXConfig();
+    NOT_NS_AWARE.setNamespaceAware(false);
   }
 
   /**
-   * Returns the Diff-X Algorithm instance from the specified sequences.
+   * Returns the Diff-X recorder to test.
    *
    * @param config The configuration to use for the recorder.
    *
    * @return The Diff-X Algorithm instance.
    */
-  public abstract XMLRecorder makeXMLRecorder(DiffXConfig config);
+  public abstract XMLRecorder newXMLRecorder(DiffXConfig config);
 
   /**
-   * Tests the simplest case: an empty element.
-   *
-   * <pre>
-   *   &lt;a/&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @return The Diff-X config instance.
    */
-  @Test
-  public final void testEmptyElementA1() throws IOException, DiffXException {
-    String xml = "<a/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests the simplest case: an empty element.
-   *
-   * <pre>
-   *   &lt;a/&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testEmptyElementA2() throws IOException, DiffXException {
-    String xml = "<a/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
-    exp.addToken(new EndElementTokenImpl("a"));
-    assertEquivalent(exp, xml, SIMPLE);
-  }
-
-// tests on elements and text only --------------------------------------------------------
-
-  /**
-   * Tests a simple case.
-   *
-   * <pre>
-   *   &lt;a&gt;XX&lt;/a&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testTextElementA() throws IOException, DiffXException {
-    String xml = "<a>XX</a>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new WordToken("XX"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests a simple case.
-   *
-   * <pre>
-   *   &lt;a&gt;XX YY&lt;/a&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testTextElementB() throws IOException, DiffXException {
-    String xml = "<a>XX  YY</a>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new WordToken("XX"));
-    exp.addToken(new SpaceToken("  "));
-    exp.addToken(new WordToken("YY"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests a simple case.
-   *
-   * <pre>
-   *   &lt;a&gt;&lt;b&gt;WWW&lt;/b&gt;&lt;/a&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testElementsA() throws IOException, DiffXException {
-    String xml = "<a><b>WWW</b></a>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new StartElementTokenNSImpl("b"));
-    exp.addToken(new WordToken("WWW"));
-    exp.addToken(new EndElementTokenNSImpl("b"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests a simple case.
-   *
-   * <pre>
-   *   &lt;a&gt;&lt;b&gt;XX&lt;/b&gt;&lt;c&gt;YY&lt;/c&gt;&lt;/a&gt;
-   * </pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testElementsB() throws IOException, DiffXException {
-    String xml = "<a><b>XX</b><c>YY</c></a>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new StartElementTokenNSImpl("b"));
-    exp.addToken(new WordToken("XX"));
-    exp.addToken(new EndElementTokenNSImpl("b"));
-    exp.addToken(new StartElementTokenNSImpl("c"));
-    exp.addToken(new WordToken("YY"));
-    exp.addToken(new EndElementTokenNSImpl("c"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
-    assertEquivalent(exp, xml);
-  }
-
-// tests on character entities ------------------------------------------------------------
-
-  /**
-   * Tests parsing the &amp;lt;, it should become character '&lt;'.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testCharEntityLT() throws IOException, DiffXException {
-    String xml = "<t>&lt;</t>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
-    exp.addToken(new WordToken("<"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests parsing the &amp;gt;, it should become character '&gt;'.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testCharEntityGT() throws IOException, DiffXException {
-    String xml = "<t>&gt;</t>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
-    exp.addToken(new WordToken(">"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests parsing the &amp;amp;, it should become character '&amp;'.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testCharEntityAMP() throws IOException, DiffXException {
-    String xml = "<t>&amp;</t>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
-    exp.addToken(new WordToken("&"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests parsing character &amp;#x8012;, it should become character <code>(char)0x8012</code>.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testCharEntityNumerical() throws IOException, DiffXException {
-    String xml = "<t>&#x8012;</t>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
-    exp.addToken(new WordToken("" + (char) 0x8012));
-    exp.addToken(new EndElementTokenNSImpl("t"));
-    assertEquivalent(exp, xml);
-  }
-
-// tests on attributes --------------------------------------------------------------------
-
-  /**
-   * Tests that the attributes are read and sorted properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testAttributeA1() throws IOException, DiffXException {
-    String xml = "<elt attr='value'/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("attr", "value"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests that the attribute is read properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testAttributeA2() throws IOException, DiffXException {
-    String xml = "<elt attr='value'/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new AttributeTokenImpl("attr", "value"));
-    exp.addToken(new EndElementTokenImpl("elt"));
-    assertEquivalent(exp, xml, SIMPLE);
-  }
-
-  /**
-   * Tests that the attributes are read and sorted properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testSortAttributesA() throws IOException, DiffXException {
-    String xml = "<elt b='second' a='first'/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("a", "first"));
-    exp.addToken(new AttributeTokenNSImpl("b", "second"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests that the attributes are read and sorted properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testSortAttributesB() throws IOException, DiffXException {
-    String xml = "<elt b='second' c='third' a='first'/>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("a", "first"));
-    exp.addToken(new AttributeTokenNSImpl("b", "second"));
-    exp.addToken(new AttributeTokenNSImpl("c", "third"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
-    assertEquivalent(exp, xml);
-  }
-
-// tests on processing instructions -------------------------------------------------------
-
-  /**
-   * Tests that the attributes are read and sorted properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testProcessingInstructionA1() throws IOException, DiffXException {
-    String xml = "<elt><?target data?></elt>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new ProcessingInstructionToken("target", "data"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
-    assertEquivalent(exp, xml);
-  }
-
-  /**
-   * Tests that the attributes are read and sorted properly.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
-   */
-  @Test
-  public final void testProcessingInstructionA2() throws IOException, DiffXException {
-    String xml = "<elt><?target data?></elt>";
-    Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new ProcessingInstructionToken("target", "data"));
-    exp.addToken(new EndElementTokenImpl("elt"));
-    assertEquivalent(exp, xml, SIMPLE);
-  }
-
-// helpers ------------------------------------------------------------------------------------
-
-  /**
-   * Checks that the given XML is equivalent to the given token sequence using the
-   * default Diff-X configuration.
-   *
-   * @param exp The expected token sequence.
-   * @param xml The XML to test.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  public final void assertEquivalent(Sequence exp, String xml) throws IOException, DiffXException {
-    assertEquivalent(exp, xml, new DiffXConfig());
-  }
+  public abstract DiffXConfig getConfig();
 
   /**
    * Checks that the given XML is equivalent to the given token sequence.
@@ -384,15 +64,11 @@ public abstract class XMLRecorderTest {
    * @param xml    The XML to test.
    * @param config The configuration to use for the XML
    *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
+   * @throws LoadingException Should an error occur while parsing XML.
    */
   public final void assertEquivalent(Sequence exp, String xml, DiffXConfig config)
-      throws IOException, DiffXException {
-    // process the strings
-    Reader xmlr = new StringReader(xml);
-    this.recorder = makeXMLRecorder(config);
-    Sequence seq = this.recorder.process(new InputSource(xmlr));
+      throws LoadingException {
+    Sequence seq = record(xml, config);
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);
@@ -415,23 +91,14 @@ public abstract class XMLRecorderTest {
     }
   }
 
-  /**
-   * Prints an XML file as a sequence using the <code>SmartXMLFormatter</code>.
-   *
-   * @param xml The XML to test.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
-  private void printAsSequence(String xml) throws IOException, DiffXException {
-    Reader xmlr = new StringReader(xml);
-    Sequence seq = this.recorder.process(new InputSource(xmlr));
-    PrintWriter pw = new PrintWriter(System.err);
-    seq.export(pw);
-    pw.flush();
-    SmartXMLFormatter formatter = new SmartXMLFormatter();
-    for (int i = 0; i < seq.size(); i++) {
-      formatter.format(seq.getToken(i));
+  private Sequence record(String xml, DiffXConfig config) throws LoadingException {
+    try (Reader reader = new StringReader(xml)) {
+      XMLRecorder recorder = newXMLRecorder(config);
+      return recorder.process(new InputSource(reader));
+    } catch (IOException ex) {
+      // Shouldn't
+      throw new UncheckedIOException(ex);
     }
   }
+
 }
