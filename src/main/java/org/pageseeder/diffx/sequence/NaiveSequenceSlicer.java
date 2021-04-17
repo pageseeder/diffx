@@ -43,22 +43,22 @@ public final class NaiveSequenceSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final EventSequence sequence1;
+  final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final EventSequence sequence2;
+  final Sequence sequence2;
 
   /**
    * The common start between the two sequences.
    */
-  EventSequence start;
+  Sequence start;
 
   /**
    * The common end between the two sequences.
    */
-  EventSequence end;
+  Sequence end;
 
   // constructor --------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ public final class NaiveSequenceSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
-  public NaiveSequenceSlicer(EventSequence seq0, EventSequence seq1) {
+  public NaiveSequenceSlicer(Sequence seq0, Sequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
   }
@@ -88,7 +88,7 @@ public final class NaiveSequenceSlicer {
   public int sliceStart() throws IllegalStateException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
-    this.start = new EventSequence();
+    this.start = new Sequence();
     int count = 0;
     Iterator<Token> i = this.sequence1.iterator();
     Iterator<Token> j = this.sequence2.iterator();
@@ -117,7 +117,7 @@ public final class NaiveSequenceSlicer {
   public int sliceEnd() throws IllegalStateException {
     if (this.end != null)
       throw new IllegalStateException("The end buffer already contains a subsequence.");
-    this.end = new EventSequence();
+    this.end = new Sequence();
     int count = 0;
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
@@ -237,7 +237,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current start sequence buffer or <code>null</code> if none.
    */
-  public EventSequence getStart() {
+  public Sequence getStart() {
     return this.start;
   }
 
@@ -246,7 +246,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current end sequence buffer or <code>null</code> if none.
    */
-  public EventSequence getEnd() {
+  public Sequence getEnd() {
     return this.end;
   }
 

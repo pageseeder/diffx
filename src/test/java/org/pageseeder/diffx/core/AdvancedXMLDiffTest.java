@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
@@ -296,8 +296,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp)
       throws IOException, DiffXException {
     // Record XML
-    EventSequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.WORD);
-    EventSequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
+    Sequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.WORD);
+    Sequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());

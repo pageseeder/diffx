@@ -19,7 +19,7 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationHandler;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
@@ -79,7 +79,7 @@ public final class TestHandler implements DiffHandler {
    *
    * @param seq The token sequence to format
    */
-  public static String format(EventSequence seq) {
+  public static String format(Sequence seq) {
     TestHandler handler = new TestHandler();
     for (Token token : seq) {
       handler.handle(Operator.MATCH, token);

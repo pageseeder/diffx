@@ -26,7 +26,7 @@ import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.Recorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;
@@ -69,8 +69,8 @@ public final class Main {
   public static boolean equivalent(File xml1, File xml2)
       throws DiffXException, IOException {
     Recorder recorder = new SAXRecorder();
-    EventSequence seq0 = recorder.process(xml1);
-    EventSequence seq1 = recorder.process(xml2);
+    Sequence seq0 = recorder.process(xml1);
+    Sequence seq1 = recorder.process(xml2);
     return seq0.equals(seq1);
   }
 
@@ -90,8 +90,8 @@ public final class Main {
   public static boolean equivalent(InputStream xml1, InputStream xml2)
       throws DiffXException, IOException {
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq0 = recorder.process(new InputSource(xml1));
-    EventSequence seq1 = recorder.process(new InputSource(xml2));
+    Sequence seq0 = recorder.process(new InputSource(xml1));
+    Sequence seq1 = recorder.process(new InputSource(xml2));
     return seq0.equals(seq1);
   }
 
@@ -111,8 +111,8 @@ public final class Main {
   public static boolean equivalent(Reader xml1, Reader xml2)
       throws DiffXException, IOException {
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq0 = recorder.process(new InputSource(xml1));
-    EventSequence seq1 = recorder.process(new InputSource(xml2));
+    Sequence seq0 = recorder.process(new InputSource(xml1));
+    Sequence seq1 = recorder.process(new InputSource(xml2));
     return seq0.equals(seq1);
   }
 
@@ -136,8 +136,8 @@ public final class Main {
     if (config != null) {
       loader.setConfig(config);
     }
-    EventSequence seq1 = loader.process(xml1);
-    EventSequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.process(xml1);
+    Sequence seq2 = loader.process(xml2);
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -162,8 +162,8 @@ public final class Main {
     if (config != null) {
       loader.setConfig(config);
     }
-    EventSequence seq1 = loader.process(xml1);
-    EventSequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.process(xml1);
+    Sequence seq2 = loader.process(xml2);
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -186,8 +186,8 @@ public final class Main {
     if (config != null) {
       recorder.setConfig(config);
     }
-    EventSequence seq1 = recorder.process(new InputSource(xml1));
-    EventSequence seq2 = recorder.process(new InputSource(xml2));
+    Sequence seq1 = recorder.process(new InputSource(xml1));
+    Sequence seq2 = recorder.process(new InputSource(xml2));
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -206,8 +206,8 @@ public final class Main {
       throws DiffXException, IOException {
     // records the tokens from the XML
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq1 = recorder.process(new InputSource(xml1));
-    EventSequence seq2 = recorder.process(new InputSource(xml2));
+    Sequence seq1 = recorder.process(new InputSource(xml1));
+    Sequence seq2 = recorder.process(new InputSource(xml2));
     // start slicing
     diff(seq1, seq2, out, new DiffXConfig());
   }
@@ -226,8 +226,8 @@ public final class Main {
       throws DiffXException, IOException {
     // records the tokens from the XML
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq1 = recorder.process(new InputSource(xml1));
-    EventSequence seq2 = recorder.process(new InputSource(xml2));
+    Sequence seq1 = recorder.process(new InputSource(xml1));
+    Sequence seq2 = recorder.process(new InputSource(xml2));
     diff(seq1, seq2, new OutputStreamWriter(out), new DiffXConfig());
   }
 
@@ -241,7 +241,7 @@ public final class Main {
    *
    * @throws IOException    Should an I/O exception occur.
    */
-  private static void diff(EventSequence seq1, EventSequence seq2, Writer out, DiffXConfig config)
+  private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     PrefixMapping mapping = new PrefixMapping();
@@ -286,8 +286,8 @@ public final class Main {
       long t0 = System.currentTimeMillis();
       Recorder recorder = getRecorder(args);
       if (recorder == null) return;
-      EventSequence seq1 = recorder.process(xml1);
-      EventSequence seq2 = recorder.process(xml2);
+      Sequence seq1 = recorder.process(xml1);
+      Sequence seq2 = recorder.process(xml2);
       long t1 = System.currentTimeMillis();
       if (profile) {
         System.err.println("Loaded files in "+(t1 - t0)+"ms");
@@ -406,7 +406,7 @@ public final class Main {
    * @param seq2 The second sequence.
    * @return The algorithm to use.
    */
-  private static DiffXAlgorithm getAlgorithm(String[] args, EventSequence seq1, EventSequence seq2) {
+  private static DiffXAlgorithm getAlgorithm(String[] args, Sequence seq1, Sequence seq2) {
     // TODO duplicated code from factory
     String loaderArg = CommandLine.getParameter("-A", args);
     if (loaderArg == null || "guano".equals(loaderArg))

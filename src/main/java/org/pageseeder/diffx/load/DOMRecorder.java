@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
@@ -70,7 +70,7 @@ public final class DOMRecorder implements XMLRecorder {
   /**
    * The sequence of token for this recorder.
    */
-  private EventSequence sequence;
+  private Sequence sequence;
 
   /**
    * The sequence of token for this recorder.
@@ -110,14 +110,14 @@ public final class DOMRecorder implements XMLRecorder {
   }
 
   @Override
-  public EventSequence process(File file) throws LoadingException, IOException {
+  public Sequence process(File file) throws LoadingException, IOException {
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       return process(new InputSource(in));
     }
   }
 
   @Override
-  public EventSequence process(String xml) throws LoadingException {
+  public Sequence process(String xml) throws LoadingException {
     return process(new InputSource(new StringReader(xml)));
   }
 
@@ -131,7 +131,7 @@ public final class DOMRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   @Override
-  public EventSequence process(InputSource is) throws LoadingException {
+  public Sequence process(InputSource is) throws LoadingException {
     this.isFragment = false; // input source is not a fragment
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     dbFactory.setNamespaceAware(this.config.isNamespaceAware());
@@ -155,11 +155,11 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @throws LoadingException If thrown while parsing.
    */
-  public EventSequence process(Node node) throws LoadingException {
+  public Sequence process(Node node) throws LoadingException {
     // initialise the state variables.
     this.tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     this.tokenizer = TokenizerFactory.get(this.config);
-    this.sequence = new EventSequence();
+    this.sequence = new Sequence();
     this.mapping = this.sequence.getPrefixMapping();
     // start processing the nodes
     loadNode(node);
@@ -179,9 +179,9 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @throws LoadingException If thrown while parsing.
    */
-  public EventSequence process(NodeList node) throws LoadingException {
+  public Sequence process(NodeList node) throws LoadingException {
     if (node.getLength() == 0)
-      return new EventSequence();
+      return new Sequence();
     return process(node.item(0));
   }
 

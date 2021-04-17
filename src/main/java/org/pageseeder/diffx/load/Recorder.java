@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public interface Recorder {
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
-  EventSequence process(File file) throws LoadingException, IOException;
+  Sequence process(File file) throws LoadingException, IOException;
 
   /**
    * Runs the recorder on the specified string.
@@ -54,6 +54,6 @@ public interface Recorder {
    * @throws LoadingException     If thrown while parsing.
    * @throws UncheckedIOException Should I/O error occur.
    */
-  EventSequence process(String source) throws LoadingException, UncheckedIOException;
+  Sequence process(String source) throws LoadingException, UncheckedIOException;
 
 }

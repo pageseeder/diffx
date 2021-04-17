@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 
 /**
  * Test case for Guano Diff-X algorithm.
@@ -25,7 +25,7 @@ import org.pageseeder.diffx.sequence.EventSequence;
  */
 public final class GuanoAlgorithmTest extends BaseAlgorithmLevel2Test {
 
-  public DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2) {
+  public DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2) {
     return new GuanoAlgorithm(seq1, seq2);
   }
 

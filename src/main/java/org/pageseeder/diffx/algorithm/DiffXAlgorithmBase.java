@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 
 /**
  * A base class for Diff-X algorithms.
@@ -28,12 +28,12 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
   /**
    * The first sequence of tokens to test.
    */
-  protected final EventSequence sequence1;
+  protected final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  protected final EventSequence sequence2;
+  protected final Sequence sequence2;
 
   /**
    * Length of the first sequence to compare.
@@ -56,7 +56,7 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
    * @param first The first sequence to compare.
    * @param second The second sequence to compare.
    */
-  public DiffXAlgorithmBase(EventSequence first, EventSequence second) {
+  public DiffXAlgorithmBase(Sequence first, Sequence second) {
     this.sequence1 = first;
     this.sequence2 = second;
     this.length1 = first.size();
@@ -64,12 +64,12 @@ public abstract class DiffXAlgorithmBase implements DiffXAlgorithm {
   }
 
   @Override
-  public final EventSequence getFirstSequence() {
+  public final Sequence getFirstSequence() {
     return this.sequence1;
   }
 
   @Override
-  public final EventSequence getSecondSequence() {
+  public final Sequence getSecondSequence() {
     return this.sequence2;
   }
 

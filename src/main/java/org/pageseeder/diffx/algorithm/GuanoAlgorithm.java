@@ -18,7 +18,7 @@ package org.pageseeder.diffx.algorithm;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.ShortStringFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
 
@@ -45,12 +45,12 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   /**
    * The first sequence of tokens to test.
    */
-  private final EventSequence sequence1;
+  private final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  private final EventSequence sequence2;
+  private final Sequence sequence2;
 
   /**
    * Length of the first sequence to compare.
@@ -83,7 +83,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @param seq0 The first sequence to compare.
    * @param seq1 The second sequence to compare.
    */
-  public GuanoAlgorithm(EventSequence seq0, EventSequence seq1) {
+  public GuanoAlgorithm(Sequence seq0, Sequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
     this.length1 = seq0.size();
@@ -289,7 +289,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @see DiffXAlgorithm#getFirstSequence()
    */
   @Override
-  public final EventSequence getFirstSequence() {
+  public final Sequence getFirstSequence() {
     return this.sequence1;
   }
 
@@ -297,7 +297,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @see DiffXAlgorithm#getSecondSequence()
    */
   @Override
-  public final EventSequence getSecondSequence() {
+  public final Sequence getSecondSequence() {
     return this.sequence2;
   }
 

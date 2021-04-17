@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.*;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testElementNamespaceA1() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://x.org'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("http://x.org", "elt"));
     exp.addToken(new EndElementTokenNSImpl("http://x.org", "elt"));
     assertEquivalent(exp, xml);
@@ -66,7 +66,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testElementNamespaceA2() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://x.org'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("elt"));
     exp.addToken(new AttributeTokenImpl("xmlns", "http://x.org"));
     exp.addToken(new EndElementTokenImpl("elt"));
@@ -82,7 +82,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testElementNamespaceB1() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("http://x.org", "elt"));
     exp.addToken(new EndElementTokenNSImpl("http://x.org", "elt"));
     assertEquivalent(exp, xml);
@@ -97,7 +97,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testElementNamespaceB2() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("x:elt"));
     exp.addToken(new AttributeTokenImpl("xmlns:x", "http://x.org"));
     exp.addToken(new EndElementTokenImpl("x:elt"));
@@ -115,7 +115,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceA1() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://ns.org' a='1'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("http://ns.org", "elt"));
     exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
     exp.addToken(new EndElementTokenNSImpl("http://ns.org", "elt"));
@@ -131,7 +131,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceA2() throws IOException, DiffXException {
     String xml = "<elt xmlns='http://ns.org' a='1'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("elt"));
     exp.addToken(new AttributeTokenImpl("a", "1"));
     exp.addToken(new AttributeTokenImpl("xmlns", "http://ns.org"));
@@ -148,7 +148,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceB1() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org' x:a='1'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("http://x.org", "elt"));
     exp.addToken(new AttributeTokenNSImpl("http://x.org", "a", "1"));
     exp.addToken(new EndElementTokenNSImpl("http://x.org", "elt"));
@@ -164,7 +164,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceB2() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://x.org' x:a='1'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("x:elt"));
     exp.addToken(new AttributeTokenImpl("x:a", "1"));
     exp.addToken(new AttributeTokenImpl("xmlns:x", "http://x.org"));
@@ -181,7 +181,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceC() throws IOException, DiffXException {
     String xml = "<elt xmlns='x://m.org' xmlns:x='x://m.org' a='1' x:a='2'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("x://m.org", "elt"));
     exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
     exp.addToken(new AttributeTokenNSImpl("x://m.org", "a", "2"));
@@ -198,7 +198,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
   @Test
   public final void testAttributeNamespaceD() throws IOException, DiffXException {
     String xml = "<x:elt xmlns:x='http://m.org' xmlns:y='http://n.org' a='1' x:a='2' y:a='3'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("http://m.org", "elt"));
     exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
     exp.addToken(new AttributeTokenNSImpl("http://m.org", "a", "2"));
@@ -221,7 +221,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
         " xmlns:y='http://y.org'" +
         " xmlns:z='http://z.org'" +
         " a='0' x:a='1' y:a='2' z:a='3'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("", "elt"));
     exp.addToken(new AttributeTokenNSImpl("", "a", "0"));
     exp.addToken(new AttributeTokenNSImpl("http://x.org", "a", "1"));
@@ -243,7 +243,7 @@ public abstract class XMLRecorderNSTest extends XMLRecorderTest {
         " xmlns:y='http://y.org'" +
         " xmlns:z='http://z.org'" +
         " a='0' z:a='3' y:a='2' x:a='1'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("", "elt"));
     exp.addToken(new AttributeTokenNSImpl("", "a", "0"));
     exp.addToken(new AttributeTokenNSImpl("http://x.org", "a", "1"));

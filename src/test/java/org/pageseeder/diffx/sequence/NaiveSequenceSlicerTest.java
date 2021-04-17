@@ -45,12 +45,12 @@ public final class NaiveSequenceSlicerTest {
   /**
    * The first sequence.
    */
-  private EventSequence seq1;
+  private Sequence seq1;
 
   /**
    * The second sequence.
    */
-  private EventSequence seq2;
+  private Sequence seq2;
 
   /**
    * @throws IOException    Should an I/O exception occur.
@@ -61,7 +61,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(3);
+    Sequence exp = new Sequence(3);
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XXX"));
     exp.addToken(new EndElementTokenNSImpl("a"));
@@ -77,7 +77,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new StartElementTokenNSImpl("a"));
     assertStartOK(slicer, exp);
   }
@@ -91,7 +91,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -106,7 +106,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -121,7 +121,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -136,7 +136,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new StartElementTokenNSImpl("a"));
     assertStartOK(slicer, exp);
   }
@@ -150,7 +150,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -163,7 +163,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -176,7 +176,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -189,7 +189,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(3);
+    Sequence exp = new Sequence(3);
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XXX"));
     exp.addToken(new EndElementTokenNSImpl("a"));
@@ -205,7 +205,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEndOK(slicer, exp);
   }
@@ -219,7 +219,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEndOK(slicer, exp);
   }
@@ -233,7 +233,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEndOK(slicer, exp);
   }
@@ -247,7 +247,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEndOK(slicer, exp);
   }
@@ -261,7 +261,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEndOK(slicer, exp);
   }
@@ -275,7 +275,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -288,7 +288,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -301,7 +301,7 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence exp = new EventSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -314,10 +314,10 @@ public final class NaiveSequenceSlicerTest {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
-    EventSequence start = new EventSequence(2);
+    Sequence start = new Sequence(2);
     start.addToken(new StartElementTokenNSImpl("a"));
     start.addToken(new StartElementTokenNSImpl("b"));
-    EventSequence end = new EventSequence(2);
+    Sequence end = new Sequence(2);
     end.addToken(new EndElementTokenNSImpl("b"));
     end.addToken(new EndElementTokenNSImpl("a"));
     assertStartOK(slicer, start);
@@ -351,7 +351,7 @@ public final class NaiveSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertStartOK(NaiveSequenceSlicer slicer, EventSequence exp) {
+  private void assertStartOK(NaiveSequenceSlicer slicer, Sequence exp) {
     int len1 = this.seq1.size() - exp.size();
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
@@ -369,7 +369,7 @@ public final class NaiveSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertEndOK(NaiveSequenceSlicer slicer, EventSequence exp) {
+  private void assertEndOK(NaiveSequenceSlicer slicer, Sequence exp) {
     int len1 = this.seq1.size() - exp.size();
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK

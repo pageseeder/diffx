@@ -22,7 +22,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 
@@ -298,8 +298,8 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
   // --------------------------------------------------------------------------
 
   public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
-    EventSequence seq1 = asSequenceOfCharTokens(text1);
-    EventSequence seq2 = asSequenceOfCharTokens(text2);
+    Sequence seq1 = asSequenceOfCharTokens(text1);
+    Sequence seq2 = asSequenceOfCharTokens(text2);
 
     // Setup and process
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
@@ -317,8 +317,8 @@ public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
     }
   }
 
-  private static EventSequence asSequenceOfCharTokens(String string) {
-    EventSequence s = new EventSequence();
+  private static Sequence asSequenceOfCharTokens(String string) {
+    Sequence s = new Sequence();
     for (char c : string.toCharArray()) {
       s.addToken(new CharToken(c));
     }

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.*;
@@ -42,9 +42,9 @@ public final class LineRecorder implements Recorder {
    * @throws IOException Should an I/O error occur.
    */
   @Override
-  public EventSequence process(File file) throws IOException {
+  public Sequence process(File file) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-      return getEventSequence(reader);
+      return getSequence(reader);
     }
   }
 
@@ -56,19 +56,19 @@ public final class LineRecorder implements Recorder {
    * @return The recorded sequence of tokens.
    */
   @Override
-  public EventSequence process(String text) {
+  public Sequence process(String text) {
     try {
       BufferedReader reader = new BufferedReader(new StringReader(text));
-      return getEventSequence(reader);
+      return getSequence(reader);
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
   }
 
-  private EventSequence getEventSequence(BufferedReader reader) throws IOException {
+  private Sequence getSequence(BufferedReader reader) throws IOException {
     String line = reader.readLine();
     int count = 0;
-    EventSequence sequence = new EventSequence();
+    Sequence sequence = new Sequence();
     while (line != null) {
       sequence.addToken(new LineToken(line, ++count));
       line = reader.readLine();

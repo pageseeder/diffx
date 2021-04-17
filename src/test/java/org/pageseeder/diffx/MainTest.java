@@ -22,7 +22,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.test.TestUtils;
 import org.w3c.dom.Node;
@@ -140,8 +140,8 @@ public final class MainTest {
         File infoFile = new File(rc, "info.txt");
         PrintStream info = new PrintStream(new BufferedOutputStream(new FileOutputStream(infoFile)), true);
         // print the sequences
-        EventSequence s1 = printSequence(xml1, info);
-        EventSequence s2 = printSequence(xml2, info);
+        Sequence s1 = printSequence(xml1, info);
+        Sequence s2 = printSequence(xml2, info);
         // process the diff
         long ta = processDiffX(xml1, xml2, info);
         long tb = processDiffX(xml2, xml1, info);
@@ -198,8 +198,8 @@ public final class MainTest {
    * @param info Where the additional information goes.
    * @throws IOException Should an error occur.
    */
-  private EventSequence printSequence(File xml, PrintStream info) throws IOException {
-    EventSequence s = new EventSequence();
+  private Sequence printSequence(File xml, PrintStream info) throws IOException {
+    Sequence s = new Sequence();
     // report the sequence of tokens
     SAXRecorder recorder = new SAXRecorder();
     if (config != null) recorder.setConfig(config);

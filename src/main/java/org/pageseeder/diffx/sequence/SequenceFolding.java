@@ -60,7 +60,7 @@ public class SequenceFolding {
    *
    * @return The collapsed sequence.
    */
-  public EventSequence fold(EventSequence input) {
+  public Sequence fold(Sequence input) {
     if (this.elements.isEmpty()) return input;
     FoldingProcessor processor = new FoldingProcessor();
     for (Token token : input.tokens()) {
@@ -135,8 +135,8 @@ public class SequenceFolding {
       return this.tokens;
     }
 
-    EventSequence sequence() {
-      return new EventSequence(this.tokens);
+    Sequence sequence() {
+      return new Sequence(this.tokens);
     }
   }
 

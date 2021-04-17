@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public final class LineRecorderTest {
   public void testSimpleLine0() throws IOException {
     String text = "line 1\n"
         + "line2\n";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("line 1", 1));
     exp.addToken(new LineToken("line2", 2));
     assertEqualsText(exp, text);
@@ -63,7 +63,7 @@ public final class LineRecorderTest {
         + "line #2\n"
         + "line #3\n"
         + "line #4";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("line #1", 1));
     exp.addToken(new LineToken("line #2", 2));
     exp.addToken(new LineToken("line #3", 3));
@@ -82,7 +82,7 @@ public final class LineRecorderTest {
         + "\n"
         + "line #3\n"
         + "line #4";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("line #1", 1));
     exp.addToken(new LineToken("", 2));
     exp.addToken(new LineToken("line #3", 3));
@@ -102,7 +102,7 @@ public final class LineRecorderTest {
   @Test
   public void testXMLLine0() throws IOException {
     String text = "<a>XX</a>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("<a>XX</a>", 1));
     assertEqualsText(exp, text);
   }
@@ -115,7 +115,7 @@ public final class LineRecorderTest {
   @Test
   public void testEncoding1() throws IOException {
     String text = "&lt;";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("&lt;", 1));
     assertEqualsText(exp, text);
   }
@@ -128,7 +128,7 @@ public final class LineRecorderTest {
   @Test
   public void testEncoding3() throws IOException {
     String xml = "&#x8012;";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new LineToken("&#x8012;", 1));
     assertEqualsText(exp, xml);
   }
@@ -142,8 +142,8 @@ public final class LineRecorderTest {
    * @param text The text to parse
    * @throws IOException    Should an I/O exception occur.
    */
-  private void assertEqualsText(EventSequence exp, String text) {
-    EventSequence seq = this.recorder.process(text);
+  private void assertEqualsText(Sequence exp, String text) {
+    Sequence seq = this.recorder.process(text);
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);

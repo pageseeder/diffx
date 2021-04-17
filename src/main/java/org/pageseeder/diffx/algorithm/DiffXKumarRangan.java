@@ -20,7 +20,7 @@ import org.pageseeder.diffx.core.DiffAlgorithm;
 import org.pageseeder.diffx.core.KumarRanganAlgorithm;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.FormattingAdapter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -71,7 +71,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param first The first sequence to compare.
    * @param second The second sequence to compare.
    */
-  public DiffXKumarRangan(EventSequence first, EventSequence second) {
+  public DiffXKumarRangan(Sequence first, Sequence second) {
     super(first, second);
   }
 

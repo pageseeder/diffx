@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.format.ShortStringFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
 import java.io.PrintStream;
@@ -49,7 +49,7 @@ public final class MatrixProcessor {
    *
    * @return the matrix using dynamic programming
    */
-  public Matrix process(EventSequence first, EventSequence second) {
+  public Matrix process(Sequence first, Sequence second) {
     Matrix matrix = this.inverse ? computeInverse(first.tokens(), second.tokens()) : compute(first.tokens(), second.tokens());
     if (DEBUG) {
       printDebug(first.tokens(), second.tokens(), matrix, System.err);

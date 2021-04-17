@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public final class DiffResult {
     return Actions.apply(tokens, this.actions);
   }
 
-  public EventSequence apply(EventSequence sequence) {
+  public Sequence apply(Sequence sequence) {
     return Actions.apply(sequence, this.actions);
   }
 

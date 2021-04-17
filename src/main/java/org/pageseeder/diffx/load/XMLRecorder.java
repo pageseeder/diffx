@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -39,6 +39,6 @@ public interface XMLRecorder extends Recorder {
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should I/O error occur.
    */
-  EventSequence process(InputSource is) throws LoadingException, IOException;
+  Sequence process(InputSource is) throws LoadingException, IOException;
 
 }

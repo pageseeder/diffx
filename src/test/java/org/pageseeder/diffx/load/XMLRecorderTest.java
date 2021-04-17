@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.impl.*;
@@ -75,7 +75,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testEmptyElementA1() throws IOException, DiffXException {
     String xml = "<a/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEquivalent(exp, xml);
@@ -94,7 +94,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testEmptyElementA2() throws IOException, DiffXException {
     String xml = "<a/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("a"));
     exp.addToken(new EndElementTokenImpl("a"));
     assertEquivalent(exp, xml, SIMPLE);
@@ -115,7 +115,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testTextElementA() throws IOException, DiffXException {
     String xml = "<a>XX</a>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XX"));
     exp.addToken(new EndElementTokenNSImpl("a"));
@@ -135,7 +135,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testTextElementB() throws IOException, DiffXException {
     String xml = "<a>XX  YY</a>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XX"));
     exp.addToken(new SpaceToken("  "));
@@ -157,7 +157,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testElementsA() throws IOException, DiffXException {
     String xml = "<a><b>WWW</b></a>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new StartElementTokenNSImpl("b"));
     exp.addToken(new WordToken("WWW"));
@@ -179,7 +179,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testElementsB() throws IOException, DiffXException {
     String xml = "<a><b>XX</b><c>YY</c></a>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new StartElementTokenNSImpl("b"));
     exp.addToken(new WordToken("XX"));
@@ -202,7 +202,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testCharEntityLT() throws IOException, DiffXException {
     String xml = "<t>&lt;</t>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("t"));
     exp.addToken(new WordToken("<"));
     exp.addToken(new EndElementTokenNSImpl("t"));
@@ -218,7 +218,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testCharEntityGT() throws IOException, DiffXException {
     String xml = "<t>&gt;</t>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("t"));
     exp.addToken(new WordToken(">"));
     exp.addToken(new EndElementTokenNSImpl("t"));
@@ -234,7 +234,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testCharEntityAMP() throws IOException, DiffXException {
     String xml = "<t>&amp;</t>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("t"));
     exp.addToken(new WordToken("&"));
     exp.addToken(new EndElementTokenNSImpl("t"));
@@ -250,7 +250,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testCharEntityNumerical() throws IOException, DiffXException {
     String xml = "<t>&#x8012;</t>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("t"));
     exp.addToken(new WordToken("" + (char) 0x8012));
     exp.addToken(new EndElementTokenNSImpl("t"));
@@ -268,7 +268,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testAttributeA1() throws IOException, DiffXException {
     String xml = "<elt attr='value'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("elt"));
     exp.addToken(new AttributeTokenNSImpl("attr", "value"));
     exp.addToken(new EndElementTokenNSImpl("elt"));
@@ -284,7 +284,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testAttributeA2() throws IOException, DiffXException {
     String xml = "<elt attr='value'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("elt"));
     exp.addToken(new AttributeTokenImpl("attr", "value"));
     exp.addToken(new EndElementTokenImpl("elt"));
@@ -300,7 +300,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testSortAttributesA() throws IOException, DiffXException {
     String xml = "<elt b='second' a='first'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("elt"));
     exp.addToken(new AttributeTokenNSImpl("a", "first"));
     exp.addToken(new AttributeTokenNSImpl("b", "second"));
@@ -317,7 +317,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testSortAttributesB() throws IOException, DiffXException {
     String xml = "<elt b='second' c='third' a='first'/>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("elt"));
     exp.addToken(new AttributeTokenNSImpl("a", "first"));
     exp.addToken(new AttributeTokenNSImpl("b", "second"));
@@ -337,7 +337,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testProcessingInstructionA1() throws IOException, DiffXException {
     String xml = "<elt><?target data?></elt>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("elt"));
     exp.addToken(new ProcessingInstructionToken("target", "data"));
     exp.addToken(new EndElementTokenNSImpl("elt"));
@@ -353,7 +353,7 @@ public abstract class XMLRecorderTest {
   @Test
   public final void testProcessingInstructionA2() throws IOException, DiffXException {
     String xml = "<elt><?target data?></elt>";
-    EventSequence exp = new EventSequence();
+    Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("elt"));
     exp.addToken(new ProcessingInstructionToken("target", "data"));
     exp.addToken(new EndElementTokenImpl("elt"));
@@ -371,7 +371,7 @@ public abstract class XMLRecorderTest {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void assertEquivalent(EventSequence exp, String xml) throws IOException, DiffXException {
+  public final void assertEquivalent(Sequence exp, String xml) throws IOException, DiffXException {
     assertEquivalent(exp, xml, new DiffXConfig());
   }
 
@@ -384,12 +384,12 @@ public abstract class XMLRecorderTest {
    * @throws IOException    Should an I/O exception occur.
    * @throws DiffXException Should an error occur while parsing XML.
    */
-  public final void assertEquivalent(EventSequence exp, String xml, DiffXConfig config)
+  public final void assertEquivalent(Sequence exp, String xml, DiffXConfig config)
       throws IOException, DiffXException {
     // process the strings
     Reader xmlr = new StringReader(xml);
     this.recorder = makeXMLRecorder(config);
-    EventSequence seq = this.recorder.process(new InputSource(xmlr));
+    Sequence seq = this.recorder.process(new InputSource(xmlr));
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);
@@ -421,7 +421,7 @@ public abstract class XMLRecorderTest {
    */
   private void printAsSequence(String xml) throws IOException, DiffXException {
     Reader xmlr = new StringReader(xml);
-    EventSequence seq = this.recorder.process(new InputSource(xmlr));
+    Sequence seq = this.recorder.process(new InputSource(xmlr));
     PrintWriter pw = new PrintWriter(System.err);
     seq.export(pw);
     pw.flush();

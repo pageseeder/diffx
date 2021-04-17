@@ -8,7 +8,7 @@ import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.xml.sax.InputSource;
@@ -45,7 +45,7 @@ public abstract class BaseAlgorithmTest {
    * @param seq2 The second sequence.
    * @return The Diff-X Algorithm instance.
    */
-  public abstract DiffXAlgorithm makeDiffX(EventSequence seq1, EventSequence seq2);
+  public abstract DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2);
 
 
   /**
@@ -60,8 +60,8 @@ public abstract class BaseAlgorithmTest {
   public final void assertDiffXMLOK(String xml1, String xml2) throws IOException, DiffXException {
     // Record XML
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : recorder.process(xml1);
-    EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : recorder.process(xml2);
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.process(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.process(xml2);
     // Process as list of actions
     DiffResult result = processResult(seq1, seq2);
     try {
@@ -142,8 +142,8 @@ public abstract class BaseAlgorithmTest {
       throws IOException, DiffXException {
     // Record XML
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : recorder.process(xml1);
-    EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : recorder.process(xml2);
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.process(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.process(xml2);
     // Process as list of actions
     List<Action> actions = diffToActions(seq1, seq2);
     try {
@@ -169,8 +169,8 @@ public abstract class BaseAlgorithmTest {
   private String processDiffXML(String xml1, String xml2)
       throws IOException, DiffXException, IllegalStateException {
     // process the strings
-    EventSequence seq1 = "".equals(xml1) ? new EventSequence(0) : this.recorder.process(xml1);
-    EventSequence seq2 = "".equals(xml2) ? new EventSequence(0) : this.recorder.process(xml2);
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : this.recorder.process(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : this.recorder.process(xml2);
 
     this.diffx = makeDiffX(seq1, seq2);
     MultiplexFormatter mf = new MultiplexFormatter();
@@ -223,8 +223,8 @@ public abstract class BaseAlgorithmTest {
       throws IOException, IllegalStateException {
     // process the strings
     LineRecorder recorder = new LineRecorder();
-    EventSequence seq1 = recorder.process(text1);
-    EventSequence seq2 = recorder.process(text2);
+    Sequence seq1 = recorder.process(text1);
+    Sequence seq2 = recorder.process(text2);
     this.diffx = makeDiffX(seq1, seq2);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);
@@ -261,27 +261,27 @@ public abstract class BaseAlgorithmTest {
     }
   }
 
-  public final void assertDiffIsCorrect(EventSequence seq1, EventSequence seq2, List<Action> actions) {
+  public final void assertDiffIsCorrect(Sequence seq1, Sequence seq2, List<Action> actions) {
     // Ensure that the diff is applicable
     assertTrue(Actions.isApplicable(seq1.tokens(), seq2.tokens(), actions), "The resulting diff is not applicable");
 
     // Apply to second sequence to ensure we get the first
-    EventSequence got1 = Actions.apply(seq2, actions);
+    Sequence got1 = Actions.apply(seq2, actions);
     assertEquals(seq1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
-    EventSequence got2 = Actions.apply(seq1, Actions.reverse(actions));
+    Sequence got2 = Actions.apply(seq1, Actions.reverse(actions));
     assertEquals(seq2, got2, "Applying diff to #1 did not produce #2");
   }
 
-  public DiffResult processResult(EventSequence seq1, EventSequence seq2) throws IOException {
+  public DiffResult processResult(Sequence seq1, Sequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);
     return new DiffResult(formatter.getActions());
   }
 
-  public List<Action> diffToActions(EventSequence seq1, EventSequence seq2) throws IOException {
+  public List<Action> diffToActions(Sequence seq1, Sequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);

@@ -17,7 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
 
@@ -99,7 +99,7 @@ public final class TestFormatter implements DiffXFormatter {
    * @param seq The token sequence to format
    * @throws IOException Should an I/O exception be thrown by the <code>format</code> method.
    */
-  public void format(EventSequence seq) throws IOException {
+  public void format(Sequence seq) throws IOException {
     for (int i = 0; i < seq.size(); i++) {
       format(seq.getToken(i));
     }

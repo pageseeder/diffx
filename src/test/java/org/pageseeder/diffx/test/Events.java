@@ -21,7 +21,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
@@ -88,14 +88,14 @@ public final class Events {
   }
 
 
-  public static EventSequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException {
-    if (xml.isEmpty()) return new EventSequence();
+  public static Sequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException {
+    if (xml.isEmpty()) return new Sequence();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     return recordXMLSequence(xml, config);
   }
 
-  public static EventSequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException {
+  public static Sequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException {
     SAXRecorder recorder = new SAXRecorder();
     recorder.setConfig(config);
     return recorder.process(xml);

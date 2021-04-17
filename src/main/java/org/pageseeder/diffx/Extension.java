@@ -22,7 +22,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.w3c.dom.Document;
@@ -97,8 +97,8 @@ public final class Extension {
     // Get Sequences
     DOMRecorder loader = new DOMRecorder();
     loader.setConfig(config);
-    EventSequence seq1 = loader.process(xml1);
-    EventSequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.process(xml1);
+    Sequence seq2 = loader.process(xml2);
     if (seq1.size() == 0 && seq2.size() == 0) return null;
 
     // Start comparing
@@ -126,7 +126,7 @@ public final class Extension {
    *
    * @throws IOException    Should an I/O exception occur.
    */
-  private static void diff(EventSequence seq1, EventSequence seq2, Writer out, DiffXConfig config)
+  private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     PrefixMapping mapping = new PrefixMapping();

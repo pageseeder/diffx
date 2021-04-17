@@ -47,22 +47,22 @@ public final class SequenceSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final EventSequence sequence1;
+  final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final EventSequence sequence2;
+  final Sequence sequence2;
 
   /**
    * The common start between the two sequences.
    */
-  EventSequence start;
+  Sequence start;
 
   /**
    * The common end between the two sequences.
    */
-  EventSequence end;
+  Sequence end;
 
   // constructor --------------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ public final class SequenceSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
-  public SequenceSlicer(EventSequence seq0, EventSequence seq1) {
+  public SequenceSlicer(Sequence seq0, Sequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
   }
@@ -105,7 +105,7 @@ public final class SequenceSlicer {
   public int sliceStart() throws IllegalStateException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
-    this.start = new EventSequence();
+    this.start = new Sequence();
     int toBeRemoved = 0; // the number of tokens to be removed
     int depth = 0;       // the depth of the XML or number of open elements
     Iterator<Token> i = this.sequence1.iterator();
@@ -154,7 +154,7 @@ public final class SequenceSlicer {
   public int sliceEnd() throws IllegalStateException {
     if (this.end != null)
       throw new IllegalStateException("The end buffer already contains a subsequence.");
-    this.end = new EventSequence();
+    this.end = new Sequence();
     int depth = 0;       // the depth of the XML or number of open elements
     int toBeRemoved = 0; // number of tokens to be removed from the end
     int counter = 0;     // number of tokens evaluated
@@ -237,7 +237,7 @@ public final class SequenceSlicer {
    *
    * @return The current start sequence buffer or <code>null</code> if none.
    */
-  public EventSequence getStart() {
+  public Sequence getStart() {
     return this.start;
   }
 
@@ -246,7 +246,7 @@ public final class SequenceSlicer {
    *
    * @return The current end sequence buffer or <code>null</code> if none.
    */
-  public EventSequence getEnd() {
+  public Sequence getEnd() {
     return this.end;
   }
 

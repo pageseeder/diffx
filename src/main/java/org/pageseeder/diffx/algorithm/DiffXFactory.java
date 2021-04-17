@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 
 import java.lang.reflect.Constructor;
 
@@ -38,7 +38,7 @@ public final class DiffXFactory {
   /**
    * The classes of the arguments of the constructor.
    */
-  private static final Class<?>[] ARGS = new Class<?>[]{EventSequence.class, EventSequence.class};
+  private static final Class<?>[] ARGS = new Class<?>[]{Sequence.class, Sequence.class};
 
   /**
    * Creates a Diff-X instance using the specified class name and token sequences.
@@ -52,7 +52,7 @@ public final class DiffXFactory {
    * @throws FactoryException Should an error occur when trying to instantiate the class.
    */
   @SuppressWarnings("unchecked")
-  public static DiffXAlgorithm newAlgorithm(String className, EventSequence sequence1, EventSequence sequence2)
+  public static DiffXAlgorithm newAlgorithm(String className, Sequence sequence1, Sequence sequence2)
       throws FactoryException {
     DiffXAlgorithm algorithm;
     try {

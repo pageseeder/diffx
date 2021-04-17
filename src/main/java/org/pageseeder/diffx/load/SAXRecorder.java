@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.xml.sax.*;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Records the SAX events in an {@link org.pageseeder.diffx.sequence.EventSequence}.
+ * Records the SAX events in an {@link org.pageseeder.diffx.sequence.Sequence}.
  *
  * <p>It is possible to specify the name of the XML reader implementation class.
  * By default this class will try to use the Crimson parser
@@ -93,7 +93,7 @@ public final class SAXRecorder implements XMLRecorder {
   /**
    * The sequence of token for this recorder.
    */
-  protected EventSequence sequence;
+  protected Sequence sequence;
 
   /**
    * Runs the recorder on the specified file.
@@ -108,7 +108,7 @@ public final class SAXRecorder implements XMLRecorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public EventSequence process(File file) throws LoadingException, IOException {
+  public Sequence process(File file) throws LoadingException, IOException {
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       return process(new InputSource(in));
     }
@@ -127,7 +127,7 @@ public final class SAXRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   @Override
-  public EventSequence process(String xml) throws LoadingException {
+  public Sequence process(String xml) throws LoadingException {
     try {
       return this.process(new InputSource(new StringReader(xml)));
     } catch (IOException ex) {
@@ -146,7 +146,7 @@ public final class SAXRecorder implements XMLRecorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public EventSequence process(InputSource is) throws LoadingException, IOException {
+  public Sequence process(InputSource is) throws LoadingException, IOException {
     if (reader == null || newReader) {
       init();
     }
@@ -266,7 +266,7 @@ public final class SAXRecorder implements XMLRecorder {
 
     @Override
     public void startDocument() {
-      SAXRecorder.this.sequence = new EventSequence();
+      SAXRecorder.this.sequence = new Sequence();
       this.tokenFactory = new TokenFactory(SAXRecorder.this.config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(SAXRecorder.this.config);
       SAXRecorder.this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);

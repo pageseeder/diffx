@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
 import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
 import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
@@ -168,10 +168,10 @@ public final class SmartXMLFormatterTest {
     // process the XML to get the sequence
     Reader xmlr = new StringReader(xml);
     SAXRecorder recorder = new SAXRecorder();
-    EventSequence exp = recorder.process(new InputSource(xmlr));
+    Sequence exp = recorder.process(new InputSource(xmlr));
     // process the output of the formatter
     Reader xmlr2 = new StringReader(this.w.toString());
-    EventSequence seq = recorder.process(new InputSource(xmlr2));
+    Sequence seq = recorder.process(new InputSource(xmlr2));
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);

@@ -17,7 +17,7 @@ package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
@@ -68,9 +68,9 @@ public final class Operations {
   /**
    * Apply the specified list of operations to the input sequence and return the corresponding output.
    */
-  public static EventSequence apply(EventSequence input, List<Operation> operations) {
+  public static Sequence apply(Sequence input, List<Operation> operations) {
     List<Token> tokens = apply(input.tokens(), operations);
-    EventSequence out = new EventSequence(tokens.size());
+    Sequence out = new Sequence(tokens.size());
     out.addTokens(tokens);
     return out;
   }

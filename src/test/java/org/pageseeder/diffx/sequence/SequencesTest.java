@@ -29,96 +29,89 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class EventSequenceUtilsTest {
+public final class SequencesTest {
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxDepth1() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a/>");
-    int max = EventSequenceUtils.getMaxDepth(seq);
+    Sequence seq = new SAXRecorder().process("<a/>");
+    int max = Sequences.getMaxDepth(seq);
     assertEquals(1, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxDepth2() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a><a/></a>");
-    int max = EventSequenceUtils.getMaxDepth(seq);
+    Sequence seq = new SAXRecorder().process("<a><a/></a>");
+    int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxDepth3() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a><b/><b/></a>");
-    int max = EventSequenceUtils.getMaxDepth(seq);
+    Sequence seq = new SAXRecorder().process("<a><b/><b/></a>");
+    int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxDepth4() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a><b><c/></b><b/></a>");
-    int max = EventSequenceUtils.getMaxDepth(seq);
+    Sequence seq = new SAXRecorder().process("<a><b><c/></b><b/></a>");
+    int max = Sequences.getMaxDepth(seq);
     assertEquals(3, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxElementContent0() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a/>");
-    int max = EventSequenceUtils.getMaxElementContent(seq);
+    Sequence seq = new SAXRecorder().process("<a/>");
+    int max = Sequences.getMaxElementContent(seq);
     assertEquals(0, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxElementContent1() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a>x</a>");
-    int max = EventSequenceUtils.getMaxElementContent(seq);
+    Sequence seq = new SAXRecorder().process("<a>x</a>");
+    int max = Sequences.getMaxElementContent(seq);
     assertEquals(1, max);
   }
 
   /**
    * Test the maximum depth.
    *
-   * @throws IOException      If an I/O error occurs.
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
   public void testMaxElementContent2() throws LoadingException {
-    EventSequence seq = new SAXRecorder().process("<a>x y</a>");
-    int max = EventSequenceUtils.getMaxElementContent(seq);
+    Sequence seq = new SAXRecorder().process("<a>x y</a>");
+    int max = Sequences.getMaxElementContent(seq);
     assertEquals(3, max);
   }
 
