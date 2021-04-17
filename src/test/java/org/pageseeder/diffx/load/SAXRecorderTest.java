@@ -35,7 +35,7 @@ public final class SAXRecorderTest {
 
   @Nested
   @DisplayName("Text / No namespace")
-  public class TextNoNamespace extends XMLRecorder_Text_NoNS {
+  public class Text_NoNamespace extends XMLRecorder_Text_NoNS {
     @Override
     public XMLRecorder newXMLRecorder(DiffXConfig config) {
       return configureRecorder(config);
@@ -44,7 +44,17 @@ public final class SAXRecorderTest {
 
   @Nested
   @DisplayName("Word / Namespace aware")
-  public class WordNamespaceAware extends XMLRecorder_Word_NS {
+  public class Word_NamespaceAware extends XMLRecorder_Word_NS {
+    @Override
+    public XMLRecorder newXMLRecorder(DiffXConfig config) {
+      return configureRecorder(config);
+    }
+  }
+
+
+  @Nested
+  @DisplayName("SpaceWord / Namespace aware")
+  public class SpaceWord_NamespaceAware extends XMLRecorder_SpaceWord_NS {
     @Override
     public XMLRecorder newXMLRecorder(DiffXConfig config) {
       return configureRecorder(config);

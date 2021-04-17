@@ -19,6 +19,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.token.Token;
 import org.xml.sax.InputSource;
 
 import java.io.*;
@@ -34,21 +35,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public abstract class XMLRecorderTest {
 
   /**
-   * The XML recorder to use.
-   */
-  private static final DiffXConfig NOT_NS_AWARE;
-
-  static {
-    NOT_NS_AWARE = new DiffXConfig();
-    NOT_NS_AWARE.setNamespaceAware(false);
-  }
-
-  /**
-   * Returns the Diff-X recorder to test.
-   *
    * @param config The configuration to use for the recorder.
    *
-   * @return The Diff-X Algorithm instance.
+   * @return A new recorder instance for testing
    */
   public abstract XMLRecorder newXMLRecorder(DiffXConfig config);
 
@@ -68,22 +57,18 @@ public abstract class XMLRecorderTest {
    */
   public final void assertEquivalent(Sequence exp, String xml, DiffXConfig config)
       throws LoadingException {
-    Sequence seq = record(xml, config);
+    Sequence got = record(xml, config);
     try {
-      assertEquals(exp.size(), seq.size());
-      assertEquals(exp, seq);
+      assertEquals(exp.size(), got.size());
+      assertEquals(exp, got);
     } catch (AssertionError ex) {
       System.err.println("_____________");
       System.err.println("* Expected:");
-      PrintWriter pw1 = new PrintWriter(System.err);
-      exp.export(pw1);
-      pw1.flush();
+      System.err.println(exp.tokens());
       System.err.println("* But got:");
-      PrintWriter pw2 = new PrintWriter(System.err);
-      seq.export(pw2);
-      pw2.flush();
+      System.err.println(got.tokens());
       System.err.println("* Prefix Mapping:");
-      PrefixMapping mapping = seq.getPrefixMapping();
+      PrefixMapping mapping = got.getPrefixMapping();
       for (Namespace namespace : mapping) {
         System.err.println(namespace.getUri() + " -> " + namespace.getPrefix());
       }
@@ -91,7 +76,7 @@ public abstract class XMLRecorderTest {
     }
   }
 
-  private Sequence record(String xml, DiffXConfig config) throws LoadingException {
+  protected Sequence record(String xml, DiffXConfig config) throws LoadingException {
     try (Reader reader = new StringReader(xml)) {
       XMLRecorder recorder = newXMLRecorder(config);
       return recorder.process(new InputSource(reader));

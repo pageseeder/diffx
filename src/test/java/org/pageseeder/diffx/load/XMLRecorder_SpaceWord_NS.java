@@ -24,13 +24,13 @@ import org.pageseeder.diffx.token.impl.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
+public abstract class XMLRecorder_SpaceWord_NS extends XMLRecorderTest {
 
   @Override
   public DiffXConfig getConfig() {
     DiffXConfig config = new DiffXConfig();
     config.setNamespaceAware(true);
-    config.setGranularity(TextGranularity.WORD);
+    config.setGranularity(TextGranularity.SPACE_WORD);
     return config;
   }
 
@@ -52,7 +52,7 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
 
   @Test
   @DisplayName("<a>XX</a>")
-  public final void testTextElementA() throws LoadingException {
+  public final void testTextElement1() throws LoadingException {
     String xml = "<a>XX</a>";
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
@@ -63,34 +63,31 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
 
   @Test
   @DisplayName("<a>XX  YY</a>")
-  public final void testTextElementB() throws LoadingException {
+  public final void testTextElement2() throws LoadingException {
     String xml = "<a>XX  YY</a>";
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("XX"));
-    exp.addToken(new SpaceToken("  "));
-    exp.addToken(new WordToken("YY"));
+    exp.addToken(new SpaceToken(" "));
+    exp.addToken(new WordToken(" YY"));
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
   @Test
-  @DisplayName("<a>The black hat; A white cat!</a>")
+  @DisplayName("<a>The black hat; a white cat!</a>")
   public final void testTextElement3() throws LoadingException {
-    String xml = "<a>The black hat; A white cat!</a>";
+    String xml = "<a>The black hat; a white cat!</a>";
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenNSImpl("a"));
     exp.addToken(new WordToken("The"));
-    exp.addToken(new SpaceToken(" "));
-    exp.addToken(new WordToken("black"));
-    exp.addToken(new SpaceToken(" "));
-    exp.addToken(new WordToken("hat;"));
-    exp.addToken(new SpaceToken(" "));
-    exp.addToken(new WordToken("A"));
-    exp.addToken(new SpaceToken(" "));
-    exp.addToken(new WordToken("white"));
-    exp.addToken(new SpaceToken(" "));
-    exp.addToken(new WordToken("cat!"));
+    exp.addToken(new WordToken(" black"));
+    exp.addToken(new WordToken(" hat"));
+    exp.addToken(new WordToken(";"));
+    exp.addToken(new WordToken(" a"));
+    exp.addToken(new WordToken(" white"));
+    exp.addToken(new WordToken(" cat"));
+    exp.addToken(new WordToken("!"));
     exp.addToken(new EndElementTokenNSImpl("a"));
     assertEquivalent(exp, xml, getConfig());
   }
@@ -352,6 +349,5 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
     exp.addToken(new EndElementTokenNSImpl("https://example.org", "e"));
     exp.addToken(new EndElementTokenNSImpl("", "d"));
     assertEquivalent(exp, xml, getConfig());
-
   }
 }

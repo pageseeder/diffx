@@ -17,13 +17,12 @@ package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.*;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
 
@@ -33,6 +32,12 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
     config.setNamespaceAware(false);
     config.setGranularity(TextGranularity.TEXT);
     return config;
+  }
+
+  @Test
+  @DisplayName("<a ")
+  public final void testInvalidElement()  {
+    assertThrows(LoadingException.class, () -> record("<bad-xml", getConfig()));
   }
 
   @Test
@@ -63,6 +68,17 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("a"));
     exp.addToken(new CharactersToken("XX  YY"));
+    exp.addToken(new EndElementTokenImpl("a"));
+    assertEquivalent(exp, xml, getConfig());
+  }
+
+  @Test
+  @DisplayName("<a>The black hat; A white cat!</a>")
+  public final void testTextElement3() throws LoadingException {
+    String xml = "<a>The black hat; A white cat!</a>";
+    Sequence exp = new Sequence();
+    exp.addToken(new StartElementTokenImpl("a"));
+    exp.addToken(new CharactersToken("The black hat; A white cat!"));
     exp.addToken(new EndElementTokenImpl("a"));
     assertEquivalent(exp, xml, getConfig());
   }
@@ -213,7 +229,7 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
 
   @Test
   @DisplayName("https://example.org")
-  public final void testAttributeNamespace1() throws IOException, DiffXException {
+  public final void testAttributeNamespace1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org' a='1'/>";
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("elt"));
@@ -225,7 +241,7 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
 
   @Test
   @DisplayName("<x:elt xmlns:x='https://example.org' x:a='1'/>")
-  public final void testAttributeNamespaceB2() throws IOException, DiffXException {
+  public final void testAttributeNamespaceB2() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org' x:a='1'/>";
     Sequence exp = new Sequence();
     exp.addToken(new StartElementTokenImpl("x:elt"));
