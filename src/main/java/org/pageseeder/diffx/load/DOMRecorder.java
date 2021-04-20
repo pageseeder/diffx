@@ -233,10 +233,10 @@ public final class DOMRecorder implements XMLRecorder {
       String uri = element.getNamespaceURI() == null ? "" : element.getNamespaceURI();
       String name = element.getLocalName();
       handlePrefixMapping(uri, element.getPrefix());
-      open = this.tokenFactory.makeOpenElement(uri, name);
+      open = this.tokenFactory.newStartElement(uri, name);
       // not namespace aware
     } else {
-      open = this.tokenFactory.makeOpenElement(null, element.getNodeName());
+      open = this.tokenFactory.newStartElement(null, element.getNodeName());
     }
 
     this.sequence.addToken(open);
@@ -262,7 +262,7 @@ public final class DOMRecorder implements XMLRecorder {
     for (int i = 0; i < list.getLength(); i++) {
       loadNode(list.item(i));
     }
-    EndElementToken close = this.tokenFactory.makeCloseElement(open);
+    EndElementToken close = this.tokenFactory.newEndElement(open);
     this.sequence.addToken(close);
   }
 
@@ -296,7 +296,7 @@ public final class DOMRecorder implements XMLRecorder {
     String uri = attr.getNamespaceURI();
     if (uri == null) uri = XMLConstants.NULL_NS_URI;
     handlePrefixMapping(uri, attr.getPrefix());
-    load(this.tokenFactory.makeAttribute(uri,
+    load(this.tokenFactory.newAttribute(uri,
         attr.getLocalName(),
         attr.getNodeName(),
         attr.getValue()));

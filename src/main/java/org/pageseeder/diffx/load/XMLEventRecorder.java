@@ -168,7 +168,7 @@ public final class XMLEventRecorder implements XMLRecorder {
 
   private static void processStartElement(StartElement event, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
     QName name = event.getName();
-    StartElementToken startElement = factory.makeOpenElement(name.getNamespaceURI(), name.getLocalPart());
+    StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
     sequence.addToken(startElement);
     startElements.add(startElement);
   }
@@ -193,7 +193,7 @@ public final class XMLEventRecorder implements XMLRecorder {
 
   private static void processEndElement(EndElement event, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
-    EndElementToken endElement = factory.makeCloseElement(startElement);
+    EndElementToken endElement = factory.newEndElement(startElement);
     sequence.addToken(endElement);
   }
 

@@ -74,7 +74,7 @@ public final class TokenFactory {
    *
    * @return The open element token from the uri and name given.
    */
-  public StartElementToken makeOpenElement(String uri, String name) {
+  public StartElementToken newStartElement(String uri, String name) {
     if (this.isNamespaceAware) return new StartElementTokenNSImpl(uri, name);
     else
       return new StartElementTokenImpl(name);
@@ -95,7 +95,7 @@ public final class TokenFactory {
    *
    * @return The open element token from the uri and name given.
    */
-  public StartElementToken makeOpenElement(String uri, String localName, String qName) {
+  public StartElementToken newStartElement(String uri, String localName, String qName) {
     if (this.isNamespaceAware) return new StartElementTokenNSImpl(uri, localName);
     else
       return new StartElementTokenImpl(qName);
@@ -108,7 +108,7 @@ public final class TokenFactory {
    *
    * @return The close element token from the corresponding open element token.
    */
-  public EndElementToken makeCloseElement(StartElementToken open) {
+  public EndElementToken newEndElement(StartElementToken open) {
     if (this.isNamespaceAware) return new EndElementTokenNSImpl(open);
     else
       return new EndElementTokenImpl(open);
@@ -132,7 +132,7 @@ public final class TokenFactory {
    *
    * @return The open element token from the uri and name given.
    */
-  public AttributeToken makeAttribute(String uri, String name, String value) {
+  public AttributeToken newAttribute(String uri, String name, String value) {
     if (this.isNamespaceAware) return new AttributeTokenNSImpl(uri, name, value);
     else
       return new AttributeTokenImpl(name, value);
@@ -154,7 +154,7 @@ public final class TokenFactory {
    *
    * @return The open element token from the uri and name given.
    */
-  public AttributeToken makeAttribute(String uri, String localName, String qName, String value) {
+  public AttributeToken newAttribute(String uri, String localName, String qName, String value) {
     if (this.isNamespaceAware) return new AttributeTokenNSImpl(uri, localName, value);
     else
       return new AttributeTokenImpl(qName, value);

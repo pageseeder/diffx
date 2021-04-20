@@ -171,7 +171,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
   private static void processStartElement(XMLStreamReader stream, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
     assert stream.isStartElement();
     QName name = stream.getName();
-    StartElementToken startElement = factory.makeOpenElement(name.getNamespaceURI(), name.getLocalPart());
+    StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
     sequence.addToken(startElement);
     startElements.add(startElement);
   }
@@ -209,7 +209,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
   private static void processEndElement(XMLStreamReader stream, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
     assert stream.isEndElement();
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
-    EndElementToken endElement = factory.makeCloseElement(startElement);
+    EndElementToken endElement = factory.newEndElement(startElement);
     sequence.addToken(endElement);
   }
 

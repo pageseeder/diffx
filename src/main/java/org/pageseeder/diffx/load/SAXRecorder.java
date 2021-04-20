@@ -279,7 +279,7 @@ public final class SAXRecorder implements XMLRecorder {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
       recordCharacters();
-      StartElementToken open = this.tokenFactory.makeOpenElement(uri, localName, qName);
+      StartElementToken open = this.tokenFactory.newStartElement(uri, localName, qName);
       this.openElements.add(open);
       SAXRecorder.this.sequence.addToken(open);
       handleAttributes(attributes);
@@ -289,7 +289,7 @@ public final class SAXRecorder implements XMLRecorder {
     public void endElement(String uri, String localName, String qName) {
       recordCharacters();
       StartElementToken open = popLastOpenElement();
-      EndElementToken close = this.tokenFactory.makeCloseElement(open);
+      EndElementToken close = this.tokenFactory.newEndElement(open);
       SAXRecorder.this.sequence.addToken(close);
     }
 
@@ -345,7 +345,7 @@ public final class SAXRecorder implements XMLRecorder {
     private void handleAttributes(Attributes attributes) {
       // only one attribute
       if (attributes.getLength() == 1) {
-        SAXRecorder.this.sequence.addToken(this.tokenFactory.makeAttribute(attributes.getURI(0),
+        SAXRecorder.this.sequence.addToken(this.tokenFactory.newAttribute(attributes.getURI(0),
             attributes.getLocalName(0),
             attributes.getQName(0),
             attributes.getValue(0)));
@@ -354,7 +354,7 @@ public final class SAXRecorder implements XMLRecorder {
         // store all the attributes
         AttributeToken[] attEvents = new AttributeToken[attributes.getLength()];
         for (int i = 0; i < attributes.getLength(); i++) {
-          attEvents[i] = this.tokenFactory.makeAttribute(attributes.getURI(i),
+          attEvents[i] = this.tokenFactory.newAttribute(attributes.getURI(i),
               attributes.getLocalName(i),
               attributes.getQName(i),
               attributes.getValue(i));
