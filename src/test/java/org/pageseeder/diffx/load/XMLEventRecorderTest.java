@@ -23,10 +23,10 @@ import org.pageseeder.diffx.config.DiffXConfig;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class SAXRecorderTest {
+public final class XMLEventRecorderTest {
 
   public XMLRecorder configureRecorder(DiffXConfig config) {
-    SAXRecorder recorder = new SAXRecorder();
+    XMLEventRecorder recorder = new XMLEventRecorder();
     recorder.setConfig(config);
     return recorder;
   }

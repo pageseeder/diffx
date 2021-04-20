@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.config.DiffXConfig;
 
 /**
- * Test class for the DOM Recorder.
- *
  * @author Christophe Lauret
  * @version 0.9.0
  */

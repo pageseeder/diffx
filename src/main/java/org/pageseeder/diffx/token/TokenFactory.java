@@ -53,7 +53,9 @@ public final class TokenFactory {
     this.isNamespaceAware = isNamespaceAware;
   }
 
-  // methods ------------------------------------------------------------------------------
+  public boolean isNamespaceAware() {
+    return this.isNamespaceAware;
+  }
 
   /**
    * Returns the open element token from the uri and name given.

@@ -25,8 +25,6 @@ import java.io.PrintWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test class for the text recorder.
- *
  * @author Christophe Lauret
  * @version 0.9.0
  */
