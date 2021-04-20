@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.ElementState;
 import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
-import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.token.AttributeToken;
@@ -81,7 +80,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         // follow the natural path and insert
         if (estate.isAllowed(Operator.INS, tokenA) && !estate.hasPriorityOver(tokenB, tokenA)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] >i +" + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] >i +" + tokenA);
           }
           actual.handle(Operator.INS, tokenA);
           i++;
@@ -89,7 +88,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           // if we can format checking at the stack, let's do it
         } else if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + tokenA);
           }
           actual.handle(Operator.MATCH, tokenA);
           i++;
@@ -98,7 +97,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           // go counter current and delete
         } else if (estate.isAllowed(Operator.DEL, tokenB)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] >d -" + ShortStringFormatter.toShortString(tokenB));
+            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] >d -" + tokenB);
           }
           actual.handle(Operator.DEL, tokenB);
           j++;
@@ -116,7 +115,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         // follow the natural and delete
         if (estate.isAllowed(Operator.DEL, tokenB) && !estate.hasPriorityOver(tokenA, tokenB)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] <d -" + ShortStringFormatter.toShortString(tokenB));
+            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] <d -" + tokenB);
           }
           actual.handle(Operator.DEL, tokenB);
           j++;
@@ -124,7 +123,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           // if we can format checking at the stack, let's do it
         } else if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + tokenA);
           }
           actual.handle(Operator.MATCH, tokenA);
           i++;
@@ -133,7 +132,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           // insert (counter-current)
         } else if (estate.isAllowed(Operator.INS, tokenA)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] <i +" + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] <i +" + tokenA);
           }
           actual.handle(Operator.INS, tokenA);
           i++;
@@ -152,7 +151,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         // if we can format checking at the stack, let's do it
         if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + tokenA);
           }
           actual.handle(Operator.MATCH, tokenA);
           i++;
@@ -162,7 +161,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         } else if (estate.isAllowed(Operator.INS, tokenA)
             && !(tokenB instanceof AttributeToken && !(tokenA instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] =i +" + ShortStringFormatter.toShortString(tokenA));
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] =i +" + tokenA);
           }
           actual.handle(Operator.INS, tokenA);
           i++;
@@ -171,7 +170,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         } else if (estate.isAllowed(Operator.DEL, tokenB)
             && !(tokenA instanceof AttributeToken && !(tokenB instanceof AttributeToken))) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] =d -" + ShortStringFormatter.toShortString(tokenB));
+            System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] =d -" + tokenB);
           }
           actual.handle(Operator.DEL, tokenB);
           j++;
@@ -191,14 +190,14 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
         break;
       }
       if (DEBUG) {
-        System.err.println("    stack:" + estate.currentChange() + ShortStringFormatter.toShortString(estate.current()));
+        System.err.println("    stack:" + estate.currentChange() + estate.current());
       }
     }
 
     // finish off the tokens from the first sequence
     while (i < lengthA) {
       if (DEBUG) {
-        System.err.println("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] _i -" + ShortStringFormatter.toShortString(first.get(i)));
+        System.err.println("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] _i -" + first.get(i));
       }
       actual.handle(Operator.INS, first.get(i));
       i++;
@@ -206,7 +205,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     // finish off the tokens from the second sequence
     while (j < lengthB) {
       if (DEBUG) {
-        System.err.println("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] _d -" + ShortStringFormatter.toShortString(second.get(j)));
+        System.err.println("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] _d -" + second.get(j));
       }
       actual.handle(Operator.DEL, second.get(j));
       j++;
@@ -224,9 +223,9 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     Token tokenA = first.get(i);
     Token tokenB = second.get(j);
     System.err.println("(!) Ambiguous choice in (" + i + "," + j + ")");
-    System.err.println(" ? +" + ShortStringFormatter.toShortString(tokenA));
-    System.err.println(" ? -" + ShortStringFormatter.toShortString(tokenB));
-    System.err.println(" current=" + ShortStringFormatter.toShortString(estate.current()));
+    System.err.println(" ? +" + tokenA);
+    System.err.println(" ? -" + tokenB);
+    System.err.println(" current=" + estate.current());
     System.err.println(" value in X+1=" + matrix.get(i + 1, j));
     System.err.println(" value in Y+1=" + matrix.get(i, j + 1));
     System.err.println(" equals=" + tokenA.equals(tokenB));
