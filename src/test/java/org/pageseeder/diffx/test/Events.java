@@ -19,6 +19,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.PrefixMapping;
@@ -28,6 +29,7 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -100,6 +102,16 @@ public final class Events {
     recorder.setConfig(config);
     return recorder.process(xml);
   }
+
+
+  public static Sequence recordXMLSequence(Document xml, TextGranularity granularity) throws DiffXException {
+    DOMRecorder loader = new DOMRecorder();
+    DiffXConfig config = new DiffXConfig();
+    config.setGranularity(granularity);
+    loader.setConfig(config);
+    return loader.process(xml);
+  }
+
 
   public static List<Token> recordLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();

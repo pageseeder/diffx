@@ -71,4 +71,12 @@ public final class ProgressiveXMLProcessorTest {
     }
   }
 
+  @Nested
+  public class RandomXMLDiff extends RandomXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
+
 }

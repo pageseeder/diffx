@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Nested;
+import org.pageseeder.diffx.test.RandomXMLFactory;
 
 /**
  * Test case for the default XML processor
@@ -68,6 +69,14 @@ public final class DefaultXMLProcessorTest {
       DefaultXMLProcessor processor = newAlgorithm();
       processor.setCoalesce(true);
       return processor;
+    }
+  }
+
+  @Nested
+  public class RandomXMLDiff extends RandomXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
     }
   }
 
