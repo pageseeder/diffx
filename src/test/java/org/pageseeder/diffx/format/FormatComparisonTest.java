@@ -119,7 +119,7 @@ public class FormatComparisonTest {
 
   private static void printConvenientXMLDiffOutput(List<Operation> operations) {
     StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new ConvenientXMLFormatter(xml);
+    XMLDiffOutput output = new ConvenientXMLDiffOutput(xml);
     output.setWriteXMLDeclaration(false);
     output.start();
     Operations.handle(operations, output);
