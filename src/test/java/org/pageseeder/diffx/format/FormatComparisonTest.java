@@ -63,7 +63,7 @@ public class FormatComparisonTest {
     printAllOutputs(operations);
   }
 
-  private static List<Operation> toOperations(String xml1, String xml2) throws IOException, DiffXException {
+  private static List<Operation> toOperations(String xml1, String xml2) throws DiffXException {
     List<? extends Token> from = Events.recordXMLEvents(xml1, TextGranularity.SPACE_WORD);
     List<? extends Token> to = Events.recordXMLEvents(xml2, TextGranularity.SPACE_WORD);
     OperationHandler handler = new OperationHandler();
@@ -73,38 +73,17 @@ public class FormatComparisonTest {
     return handler.getOperations();
   }
 
-
   private static void printAllFormats(List<Operation> operations) throws IOException {
-    printBasicXMLFormatter(operations);
-    printConvenientXMLFormatter(operations);
     printSafeXMLFormatter(operations);
     printSmartXMLFormatter(operations);
     printStrictXMLFormatter(operations);
   }
 
   private static void printAllOutputs(List<Operation> operations) throws IOException {
+    printBasicXMLOutput(operations);
+    printConvenientXMLDiffOutput(operations);
     printDefaultXMLOutput(operations);
     printLegacyXMLOutput(operations);
-  }
-
-  private static void printBasicXMLFormatter(List<Operation> operations) throws IOException {
-    StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new BasicXMLFormatter(xml);
-    formatter.setWriteXMLDeclaration(false);
-    Operations.format(operations, formatter);
-    xml.flush();
-    System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml);
-  }
-
-  private static void printConvenientXMLFormatter(List<Operation> operations) throws IOException {
-    StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new ConvenientXMLFormatter(xml);
-    formatter.setWriteXMLDeclaration(false);
-    Operations.format(operations, formatter);
-    xml.flush();
-    System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml);
   }
 
   private static void printSafeXMLFormatter(List<Operation> operations) throws IOException {
@@ -134,6 +113,31 @@ public class FormatComparisonTest {
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
+    System.out.println(xml);
+  }
+
+
+  private static void printConvenientXMLDiffOutput(List<Operation> operations) {
+    StringWriter xml = new StringWriter();
+    XMLDiffOutput output = new ConvenientXMLFormatter(xml);
+    output.setWriteXMLDeclaration(false);
+    output.start();
+    Operations.handle(operations, output);
+    output.end();
+    xml.flush();
+    System.out.println(output.getClass().getSimpleName());
+    System.out.println(xml);
+  }
+
+  private static void printBasicXMLOutput(List<Operation> operations) {
+    StringWriter xml = new StringWriter();
+    XMLDiffOutput output = new BasicXMLDiffOutput(xml);
+    output.setWriteXMLDeclaration(false);
+    output.start();
+    Operations.handle(operations, output);
+    output.end();
+    xml.flush();
+    System.out.println(output.getClass().getSimpleName());
     System.out.println(xml);
   }
 

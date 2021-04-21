@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.*;
@@ -23,6 +24,7 @@ import org.pageseeder.diffx.util.Formatting;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.util.Stack;
 
@@ -34,9 +36,9 @@ import java.util.Stack;
  * <p>Elements that have been modified
  *
  * @author Christophe Lauret
- * @version 17 May 2005
+ * @version 0.9.0
  */
-public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
+public final class ConvenientXMLFormatter implements XMLDiffOutput {
 
   // class attributes ---------------------------------------------------------------------------
 
@@ -77,12 +79,8 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
 
   /**
    * Indicates whether some text is being inserted or removed.
-   * <p>
-   * 0 = indicate format or no open text element.
-   * +1 = indicates an insert open text element.
-   * -1 = indicates an delete open text element.
    */
-  private transient short textFormat = 0;
+  private Operator textFormat = Operator.MATCH;
 
   /**
    * A stack of attributes to insert.
@@ -93,8 +91,6 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * A stack of attributes to delete.
    */
   private final transient Stack<AttributeToken> delAttributes = new Stack<>();
-
-  // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter using the specified writer.
@@ -109,57 +105,65 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
     this.xml = new XMLWriterNSImpl(w, false);
   }
 
-  // methods ------------------------------------------------------------------------------------
+  @Override
+  public void start() {
+    if (!this.isSetup) {
+      try {
+        setUpXML();
+      } catch (IOException ex) {
+        throw new UncheckedIOException(ex);
+      }
+    }
+  }
 
   @Override
-  public void format(Token e) throws IOException {
+  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+    try {
+      if (operator == Operator.MATCH) handleMatch(token);
+      else handleChange(operator, token);
+    } catch (IOException ex) {
+      throw new UncheckedIOException(ex);
+    }
+  }
+
+  private void handleMatch(Token token) throws IOException {
     if (!this.isSetup) {
       setUpXML();
     }
     endTextChange();
-    if (!(e instanceof AttributeToken)) {
+    if (!(token instanceof AttributeToken)) {
       flushAttributes();
     }
     // namespaces declaration
-    if (e instanceof StartElementToken) {
+    if (token instanceof StartElementToken) {
       if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
       this.openElements++;
-    } else if (e instanceof EndElementToken) {
+    } else if (token instanceof EndElementToken) {
       this.openElements--;
     }
-    e.toXML(this.xml);
-    if (e instanceof TextToken)
+    token.toXML(this.xml);
+    if (token instanceof TextToken)
       if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
       }
     this.xml.flush();
   }
 
-  @Override
-  public void insert(Token e) throws IOException {
-    change(e, +1);
-  }
-
-  @Override
-  public void delete(Token e) throws IOException {
-    change(e, -1);
-  }
-
   /**
    * Reports a change in XML.
    *
-   * @param e   The diff-x token that has been inserted or deleted.
-   * @param mod The modification flag (positive for inserts, negative for deletes).
+   * @param operator The modification flag (positive for inserts, negative for deletes).
+   * @param token   The diff-x token that has been inserted or deleted.
    *
    * @throws IOException an I/O exception if an error occurs.
    */
-  private void change(Token e, int mod) throws IOException {
+  private void handleChange(Operator operator, Token token) throws IOException {
     if (!this.isSetup) {
       setUpXML();
     }
 
     // change in element
-    if (e instanceof StartElementToken) {
+    if (token instanceof StartElementToken) {
       flushAttributes();
       endTextChange();
       // namespaces declaration
@@ -167,44 +171,43 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
         Formatting.declareNamespaces(this.xml, this.mapping);
         this.openElements++;
       }
-      e.toXML(this.xml);
-      this.xml.attribute(Constants.BASE_NS_URI, mod > 0 ? "insert" : "delete", "true");
+      token.toXML(this.xml);
+      this.xml.attribute(Constants.BASE_NS_URI, operator == Operator.INS ? "insert" : "delete", "true");
 
       // change in element
-    } else if (e instanceof EndElementToken) {
+    } else if (token instanceof EndElementToken) {
       flushAttributes();
       endTextChange();
       this.xml.closeElement();
       this.openElements--;
 
       // change in text
-    } else if (e instanceof TextToken) {
+    } else if (token instanceof TextToken) {
       flushAttributes();
-      switchTextChange(mod);
-      e.toXML(this.xml);
+      switchTextChange(operator);
+      token.toXML(this.xml);
       if (this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
         this.xml.writeXML(" ");
       }
 
       // put the attribute as part of the 'delete' namespace
-    } else if (e instanceof AttributeToken) {
-      if (mod > 0) {
-        e.toXML(this.xml);
-        this.insAttributes.push((AttributeToken) e);
+    } else if (token instanceof AttributeToken) {
+      if (operator == Operator.INS) {
+        token.toXML(this.xml);
+        this.insAttributes.push((AttributeToken) token);
       } else {
-        this.delAttributes.push((AttributeToken) e);
+        this.delAttributes.push((AttributeToken) token);
       }
 
       // just format naturally
     } else {
       flushAttributes();
       endTextChange();
-      e.toXML(this.xml);
+      token.toXML(this.xml);
     }
     this.xml.flush();
   }
 
-  @Override
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
@@ -246,37 +249,37 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * @throws IOException If throws by XMl writer.
    */
   private void endTextChange() throws IOException {
-    if (this.textFormat != 0) {
+    if (this.textFormat != Operator.MATCH) {
       this.xml.closeElement();
-      this.textFormat = 0;
+      this.textFormat = Operator.MATCH;
     }
   }
 
   /**
    * Switch between text changes.
    *
-   * @param mod The modification flag (positive for inserts, negative for deletes).
+   * @param operator The operator
    *
    * @throws IOException If throws by XMl writer.
    */
-  private void switchTextChange(int mod) throws IOException {
+  private void switchTextChange(Operator operator) throws IOException {
     // insert
-    if (mod > 0) {
-      if (this.textFormat < 0) {
+    if (operator == Operator.INS) {
+      if (this.textFormat == Operator.DEL) {
         this.xml.closeElement();
       }
-      if (this.textFormat <= 0) {
+      if (this.textFormat != Operator.INS) {
         this.xml.openElement(Constants.BASE_NS_URI, "ins", false);
-        this.textFormat = +1;
+        this.textFormat = Operator.INS;
       }
       // delete
     } else {
-      if (this.textFormat > 0) {
+      if (this.textFormat == Operator.INS) {
         this.xml.closeElement();
       }
-      if (this.textFormat >= 0) {
+      if (this.textFormat != Operator.DEL) {
         this.xml.openElement(Constants.BASE_NS_URI, "del", false);
-        this.textFormat = -1;
+        this.textFormat = Operator.DEL;
       }
     }
   }
@@ -287,22 +290,22 @@ public final class ConvenientXMLFormatter implements XMLDiffXFormatter {
    * @throws IOException Should an I/O error occur.
    */
   private void flushAttributes() throws IOException {
-    flushAttributes(this.insAttributes, +1);
-    flushAttributes(this.delAttributes, -1);
+    flushAttributes(this.insAttributes, Operator.DEL);
+    flushAttributes(this.delAttributes, Operator.INS);
   }
 
   /**
    * Writes any attribute that has not be written.
    *
    * @param attributes The attribute stack.
-   * @param mod        The modification flag (positive for inserts, negative for deletes).
+   * @param operator   The operator
    *
    * @throws IOException Should an I/O error occur.
    */
-  private void flushAttributes(Stack<AttributeToken> attributes, int mod) throws IOException {
+  private void flushAttributes(Stack<AttributeToken> attributes, Operator operator) throws IOException {
     while (!attributes.empty()) {
       AttributeToken att = attributes.pop();
-      this.xml.openElement(Constants.BASE_NS_URI, mod > 0 ? "ins" : "del", false);
+      this.xml.openElement(Constants.BASE_NS_URI, operator == Operator.INS ? "ins" : "del", false);
       this.xml.attribute(att.getURI(), att.getName(), att.getValue());
       this.xml.closeElement();
     }

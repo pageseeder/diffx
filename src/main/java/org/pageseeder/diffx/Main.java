@@ -427,10 +427,10 @@ public final class Main {
     String formatArg = CommandLine.getParameter("-F", args);
     if (formatArg == null || "smart".equals(formatArg))
       return new SmartXMLFormatter(out);
-    if ("convenient".equals(formatArg))
-      return new ConvenientXMLFormatter(out);
-    if ("basic".equals(formatArg))
-      return new BasicXMLFormatter(out);
+//    if ("convenient".equals(formatArg)) FIXME
+//      return new ConvenientXMLFormatter(out);
+//    if ("basic".equals(formatArg)) FIXME
+//      return new BasicXMLFormatter(out);
     if ("strict".equals(formatArg))
       return new StrictXMLFormatter(out);
     if ("short".equals(formatArg))
