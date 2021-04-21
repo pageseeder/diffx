@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.handler.CoalescingFilter;
+import org.pageseeder.diffx.handler.CompareReplaceFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.Token;
 
@@ -43,10 +44,10 @@ public final class ProgressiveXMLProcessor implements DiffProcessor {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     DiffHandler actual = handler;
     if (coalesce) actual = new CoalescingFilter(actual);
-    //  actual = new CompareReplaceFilter(actual);
-    handler.start();
+    actual = new CompareReplaceFilter(actual);
+    actual.start();
     algorithm.diff(first, second, actual);
-    handler.end();
+    actual.end();
   }
 
   @Override

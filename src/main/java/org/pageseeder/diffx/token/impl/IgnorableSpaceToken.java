@@ -124,15 +124,15 @@ public final class IgnorableSpaceToken implements TextToken {
     xml.writeXML(this.characters);
   }
 
-  @Override
-  public String toXML() {
-    return this.characters;
-  }
-
-  @Override
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    xml.append(this.characters);
-    return xml;
-  }
+//  @Override
+//  public String toXML() {
+//    return this.characters;
+//  }
+//
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+//    xml.append(this.characters);
+//    return xml;
+//  }
 
 }

@@ -18,91 +18,65 @@ package org.pageseeder.diffx.format;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.impl.CharToken;
-import org.pageseeder.diffx.token.impl.SpaceToken;
-import org.pageseeder.diffx.token.impl.WordToken;
+import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.util.Constants;
 
-import java.io.PrintWriter;
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.OutputStream;
 import java.io.Writer;
 
 /**
  * A simple XML formatter that writes strictly what it is given.
  *
- * <p>This formatter will write the tokens exactly in the order in which they are given,
- * in other words, there is no way to prevent this class from writing malformed XML.
- * On other hand, the {@link org.pageseeder.diffx.format.SmartXMLFormatter} will close
- * XML elements automatically, therefore rectifying a lot of the errors that lead to
- * malformed XML.
  *
  * @author Christophe Lauret
- * @version 3 April 2005
+ * @version 0.9.0
  */
 public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
-  // class attributes ---------------------------------------------------------------------------
+  /**
+   * The tag used for deletions.
+   */
+  private static final String del = "del";
 
   /**
-   * Thw output goes here.
+   * The tag used for insertions.
    */
-  private final PrintWriter xml;
-
-  /**
-   * The open 'del' tag, that is the element start tag that we put before test is being deleted.
-   */
-  private String openDel = "<del>";
-
-  /**
-   * The close 'del' tag, that is the element end tag that we put after test is being deleted.
-   */
-  private String closeDel = "</del>";
-
-  /**
-   * The open 'ins' tag, that is the element start tag that we put before test is being inserted.
-   */
-  private String openIns = "<ins>";
-
-  /**
-   * The close 'ins' tag, that is the element end tag that we put after test is being inserted.
-   */
-  private String closeIns = "</ins>";
+  private static final String ins = "ins";
 
   /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig();
 
-  // state variables ----------------------------------------------------------------------------
+  private final XMLStreamWriter xml;
+
+  /**
+   * Set to <code>true</code> to include the XML declaration. This attribute is
+   * set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
+   * is called with <code>false</code> or once the XML declaration has been written.
+   */
+  private boolean writeXMLDeclaration = true;
 
   /**
    * Set to <code>false</code> once the prefix mapping has been declared.
-   *
-   * <pre>
-   *   xmlns:dfx="http://www.allette.com.au/diffex"
-   * </pre>
    */
-  private transient boolean declareNamespace = true;
+  private boolean declareNamespace = true;
 
   /**
    * Set to <code>true</code> to indicate that there is an open 'ins' tag.
    */
-  private transient boolean isInserting = false;
+  private boolean isInserting = false;
 
   /**
    * Set to <code>true</code> to indicate that there is an open 'del' tag.
    */
-  private transient boolean isDeleting = false;
+  private boolean isDeleting = false;
 
-  /**
-   * Set to <code>true</code> to indicate that there is an open element tag
-   * that does not have its right angle bracket.
-   */
-  private transient boolean isElementNude = false;
-
+  private boolean isDocumentStart = true;
 
   // constructors -------------------------------------------------------------------------------
 
@@ -110,8 +84,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    * Creates a new formatter on the standard output.
    */
   public StrictXMLFormatter() {
-    this.xml = new PrintWriter(System.out);
-    init();
+    this(System.out);
   }
 
   /**
@@ -120,240 +93,193 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    * @param w The writer to use.
    */
   public StrictXMLFormatter(Writer w) {
-    this.xml = new PrintWriter(w);
-    init();
+    XMLOutputFactory output = XMLOutputFactory.newInstance();
+    output.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.TRUE);
+    try {
+      this.xml = output.createXMLStreamWriter(w);
+    } catch (XMLStreamException ex) {
+      throw new IllegalStateException(ex);
+    }
   }
-
-  // methods ------------------------------------------------------------------------------------
 
   /**
-   * Writes the XML declaration.
+   * Creates a new formatter using the specified writer.
+   *
+   * @param out The output stream to use.
    */
-  private void init() {
-    this.xml.print("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-  }
-
-  @Override
-  public void format(Token e) {
-    // an element to open
-    if (e instanceof StartElementToken) {
-      if (this.isElementNude) {
-        denudeElement();
-      }
-      // close any ins / del tag
-      if (this.isInserting) {
-        closeIns();
-      }
-      if (this.isDeleting) {
-        closeDel();
-      }
-      StartElementToken oee = (StartElementToken) e;
-      this.xml.print('<' + oee.getName());
-      if (this.declareNamespace) {
-        this.xml.print(" xmlns:dfx=\"" + Constants.BASE_NS_URI + "\"");
-        this.declareNamespace = false;
-      }
-      this.isElementNude = true;
-
-      // an element to close
-    } else if (e instanceof EndElementToken) {
-      if (this.isElementNude) {
-        denudeElement();
-      }
-      // close any ins / del tag
-      if (this.isInserting) {
-        closeIns();
-      }
-      if (this.isDeleting) {
-        closeDel();
-      }
-      this.xml.print(e.toXML());
-
-      // an attribute
-    } else if (e instanceof AttributeToken) {
-      if (this.isElementNude) {
-        this.xml.print(e.toXML());
-      } else
-        throw new IllegalStateException("Cannot write an attribute once the element is closed");
-
-      // this is text
-    } else {
-
-      // close any ins / del tag
-      if (this.isElementNude) {
-        denudeElement();
-      }
-      if (this.isInserting) {
-        closeIns();
-      }
-      if (this.isDeleting) {
-        closeDel();
-      }
-
-      // a character sequence
-      if (e instanceof WordToken || e instanceof SpaceToken) {
-        this.xml.print(e.toXML());
-
-        // a single character
-      } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken) e).c);
-      }
-
+  public StrictXMLFormatter(OutputStream out) {
+    XMLOutputFactory output = XMLOutputFactory.newInstance();
+    output.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.TRUE);
+    try {
+      this.xml = output.createXMLStreamWriter(out);
+      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX,XMLConstants.NULL_NS_URI);
+      this.xml.setPrefix("dfx", Constants.BASE_NS_URI);
+      this.xml.setDefaultNamespace(XMLConstants.NULL_NS_URI);
+    } catch (XMLStreamException ex) {
+      throw new IllegalStateException(ex);
     }
-    this.xml.flush();
   }
 
   @Override
-  public void insert(Token e) {
-    // insert element
-    if (e instanceof StartElementToken) {
-      if (this.isElementNude) {
-        denudeElement();
+  public void format(Token token) {
+    try {
+      if (this.isDocumentStart && this.writeXMLDeclaration) {
+        this.xml.writeStartDocument("utf-8", "1.0");
       }
-      if (this.isDeleting) {
-        closeDel();
-      }
-      StartElementToken oee = (StartElementToken) e;
-      this.xml.print('<' + oee.getName());
-      if (this.declareNamespace) {
-        this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
-      }
-      this.xml.print(" dfx:insert=\"true\"");
-      this.isElementNude = true;
-
-      // an element to close
-    } else if (e instanceof EndElementToken) {
-      if (this.isElementNude) {
-        denudeElement();
-      }
-      if (this.isDeleting) {
-        closeDel();
-      }
-      this.xml.print("</");
-      this.xml.print(((EndElementToken) e).getName());
-      this.xml.print('>');
-
-    } else if (e instanceof AttributeToken) {
-      if (this.isElementNude) {
-        this.xml.print(" ");
-        this.xml.print(((AttributeToken) e).getName());
-        this.xml.print("=\"");
-        this.xml.print(((AttributeToken) e).getValue());
-        this.xml.print('"');
-      } else throw new IllegalStateException("Cannot insert an attribute once the element is closed");
-    } else {
-
-      // close any del tag
-      if (this.isElementNude) {
-        denudeElement();
-      }
-      if (this.isDeleting) {
-        closeDel();
-      }
-      // a word
-      if (e instanceof WordToken) {
-        if (!this.isInserting) {
-          openIns();
+      // an element to open
+      if (token instanceof StartElementToken) {
+        // close any ins / del tag
+        if (this.isInserting) {
+          closeIns();
         }
-        this.xml.print(e.toXML());
+        if (this.isDeleting) {
+          closeDel();
+        }
+        StartElementToken startToken = (StartElementToken) token;
+        this.xml.writeStartElement(startToken.getURI(), startToken.getName());
+        if (isDocumentStart) {
+          this.xml.writeDefaultNamespace(XMLConstants.NULL_NS_URI);
+        }
+//        if (this.declareNamespace) {
+//          this.xml.writeNamespace("dfx", Constants.BASE_NS_URI);
+//          this.declareNamespace = false;
+//        }
 
-        // a white space
-      } else if (e instanceof SpaceToken) {
-        this.xml.print(e.toXML());
+        // an element to close
+      } else if (token instanceof EndElementToken) {
+        // close any ins / del tag
+        if (this.isInserting) {
+          closeIns();
+        }
+        if (this.isDeleting) {
+          closeDel();
+        }
+        this.xml.writeEndElement();
 
-        // wrap the char in a <ins> element
-      } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken) e).c);
+        // an attribute
+      } else if (token instanceof AttributeToken) {
+        AttributeToken attribute = (AttributeToken)token;
+        if (attribute.getURI().isEmpty()) {
+          this.xml.writeAttribute(attribute.getName(), attribute.getValue());
+        } else {
+          this.xml.writeAttribute(attribute.getURI(), attribute.getName(), attribute.getValue());
+        }
+
+        // this is text
+      } else {
+        if (this.isInserting) {
+          closeIns();
+        }
+        if (this.isDeleting) {
+          closeDel();
+        }
+
+        // a character sequence
+        if (token instanceof TextToken) {
+          this.xml.writeCharacters(((TextToken)token).getCharacters());
+        }
+
       }
-
+      this.xml.flush();
+      this.isDocumentStart = false;
+    } catch (XMLStreamException ex) {
+      ex.printStackTrace();
     }
-    this.xml.flush();
   }
 
   @Override
-  public void delete(Token e) throws IllegalStateException {
-    // we ignore delete attributes
-    if (this.isElementNude) {
-      denudeElement();
-    }
-    if (this.isInserting) {
-      closeIns();
-    }
-
-    // delete an element
-    if (e instanceof StartElementToken) {
-      StartElementToken oee = (StartElementToken) e;
-      this.xml.print('<' + oee.getName());
-      if (this.declareNamespace) {
-        this.xml.print(" xmlns:dfx=\"http://www.allette.com.au/diffex\"");
+  public void insert(Token token) {
+    try {
+      if (this.isDocumentStart && this.writeXMLDeclaration) {
+        this.xml.writeStartDocument("utf-8", "1.0");
       }
-      this.xml.print(" dfx:delete=\"true\"");
-      this.xml.print('>');
-
-      // an element to close
-    } else if (e instanceof EndElementToken) {
-      this.xml.print("</");
-      this.xml.print(((EndElementToken) e).getName());
-      this.xml.print('>');
-
-      // text
-    } else {
-
-      // a word
-      if (e instanceof WordToken) {
-        if (!this.isDeleting) {
-          openDel();
+      // insert element
+      if (token instanceof StartElementToken) {
+        if (this.isDeleting) {
+          closeDel();
         }
-        this.xml.print(e.toXML());
+        StartElementToken startElement = (StartElementToken) token;
+        this.xml.writeStartElement(startElement.getURI(), startElement.getName());
+        if (this.declareNamespace) {
+          this.xml.writeNamespace("dfx", Constants.BASE_NS_URI);
+        }
+        this.xml.writeAttribute(Constants.BASE_NS_URI, "insert", "true");
 
-        // a white space
-      } else if (e instanceof SpaceToken) {
-        this.xml.print(e.toXML());
+        // an element to close
+      } else if (token instanceof EndElementToken) {
+        if (this.isDeleting) {
+          closeDel();
+        }
+        this.xml.writeEndElement();
 
-        // wrap the char in a <ins> element
-      } else if (e instanceof CharToken) {
-        this.xml.print(((CharToken) e).c);
+      } else if (token instanceof AttributeToken) {
+        AttributeToken attribute = (AttributeToken)token;
+        if (attribute.getURI().isEmpty()) {
+          this.xml.writeAttribute(attribute.getName(), attribute.getValue());
+        } else {
+          this.xml.writeAttribute(attribute.getURI(), attribute.getName(), attribute.getValue());
+        }
+
+      } else {
+
+        if (this.isDeleting) {
+          closeDel();
+        }
+        // a word
+        if (token instanceof TextToken) {
+          if (!this.isInserting) {
+            openIns();
+          }
+          this.xml.writeCharacters(((TextToken) token).getCharacters());
+        }
+
       }
+      this.xml.flush();
+      this.isDocumentStart = false;
+    } catch (XMLStreamException ex) {
+      ex.printStackTrace();
     }
-    this.xml.flush();
   }
 
-  /**
-   * Sets the open and end tags for inserted text.
-   *
-   * <p>The default values are "&lt;ins:&gt;" and "&lt;/ins:&gt;" respectively.
-   *
-   * @param start The open tag for inserts.
-   * @param end   The close tag for inserts.
-   *
-   * @throws NullPointerException If any of the tags is <code>null</code>.
-   */
-  public void setInsertTags(String start, String end) throws NullPointerException {
-    if (start == null)
-      throw new NullPointerException("The start element for inserted text must have a value");
-    if (end == null)
-      throw new NullPointerException("The start element for inserted text must have a value");
-    this.openIns = start;
-    this.closeIns = end;
-  }
+  @Override
+  public void delete(Token token) throws IllegalStateException {
+    try {
+      if (this.isDocumentStart && this.writeXMLDeclaration) {
+        this.xml.writeStartDocument("utf-8", "1.0");
+      }
+      if (this.isInserting) {
+        closeIns();
+      }
 
-  /**
-   * Sets the open and end tags for deleted text.
-   *
-   * <p>The default values are "&lt;del:&gt;" and "&lt;/del:&gt;" respectively.
-   *
-   * @param start The open tag for deletions.
-   * @param end   The close tag for deletions.
-   *
-   * @throws NullPointerException If any of the tags is <code>null</code>.
-   */
-  public void setDeleteTags(String start, String end) throws NullPointerException {
-    if (start == null)
-      throw new NullPointerException("The start element for deleted text must have a value");
-    if (end == null)
-      throw new NullPointerException("The start element for deleted text must have a value");
-    this.openDel = start;
-    this.closeDel = end;
+      // delete an element
+      if (token instanceof StartElementToken) {
+        StartElementToken startElement = (StartElementToken) token;
+        this.xml.writeStartElement(startElement.getURI(), startElement.getName());
+        if (this.declareNamespace) {
+          this.xml.writeNamespace("dfx", Constants.BASE_NS_URI);
+        }
+        this.xml.writeAttribute(Constants.BASE_NS_URI, "delete", "true");
+
+        // an element to close
+      } else if (token instanceof EndElementToken) {
+        this.xml.writeEndElement();
+
+        // text
+      } else {
+
+        // a word
+        if (token instanceof TextToken) {
+          if (!this.isDeleting) {
+            openDel();
+          }
+          this.xml.writeCharacters(((TextToken) token).getCharacters());
+        }
+      }
+      this.xml.flush();
+      this.isDocumentStart = false;
+    } catch (XMLStreamException ex) {
+      ex.printStackTrace();
+    }
   }
 
   @Override
@@ -363,6 +289,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   @Override
   public void setWriteXMLDeclaration(boolean show) {
+    this.writeXMLDeclaration = show;
   }
 
   /**
@@ -372,8 +299,13 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
    */
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    for (Namespace namespace : mapping) {
-      // TODO: does nothing !!!
+    try {
+      this.xml.writeDefaultNamespace(XMLConstants.NULL_NS_URI);
+      for (Namespace namespace : mapping) {
+          this.xml.writeNamespace(namespace.getPrefix(), namespace.getUri());
+      }
+    } catch (XMLStreamException ex) {
+      ex.printStackTrace();
     }
   }
 
@@ -382,41 +314,33 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   /**
    * Opens the 'ins' element, and update the state flags.
    */
-  private void openIns() {
-    this.xml.print(this.openIns);
+  private void openIns() throws XMLStreamException {
+    this.xml.writeStartElement(ins);
     this.isInserting = true;
   }
 
   /**
    * Opens the 'del' element, and update the state flags.
    */
-  private void openDel() {
-    this.xml.print(this.openDel);
+  private void openDel() throws XMLStreamException  {
+    this.xml.writeStartElement(del);
     this.isDeleting = true;
   }
 
   /**
    * Closes the 'ins' element, and update the state flags.
    */
-  private void closeIns() {
-    this.xml.print(this.closeIns);
+  private void closeIns() throws XMLStreamException  {
+    this.xml.writeEndElement();
     this.isInserting = false;
   }
 
   /**
    * Closes the 'del' element, and update the state flags.
    */
-  private void closeDel() {
-    this.xml.print(this.closeDel);
+  private void closeDel() throws XMLStreamException  {
+    this.xml.writeEndElement();
     this.isDeleting = false;
-  }
-
-  /**
-   * Closes the 'del' element, and update the state flags.
-   */
-  private void denudeElement() {
-    this.xml.print(">");
-    this.isElementNude = false;
   }
 
 }

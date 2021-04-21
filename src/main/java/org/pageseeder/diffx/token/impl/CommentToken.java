@@ -92,13 +92,13 @@ public final class CommentToken extends TokenBase implements Token {
     xml.writeComment(this.comment);
   }
 
-  @Override
-  public StringBuffer toXML(StringBuffer xml) {
-    xml.append("<!--");
-    xml.append(this.comment);
-    xml.append("-->");
-    return xml;
-  }
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) {
+//    xml.append("<!--");
+//    xml.append(this.comment);
+//    xml.append("-->");
+//    return xml;
+//  }
 
   @Override
   public TokenType getType() {

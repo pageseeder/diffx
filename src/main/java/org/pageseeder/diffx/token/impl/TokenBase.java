@@ -61,9 +61,9 @@ abstract class TokenBase implements Token {
     return equals((Token) o);
   }
 
-  @Override
-  public String toXML() {
-    return this.toXML(new StringBuffer()).toString();
-  }
+//  @Override
+//  public String toXML() {
+//    return this.toXML(new StringBuffer()).toString();
+//  }
 
 }

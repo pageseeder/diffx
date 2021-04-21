@@ -109,15 +109,15 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
     xml.writePI(this.target, this.data);
   }
 
-  @Override
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    xml.append("<?");
-    xml.append(this.target);
-    xml.append(' ');
-    xml.append(this.data);
-    xml.append("?>");
-    return xml;
-  }
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+//    xml.append("<?");
+//    xml.append(this.target);
+//    xml.append(' ');
+//    xml.append(this.data);
+//    xml.append("?>");
+//    return xml;
+//  }
 
   @Override
   public TokenType getType() {

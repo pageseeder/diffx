@@ -145,17 +145,17 @@ public final class AttributeTokenNSImpl extends TokenBase implements AttributeTo
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.uri, this.name, this.value);
   }
-
-  @Override
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    // FIXME: no support for NS????
-    xml.append(' ');
-    xml.append(this.name);
-    xml.append("=\"");
-    xml.append(ESC.toAttributeValue(this.value));
-    xml.append('"');
-    return xml;
-  }
+//
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+//    // FIXME: no support for NS????
+//    xml.append(' ');
+//    xml.append(this.name);
+//    xml.append("=\"");
+//    xml.append(ESC.toAttributeValue(this.value));
+//    xml.append('"');
+//    return xml;
+//  }
 
   /**
    * Returns <code>true</code> if both namespace URI are <code>null</code> or equal.

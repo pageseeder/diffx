@@ -92,13 +92,13 @@ public final class XMLBranchToken extends TokenBase implements Token {
     }
   }
 
-  @Override
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    for (Token element : this.branch) {
-      element.toXML(xml);
-    }
-    return xml;
-  }
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+//    for (Token element : this.branch) {
+//      element.toXML(xml);
+//    }
+//    return xml;
+//  }
 
   @Override
   public TokenType getType() {

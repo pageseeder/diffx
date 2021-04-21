@@ -210,13 +210,6 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
       return token == this;
     }
     @Override
-    public StringBuffer toXML(StringBuffer xml) {
-      return xml;
-    }
-    public String toXML() {
-      return "";
-    }
-    @Override
     public void toXML(XMLWriter xml) {
     }
   }

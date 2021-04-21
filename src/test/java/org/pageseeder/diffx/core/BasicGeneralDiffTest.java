@@ -24,9 +24,16 @@ import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.diffx.token.impl.CharToken;
+import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.events.Characters;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -657,8 +664,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   }
 
   public final void assertGeneralDiffOK(String text1, String text2, String[] exp) {
-    List<CharToken> seq1 = Events.toCharTokens(text1);
-    List<CharToken> seq2 = Events.toCharTokens(text2);
+    List<GeneralToken> seq1 = toGeneralTokens(text1);
+    List<GeneralToken> seq2 = toGeneralTokens(text2);
     DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionHandler af = new ActionHandler();
     TestHandler cf = new TestHandler();
@@ -702,6 +709,57 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
       System.err.print(action.tokens().stream().map(Object::toString).collect(Collectors.toList()));
     }
     System.err.println();
+  }
+
+  public static List<GeneralToken> toGeneralTokens(String string) {
+    List<GeneralToken> s = new ArrayList<>();
+    for (char c : string.toCharArray()) {
+      s.add(new GeneralToken(c));
+    }
+    return s;
+  }
+
+  private static class GeneralToken implements Token {
+
+    final char c;
+
+    GeneralToken(char c) {
+      this.c = c;
+    }
+
+    @Override
+    public TokenType getType() {
+      return TokenType.OTHER;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      GeneralToken that = (GeneralToken) o;
+      return c == that.c;
+    }
+
+    public boolean equals(Token o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      GeneralToken that = (GeneralToken) o;
+      return c == that.c;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(c);
+    }
+
+    @Override
+    public void toXML(XMLWriter xml) {
+    }
+
+    @Override
+    public String toString() {
+      return Character.toString(c);
+    }
   }
 
 }

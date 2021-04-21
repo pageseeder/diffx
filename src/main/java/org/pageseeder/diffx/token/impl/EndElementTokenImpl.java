@@ -131,10 +131,10 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
     xml.closeElement();
   }
 
-  @Override
-  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    xml.append("</").append(getName()).append('>');
-    return xml;
-  }
+//  @Override
+//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
+//    xml.append("</").append(getName()).append('>');
+//    return xml;
+//  }
 
 }

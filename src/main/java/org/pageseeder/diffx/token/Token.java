@@ -35,7 +35,7 @@ import org.pageseeder.xmlwriter.XMLWritable;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface Token extends XMLWritable, XMLFormattable {
+public interface Token extends XMLWritable {
 
   /**
    * @return The type of token.
