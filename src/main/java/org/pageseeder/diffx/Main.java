@@ -431,10 +431,8 @@ public final class Main {
 //      return new ConvenientXMLFormatter(out);
 //    if ("basic".equals(formatArg)) FIXME
 //      return new BasicXMLFormatter(out);
-    if ("strict".equals(formatArg))
-      return new StrictXMLFormatter(out);
-    if ("short".equals(formatArg))
-      return new StrictXMLFormatter(out);
+//    if ("strict".equals(formatArg))
+//      return new StrictXMLFormatter(out);
     usage();
     return null;
   }

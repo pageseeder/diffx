@@ -18,6 +18,7 @@ package org.pageseeder.diffx.format;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
@@ -36,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class StrictXMLFormatterTest {
+public final class StrictXMLDiffOutputTest {
 
   /**
    * The namespace declaration.
@@ -56,7 +57,7 @@ public final class StrictXMLFormatterTest {
   /**
    * The formatter being tested.
    */
-  private XMLDiffXFormatter formatter = null;
+  private XMLDiffOutput output = null;
 
   /**
    * The string writer.
@@ -66,7 +67,7 @@ public final class StrictXMLFormatterTest {
   @BeforeEach
   public void setUp() {
     this.w = new StringWriter();
-    this.formatter = new StrictXMLFormatter(this.w);
+    this.output = new StrictXMLDiffOutput(this.w);
   }
 
 //opening and closing elements ---------------------------------------------------------------
@@ -79,8 +80,8 @@ public final class StrictXMLFormatterTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new StartElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a/>");
     String xml = XML_DECL + "<a " + NS_DECL + "></a>";
     assertEquals(xml, this.w.toString());
@@ -96,9 +97,9 @@ public final class StrictXMLFormatterTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.format(new AttributeTokenNSImpl("", "x", "y"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new StartElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new AttributeTokenNSImpl("", "x", "y"));
+    this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a x='y'/>");
     String xml = XML_DECL + "<a " + NS_DECL + " x=\"y\"></a>";
     assertEquals(xml, this.w.toString());
