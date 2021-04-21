@@ -89,6 +89,16 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
     }
   }
 
+  @Test
+  public final void testRandom5() throws DiffXException {
+    RandomHTMLFactory factory = new RandomHTMLFactory();
+    for (int i=0; i < 10; i++) {
+      Document docA = factory.nextDocument();
+      Document docB = factory.vary(docA, .25);
+      assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
+    }
+  }
+
   // helpers
   // --------------------------------------------------------------------------
 
@@ -96,9 +106,13 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
     // Record XML
     Sequence seq1 = Events.recordXMLSequence(docA, TextGranularity.SPACE_WORD);
     Sequence seq2 = Events.recordXMLSequence(docB, TextGranularity.SPACE_WORD);
+    System.out.println();
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
+    long t1 = System.nanoTime();
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
+    long t2 = System.nanoTime();
+    System.out.println(seq1.size()+"/"+seq2.size()+" -> "+((t2-t1) / (seq1.size()+seq2.size())));
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);

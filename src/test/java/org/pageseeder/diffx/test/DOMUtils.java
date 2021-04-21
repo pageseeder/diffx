@@ -36,6 +36,7 @@ public final class DOMUtils {
       Transformer tf = TransformerFactory.newInstance().newTransformer();
       tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       tf.setOutputProperty(OutputKeys.INDENT, indent ? "yes" : "no");
+      tf.setOutputProperty(OutputKeys.METHOD, "xml");
       Writer out = new StringWriter();
       tf.transform(new DOMSource(xml), new StreamResult(out));
       return out.toString();
