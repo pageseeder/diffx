@@ -323,8 +323,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
   public final void testLevel1_ElementC() throws IOException, DiffXException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
-    String exp1 = "+<a><b>-<a>X-</a></b>+</a>";
-    String exp2 = "+<b><a>-<b>X-</b></a>+</b>";
+    String[] exp1 = new String[]{
+        "+<a><b>-<a>X-</a></b>+</a>",
+        "-<b><a>+<b>X+</b></a>-</b>"
+    };
+    String[] exp2 = new String[] {
+        "+<b><a>-<b>X-</b></a>+</b>",
+        "-<a><b>+<a>X+</a></b>-</a>"
+    };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
@@ -426,7 +432,10 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "<a>+@(m=y)+@(n=z)-@(m=x)-@(n=w)</a>",
         "<a>+@(m=y)-@(m=x)+@(n=z)-@(n=w)</a>",
-        "<a>+@(m=y)-@(m=x)+@(n=z)-@(n=w)</a>",
+        "<a>+@(m=y)-@(m=x)-@(n=w)+@(n=z)</a>",
+        "<a>-@(m=x)+@(m=y)+@(n=z)-@(n=w)</a>",
+        "<a>-@(m=x)+@(m=y)-@(n=w)+@(n=z)</a>",
+        "<a>-@(m=x)-@(n=w)+@(m=y)+@(n=z)</a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
@@ -492,7 +501,8 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='https://example.net'/>";
     String[] exp = new String[]{
-        "<a>+@(m=y)-@(m=y)</a>"
+        "<a>+@(m=y)-@(m=y)</a>",
+        "<a>-@(m=y)+@(m=y)</a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }

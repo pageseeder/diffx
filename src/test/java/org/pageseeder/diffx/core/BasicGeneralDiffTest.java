@@ -474,7 +474,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String b = "bilabial";
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
-        "b-i+ala+c-b-i+la+v-l+a"
+        "b-i+ala+c-b-i+la+v-l+a",
+        "b+a-ila+c+l-b-ia+v+a-l"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -520,7 +521,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String b = "A train";
     String[] exp = new String[]{
         "A +c+a-tr-a-i-n",
-        "A -t-r+ca-i-n+r"
+        "A -t-r+ca-i-n+r",
+        "A +c-t-ra+r-i-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -531,7 +533,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String b = "A train";
     String[] exp = new String[]{
         "+T+h-A+e -t-r+ca-i-n+r",
-        "+T+h+e-A +c+a-tr-a-i-n"
+        "+T+h+e-A +c+a-tr-a-i-n",
+        "+T+h+e-A +c-t-ra+r-i-n",
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -542,7 +545,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String b = "A blue train";
     String[] exp = new String[]{
         "+T+h+e-A +r-b-l-ue+d +c+a-tr-a-i-n",
-        "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r"
+        "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r",
+        "+T+h-A- -b-l-ue -tr+e+d+ +ca+r-i-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -553,7 +557,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String b = "A big train";
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t+l+e-g +c+a-tr-a-i-n",
-        "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r"
+        "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r",
+        "+T+h+e-A +l-bi-g- t+t+l+e+ +c-ra+r-i-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }

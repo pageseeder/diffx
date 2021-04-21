@@ -25,7 +25,7 @@ public abstract class DiffFilter implements DiffHandler {
    */
   protected final DiffHandler target;
 
-  DiffFilter(DiffHandler target) {
+  protected DiffFilter(DiffHandler target) {
     this.target = target;
   }
 
