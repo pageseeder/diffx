@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.format.ShortStringFormatter;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
@@ -122,13 +121,13 @@ public final class MatrixProcessor {
 
   private static void printDebug(List<? extends Token> first, List<? extends Token> second, Matrix matrix, PrintStream out) {
     out.print("A:");
-    for (Token diffXEvent : first) {
-      out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
+    for (Token token : first) {
+      out.print(token + "\t");
     }
     out.println();
     out.print("B:");
-    for (Token diffXEvent : second) {
-      out.print(ShortStringFormatter.toShortString(diffXEvent) + "\t");
+    for (Token token : second) {
+      out.print(token + "\t");
     }
     out.println();
     out.println(matrix);
