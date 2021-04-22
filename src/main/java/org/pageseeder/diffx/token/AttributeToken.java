@@ -15,6 +15,12 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.pageseeder.xmlwriter.XMLWriter;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.IOException;
+
 /**
  * An token for attributes.
  *
@@ -66,6 +72,21 @@ public interface AttributeToken extends Namespaceable, Token {
     return other.getName().equals(this.getName())
         && other.getValue().equals(this.getValue())
         && other.getURI().equals(this.getURI());
+  }
+
+
+  @Override
+  default void toXML(XMLWriter xml) throws IOException {
+    xml.attribute(this.getURI(), this.getName(), this.getValue());
+  }
+
+  @Override
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
+    if (this.getURI().isEmpty())
+      xml.writeAttribute(this.getName(), this.getValue());
+    else
+      xml.writeAttribute(this.getURI(), this.getName(), this.getValue());
   }
 
 }

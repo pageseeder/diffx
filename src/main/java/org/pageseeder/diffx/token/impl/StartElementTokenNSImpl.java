@@ -128,6 +128,7 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
 
   @Override
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.uri.isEmpty()) {
       xml.writeStartElement(this.name);
     } else {

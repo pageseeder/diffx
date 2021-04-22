@@ -15,6 +15,12 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.pageseeder.xmlwriter.XMLWriter;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.IOException;
+
 /**
  * An interface for any data that comes from a text node.
  *
@@ -37,6 +43,16 @@ public interface TextToken extends Token {
   @Override
   default TokenType getType() {
     return TokenType.TEXT;
+  }
+
+  @Override
+  default void toXML(XMLWriter xml) throws IOException {
+    xml.writeText(this.getCharacters());
+  }
+
+  @Override
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeCharacters(this.getCharacters());
   }
 
 }

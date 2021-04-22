@@ -15,24 +15,27 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.pageseeder.xmlwriter.XMLWriter;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.IOException;
+
 /**
  * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 23 December 2004
+ * @version 0.9.0
+ * @since 0.5.0
  */
 public interface StartElementToken extends Namespaceable, Token {
 
   /**
-   * Returns the local name of the element.
-   *
    * @return The local name of the element.
    */
   String getName();
 
   /**
-   * Returns the namespace URI the element belongs to.
-   *
    * @return The namespace URI the element belongs to.
    */
   String getURI();
@@ -41,4 +44,20 @@ public interface StartElementToken extends Namespaceable, Token {
   default TokenType getType() {
     return TokenType.START_ELEMENT;
   }
+
+  @Override
+  default void toXML(XMLWriter xml) throws IOException {
+    xml.openElement(this.getURI(), this.getName(), false);
+  }
+
+  @Override
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
+    if (this.getURI().isEmpty()) {
+      xml.writeStartElement(this.getName());
+    } else {
+      xml.writeStartElement(this.getURI(), this.getName());
+    }
+  }
+
 }

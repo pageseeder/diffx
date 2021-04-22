@@ -15,6 +15,12 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.pageseeder.xmlwriter.XMLWriter;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.IOException;
+
 /**
  * The token corresponding to the <code>endElement</code> SAX event.
  *
@@ -66,6 +72,16 @@ public interface EndElementToken extends Namespaceable, Token {
   @Override
   default TokenType getType() {
     return TokenType.END_ELEMENT;
+  }
+
+  @Override
+  default void toXML(XMLWriter xml) throws IOException {
+    xml.closeElement();
+  }
+
+  @Override
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeEndElement();
   }
 
 }
