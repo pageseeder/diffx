@@ -145,11 +145,7 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
 
       // an element to open
       if (token instanceof StartElementToken) {
-        StartElementToken startToken = (StartElementToken) token;
-        this.xml.writeStartElement(startToken.getURI(), startToken.getName());
-        if (isDocumentStart) {
-          this.xml.writeDefaultNamespace(XMLConstants.NULL_NS_URI);
-        }
+        token.toXML(this.xml);
         if (this.declareNamespace) {
           this.xml.writeNamespace("dfx", Constants.BASE_NS_URI);
           this.declareNamespace = false; // TODO Check if needed
@@ -161,37 +157,23 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
 
         // an element to close
       } else if (token instanceof EndElementToken) {
-        this.xml.writeEndElement();
+        token.toXML(this.xml);
 
         // an attribute
       } else if (token instanceof AttributeToken) {
         if (operator != Operator.DEL) {
-          AttributeToken attribute = (AttributeToken)token;
-          if (attribute.getURI().isEmpty()) {
-            this.xml.writeAttribute(attribute.getName(), attribute.getValue());
-          } else {
-            this.xml.writeAttribute(attribute.getURI(), attribute.getName(), attribute.getValue());
-          }
+          token.toXML(this.xml);
         }
 
       } else if (token instanceof TextToken) {
-          if (operator.isEdit() && this.lastOperatorTag != operator) {
-            this.xml.writeStartElement(operator == Operator.INS ? INS_TAG : DEL_TAG);
-            this.lastOperatorTag = operator;
-          }
-          this.xml.writeCharacters(((TextToken)token).getCharacters());
-
-      } else if (token instanceof ProcessingInstruction) {
-        ProcessingInstruction pi = (ProcessingInstruction)token;
-        this.xml.writeProcessingInstruction(pi.getTarget(), pi.getData());
-
-      } else if (token instanceof CommentToken) {
-        CommentToken comment = (CommentToken)token;
-        this.xml.writeComment(comment.getComment());
+        if (operator.isEdit() && this.lastOperatorTag != operator) {
+          this.xml.writeStartElement(operator == Operator.INS ? INS_TAG : DEL_TAG);
+          this.lastOperatorTag = operator;
+        }
+        token.toXML(this.xml);
 
       } else {
-        // Fallback on string
-        this.xml.writeCharacters(token.toString());
+        token.toXML(this.xml);
       }
       this.xml.flush();
     } catch (XMLStreamException ex) {
