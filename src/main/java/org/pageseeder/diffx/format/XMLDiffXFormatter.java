@@ -15,11 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.pageseeder.diffx.token.Token;
-
-import java.io.IOException;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 /**
  * An interface for formatting the output of the Diff-X algorithm as XML.

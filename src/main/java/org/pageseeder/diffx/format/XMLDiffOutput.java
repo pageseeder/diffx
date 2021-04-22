@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 /**
  * An interface for formatting the output of the Diff-X algorithm as XML.

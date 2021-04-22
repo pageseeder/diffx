@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.util;
 
-import org.pageseeder.diffx.sequence.Namespace;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.Namespace;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**

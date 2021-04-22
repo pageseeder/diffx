@@ -22,7 +22,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.w3c.dom.Document;

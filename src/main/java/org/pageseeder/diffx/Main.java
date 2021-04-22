@@ -26,7 +26,7 @@ import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.Recorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;

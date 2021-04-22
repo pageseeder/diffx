@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
