@@ -136,19 +136,6 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
     }
   }
 
-//  /**
-//   * Converts this token to an XML open tag.
-//   *
-//   * <p>Note that this method does not allow attributes to be put after this element.
-//   * <p>
-//   * {@inheritDoc}
-//   */
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) {
-//    // TODO: handle namespaces
-//    return xml.append('<').append(this.name).append('>');
-//  }
-
   /**
    * Calculates the hashcode for this token.
    *

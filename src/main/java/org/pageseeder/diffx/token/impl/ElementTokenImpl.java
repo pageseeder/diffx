@@ -97,14 +97,6 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
     }
   }
 
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) {
-//    for (Token token : this.tokens) {
-//      token.toXML(xml);
-//    }
-//    return xml;
-//  }
-
   /**
    * Calculates the hashcode for this token.
    *

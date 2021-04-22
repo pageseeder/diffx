@@ -101,7 +101,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
     long t1 = System.nanoTime();
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
     long t2 = System.nanoTime();
-    System.out.println(seq1.size()+"/"+seq2.size()+" -> "+((t2-t1) / (seq1.size()+seq2.size())));
+//    System.out.println(seq1.size()+"/"+seq2.size()+" -> "+((t2-t1) / (seq1.size()+seq2.size())));
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, mapping);

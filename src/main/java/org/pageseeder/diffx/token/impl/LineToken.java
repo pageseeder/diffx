@@ -119,12 +119,6 @@ public final class LineToken extends TokenBase implements TextToken {
     xml.writeCharacters(this.characters.toString());
   }
 
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    xml.append(this.characters);
-//    return xml;
-//  }
-
   /**
    * Calculates the hashcode for this token.
    *

@@ -123,17 +123,6 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
     xml.writeAttribute(this.name, this.value);
   }
 
-  //
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    xml.append(' ');
-//    xml.append(this.name);
-//    xml.append("=\"");
-//    xml.append(ESC.toAttributeValue(this.value));
-//    xml.append('"');
-//    return xml;
-//  }
-
   /**
    * Calculates the hashcode for this token.
    *

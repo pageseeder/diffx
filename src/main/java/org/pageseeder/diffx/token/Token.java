@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.token;
 
 import org.pageseeder.diffx.xml.XMLStreamable;
-import org.pageseeder.xmlwriter.XMLFormattable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
 /**

@@ -57,8 +57,6 @@ public final class IgnorableSpaceToken implements TextToken {
 
   /**
    * Returns "ignorable-space".
-   * <p>
-   * {@inheritDoc}
    */
   @Override
   public String toString() {
@@ -67,8 +65,6 @@ public final class IgnorableSpaceToken implements TextToken {
 
   /**
    * Always returns the same value.
-   * <p>
-   * {@inheritDoc}
    */
   @Override
   public int hashCode() {
@@ -130,16 +126,5 @@ public final class IgnorableSpaceToken implements TextToken {
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.characters);
   }
-
-//  @Override
-//  public String toXML() {
-//    return this.characters;
-//  }
-//
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    xml.append(this.characters);
-//    return xml;
-//  }
 
 }

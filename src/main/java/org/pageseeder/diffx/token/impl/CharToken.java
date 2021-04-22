@@ -76,21 +76,6 @@ public final class CharToken extends TokenBase implements TextToken {
     xml.writeCharacters(new char[]{this.c}, 0, 1);
   }
 
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    // The code below assumes, this token is only used for text nodes (not within an attribute)
-//    switch (this.c) {
-//      case '<':
-//        return xml.append("&lt;");
-//      case '&':
-//        return xml.append("&amp;");
-//      case '>':
-//        return xml.append("&gt;");
-//      default:
-//        return xml.append(this.c);
-//    }
-//  }
-
   @Override
   public String getCharacters() {
     return Character.toString(this.c);

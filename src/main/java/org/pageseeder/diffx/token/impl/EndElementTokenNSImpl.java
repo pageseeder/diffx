@@ -18,11 +18,6 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.xmlwriter.XMLWriter;
-
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
 
 /**
  * The token corresponding to the <code>startElement</code> SAX event.
@@ -138,20 +133,4 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
     }
   }
 
-  @Override
-  public void toXML(XMLWriter xml) throws IOException {
-    xml.closeElement();
-  }
-
-  @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
-    xml.writeEndElement();
-  }
-
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    // TODO: handle namespaces.
-//    xml.append("</").append(getName()).append('>');
-//    return xml;
-//  }
 }

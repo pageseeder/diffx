@@ -104,11 +104,6 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
     xml.writeCharacters(this.characters);
   }
 
-  public final StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-    xml.append(ESC.toElementText(this.characters));
-    return xml;
-  }
-
   /**
    * Calculates the hashcode value from a string.
    *

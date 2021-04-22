@@ -16,8 +16,6 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.xmlwriter.esc.XMLEscape;
-import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
 
 /**
  * A base class for DiffX tokens.
@@ -31,11 +29,6 @@ import org.pageseeder.xmlwriter.esc.XMLEscapeUTF8;
  * @since 0.6.0
  */
 abstract class TokenBase implements Token {
-
-  /**
-   * For use by the tokens to escape XML chars.
-   */
-  static final XMLEscape ESC = XMLEscapeUTF8.UTF8_ESCAPE;
 
   @Override
   public abstract int hashCode();
@@ -60,10 +53,5 @@ abstract class TokenBase implements Token {
       return false;
     return equals((Token) o);
   }
-
-//  @Override
-//  public String toXML() {
-//    return this.toXML(new StringBuffer()).toString();
-//  }
 
 }

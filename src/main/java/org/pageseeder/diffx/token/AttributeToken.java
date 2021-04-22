@@ -74,7 +74,6 @@ public interface AttributeToken extends Namespaceable, Token {
         && other.getURI().equals(this.getURI());
   }
 
-
   @Override
   default void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.getURI(), this.getName(), this.getValue());

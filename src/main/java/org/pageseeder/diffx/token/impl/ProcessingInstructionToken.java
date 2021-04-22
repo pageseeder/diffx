@@ -28,7 +28,7 @@ import java.util.Objects;
  * A processing instruction token.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class ProcessingInstructionToken extends TokenBase implements Token {
 
@@ -115,16 +115,6 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeProcessingInstruction(this.target, this.data);
   }
-
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    xml.append("<?");
-//    xml.append(this.target);
-//    xml.append(' ');
-//    xml.append(this.data);
-//    xml.append("?>");
-//    return xml;
-//  }
 
   @Override
   public TokenType getType() {

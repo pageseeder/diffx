@@ -18,12 +18,8 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
 
 /**
  * A basic implementation of the close element token.
@@ -127,21 +123,5 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   public String toString() {
     return "</" + getName() + '>';
   }
-
-  @Override
-  public void toXML(XMLWriter xml) throws IOException {
-    xml.closeElement();
-  }
-
-  @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
-    xml.writeEndElement();
-  }
-
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    xml.append("</").append(getName()).append('>');
-//    return xml;
-//  }
 
 }

@@ -63,8 +63,6 @@ public final class XMLBranchToken extends TokenBase implements Token {
 
   /**
    * Returns <code>true</code> if the diffX tokens in the branch are all equal.
-   * <p>
-   * {@inheritDoc}
    */
   @Override
   public boolean equals(Token token) {
@@ -84,8 +82,6 @@ public final class XMLBranchToken extends TokenBase implements Token {
 
   /**
    * Write the DiffX tokens in order.
-   * <p>
-   * {@inheritDoc}
    */
   @Override
   public void toXML(XMLWriter xml) throws IOException {
@@ -100,14 +96,6 @@ public final class XMLBranchToken extends TokenBase implements Token {
       element.toXML(xml);
     }
   }
-
-//  @Override
-//  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
-//    for (Token element : this.branch) {
-//      element.toXML(xml);
-//    }
-//    return xml;
-//  }
 
   @Override
   public TokenType getType() {
