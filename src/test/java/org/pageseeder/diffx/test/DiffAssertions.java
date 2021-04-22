@@ -19,7 +19,7 @@ import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;

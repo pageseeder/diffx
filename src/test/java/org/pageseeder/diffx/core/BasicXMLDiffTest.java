@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;

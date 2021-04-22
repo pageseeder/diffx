@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.sequence.Namespace;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.Namespace;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 import org.xml.sax.InputSource;

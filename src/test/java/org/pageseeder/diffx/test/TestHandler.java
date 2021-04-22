@@ -19,7 +19,7 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationHandler;
-import org.pageseeder.diffx.sequence.PrefixMapping;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
