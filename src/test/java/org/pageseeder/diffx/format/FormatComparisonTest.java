@@ -75,30 +75,19 @@ public class FormatComparisonTest {
 
   private static void printAllFormats(List<Operation> operations) throws IOException {
     printSafeXMLFormatter(operations);
-    printSmartXMLFormatter(operations);
   }
 
   private static void printAllOutputs(List<Operation> operations) throws IOException {
     printBasicXMLOutput(operations);
     printConvenientXMLDiffOutput(operations);
     printDefaultXMLOutput(operations);
-    printLegacyXMLOutput(operations);
+    printSmartXMLDiffOutput(operations);
     printStrictXMLOutput(operations);
   }
 
   private static void printSafeXMLFormatter(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
-    formatter.setWriteXMLDeclaration(false);
-    Operations.format(operations, formatter);
-    xml.flush();
-    System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml);
-  }
-
-  private static void printSmartXMLFormatter(List<Operation> operations) throws IOException {
-    StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
     formatter.setWriteXMLDeclaration(false);
     Operations.format(operations, formatter);
     xml.flush();
@@ -138,9 +127,9 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printLegacyXMLOutput(List<Operation> operations) throws IOException {
+  private static void printSmartXMLDiffOutput(List<Operation> operations) throws IOException {
     StringWriter xml = new StringWriter();
-    LegacyXMLDiffOutput output = new LegacyXMLDiffOutput(xml);
+    XMLDiffOutput output = new SmartXMLDiffOutput(xml);
     printXMLDiffOutput(operations, output);
     System.out.println(output.getClass().getSimpleName());
     System.out.println(xml);

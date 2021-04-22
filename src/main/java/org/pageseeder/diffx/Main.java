@@ -426,7 +426,7 @@ public final class Main {
   private static DiffXFormatter getFormatter(String[] args, Writer out) throws IOException {
     String formatArg = CommandLine.getParameter("-F", args);
     if (formatArg == null || "smart".equals(formatArg))
-      return new SmartXMLFormatter(out);
+      return new SmartXMLDiffOutput(out);
 //    if ("convenient".equals(formatArg)) FIXME
 //      return new ConvenientXMLFormatter(out);
 //    if ("basic".equals(formatArg)) FIXME

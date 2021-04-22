@@ -19,7 +19,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.*;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
-import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
@@ -266,7 +266,7 @@ public abstract class BaseAlgorithmTest {
   private void printErrorDetails(String xml1, String xml2, String[] exp) throws IOException {
     // print the XML on the console
     Writer sw = new StringWriter();
-    DiffXFormatter sf = new SmartXMLFormatter(sw);
+    DiffXFormatter sf = new SmartXMLDiffOutput(sw);
     this.diffx.process(sf);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);
@@ -314,7 +314,7 @@ public abstract class BaseAlgorithmTest {
 
   public static String toXML(List<Action> actions) throws IOException {
     StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
+    XMLDiffXFormatter formatter = new SmartXMLDiffOutput(xml);
     Actions.format(actions, formatter);
     return xml.toString();
   }

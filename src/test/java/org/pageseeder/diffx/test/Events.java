@@ -16,9 +16,10 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.format.SmartXMLFormatter;
+import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
@@ -125,12 +126,12 @@ public final class Events {
   public static String toXML(List<? extends Token> tokens, PrefixMapping mapping) {
     try {
       StringWriter xml = new StringWriter();
-      SmartXMLFormatter f = new SmartXMLFormatter(xml);
+      SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
       f.setWriteXMLDeclaration(false);
       f.declarePrefixMapping(mapping);
 
       for (Token token : tokens) {
-        f.format(token);
+        f.handle(Operator.MATCH, token);
       }
       return xml.toString();
     } catch (IOException ex) {

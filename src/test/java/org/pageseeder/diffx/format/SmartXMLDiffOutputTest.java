@@ -30,16 +30,12 @@ import java.io.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test class for the smart XML formatter.
- *
- * <p>The {@link org.pageseeder.diffx.format.SmartXMLFormatter} must also pass the
- * {@link org.pageseeder.diffx.format.BaseXMLFormatterTest}, therefore this class
- * should only contain tests that specific to the <code>SmartXMLFormatter</code>.
+ * Test class for the smart XML Diff output.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class SmartXMLFormatterTest {
+public final class SmartXMLDiffOutputTest {
 
   /**
    * The formatter being tested.
@@ -54,7 +50,7 @@ public final class SmartXMLFormatterTest {
   @BeforeEach
   public void setUp() throws Exception {
     this.w = new StringWriter();
-    this.formatter = new SmartXMLFormatter(this.w);
+    this.formatter = new SmartXMLDiffOutput(this.w);
   }
 
 // opening and closing elements ---------------------------------------------------------------
@@ -188,8 +184,8 @@ public final class SmartXMLFormatterTest {
   /**
    *
    */
-  public XMLDiffXFormatter makeFormatter() throws IOException {
-    return new SmartXMLFormatter(new StringWriter());
+  public XMLDiffOutput makeOutput() throws IOException {
+    return new SmartXMLDiffOutput(new StringWriter());
   }
 
 }
