@@ -32,22 +32,6 @@ import java.util.List;
 public class FormatComparisonTest {
 
   @Test
-  public void compareFormatsExample1() throws IOException, DiffXException {
-    String xml1 = "<body><p class='test'>Hello</p><ul><li>Monday evening</li><li>Tuesday night</li></ul></body>";
-    String xml2 = "<body><p id='a'>Hello</p><ol><li>Monday</li><li>Thursday night</li></ol></body>";
-    List<Operation> operations = toOperations(xml1, xml2);
-    printAllFormats(operations);
-  }
-
-  @Test
-  public void compareFormatsExample2() throws IOException, DiffXException {
-    String xml1 = "<body><p id='1'>Other representations might be used by specialist equipment</p></body>";
-    String xml2 = "<body><p id='2'>Another representation may be used by specialist equipment.</p></body>";
-    List<Operation> operations = toOperations(xml1, xml2);
-    printAllFormats(operations);
-  }
-
-  @Test
   public void compareOutputExample1() throws IOException, DiffXException {
     String xml1 = "<body><p class='test'>Hello</p><ul><li>Monday evening</li><li>Tuesday night</li></ul></body>";
     String xml2 = "<body><p id='a'>Hello</p><ol><li>Monday</li><li>Thursday night</li></ol></body>";
@@ -63,6 +47,23 @@ public class FormatComparisonTest {
     printAllOutputs(operations);
   }
 
+  @Test
+  public void compareOutputExample3() throws IOException, DiffXException {
+    String xml1 = "<body><a href='https//example.org' title='Example' class='link'/></body>";
+    String xml2 = "<body><a href='https//example.com' download='' class='link'/></body>";
+    List<Operation> operations = toOperations(xml1, xml2);
+    printAllOutputs(operations);
+  }
+
+  @Test
+  public void compareOutputExample4() throws IOException, DiffXException {
+    String xml1 = "<body>An <i>important</i> date</body>";
+    String xml2 = "<body>An <b>important</b> date</body>";
+    List<Operation> operations = toOperations(xml1, xml2);
+    printAllOutputs(operations);
+  }
+
+
   private static List<Operation> toOperations(String xml1, String xml2) throws DiffXException {
     List<? extends Token> from = Events.recordXMLEvents(xml1, TextGranularity.SPACE_WORD);
     List<? extends Token> to = Events.recordXMLEvents(xml2, TextGranularity.SPACE_WORD);
@@ -73,11 +74,8 @@ public class FormatComparisonTest {
     return handler.getOperations();
   }
 
-  private static void printAllFormats(List<Operation> operations) throws IOException {
-    printSafeXMLFormatter(operations);
-  }
-
   private static void printAllOutputs(List<Operation> operations) throws IOException {
+    printSafeXMLFormatter(operations);
     printBasicXMLOutput(operations);
     printConvenientXMLDiffOutput(operations);
     printDefaultXMLOutput(operations);
