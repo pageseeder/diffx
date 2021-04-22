@@ -28,6 +28,7 @@ import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
 import org.pageseeder.diffx.token.impl.StartElementTokenImpl;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
 import java.util.*;
 
@@ -210,8 +211,9 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
       return token == this;
     }
     @Override
-    public void toXML(XMLWriter xml) {
-    }
+    public void toXML(XMLWriter xml) {}
+    @Override
+    public void toXML(XMLStreamWriter xml) {}
   }
 
 }

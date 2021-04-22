@@ -19,6 +19,8 @@ import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -110,6 +112,11 @@ public final class LineToken extends TokenBase implements TextToken {
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.writeXML(this.characters.toString());
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeCharacters(this.characters.toString());
   }
 
 //  @Override

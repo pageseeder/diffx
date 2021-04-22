@@ -83,7 +83,7 @@ public final class StrictXMLDiffOutputTest {
     this.output.handle(Operator.MATCH, new StartElementTokenNSImpl("a"));
     this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a/>");
-    String xml = XML_DECL + "<a " + NS_DECL + "></a>";
+    String xml = "<a " + NS_DECL + "></a>";
     assertEquals(xml, this.w.toString());
   }
 
@@ -101,7 +101,7 @@ public final class StrictXMLDiffOutputTest {
     this.output.handle(Operator.MATCH, new AttributeTokenNSImpl("", "x", "y"));
     this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
     assertEquivalentToXML("<a x='y'/>");
-    String xml = XML_DECL + "<a " + NS_DECL + " x=\"y\"></a>";
+    String xml = "<a " + NS_DECL + " x=\"y\"></a>";
     assertEquals(xml, this.w.toString());
   }
 

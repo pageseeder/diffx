@@ -19,6 +19,8 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -30,7 +32,7 @@ import java.io.IOException;
  * access to this array, so it can be considered immutable.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ * @version 0.9.0
  */
 public final class XMLBranchToken extends TokenBase implements Token {
 
@@ -87,6 +89,13 @@ public final class XMLBranchToken extends TokenBase implements Token {
    */
   @Override
   public void toXML(XMLWriter xml) throws IOException {
+    for (Token element : this.branch) {
+      element.toXML(xml);
+    }
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     for (Token element : this.branch) {
       element.toXML(xml);
     }

@@ -21,6 +21,8 @@ import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +85,13 @@ public class ElementTokenImpl extends TokenBase implements ElementToken {
 
   @Override
   public void toXML(XMLWriter xml) throws IOException {
+    for (Token token : this.tokens) {
+      token.toXML(xml);
+    }
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     for (Token token : this.tokens) {
       token.toXML(xml);
     }

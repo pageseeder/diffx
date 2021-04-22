@@ -19,6 +19,8 @@ import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -95,6 +97,11 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
   @Override
   public final void toXML(XMLWriter xml) throws IOException {
     xml.writeText(this.characters);
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeCharacters(this.characters);
   }
 
   public final StringBuffer toXML(StringBuffer xml) throws NullPointerException {

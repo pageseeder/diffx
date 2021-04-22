@@ -19,6 +19,8 @@ import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -122,6 +124,11 @@ public final class IgnorableSpaceToken implements TextToken {
   public void toXML(XMLWriter xml) throws IOException {
     // we don't need to parse the whitespace characters.
     xml.writeXML(this.characters);
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeCharacters(this.characters);
   }
 
 //  @Override

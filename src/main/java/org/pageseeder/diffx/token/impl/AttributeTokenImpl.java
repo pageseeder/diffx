@@ -20,6 +20,8 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -115,7 +117,13 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
   public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.name, this.value);
   }
-//
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeAttribute(this.name, this.value);
+  }
+
+  //
 //  @Override
 //  public StringBuffer toXML(StringBuffer xml) throws NullPointerException {
 //    xml.append(' ');

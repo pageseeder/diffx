@@ -19,6 +19,8 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -89,6 +91,11 @@ public final class CommentToken extends TokenBase implements Token {
 
   @Override
   public void toXML(XMLWriter xml) throws IOException {
+    xml.writeComment(this.comment);
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeComment(this.comment);
   }
 

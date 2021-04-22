@@ -29,6 +29,8 @@ import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.Characters;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -754,6 +756,10 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
     @Override
     public void toXML(XMLWriter xml) {
+    }
+
+    @Override
+    public void toXML(XMLStreamWriter xml) {
     }
 
     @Override

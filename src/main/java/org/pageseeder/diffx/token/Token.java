@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.pageseeder.diffx.xml.XMLStreamable;
 import org.pageseeder.xmlwriter.XMLFormattable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
@@ -35,7 +36,7 @@ import org.pageseeder.xmlwriter.XMLWritable;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface Token extends XMLWritable {
+public interface Token extends XMLWritable, XMLStreamable {
 
   /**
    * @return The type of token.

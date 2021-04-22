@@ -20,6 +20,8 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -122,6 +124,11 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.openElement(this.uri, this.name, false);
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeStartElement(this.uri, this.name);
   }
 
 //  /**

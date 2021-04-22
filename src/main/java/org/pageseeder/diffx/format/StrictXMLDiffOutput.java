@@ -20,12 +20,14 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.Namespace;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.util.Constants;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.events.ProcessingInstruction;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.Writer;
@@ -172,18 +174,24 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
           }
         }
 
-        // this is text
-      } else {
-
-        // text
-        if (token instanceof TextToken) {
+      } else if (token instanceof TextToken) {
           if (operator.isEdit() && this.lastOperatorTag != operator) {
             this.xml.writeStartElement(operator == Operator.INS ? INS_TAG : DEL_TAG);
             this.lastOperatorTag = operator;
           }
           this.xml.writeCharacters(((TextToken)token).getCharacters());
-        }
 
+      } else if (token instanceof ProcessingInstruction) {
+        ProcessingInstruction pi = (ProcessingInstruction)token;
+        this.xml.writeProcessingInstruction(pi.getTarget(), pi.getData());
+
+      } else if (token instanceof CommentToken) {
+        CommentToken comment = (CommentToken)token;
+        this.xml.writeComment(comment.getComment());
+
+      } else {
+        // Fallback on string
+        this.xml.writeCharacters(token.toString());
       }
       this.xml.flush();
     } catch (XMLStreamException ex) {

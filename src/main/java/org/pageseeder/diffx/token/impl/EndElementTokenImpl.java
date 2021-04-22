@@ -21,6 +21,8 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -129,6 +131,11 @@ public final class EndElementTokenImpl extends TokenBase implements EndElementTo
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.closeElement();
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeEndElement();
   }
 
 //  @Override

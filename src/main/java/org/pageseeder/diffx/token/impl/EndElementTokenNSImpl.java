@@ -20,6 +20,8 @@ import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
@@ -139,6 +141,11 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     xml.closeElement();
+  }
+
+  @Override
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+    xml.writeEndElement();
   }
 
 //  @Override
