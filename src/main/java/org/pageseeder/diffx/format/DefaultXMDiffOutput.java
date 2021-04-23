@@ -223,7 +223,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     if (!this.insertedAttributes.isEmpty()) {
       this.xml.openElement(namespace, "ins", false);
       for (AttributeToken attribute : this.insertedAttributes) {
-        this.xml.attribute(attribute.getURI(), attribute.getName(), attribute.getValue());
+        this.xml.attribute(attribute.getNamespaceURI(), attribute.getName(), attribute.getValue());
       }
       this.xml.closeElement();
       this.insertedAttributes.clear();
@@ -231,7 +231,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
     if (!this.deletedAttributes.isEmpty()) {
       this.xml.openElement(namespace, "del", false);
       for (AttributeToken attribute : this.deletedAttributes) {
-        this.xml.attribute(attribute.getURI(), attribute.getName(), attribute.getValue());
+        this.xml.attribute(attribute.getNamespaceURI(), attribute.getName(), attribute.getValue());
       }
       this.xml.closeElement();
       this.deletedAttributes.clear();

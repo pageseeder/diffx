@@ -42,6 +42,6 @@ public interface Namespaceable {
    *
    * @return The namespace URI the attribute belongs to or <code>""</code>.
    */
-  String getURI();
+  String getNamespaceURI();
 
 }

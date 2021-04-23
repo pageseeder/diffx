@@ -126,17 +126,17 @@ public final class TestHandler implements DiffHandler {
     // an element to open
     if (token instanceof StartElementToken) {
       StartElementToken open = (StartElementToken) token;
-      return '<' + getQName(open.getURI(), open.getName(), mapping) + '>';
+      return '<' + getQName(open.getNamespaceURI(), open.getName(), mapping) + '>';
     }
     // an element to close
     if (token instanceof EndElementToken) {
       EndElementToken close = (EndElementToken) token;
-      return "</" + getQName(close.getURI(), close.getName(), mapping) + '>';
+      return "</" + getQName(close.getNamespaceURI(), close.getName(), mapping) + '>';
     }
     // an element
     if (token instanceof ElementToken) {
       ElementToken element = (ElementToken) token;
-      return '<' + getQName(element.getURI(), element.getName(), mapping) + "/>";
+      return '<' + getQName(element.getNamespaceURI(), element.getName(), mapping) + "/>";
     }
     // an attribute
     if (token instanceof AttributeToken) {

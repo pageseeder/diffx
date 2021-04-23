@@ -21,33 +21,35 @@ import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class EndElementTokenTest {
 
   @Test
-  void testEqualsNS() {
-    testEquals(new TokenFactory(true));
-  }
-
-  @Test
-  void testNotEqualsNS() {
-    testNotEquals(new TokenFactory(true));
-  }
-
-  @Test
   void testEquals() {
-    testEquals(new TokenFactory(false));
+    EndElementToken token = new XMLEndElement("https://example.org", "test");
+    EndElementToken other = new XMLEndElement("https://example.org", "test");
+    TokenTest.assertEqualsNullIsFalse(token);
+    TokenTest.assertEqualsIsReflexive(token);
+    Assertions.assertEquals(token, other);
+    Assertions.assertEquals(token.hashCode(), other.hashCode());
   }
 
   @Test
   void testNotEquals() {
-    testNotEquals(new TokenFactory(false));
+    List<EndElementToken> tokens = Arrays.asList(
+      new XMLEndElement("test"),
+      new XMLEndElement("test2"),
+      new XMLEndElement("https://example.org", "test"),
+      new XMLEndElement("https://example.org", "test2")
+    );
+    TokenTest.assertNotEqualsINotSame(tokens);
   }
 
   @Test
-  public void testHashcodeClash() {
+  public void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<EndElementToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -62,7 +64,7 @@ public class EndElementTokenTest {
   @Test
   public void testPerformance() {
     String[] uris = new String[]{ "", "https://example.org", "https://example.net"};
-    String[] names = new String[]{ "alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
+    String[] names = new String[]{ "alt", "title", "id", "value", "option", "name", "hidden"};
     List<EndElementToken> tokens1 = new ArrayList<>();
     List<EndElementToken> tokens2 = new ArrayList<>();
     for (String uri : uris)
@@ -86,29 +88,4 @@ public class EndElementTokenTest {
     System.out.println("T2="+(t2 / 1_000_000)+" "+(t2<t1 ? (t2-t1)/ 1_000_000 : ""));
   }
 
-  private void testEquals(TokenFactory factory) {
-    EndElementToken token = factory.newEndElement(factory.newStartElement("https://example.org", "test"));
-    EndElementToken other = factory.newEndElement(factory.newStartElement("https://example.org", "test"));
-    TokenTest.assertEqualsNullIsFalse(token);
-    TokenTest.assertEqualsIsReflexive(token);
-    Assertions.assertEquals(token, other);
-    Assertions.assertEquals(token.hashCode(), other.hashCode());
-  }
-
-  private void testNotEquals(TokenFactory factory) {
-    EndElementToken[] tokens = new EndElementToken[]{
-      factory.newEndElement(factory.newStartElement("", "test")),
-      factory.newEndElement(factory.newStartElement("", "test2")),
-      factory.newEndElement(factory.newStartElement("https://example.org", "test")),
-      factory.newEndElement(factory.newStartElement("https://example.org", "test2"))
-    };
-    for (Token a : tokens) {
-      for (Token b : tokens) {
-        if (a != b) {
-          Assertions.assertNotEquals(a, b);
-          Assertions.assertNotEquals(a.hashCode(), b.hashCode());
-        }
-      }
-    }
-  }
 }

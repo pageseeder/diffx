@@ -21,33 +21,35 @@ import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class StartElementTokenTest {
-
-  @Test
-  void testEqualsNS() {
-    testEquals(new TokenFactory(true));
-  }
-
-  @Test
-  void testNotEqualsNS() {
-    testNotEquals(new TokenFactory(true));
-  }
+public final class StartElementTokenTest {
 
   @Test
   void testEquals() {
-    testEquals(new TokenFactory(false));
+    StartElementToken token = new XMLStartElement("https://example.org", "test");
+    StartElementToken other = new XMLStartElement("https://example.org", "test");
+    TokenTest.assertEqualsNullIsFalse(token);
+    TokenTest.assertEqualsIsReflexive(token);
+    Assertions.assertEquals(token, other);
+    Assertions.assertEquals(token.hashCode(), other.hashCode());
   }
 
   @Test
   void testNotEquals() {
-    testNotEquals(new TokenFactory(false));
+    List<StartElementToken> tokens = Arrays.asList(
+        new XMLStartElement("test"),
+        new XMLStartElement("test2"),
+        new XMLStartElement("https://example.org", "test"),
+        new XMLStartElement("https://example.org", "test2")
+    );
+    TokenTest.assertNotEqualsINotSame(tokens);
   }
 
   @Test
-  public void testHashcodeClash() {
+  public void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<StartElementToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -57,7 +59,6 @@ public class StartElementTokenTest {
     }
     TokenTest.assertHashCollisionLessThan(tokens, .001);
   }
-
 
   @Test
   public void testPerformance() {
@@ -84,32 +85,6 @@ public class StartElementTokenTest {
     }
     System.out.println("T1="+(t1 / 1_000_000)+" "+(t1<t2 ? (t1-t2)/ 1_000_000 : ""));
     System.out.println("T2="+(t2 / 1_000_000)+" "+(t2<t1 ? (t2-t1)/ 1_000_000 : ""));
-  }
-
-  private void testEquals(TokenFactory factory) {
-    StartElementToken token = factory.newStartElement("https://example.org", "test");
-    StartElementToken other = factory.newStartElement("https://example.org", "test");
-    TokenTest.assertEqualsNullIsFalse(token);
-    TokenTest.assertEqualsIsReflexive(token);
-    Assertions.assertEquals(token, other);
-    Assertions.assertEquals(token.hashCode(), other.hashCode());
-  }
-
-  private void testNotEquals(TokenFactory factory) {
-    StartElementToken[] tokens = new StartElementToken[]{
-      factory.newStartElement("", "test"),
-      factory.newStartElement("", "test2"),
-      factory.newStartElement("https://example.org", "test"),
-      factory.newStartElement("https://example.org", "test2")
-    };
-    for (Token a : tokens) {
-      for (Token b : tokens) {
-        if (a != b) {
-          Assertions.assertNotEquals(a, b);
-          Assertions.assertNotEquals(a.hashCode(), b.hashCode());
-        }
-      }
-    }
   }
 
 }

@@ -38,7 +38,7 @@ public interface StartElementToken extends Namespaceable, Token {
   /**
    * @return The namespace URI the element belongs to.
    */
-  String getURI();
+  String getNamespaceURI();
 
   @Override
   default TokenType getType() {
@@ -47,16 +47,16 @@ public interface StartElementToken extends Namespaceable, Token {
 
   @Override
   default void toXML(XMLWriter xml) throws IOException {
-    xml.openElement(this.getURI(), this.getName(), false);
+    xml.openElement(this.getNamespaceURI(), this.getName(), false);
   }
 
   @Override
   default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
-    if (this.getURI().isEmpty()) {
+    if (this.getNamespaceURI().isEmpty()) {
       xml.writeStartElement(this.getName());
     } else {
-      xml.writeStartElement(this.getURI(), this.getName());
+      xml.writeStartElement(this.getNamespaceURI(), this.getName());
     }
   }
 

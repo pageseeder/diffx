@@ -175,7 +175,7 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
       }
       this.xml.openElement(operator == Operator.INS ? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
       this.xml.attribute("name", ((StartElementToken) token).getName());
-      this.xml.attribute("ns-uri", ((StartElementToken) token).getURI());
+      this.xml.attribute("ns-uri", ((StartElementToken) token).getNamespaceURI());
 
       // change in element
     } else if (token instanceof EndElementToken) {
@@ -319,8 +319,8 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
       AttributeToken att = attributes.pop();
       this.xml.openElement(uri, "attribute", false);
       this.xml.attribute("name", att.getName());
-      if (att.getURI() != null) {
-        this.xml.attribute("ns-uri", att.getURI());
+      if (att.getNamespaceURI() != null) {
+        this.xml.attribute("ns-uri", att.getNamespaceURI());
       }
       this.xml.attribute("value", att.getValue());
       this.xml.closeElement();

@@ -45,7 +45,7 @@ public interface EndElementToken extends Namespaceable, Token {
    *
    * @return The namespace URI the element belongs to.
    */
-  String getURI();
+  String getNamespaceURI();
 
   /**
    * Returns the corresponding token element.

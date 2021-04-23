@@ -90,7 +90,7 @@ public class XMLDiffReporter implements XMLDiffOutput {
       xml.attribute("type", token.getType().toString());
       if (token instanceof Namespaceable) {
         xml.attribute("name", ((Namespaceable) token).getName());
-        xml.attribute("namespace-uri", ((Namespaceable) token).getURI());
+        xml.attribute("namespace-uri", ((Namespaceable) token).getNamespaceURI());
       }
       if (token instanceof AttributeToken) {
         xml.attribute("value", ((AttributeToken) token).getValue());

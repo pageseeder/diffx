@@ -64,7 +64,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    * @return The comparable name.
    */
   private static String toCName(XMLAttribute att) {
-    return att.getURI().isEmpty() ? att.getName() : att.getURI() + ':' + att.getName();
+    return att.getNamespaceURI().isEmpty() ? att.getName() : att.getNamespaceURI() + ':' + att.getName();
   }
 
 }

@@ -48,9 +48,9 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
   private final int hashCode;
 
   /**
-   * Creates a new open element token with the default URI.
+   * Creates a new start element token with no namespace.
    *
-   * @param name The local name of the element
+   * @param name The name of the element
    *
    * @throws NullPointerException if the name is <code>null</code>.
    * @see XMLConstants#NULL_NS_URI
@@ -67,18 +67,18 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
    * Creates a new open element token.
    *
    * @param uri  The namespace URI of the element
-   * @param name The local name of the element
+   * @param localName The local name of the element (excluding prefix)
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLStartElement(String uri, String name) throws NullPointerException {
+  public XMLStartElement(String uri, String localName) throws NullPointerException {
     if (uri == null)
       throw new NullPointerException("The URI cannot be null, use \"\".");
-    if (name == null)
+    if (localName == null)
       throw new NullPointerException("Element must have a name.");
     this.uri = uri;
-    this.name = name;
-    this.hashCode = toHashCode(uri, name);
+    this.name = localName;
+    this.hashCode = toHashCode(uri, localName);
   }
 
   @Override
@@ -87,7 +87,7 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
   }
 
   @Override
-  public String getURI() {
+  public String getNamespaceURI() {
     return this.uri;
   }
 
@@ -110,7 +110,7 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
     if (!(token instanceof StartElementToken)) return false;
     if (this.hashCode != token.hashCode()) return false;
     StartElementToken other = (StartElementToken) token;
-    return this.name.equals(other.getName()) && this.uri.equals(other.getURI());
+    return this.name.equals(other.getName()) && this.uri.equals(other.getNamespaceURI());
   }
 
   @Override

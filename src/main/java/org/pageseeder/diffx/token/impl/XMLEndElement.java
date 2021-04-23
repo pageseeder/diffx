@@ -35,7 +35,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   /**
    * Creates a new close element token on the default namespace URI.
    *
-   * @param name The local name of the element
+   * @param name The name of the element
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
@@ -49,16 +49,16 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * Creates a new close element token.
    *
    * @param uri  The namespace URI of the element
-   * @param name The local name of the element
+   * @param localName The local name of the element (excluding prefix)
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLEndElement(String uri, String name) throws NullPointerException {
+  public XMLEndElement(String uri, String localName) throws NullPointerException {
     if (uri == null)
       throw new NullPointerException("The URI cannot be null, use \"\".");
-    if (name == null)
+    if (localName == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new XMLStartElement(uri, name);
+    this.open = new XMLStartElement(uri, localName);
   }
 
   /**
@@ -86,8 +86,8 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * @return Returns the namespace URI.
    */
   @Override
-  public String getURI() {
-    return this.open.getURI();
+  public String getNamespaceURI() {
+    return this.open.getNamespaceURI();
   }
 
   @Override
@@ -99,7 +99,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   public boolean match(StartElementToken token) {
     if (token == null) return false;
     if (token == this.open) return true;
-    return token.getURI().equals(getURI())
+    return token.getNamespaceURI().equals(getNamespaceURI())
         && token.getName().equals(getName());
   }
 
@@ -122,15 +122,15 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
     if (!(token instanceof EndElementToken)) return false;
     if (this.hashCode() != token.hashCode()) return false;
     EndElementToken other = (EndElementToken) token;
-    return other.getName().equals(getName()) && other.getURI().equals(getURI());
+    return other.getName().equals(getName()) && other.getNamespaceURI().equals(getNamespaceURI());
   }
 
   @Override
   public String toString() {
-    if (open.getURI().isEmpty()) {
+    if (open.getNamespaceURI().isEmpty()) {
       return "</" + getName() + '>';
     } else {
-      return "</{" + getURI() + "}:" + getName() + '>';
+      return "</{" + getNamespaceURI() + "}:" + getName() + '>';
     }
   }
 

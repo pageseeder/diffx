@@ -18,10 +18,12 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
@@ -29,7 +31,7 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,8 +48,6 @@ import java.util.List;
  * @since 0.7
  */
 public final class DOMRecorder implements XMLRecorder {
-
-  // class attributes -------------------------------------------------------------------------------
 
   /**
    * The DiffX configuration to use
@@ -191,20 +191,19 @@ public final class DOMRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   private void loadNode(Node node) throws LoadingException {
-    // dispatch to the correct loader performance: order by occurrence
+    // dispatch to the correct loader performance: order by frequency of occurrence
     if (node instanceof Element) {
-      load((Element) node);
-    }
-    if (node instanceof Text) {
-      load((Text) node);
-    } else if (node instanceof Attr) {
-      load((Attr) node);
+      loadElement((Element) node);
+    } else if (node instanceof Text) {
+      loadText((Text) node);
     } else if (node instanceof Document) {
-      load((Document) node);
+      loadDocument((Document) node);
     } else if (node instanceof ProcessingInstruction) {
-      load((ProcessingInstruction) node);
-      // all other node types are ignored
+      loadPI((ProcessingInstruction) node);
+    } else if (node instanceof Comment) {
+      loadComment((Comment) node);
     }
+    // all other node types are ignored (attributes loaded as part of Element)
   }
 
   /**
@@ -214,8 +213,8 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @throws LoadingException If thrown while parsing.
    */
-  private void load(Document document) throws LoadingException {
-    load(document.getDocumentElement());
+  private void loadDocument(Document document) throws LoadingException {
+    loadElement(document.getDocumentElement());
   }
 
   /**
@@ -225,44 +224,15 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @throws LoadingException If thrown while parsing.
    */
-  private void load(Element element) throws LoadingException {
-    // namespace handling
-    StartElementToken open;
-    // namespace aware configuration
-    if (this.config.isNamespaceAware()) {
-      String uri = element.getNamespaceURI() == null ? "" : element.getNamespaceURI();
-      String name = element.getLocalName();
-      handlePrefixMapping(uri, element.getPrefix());
-      open = this.tokenFactory.newStartElement(uri, name);
-      // not namespace aware
-    } else {
-      open = this.tokenFactory.newStartElement(null, element.getNodeName());
-    }
-
-    this.sequence.addToken(open);
-    NamedNodeMap attributes = element.getAttributes();
-    // only 1 attribute, just load it
-    if (attributes.getLength() == 1) {
-      load((Attr) attributes.item(0));
-      // TODO: also use URI
-    } else if (attributes.getLength() > 1) {
-      // several attributes sort them in alphabetical order
-      String[] names = new String[attributes.getLength()];
-      for (int i = 0; i < attributes.getLength(); i++) {
-        Attr attr = (Attr) attributes.item(i);
-        names[i] = attr.getName();
-      }
-      Arrays.sort(names);
-      for (String name : names) {
-        load((Attr) attributes.getNamedItem(name));
-      }
-    }
-    // load all the child nodes
+  private void loadElement(Element element) throws LoadingException {
+    StartElementToken start = toStartElement(element);
+    this.sequence.addToken(start);
+    loadAttributes(element);
     NodeList list = element.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       loadNode(list.item(i));
     }
-    EndElementToken close = this.tokenFactory.newEndElement(open);
+    EndElementToken close = this.tokenFactory.newEndElement(start);
     this.sequence.addToken(close);
   }
 
@@ -271,7 +241,7 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @param text The W3C DOM text node to load.
    */
-  private void load(Text text) {
+  private void loadText(Text text) {
     List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
     for (TextToken token : tokens) {
       this.sequence.addToken(token);
@@ -283,40 +253,17 @@ public final class DOMRecorder implements XMLRecorder {
    *
    * @param pi The W3C DOM PI node to load.
    */
-  private void load(ProcessingInstruction pi) {
+  private void loadPI(ProcessingInstruction pi) {
     this.sequence.addToken(new ProcessingInstructionToken(pi.getTarget(), pi.getData()));
   }
 
   /**
-   * Loads the given attribute in the current sequence.
+   * Add the comment attribute in the current sequence.
    *
-   * @param attr The W3C DOM attribute node to load.
+   * @param comment The W3C DOM comment node to load.
    */
-  private void load(Attr attr) {
-    String uri = attr.getNamespaceURI();
-    if (uri == null) uri = XMLConstants.NULL_NS_URI;
-    handlePrefixMapping(uri, attr.getPrefix());
-    load(this.tokenFactory.newAttribute(uri,
-        attr.getLocalName(),
-        attr.getNodeName(),
-        attr.getValue()));
-  }
-
-  /**
-   * Loads the given attribute in the current sequence.
-   *
-   * @param attribute An attribute token.
-   */
-  private void load(AttributeToken attribute) {
-    // a namespace declaration, translate the token into a prefix mapping
-    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attribute.getURI())) {
-      // FIXME Handle default namespace declaration on root element
-      this.sequence.addNamespace(attribute.getValue(), attribute.getName());
-
-      // a regular attribute
-    } else {
-      this.sequence.addToken(attribute);
-    }
+  private void loadComment(Comment comment) {
+    this.sequence.addToken(new CommentToken(comment.getTextContent()));
   }
 
   /**
@@ -335,6 +282,58 @@ public final class DOMRecorder implements XMLRecorder {
       } else if (prefix != null && !"xmlns".equals(prefix)) {
         this.mapping.add(uri, prefix);
       }
+    }
+  }
+
+  private StartElementToken toStartElement(Element element) {
+    if (this.config.isNamespaceAware()) {
+      String uri = element.getNamespaceURI() != null ? uri = element.getNamespaceURI() : XMLConstants.NULL_NS_URI;
+      handlePrefixMapping(uri, element.getPrefix());
+      return this.tokenFactory.newStartElement(uri, element.getLocalName());
+    }
+    return this.tokenFactory.newStartElement(XMLConstants.NULL_NS_URI, element.getNodeName());
+  }
+
+  private void loadAttributes(Element element) {
+    NamedNodeMap attributes = element.getAttributes();
+    // only 1 attribute, just load it
+    if (attributes.getLength() == 1) {
+      AttributeToken token = toAttribute((Attr) attributes.item(0));
+      if (token != null) {
+        this.sequence.addToken(token);
+      }
+    } else if (attributes.getLength() > 1) {
+      List<AttributeToken> tokens = new ArrayList<>();
+      for (int i = 0; i < attributes.getLength(); i++) {
+        AttributeToken token = toAttribute((Attr) attributes.item(i));
+        if (token != null) {
+          tokens.add(token);
+        }
+      }
+      tokens.sort(new AttributeComparator());
+      this.sequence.addTokens(tokens);
+    }
+  }
+
+  /**
+   * Loads the given attribute in the current sequence.
+   *
+   * @param attr The W3C DOM attribute node to load.
+   */
+  private AttributeToken toAttribute(Attr attr) {
+    String uri = attr.getNamespaceURI();
+    if (uri == null) uri = XMLConstants.NULL_NS_URI;
+    handlePrefixMapping(uri, attr.getPrefix());
+    // a namespace declaration, translate the token into a prefix mapping
+    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(uri)) {
+      // FIXME Handle default namespace declaration on root element
+      this.sequence.addNamespace(attr.getValue(), attr.getLocalName());
+      return null;
+    } else {
+      if (this.config.isNamespaceAware()) {
+        return this.tokenFactory.newAttribute(uri, attr.getLocalName(), attr.getValue());
+      }
+      return this.tokenFactory.newAttribute(attr.getNodeName(), attr.getValue());
     }
   }
 

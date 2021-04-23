@@ -111,6 +111,26 @@ public final class TokenFactory {
   /**
    * Returns the attribute token from the name and value given.
    *
+   * <p>If the factory is namespace aware, it returns an attribute on the NULL URI namespace.
+   *
+   * <p>If the factory is NOT namespace aware, it returns an attribute implementation
+   * using the specified name.
+   *
+   * <p>Use this implementation if the name of the element is determined prior to the
+   * call of this method.
+   *
+   * @param name  The name of the attribute.
+   * @param value The value of the attribute.
+   *
+   * @return The open element token from the uri and name given.
+   */
+  public AttributeToken newAttribute(String name, String value) {
+    return new XMLAttribute(name, value);
+  }
+
+  /**
+   * Returns the attribute token from the name and value given.
+   *
    * <p>If the factory is namespace aware, it returns an attribute implementation
    * using the namespace URI and the name.
    *

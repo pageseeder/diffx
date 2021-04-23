@@ -56,7 +56,7 @@ public interface AttributeToken extends Namespaceable, Token {
    *
    * @return The namespace URI the attribute belongs to or <code>null</code>.
    */
-  String getURI();
+  String getNamespaceURI();
 
   @Override
   default TokenType getType() {
@@ -70,21 +70,21 @@ public interface AttributeToken extends Namespaceable, Token {
     AttributeToken other = (AttributeToken) token;
     return other.getName().equals(this.getName())
         && other.getValue().equals(this.getValue())
-        && other.getURI().equals(this.getURI());
+        && other.getNamespaceURI().equals(this.getNamespaceURI());
   }
 
   @Override
   default void toXML(XMLWriter xml) throws IOException {
-    xml.attribute(this.getURI(), this.getName(), this.getValue());
+    xml.attribute(this.getNamespaceURI(), this.getName(), this.getValue());
   }
 
   @Override
   default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
-    if (this.getURI().isEmpty())
+    if (this.getNamespaceURI().isEmpty())
       xml.writeAttribute(this.getName(), this.getValue());
     else
-      xml.writeAttribute(this.getURI(), this.getName(), this.getValue());
+      xml.writeAttribute(this.getNamespaceURI(), this.getName(), this.getValue());
   }
 
 }

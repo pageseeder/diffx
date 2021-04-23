@@ -47,8 +47,8 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public String getURI() {
-    return ((StartElementToken) this.tokens.get(0)).getURI();
+  public String getNamespaceURI() {
+    return ((StartElementToken) this.tokens.get(0)).getNamespaceURI();
   }
 
   @Override

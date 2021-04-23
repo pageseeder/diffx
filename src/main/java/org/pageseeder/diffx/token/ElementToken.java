@@ -27,7 +27,7 @@ public interface ElementToken extends Namespaceable, Token {
   /**
    * @return The namespace URI the element belongs to.
    */
-  String getURI();
+  String getNamespaceURI();
 
   /**
    * Returns all the tokens for this element, starting with the

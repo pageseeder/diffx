@@ -101,7 +101,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   }
 
   @Override
-  public String getURI() {
+  public String getNamespaceURI() {
     return this.uri;
   }
 
@@ -131,7 +131,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
     AttributeToken other = (AttributeToken) token;
     return this.name.equals(other.getName())
         && this.value.equals(other.getValue())
-        && this.uri.equals(other.getURI());
+        && this.uri.equals(other.getNamespaceURI());
   }
 
   @Override

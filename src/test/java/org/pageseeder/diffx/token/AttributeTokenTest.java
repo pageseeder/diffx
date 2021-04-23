@@ -21,33 +21,37 @@ import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AttributeTokenTest {
-
-  @Test
-  void testEqualsNS() {
-    testEquals(new TokenFactory(true));
-  }
-
-  @Test
-  void testNotEqualsNS() {
-    testNotEquals(new TokenFactory(true));
-  }
+public final class AttributeTokenTest {
 
   @Test
   void testEquals() {
-    testEquals(new TokenFactory(false));
+    AttributeToken token = new XMLAttribute("https://example.org", "title", "test");
+    AttributeToken other = new XMLAttribute("https://example.org", "title", "test");
+    TokenTest.assertEqualsNullIsFalse(token);
+    TokenTest.assertEqualsIsReflexive(token);
+    Assertions.assertEquals(token, other);
+    Assertions.assertEquals(token.hashCode(), other.hashCode());
   }
 
   @Test
   void testNotEquals() {
-    testNotEquals(new TokenFactory(false));
+    List<AttributeToken> tokens = Arrays.asList(
+        new XMLAttribute("title", "test"),
+        new XMLAttribute("title", "test2"),
+        new XMLAttribute("title2", "test"),
+        new XMLAttribute("https://example.org", "title", "test"),
+        new XMLAttribute("https://example.org", "title", "test2"),
+        new XMLAttribute("https://example.org", "title2", "test")
+    );
+    TokenTest.assertNotEqualsINotSame(tokens);
   }
 
   @Test
-  public void testHashcodeClash() {
+  public void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<AttributeToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -91,32 +95,5 @@ public class AttributeTokenTest {
     System.out.println("T1="+(t1 / 100_000)+" "+(t1<t2 ? (t1-t2)/ 100_000 : ""));
     System.out.println("T2="+(t2 / 100_000)+" "+(t2<t1 ? (t2-t1)/ 100_000 : ""));
   }
-
-  private void testEquals(TokenFactory factory) {
-    AttributeToken token = factory.newAttribute("", "title", "test");
-    AttributeToken other = factory.newAttribute("", "title", "test");
-    TokenTest.assertEqualsNullIsFalse(token);
-    TokenTest.assertEqualsIsReflexive(token);
-    Assertions.assertEquals(token, other);
-    Assertions.assertEquals(token.hashCode(), other.hashCode());
-  }
-
-  private void testNotEquals(TokenFactory factory) {
-    AttributeToken[] tokens = new AttributeToken[]{
-      factory.newAttribute("", "title", "test"),
-      factory.newAttribute("", "title", "test2"),
-      factory.newAttribute("", "title2", "test"),
-      factory.newAttribute("https://example.org", "title", "test")
-    };
-    for (Token a : tokens) {
-      for (Token b : tokens) {
-        if (a != b) {
-          Assertions.assertNotEquals(a, b);
-          Assertions.assertNotEquals(a.hashCode(), b.hashCode());
-        }
-      }
-    }
-  }
-
 
 }

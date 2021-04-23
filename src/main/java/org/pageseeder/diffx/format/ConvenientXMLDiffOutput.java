@@ -306,7 +306,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
     while (!attributes.empty()) {
       AttributeToken att = attributes.pop();
       this.xml.openElement(Constants.BASE_NS_URI, operator == Operator.INS ? "ins" : "del", false);
-      this.xml.attribute(att.getURI(), att.getName(), att.getValue());
+      this.xml.attribute(att.getNamespaceURI(), att.getName(), att.getValue());
       this.xml.closeElement();
     }
   }

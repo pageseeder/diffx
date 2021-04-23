@@ -62,4 +62,14 @@ public class TokenTest {
     return t1 - t0;
   }
 
+  public static void assertNotEqualsINotSame(List<? extends Token> tokens) {
+    for (Token a : tokens) {
+      for (Token b : tokens) {
+        if (a != b) {
+          Assertions.assertNotEquals(a, b);
+          Assertions.assertNotEquals(a.hashCode(), b.hashCode());
+        }
+      }
+    }
+  }
 }
