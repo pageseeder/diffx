@@ -19,11 +19,11 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 import java.io.IOException;
 import java.util.List;
@@ -327,7 +327,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
         "+<a><b>-<a>X-</a></b>+</a>",
         "-<b><a>+<b>X+</b></a>-</b>"
     };
-    String[] exp2 = new String[] {
+    String[] exp2 = new String[]{
         "+<b><a>-<b>X-</b></a>+</b>",
         "-<a><b>+<a>X+</a></b>-</a>"
     };

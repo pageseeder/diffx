@@ -23,13 +23,13 @@ import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMRecorder;
 import org.pageseeder.diffx.load.LineRecorder;
 import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.Document;
 
 import java.io.IOException;

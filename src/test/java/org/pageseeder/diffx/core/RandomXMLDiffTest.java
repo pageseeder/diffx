@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.*;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.Document;
 
 import java.util.List;
@@ -41,8 +41,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   @Test
   public final void testRandom1() throws DiffXException {
     RandomXMLFactory factory = new RandomXMLFactory();
-    for (int i=0; i < 100; i++) {
-      Document docA = factory.getRandomXML(3,3);
+    for (int i = 0; i < 100; i++) {
+      Document docA = factory.getRandomXML(3, 3);
       Document docB = factory.vary(docA, .2);
       assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
     }
@@ -51,8 +51,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   @Test
   public final void testRandom2() throws DiffXException {
     RandomXMLFactory factory = new RandomXMLFactory();
-    for (int i=0; i < 100; i++) {
-      Document docA = factory.getRandomXML(3,3);
+    for (int i = 0; i < 100; i++) {
+      Document docA = factory.getRandomXML(3, 3);
       Document docB = factory.vary(docA, .3);
       assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
     }
@@ -61,8 +61,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   @Test
   public final void testRandom3() throws DiffXException {
     RandomXMLFactory factory = new RandomXMLFactory();
-    for (int i=0; i < 100; i++) {
-      Document docA = factory.getRandomXML(6,2);
+    for (int i = 0; i < 100; i++) {
+      Document docA = factory.getRandomXML(6, 2);
       Document docB = factory.vary(docA, .2);
       assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
     }
@@ -71,8 +71,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   @Test
   public final void testRandom4() throws DiffXException {
     RandomXMLFactory factory = new RandomXMLFactory();
-    for (int i=0; i < 100; i++) {
-      Document docA = factory.getRandomXML(3,10);
+    for (int i = 0; i < 100; i++) {
+      Document docA = factory.getRandomXML(3, 10);
       Document docB = factory.vary(docA, .2);
       assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
     }

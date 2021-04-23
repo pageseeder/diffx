@@ -15,7 +15,9 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.pageseeder.diffx.token.impl.*;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.token.impl.XMLEndElement;
+import org.pageseeder.diffx.token.impl.XMLStartElement;
 
 /**
  * Factory for tokens.
@@ -75,7 +77,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public StartElementToken newStartElement(String uri, String name) {
-    return this.isNamespaceAware? new XMLStartElement(uri, name) : new XMLStartElement(name);
+    return this.isNamespaceAware ? new XMLStartElement(uri, name) : new XMLStartElement(name);
   }
 
   /**
@@ -94,7 +96,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public StartElementToken newStartElement(String uri, String localName, String qName) {
-    return this.isNamespaceAware? new XMLStartElement(uri, localName) : new XMLStartElement(qName);
+    return this.isNamespaceAware ? new XMLStartElement(uri, localName) : new XMLStartElement(qName);
   }
 
   /**
@@ -147,7 +149,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public AttributeToken newAttribute(String uri, String name, String value) {
-    return this.isNamespaceAware? new XMLAttribute(uri, name, value) : new XMLAttribute(name, value);
+    return this.isNamespaceAware ? new XMLAttribute(uri, name, value) : new XMLAttribute(name, value);
   }
 
   /**
@@ -167,7 +169,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public AttributeToken newAttribute(String uri, String localName, String qName, String value) {
-    return this.isNamespaceAware? new XMLAttribute(uri, localName, value) : new XMLAttribute(qName, value);
+    return this.isNamespaceAware ? new XMLAttribute(uri, localName, value) : new XMLAttribute(qName, value);
   }
 
 }

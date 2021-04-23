@@ -62,8 +62,8 @@ public final class StartElementTokenTest {
 
   @Test
   public void testPerformance() {
-    String[] uris = new String[]{ "", "https://example.org", "https://example.net"};
-    String[] names = new String[]{ "alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
+    String[] uris = new String[]{"", "https://example.org", "https://example.net"};
+    String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
     List<StartElementToken> tokens1 = new ArrayList<>();
     List<StartElementToken> tokens2 = new ArrayList<>();
     for (String uri : uris)
@@ -74,7 +74,7 @@ public final class StartElementTokenTest {
     long t1 = 0;
     long t2 = 0;
     Random r = new Random();
-    for (int i=0; i < 100_000; i++) {
+    for (int i = 0; i < 100_000; i++) {
       if (r.nextBoolean()) {
         t1 += TokenTest.profileEquals(tokens1);
         t2 += TokenTest.profileEquals(tokens2);
@@ -83,8 +83,8 @@ public final class StartElementTokenTest {
         t1 += TokenTest.profileEquals(tokens1);
       }
     }
-    System.out.println("T1="+(t1 / 1_000_000)+" "+(t1<t2 ? (t1-t2)/ 1_000_000 : ""));
-    System.out.println("T2="+(t2 / 1_000_000)+" "+(t2<t1 ? (t2-t1)/ 1_000_000 : ""));
+    System.out.println("T1=" + (t1 / 1_000_000) + " " + (t1 < t2 ? (t1 - t2) / 1_000_000 : ""));
+    System.out.println("T2=" + (t2 / 1_000_000) + " " + (t2 < t1 ? (t2 - t1) / 1_000_000 : ""));
   }
 
 }

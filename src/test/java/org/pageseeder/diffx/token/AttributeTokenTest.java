@@ -66,9 +66,9 @@ public final class AttributeTokenTest {
 
   @Test
   public void testPerformance() {
-    String[] uris = new String[]{ "", "https://example.org", "https://example.net"};
-    String[] names = new String[]{ "alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
-    String[] values = new String[]{ "",
+    String[] uris = new String[]{"", "https://example.org", "https://example.net"};
+    String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
+    String[] values = new String[]{"",
         "1", "12", "123", "1234", "12345", "123456",
         "a", "ab", "abc", "abcd", "abcde", "abcdef",
         "some longer value", "other"};
@@ -83,7 +83,7 @@ public final class AttributeTokenTest {
     long t1 = 0;
     long t2 = 0;
     Random r = new Random();
-    for (int i=0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
       if (r.nextBoolean()) {
         t1 += TokenTest.profileEquals(tokens1);
         t2 += TokenTest.profileEquals(tokens2);
@@ -92,8 +92,8 @@ public final class AttributeTokenTest {
         t1 += TokenTest.profileEquals(tokens1);
       }
     }
-    System.out.println("T1="+(t1 / 100_000)+" "+(t1<t2 ? (t1-t2)/ 100_000 : ""));
-    System.out.println("T2="+(t2 / 100_000)+" "+(t2<t1 ? (t2-t1)/ 100_000 : ""));
+    System.out.println("T1=" + (t1 / 100_000) + " " + (t1 < t2 ? (t1 - t2) / 100_000 : ""));
+    System.out.println("T2=" + (t2 / 100_000) + " " + (t2 < t1 ? (t2 - t1) / 100_000 : ""));
   }
 
 }

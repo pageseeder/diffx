@@ -17,7 +17,6 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -27,6 +26,7 @@ import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;

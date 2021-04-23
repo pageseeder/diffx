@@ -17,10 +17,10 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -153,7 +153,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
    * Reports a change in XML.
    *
    * @param operator The modification flag (positive for inserts, negative for deletes).
-   * @param token   The diff-x token that has been inserted or deleted.
+   * @param token    The diff-x token that has been inserted or deleted.
    *
    * @throws IOException an I/O exception if an error occurs.
    */

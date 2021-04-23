@@ -16,12 +16,15 @@
 package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.PrefixMapping;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.xml.sax.InputSource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.UncheckedIOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -36,7 +36,7 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
 
   @Test
   @DisplayName("<a ")
-  public final void testInvalidElement()  {
+  public final void testInvalidElement() {
     assertThrows(LoadingException.class, () -> record("<bad-xml", getConfig()));
   }
 

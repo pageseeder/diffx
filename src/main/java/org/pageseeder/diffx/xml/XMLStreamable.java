@@ -31,6 +31,7 @@ public interface XMLStreamable {
    * Write an XML representation of this object using the specified writer.
    *
    * @param xml The writer
+   *
    * @throws XMLStreamException If thrown by XMLStreamWriter
    */
   void toXML(XMLStreamWriter xml) throws XMLStreamException;

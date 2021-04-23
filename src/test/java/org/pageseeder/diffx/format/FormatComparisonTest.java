@@ -93,7 +93,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printStrictXMLOutput(List<Operation> operations){
+  private static void printStrictXMLOutput(List<Operation> operations) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new StrictXMLDiffOutput(xml);
     printXMLDiffOutput(operations, output);

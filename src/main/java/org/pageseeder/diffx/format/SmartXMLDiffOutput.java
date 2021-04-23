@@ -17,7 +17,6 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -26,6 +25,7 @@ import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Formatting;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -129,7 +129,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (DEBUG) {
-      System.err.println(operator+""+token);
+      System.err.println(operator + "" + token);
     }
     try {
       if (operator.isEdit()) {
@@ -194,9 +194,9 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
       // insert an attribute to specify
       this.xml.attribute(operator == Operator.INS ? "dfx:insert" : "dfx:delete", "true");
 
-    // display the attribute normally
+      // display the attribute normally
     } else if (token instanceof AttributeToken) {
-      AttributeToken attribute = (AttributeToken)token;
+      AttributeToken attribute = (AttributeToken) token;
       // NB We can't report inserted/deleted attributes with namespaces
       if (operator == Operator.INS) {
         token.toXML(this.xml);
@@ -207,11 +207,11 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
           this.xml.attribute("del:" + attribute.getName(), attribute.getValue());
       }
 
-    // just output the new line
+      // just output the new line
     } else if (token == SpaceToken.NEW_LINE) {
       token.toXML(this.xml);
 
-    // wrap the characters in a <ins/del> element
+      // wrap the characters in a <ins/del> element
     } else if (token instanceof CharactersTokenBase) {
       this.xml.openElement(getTag(operator), false);
       token.toXML(this.xml);
@@ -220,7 +220,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
         this.xml.writeXML(" ");
       }
 
-    // wrap the char in a <ins/del> element
+      // wrap the char in a <ins/del> element
     } else if (token instanceof CharToken) {
       this.xml.openElement(getTag(operator), false);
       token.toXML(this.xml);
@@ -230,7 +230,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
       this.openElements--;
       token.toXML(this.xml);
 
-    // just format naturally
+      // just format naturally
     } else {
       token.toXML(this.xml);
     }

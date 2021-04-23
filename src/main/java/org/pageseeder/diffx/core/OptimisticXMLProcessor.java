@@ -25,14 +25,15 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
-import org.pageseeder.diffx.token.impl.CharactersToken;
-import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * A processor implementation which attempts to solve the diff using the most efficient algorithm,
@@ -40,7 +41,7 @@ import java.util.*;
  */
 public final class OptimisticXMLProcessor implements DiffProcessor {
 
-  private static boolean DEBUG = false;
+  private static final boolean DEBUG = false;
 
   private boolean coalesce = false;
 
@@ -80,7 +81,6 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
       Operations.handle(holding.getOperations(), out);
       out.end();
     }
-
 
 
   }
@@ -129,7 +129,7 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
         this.insertions.add(token);
       } else {
         flushChanges();
-        if (token.getType() == TokenType.END_ELEMENT && !matchStart(Operator.MATCH, (EndElementToken)token)) {
+        if (token.getType() == TokenType.END_ELEMENT && !matchStart(Operator.MATCH, (EndElementToken) token)) {
           sendMatchingEndElement();
         } else {
           send(operator, token);
@@ -154,9 +154,9 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
         Token nextInsertion = this.insertions.peek();
         Token nextDeletion = this.deletions.peek();
 
-        if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken)nextInsertion)) {
+        if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken) nextInsertion)) {
           send(Operator.INS, this.insertions.remove());
-        } else if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken)nextDeletion)) {
+        } else if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken) nextDeletion)) {
           send(Operator.DEL, this.deletions.remove());
         } else if (isEndElement(nextInsertion)) {
           this.hasError = true;
@@ -168,7 +168,8 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
           this.deletions.remove();
         } else {
           if (this.lastOperator == Operator.INS && nextInsertion != null) send(Operator.INS, this.insertions.remove());
-          else if (this.lastOperator == Operator.DEL && nextDeletion != null) send(Operator.DEL, this.deletions.remove());
+          else if (this.lastOperator == Operator.DEL && nextDeletion != null)
+            send(Operator.DEL, this.deletions.remove());
           else if (nextInsertion != null) send(Operator.INS, this.insertions.remove());
           else if (nextDeletion != null) send(Operator.DEL, this.deletions.remove());
         }
@@ -215,7 +216,7 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
       this.lastOperator = operator;
       this.lastToken = token;
       if (token.getType() == TokenType.START_ELEMENT) {
-        this.unclosed.push(new StartOperation(operator, (StartElementToken)token));
+        this.unclosed.push(new StartOperation(operator, (StartElementToken) token));
       } else if (token.getType() == TokenType.END_ELEMENT) {
         this.unclosed.pop();
       }
@@ -230,13 +231,16 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
   private static class StartOperation {
     private final Operator operator;
     private final StartElementToken token;
+
     StartOperation(Operator operator, StartElementToken token) {
       this.operator = operator;
       this.token = token;
     }
+
     public Operator operator() {
       return operator;
     }
+
     public StartElementToken token() {
       return token;
     }
@@ -247,14 +251,19 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
     public TokenType getType() {
       return TokenType.OTHER;
     }
+
     @Override
     public boolean equals(Token token) {
       return token == this;
     }
+
     @Override
-    public void toXML(XMLWriter xml) {}
+    public void toXML(XMLWriter xml) {
+    }
+
     @Override
-    public void toXML(XMLStreamWriter xml) {}
+    public void toXML(XMLStreamWriter xml) {
+    }
   }
 
 }

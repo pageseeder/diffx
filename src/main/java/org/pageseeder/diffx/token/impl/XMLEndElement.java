@@ -48,7 +48,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   /**
    * Creates a new close element token.
    *
-   * @param uri  The namespace URI of the element
+   * @param uri       The namespace URI of the element
    * @param localName The local name of the element (excluding prefix)
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.

@@ -30,9 +30,12 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.*;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
-import static javax.xml.stream.XMLStreamConstants.*;
+import static javax.xml.stream.XMLStreamConstants.COMMENT;
 
 /**
  * Records the XML events in an {@link Sequence}.
@@ -161,7 +164,7 @@ public final class XMLEventRecorder implements XMLRecorder {
   private static void processNamespaces(StartElement event, Sequence sequence) {
     // `getNamespaces` must return `Namespaces` instances by contract
     for (Iterator<?> ns = event.getNamespaces(); ns.hasNext(); ) {
-      Namespace namespace = (Namespace)ns.next();
+      Namespace namespace = (Namespace) ns.next();
       sequence.addNamespace(namespace.getNamespaceURI(), namespace.getPrefix());
     }
   }
@@ -177,7 +180,7 @@ public final class XMLEventRecorder implements XMLRecorder {
     // `getAttributes` must return `Attribute` instances by contract
     List<AttributeToken> attributes = null;
     for (Iterator<?> it = event.getAttributes(); it.hasNext(); ) {
-      Attribute attribute = (Attribute)it.next();
+      Attribute attribute = (Attribute) it.next();
       if (attributes == null) attributes = new ArrayList<>();
       attributes.add(toAttribute(attribute, namespaceAware));
     }
@@ -212,11 +215,11 @@ public final class XMLEventRecorder implements XMLRecorder {
    */
   private static void processOther(XMLEvent event, Sequence sequence) {
     if (event.isProcessingInstruction()) {
-      ProcessingInstruction instruction = (ProcessingInstruction)event;
+      ProcessingInstruction instruction = (ProcessingInstruction) event;
       Token token = new ProcessingInstructionToken(instruction.getTarget(), instruction.getData());
       sequence.addToken(token);
     } else if (event.getEventType() == COMMENT) {
-      CommentToken token = new CommentToken(((Comment)event).getText());
+      CommentToken token = new CommentToken(((Comment) event).getText());
       sequence.addToken(token);
     }
   }
@@ -227,7 +230,7 @@ public final class XMLEventRecorder implements XMLRecorder {
       return new XMLAttribute(name.getNamespaceURI(), name.getLocalPart(), attribute.getValue());
     if (name.getPrefix().isEmpty())
       return new XMLAttribute(name.getLocalPart(), attribute.getValue());
-    return new XMLAttribute(name.getPrefix()+":"+name.getLocalPart(), attribute.getValue());
+    return new XMLAttribute(name.getPrefix() + ":" + name.getLocalPart(), attribute.getValue());
   }
 
   private static XMLEventReader toXMLEventReader(XMLInputFactory factory, InputSource source)

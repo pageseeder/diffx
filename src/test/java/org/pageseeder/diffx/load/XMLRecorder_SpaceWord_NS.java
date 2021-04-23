@@ -36,7 +36,7 @@ public abstract class XMLRecorder_SpaceWord_NS extends XMLRecorderTest {
 
   @Test
   @DisplayName("<a ")
-  public final void testInvalidElement()  {
+  public final void testInvalidElement() {
     assertThrows(LoadingException.class, () -> record("<bad-xml", getConfig()));
   }
 

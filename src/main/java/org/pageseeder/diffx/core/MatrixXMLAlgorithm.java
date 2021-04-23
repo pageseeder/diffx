@@ -21,6 +21,7 @@ import org.pageseeder.diffx.algorithm.Matrix;
 import org.pageseeder.diffx.algorithm.MatrixProcessor;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
+import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
 
@@ -45,7 +46,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   /**
    * Set to <code>true</code> to allow sequence slicing.
    */
-  private static final boolean SLICE = false;
+  private final boolean slice = true;
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
@@ -74,34 +75,24 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   }
 
   private void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
+    TokenListSlicer slicer = new TokenListSlicer(first, second);
+    boolean hasCommon = this.slice && slicer.analyze();
 
-    // Slice the beginning
-    int start = SLICE ? sliceStart(first, second) : 0;
-    int end = SLICE ? sliceEnd(first, second, start) : 0;
-
-    // Copy the end
-    if (start > 0) {
-      for (int i = 0; i < start; i++) handler.handle(Operator.MATCH, first.get(i));
-    }
     // Check the end
-    if (start > 0 || end > 0) {
-      List<? extends Token> firstSub = first.subList(start, first.size() - end);
-      List<? extends Token> secondSub = second.subList(start, second.size() - end);
+    if (hasCommon) {
+      slicer.handleStart(handler);
+      List<? extends Token> firstSub = slicer.getSubSequence1();
+      List<? extends Token> secondSub = slicer.getSubSequence2();
       if (firstSub.isEmpty() || secondSub.isEmpty()) {
         for (Token token : secondSub) handler.handle(Operator.DEL, token);
         for (Token token : firstSub) handler.handle(Operator.INS, token);
       } else {
         processDiff(firstSub, secondSub, handler, estate);
       }
+      slicer.handleEnd(handler);
     } else {
       processDiff(first, second, handler, estate);
     }
-
-    // Copy the end
-    if (end > 0) {
-      for (int i = first.size() - end; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
-    }
-
   }
 
   private void processDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
@@ -258,7 +249,6 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     }
   }
 
-
   /**
    * Print information when the algorithm gets lost in the matrix,
    * ie when it does not know which direction to follow.
@@ -284,7 +274,6 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     System.err.println(" okInsert=" + estate.isAllowed(Operator.INS, tokenA));
     System.err.println(" okDelete=" + estate.isAllowed(Operator.DEL, tokenB));
   }
-
 
 
   /**

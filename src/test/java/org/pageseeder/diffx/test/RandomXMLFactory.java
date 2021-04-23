@@ -30,7 +30,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class RandomXMLFactory {
 
@@ -62,7 +64,7 @@ public class RandomXMLFactory {
   }
 
   public Document vary(Document source, double changes) {
-    Document variation = (Document)source.cloneNode(true);
+    Document variation = (Document) source.cloneNode(true);
     Element element = variation.getDocumentElement();
     vary(variation, element, changes);
     return variation;
@@ -70,10 +72,10 @@ public class RandomXMLFactory {
 
   public Document vary(Document doc, Element element, double changes) {
     NamedNodeMap attributes = element.getAttributes();
-    for (int i=0; i < attributes.getLength(); i++) {
+    for (int i = 0; i < attributes.getLength(); i++) {
       double next = this.random.nextDouble();
       if (next < changes) {
-        Attr attr = (Attr)attributes.item(i);
+        Attr attr = (Attr) attributes.item(i);
         int op = this.random.nextInt(3);
         if (op == 0 || op == 1) {
           attributes.removeNamedItem(attr.getName());
@@ -85,7 +87,7 @@ public class RandomXMLFactory {
       }
     }
     NodeList children = element.getChildNodes();
-    for (int i=0; i < children.getLength(); i++) {
+    for (int i = 0; i < children.getLength(); i++) {
       double next = this.random.nextDouble();
       if (next < changes) {
         Node node = children.item(i);
@@ -95,7 +97,7 @@ public class RandomXMLFactory {
         }
         if (op == 1) {
           if (node.getNodeType() == Node.ELEMENT_NODE) {
-            vary(doc, (Element)node, changes);
+            vary(doc, (Element) node, changes);
           } else if (node.getNodeType() == Node.TEXT_NODE) {
             String newText = this.stringFactory.vary(node.getTextContent(), changes);
             Text newTextNode = doc.createTextNode(newText);
@@ -115,7 +117,7 @@ public class RandomXMLFactory {
     }
   }
 
-  private void attachBlocks(Document doc, Element element, int maxDepth,  int maxBreadth) {
+  private void attachBlocks(Document doc, Element element, int maxDepth, int maxBreadth) {
     int count = 0;
     if (maxDepth > 0 && count < maxBreadth) {
       while (this.random.nextInt(100) < 80) {
@@ -178,9 +180,12 @@ public class RandomXMLFactory {
 
   private String nextAttributeValue() {
     switch (random.nextInt(3)) {
-      case 1: return Boolean.toString(this.random.nextBoolean());
-      case 2: return Integer.toString(this.random.nextInt(Short.MAX_VALUE));
-      default: return this.stringFactory.getRandomString(random.nextInt(10)+1, false);
+      case 1:
+        return Boolean.toString(this.random.nextBoolean());
+      case 2:
+        return Integer.toString(this.random.nextInt(Short.MAX_VALUE));
+      default:
+        return this.stringFactory.getRandomString(random.nextInt(10) + 1, false);
     }
   }
 

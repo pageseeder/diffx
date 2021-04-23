@@ -573,7 +573,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   /**
    * Tests that the line diff also work.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public final void testLevel1_SameLine0() throws IOException {
@@ -591,7 +591,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   /**
    * Tests that the line diff also work.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public final void testLevel1_LineChange0() throws IOException {
@@ -611,7 +611,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   /**
    * Tests that the line diff also work.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public final void testLevel1_LineInsert0() throws IOException {
@@ -630,7 +630,7 @@ public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
   /**
    * Tests that the line diff also work.
    *
-   * @throws IOException    Should an I/O exception occur.
+   * @throws IOException Should an I/O exception occur.
    */
   @Test
   public final void testLevel1_LineRemove0() throws IOException {

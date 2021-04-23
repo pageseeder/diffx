@@ -29,7 +29,8 @@ import java.io.Writer;
 
 public final class DOMUtils {
 
-  private DOMUtils(){}
+  private DOMUtils() {
+  }
 
   public static String toString(Document xml, boolean indent) {
     try {

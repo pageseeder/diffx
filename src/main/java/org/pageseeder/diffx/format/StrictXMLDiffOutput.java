@@ -17,10 +17,10 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.util.Constants;
+import org.pageseeder.diffx.xml.Namespace;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
@@ -111,7 +111,7 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
     output.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.TRUE);
     try {
       this.xml = output.createXMLStreamWriter(out);
-      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX,XMLConstants.NULL_NS_URI);
+      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
       this.xml.setPrefix("dfx", Constants.BASE_NS_URI);
       this.xml.setDefaultNamespace(XMLConstants.NULL_NS_URI);
     } catch (XMLStreamException ex) {

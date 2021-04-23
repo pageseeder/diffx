@@ -30,11 +30,10 @@ public class TokenTest {
   }
 
 
-
   public static void assertHashCollisionLessThan(List<? extends Token> tokens, double percent) {
     int clashCount = 0;
-    for (int i=0; i < tokens.size(); i++) {
-      for (int j=i; j < tokens.size(); j++) {
+    for (int i = 0; i < tokens.size(); i++) {
+      for (int j = i; j < tokens.size(); j++) {
         Token a = tokens.get(i);
         Token b = tokens.get(j);
         boolean equals = a.equals(b);
@@ -46,8 +45,8 @@ public class TokenTest {
     }
     // Total is triangular number of number tokens: n(n+1)/2
     int total = (tokens.size() * (tokens.size() + 1)) / 2;
-    double clashPercent = clashCount / (double)total;
-    Assertions.assertTrue(clashPercent < percent, "Too many hash collisions: "+clashCount+"/"+total+" "+clashPercent*100+"%");
+    double clashPercent = clashCount / (double) total;
+    Assertions.assertTrue(clashPercent < percent, "Too many hash collisions: " + clashCount + "/" + total + " " + clashPercent * 100 + "%");
   }
 
   public static long profileEquals(List<? extends Token> tokens) {

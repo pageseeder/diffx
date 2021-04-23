@@ -104,7 +104,7 @@ public class RandomHTMLFactory {
         return null;
       case "td":
         if (random.nextBoolean())
-          return stringFactory.getRandomString(random.nextInt(16)+2, true);
+          return stringFactory.getRandomString(random.nextInt(16) + 2, true);
         else
           return Integer.toString(random.nextInt(512));
       case "p":
@@ -126,7 +126,7 @@ public class RandomHTMLFactory {
     if (random.nextBoolean()) {
       Element thead = this.doc.createElement("thead");
       Element tr = this.doc.createElement("tr");
-      for (int i=0; i < cols; i++) {
+      for (int i = 0; i < cols; i++) {
         Element th = this.doc.createElement("th");
         Text text = nextText("th");
         th.appendChild(text);
@@ -139,7 +139,7 @@ public class RandomHTMLFactory {
     if (random.nextBoolean()) {
       Element thead = this.doc.createElement("tfoot");
       Element tr = this.doc.createElement("tr");
-      for (int i=0; i < cols; i++) {
+      for (int i = 0; i < cols; i++) {
         Element th = this.doc.createElement("td");
         Text text = nextText("td");
         th.appendChild(text);
@@ -149,7 +149,7 @@ public class RandomHTMLFactory {
       table.appendChild(thead);
     }
     Element tbody = this.doc.createElement("tbody");
-    for (int j=0; j < rows; j++) {
+    for (int j = 0; j < rows; j++) {
       Element tr = this.doc.createElement("tr");
       for (int i = 0; i < cols; i++) {
         Element td = this.doc.createElement("td");
@@ -185,15 +185,15 @@ public class RandomHTMLFactory {
 
   public Element nextMeta() {
     Element meta = this.doc.createElement("meta");
-    meta.setAttribute("name", stringFactory.getRandomString(random.nextInt(16)+1, true));
-    meta.setAttribute("content", stringFactory.getRandomString(random.nextInt(32)+1, true));
+    meta.setAttribute("name", stringFactory.getRandomString(random.nextInt(16) + 1, true));
+    meta.setAttribute("content", stringFactory.getRandomString(random.nextInt(32) + 1, true));
     return meta;
   }
 
   public Element nextList(String name) {
     Element list = this.doc.createElement(name);
     int itemCount = random.nextInt(10);
-    for (int i=0; i < itemCount; i++) {
+    for (int i = 0; i < itemCount; i++) {
       Element li = this.doc.createElement("li");
       Text text = nextText("li");
       li.appendChild(text);
@@ -205,7 +205,7 @@ public class RandomHTMLFactory {
   public Element nextBody() {
     Element body = this.doc.createElement("body");
     int itemCount = random.nextInt(20);
-    for (int i=0; i < itemCount; i++) {
+    for (int i = 0; i < itemCount; i++) {
       Element element = nextElement("body", 4);
       body.appendChild(element);
     }
@@ -228,12 +228,18 @@ public class RandomHTMLFactory {
 
   private String nextAttributeValue(String name) {
     switch (name) {
-      case "hidden": return Boolean.toString(this.random.nextBoolean());
-      case "id": return Integer.toString(this.random.nextInt(Short.MAX_VALUE));
-      case "title": return this.stringFactory.getRandomString(random.nextInt(25)+1, true);
-      case "dir": return random.nextBoolean() ? "rtl" : "ltr";
-      case "class": return this.stringFactory.getRandomString(random.nextInt(32)+1, true);
-      default: return this.stringFactory.getRandomString(random.nextInt(10)+1, false);
+      case "hidden":
+        return Boolean.toString(this.random.nextBoolean());
+      case "id":
+        return Integer.toString(this.random.nextInt(Short.MAX_VALUE));
+      case "title":
+        return this.stringFactory.getRandomString(random.nextInt(25) + 1, true);
+      case "dir":
+        return random.nextBoolean() ? "rtl" : "ltr";
+      case "class":
+        return this.stringFactory.getRandomString(random.nextInt(32) + 1, true);
+      default:
+        return this.stringFactory.getRandomString(random.nextInt(10) + 1, false);
     }
   }
 
@@ -278,7 +284,7 @@ public class RandomHTMLFactory {
   }
 
   public Document vary(Document source, double changes) {
-    this.doc = (Document)source.cloneNode(true);
+    this.doc = (Document) source.cloneNode(true);
     Element element = this.doc.getDocumentElement();
     vary(element, changes);
     return this.doc;
@@ -291,10 +297,10 @@ public class RandomHTMLFactory {
 
   private void varyAttributes(Element element, double changes) {
     NamedNodeMap attributes = element.getAttributes();
-    for (int i=0; i < attributes.getLength(); i++) {
+    for (int i = 0; i < attributes.getLength(); i++) {
       double next = this.random.nextDouble();
       if (next < changes) {
-        Attr attr = (Attr)attributes.item(i);
+        Attr attr = (Attr) attributes.item(i);
         int op = this.random.nextInt(3);
         if (op == 0 || op == 1) {
           attributes.removeNamedItem(attr.getName());
@@ -309,7 +315,7 @@ public class RandomHTMLFactory {
 
   private void varyChildren(Element element, double changes) {
     NodeList children = element.getChildNodes();
-    for (int i=0; i < children.getLength(); i++) {
+    for (int i = 0; i < children.getLength(); i++) {
       double next = this.random.nextDouble();
       if (next < changes) {
         Node node = children.item(i);
@@ -319,7 +325,7 @@ public class RandomHTMLFactory {
         }
         if (op == 1) {
           if (node.getNodeType() == Node.ELEMENT_NODE) {
-            vary((Element)node, changes);
+            vary((Element) node, changes);
           } else if (node.getNodeType() == Node.TEXT_NODE) {
             String newText = this.stringFactory.vary(node.getTextContent(), changes);
             Text newTextNode = doc.createTextNode(newText);

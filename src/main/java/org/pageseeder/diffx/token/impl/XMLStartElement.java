@@ -66,7 +66,7 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
   /**
    * Creates a new open element token.
    *
-   * @param uri  The namespace URI of the element
+   * @param uri       The namespace URI of the element
    * @param localName The local name of the element (excluding prefix)
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.

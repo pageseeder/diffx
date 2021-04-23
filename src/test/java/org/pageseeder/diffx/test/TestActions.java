@@ -22,8 +22,8 @@ import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.xml.PrefixMapping;
 
 import java.io.IOException;
 import java.io.StringWriter;

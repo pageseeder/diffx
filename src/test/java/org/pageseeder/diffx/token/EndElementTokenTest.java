@@ -40,10 +40,10 @@ public class EndElementTokenTest {
   @Test
   void testNotEquals() {
     List<EndElementToken> tokens = Arrays.asList(
-      new XMLEndElement("test"),
-      new XMLEndElement("test2"),
-      new XMLEndElement("https://example.org", "test"),
-      new XMLEndElement("https://example.org", "test2")
+        new XMLEndElement("test"),
+        new XMLEndElement("test2"),
+        new XMLEndElement("https://example.org", "test"),
+        new XMLEndElement("https://example.org", "test2")
     );
     TokenTest.assertNotEqualsINotSame(tokens);
   }
@@ -63,8 +63,8 @@ public class EndElementTokenTest {
 
   @Test
   public void testPerformance() {
-    String[] uris = new String[]{ "", "https://example.org", "https://example.net"};
-    String[] names = new String[]{ "alt", "title", "id", "value", "option", "name", "hidden"};
+    String[] uris = new String[]{"", "https://example.org", "https://example.net"};
+    String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "hidden"};
     List<EndElementToken> tokens1 = new ArrayList<>();
     List<EndElementToken> tokens2 = new ArrayList<>();
     for (String uri : uris)
@@ -75,7 +75,7 @@ public class EndElementTokenTest {
     long t1 = 0;
     long t2 = 0;
     Random r = new Random();
-    for (int i=0; i < 100_000; i++) {
+    for (int i = 0; i < 100_000; i++) {
       if (r.nextBoolean()) {
         t1 += TokenTest.profileEquals(tokens1);
         t2 += TokenTest.profileEquals(tokens2);
@@ -84,8 +84,8 @@ public class EndElementTokenTest {
         t1 += TokenTest.profileEquals(tokens1);
       }
     }
-    System.out.println("T1="+(t1 / 1_000_000)+" "+(t1<t2 ? (t1-t2)/ 1_000_000 : ""));
-    System.out.println("T2="+(t2 / 1_000_000)+" "+(t2<t1 ? (t2-t1)/ 1_000_000 : ""));
+    System.out.println("T1=" + (t1 / 1_000_000) + " " + (t1 < t2 ? (t1 - t2) / 1_000_000 : ""));
+    System.out.println("T2=" + (t2 / 1_000_000) + " " + (t2 < t1 ? (t2 - t1) / 1_000_000 : ""));
   }
 
 }

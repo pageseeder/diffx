@@ -15,21 +15,20 @@
  */
 package org.pageseeder.diffx;
 
-import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.DiffXKumarRangan;
-import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
+import org.pageseeder.diffx.core.DefaultXMLProcessor;
+import org.pageseeder.diffx.core.DiffProcessor;
+import org.pageseeder.diffx.core.OptimisticXMLProcessor;
+import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.format.*;
-import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.load.LineRecorder;
-import org.pageseeder.diffx.load.Recorder;
-import org.pageseeder.diffx.load.SAXRecorder;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;
+import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -41,7 +40,7 @@ import java.nio.charset.StandardCharsets;
  * Utility class to centralise the access to this API from the command line.
  *
  * @author Christophe Lauret
- * @version 10 May 2010
+ * @version 0.9.0
  */
 public final class Main {
 
@@ -240,21 +239,18 @@ public final class Main {
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
-    SafeXMLFormatter formatter = new SafeXMLFormatter(out);
-    PrefixMapping mapping = new PrefixMapping();
-    mapping.add(seq1.getPrefixMapping());
-    mapping.add(seq2.getPrefixMapping());
-    formatter.declarePrefixMapping(mapping);
-
+    SmartXMLDiffOutput output = new SmartXMLDiffOutput(out);
+    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
+    output.declarePrefixMapping(mapping);
     if (config != null) {
-      formatter.setConfig(config);
+      output.setConfig(config);
     }
     SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
     slicer.slice();
-    slicer.formatStart(formatter);
-    DiffXAlgorithm df = new GuanoAlgorithm(seq1, seq2);
-    df.process(formatter);
-    slicer.formatEnd(formatter);
+    slicer.formatStart(output);
+    DefaultXMLProcessor processor = new DefaultXMLProcessor();
+    processor.diff(seq1.tokens(), seq2.tokens(), output);
+    slicer.formatEnd(output);
   }
 
   // command line -------------------------------------------------------------------------
@@ -272,7 +268,6 @@ public final class Main {
     }
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);
-      boolean slice = !CommandLine.hasSwitch("-noslice", args);
       boolean quiet = CommandLine.hasSwitch("-quiet", args);
 
       // get the files
@@ -300,35 +295,22 @@ public final class Main {
 
       // get and setup the formatter
       Writer out = new OutputStreamWriter(getOutput(args), StandardCharsets.UTF_8);
-      DiffXFormatter formatter = getFormatter(args, out);
-      if (formatter instanceof XMLDiffXFormatter) {
+      DiffHandler output = getOutputFormat(args, out);
+      if (output == null) return;
+      if (output instanceof XMLDiffOutput) {
         PrefixMapping mapping = new PrefixMapping();
         mapping.add(seq1.getPrefixMapping());
         mapping.add(seq2.getPrefixMapping());
-        ((XMLDiffXFormatter) formatter).declarePrefixMapping(mapping);
-      }
-      if (formatter == null) return;
-      formatter.setConfig(config);
-
-      // pre-slicing
-      SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
-      if (slice) {
-        slicer.slice();
-        slicer.formatStart(formatter);
+        ((XMLDiffOutput) output).declarePrefixMapping(mapping);
       }
 
       // start algorithm
       if (!quiet) {
         System.err.println("Matrix: " + seq1.size() + "x" + seq2.size());
       }
-      DiffXAlgorithm df = getAlgorithm(args, seq1, seq2);
-      if (df == null) return;
-      df.process(formatter);
-
-      // post-slicing
-      if (slice) {
-        slicer.formatEnd(formatter);
-      }
+      DiffProcessor processor = getProcessor(args);
+      if (processor == null) return;
+      processor.diff(seq1.tokens(), seq2.tokens(), output);
 
       long t2 = System.currentTimeMillis();
       if (profile) {
@@ -351,19 +333,18 @@ public final class Main {
     System.err.println("  xml_file1 = Path to the new XML file");
     System.err.println("  xml_file2 = Path to the old XML file");
     System.err.println("options:");
-    System.err.println("  -profile    Display profiling info");
-    System.err.println("  -noslice    Do not use slicing");
-    System.err.println("  -o [output] The output file");
-    System.err.println("  -L [loader] Choose a specific loader");
-    System.err.println("               sax* | dom | text");
-    System.err.println("  -A [algo]   Choose a specific algorithm");
-    System.err.println("               fitsy* | guano | fitopsy | kumar | wesyma");
-    System.err.println("  -F [format] Choose a specific formatter");
-    System.err.println("               smart* | basic | convenient | strict | short");
-    System.err.println("  -W [wsp]    Define whitespace processing");
-    System.err.println("               preserve* | compare | ignore");
-    System.err.println("  -G [granul] Define text diffing granularity");
-    System.err.println("               word* | text | character");
+    System.err.println("  -profile        Display profiling info");
+    System.err.println("  -o [output]     The output file");
+    System.err.println("  -l [loader]     Choose a specific loader");
+    System.err.println("                   sax* | dom | stream | stax | text");
+    System.err.println("  -p [processor]  Choose a specific algorithm");
+    System.err.println("                   optimistic* | xml | text");
+    System.err.println("  -f [format]     Choose a specific formatter");
+    System.err.println("                   smart* | basic | convenient | strict");
+    System.err.println("  -w [whitespace] Define whitespace processing");
+    System.err.println("                   preserve* | compare | ignore");
+    System.err.println("  -g [granul]     Define text diffing granularity");
+    System.err.println("                   word* | text | character");
     System.err.println(" * indicates option used by default.");
     System.exit(1);
   }
@@ -374,13 +355,17 @@ public final class Main {
    * @return The recorder to use.
    */
   private static Recorder getRecorder(String[] args) {
-    String loaderArg = CommandLine.getParameter("-L", args);
+    String loaderArg = CommandLine.getParameter("-l", args);
     if (loaderArg == null || "sax".equals(loaderArg))
       return new SAXRecorder();
     if ("dom".equals(loaderArg))
       return new DOMRecorder();
     if ("text".equals(loaderArg))
       return new LineRecorder();
+    if ("stream".equals(loaderArg))
+      return new XMLStreamRecorder();
+    if ("stax".equals(loaderArg))
+      return new XMLEventRecorder();
     usage();
     return null;
   }
@@ -400,18 +385,17 @@ public final class Main {
 
   /**
    * @param args The command line arguments.
-   * @param seq1 The first sequence.
-   * @param seq2 The second sequence.
    *
    * @return The algorithm to use.
    */
-  private static DiffXAlgorithm getAlgorithm(String[] args, Sequence seq1, Sequence seq2) {
-    // TODO duplicated code from factory
-    String loaderArg = CommandLine.getParameter("-A", args);
-    if (loaderArg == null || "guano".equals(loaderArg))
-      return new GuanoAlgorithm(seq1, seq2);
-    if ("kumar".equals(loaderArg))
-      return new DiffXKumarRangan(seq1, seq2);
+  private static DiffProcessor getProcessor(String[] args) {
+    String loaderArg = CommandLine.getParameter("-p", args);
+    if (loaderArg == null || "optimistic".equals(loaderArg))
+      return new DefaultXMLProcessor();
+    if ("xml".equals(loaderArg))
+      return new OptimisticXMLProcessor();
+    if ("text".equals(loaderArg))
+      return new TextOnlyProcessor();
     usage();
     return null;
   }
@@ -423,16 +407,16 @@ public final class Main {
    * @return The formatter to use.
    * @throws IOException Should and I/O error occur
    */
-  private static DiffXFormatter getFormatter(String[] args, Writer out) throws IOException {
+  private static DiffHandler getOutputFormat(String[] args, Writer out) throws IOException {
     String formatArg = CommandLine.getParameter("-F", args);
     if (formatArg == null || "smart".equals(formatArg))
       return new SmartXMLDiffOutput(out);
-//    if ("convenient".equals(formatArg)) FIXME
-//      return new ConvenientXMLFormatter(out);
-//    if ("basic".equals(formatArg)) FIXME
-//      return new BasicXMLFormatter(out);
-//    if ("strict".equals(formatArg))
-//      return new StrictXMLFormatter(out);
+    if ("convenient".equals(formatArg))
+      return new ConvenientXMLDiffOutput(out);
+    if ("basic".equals(formatArg))
+      return new BasicXMLDiffOutput(out);
+    if ("strict".equals(formatArg))
+      return new StrictXMLDiffOutput(out);
     usage();
     return null;
   }
@@ -462,7 +446,7 @@ public final class Main {
   private static TextGranularity getTextGranularity(String[] args) {
     String formatArg = CommandLine.getParameter("-G", args);
     if (formatArg == null || "word".equals(formatArg))
-      return TextGranularity.WORD;
+      return TextGranularity.SPACE_WORD;
     if ("text".equals(formatArg))
       return TextGranularity.TEXT;
     if ("character".equals(formatArg))

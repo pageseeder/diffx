@@ -20,7 +20,10 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.*;
+import org.pageseeder.diffx.token.impl.CommentToken;
+import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.impl.SpaceToken;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.xml.sax.InputSource;
 
 import javax.xml.XMLConstants;
@@ -164,7 +167,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
     XMLInputFactory factory = XMLInputFactory.newInstance();
     factory.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
     factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
-    factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, config.isNamespaceAware()? Boolean.TRUE : Boolean.FALSE);
+    factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, config.isNamespaceAware() ? Boolean.TRUE : Boolean.FALSE);
     return factory;
   }
 
@@ -180,7 +183,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
     assert stream.isStartElement();
     int namespaceCount = stream.getNamespaceCount();
     if (namespaceCount > 0) {
-      for (int i=0; i < namespaceCount; i++) {
+      for (int i = 0; i < namespaceCount; i++) {
         String namespaceURI = stream.getNamespaceURI(i);
         if (namespaceURI == null) namespaceURI = XMLConstants.NULL_NS_URI;
         String prefix = stream.getNamespacePrefix(i);
@@ -196,7 +199,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
     int attributeCount = stream.getAttributeCount();
     if (attributeCount > 0) {
       AttributeToken[] attributes = new AttributeToken[attributeCount];
-      for (int i=0; i< attributeCount; i++) {
+      for (int i = 0; i < attributeCount; i++) {
         attributes[i] = toAttribute(stream, i, namespaceAware);
       }
       Arrays.sort(attributes, new AttributeComparator());
@@ -247,7 +250,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
     if (prefix.isEmpty()) {
       return new XMLAttribute(localName, value);
     }
-    return new XMLAttribute(prefix+":"+localName, value);
+    return new XMLAttribute(prefix + ":" + localName, value);
   }
 
   private static XMLStreamReader toXMLStreamReader(XMLInputFactory factory, InputSource source)
