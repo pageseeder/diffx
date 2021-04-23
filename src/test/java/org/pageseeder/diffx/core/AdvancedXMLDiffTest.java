@@ -294,7 +294,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   }
 
   private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp)
-      throws IOException, DiffXException {
+      throws DiffXException {
     // Record XML
     Sequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.WORD);
     Sequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);

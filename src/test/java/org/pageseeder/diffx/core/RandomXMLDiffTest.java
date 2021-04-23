@@ -78,15 +78,15 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
     }
   }
 
-  @Test
-  public final void testRandom5() throws DiffXException {
-    RandomHTMLFactory factory = new RandomHTMLFactory();
-    for (int i=0; i < 10; i++) {
-      Document docA = factory.nextDocument();
-      Document docB = factory.vary(docA, .25);
-      assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
-    }
-  }
+//  @Test
+//  public final void testRandom5() throws DiffXException {
+//    RandomHTMLFactory factory = new RandomHTMLFactory();
+//    for (int i=0; i < 10; i++) {
+//      Document docA = factory.nextDocument();
+//      Document docB = factory.vary(docA, .25);
+//      assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
+//    }
+//  }
 
   // helpers
   // --------------------------------------------------------------------------

@@ -19,6 +19,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.core.DiffAlgorithm;
 import org.pageseeder.diffx.format.SmartXMLDiffOutput;
+import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.xml.PrefixMapping;
@@ -57,9 +58,12 @@ public final class TestActions {
   public static String toXML(List<Action> actions, PrefixMapping mapping) {
     try {
       StringWriter xml = new StringWriter();
-      XMLDiffXFormatter formatter = new SmartXMLDiffOutput(xml);
-      formatter.declarePrefixMapping(mapping);
-      Actions.format(actions, formatter);
+      XMLDiffOutput output = new SmartXMLDiffOutput(xml);
+      output.declarePrefixMapping(mapping);
+      output.setWriteXMLDeclaration(false);
+      output.start();
+      Actions.handle(actions, output);
+      output.end();
       return xml.toString();
     } catch (IOException ex) {
       // Should not occur

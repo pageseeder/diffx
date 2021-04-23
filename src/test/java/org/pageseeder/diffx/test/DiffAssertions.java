@@ -105,11 +105,13 @@ public final class DiffAssertions {
   public static void assertIsWellFormedXML(List<Action> actions, PrefixMapping mapping) {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
-    StartElementToken root = new XMLStartElement("root");
+    String defaultNamespaceURI = mapping.getUri("");
+    StartElementToken root = new XMLStartElement(defaultNamespaceURI, "root");
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
     wrapped.addAll(actions);
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new XMLEndElement(root))));
-    DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped, mapping));
+    String xml = TestActions.toXML(wrapped, mapping);
+    DiffAssertions.assertIsWellFormedXML(xml);
   }
 
   /**
