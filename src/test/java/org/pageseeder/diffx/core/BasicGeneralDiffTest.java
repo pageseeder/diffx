@@ -21,18 +21,13 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
-import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import javax.xml.stream.events.Characters;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

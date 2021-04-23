@@ -176,11 +176,6 @@ public final class TestHandler implements DiffHandler {
     return "TestHandler";
   }
 
-  /**
-   * @param ops
-   *
-   * @return
-   */
   public static List<Operation> parse(String ops) {
     OperationHandler source = new OperationHandler();
     char[] chars = ops.toCharArray();

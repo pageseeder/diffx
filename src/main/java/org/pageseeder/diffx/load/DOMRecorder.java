@@ -22,7 +22,6 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
-import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -287,7 +286,7 @@ public final class DOMRecorder implements XMLRecorder {
 
   private StartElementToken toStartElement(Element element) {
     if (this.config.isNamespaceAware()) {
-      String uri = element.getNamespaceURI() != null ? uri = element.getNamespaceURI() : XMLConstants.NULL_NS_URI;
+      String uri = element.getNamespaceURI() != null ? element.getNamespaceURI() : XMLConstants.NULL_NS_URI;
       handlePrefixMapping(uri, element.getPrefix());
       return this.tokenFactory.newStartElement(uri, element.getLocalName());
     }

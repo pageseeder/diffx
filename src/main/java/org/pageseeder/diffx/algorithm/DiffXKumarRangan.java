@@ -31,17 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * of S.Kiran Kumar and C.Pandu Rangan.
  *
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
- * sequences, but suffers from two main problems:
- * <ul>
- *   <li>When the tokens are formatted directly from reading the matrix, the XML is not
- *   necessarily well-formed, this occurs mostly when some elements are swapped, because
- *   the closing tags will not necessarily reported in an order that allows the XML to
- *   be well-formed.<br>
- *   Using the {@link org.pageseeder.diffx.format.SmartXMLFormatter} helps in solving the
- *   problem as it maintains a stack of the elements that are being written and actually
- *   ignores the name of the closing element, so all the elements are closed properly.
- *   </li>
- * </ul>
+ * sequences, but cannot be used on XML sequences as it cannot always produce well-formed XML.
  *
  * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
  * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987

@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.test.RandomXMLFactory;
 
 /**
  * Test case for the default XML processor

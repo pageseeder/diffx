@@ -19,7 +19,6 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
 import org.xml.sax.InputSource;
 
 import java.io.*;

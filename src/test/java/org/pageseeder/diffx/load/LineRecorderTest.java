@@ -138,9 +138,7 @@ public final class LineRecorderTest {
    *
    * @param exp  The expected token sequence.
    * @param text The text to parse
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
+\   */
   private void assertEqualsText(Sequence exp, String text) {
     Sequence seq = this.recorder.process(text);
     try {

@@ -20,14 +20,12 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.util.Constants;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import javax.xml.stream.events.ProcessingInstruction;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.Writer;
