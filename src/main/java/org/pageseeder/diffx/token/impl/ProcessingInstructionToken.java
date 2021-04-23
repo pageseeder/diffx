@@ -56,8 +56,8 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
   public ProcessingInstructionToken(String target, String data) throws NullPointerException {
-    this.target = Objects.requireNonNull(target);
-    this.data = Objects.requireNonNull(data);
+    this.target = Objects.requireNonNull(target, "Processing instruction target must not be null, use \"\" instead");
+    this.data = Objects.requireNonNull(data, "Processing instruction data must not be null, use \"\" instead");
     this.hashCode = toHashCode(target, data);
   }
 
@@ -94,11 +94,10 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    */
   @Override
   public boolean equals(Token token) {
+    if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
     ProcessingInstructionToken pi = (ProcessingInstructionToken) token;
-    // TODO: handle nulls
-    return pi.target.equals(this.target)
-        && pi.data.equals(this.data);
+    return pi.target.equals(this.target) && pi.data.equals(this.data);
   }
 
   @Override
@@ -123,16 +122,11 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
 
   /**
    * Calculates the hashcode for this token.
-   *
-   * @param s1 A string to calculate the value from.
-   * @param s2 Another string to calculate the value from.
-   *
-   * @return a number suitable as a hashcode.
    */
-  private static int toHashCode(String s1, String s2) {
+  private static int toHashCode(String target, String data) {
     int hash = 7;
-    hash = hash * 103 + (s1 != null ? s1.hashCode() : 0);
-    hash = hash * 103 + (s2 != null ? s2.hashCode() : 0);
+    hash = hash * 103 + target.hashCode();
+    hash = hash * 103 + data.hashCode();
     return hash;
   }
 

@@ -19,7 +19,7 @@ import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.impl.ElementTokenImpl;
+import org.pageseeder.diffx.token.impl.XMLElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -155,7 +155,7 @@ public class SequenceFolding {
     }
 
     ElementToken seal(EndElementToken close) {
-      return new ElementTokenImpl(this.open, close, this.children);
+      return new XMLElement(this.open, close, this.children);
     }
   }
 }

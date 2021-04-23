@@ -19,18 +19,17 @@ import org.pageseeder.diffx.xml.XMLStreamable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
 /**
- * Defines and token that can be processed by DiffX.
+ * Defines a token that can be processed for diffing.
  *
- * <p>The main characteristics of a Diff-X token is that it can be compared for
- * equality with another Diff-X token.
+ * <p>As many equality checks are performed, implementations must provide efficient
+ * {@link #equals(Token)} and {@link #hashCode()} methods.</p>
  *
- * <p>Events can be associated with a weight that can be used or ignored by an algorithm.
- * The more weight the less likely an token will be considered to have been modified. The
- * weight can change depending on the algorithm or configuration used.
+ * <p>Most equality checks are performed against other unequal tokens, so equality checks
+ * should generally precompute or cache the hashcode and use it in equality check to speed
+ * things up.</p>
  *
  * <p>For convenience, this interface extends the <code>XMLWritable</code> and
- * <code>XMLFormattable</code> in order to turn an token into XML easily. <b>This
- * may change in the future, if the impact on performance is too heavy</b>.
+ * <code>XMLStreamable</code> in order to write token as XML consistently.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -41,6 +40,9 @@ public interface Token extends XMLWritable, XMLStreamable {
    * @return The type of token.
    */
   TokenType getType();
+
+  @Override
+  int hashCode();
 
   /**
    * Indicates whether the specified token is equal to this token.

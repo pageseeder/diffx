@@ -16,8 +16,7 @@
 package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.impl.AttributeTokenImpl;
-import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
 
 import java.util.Comparator;
 
@@ -35,30 +34,13 @@ final class AttributeComparator implements Comparator<AttributeToken> {
 
   /**
    * Compares two objects if they are attributes.
-   * <p>
-   * {@inheritDoc}
    */
   @Override
   public int compare(AttributeToken o1, AttributeToken o2) throws ClassCastException {
-    if (o1 instanceof AttributeTokenImpl && o2 instanceof AttributeTokenImpl)
-      return compare((AttributeTokenImpl) o1, (AttributeTokenImpl) o2);
-    else if (o1 instanceof AttributeTokenNSImpl && o2 instanceof AttributeTokenNSImpl)
-      return compare((AttributeTokenNSImpl) o1, (AttributeTokenNSImpl) o2);
+    if (o1 instanceof XMLAttribute && o2 instanceof XMLAttribute)
+      return compare((XMLAttribute) o1, (XMLAttribute) o2);
     else
       return 0;
-  }
-
-  /**
-   * Compares two attribute tokens using their name.
-   *
-   * @param att1 The first attribute to be compared.
-   * @param att2 The second attribute to be compared.
-   *
-   * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater
-   * than the second.
-   */
-  public int compare(AttributeTokenImpl att1, AttributeTokenImpl att2) {
-    return att1.getName().compareTo(att2.getName());
   }
 
   /**
@@ -70,7 +52,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater
    * than the second.
    */
-  public int compare(AttributeTokenNSImpl att1, AttributeTokenNSImpl att2) {
+  public int compare(XMLAttribute att1, XMLAttribute att2) {
     return toCName(att1).compareTo(toCName(att2));
   }
 
@@ -81,7 +63,7 @@ final class AttributeComparator implements Comparator<AttributeToken> {
    *
    * @return The comparable name.
    */
-  private static String toCName(AttributeTokenNSImpl att) {
+  private static String toCName(XMLAttribute att) {
     return att.getURI().isEmpty() ? att.getName() : att.getURI() + ':' + att.getName();
   }
 

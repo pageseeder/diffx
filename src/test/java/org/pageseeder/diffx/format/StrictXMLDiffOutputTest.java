@@ -21,9 +21,9 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
-import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
-import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.token.impl.XMLEndElement;
+import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.util.Constants;
 import org.xml.sax.InputSource;
 
@@ -80,8 +80,8 @@ public final class StrictXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
-    this.output.handle(Operator.MATCH, new StartElementTokenNSImpl("a"));
-    this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new XMLStartElement("a"));
+    this.output.handle(Operator.MATCH, new XMLEndElement("a"));
     assertEquivalentToXML("<a/>");
     String xml = "<a " + NS_DECL + "></a>";
     assertEquals(xml, this.w.toString());
@@ -97,9 +97,9 @@ public final class StrictXMLDiffOutputTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
-    this.output.handle(Operator.MATCH, new StartElementTokenNSImpl("a"));
-    this.output.handle(Operator.MATCH, new AttributeTokenNSImpl("", "x", "y"));
-    this.output.handle(Operator.MATCH, new EndElementTokenNSImpl("a"));
+    this.output.handle(Operator.MATCH, new XMLStartElement("a"));
+    this.output.handle(Operator.MATCH, new XMLAttribute("", "x", "y"));
+    this.output.handle(Operator.MATCH, new XMLEndElement("a"));
     assertEquivalentToXML("<a x='y'/>");
     String xml = "<a " + NS_DECL + " x=\"y\"></a>";
     assertEquals(xml, this.w.toString());

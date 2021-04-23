@@ -202,10 +202,10 @@ public final class TestHandler implements DiffHandler {
     int j = i;
     Token token;
     if (isStartElement(chars, i)) {
-      token = new StartElementTokenImpl(Character.toString(chars[i + 1]));
+      token = new XMLStartElement(Character.toString(chars[i + 1]));
       j = i + 2;
     } else if (isEndElement(chars, i)) {
-      token = new EndElementTokenImpl(Character.toString(chars[i + 2]));
+      token = new XMLEndElement(Character.toString(chars[i + 2]));
       j = i + 3;
     } else if (isText(chars, i)) {
       int to = indexOf(chars, ')', i + 1);
@@ -214,10 +214,10 @@ public final class TestHandler implements DiffHandler {
     } else if (isAttribute(chars, i)) {
       char name = chars[i + 1];
       if ((i + 3) < chars.length && chars[i + 2] == '=') {
-        token = new AttributeTokenImpl(Character.toString(name), Character.toString(chars[i + 3]));
+        token = new XMLAttribute(Character.toString(name), Character.toString(chars[i + 3]));
         j = i + 3;
       } else {
-        token = new AttributeTokenImpl(Character.toString(name), "");
+        token = new XMLAttribute(Character.toString(name), "");
         j = i + 1;
       }
     } else if (isSpace(chars, i)) {

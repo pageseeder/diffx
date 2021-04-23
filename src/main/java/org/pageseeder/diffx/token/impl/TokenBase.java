@@ -47,10 +47,7 @@ abstract class TokenBase implements Token {
    */
   @Override
   public final boolean equals(Object o) {
-    if (o == null)
-      return false;
-    if (!(o instanceof Token))
-      return false;
+    if (!(o instanceof Token)) return false;
     return equals((Token) o);
   }
 

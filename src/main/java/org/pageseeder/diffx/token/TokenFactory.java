@@ -75,9 +75,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public StartElementToken newStartElement(String uri, String name) {
-    if (this.isNamespaceAware) return new StartElementTokenNSImpl(uri, name);
-    else
-      return new StartElementTokenImpl(name);
+    return this.isNamespaceAware? new XMLStartElement(uri, name) : new XMLStartElement(name);
   }
 
   /**
@@ -96,9 +94,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public StartElementToken newStartElement(String uri, String localName, String qName) {
-    if (this.isNamespaceAware) return new StartElementTokenNSImpl(uri, localName);
-    else
-      return new StartElementTokenImpl(qName);
+    return this.isNamespaceAware? new XMLStartElement(uri, localName) : new XMLStartElement(qName);
   }
 
   /**
@@ -109,9 +105,7 @@ public final class TokenFactory {
    * @return The close element token from the corresponding open element token.
    */
   public EndElementToken newEndElement(StartElementToken open) {
-    if (this.isNamespaceAware) return new EndElementTokenNSImpl(open);
-    else
-      return new EndElementTokenImpl(open);
+    return new XMLEndElement(open);
   }
 
   /**
@@ -133,9 +127,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public AttributeToken newAttribute(String uri, String name, String value) {
-    if (this.isNamespaceAware) return new AttributeTokenNSImpl(uri, name, value);
-    else
-      return new AttributeTokenImpl(name, value);
+    return this.isNamespaceAware? new XMLAttribute(uri, name, value) : new XMLAttribute(name, value);
   }
 
   /**
@@ -155,9 +147,7 @@ public final class TokenFactory {
    * @return The open element token from the uri and name given.
    */
   public AttributeToken newAttribute(String uri, String localName, String qName, String value) {
-    if (this.isNamespaceAware) return new AttributeTokenNSImpl(uri, localName, value);
-    else
-      return new AttributeTokenImpl(qName, value);
+    return this.isNamespaceAware? new XMLAttribute(uri, localName, value) : new XMLAttribute(qName, value);
   }
 
 }

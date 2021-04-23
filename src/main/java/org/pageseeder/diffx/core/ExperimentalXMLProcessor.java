@@ -23,9 +23,7 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
-import org.pageseeder.diffx.token.impl.EndElementTokenImpl;
-import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
-import org.pageseeder.diffx.token.impl.StartElementTokenImpl;
+import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamWriter;
@@ -164,9 +162,7 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
     }
 
     private EndElementToken toEndElementToken(StartElementToken token) {
-      if (token instanceof StartElementTokenImpl)
-        return new EndElementTokenImpl(token);
-      return new EndElementTokenNSImpl(token);
+      return new XMLEndElement(token);
     }
 
     private void send(Operator operator, Token token) {

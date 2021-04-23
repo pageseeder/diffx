@@ -15,65 +15,45 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.pageseeder.diffx.token.ElementToken;
+import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.xmlwriter.XMLWriter;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A basic implementation of the close element token.
- *
- * <p>It corresponds to the <code>startElement</code> SAX event.
- *
- * <p>This implementation is not namespace aware.
- *
- * @author Christophe Lauret
- * @version 0.9.0
- */
-public final class StartElementTokenImpl extends TokenBase implements StartElementToken {
+public class XMLElement extends TokenBase implements ElementToken {
 
-  /**
-   * The local name of the element.
-   */
-  private final String name;
+  private final List<Token> tokens;
 
-  /**
-   * Hashcode value for this token.
-   */
   private final int hashCode;
 
-  /**
-   * Creates a new open element token.
-   *
-   * @param name The local name of the element
-   *
-   * @throws NullPointerException if the name is <code>null</code>.
-   */
-  public StartElementTokenImpl(String name) throws NullPointerException {
-    if (name == null)
-      throw new NullPointerException("Element must have a name.");
-    this.name = name;
-    this.hashCode = toHashCode(name);
+  public XMLElement(StartElementToken open, EndElementToken close, List<Token> children) {
+    this.tokens = new ArrayList<>();
+    this.tokens.add(open);
+    this.tokens.addAll(children);
+    this.tokens.add(close);
+    this.hashCode = toHashCode(this.tokens);
   }
 
-  /**
-   * @return Returns the name.
-   */
   @Override
   public String getName() {
-    return this.name;
+    return ((StartElementToken) this.tokens.get(0)).getName();
   }
 
-  /**
-   * @return Returns the Namespace URI.
-   */
   @Override
   public String getURI() {
-    return XMLConstants.NULL_NS_URI;
+    return ((StartElementToken) this.tokens.get(0)).getURI();
+  }
+
+  @Override
+  public List<Token> getEvents() {
+    return this.tokens;
   }
 
   @Override
@@ -92,34 +72,43 @@ public final class StartElementTokenImpl extends TokenBase implements StartEleme
   @Override
   public boolean equals(Token token) {
     if (token.getClass() != this.getClass()) return false;
-    StartElementTokenImpl oee = (StartElementTokenImpl) token;
-    return oee.name.equals(this.name);
+    XMLElement element = (XMLElement) token;
+    if (element.hashCode != this.hashCode) return false;
+    if (element.tokens.size() != this.tokens.size()) return false;
+    return element.tokens.equals(this.tokens);
   }
 
   @Override
   public String toString() {
-    return "<" + this.name + ">";
+    return "element: " + this.getName();
   }
 
   @Override
   public void toXML(XMLWriter xml) throws IOException {
-    xml.openElement(this.name, false);
+    for (Token token : this.tokens) {
+      token.toXML(xml);
+    }
   }
 
   @Override
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
-    xml.writeStartElement(this.name);
+    for (Token token : this.tokens) {
+      token.toXML(xml);
+    }
   }
 
   /**
    * Calculates the hashcode for this token.
    *
-   * @param s String from which the hashcode is calculated.
+   * @param tokens List of tokens
    *
    * @return a number suitable as a hashcode.
    */
-  private static int toHashCode(String s) {
-    assert s != null;
-    return 11 * 41 + s.hashCode();
+  private static int toHashCode(List<Token> tokens) {
+    int result = 1;
+    for (Token token : tokens)
+      result = 31 * result + (token == null ? 0 : token.hashCode());
+    return result;
   }
+
 }

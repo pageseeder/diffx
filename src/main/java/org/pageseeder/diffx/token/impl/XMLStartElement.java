@@ -30,7 +30,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class StartElementTokenNSImpl extends TokenBase implements Token, StartElementToken {
+public final class XMLStartElement extends TokenBase implements Token, StartElementToken {
 
   /**
    * The namespace URI of the element.
@@ -55,7 +55,7 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
    * @throws NullPointerException if the name is <code>null</code>.
    * @see XMLConstants#NULL_NS_URI
    */
-  public StartElementTokenNSImpl(String name) throws NullPointerException {
+  public XMLStartElement(String name) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Element must have a name.");
     this.uri = XMLConstants.NULL_NS_URI;
@@ -71,7 +71,7 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public StartElementTokenNSImpl(String uri, String name) throws NullPointerException {
+  public XMLStartElement(String uri, String name) throws NullPointerException {
     if (uri == null)
       throw new NullPointerException("The URI cannot be null, use \"\".");
     if (name == null)
@@ -106,10 +106,11 @@ public final class StartElementTokenNSImpl extends TokenBase implements Token, S
    */
   @Override
   public boolean equals(Token token) {
-    if (token == null) return false;
-    if (token.getClass() != this.getClass()) return false;
-    StartElementTokenNSImpl other = (StartElementTokenNSImpl) token;
-    return other.uri.equals(this.uri) && other.name.equals(this.name);
+    if (token == this) return true;
+    if (!(token instanceof StartElementToken)) return false;
+    if (this.hashCode != token.hashCode()) return false;
+    StartElementToken other = (StartElementToken) token;
+    return this.name.equals(other.getName()) && this.uri.equals(other.getURI());
   }
 
   @Override

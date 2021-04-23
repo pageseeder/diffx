@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.load.SAXRecorder;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.impl.AttributeTokenNSImpl;
-import org.pageseeder.diffx.token.impl.EndElementTokenNSImpl;
-import org.pageseeder.diffx.token.impl.StartElementTokenNSImpl;
+import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.token.impl.XMLEndElement;
+import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.xml.sax.InputSource;
 
 import java.io.*;
@@ -63,8 +63,8 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.format(new XMLEndElement("a"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -76,8 +76,8 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose1() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.format(new EndElementTokenNSImpl("b"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.format(new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -89,8 +89,8 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose2() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.insert(new EndElementTokenNSImpl("b"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.insert(new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -102,8 +102,8 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose3() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.delete(new EndElementTokenNSImpl("b"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.delete(new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
   }
 
@@ -117,9 +117,9 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.format(new AttributeTokenNSImpl("", "x", "y"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.format(new XMLAttribute("", "x", "y"));
+    this.formatter.format(new XMLEndElement("a"));
     assertEquivalentToXML("<a x='y'/>");
   }
 
@@ -131,9 +131,9 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testAttributes1() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.insert(new AttributeTokenNSImpl("", "x", "y"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.insert(new XMLAttribute("", "x", "y"));
+    this.formatter.format(new XMLEndElement("a"));
     assertEquivalentToXML("<a x='y' ins:x='true' xmlns:ins='http://www.topologi.com/2005/Diff-X/Insert'/>");
   }
 
@@ -145,9 +145,9 @@ public final class SmartXMLDiffOutputTest {
    */
   @Test
   public void testAttributes2() throws DiffXException, IOException {
-    this.formatter.format(new StartElementTokenNSImpl("a"));
-    this.formatter.delete(new AttributeTokenNSImpl("", "x", "y"));
-    this.formatter.format(new EndElementTokenNSImpl("a"));
+    this.formatter.format(new XMLStartElement("a"));
+    this.formatter.delete(new XMLAttribute("", "x", "y"));
+    this.formatter.format(new XMLEndElement("a"));
     assertEquivalentToXML("<a xmlns:del='http://www.topologi.com/2005/Diff-X/Delete' del:x='y'/>");
   }
 

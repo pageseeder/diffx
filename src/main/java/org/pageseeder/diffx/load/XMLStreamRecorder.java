@@ -241,13 +241,13 @@ public final class XMLStreamRecorder implements XMLRecorder {
     if (namespaceAware) {
       String namespaceURI = stream.getAttributeNamespace(i);
       if (namespaceURI == null) namespaceURI = XMLConstants.NULL_NS_URI;
-      return new AttributeTokenNSImpl(namespaceURI, localName, value);
+      return new XMLAttribute(namespaceURI, localName, value);
     }
     String prefix = stream.getAttributePrefix(i);
     if (prefix.isEmpty()) {
-      return new AttributeTokenImpl(localName, value);
+      return new XMLAttribute(localName, value);
     }
-    return new AttributeTokenImpl(prefix+":"+localName, value);
+    return new XMLAttribute(prefix+":"+localName, value);
   }
 
   private static XMLStreamReader toXMLStreamReader(XMLInputFactory factory, InputSource source)

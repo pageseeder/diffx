@@ -224,10 +224,10 @@ public final class XMLEventRecorder implements XMLRecorder {
   private static AttributeToken toAttribute(Attribute attribute, boolean namespaceAware) {
     QName name = attribute.getName();
     if (namespaceAware)
-      return new AttributeTokenNSImpl(name.getNamespaceURI(), name.getLocalPart(), attribute.getValue());
+      return new XMLAttribute(name.getNamespaceURI(), name.getLocalPart(), attribute.getValue());
     if (name.getPrefix().isEmpty())
-      return new AttributeTokenImpl(name.getLocalPart(), attribute.getValue());
-    return new AttributeTokenImpl(name.getPrefix()+":"+name.getLocalPart(), attribute.getValue());
+      return new XMLAttribute(name.getLocalPart(), attribute.getValue());
+    return new XMLAttribute(name.getPrefix()+":"+name.getLocalPart(), attribute.getValue());
   }
 
   private static XMLEventReader toXMLEventReader(XMLInputFactory factory, InputSource source)

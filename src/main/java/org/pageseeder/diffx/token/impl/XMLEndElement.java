@@ -23,9 +23,9 @@ import org.pageseeder.diffx.token.Token;
  * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 28 March 2010
+ * @version 0.9.0
  */
-public final class EndElementTokenNSImpl extends TokenBase implements EndElementToken {
+public final class XMLEndElement extends TokenBase implements EndElementToken {
 
   /**
    * The corresponding open element token.
@@ -39,10 +39,10 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public EndElementTokenNSImpl(String name) throws NullPointerException {
+  public XMLEndElement(String name) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new StartElementTokenNSImpl(name);
+    this.open = new XMLStartElement(name);
   }
 
   /**
@@ -53,12 +53,12 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public EndElementTokenNSImpl(String uri, String name) throws NullPointerException {
+  public XMLEndElement(String uri, String name) throws NullPointerException {
     if (uri == null)
       throw new NullPointerException("The URI cannot be null, use \"\".");
     if (name == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new StartElementTokenNSImpl(uri, name);
+    this.open = new XMLStartElement(uri, name);
   }
 
   /**
@@ -68,7 +68,7 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public EndElementTokenNSImpl(StartElementToken token) throws NullPointerException {
+  public XMLEndElement(StartElementToken token) throws NullPointerException {
     if (token == null)
       throw new NullPointerException("Element must have a name.");
     this.open = token;
@@ -118,10 +118,11 @@ public final class EndElementTokenNSImpl extends TokenBase implements EndElement
    */
   @Override
   public boolean equals(Token token) {
-    if (token.getClass() != this.getClass()) return false;
-    EndElementTokenNSImpl ce = (EndElementTokenNSImpl) token;
-    return ce.getURI().equals(getURI())
-        && ce.getName().equals(getName());
+    if (token == this) return true;
+    if (!(token instanceof EndElementToken)) return false;
+    if (this.hashCode() != token.hashCode()) return false;
+    EndElementToken other = (EndElementToken) token;
+    return other.getName().equals(getName()) && other.getURI().equals(getURI());
   }
 
   @Override

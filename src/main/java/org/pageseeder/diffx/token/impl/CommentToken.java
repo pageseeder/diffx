@@ -52,7 +52,7 @@ public final class CommentToken extends TokenBase implements Token {
    * @throws NullPointerException if the comment is <code>null</code>.
    */
   public CommentToken(String comment) throws NullPointerException {
-    this.comment = Objects.requireNonNull(comment);
+    this.comment = Objects.requireNonNull(comment, "Comment must not be null, use \"\" instead");
     this.hashCode = toHashcode(comment);
   }
 
@@ -78,8 +78,8 @@ public final class CommentToken extends TokenBase implements Token {
    */
   @Override
   public boolean equals(Token token) {
-    if (token.getClass() != this.getClass())
-      return false;
+    if (token == null) return false;
+    if (token.getClass() != this.getClass()) return false;
     CommentToken other = (CommentToken) token;
     return other.comment.equals(this.comment);
   }
@@ -112,7 +112,7 @@ public final class CommentToken extends TokenBase implements Token {
    * @return a number suitable as a hashcode.
    */
   private static int toHashcode(String comment) {
-    return comment != null ? 19 * 37 + comment.hashCode() : 19 * 37;
+    return 19 * 37 + comment.hashCode();
   }
 
 }

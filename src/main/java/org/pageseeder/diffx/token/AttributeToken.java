@@ -65,8 +65,7 @@ public interface AttributeToken extends Namespaceable, Token {
 
   @Override
   default boolean equals(Token token) {
-//    if (token.getType() != TokenType.ATTRIBUTE) return false;
-    if (token instanceof AttributeToken) return false;
+    if (!(token instanceof AttributeToken)) return false;
     if (token.hashCode() != this.hashCode()) return false;
     AttributeToken other = (AttributeToken) token;
     return other.getName().equals(this.getName())

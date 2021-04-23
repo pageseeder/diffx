@@ -25,16 +25,19 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
- * A basic implementation of the attribute token.
- *
- * <p>
- * This implementation is not namespace aware.
+ * A namespace aware implementation of the attribute token for XML.
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
  * @version 0.9.0
+ * @since 0.5.0
  */
-public final class AttributeTokenImpl extends TokenBase implements AttributeToken {
+public final class XMLAttribute extends TokenBase implements AttributeToken {
+
+  /**
+   * The namespace URI this attribute belongs to.
+   */
+  private final String uri;
 
   /**
    * The name of the attribute.
@@ -52,21 +55,44 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
   private final int hashCode;
 
   /**
-   * Creates a new attribute token.
+   * Creates a new attribute token with no namespace.
    *
    * @param name  The local name of the attribute.
    * @param value The value of the attribute.
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public AttributeTokenImpl(String name, String value) throws NullPointerException {
+  public XMLAttribute(String name, String value) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Attribute must have a name.");
     if (value == null)
       throw new NullPointerException("The attribute value cannot be null, use \"\".");
     this.name = name;
     this.value = value;
-    this.hashCode = toHashCode(name, value);
+    this.uri = XMLConstants.NULL_NS_URI;
+    this.hashCode = toHashCode(this.uri, name, value);
+  }
+
+  /**
+   * Creates a new attribute token.
+   *
+   * @param uri   The uri of the attribute.
+   * @param name  The local name of the attribute.
+   * @param value The value of the attribute.
+   *
+   * @throws NullPointerException if any of the argument is <code>null</code>.
+   */
+  public XMLAttribute(String uri, String name, String value) throws NullPointerException {
+    if (name == null)
+      throw new NullPointerException("Attribute must have a name.");
+    if (value == null)
+      throw new NullPointerException("The attribute value cannot be null, use \"\".");
+    if (uri == null)
+      throw new NullPointerException("The uri value cannot be null, use \"\".");
+    this.name = name;
+    this.value = value;
+    this.uri = uri;
+    this.hashCode = toHashCode(uri, name, value);
   }
 
   @Override
@@ -74,12 +100,9 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
     return this.name;
   }
 
-  /**
-   * Always return <code>XMLConstants.NULL_NS_URI</code>.
-   */
   @Override
   public String getURI() {
-    return XMLConstants.NULL_NS_URI;
+    return this.uri;
   }
 
   @Override
@@ -102,41 +125,55 @@ public final class AttributeTokenImpl extends TokenBase implements AttributeToke
    */
   @Override
   public boolean equals(Token token) {
-    if (token.getClass() != this.getClass())
-      return false;
-    AttributeTokenImpl bae = (AttributeTokenImpl) token;
-    return bae.name.equals(this.name) && bae.value.equals(this.value);
+    if (token == this) return true;
+    if (!(token instanceof AttributeToken)) return false;
+    if (this.hashCode != token.hashCode()) return false;
+    AttributeToken other = (AttributeToken) token;
+    return this.name.equals(other.getName())
+        && this.value.equals(other.getValue())
+        && this.uri.equals(other.getURI());
   }
 
   @Override
   public String toString() {
-    return "@" + this.name + "=" + this.value;
+    if (this.uri.isEmpty()) {
+      return "@" + this.name + "=" + this.value;
+    } else {
+      return "@{" + this.uri + "}" + this.name + "=" + this.value;
+    }
   }
 
   @Override
   public void toXML(XMLWriter xml) throws IOException {
-    xml.attribute(this.name, this.value);
+    xml.attribute(this.uri, this.name, this.value);
   }
 
   @Override
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
-    xml.writeAttribute(this.name, this.value);
+    if (this.uri.isEmpty())
+      xml.writeAttribute(this.name, this.value);
+    else
+      xml.writeAttribute(this.uri, this.name, this.value);
   }
 
   /**
    * Calculates the hashcode for this token.
    *
+   * @param uri   The URI.
    * @param name  The attribute name.
    * @param value The attribute value.
    *
    * @return a number suitable as a hashcode.
    */
-  private static int toHashCode(String name, String value) {
+  private static int toHashCode(String uri, String name, String value) {
+    assert uri != null;
     assert name != null;
     assert value != null;
-    int hash = 23;
-    hash = hash * 37 + name.hashCode();
-    hash = hash * 37 + value.hashCode();
+    // Code below follows from Objects#hash method
+    int hash = 17;
+    hash = hash * 31 + uri.hashCode();
+    hash = hash * 31 + name.hashCode();
+    hash = hash * 31 + value.hashCode();
     return hash;
   }
 

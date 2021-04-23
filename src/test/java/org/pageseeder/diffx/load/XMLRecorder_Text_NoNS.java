@@ -45,8 +45,8 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testEmptyElement() throws LoadingException {
     String xml = "<a/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -55,9 +55,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testTextElement1() throws LoadingException {
     String xml = "<a>XX</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("XX"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -66,9 +66,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testTextElement2() throws LoadingException {
     String xml = "<a>XX  YY</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("XX  YY"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -77,9 +77,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testTextElement3() throws LoadingException {
     String xml = "<a>The black hat; A white cat!</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("The black hat; A white cat!"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -88,11 +88,11 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testElements1() throws LoadingException {
     String xml = "<a><b>WWW</b></a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
-    exp.addToken(new StartElementTokenImpl("b"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLStartElement("b"));
     exp.addToken(new CharactersToken("WWW"));
-    exp.addToken(new EndElementTokenImpl("b"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLEndElement("b"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -101,14 +101,14 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testElements2() throws LoadingException {
     String xml = "<a><b>XX</b><c>YY</c></a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("a"));
-    exp.addToken(new StartElementTokenImpl("b"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLStartElement("b"));
     exp.addToken(new CharactersToken("XX"));
-    exp.addToken(new EndElementTokenImpl("b"));
-    exp.addToken(new StartElementTokenImpl("c"));
+    exp.addToken(new XMLEndElement("b"));
+    exp.addToken(new XMLStartElement("c"));
     exp.addToken(new CharactersToken("YY"));
-    exp.addToken(new EndElementTokenImpl("c"));
-    exp.addToken(new EndElementTokenImpl("a"));
+    exp.addToken(new XMLEndElement("c"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -117,9 +117,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testCharEntityLT() throws LoadingException {
     String xml = "<t>&lt;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("<"));
-    exp.addToken(new EndElementTokenImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -128,9 +128,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testCharEntityGT() throws LoadingException {
     String xml = "<t>&gt;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken(">"));
-    exp.addToken(new EndElementTokenImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -139,9 +139,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testCharEntityAMP() throws LoadingException {
     String xml = "<t>&amp;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("&"));
-    exp.addToken(new EndElementTokenImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -150,9 +150,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testCharEntityNumerical() throws LoadingException {
     String xml = "<t>&#x8012;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("" + (char) 0x8012));
-    exp.addToken(new EndElementTokenImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -161,9 +161,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testAttribute1() throws LoadingException {
     String xml = "<elt attr='value'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new AttributeTokenImpl("attr", "value"));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("attr", "value"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -175,11 +175,11 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testSortAttributes1() throws LoadingException {
     String xml = "<elt b='second' c='third' a='first'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new AttributeTokenImpl("a", "first"));
-    exp.addToken(new AttributeTokenImpl("b", "second"));
-    exp.addToken(new AttributeTokenImpl("c", "third"));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("a", "first"));
+    exp.addToken(new XMLAttribute("b", "second"));
+    exp.addToken(new XMLAttribute("c", "third"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -188,9 +188,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testProcessingInstruction1() throws LoadingException {
     String xml = "<elt><?target data?></elt>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new ProcessingInstructionToken("target", "data"));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -199,9 +199,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testProcessingInstruction2() throws LoadingException {
     String xml = "<elt><?target-only?></elt>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new ProcessingInstructionToken("target-only", ""));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -210,9 +210,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testElementNamespace1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new AttributeTokenImpl("xmlns", "https://example.org"));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("xmlns", "https://example.org"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -221,9 +221,9 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testElementNamespace2() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("x:elt"));
-    exp.addToken(new AttributeTokenImpl("xmlns:x", "https://example.org"));
-    exp.addToken(new EndElementTokenImpl("x:elt"));
+    exp.addToken(new XMLStartElement("x:elt"));
+    exp.addToken(new XMLAttribute("xmlns:x", "https://example.org"));
+    exp.addToken(new XMLEndElement("x:elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -232,10 +232,10 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testAttributeNamespace1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org' a='1'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("elt"));
-    exp.addToken(new AttributeTokenImpl("a", "1"));
-    exp.addToken(new AttributeTokenImpl("xmlns", "https://example.org"));
-    exp.addToken(new EndElementTokenImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("a", "1"));
+    exp.addToken(new XMLAttribute("xmlns", "https://example.org"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -244,10 +244,10 @@ public abstract class XMLRecorder_Text_NoNS extends XMLRecorderTest {
   public final void testAttributeNamespaceB2() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org' x:a='1'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenImpl("x:elt"));
-    exp.addToken(new AttributeTokenImpl("x:a", "1"));
-    exp.addToken(new AttributeTokenImpl("xmlns:x", "https://example.org"));
-    exp.addToken(new EndElementTokenImpl("x:elt"));
+    exp.addToken(new XMLStartElement("x:elt"));
+    exp.addToken(new XMLAttribute("x:a", "1"));
+    exp.addToken(new XMLAttribute("xmlns:x", "https://example.org"));
+    exp.addToken(new XMLEndElement("x:elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 

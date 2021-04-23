@@ -45,8 +45,8 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testEmptyElement() throws LoadingException {
     String xml = "<a/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -55,9 +55,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testTextElementA() throws LoadingException {
     String xml = "<a>XX</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XX"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -66,11 +66,11 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testTextElementB() throws LoadingException {
     String xml = "<a>XX  YY</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XX"));
     exp.addToken(new SpaceToken("  "));
     exp.addToken(new WordToken("YY"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -79,7 +79,7 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testTextElement3() throws LoadingException {
     String xml = "<a>The black hat; A white cat!</a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
+    exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("The"));
     exp.addToken(new SpaceToken(" "));
     exp.addToken(new WordToken("black"));
@@ -91,7 +91,7 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
     exp.addToken(new WordToken("white"));
     exp.addToken(new SpaceToken(" "));
     exp.addToken(new WordToken("cat!"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -100,11 +100,11 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testElementsA() throws LoadingException {
     String xml = "<a><b>WWW</b></a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new StartElementTokenNSImpl("b"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLStartElement("b"));
     exp.addToken(new WordToken("WWW"));
-    exp.addToken(new EndElementTokenNSImpl("b"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLEndElement("b"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -113,14 +113,14 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testElementsB() throws LoadingException {
     String xml = "<a><b>XX</b><c>YY</c></a>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("a"));
-    exp.addToken(new StartElementTokenNSImpl("b"));
+    exp.addToken(new XMLStartElement("a"));
+    exp.addToken(new XMLStartElement("b"));
     exp.addToken(new WordToken("XX"));
-    exp.addToken(new EndElementTokenNSImpl("b"));
-    exp.addToken(new StartElementTokenNSImpl("c"));
+    exp.addToken(new XMLEndElement("b"));
+    exp.addToken(new XMLStartElement("c"));
     exp.addToken(new WordToken("YY"));
-    exp.addToken(new EndElementTokenNSImpl("c"));
-    exp.addToken(new EndElementTokenNSImpl("a"));
+    exp.addToken(new XMLEndElement("c"));
+    exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -129,9 +129,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testCharEntityLT() throws LoadingException {
     String xml = "<t>&lt;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new WordToken("<"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -140,9 +140,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testCharEntityGT() throws LoadingException {
     String xml = "<t>&gt;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new WordToken(">"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -151,9 +151,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testCharEntityAMP() throws LoadingException {
     String xml = "<t>&amp;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new WordToken("&"));
-    exp.addToken(new EndElementTokenNSImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -165,9 +165,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testCharEntityNumerical() throws LoadingException {
     String xml = "<t>&#x8012;</t>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("t"));
+    exp.addToken(new XMLStartElement("t"));
     exp.addToken(new WordToken("" + (char) 0x8012));
-    exp.addToken(new EndElementTokenNSImpl("t"));
+    exp.addToken(new XMLEndElement("t"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -176,9 +176,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testAttribute1() throws LoadingException {
     String xml = "<elt attr='value'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("attr", "value"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("attr", "value"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -187,10 +187,10 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testSortAttributesA() throws LoadingException {
     String xml = "<elt b='second' a='first'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("a", "first"));
-    exp.addToken(new AttributeTokenNSImpl("b", "second"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("a", "first"));
+    exp.addToken(new XMLAttribute("b", "second"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -199,11 +199,11 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testSortAttributesB() throws LoadingException {
     String xml = "<elt b='second' c='third' a='first'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
-    exp.addToken(new AttributeTokenNSImpl("a", "first"));
-    exp.addToken(new AttributeTokenNSImpl("b", "second"));
-    exp.addToken(new AttributeTokenNSImpl("c", "third"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
+    exp.addToken(new XMLAttribute("a", "first"));
+    exp.addToken(new XMLAttribute("b", "second"));
+    exp.addToken(new XMLAttribute("c", "third"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -212,9 +212,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testProcessingInstruction1() throws LoadingException {
     String xml = "<elt><?target data?></elt>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new ProcessingInstructionToken("target", "data"));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -223,9 +223,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testProcessingInstruction2() throws LoadingException {
     String xml = "<elt><?wow?></elt>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("elt"));
+    exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new ProcessingInstructionToken("wow", ""));
-    exp.addToken(new EndElementTokenNSImpl("elt"));
+    exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -234,8 +234,8 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testElementNamespaceA1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("https://example.org", "elt"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.org", "elt"));
+    exp.addToken(new XMLStartElement("https://example.org", "elt"));
+    exp.addToken(new XMLEndElement("https://example.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -244,8 +244,8 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testElementNamespaceB1() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("https://example.org", "elt"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.org", "elt"));
+    exp.addToken(new XMLStartElement("https://example.org", "elt"));
+    exp.addToken(new XMLEndElement("https://example.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -254,9 +254,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testAttributeNamespaceA1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org' a='1'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("https://example.org", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.org", "elt"));
+    exp.addToken(new XMLStartElement("https://example.org", "elt"));
+    exp.addToken(new XMLAttribute("", "a", "1"));
+    exp.addToken(new XMLEndElement("https://example.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -265,9 +265,9 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testAttributeNamespaceB1() throws LoadingException {
     String xml = "<x:elt xmlns:x='http://example.org' x:a='1'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("http://example.org", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("http://example.org", "a", "1"));
-    exp.addToken(new EndElementTokenNSImpl("http://example.org", "elt"));
+    exp.addToken(new XMLStartElement("http://example.org", "elt"));
+    exp.addToken(new XMLAttribute("http://example.org", "a", "1"));
+    exp.addToken(new XMLEndElement("http://example.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -276,10 +276,10 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testAttributeNamespaceC() throws LoadingException {
     String xml = "<elt xmlns='x://m.org' xmlns:x='x://m.org' a='1' x:a='2'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("x://m.org", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
-    exp.addToken(new AttributeTokenNSImpl("x://m.org", "a", "2"));
-    exp.addToken(new EndElementTokenNSImpl("x://m.org", "elt"));
+    exp.addToken(new XMLStartElement("x://m.org", "elt"));
+    exp.addToken(new XMLAttribute("", "a", "1"));
+    exp.addToken(new XMLAttribute("x://m.org", "a", "2"));
+    exp.addToken(new XMLEndElement("x://m.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -288,11 +288,11 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testAttributeNamespaceD() throws LoadingException {
     String xml = "<x:elt xmlns:x='http://m.org' xmlns:y='http://n.org' a='1' x:a='2' y:a='3'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("http://m.org", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("", "a", "1"));
-    exp.addToken(new AttributeTokenNSImpl("http://m.org", "a", "2"));
-    exp.addToken(new AttributeTokenNSImpl("http://n.org", "a", "3"));
-    exp.addToken(new EndElementTokenNSImpl("http://m.org", "elt"));
+    exp.addToken(new XMLStartElement("http://m.org", "elt"));
+    exp.addToken(new XMLAttribute("", "a", "1"));
+    exp.addToken(new XMLAttribute("http://m.org", "a", "2"));
+    exp.addToken(new XMLAttribute("http://n.org", "a", "3"));
+    exp.addToken(new XMLEndElement("http://m.org", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -301,12 +301,12 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testSortAttributesNamespaceA() throws LoadingException {
     String xml = "<elt xmlns:x='https://x.org' xmlns:y='https://y.org' xmlns:z='https://z.org' a='0' x:a='1' y:a='2' z:a='3'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("", "a", "0"));
-    exp.addToken(new AttributeTokenNSImpl("https://x.org", "a", "1"));
-    exp.addToken(new AttributeTokenNSImpl("https://y.org", "a", "2"));
-    exp.addToken(new AttributeTokenNSImpl("https://z.org", "a", "3"));
-    exp.addToken(new EndElementTokenNSImpl("", "elt"));
+    exp.addToken(new XMLStartElement("", "elt"));
+    exp.addToken(new XMLAttribute("", "a", "0"));
+    exp.addToken(new XMLAttribute("https://x.org", "a", "1"));
+    exp.addToken(new XMLAttribute("https://y.org", "a", "2"));
+    exp.addToken(new XMLAttribute("https://z.org", "a", "3"));
+    exp.addToken(new XMLEndElement("", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -315,12 +315,12 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testSortAttributesNamespaceB() throws LoadingException {
     String xml = "<elt xmlns:x='https://x.org' xmlns:y='https://y.org' xmlns:z='https://z.org' a='0' z:a='3' y:a='2' x:a='1'/>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("", "elt"));
-    exp.addToken(new AttributeTokenNSImpl("", "a", "0"));
-    exp.addToken(new AttributeTokenNSImpl("https://x.org", "a", "1"));
-    exp.addToken(new AttributeTokenNSImpl("https://y.org", "a", "2"));
-    exp.addToken(new AttributeTokenNSImpl("https://z.org", "a", "3"));
-    exp.addToken(new EndElementTokenNSImpl("", "elt"));
+    exp.addToken(new XMLStartElement("", "elt"));
+    exp.addToken(new XMLAttribute("", "a", "0"));
+    exp.addToken(new XMLAttribute("https://x.org", "a", "1"));
+    exp.addToken(new XMLAttribute("https://y.org", "a", "2"));
+    exp.addToken(new XMLAttribute("https://z.org", "a", "3"));
+    exp.addToken(new XMLEndElement("", "elt"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -329,12 +329,12 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testOverrideDefaultNamespace1() throws LoadingException {
     String xml = "<e xmlns='https://example.org'><f xmlns='https://example.net'><g/></f></e>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("https://example.org", "e"));
-    exp.addToken(new StartElementTokenNSImpl("https://example.net", "f"));
-    exp.addToken(new StartElementTokenNSImpl("https://example.net", "g"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.net", "g"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.net", "f"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.org", "e"));
+    exp.addToken(new XMLStartElement("https://example.org", "e"));
+    exp.addToken(new XMLStartElement("https://example.net", "f"));
+    exp.addToken(new XMLStartElement("https://example.net", "g"));
+    exp.addToken(new XMLEndElement("https://example.net", "g"));
+    exp.addToken(new XMLEndElement("https://example.net", "f"));
+    exp.addToken(new XMLEndElement("https://example.org", "e"));
     assertEquivalent(exp, xml, getConfig());
   }
 
@@ -343,14 +343,14 @@ public abstract class XMLRecorder_Word_NS extends XMLRecorderTest {
   public final void testOverrideDefaultNamespace2() throws LoadingException {
     String xml = "<d><e xmlns='https://example.org'><f xmlns='https://example.net'><g/></f></e></d>";
     Sequence exp = new Sequence();
-    exp.addToken(new StartElementTokenNSImpl("", "d"));
-    exp.addToken(new StartElementTokenNSImpl("https://example.org", "e"));
-    exp.addToken(new StartElementTokenNSImpl("https://example.net", "f"));
-    exp.addToken(new StartElementTokenNSImpl("https://example.net", "g"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.net", "g"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.net", "f"));
-    exp.addToken(new EndElementTokenNSImpl("https://example.org", "e"));
-    exp.addToken(new EndElementTokenNSImpl("", "d"));
+    exp.addToken(new XMLStartElement("", "d"));
+    exp.addToken(new XMLStartElement("https://example.org", "e"));
+    exp.addToken(new XMLStartElement("https://example.net", "f"));
+    exp.addToken(new XMLStartElement("https://example.net", "g"));
+    exp.addToken(new XMLEndElement("https://example.net", "g"));
+    exp.addToken(new XMLEndElement("https://example.net", "f"));
+    exp.addToken(new XMLEndElement("https://example.org", "e"));
+    exp.addToken(new XMLEndElement("", "d"));
     assertEquivalent(exp, xml, getConfig());
 
   }

@@ -19,12 +19,12 @@ import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.token.impl.XMLEndElement;
+import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.impl.EndElementTokenImpl;
-import org.pageseeder.diffx.token.impl.StartElementTokenImpl;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -95,20 +95,20 @@ public final class DiffAssertions {
   public static void assertIsWellFormedXML(List<Action> actions) {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
-    StartElementToken root = new StartElementTokenImpl("root");
+    StartElementToken root = new XMLStartElement("root");
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
     wrapped.addAll(actions);
-    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new EndElementTokenImpl(root))));
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new XMLEndElement(root))));
     DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped));
   }
 
   public static void assertIsWellFormedXML(List<Action> actions, PrefixMapping mapping) {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
-    StartElementToken root = new StartElementTokenImpl("root");
+    StartElementToken root = new XMLStartElement("root");
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
     wrapped.addAll(actions);
-    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new EndElementTokenImpl(root))));
+    wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new XMLEndElement(root))));
     DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped, mapping));
   }
 
