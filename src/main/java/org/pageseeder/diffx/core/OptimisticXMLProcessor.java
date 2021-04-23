@@ -15,14 +15,18 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.TokenType;
+import org.pageseeder.diffx.token.impl.CharactersToken;
+import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.xmlwriter.XMLWriter;
 
@@ -30,7 +34,13 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
 import java.util.*;
 
-public class ExperimentalXMLProcessor implements DiffProcessor {
+/**
+ * A processor implementation which attempts to solve the diff using the most efficient algorithm,
+ * and falls back to the default processor if unable to produce correct results.
+ */
+public final class OptimisticXMLProcessor implements DiffProcessor {
+
+  private static boolean DEBUG = false;
 
   private boolean coalesce = false;
 
@@ -45,11 +55,34 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    DiffAlgorithm algorithm = new HirschbergAlgorithm();
-    DiffHandler actual = new PostXMLFixer(getFilter(handler));
-    actual.start();
-    algorithm.diff(first, second, actual);
-    actual.end();
+    // Try...
+    OperationHandler holding = new OperationHandler();
+    DiffAlgorithm algorithm = new KumarRanganAlgorithm();
+    PostXMLFixer fixer = new PostXMLFixer(holding);
+    fixer.start();
+    algorithm.diff(first, second, fixer);
+    fixer.end();
+
+    if (DEBUG && fixer.hasError()) {
+      System.err.println("Optimistic has error:");
+      System.err.println(holding.getOperations());
+    }
+
+    if (fixer.hasError()) {
+      algorithm = new MatrixXMLAlgorithm();
+      DiffHandler actual = getFilter(handler);
+      handler.start();
+      algorithm.diff(first, second, actual);
+      handler.end();
+    } else {
+      DiffHandler out = getFilter(handler);
+      out.start();
+      Operations.handle(holding.getOperations(), out);
+      out.end();
+    }
+
+
+
   }
 
   private DiffHandler getFilter(DiffHandler handler) {
@@ -58,7 +91,7 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
 
   @Override
   public String toString() {
-    return "DefaultXMLProcessor{" +
+    return "OptimisticXMLProcessor{" +
         "coalesce=" + coalesce +
         '}';
   }
@@ -82,6 +115,11 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
     private Operator lastOperator = Operator.MATCH;
 
     private Token lastToken = new VoidToken();
+
+    /**
+     * Flag indicating when the handler is unable to fix the XML.
+     */
+    private boolean hasError = false;
 
     @Override
     public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
@@ -121,9 +159,11 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
         } else if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken)nextDeletion)) {
           send(Operator.DEL, this.deletions.remove());
         } else if (isEndElement(nextInsertion)) {
+          this.hasError = true;
           sendMatchingEndElement();
           this.insertions.remove();
         } else if (isEndElement(nextDeletion)) {
+          this.hasError = true;
           sendMatchingEndElement();
           this.deletions.remove();
         } else {
@@ -134,6 +174,11 @@ public class ExperimentalXMLProcessor implements DiffProcessor {
         }
 
       }
+
+    }
+
+    private boolean hasError() {
+      return this.hasError;
     }
 
     private static boolean isEndElement(Token token) {

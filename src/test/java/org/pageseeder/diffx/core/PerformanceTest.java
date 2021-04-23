@@ -19,10 +19,14 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.test.DOMUtils;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
+import org.pageseeder.diffx.test.RandomXMLFactory;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,7 +47,7 @@ public class PerformanceTest {
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
-    profileX(new ProgressiveXMLProcessor(), first, second, 10);
+    profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
 
   @Test
@@ -108,7 +112,7 @@ public class PerformanceTest {
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
-    profileX(new ProgressiveXMLProcessor(), first, second, 10);
+    profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
 
   @Test
@@ -119,7 +123,7 @@ public class PerformanceTest {
     List<Token> second = Events.recordXMLEvents("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
     List<Token> first = Events.recordXMLEvents("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
-    profileX(new ProgressiveXMLProcessor(), first, second, 10);
+    profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
 
   @Test
@@ -136,7 +140,23 @@ public class PerformanceTest {
     List<Token> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
-    profileX(new ProgressiveXMLProcessor(), firstText, secondText, 10);
+    profileX(new OptimisticXMLProcessor(), firstText, secondText, 10);
+  }
+
+  @Test
+  public void compareXMLProcessors() throws DiffXException {
+    int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
+    for (int length : lengths) {
+      // Generate content
+      RandomXMLFactory factory = new RandomXMLFactory();
+      Document from = factory.getRandomXML(5, 5);
+      Document to = factory.vary(from, .2);
+      Sequence second = Events.recordXMLSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      Sequence first = Events.recordXMLSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+
+      profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
+      profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);
+    }
   }
 
   @Test
@@ -150,9 +170,9 @@ public class PerformanceTest {
     List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
     List<Token> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
 
-    ProgressiveXMLProcessor coalescingProcessor = new ProgressiveXMLProcessor();
+    OptimisticXMLProcessor coalescingProcessor = new OptimisticXMLProcessor();
     coalescingProcessor.setCoalesce(true);
-    ProgressiveXMLProcessor noCoalesceProcessor = new ProgressiveXMLProcessor();
+    OptimisticXMLProcessor noCoalesceProcessor = new OptimisticXMLProcessor();
     noCoalesceProcessor.setCoalesce(false);
     profileX(coalescingProcessor, firstText, secondText, 10);
     profileX(noCoalesceProcessor, firstText, secondText, 10);

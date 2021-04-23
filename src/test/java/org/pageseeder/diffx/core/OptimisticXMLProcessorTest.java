@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Nested;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class ExperimentalXMLProcessorTest {
+public final class OptimisticXMLProcessorTest {
 
   private DiffAlgorithm newAlgorithm() {
-    return new ExperimentalXMLProcessor();
+    return new OptimisticXMLProcessor();
   }
 
   @Nested
@@ -61,22 +61,22 @@ public final class ExperimentalXMLProcessorTest {
     }
   }
 
-//  @Nested
-//  public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
-//    @Override
-//    public DiffAlgorithm getDiffAlgorithm() {
-//      ProgressiveXMLProcessor processor = new ProgressiveXMLProcessor();
-//      processor.setCoalesce(true);
-//      return processor;
-//    }
-//  }
+  @Nested
+  public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      OptimisticXMLProcessor processor = new OptimisticXMLProcessor();
+      processor.setCoalesce(true);
+      return processor;
+    }
+  }
 
-//  @Nested
-//  public class RandomXMLDiff extends RandomXMLDiffTest {
-//    @Override
-//    public DiffAlgorithm getDiffAlgorithm() {
-//      return newAlgorithm();
-//    }
-//  }
+  @Nested
+  public class RandomXMLDiff extends RandomXMLDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 
 }
