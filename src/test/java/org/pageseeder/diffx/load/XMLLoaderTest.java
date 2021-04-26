@@ -29,12 +29,12 @@ import java.io.UncheckedIOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Base test class for the XML recorders.
+ * Base test class for the XML loaders.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class XMLRecorderTest {
+public abstract class XMLLoaderTest {
 
   /**
    * @param config The configuration to use for the recorder.

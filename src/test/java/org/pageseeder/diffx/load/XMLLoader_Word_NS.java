@@ -24,7 +24,7 @@ import org.pageseeder.diffx.token.impl.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public abstract class XMLLoader_Word_NS extends XMLRecorderTest {
+public abstract class XMLLoader_Word_NS extends XMLLoaderTest {
 
   @Override
   public DiffXConfig getConfig() {

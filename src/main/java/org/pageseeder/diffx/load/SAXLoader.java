@@ -20,8 +20,10 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
+import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.xml.sax.*;
+import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
@@ -53,11 +55,6 @@ import java.util.List;
 public final class SAXLoader implements XMLLoader {
 
   /**
-   * The XML reader.
-   */
-  private static XMLReader reader;
-
-  /**
    * The default XML reader in use.
    */
   private static final String DEFAULT_XML_READER;
@@ -67,8 +64,7 @@ public final class SAXLoader implements XMLLoader {
     try {
       className = XMLReaderFactory.createXMLReader().getClass().getName();
     } catch (SAXException ex) {
-      // FIXME: Exception handling!!!
-      //      className = XMLReaderImpl.class.getName();
+      System.err.println("org.pageseeder.diffx.SAXLoader cannot find a default XML loader!");
       className = "";
     }
     DEFAULT_XML_READER = className;
@@ -80,20 +76,9 @@ public final class SAXLoader implements XMLLoader {
   private static String readerClassName = DEFAULT_XML_READER;
 
   /**
-   * Indicates whether a new reader instance should be created because the specified class name
-   * has changed.
-   */
-  private static boolean newReader = true;
-
-  /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig();
-
-  /**
-   * The sequence of token for this loader.
-   */
-  protected Sequence sequence;
 
   /**
    * Runs the loader on the specified input source.
@@ -106,19 +91,23 @@ public final class SAXLoader implements XMLLoader {
    */
   @Override
   public Sequence load(InputSource is) throws LoadingException, IOException {
-    if (reader == null || newReader) {
-      init();
-    }
-    reader.setContentHandler(new RecorderHandler());
-    reader.setErrorHandler(new RecorderErrorHandler());
+    XMLReader reader = newReader(this.config);
+    Handler handler = new Handler(this.config);
+    reader.setContentHandler(handler);
+    reader.setErrorHandler(handler);
+
     try {
-      reader.setFeature("http://xml.org/sax/features/namespaces", this.config.isNamespaceAware());
-      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", this.config.isReportPrefixDifferences());
+      reader.setProperty("http://xml.org/sax/properties/lexical-handler", handler);
+    } catch(SAXNotRecognizedException | SAXNotSupportedException ex) {
+      // Ignore
+    }
+
+    try {
       reader.parse(is);
     } catch (SAXException ex) {
       throw new LoadingException(ex);
     }
-    return this.sequence;
+    return handler.sequence;
   }
 
   /**
@@ -163,8 +152,6 @@ public final class SAXLoader implements XMLLoader {
     if (className == null) {
       className = DEFAULT_XML_READER;
     }
-    // reload only if different from the current one.
-    newReader = !className.equals(readerClassName);
     readerClassName = className;
   }
 
@@ -173,16 +160,17 @@ public final class SAXLoader implements XMLLoader {
    *
    * @throws LoadingException If one of the features could not be set.
    */
-  private static void init() throws LoadingException {
+  private static XMLReader newReader(DiffXConfig config) throws LoadingException {
     try {
-      reader = XMLReaderFactory.createXMLReader(readerClassName);
+      XMLReader reader = XMLReaderFactory.createXMLReader(readerClassName);
       reader.setFeature("http://xml.org/sax/features/validation", false);
+      reader.setFeature("http://xml.org/sax/features/namespaces", config.isNamespaceAware());
+      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", config.isReportPrefixDifferences());
+      return reader;
     } catch (SAXException ex) {
       throw new LoadingException(ex);
     }
   }
-
-  // static inner class for processing the XML files --------------------------------------------
 
   /**
    * A SAX2 handler that records XML tokens.
@@ -195,7 +183,12 @@ public final class SAXLoader implements XMLLoader {
    * @version 0.9.0
    * @since 0.6.0
    */
-  private final class RecorderHandler extends DefaultHandler {
+  private final static class Handler extends DefaultHandler implements LexicalHandler {
+
+    /**
+     * The sequence of token for this loader.
+     */
+    private Sequence sequence;
 
     /**
      * A buffer for character data.
@@ -222,20 +215,27 @@ public final class SAXLoader implements XMLLoader {
      */
     private TextTokenizer tokenizer;
 
+    Handler(DiffXConfig config) {
+      this.tokenFactory = new TokenFactory(config.isNamespaceAware());
+      this.tokenizer = TokenizerFactory.get(config);
+    }
+
+    public Sequence getSequence() {
+      return this.sequence;
+    }
+
     @Override
     public void startDocument() {
-      SAXLoader.this.sequence = new Sequence();
-      this.tokenFactory = new TokenFactory(SAXLoader.this.config.isNamespaceAware());
-      this.tokenizer = TokenizerFactory.get(SAXLoader.this.config);
-      SAXLoader.this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
-      SAXLoader.this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
+      this.sequence = new Sequence();
+      this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
+      this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
     }
 
     @Override
     public void startPrefixMapping(String prefix, String uri) {
       // For the root element only, we may replace the mapping to the default prefix
       // (this method is called BEFORE the start element)
-      SAXLoader.this.sequence.addNamespace(uri, prefix, this.openElements.isEmpty());
+      this.sequence.addNamespace(uri, prefix, this.openElements.isEmpty());
     }
 
     @Override
@@ -243,7 +243,7 @@ public final class SAXLoader implements XMLLoader {
       recordCharacters();
       StartElementToken open = this.tokenFactory.newStartElement(uri, localName, qName);
       this.openElements.add(open);
-      SAXLoader.this.sequence.addToken(open);
+      this.sequence.addToken(open);
       handleAttributes(attributes);
     }
 
@@ -252,7 +252,7 @@ public final class SAXLoader implements XMLLoader {
       recordCharacters();
       StartElementToken open = popLastOpenElement();
       EndElementToken close = this.tokenFactory.newEndElement(open);
-      SAXLoader.this.sequence.addToken(close);
+      this.sequence.addToken(close);
     }
 
     @Override
@@ -270,7 +270,7 @@ public final class SAXLoader implements XMLLoader {
 
     @Override
     public void processingInstruction(String target, String data) {
-      SAXLoader.this.sequence.addToken(new ProcessingInstructionToken(target, data));
+      this.sequence.addToken(new ProcessingInstructionToken(target, data));
     }
 
     @Override
@@ -284,7 +284,7 @@ public final class SAXLoader implements XMLLoader {
       if (this.ch.length() > 0) {
         List<TextToken> tokens = this.tokenizer.tokenize(this.ch);
         for (TextToken token : tokens) {
-          SAXLoader.this.sequence.addToken(token);
+          this.sequence.addToken(token);
         }
         this.ch.setLength(0);
       }
@@ -307,7 +307,7 @@ public final class SAXLoader implements XMLLoader {
     private void handleAttributes(Attributes attributes) {
       // only one attribute
       if (attributes.getLength() == 1) {
-        SAXLoader.this.sequence.addToken(this.tokenFactory.newAttribute(attributes.getURI(0),
+        this.sequence.addToken(this.tokenFactory.newAttribute(attributes.getURI(0),
             attributes.getLocalName(0),
             attributes.getQName(0),
             attributes.getValue(0)));
@@ -325,23 +325,39 @@ public final class SAXLoader implements XMLLoader {
         Arrays.sort(attEvents, this.comparator);
         // add them to the sequence
         for (AttributeToken attEvent : attEvents) {
-          SAXLoader.this.sequence.addToken(attEvent);
+          this.sequence.addToken(attEvent);
         }
       }
     }
 
-  }
+    @Override
+    public void comment(char[] ch, int start, int length) throws SAXException {
+      this.sequence.addToken(new CommentToken(new String(ch, start, length)));
+    }
 
-  /**
-   * A tight error handler that will throw an exception for any error type.
-   * <p>
-   * ErrorHandler used only so that namespace related errors are reported ???
-   * (they are error type and not fatal error).
-   *
-   * @author Jean-baptiste Reure
-   * @version 0.6.0
-   */
-  private static final class RecorderErrorHandler implements ErrorHandler {
+    @Override
+    public void startDTD(String name, String publicId, String systemId) {
+    }
+
+    @Override
+    public void endDTD() {
+    }
+
+    @Override
+    public void startEntity(String name) {
+    }
+
+    @Override
+    public void endEntity(String name) {
+    }
+
+    @Override
+    public void startCDATA() {
+    }
+
+    @Override
+    public void endCDATA() {
+    }
 
     @Override
     public void error(SAXParseException ex) throws SAXException {

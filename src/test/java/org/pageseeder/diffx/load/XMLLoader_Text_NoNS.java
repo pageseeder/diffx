@@ -24,7 +24,7 @@ import org.pageseeder.diffx.token.impl.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public abstract class XMLLoader_Text_NoNS extends XMLRecorderTest {
+public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
 
   @Override
   public DiffXConfig getConfig() {
@@ -248,6 +248,17 @@ public abstract class XMLLoader_Text_NoNS extends XMLRecorderTest {
     exp.addToken(new XMLAttribute("x:a", "1"));
     exp.addToken(new XMLAttribute("xmlns:x", "https://example.org"));
     exp.addToken(new XMLEndElement("x:elt"));
+    assertEquivalent(exp, xml, getConfig());
+  }
+
+  @Test
+  @DisplayName("<x><!-- What did I say? --></x>")
+  public final void testComment() throws LoadingException {
+    String xml = "<x><!-- What did I say? --></x>";
+    Sequence exp = new Sequence();
+    exp.addToken(new XMLStartElement("x"));
+    exp.addToken(new CommentToken(" What did I say? "));
+    exp.addToken(new XMLEndElement("x"));
     assertEquivalent(exp, xml, getConfig());
   }
 
