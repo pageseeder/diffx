@@ -28,12 +28,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class LineRecorderTest {
+public final class LineLoaderTest {
 
   /**
    * The recorder being tested.
    */
-  final LineRecorder recorder = new LineRecorder();
+  final LineLoader recorder = new LineLoader();
 
   /**
    * Tests a simple case.
@@ -141,7 +141,7 @@ public final class LineRecorderTest {
    *             \
    */
   private void assertEqualsText(Sequence exp, String text) {
-    Sequence seq = this.recorder.process(text);
+    Sequence seq = this.recorder.load(text);
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);

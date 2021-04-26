@@ -20,9 +20,9 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.SmartXMLDiffOutput;
-import org.pageseeder.diffx.load.DOMRecorder;
-import org.pageseeder.diffx.load.LineRecorder;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.DOMLoader;
+import org.pageseeder.diffx.load.LineLoader;
+import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
@@ -85,9 +85,9 @@ public final class Events {
   }
 
   public static List<Token> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException {
-    SAXRecorder recorder = new SAXRecorder();
+    SAXLoader recorder = new SAXLoader();
     recorder.setConfig(config);
-    return recorder.process(xml).tokens();
+    return recorder.load(xml).tokens();
   }
 
 
@@ -99,24 +99,24 @@ public final class Events {
   }
 
   public static Sequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException {
-    SAXRecorder recorder = new SAXRecorder();
+    SAXLoader recorder = new SAXLoader();
     recorder.setConfig(config);
-    return recorder.process(xml);
+    return recorder.load(xml);
   }
 
 
   public static Sequence recordXMLSequence(Document xml, TextGranularity granularity) throws DiffXException {
-    DOMRecorder loader = new DOMRecorder();
+    DOMLoader loader = new DOMLoader();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     loader.setConfig(config);
-    return loader.process(xml);
+    return loader.load(xml);
   }
 
 
   public static List<Token> recordLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();
-    return new LineRecorder().process(text).tokens();
+    return new LineLoader().load(text).tokens();
   }
 
   public static String toXML(List<? extends Token> tokens) {

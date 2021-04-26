@@ -21,8 +21,8 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
-import org.pageseeder.diffx.load.LineRecorder;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.LineLoader;
+import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestFormatter;
@@ -46,7 +46,7 @@ public abstract class BaseAlgorithmTest {
   /**
    * The loader used for the tests.
    */
-  private final SAXRecorder recorder = new SAXRecorder();
+  private final SAXLoader recorder = new SAXLoader();
 
   /**
    * The Diff-X algorithm being tested.
@@ -75,9 +75,9 @@ public abstract class BaseAlgorithmTest {
    */
   public final void assertDiffXMLOK(String xml1, String xml2) throws IOException, DiffXException {
     // Record XML
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.process(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.process(xml2);
+    SAXLoader recorder = new SAXLoader();
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
     // Process as list of actions
     DiffResult result = processResult(seq1, seq2);
     try {
@@ -161,9 +161,9 @@ public abstract class BaseAlgorithmTest {
   public final void assertDiffXMLOK2(String xml1, String xml2, String[] exp)
       throws IOException, DiffXException {
     // Record XML
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.process(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.process(xml2);
+    SAXLoader recorder = new SAXLoader();
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
     // Process as list of actions
     List<Action> actions = diffToActions(seq1, seq2);
     try {
@@ -190,8 +190,8 @@ public abstract class BaseAlgorithmTest {
   private String processDiffXML(String xml1, String xml2)
       throws IOException, DiffXException, IllegalStateException {
     // process the strings
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : this.recorder.process(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : this.recorder.process(xml2);
+    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : this.recorder.load(xml1);
+    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : this.recorder.load(xml2);
 
     this.diffx = makeDiffX(seq1, seq2);
     MultiplexFormatter mf = new MultiplexFormatter();
@@ -245,9 +245,9 @@ public abstract class BaseAlgorithmTest {
   protected String processDiffText(String text1, String text2)
       throws IOException, IllegalStateException {
     // process the strings
-    LineRecorder recorder = new LineRecorder();
-    Sequence seq1 = recorder.process(text1);
-    Sequence seq2 = recorder.process(text2);
+    LineLoader recorder = new LineLoader();
+    Sequence seq1 = recorder.load(text1);
+    Sequence seq2 = recorder.load(text2);
     this.diffx = makeDiffX(seq1, seq2);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);

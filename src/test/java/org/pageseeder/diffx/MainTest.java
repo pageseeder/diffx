@@ -21,7 +21,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.load.LoadingException;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.test.TestUtils;
@@ -203,13 +203,13 @@ public final class MainTest {
   private Sequence printSequence(File xml, PrintStream info) throws IOException {
     Sequence s = new Sequence();
     // report the sequence of tokens
-    SAXRecorder recorder = new SAXRecorder();
+    SAXLoader recorder = new SAXLoader();
     if (config != null) recorder.setConfig(config);
     info.println("Printing sequence");
     info.println("  file = " + xml.getParent() + "\\" + xml.getName());
     try {
       long t0 = System.nanoTime();
-      s = recorder.process(xml);
+      s = recorder.load(xml);
       long t1 = System.nanoTime();
       info.println("  size = " + s.size());
       info.println("  loading time = " + (t1 - t0) + "nanoseconds");
@@ -220,7 +220,7 @@ public final class MainTest {
     info.println("  size = " + s.size());
     info.println("::start");
     try {
-      s = recorder.process(xml);
+      s = recorder.load(xml);
       TestFormatter tf1 = new TestFormatter();
       tf1.format(s);
       info.println(tf1.getOutput());

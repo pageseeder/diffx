@@ -15,13 +15,15 @@
  */
 package org.pageseeder.diffx.config;
 
+import org.pageseeder.diffx.load.XMLLoader;
+
 /**
  * The configuration to use with a DiffX operation.
  *
  * <p>This class acts as a container for a set of properties that can be applied to the
  * main components of Diff-X such as the:
  * <ul>
- *   <li>The {@link org.pageseeder.diffx.load.XMLRecorder} implementations,</li>
+ *   <li>The {@link XMLLoader} implementations,</li>
  *   <li>The {@link org.pageseeder.diffx.algorithm.DiffXAlgorithm} implementations,<li>
  *   <li>and the {@link org.pageseeder.diffx.format.DiffXFormatter} implementations.<li>
  * </ul>
@@ -43,7 +45,7 @@ package org.pageseeder.diffx.config;
  *
  * @author Christophe Lauret
  * @version 10 May 2010
- * @see org.pageseeder.diffx.load.XMLRecorder
+ * @see XMLLoader
  * @see org.pageseeder.diffx.algorithm.DiffXAlgorithm
  * @see org.pageseeder.diffx.format.DiffXFormatter
  */

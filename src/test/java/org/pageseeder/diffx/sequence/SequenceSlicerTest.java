@@ -17,7 +17,7 @@ package org.pageseeder.diffx.sequence;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
@@ -40,7 +40,7 @@ public final class SequenceSlicerTest {
   /**
    * The loader used for the tests.
    */
-  private final SAXRecorder recorder = new SAXRecorder();
+  private final SAXLoader recorder = new SAXLoader();
 
   /**
    * The first sequence.
@@ -398,8 +398,8 @@ public final class SequenceSlicerTest {
     // process the strings
     Reader xmlr1 = new StringReader(xml1);
     Reader xmlr2 = new StringReader(xml2);
-    this.seq1 = this.recorder.process(new InputSource(xmlr1));
-    this.seq2 = this.recorder.process(new InputSource(xmlr2));
+    this.seq1 = this.recorder.load(new InputSource(xmlr1));
+    this.seq2 = this.recorder.load(new InputSource(xmlr2));
     return new SequenceSlicer(this.seq1, this.seq2);
   }
 

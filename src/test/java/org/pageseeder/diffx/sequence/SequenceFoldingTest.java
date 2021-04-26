@@ -17,7 +17,7 @@ package org.pageseeder.diffx.sequence;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.load.LoadingException;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.SAXLoader;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -92,8 +92,8 @@ public class SequenceFoldingTest {
 
   private static Sequence getSequence(String xml) {
     try {
-      SAXRecorder recorder = new SAXRecorder();
-      return recorder.process(new InputSource(new StringReader(xml)));
+      SAXLoader recorder = new SAXLoader();
+      return recorder.load(new InputSource(new StringReader(xml)));
     } catch (LoadingException | IOException ex) {
       throw new AssertionError("Unable record specified XML");
     }

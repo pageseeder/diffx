@@ -17,7 +17,7 @@ package org.pageseeder.diffx.sequence;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.load.LoadingException;
-import org.pageseeder.diffx.load.SAXRecorder;
+import org.pageseeder.diffx.load.SAXLoader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +36,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxDepth1() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a/>");
+    Sequence seq = new SAXLoader().load("<a/>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(1, max);
   }
@@ -48,7 +48,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxDepth2() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a><a/></a>");
+    Sequence seq = new SAXLoader().load("<a><a/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
   }
@@ -60,7 +60,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxDepth3() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a><b/><b/></a>");
+    Sequence seq = new SAXLoader().load("<a><b/><b/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
   }
@@ -72,7 +72,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxDepth4() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a><b><c/></b><b/></a>");
+    Sequence seq = new SAXLoader().load("<a><b><c/></b><b/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(3, max);
   }
@@ -84,7 +84,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxElementContent0() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a/>");
+    Sequence seq = new SAXLoader().load("<a/>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(0, max);
   }
@@ -96,7 +96,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxElementContent1() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a>x</a>");
+    Sequence seq = new SAXLoader().load("<a>x</a>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(1, max);
   }
@@ -108,7 +108,7 @@ public final class SequencesTest {
    */
   @Test
   public void testMaxElementContent2() throws LoadingException {
-    Sequence seq = new SAXRecorder().process("<a>x y</a>");
+    Sequence seq = new SAXLoader().load("<a>x y</a>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(3, max);
   }

@@ -41,7 +41,7 @@ public abstract class XMLRecorderTest {
    *
    * @return A new recorder instance for testing
    */
-  public abstract XMLRecorder newXMLRecorder(DiffXConfig config);
+  public abstract XMLLoader newXMLRecorder(DiffXConfig config);
 
   /**
    * @return The Diff-X config instance.
@@ -80,8 +80,8 @@ public abstract class XMLRecorderTest {
 
   protected Sequence record(String xml, DiffXConfig config) throws LoadingException {
     try (Reader reader = new StringReader(xml)) {
-      XMLRecorder recorder = newXMLRecorder(config);
-      return recorder.process(new InputSource(reader));
+      XMLLoader recorder = newXMLRecorder(config);
+      return recorder.load(new InputSource(reader));
     } catch (IOException ex) {
       // Shouldn't
       throw new UncheckedIOException(ex);

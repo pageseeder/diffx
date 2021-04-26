@@ -66,9 +66,9 @@ public final class Main {
    */
   public static boolean equivalent(File xml1, File xml2)
       throws DiffXException, IOException {
-    Recorder recorder = new SAXRecorder();
-    Sequence seq0 = recorder.process(xml1);
-    Sequence seq1 = recorder.process(xml2);
+    Loader loader = new SAXLoader();
+    Sequence seq0 = loader.load(xml1);
+    Sequence seq1 = loader.load(xml2);
     return seq0.equals(seq1);
   }
 
@@ -86,9 +86,9 @@ public final class Main {
    */
   public static boolean equivalent(InputStream xml1, InputStream xml2)
       throws DiffXException, IOException {
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq0 = recorder.process(new InputSource(xml1));
-    Sequence seq1 = recorder.process(new InputSource(xml2));
+    SAXLoader loader = new SAXLoader();
+    Sequence seq0 = loader.load(new InputSource(xml1));
+    Sequence seq1 = loader.load(new InputSource(xml2));
     return seq0.equals(seq1);
   }
 
@@ -101,14 +101,14 @@ public final class Main {
    *
    * @return <code>true</code> If the XML are considered equivalent;
    * <code>false</code> otherwise.
-   * @throws DiffXException If a DiffX exception is reported by the recorders.
+   * @throws DiffXException If a DiffX exception is reported by the loaders.
    * @throws IOException    Should an I/O exception occur.
    */
   public static boolean equivalent(Reader xml1, Reader xml2)
       throws DiffXException, IOException {
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq0 = recorder.process(new InputSource(xml1));
-    Sequence seq1 = recorder.process(new InputSource(xml2));
+    SAXLoader loader = new SAXLoader();
+    Sequence seq0 = loader.load(new InputSource(xml1));
+    Sequence seq1 = loader.load(new InputSource(xml2));
     return seq0.equals(seq1);
   }
 
@@ -128,12 +128,12 @@ public final class Main {
   public static void diff(Node xml1, Node xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
     // records the tokens from the XML
-    DOMRecorder loader = new DOMRecorder();
+    DOMLoader loader = new DOMLoader();
     if (config != null) {
       loader.setConfig(config);
     }
-    Sequence seq1 = loader.process(xml1);
-    Sequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.load(xml1);
+    Sequence seq2 = loader.load(xml2);
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -154,12 +154,12 @@ public final class Main {
   public static void diff(NodeList xml1, NodeList xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
     // records the tokens from the XML
-    DOMRecorder loader = new DOMRecorder();
+    DOMLoader loader = new DOMLoader();
     if (config != null) {
       loader.setConfig(config);
     }
-    Sequence seq1 = loader.process(xml1);
-    Sequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.load(xml1);
+    Sequence seq2 = loader.load(xml2);
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -178,12 +178,12 @@ public final class Main {
   public static void diff(Reader xml1, Reader xml2, Writer out, DiffXConfig config)
       throws DiffXException, IOException {
     // records the tokens from the XML
-    SAXRecorder recorder = new SAXRecorder();
+    SAXLoader loader = new SAXLoader();
     if (config != null) {
-      recorder.setConfig(config);
+      loader.setConfig(config);
     }
-    Sequence seq1 = recorder.process(new InputSource(xml1));
-    Sequence seq2 = recorder.process(new InputSource(xml2));
+    Sequence seq1 = loader.load(new InputSource(xml1));
+    Sequence seq2 = loader.load(new InputSource(xml2));
     // start slicing
     diff(seq1, seq2, out, config);
   }
@@ -201,9 +201,9 @@ public final class Main {
   public static void diff(Reader xml1, Reader xml2, Writer out)
       throws DiffXException, IOException {
     // records the tokens from the XML
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq1 = recorder.process(new InputSource(xml1));
-    Sequence seq2 = recorder.process(new InputSource(xml2));
+    SAXLoader loader = new SAXLoader();
+    Sequence seq1 = loader.load(new InputSource(xml1));
+    Sequence seq2 = loader.load(new InputSource(xml2));
     // start slicing
     diff(seq1, seq2, out, new DiffXConfig());
   }
@@ -221,9 +221,9 @@ public final class Main {
   public static void diff(InputStream xml1, InputStream xml2, OutputStream out)
       throws DiffXException, IOException {
     // records the tokens from the XML
-    SAXRecorder recorder = new SAXRecorder();
-    Sequence seq1 = recorder.process(new InputSource(xml1));
-    Sequence seq2 = recorder.process(new InputSource(xml2));
+    SAXLoader loader = new SAXLoader();
+    Sequence seq1 = loader.load(new InputSource(xml1));
+    Sequence seq2 = loader.load(new InputSource(xml2));
     diff(seq1, seq2, new OutputStreamWriter(out), new DiffXConfig());
   }
 
@@ -276,10 +276,10 @@ public final class Main {
 
       // loading
       long t0 = System.currentTimeMillis();
-      Recorder recorder = getRecorder(args);
-      if (recorder == null) return;
-      Sequence seq1 = recorder.process(xml1);
-      Sequence seq2 = recorder.process(xml2);
+      Loader loader = getRecorder(args);
+      if (loader == null) return;
+      Sequence seq1 = loader.load(xml1);
+      Sequence seq2 = loader.load(xml2);
       long t1 = System.currentTimeMillis();
       if (profile) {
         System.err.println("Loaded files in " + (t1 - t0) + "ms");
@@ -352,20 +352,20 @@ public final class Main {
   /**
    * @param args The command line arguments.
    *
-   * @return The recorder to use.
+   * @return The loader to use.
    */
-  private static Recorder getRecorder(String[] args) {
+  private static Loader getRecorder(String[] args) {
     String loaderArg = CommandLine.getParameter("-l", args);
     if (loaderArg == null || "sax".equals(loaderArg))
-      return new SAXRecorder();
+      return new SAXLoader();
     if ("dom".equals(loaderArg))
-      return new DOMRecorder();
+      return new DOMLoader();
     if ("text".equals(loaderArg))
-      return new LineRecorder();
+      return new LineLoader();
     if ("stream".equals(loaderArg))
-      return new XMLStreamRecorder();
+      return new XMLStreamLoader();
     if ("stax".equals(loaderArg))
-      return new XMLEventRecorder();
+      return new XMLEventLoader();
     usage();
     return null;
   }

@@ -19,20 +19,19 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
- * Records the line tokens in a text.
+ * Loads the contents of a text file as list of line tokens.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class LineRecorder implements Recorder {
+public final class LineLoader implements Loader {
 
   /**
-   * Runs the recorder on the specified file.
-   *
-   * <p>This method will count on the {@link org.xml.sax.InputSource} to guess the correct encoding.
+   * Loads the contents of the specified file using the default settings from the {@link FileReader}.
    *
    * @param file The file to process.
    *
@@ -40,21 +39,37 @@ public final class LineRecorder implements Recorder {
    * @throws IOException Should an I/O error occur.
    */
   @Override
-  public Sequence process(File file) throws IOException {
+  public Sequence load(File file) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       return getSequence(reader);
     }
   }
 
   /**
-   * Runs this recorder on the specified string.
+   * Loads the contents of the specified file using the charset provided.
+   *
+   * @param file The file to process.
+   * @param charset THe
+   *
+   * @return The corresponding sequence of tokens.
+   * @throws IOException Should an I/O error occur.
+   */
+  @Override
+  public Sequence load(File file, Charset charset) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
+      return getSequence(reader);
+    }
+  }
+
+  /**
+   * Runs this loader on the specified string.
    *
    * @param text The text string to process.
    *
    * @return The recorded sequence of tokens.
    */
   @Override
-  public Sequence process(String text) {
+  public Sequence load(String text) {
     try {
       BufferedReader reader = new BufferedReader(new StringReader(text));
       return getSequence(reader);

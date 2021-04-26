@@ -41,14 +41,13 @@ import static javax.xml.stream.XMLStreamConstants.COMMENT;
 import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
 
 /**
- * Records the XML events in an {@link Sequence}.
+ * Loads the XML tokens using an {@link XMLStreamLoader}.
  *
  * @author Christophe Lauret
- * @author Jean-Baptiste Reure
  * @version 0.9.0
- * @since 0.6.0
+ * @since 0.9.0
  */
-public final class XMLStreamRecorder implements XMLRecorder {
+public final class XMLStreamLoader implements XMLLoader {
 
   /**
    * The DiffX configuration to use
@@ -56,7 +55,7 @@ public final class XMLStreamRecorder implements XMLRecorder {
   private DiffXConfig config = new DiffXConfig();
 
   /**
-   * Runs the recorder on the specified file.
+   * Runs the loader on the specified file.
    *
    * @param file The file to process.
    *
@@ -65,18 +64,18 @@ public final class XMLStreamRecorder implements XMLRecorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public Sequence process(File file) throws LoadingException, IOException {
+  public Sequence load(File file) throws LoadingException, IOException {
     XMLInputFactory factory = toFactory(this.config);
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       XMLStreamReader reader = factory.createXMLStreamReader(in);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
   /**
-   * Runs the recorder on the specified string.
+   * Runs the loader on the specified string.
    *
    * <p>This method is provided for convenience. It is best to only use this method for
    * short strings.
@@ -87,18 +86,18 @@ public final class XMLStreamRecorder implements XMLRecorder {
    * @throws LoadingException If thrown while parsing.
    */
   @Override
-  public Sequence process(String xml) throws LoadingException {
+  public Sequence load(String xml) throws LoadingException {
     XMLInputFactory factory = toFactory(this.config);
     try (StringReader source = new StringReader(xml)) {
       XMLStreamReader reader = factory.createXMLStreamReader(source);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
   /**
-   * Runs the recorder on the specified input source.
+   * Runs the loader on the specified input source.
    *
    * @param source The input source.
    *
@@ -107,35 +106,35 @@ public final class XMLStreamRecorder implements XMLRecorder {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public Sequence process(InputSource source) throws LoadingException, IOException {
+  public Sequence load(InputSource source) throws LoadingException, IOException {
     XMLInputFactory factory = toFactory(this.config);
     try {
       XMLStreamReader reader = toXMLStreamReader(factory, source);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
   /**
-   * Returns the configuration used by this recorder.
+   * Returns the configuration used by this loader.
    *
-   * @return the configuration used by this recorder.
+   * @return the configuration used by this loader.
    */
   public DiffXConfig getConfig() {
     return this.config;
   }
 
   /**
-   * Sets the configuration used by this recorder.
+   * Sets the configuration used by this loader.
    *
-   * @param config The configuration used by this recorder.
+   * @param config The configuration used by this loader.
    */
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  public Sequence process(XMLStreamReader reader) throws LoadingException {
+  public Sequence load(XMLStreamReader reader) throws LoadingException {
     TokenFactory tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();

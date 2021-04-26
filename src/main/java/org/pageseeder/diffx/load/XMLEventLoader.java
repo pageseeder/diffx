@@ -38,101 +38,77 @@ import java.util.Objects;
 import static javax.xml.stream.XMLStreamConstants.COMMENT;
 
 /**
- * Records the XML events in an {@link Sequence}.
+ * Loads the XML tokens using an {@link XMLEventReader}.
  *
  * @author Christophe Lauret
- * @author Jean-Baptiste Reure
  * @version 0.9.0
- * @since 0.6.0
+ * @since 0.9.0
  */
-public final class XMLEventRecorder implements XMLRecorder {
+public final class XMLEventLoader implements XMLLoader {
 
   /**
    * The DiffX configuration to use
    */
   private DiffXConfig config = new DiffXConfig();
 
-  /**
-   * Runs the recorder on the specified file.
-   *
-   * @param file The file to process.
-   *
-   * @return The recorded sequence of tokens.
-   * @throws LoadingException If thrown while parsing.
-   * @throws IOException      Should I/O error occur.
-   */
   @Override
-  public Sequence process(File file) throws LoadingException, IOException {
-    XMLInputFactory factory = XMLStreamRecorder.toFactory(this.config);
+  public Sequence load(File file) throws LoadingException, IOException {
+    XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       XMLEventReader reader = factory.createXMLEventReader(in);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
-  /**
-   * Runs the recorder on the specified string.
-   *
-   * <p>This method is provided for convenience. It is best to only use this method for
-   * short strings.
-   *
-   * @param xml The XML string to process.
-   *
-   * @return The recorded sequence of tokens.
-   * @throws LoadingException If thrown while parsing.
-   */
   @Override
-  public Sequence process(String xml) throws LoadingException {
-    XMLInputFactory factory = XMLStreamRecorder.toFactory(this.config);
+  public Sequence load(String xml) throws LoadingException {
+    XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try (StringReader source = new StringReader(xml)) {
       XMLEventReader reader = factory.createXMLEventReader(source);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
-  /**
-   * Runs the recorder on the specified input source.
-   *
-   * @param source The input source.
-   *
-   * @return The recorded sequence of tokens.
-   * @throws LoadingException If thrown whilst parsing.
-   * @throws IOException      Should I/O error occur.
-   */
   @Override
-  public Sequence process(InputSource source) throws LoadingException, IOException {
-    XMLInputFactory factory = XMLStreamRecorder.toFactory(this.config);
+  public Sequence load(InputSource source) throws LoadingException, IOException {
+    XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try {
       XMLEventReader reader = toXMLEventReader(factory, source);
-      return process(reader);
+      return load(reader);
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
   }
 
   /**
-   * Returns the configuration used by this recorder.
+   * Returns the configuration used by this loader.
    *
-   * @return the configuration used by this recorder.
+   * @return the configuration used by this loader.
    */
   public DiffXConfig getConfig() {
     return this.config;
   }
 
   /**
-   * Sets the configuration used by this recorder.
+   * Sets the configuration used by this loader.
    *
-   * @param config The configuration used by this recorder.
+   * @param config The configuration used by this loader.
    */
   public void setConfig(DiffXConfig config) {
     this.config = config;
   }
 
-  public Sequence process(XMLEventReader reader) throws LoadingException {
+  /**
+   * Loads the XML tokens from the specified XML event reader.
+   *
+   * @return the corresponding sequence.
+   * @throws LoadingException Wraps any parsing {@link XMLStreamException}
+   */
+  public Sequence load(XMLEventReader reader) throws LoadingException {
     TokenFactory tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);

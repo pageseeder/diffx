@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * The set of classes used to produce the sequences that Diff-X will process.
+ * The set of classes used to produce the sequences of tokens to process.
  */
 package org.pageseeder.diffx.load;

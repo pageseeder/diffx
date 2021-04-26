@@ -21,7 +21,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
-import org.pageseeder.diffx.load.DOMRecorder;
+import org.pageseeder.diffx.load.DOMLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.xml.PrefixMapping;
@@ -96,10 +96,10 @@ public final class Extension {
     DiffXConfig config = toConfig(whitespace, granularity);
 
     // Get Sequences
-    DOMRecorder loader = new DOMRecorder();
+    DOMLoader loader = new DOMLoader();
     loader.setConfig(config);
-    Sequence seq1 = loader.process(xml1);
-    Sequence seq2 = loader.process(xml2);
+    Sequence seq1 = loader.load(xml1);
+    Sequence seq2 = loader.load(xml2);
     if (seq1.size() == 0 && seq2.size() == 0) return null;
 
     // Start comparing

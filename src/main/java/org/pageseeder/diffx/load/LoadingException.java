@@ -18,15 +18,19 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.DiffXException;
 
 /**
- * Class of exceptions occurring when trying to load data for Diff-X.
+ * Class of exceptions occurring when trying to load tokens.
+ *
+ * <p>This class is primarily used to wrap exceptions thrown by the underlying XML
+ * parser implementation (SAX, DOM, Stream)
  *
  * @author Christophe Lauret
- * @version 14 May 2005
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public final class LoadingException extends DiffXException {
 
   /**
-   * Version number for the serialised class.
+   * As required for Serializable.
    */
   private static final long serialVersionUID = -5026953481292613087L;
 

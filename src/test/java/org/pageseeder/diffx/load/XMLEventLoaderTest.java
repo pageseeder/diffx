@@ -23,37 +23,37 @@ import org.pageseeder.diffx.config.DiffXConfig;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class DOMRecorderTest {
+public final class XMLEventLoaderTest {
 
-  public XMLRecorder configureRecorder(DiffXConfig config) {
-    DOMRecorder recorder = new DOMRecorder();
+  public XMLLoader configureRecorder(DiffXConfig config) {
+    XMLEventLoader recorder = new XMLEventLoader();
     recorder.setConfig(config);
     return recorder;
   }
 
   @Nested
   @DisplayName("Text / No namespace")
-  public class TextNoNamespace extends XMLRecorder_Text_NoNS {
+  public class Text_NoNamespace extends XMLLoader_Text_NoNS {
     @Override
-    public XMLRecorder newXMLRecorder(DiffXConfig config) {
+    public XMLLoader newXMLRecorder(DiffXConfig config) {
       return configureRecorder(config);
     }
   }
 
   @Nested
   @DisplayName("Word / Namespace aware")
-  public class WordNamespaceAware extends XMLRecorder_Word_NS {
+  public class Word_NamespaceAware extends XMLLoader_Word_NS {
     @Override
-    public XMLRecorder newXMLRecorder(DiffXConfig config) {
+    public XMLLoader newXMLRecorder(DiffXConfig config) {
       return configureRecorder(config);
     }
   }
 
   @Nested
   @DisplayName("SpaceWord / Namespace aware")
-  public class SpaceWord_NamespaceAware extends XMLRecorder_SpaceWord_NS {
+  public class SpaceWord_NamespaceAware extends XMLLoader_SpaceWord_NS {
     @Override
-    public XMLRecorder newXMLRecorder(DiffXConfig config) {
+    public XMLLoader newXMLRecorder(DiffXConfig config) {
       return configureRecorder(config);
     }
   }
