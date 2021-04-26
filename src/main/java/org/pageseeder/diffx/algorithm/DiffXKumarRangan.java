@@ -20,7 +20,7 @@ import org.pageseeder.diffx.core.DiffAlgorithm;
 import org.pageseeder.diffx.core.KumarRanganAlgorithm;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.FormattingAdapter;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.EventSequence;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -47,6 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 0.9.0
  * @since 0.6.0
  */
+@Deprecated
 public final class DiffXKumarRangan extends DiffXAlgorithmBase {
 
   /**
@@ -60,7 +61,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    * @param first  The first sequence to compare.
    * @param second The second sequence to compare.
    */
-  public DiffXKumarRangan(Sequence first, Sequence second) {
+  public DiffXKumarRangan(EventSequence first, EventSequence second) {
     super(first, second);
   }
 
@@ -81,7 +82,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     if (this.length < 0) {
       DiffAlgorithm algo = new KumarRanganAlgorithm();
       AtomicInteger length = new AtomicInteger();
-      algo.diff(this.sequence1.tokens(), this.sequence2.tokens(), (operator, token) -> {
+      algo.diff(this.sequence1.getSequence().tokens(), this.sequence2.getSequence().tokens(), (operator, token) -> {
         if (operator == Operator.MATCH) length.getAndIncrement();
       });
       this.length = length.get();
@@ -101,7 +102,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     DiffAlgorithm algo = new KumarRanganAlgorithm();
     try {
       FormattingAdapter adapter = new FormattingAdapter(formatter);
-      algo.diff(this.sequence1.tokens(), this.sequence2.tokens(), adapter);
+      algo.diff(this.sequence1.getSequence().tokens(), this.sequence2.getSequence().tokens(), adapter);
     } catch (UncheckedIOException ex) {
       // Unwrap
       throw ex.getCause();

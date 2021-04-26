@@ -20,6 +20,7 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -64,6 +65,19 @@ public final class SequenceSlicer {
   Sequence end;
 
   // constructor --------------------------------------------------------------------------------
+
+
+  /**
+   * Creates a new sequence slicer.
+   *
+   * @param seq0 The first sequence to slice.
+   * @param seq1 The second sequence to slice.
+   */
+  @Deprecated
+  public SequenceSlicer(EventSequence seq0, EventSequence seq1) {
+    this.sequence1 = seq0.sequence;
+    this.sequence2 = seq1.sequence;
+  }
 
   /**
    * Creates a new sequence slicer.

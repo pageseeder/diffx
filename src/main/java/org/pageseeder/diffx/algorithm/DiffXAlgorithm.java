@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.format.DiffXFormatter;
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.7.0
  */
+@Deprecated
 public interface DiffXAlgorithm {
 
   /**
@@ -47,11 +49,11 @@ public interface DiffXAlgorithm {
   /**
    * @return the first sequence used for the diff-x comparison.
    */
-  Sequence getFirstSequence();
+  EventSequence getFirstSequence();
 
   /**
    * @return the second sequence used for the diff-x comparison.
    */
-  Sequence getSecondSequence();
+  EventSequence getSecondSequence();
 
 }

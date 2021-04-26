@@ -22,6 +22,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.format.SafeXMLFormatter;
 import org.pageseeder.diffx.load.DOMLoader;
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.xml.PrefixMapping;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.EventListener;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -130,9 +132,7 @@ public final class Extension {
   private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
       throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
-    PrefixMapping mapping = new PrefixMapping();
-    mapping.add(seq1.getPrefixMapping());
-    mapping.add(seq2.getPrefixMapping());
+    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     formatter.declarePrefixMapping(mapping);
     if (config != null) {
       formatter.setConfig(config);
@@ -140,7 +140,7 @@ public final class Extension {
     SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
     slicer.slice();
     slicer.formatStart(formatter);
-    DiffXAlgorithm df = new GuanoAlgorithm(seq1, seq2);
+    DiffXAlgorithm df = new GuanoAlgorithm(new EventSequence(seq1), new EventSequence(seq2));
     df.process(formatter);
     slicer.formatEnd(formatter);
   }

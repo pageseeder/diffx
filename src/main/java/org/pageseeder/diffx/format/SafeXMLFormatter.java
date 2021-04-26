@@ -45,6 +45,7 @@ import java.io.Writer;
  * @author Christophe Lauret
  * @version 11 May 2010
  */
+@Deprecated
 public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
   /**

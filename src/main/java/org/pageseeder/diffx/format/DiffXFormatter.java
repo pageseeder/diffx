@@ -26,6 +26,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.6.0
  */
+@Deprecated
 public interface DiffXFormatter {
 
   /**

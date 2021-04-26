@@ -22,6 +22,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;

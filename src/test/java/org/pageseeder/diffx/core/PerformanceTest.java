@@ -131,7 +131,7 @@ public class PerformanceTest {
     // Generate content
     StringBuilder xml1 = new StringBuilder();
     StringBuilder xml2 = new StringBuilder();
-    generateXML(xml1, xml2, 10);
+    generateXML(xml1, xml2, 50);
 
     // Parse tokens
     List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
@@ -140,6 +140,8 @@ public class PerformanceTest {
     List<Token> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
+    profileX(new OptimisticXMLProcessor(), firstWord, secondWord, 10);
+    profileX(new DefaultXMLProcessor(), firstText, firstText, 10);
     profileX(new OptimisticXMLProcessor(), firstText, secondText, 10);
   }
 

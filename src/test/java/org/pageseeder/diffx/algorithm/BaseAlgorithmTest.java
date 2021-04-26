@@ -63,7 +63,6 @@ public abstract class BaseAlgorithmTest {
    */
   public abstract DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2);
 
-
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
    *

@@ -13,21 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.algorithm;
+package org.pageseeder.diffx.load;
 
+import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.xml.sax.InputSource;
+
+import java.io.IOException;
 
 /**
- * Test case for Guano Diff-X algorithm.
+ * Provided for backward compatibility
  *
- * @author Christophe Lauret
- * @version 0.9.0
+ * @deprecated Replaced by {@link SAXLoader}.
  */
-public final class GuanoAlgorithmTest extends BaseAlgorithmLevel2Test {
+@Deprecated
+public class SAXRecorder {
 
-  public DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2) {
-    return new GuanoAlgorithm(new EventSequence(seq1), new EventSequence(seq2));
+  private final SAXLoader loader = new SAXLoader();
+
+  public EventSequence process(InputSource source) throws DiffXException, IOException {
+    return new EventSequence(loader.load(source));
+  }
+
+  public void setConfig(DiffXConfig config) {
+    this.loader.setConfig(config);
   }
 
 }

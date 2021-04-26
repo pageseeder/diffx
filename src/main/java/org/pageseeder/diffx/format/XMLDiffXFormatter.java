@@ -25,6 +25,7 @@ import org.pageseeder.diffx.xml.PrefixMapping;
  * @author Christophe Lauret
  * @version 17 May 2005
  */
+@Deprecated
 public interface XMLDiffXFormatter extends DiffXFormatter {
 
   /**

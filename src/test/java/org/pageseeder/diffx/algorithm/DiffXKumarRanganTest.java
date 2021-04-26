@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
 
 /**
@@ -26,6 +27,6 @@ import org.pageseeder.diffx.sequence.Sequence;
 public final class DiffXKumarRanganTest extends BaseAlgorithmLevel0Test {
 
   public DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2) {
-    return new DiffXKumarRangan(seq1, seq2);
+    return new DiffXKumarRangan(new EventSequence(seq1), new EventSequence(seq2));
   }
 }
