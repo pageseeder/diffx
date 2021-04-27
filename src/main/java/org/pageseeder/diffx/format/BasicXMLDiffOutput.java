@@ -21,6 +21,7 @@ import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
+import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
@@ -127,6 +128,11 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
       }
       this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
       this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
+      if (mapping != null) {
+        for (Namespace namespace : mapping) {
+          xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
+        }
+      }
       this.writeXMLDeclaration = false;
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);

@@ -120,8 +120,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
-    List<Token> second = Events.recordXMLEvents("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
-    List<Token> first = Events.recordXMLEvents("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
+    List<Token> second = Events.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
+    List<Token> first = Events.loadTokens("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
@@ -134,10 +134,10 @@ public class PerformanceTest {
     generateXML(xml1, xml2, 50);
 
     // Parse tokens
-    List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
-    List<Token> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
-    List<Token> secondWord = Events.recordXMLEvents(xml1.toString(), TextGranularity.SPACE_WORD);
-    List<Token> firstWord = Events.recordXMLEvents(xml2.toString(), TextGranularity.SPACE_WORD);
+    List<Token> secondText = Events.loadTokens(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = Events.loadTokens(xml2.toString(), TextGranularity.TEXT);
+    List<Token> secondWord = Events.loadTokens(xml1.toString(), TextGranularity.SPACE_WORD);
+    List<Token> firstWord = Events.loadTokens(xml2.toString(), TextGranularity.SPACE_WORD);
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new OptimisticXMLProcessor(), firstWord, secondWord, 10);
@@ -153,8 +153,8 @@ public class PerformanceTest {
       RandomXMLFactory factory = new RandomXMLFactory();
       Document from = factory.getRandomXML(5, 5);
       Document to = factory.vary(from, .2);
-      Sequence second = Events.recordXMLSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
-      Sequence first = Events.recordXMLSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+      Sequence second = Events.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      Sequence first = Events.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
 
       profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
       profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);
@@ -169,8 +169,8 @@ public class PerformanceTest {
     generateXML(xml1, xml2, 100);
 
     // Parse tokens
-    List<Token> secondText = Events.recordXMLEvents(xml1.toString(), TextGranularity.TEXT);
-    List<Token> firstText = Events.recordXMLEvents(xml2.toString(), TextGranularity.TEXT);
+    List<Token> secondText = Events.loadTokens(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = Events.loadTokens(xml2.toString(), TextGranularity.TEXT);
 
     OptimisticXMLProcessor coalescingProcessor = new OptimisticXMLProcessor();
     coalescingProcessor.setCoalesce(true);

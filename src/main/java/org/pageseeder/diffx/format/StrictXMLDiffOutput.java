@@ -224,14 +224,16 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
     try {
-      this.xml.writeDefaultNamespace(XMLConstants.NULL_NS_URI);
+      this.xml.setDefaultNamespace(null);
       for (Namespace namespace : mapping) {
-        this.xml.writeNamespace(namespace.getPrefix(), namespace.getUri());
+        String uri = namespace.getUri();
+        if (!uri.isEmpty()) {
+          this.xml.setPrefix(namespace.getPrefix(), uri);
+        }
       }
     } catch (XMLStreamException ex) {
       ex.printStackTrace();
     }
   }
-
 
 }

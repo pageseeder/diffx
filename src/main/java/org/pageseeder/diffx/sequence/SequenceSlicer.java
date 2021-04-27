@@ -20,7 +20,6 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Iterator;
 

@@ -104,10 +104,8 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
    * Creates a new formatter using the specified writer.
    *
    * @param w The writer to use.
-   *
-   * @throws IOException should an I/O exception occurs.
    */
-  public SmartXMLDiffOutput(Writer w) throws IOException {
+  public SmartXMLDiffOutput(Writer w) {
     this.xml = new XMLWriterNSImpl(w, false);
   }
 

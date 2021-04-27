@@ -56,19 +56,14 @@ public final class TestActions {
   }
 
   public static String toXML(List<Action> actions, PrefixMapping mapping) {
-    try {
-      StringWriter xml = new StringWriter();
-      XMLDiffOutput output = new SmartXMLDiffOutput(xml);
-      output.declarePrefixMapping(mapping);
-      output.setWriteXMLDeclaration(false);
-      output.start();
-      Actions.handle(actions, output);
-      output.end();
-      return xml.toString();
-    } catch (IOException ex) {
-      // Should not occur
-      throw new UncheckedIOException("Unable to check assertions due to", ex);
-    }
+    StringWriter xml = new StringWriter();
+    XMLDiffOutput output = new SmartXMLDiffOutput(xml);
+    output.declarePrefixMapping(mapping);
+    output.setWriteXMLDeclaration(false);
+    output.start();
+    Actions.handle(actions, output);
+    output.end();
+    return xml.toString();
   }
 
 }

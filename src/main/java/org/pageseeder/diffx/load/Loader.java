@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * A class implementing this interface must be able to produce a sequence of tokens

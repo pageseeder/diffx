@@ -29,7 +29,8 @@ import org.xml.sax.InputSource;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.*;
+import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 

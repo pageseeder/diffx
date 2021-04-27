@@ -613,8 +613,8 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
   private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp)
       throws IOException, DiffXException {
     // Record XML
-    Sequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.TEXT);
-    Sequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.TEXT);
+    Sequence seq1 = Events.loadSequence(xml1, TextGranularity.TEXT);
+    Sequence seq2 = Events.loadSequence(xml2, TextGranularity.TEXT);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
 
     // Process as list of actions

@@ -28,7 +28,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.XMLConstants;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,7 +98,7 @@ public final class SAXLoader implements XMLLoader {
 
     try {
       reader.setProperty("http://xml.org/sax/properties/lexical-handler", handler);
-    } catch(SAXNotRecognizedException | SAXNotSupportedException ex) {
+    } catch (SAXNotRecognizedException | SAXNotSupportedException ex) {
       // Ignore
     }
 

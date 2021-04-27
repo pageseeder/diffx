@@ -109,8 +109,8 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
     // Record XML
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(TextGranularity.SPACE_WORD);
-    List<? extends Token> seq1 = Events.recordXMLEvents(xml1, config);
-    List<? extends Token> seq2 = Events.recordXMLEvents(xml2, config);
+    List<? extends Token> seq1 = Events.loadTokens(xml1, config);
+    List<? extends Token> seq2 = Events.loadTokens(xml2, config);
 
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1, seq2);

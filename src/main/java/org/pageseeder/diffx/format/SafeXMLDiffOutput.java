@@ -48,7 +48,6 @@ import java.io.Writer;
  * @version 0.9.0
  * @since 0.6.0
  */
-@Deprecated
 public final class SafeXMLDiffOutput implements XMLDiffOutput {
 
   /**
@@ -120,7 +119,7 @@ public final class SafeXMLDiffOutput implements XMLDiffOutput {
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (DEBUG) {
-      System.err.println(operator.toString()+token);
+      System.err.println(operator.toString() + token);
     }
     try {
       // Maintain stack
@@ -152,7 +151,7 @@ public final class SafeXMLDiffOutput implements XMLDiffOutput {
   private void handleEdit(Operator operator, Token token) throws IOException {
     if (token instanceof StartElementToken) {
       token.toXML(this.xml);
-      this.xml.attribute(operator == Operator.INS? "dfx:insert" : "dfx:delete", "true");
+      this.xml.attribute(operator == Operator.INS ? "dfx:insert" : "dfx:delete", "true");
 
       // just output the new line
     } else if (token == SpaceToken.NEW_LINE) {

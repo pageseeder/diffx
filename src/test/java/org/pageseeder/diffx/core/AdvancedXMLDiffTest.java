@@ -280,24 +280,28 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml1, xml2, exp);
   }
 
+  @Test
+  public void testChangeDefault_NS() throws IOException, DiffXException {
+    String xml1 = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
+    String xml2 = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
+    assertDiffXMLWordsOK(xml1, xml2);
+  }
+
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2)
-      throws IOException, DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2) throws DiffXException {
     assertDiffXMLWordsOK(xml1, xml2, new String[0]);
   }
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String exp)
-      throws IOException, DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2, String exp) throws DiffXException {
     assertDiffXMLWordsOK(xml1, xml2, new String[]{exp});
   }
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp)
-      throws DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp) throws DiffXException {
     // Record XML
-    Sequence seq1 = Events.recordXMLSequence(xml1, TextGranularity.WORD);
-    Sequence seq2 = Events.recordXMLSequence(xml2, TextGranularity.WORD);
+    Sequence seq1 = Events.loadSequence(xml1, TextGranularity.WORD);
+    Sequence seq2 = Events.loadSequence(xml2, TextGranularity.WORD);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());

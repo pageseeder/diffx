@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.EventListener;
 import java.util.Hashtable;
 import java.util.Map;
 

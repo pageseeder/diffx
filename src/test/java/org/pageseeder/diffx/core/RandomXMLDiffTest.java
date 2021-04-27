@@ -93,8 +93,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
 
   private void assertDiffXMLRandomOK(String docA, String docB) throws DiffXException {
     // Record XML
-    Sequence seq1 = Events.recordXMLSequence(docA, TextGranularity.SPACE_WORD);
-    Sequence seq2 = Events.recordXMLSequence(docB, TextGranularity.SPACE_WORD);
+    Sequence seq1 = Events.loadSequence(docA, TextGranularity.SPACE_WORD);
+    Sequence seq2 = Events.loadSequence(docB, TextGranularity.SPACE_WORD);
     System.out.println();
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
     // Process as list of actions

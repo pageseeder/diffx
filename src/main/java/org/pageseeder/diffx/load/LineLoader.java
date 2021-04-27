@@ -48,7 +48,7 @@ public final class LineLoader implements Loader {
   /**
    * Loads the contents of the specified file using the charset provided.
    *
-   * @param file The file to process.
+   * @param file    The file to process.
    * @param charset THe
    *
    * @return The corresponding sequence of tokens.

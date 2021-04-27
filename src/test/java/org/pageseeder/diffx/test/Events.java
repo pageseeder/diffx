@@ -32,9 +32,7 @@ import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.Document;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,42 +75,39 @@ public final class Events {
   }
 
 
-  public static List<Token> recordXMLEvents(String xml, TextGranularity granularity) throws DiffXException {
+  public static List<Token> loadTokens(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return Collections.emptyList();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
-    return recordXMLEvents(xml, config);
+    return loadTokens(xml, config);
   }
 
-  public static List<Token> recordXMLEvents(String xml, DiffXConfig config) throws DiffXException {
-    SAXLoader recorder = new SAXLoader();
-    recorder.setConfig(config);
-    return recorder.load(xml).tokens();
+  public static List<Token> loadTokens(String xml, DiffXConfig config) throws DiffXException {
+    SAXLoader loader = new SAXLoader();
+    loader.setConfig(config);
+    return loader.load(xml).tokens();
   }
 
-
-  public static Sequence recordXMLSequence(String xml, TextGranularity granularity) throws DiffXException {
+  public static Sequence loadSequence(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return new Sequence();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
-    return recordXMLSequence(xml, config);
+    return loadSequence(xml, config);
   }
 
-  public static Sequence recordXMLSequence(String xml, DiffXConfig config) throws DiffXException {
+  public static Sequence loadSequence(String xml, DiffXConfig config) throws DiffXException {
     SAXLoader recorder = new SAXLoader();
     recorder.setConfig(config);
     return recorder.load(xml);
   }
 
-
-  public static Sequence recordXMLSequence(Document xml, TextGranularity granularity) throws DiffXException {
+  public static Sequence loadSequence(Document xml, TextGranularity granularity) throws DiffXException {
     DOMLoader loader = new DOMLoader();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     loader.setConfig(config);
     return loader.load(xml);
   }
-
 
   public static List<Token> recordLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();
@@ -124,22 +119,14 @@ public final class Events {
   }
 
   public static String toXML(List<? extends Token> tokens, PrefixMapping mapping) {
-    try {
-      StringWriter xml = new StringWriter();
-      SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
-      f.setWriteXMLDeclaration(false);
-      f.declarePrefixMapping(mapping);
-
-      for (Token token : tokens) {
-        f.handle(Operator.MATCH, token);
-      }
-      return xml.toString();
-    } catch (IOException ex) {
-      // Shouldn't occur as we're writing on a StringWriter
-      throw new UncheckedIOException(ex);
+    StringWriter xml = new StringWriter();
+    SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
+    f.setWriteXMLDeclaration(false);
+    f.declarePrefixMapping(mapping);
+    for (Token token : tokens) {
+      f.handle(Operator.MATCH, token);
     }
-
+    return xml.toString();
   }
-
 
 }

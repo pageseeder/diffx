@@ -64,7 +64,7 @@ public interface XMLLoader extends Loader {
   /**
    * Loads the content of the specified file as a sequence of XML tokens using the charset provided.
    *
-   * @param file The file to process.
+   * @param file    The file to process.
    * @param charset Charset for reading the file.
    *
    * @return The recorded sequence of tokens.

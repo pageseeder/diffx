@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.Sequence;
 
 /**
  * A base class for Diff-X algorithms.
