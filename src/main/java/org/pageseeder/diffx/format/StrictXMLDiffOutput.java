@@ -36,7 +36,7 @@ import java.io.Writer;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutput {
+public final class StrictXMLDiffOutput implements XMLDiffOutput {
 
   /**
    * The tag used for deletions.
@@ -180,38 +180,6 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
   }
 
   @Override
-  public void format(Token token) {
-    if (this.isDocumentStart) {
-      start();
-      this.isDocumentStart = false;
-    }
-    handle(Operator.MATCH, token);
-  }
-
-  @Override
-  public void insert(Token token) {
-    if (this.isDocumentStart) {
-      start();
-      this.isDocumentStart = false;
-    }
-    handle(Operator.INS, token);
-  }
-
-  @Override
-  public void delete(Token token) throws IllegalStateException {
-    if (this.isDocumentStart) {
-      start();
-      this.isDocumentStart = false;
-    }
-    handle(Operator.DEL, token);
-  }
-
-  @Override
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
-  }
-
-  @Override
   public void setWriteXMLDeclaration(boolean show) {
     this.writeXMLDeclaration = show;
   }
@@ -222,7 +190,7 @@ public final class StrictXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutp
    * @param mapping The prefix mapping to add.
    */
   @Override
-  public void declarePrefixMapping(PrefixMapping mapping) {
+  public void setPrefixMapping(PrefixMapping mapping) {
     try {
       this.xml.setDefaultNamespace(null);
       for (Namespace namespace : mapping) {

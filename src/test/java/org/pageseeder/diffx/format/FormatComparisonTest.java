@@ -154,7 +154,7 @@ public class FormatComparisonTest {
 
   private static void printXMLDiffOutput(List<Operation> operations, PrefixMapping namespaces, XMLDiffOutput output) {
     output.setWriteXMLDeclaration(false);
-    output.declarePrefixMapping(namespaces);
+    output.setPrefixMapping(namespaces);
     output.start();
     Operations.handle(operations, output);
     output.end();

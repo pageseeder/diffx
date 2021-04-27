@@ -26,7 +26,6 @@ import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.sequence.SequenceSlicer;
 import org.pageseeder.diffx.util.CommandLine;
 import org.pageseeder.diffx.xml.PrefixMapping;
 import org.w3c.dom.Node;
@@ -135,7 +134,7 @@ public final class Main {
     Sequence seq1 = loader.load(xml1);
     Sequence seq2 = loader.load(xml2);
     // start slicing
-    diff(seq1, seq2, out, config);
+    diff(seq1, seq2, out);
   }
 
   /**
@@ -161,7 +160,7 @@ public final class Main {
     Sequence seq1 = loader.load(xml1);
     Sequence seq2 = loader.load(xml2);
     // start slicing
-    diff(seq1, seq2, out, config);
+    diff(seq1, seq2, out);
   }
 
   /**
@@ -185,7 +184,7 @@ public final class Main {
     Sequence seq1 = loader.load(new InputSource(xml1));
     Sequence seq2 = loader.load(new InputSource(xml2));
     // start slicing
-    diff(seq1, seq2, out, config);
+    diff(seq1, seq2, out);
   }
 
   /**
@@ -205,7 +204,7 @@ public final class Main {
     Sequence seq1 = loader.load(new InputSource(xml1));
     Sequence seq2 = loader.load(new InputSource(xml2));
     // start slicing
-    diff(seq1, seq2, out, new DiffXConfig());
+    diff(seq1, seq2, out);
   }
 
   /**
@@ -224,33 +223,22 @@ public final class Main {
     SAXLoader loader = new SAXLoader();
     Sequence seq1 = loader.load(new InputSource(xml1));
     Sequence seq2 = loader.load(new InputSource(xml2));
-    diff(seq1, seq2, new OutputStreamWriter(out), new DiffXConfig());
+    diff(seq1, seq2, new OutputStreamWriter(out));
   }
 
   /**
    * Compares the two specified xml files and prints the diff onto the given writer.
    *
-   * @param seq1   The first XML reader to compare.
-   * @param seq2   The first XML reader to compare.
-   * @param out    Where the output goes.
-   * @param config The DiffX configuration to use.
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @param seq1 The first XML reader to compare.
+   * @param seq2 The first XML reader to compare.
+   * @param out  Where the output goes.
    */
-  private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
-      throws IOException {
+  private static void diff(Sequence seq1, Sequence seq2, Writer out) {
     SmartXMLDiffOutput output = new SmartXMLDiffOutput(out);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
-    output.declarePrefixMapping(mapping);
-    if (config != null) {
-      output.setConfig(config);
-    }
-    SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
-    slicer.slice();
-    slicer.formatStart(output);
+    output.setPrefixMapping(mapping);
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.diff(seq1.tokens(), seq2.tokens(), output);
-    slicer.formatEnd(output);
   }
 
   // command line -------------------------------------------------------------------------
@@ -301,7 +289,7 @@ public final class Main {
         PrefixMapping mapping = new PrefixMapping();
         mapping.add(seq1.getPrefixMapping());
         mapping.add(seq2.getPrefixMapping());
-        ((XMLDiffOutput) output).declarePrefixMapping(mapping);
+        ((XMLDiffOutput) output).setPrefixMapping(mapping);
       }
 
       // start algorithm
@@ -408,7 +396,7 @@ public final class Main {
    * @throws IOException Should and I/O error occur
    */
   private static DiffHandler getOutputFormat(String[] args, Writer out) throws IOException {
-    String formatArg = CommandLine.getParameter("-F", args);
+    String formatArg = CommandLine.getParameter("-f", args);
     if (formatArg == null || "smart".equals(formatArg))
       return new SmartXMLDiffOutput(out);
     if ("convenient".equals(formatArg))
@@ -427,7 +415,7 @@ public final class Main {
    * @return The formatter to use.
    */
   private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) {
-    String formatArg = CommandLine.getParameter("-W", args);
+    String formatArg = CommandLine.getParameter("-w", args);
     if (formatArg == null || "preserve".equals(formatArg))
       return WhiteSpaceProcessing.PRESERVE;
     if ("compare".equals(formatArg))
@@ -444,7 +432,7 @@ public final class Main {
    * @return The formatter to use.
    */
   private static TextGranularity getTextGranularity(String[] args) {
-    String formatArg = CommandLine.getParameter("-G", args);
+    String formatArg = CommandLine.getParameter("-g", args);
     if (formatArg == null || "word".equals(formatArg))
       return TextGranularity.SPACE_WORD;
     if ("text".equals(formatArg))

@@ -37,13 +37,12 @@ public interface XMLDiffOutput extends DiffHandler {
   void setWriteXMLDeclaration(boolean show);
 
   /**
-   * Adds the specified prefix mapping to the formatter so that they can be declared when
-   * needed.
+   * Adds the specified prefix mapping so that namespaced can be declared when needed.
    *
    * <p>This method must be called before calls to the DiffHandler methods</p>
    *
    * @param mapping The prefix mapping to add.
    */
-  void declarePrefixMapping(PrefixMapping mapping);
+  void setPrefixMapping(PrefixMapping mapping);
 
 }

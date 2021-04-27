@@ -50,7 +50,7 @@ import java.io.Writer;
  * @version 0.9.0
  * @since 0.5.0
  */
-public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutput {
+public final class SmartXMLDiffOutput implements XMLDiffOutput {
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -60,7 +60,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
   /**
    * The output goes here.
    */
-  private final XMLWriterNSImpl xml;
+  final XMLWriterNSImpl xml;
 
   /**
    * The DiffX configuration to use
@@ -96,7 +96,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
    * @throws IOException should an I/O exception occurs.
    * @see System#out
    */
-  public SmartXMLDiffOutput() throws IOException {
+  public SmartXMLDiffOutput() {
     this(new PrintWriter(System.out));
   }
 
@@ -150,25 +150,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
     }
   }
 
-  @Override
-  public void format(Token token) throws IOException {
-    handleMatch(token);
-    this.xml.flush();
-  }
-
-  @Override
-  public void insert(Token token) throws IOException {
-    handleEdit(Operator.INS, token);
-    this.xml.flush();
-  }
-
-  @Override
-  public void delete(Token token) throws IOException {
-    handleEdit(Operator.DEL, token);
-    this.xml.flush();
-  }
-
-  private void handleMatch(Token token) throws IOException {
+  void handleMatch(Token token) throws IOException {
     if (token instanceof StartElementToken) {
       if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
       this.openElements++;
@@ -236,11 +218,6 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
   }
 
   @Override
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
-  }
-
-  @Override
   public void setWriteXMLDeclaration(boolean show) {
     this.writeXMLDeclaration = show;
   }
@@ -251,7 +228,7 @@ public final class SmartXMLDiffOutput implements XMLDiffXFormatter, XMLDiffOutpu
    * @param mapping The prefix mapping to add.
    */
   @Override
-  public void declarePrefixMapping(PrefixMapping mapping) {
+  public void setPrefixMapping(PrefixMapping mapping) {
     this.mapping = mapping;
   }
 

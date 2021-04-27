@@ -257,7 +257,7 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
    * @param mapping The prefix mapping to add.
    */
   @Override
-  public void declarePrefixMapping(PrefixMapping mapping) {
+  public void setPrefixMapping(PrefixMapping mapping) {
     this.mapping = mapping;
   }
 

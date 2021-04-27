@@ -122,7 +122,7 @@ public final class Events {
     StringWriter xml = new StringWriter();
     SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
     f.setWriteXMLDeclaration(false);
-    f.declarePrefixMapping(mapping);
+    f.setPrefixMapping(mapping);
     for (Token token : tokens) {
       f.handle(Operator.MATCH, token);
     }

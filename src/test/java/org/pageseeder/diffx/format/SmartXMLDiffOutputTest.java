@@ -50,7 +50,7 @@ public final class SmartXMLDiffOutputTest {
   @BeforeEach
   public void setUp() throws Exception {
     this.w = new StringWriter();
-    this.formatter = new SmartXMLDiffOutput(this.w);
+    this.formatter = new SmartXMLFormatter(this.w);
   }
 
 // opening and closing elements ---------------------------------------------------------------

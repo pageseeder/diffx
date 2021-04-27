@@ -97,7 +97,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
   }
 
   @Override
-  public void declarePrefixMapping(PrefixMapping mapping) {
+  public void setPrefixMapping(PrefixMapping mapping) {
     this.mapping = mapping;
   }
 
