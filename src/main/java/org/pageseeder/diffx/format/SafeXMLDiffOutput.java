@@ -27,7 +27,7 @@ import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -68,7 +68,7 @@ public final class SafeXMLDiffOutput implements XMLDiffOutput {
   /**
    * The prefix mapping
    */
-  private PrefixMapping mapping = null;
+  private NamespaceSet namespaces = null;
 
   // state variables ----------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ public final class SafeXMLDiffOutput implements XMLDiffOutput {
       // Maintain stack
       if (token instanceof StartElementToken) {
         // Declare namespaces
-        if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+        if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.namespaces);
         this.openElements++;
       } else if (token instanceof EndElementToken) {
         this.openElements--;
@@ -201,14 +201,9 @@ public final class SafeXMLDiffOutput implements XMLDiffOutput {
     this.writeXMLDeclaration = show;
   }
 
-  /**
-   * Replaces the prefix mapping.
-   *
-   * @param mapping The prefix mapping to add.
-   */
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   /**

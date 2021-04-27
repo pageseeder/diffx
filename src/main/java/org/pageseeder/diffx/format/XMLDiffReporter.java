@@ -21,7 +21,7 @@ import org.pageseeder.diffx.token.Namespaceable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
@@ -36,7 +36,7 @@ public class XMLDiffReporter implements XMLDiffOutput {
 
   private final XMLWriter xml;
 
-  private PrefixMapping mapping = PrefixMapping.noNamespace();
+  private NamespaceSet namespaces = NamespaceSet.noNamespace();
 
   private boolean includeXMLDeclaration;
 
@@ -50,8 +50,8 @@ public class XMLDiffReporter implements XMLDiffOutput {
   }
 
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   @Override
@@ -61,7 +61,7 @@ public class XMLDiffReporter implements XMLDiffOutput {
         this.xml.xmlDecl();
       xml.openElement("diff-report", true);
       // Include any declarable namespace
-      for (Namespace namespace : this.mapping) {
+      for (Namespace namespace : this.namespaces) {
         if (Namespace.isDeclarable(namespace)) {
           xml.openElement("namespace");
           xml.attribute("uri", namespace.getUri());

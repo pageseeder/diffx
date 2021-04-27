@@ -21,7 +21,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.*;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Document;
 
 import java.util.List;
@@ -96,7 +96,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
     Sequence seq1 = Events.loadSequence(docA, TextGranularity.SPACE_WORD);
     Sequence seq2 = Events.loadSequence(docB, TextGranularity.SPACE_WORD);
     System.out.println();
-    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
+    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     // Process as list of actions
     long t1 = System.nanoTime();
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
@@ -104,9 +104,9 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
 //    System.out.println(seq1.size()+"/"+seq2.size()+" -> "+((t2-t1) / (seq1.size()+seq2.size())));
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
-      DiffAssertions.assertIsWellFormedXML(actions, mapping);
+      DiffAssertions.assertIsWellFormedXML(actions, namespaces);
     } catch (AssertionError ex) {
-      printXMLErrorDetails(docA, docB, new String[0], TestActions.toXML(actions, mapping), actions);
+      printXMLErrorDetails(docA, docB, new String[0], TestActions.toXML(actions, namespaces), actions);
       throw ex;
     }
   }

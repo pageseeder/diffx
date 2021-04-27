@@ -29,7 +29,7 @@ import java.util.*;
  * @version 0.9.0
  * @since 0.7
  */
-public final class PrefixMapping extends AbstractCollection<Namespace> implements Collection<Namespace> {
+public final class NamespaceSet extends AbstractCollection<Namespace> implements Collection<Namespace> {
 
   /**
    * Maps namespace URIs to namespace instances.
@@ -41,13 +41,13 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    */
   private final Map<String, Namespace> namespacesByPrefix = new HashMap<>();
 
-  public PrefixMapping() {
+  public NamespaceSet() {
   }
 
   /**
    * Create a new prefix mapping with the specified namespace.
    */
-  public PrefixMapping(Namespace namespace) {
+  public NamespaceSet(Namespace namespace) {
     this.namespacesByUri.put(namespace.getUri(), namespace);
     this.namespacesByPrefix.put(namespace.getPrefix(), namespace);
   }
@@ -60,8 +60,8 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    *
    * @return a new prefix mapping including namespaces from both mappings
    */
-  public static PrefixMapping noNamespace() {
-    return new PrefixMapping(Namespace.NO_NAMESPACE);
+  public static NamespaceSet noNamespace() {
+    return new NamespaceSet(Namespace.NO_NAMESPACE);
   }
 
   /**
@@ -80,10 +80,10 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
     assert uri != null;
     assert prefix != null;
     if (!this.namespacesByUri.containsKey(uri)) {
-      int count = 1;
+      int count = 0;
       String actualPrefix = prefix;
       while (this.namespacesByPrefix.containsKey(actualPrefix)) {
-        actualPrefix = (prefix.isEmpty() ? "ns" : prefix) + count++;
+        actualPrefix = autoprefix(uri, prefix, count++);
       }
       Namespace namespace = new Namespace(uri, actualPrefix);
       this.namespacesByUri.put(uri, namespace);
@@ -91,6 +91,18 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
       return true;
     }
     return false;
+  }
+
+  /**
+   * Computes a prefix if we have a clash.
+   */
+  private static String autoprefix(String uri, String prefix, int count) {
+    if (prefix.isEmpty()) {
+      Namespace common = Namespace.getCommon(uri);
+      if (common != null) return count == 0 ? common.getPrefix() : common.getPrefix() + count;
+      return "ns"+count;
+    }
+    return prefix + count;
   }
 
   /**
@@ -176,7 +188,7 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
    *
    * @param other more mappings
    */
-  public void add(PrefixMapping other) {
+  public void add(NamespaceSet other) {
     this.addAll(other);
   }
 
@@ -225,7 +237,7 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    PrefixMapping mapping = (PrefixMapping) o;
+    NamespaceSet mapping = (NamespaceSet) o;
     return this.namespacesByUri.equals(mapping.namespacesByUri);
   }
 
@@ -236,23 +248,22 @@ public final class PrefixMapping extends AbstractCollection<Namespace> implement
 
   @Override
   public String toString() {
-    return "PrefixMapping{" + this.namespacesByUri.values() + '}';
+    return "(" + this.namespacesByUri.values() + ')';
   }
 
   /**
-   * Merge two prefix mapping and return a new prefix mapping
+   * Merge two sets of namespaces and return a set.
    *
-   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
+   * <p>The first namespace takes precedence over the second one, so if a namespace URI is mapped different
    * prefixes, the prefix from first mapping is used.</p>
    *
-   * @return a new prefix mapping including namespaces from both mappings
+   * @return a new set of namespaces including namespaces from both mappings
    */
-  public static PrefixMapping merge(PrefixMapping a, PrefixMapping b) {
-    PrefixMapping mapping = new PrefixMapping();
-    mapping.add(a);
-    mapping.add(b);
-    return mapping;
+  public static NamespaceSet merge(NamespaceSet a, NamespaceSet b) {
+    NamespaceSet namespaces = new NamespaceSet();
+    namespaces.add(a);
+    namespaces.add(b);
+    return namespaces;
   }
-
 
 }

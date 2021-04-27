@@ -16,10 +16,22 @@
 package org.pageseeder.diffx.xml;
 
 import javax.xml.XMLConstants;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
 
 /**
- * A namespace
+ * A namespace.
+ *
+ * <p>This class also provides built XML namespaces as constants.
+ *
+ * @see <a href="https://www.w3.org/TR/REC-xml-names/">Namespaces in XML 1.0</a>
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ * @since 0.6.0
  */
 public final class Namespace {
 
@@ -50,6 +62,8 @@ public final class Namespace {
    */
   private final String prefix;
 
+  private static final Map<String, Namespace> COMMON_NAMESPACES = new HashMap<>();
+
   public Namespace(String uri, String prefix) {
     this.uri = Objects.requireNonNull(uri);
     this.prefix = Objects.requireNonNull(prefix);
@@ -78,7 +92,7 @@ public final class Namespace {
 
   @Override
   public String toString() {
-    return "{" + this.uri + "=" + this.prefix + "}";
+    return "{" + this.uri + "}=" + this.prefix;
   }
 
   /**
@@ -87,7 +101,25 @@ public final class Namespace {
    * @return true if the namespace should be declared; false if it matches no namespace of built-in XML namespaces.
    */
   public static boolean isDeclarable(Namespace namespace) {
-    return !(XML_NAMESPACE.equals(namespace) || XMLNS_ATTRIBUTE.equals(namespace) || NO_NAMESPACE.equals(namespace)
-    );
+    return !(XML_NAMESPACE.equals(namespace) || XMLNS_ATTRIBUTE.equals(namespace) || NO_NAMESPACE.equals(namespace));
   }
+
+  public static Namespace getCommon(String uri) {
+    if (COMMON_NAMESPACES.isEmpty()) loadCommonNamespaces();
+    return COMMON_NAMESPACES.get(uri);
+  }
+
+  private synchronized static void loadCommonNamespaces() {
+    try {
+      String resourceName = "namespaces.properties";
+      Properties props = new Properties();
+      try (InputStream resourceStream = Namespace.class.getResourceAsStream(resourceName)) {
+        props.load(resourceStream);
+      }
+      props.forEach((prefix, uri) -> COMMON_NAMESPACES.put(uri.toString(), new Namespace(uri.toString(), prefix.toString())));
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
 }

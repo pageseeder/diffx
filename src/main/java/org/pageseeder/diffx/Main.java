@@ -27,7 +27,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.util.CommandLine;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -235,8 +235,8 @@ public final class Main {
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out) {
     SmartXMLDiffOutput output = new SmartXMLDiffOutput(out);
-    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
-    output.setPrefixMapping(mapping);
+    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    output.setNamespaces(namespaces);
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.diff(seq1.tokens(), seq2.tokens(), output);
   }
@@ -286,10 +286,8 @@ public final class Main {
       DiffHandler output = getOutputFormat(args, out);
       if (output == null) return;
       if (output instanceof XMLDiffOutput) {
-        PrefixMapping mapping = new PrefixMapping();
-        mapping.add(seq1.getPrefixMapping());
-        mapping.add(seq2.getPrefixMapping());
-        ((XMLDiffOutput) output).setPrefixMapping(mapping);
+        NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+        ((XMLDiffOutput) output).setNamespaces(namespaces);
       }
 
       // start algorithm

@@ -20,7 +20,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
   /**
    * The prefix mapping
    */
-  private PrefixMapping mapping = null;
+  private NamespaceSet namespaces = null;
 
   // state variables ----------------------------------------------------------------------------
 
@@ -136,7 +136,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
     }
     // namespaces declaration
     if (token instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.namespaces);
       this.openElements++;
     } else if (token instanceof EndElementToken) {
       this.openElements--;
@@ -168,7 +168,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
       endTextChange();
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping);
+        Formatting.declareNamespaces(this.xml, this.namespaces);
         this.openElements++;
       }
       token.toXML(this.xml);
@@ -218,13 +218,13 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
   }
 
   /**
-   * Adds the prefix mapping to this class.
+   * Sets the prefix mapping to this class.
    *
-   * @param mapping The prefix mapping to add.
+   * @param namespaces The namespaces to add.
    */
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   // private helpers ----------------------------------------------------------------------------
@@ -238,7 +238,7 @@ public final class ConvenientXMLDiffOutput implements XMLDiffOutput {
     if (this.writeXMLDeclaration) {
       this.xml.xmlDecl();
     }
-    Formatting.declareNamespaces(this.xml, this.mapping);
+    Formatting.declareNamespaces(this.xml, this.namespaces);
     this.writeXMLDeclaration = false;
     this.isSetup = true;
   }

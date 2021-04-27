@@ -24,7 +24,7 @@ import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -82,13 +82,13 @@ public final class DiffAssertions {
    */
   public static void assertIsCorrect(Sequence a, Sequence b, List<Action> actions) {
     // Apply to second sequence to ensure we get the first
-    String got1 = Events.toXML(Actions.generate(actions, true), a.getPrefixMapping());
-    String exp1 = Events.toXML(a.tokens(), a.getPrefixMapping());
+    String got1 = Events.toXML(Actions.generate(actions, true), a.getNamespaces());
+    String exp1 = Events.toXML(a.tokens(), a.getNamespaces());
     assertEquals(exp1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
-    String got2 = Events.toXML(Actions.generate(actions, false), b.getPrefixMapping());
-    String exp2 = Events.toXML(b.tokens(), b.getPrefixMapping());
+    String got2 = Events.toXML(Actions.generate(actions, false), b.getNamespaces());
+    String exp2 = Events.toXML(b.tokens(), b.getNamespaces());
     assertEquals(exp2, got2, "Applying diff to #1 did not produce #2");
   }
 
@@ -102,15 +102,15 @@ public final class DiffAssertions {
     DiffAssertions.assertIsWellFormedXML(TestActions.toXML(wrapped));
   }
 
-  public static void assertIsWellFormedXML(List<Action> actions, PrefixMapping mapping) {
+  public static void assertIsWellFormedXML(List<Action> actions, NamespaceSet namespaces) {
     List<Action> wrapped = new ArrayList<>();
     // We wrap the actions in case we have a completely different output
-    String defaultNamespaceURI = mapping.getUri("");
+    String defaultNamespaceURI = namespaces.getUri("");
     StartElementToken root = new XMLStartElement(defaultNamespaceURI, "root");
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(root)));
     wrapped.addAll(actions);
     wrapped.add(new Action(Operator.MATCH, Collections.singletonList(new XMLEndElement(root))));
-    String xml = TestActions.toXML(wrapped, mapping);
+    String xml = TestActions.toXML(wrapped, namespaces);
     DiffAssertions.assertIsWellFormedXML(xml);
   }
 
@@ -135,16 +135,16 @@ public final class DiffAssertions {
 
   public static void assertMatchTestOutput(List<Action> actions, String[] exp) {
     // check the possible values
-    String output = toTestOutput(actions, PrefixMapping.noNamespace());
+    String output = toTestOutput(actions, NamespaceSet.noNamespace());
     for (String s : exp) {
       if (s.equals(output)) return;
     }
     assertEquals(exp[0], output);
   }
 
-  public static void assertMatchTestOutput(List<Action> actions, String[] exp, PrefixMapping mapping) {
+  public static void assertMatchTestOutput(List<Action> actions, String[] exp, NamespaceSet namespaces) {
     // check the possible values
-    String output = toTestOutput(actions, mapping);
+    String output = toTestOutput(actions, namespaces);
     for (String s : exp) {
       if (s.equals(output)) return;
     }
@@ -158,8 +158,8 @@ public final class DiffAssertions {
    *
    * @return output of the test handler
    */
-  public static String toTestOutput(List<Action> actions, PrefixMapping mapping) {
-    TestHandler handler = new TestHandler(mapping);
+  public static String toTestOutput(List<Action> actions, NamespaceSet namespaces) {
+    TestHandler handler = new TestHandler(namespaces);
     Actions.handle(actions, handler);
     return handler.getOutput();
   }

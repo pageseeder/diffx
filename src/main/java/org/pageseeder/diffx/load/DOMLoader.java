@@ -22,7 +22,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.CommentToken;
 import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
@@ -72,7 +72,7 @@ public final class DOMLoader implements XMLLoader {
   /**
    * The sequence of token for this loader.
    */
-  private PrefixMapping mapping;
+  private NamespaceSet namespaces;
 
   /**
    * Indicates whether the given document is a fragment.
@@ -148,7 +148,7 @@ public final class DOMLoader implements XMLLoader {
     this.tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     this.tokenizer = TokenizerFactory.get(this.config);
     this.sequence = new Sequence();
-    this.mapping = this.sequence.getPrefixMapping();
+    this.namespaces = this.sequence.getNamespaces();
     // start processing the nodes
     loadNode(node);
     this.isFragment = node.getNodeType() != Node.DOCUMENT_NODE;
@@ -267,11 +267,11 @@ public final class DOMLoader implements XMLLoader {
    */
   private void handlePrefixMapping(String uri, String prefix) {
     if (this.isFragment) {
-      if (this.mapping.getPrefix(uri) != null) return;
+      if (this.namespaces.getPrefix(uri) != null) return;
       if (prefix == null && !"".equals(uri)) {
-        this.mapping.add(uri, "");
+        this.namespaces.add(uri, "");
       } else if (prefix != null && !"xmlns".equals(prefix)) {
-        this.mapping.add(uri, prefix);
+        this.namespaces.add(uri, prefix);
       }
     }
   }

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public final class Sequence implements Iterable<Token> {
   /**
    * The prefix mapping for the elements in this sequence.
    */
-  private final PrefixMapping prefixMapping = new PrefixMapping();
+  private final NamespaceSet namespaces = new NamespaceSet();
 
   /**
    * The sequence of tokens.
@@ -196,10 +196,7 @@ public final class Sequence implements Iterable<Token> {
 
   @Override
   public String toString() {
-    return "Sequence{" +
-        "prefixMapping=" + prefixMapping +
-        ", tokens=" + tokens +
-        '}';
+    return "Sequence{namespaces=" + namespaces +", tokens=" + tokens +'}';
   }
 
   /**
@@ -221,12 +218,12 @@ public final class Sequence implements Iterable<Token> {
    * @param prefix The prefix to use.
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
-   * @see PrefixMapping#add(String, String)
+   * @see NamespaceSet#add(String, String)
    * @deprecated Use {@link #addNamespace(String, String)}
    */
   @Deprecated
   public void mapPrefix(String uri, String prefix) throws NullPointerException {
-    this.prefixMapping.add(uri, prefix);
+    this.namespaces.add(uri, prefix);
   }
 
   /**
@@ -240,14 +237,14 @@ public final class Sequence implements Iterable<Token> {
    * @param replace Whether to replace the namespace
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
-   * @see PrefixMapping#add(String, String)
-   * @see PrefixMapping#replace(String, String)
+   * @see NamespaceSet#add(String, String)
+   * @see NamespaceSet#replace(String, String)
    */
   public void addNamespace(String uri, String prefix, boolean replace) throws NullPointerException {
     if (replace) {
-      this.prefixMapping.replace(uri, prefix);
+      this.namespaces.replace(uri, prefix);
     } else {
-      this.prefixMapping.add(uri, prefix);
+      this.namespaces.add(uri, prefix);
     }
   }
 
@@ -258,19 +255,17 @@ public final class Sequence implements Iterable<Token> {
    * @param prefix The prefix to use.
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
-   * @see PrefixMapping#add(String, String)
+   * @see NamespaceSet#add(String, String)
    */
   public void addNamespace(String uri, String prefix) throws NullPointerException {
-    this.prefixMapping.add(uri, prefix);
+    this.namespaces.add(uri, prefix);
   }
 
   /**
-   * Returns the prefix mapping for the namespace URIs in this sequence.
-   *
    * @return the prefix mapping for the namespace URIs in this sequence.
    */
-  public PrefixMapping getPrefixMapping() {
-    return this.prefixMapping;
+  public NamespaceSet getNamespaces() {
+    return this.namespaces;
   }
 
   @Override

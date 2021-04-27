@@ -22,7 +22,7 @@ import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -71,9 +71,9 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
   private DiffXConfig config = new DiffXConfig();
 
   /**
-   * The prefix mapping
+   * The namespaces
    */
-  private PrefixMapping mapping = null;
+  private NamespaceSet namespaces = null;
 
   /**
    * Set to <code>true</code> to include the XML declaration. This attribute is
@@ -128,8 +128,8 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
       }
       this.xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
       this.xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
-      if (mapping != null) {
-        for (Namespace namespace : mapping) {
+      if (namespaces != null) {
+        for (Namespace namespace : namespaces) {
           xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
         }
       }
@@ -176,7 +176,7 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
       endTextChange();
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping);
+        Formatting.declareNamespaces(this.xml, this.namespaces);
         this.openElements++;
       }
       this.xml.openElement(operator == Operator.INS ? Constants.INSERT_NS_URI : Constants.DELETE_NS_URI, "element", false);
@@ -233,7 +233,7 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
     if (!(token instanceof AttributeToken)) {
       flushAttributes();
     } else if (token instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.namespaces);
       this.openElements++;
     } else if (token instanceof EndElementToken) {
       this.openElements--;
@@ -254,11 +254,11 @@ public final class BasicXMLDiffOutput implements XMLDiffOutput {
   /**
    * Adds the prefix mapping to this class.
    *
-   * @param mapping The prefix mapping to add.
+   * @param namespaces The namespaces to set.
    */
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   /**

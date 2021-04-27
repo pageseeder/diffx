@@ -46,7 +46,7 @@ public class EventSequence {
   }
 
   public PrefixMapping getPrefixMapping() {
-    return new PrefixMapping(this.sequence.getPrefixMapping());
+    return new PrefixMapping(this.sequence.getNamespaces());
   }
 
 }

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 /**
  * An interface for formatting the output of the Diff-X algorithm as XML.
@@ -37,12 +37,12 @@ public interface XMLDiffOutput extends DiffHandler {
   void setWriteXMLDeclaration(boolean show);
 
   /**
-   * Adds the specified prefix mapping so that namespaced can be declared when needed.
+   * Sets the specified prefix mapping so that namespaced can be declared when needed.
    *
    * <p>This method must be called before calls to the DiffHandler methods</p>
    *
-   * @param mapping The prefix mapping to add.
+   * @param namespaces The namespaces to use.
    */
-  void setPrefixMapping(PrefixMapping mapping);
+  void setNamespaces(NamespaceSet namespaces);
 
 }

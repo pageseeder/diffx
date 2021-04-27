@@ -24,7 +24,7 @@ import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.handler.ActionHandler;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -56,10 +56,10 @@ public final class TestActions {
     }
   }
 
-  public static String toXML(List<Action> actions, PrefixMapping mapping) {
+  public static String toXML(List<Action> actions, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new SmartXMLDiffOutput(xml);
-    output.setPrefixMapping(mapping);
+    output.setNamespaces(namespaces);
     output.setWriteXMLDeclaration(false);
     output.start();
     Actions.handle(actions, output);

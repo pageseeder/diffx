@@ -17,34 +17,23 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.xml.Namespace;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 @Deprecated
 public class PrefixMapping {
 
-  final org.pageseeder.diffx.xml.PrefixMapping mapping;
+  final NamespaceSet namespaces;
 
   public PrefixMapping() {
-    this.mapping = new org.pageseeder.diffx.xml.PrefixMapping();
+    this.namespaces = new NamespaceSet();
   }
 
-  public PrefixMapping(org.pageseeder.diffx.xml.PrefixMapping mapping) {
-    this.mapping = mapping;
+  public PrefixMapping(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
-  public org.pageseeder.diffx.xml.PrefixMapping getMapping() {
-    return mapping;
-  }
-
-  /**
-   * Merge two prefix mapping and return a new prefix mapping
-   *
-   * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
-   * prefixes, the prefix from first mapping is used.</p>
-   *
-   * @return a new prefix mapping including namespaces from both mappings
-   */
-  public static org.pageseeder.diffx.xml.PrefixMapping noNamespace() {
-    return new org.pageseeder.diffx.xml.PrefixMapping(Namespace.NO_NAMESPACE);
+  public NamespaceSet getNamespaces() {
+    return namespaces;
   }
 
   /**
@@ -60,7 +49,7 @@ public class PrefixMapping {
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
   public boolean add(String uri, String prefix) throws NullPointerException {
-    return this.mapping.add(uri, prefix);
+    return this.namespaces.add(uri, prefix);
   }
 
 }

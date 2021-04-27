@@ -19,7 +19,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
@@ -55,7 +55,7 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
 
   private final XMLWriter xml;
 
-  private PrefixMapping mapping = PrefixMapping.noNamespace();
+  private NamespaceSet namespaces = NamespaceSet.noNamespace();
 
   /**
    * {@code true} (default) to include the XML namespace declaration when the {@link #start()} method is called.
@@ -97,8 +97,8 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
   }
 
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   @Override
@@ -192,8 +192,8 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
    */
   private void declareNamespaces() {
     // TODO Change so that there is no side-effect
-    PrefixMapping diff = new PrefixMapping(DIFF_NAMESPACE);
-    diff.add(this.mapping);
+    NamespaceSet diff = new NamespaceSet(DIFF_NAMESPACE);
+    diff.add(this.namespaces);
     for (Namespace namespace : diff) {
       this.xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
     }

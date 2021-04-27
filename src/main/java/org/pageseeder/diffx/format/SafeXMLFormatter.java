@@ -125,7 +125,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     }
     // namespaces declaration
     if (e instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
       this.openElements++;
     } else if (e instanceof EndElementToken) {
       this.openElements--;
@@ -147,7 +147,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
+        Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
         this.openElements++;
       }
       e.toXML(this.xml);
@@ -197,7 +197,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
+        Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
         this.openElements++;
       }
       e.toXML(this.xml);

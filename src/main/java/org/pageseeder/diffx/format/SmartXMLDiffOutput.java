@@ -25,7 +25,7 @@ import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Formatting;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -68,9 +68,9 @@ public final class SmartXMLDiffOutput implements XMLDiffOutput {
   private DiffXConfig config = new DiffXConfig();
 
   /**
-   * The prefix mapping
+   * The namespaces
    */
-  private PrefixMapping mapping = null;
+  private NamespaceSet namespaces = null;
 
   /**
    * Set to <code>true</code> to include the XML declaration. This attribute is
@@ -152,7 +152,7 @@ public final class SmartXMLDiffOutput implements XMLDiffOutput {
 
   void handleMatch(Token token) throws IOException {
     if (token instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.namespaces);
       this.openElements++;
     } else if (token instanceof EndElementToken) {
       this.openElements--;
@@ -168,7 +168,7 @@ public final class SmartXMLDiffOutput implements XMLDiffOutput {
   void handleEdit(Operator operator, Token token) throws IOException {
     if (token instanceof StartElementToken) {
       // namespaces declaration
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.namespaces);
       this.openElements++;
       token.toXML(this.xml);
       // insert an attribute to specify
@@ -222,14 +222,9 @@ public final class SmartXMLDiffOutput implements XMLDiffOutput {
     this.writeXMLDeclaration = show;
   }
 
-  /**
-   * Adds the prefix mapping to this class.
-   *
-   * @param mapping The prefix mapping to add.
-   */
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public void setNamespaces(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
   }
 
   private String getTag(Operator operator) {

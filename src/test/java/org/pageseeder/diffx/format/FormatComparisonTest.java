@@ -24,7 +24,7 @@ import org.pageseeder.diffx.core.DefaultXMLProcessor;
 import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.Events;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -70,9 +70,9 @@ public class FormatComparisonTest {
   private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffXException {
     Sequence from = Events.loadSequence(xml1, TextGranularity.SPACE_WORD);
     Sequence to = Events.loadSequence(xml2, TextGranularity.SPACE_WORD);
-    PrefixMapping mapping = PrefixMapping.merge(from.getPrefixMapping(), to.getPrefixMapping());
+    NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());
     List<Operation> operations = toOperations(from, to);
-    printAllOutputs(operations, mapping);
+    printAllOutputs(operations, namespaces);
   }
 
   private static List<Operation> toOperations(Sequence from, Sequence to) {
@@ -83,7 +83,7 @@ public class FormatComparisonTest {
     return handler.getOperations();
   }
 
-  private static void printAllOutputs(List<Operation> operations, PrefixMapping namespaces) throws IOException {
+  private static void printAllOutputs(List<Operation> operations, NamespaceSet namespaces) throws IOException {
     printSafeXMLFormatter(operations, namespaces);
     printSafeXMLOutput(operations, namespaces);
     printBasicXMLOutput(operations, namespaces);
@@ -93,7 +93,7 @@ public class FormatComparisonTest {
     printStrictXMLOutput(operations, namespaces);
   }
 
-  private static void printSafeXMLFormatter(List<Operation> operations, PrefixMapping namespaces) throws IOException {
+  private static void printSafeXMLFormatter(List<Operation> operations, NamespaceSet namespaces) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
     formatter.setWriteXMLDeclaration(false);
@@ -104,7 +104,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printSafeXMLOutput(List<Operation> operations, PrefixMapping namespaces) throws IOException {
+  private static void printSafeXMLOutput(List<Operation> operations, NamespaceSet namespaces) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new SafeXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -112,7 +112,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printStrictXMLOutput(List<Operation> operations, PrefixMapping namespaces) {
+  private static void printStrictXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new StrictXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -120,7 +120,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printConvenientXMLDiffOutput(List<Operation> operations, PrefixMapping namespaces) {
+  private static void printConvenientXMLDiffOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new ConvenientXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -128,7 +128,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printBasicXMLOutput(List<Operation> operations, PrefixMapping namespaces) {
+  private static void printBasicXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new BasicXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -136,7 +136,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printDefaultXMLOutput(List<Operation> operations, PrefixMapping namespaces) {
+  private static void printDefaultXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     DefaultXMDiffOutput output = new DefaultXMDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -144,7 +144,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printSmartXMLDiffOutput(List<Operation> operations, PrefixMapping namespaces) {
+  private static void printSmartXMLDiffOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new SmartXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -152,9 +152,9 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printXMLDiffOutput(List<Operation> operations, PrefixMapping namespaces, XMLDiffOutput output) {
+  private static void printXMLDiffOutput(List<Operation> operations, NamespaceSet namespaces, XMLDiffOutput output) {
     output.setWriteXMLDeclaration(false);
-    output.setPrefixMapping(namespaces);
+    output.setNamespaces(namespaces);
     output.start();
     Operations.handle(operations, output);
     output.end();

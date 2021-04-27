@@ -101,7 +101,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    this.output.setPrefixMapping(mapping.getMapping());
+    this.output.setNamespaces(mapping.getNamespaces());
   }
 
   private void startIfFirst() {

@@ -23,7 +23,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
 import java.util.List;
@@ -302,17 +302,17 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     // Record XML
     Sequence seq1 = Events.loadSequence(xml1, TextGranularity.WORD);
     Sequence seq2 = Events.loadSequence(xml2, TextGranularity.WORD);
-    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
+    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
-      DiffAssertions.assertIsWellFormedXML(actions, mapping);
+      DiffAssertions.assertIsWellFormedXML(actions, namespaces);
       if (exp.length > 0) {
-        DiffAssertions.assertMatchTestOutput(actions, exp, mapping);
+        DiffAssertions.assertMatchTestOutput(actions, exp, namespaces);
       }
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, mapping), actions);
+      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, namespaces), actions);
       throw ex;
     }
   }

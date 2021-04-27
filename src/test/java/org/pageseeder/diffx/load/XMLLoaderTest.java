@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -70,8 +70,8 @@ public abstract class XMLLoaderTest {
       System.err.println("* But got:");
       System.err.println(got.tokens());
       System.err.println("* Prefix Mapping:");
-      PrefixMapping mapping = got.getPrefixMapping();
-      for (Namespace namespace : mapping) {
+      NamespaceSet namespaces = got.getNamespaces();
+      for (Namespace namespace : namespaces) {
         System.err.println(namespace.getUri() + " -> " + namespace.getPrefix());
       }
       throw ex;

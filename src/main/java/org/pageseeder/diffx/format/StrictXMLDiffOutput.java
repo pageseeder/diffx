@@ -20,7 +20,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
@@ -184,16 +184,12 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
     this.writeXMLDeclaration = show;
   }
 
-  /**
-   * Adds the prefix mapping to this class.
-   *
-   * @param mapping The prefix mapping to add.
-   */
+
   @Override
-  public void setPrefixMapping(PrefixMapping mapping) {
+  public void setNamespaces(NamespaceSet namespaces) {
     try {
       this.xml.setDefaultNamespace(null);
-      for (Namespace namespace : mapping) {
+      for (Namespace namespace : namespaces) {
         String uri = namespace.getUri();
         if (!uri.isEmpty()) {
           this.xml.setPrefix(namespace.getPrefix(), uri);

@@ -45,7 +45,6 @@ public final class Sequences {
    * <code>false</code> otherwise.
    */
   public static boolean isWellFormed(Sequence sequence) {
-    // TODO: if the sequence is null ??
     if (sequence == null) return false;
     Stack<Token> open = new Stack<>();
     Token token;

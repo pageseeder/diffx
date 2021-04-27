@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.util;
 
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 /**
@@ -34,12 +34,12 @@ public final class Formatting {
   /**
    * Write the namespace mapping to the XML output
    */
-  public static void declareNamespaces(XMLWriter xml, PrefixMapping mapping) {
+  public static void declareNamespaces(XMLWriter xml, NamespaceSet namespaces) {
     xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
     xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
     xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
-    if (mapping != null) {
-      for (Namespace namespace : mapping) {
+    if (namespaces != null) {
+      for (Namespace namespace : namespaces) {
         xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
       }
     }

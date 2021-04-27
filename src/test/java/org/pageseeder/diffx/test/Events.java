@@ -29,7 +29,7 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Document;
 
 import java.io.StringWriter;
@@ -115,14 +115,14 @@ public final class Events {
   }
 
   public static String toXML(List<? extends Token> tokens) {
-    return toXML(tokens, new PrefixMapping());
+    return toXML(tokens, new NamespaceSet());
   }
 
-  public static String toXML(List<? extends Token> tokens, PrefixMapping mapping) {
+  public static String toXML(List<? extends Token> tokens, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
     f.setWriteXMLDeclaration(false);
-    f.setPrefixMapping(mapping);
+    f.setNamespaces(namespaces);
     for (Token token : tokens) {
       f.handle(Operator.MATCH, token);
     }

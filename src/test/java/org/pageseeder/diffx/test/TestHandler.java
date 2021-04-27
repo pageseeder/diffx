@@ -22,7 +22,7 @@ import org.pageseeder.diffx.handler.OperationHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.List;
  */
 public final class TestHandler implements DiffHandler {
 
-  private final PrefixMapping mapping;
+  private final NamespaceSet namespaces;
 
   /**
    * Where the output goes.
@@ -51,15 +51,15 @@ public final class TestHandler implements DiffHandler {
    * Creates a new test formatter
    */
   public TestHandler() {
-    this.mapping = PrefixMapping.noNamespace();
+    this.namespaces = NamespaceSet.noNamespace();
     this.out = new StringBuilder();
   }
 
   /**
    * Creates a new test formatter
    */
-  public TestHandler(PrefixMapping mapping) {
-    this.mapping = mapping;
+  public TestHandler(NamespaceSet namespaces) {
+    this.namespaces = namespaces;
     this.out = new StringBuilder();
   }
 
@@ -68,7 +68,7 @@ public final class TestHandler implements DiffHandler {
    */
   public void handle(Operator operator, Token token) {
     if (operator != Operator.MATCH) out.append(operator.toString());
-    out.append(toSimpleString(operator, token, this.mapping));
+    out.append(toSimpleString(operator, token, this.namespaces));
   }
 
 
@@ -110,7 +110,7 @@ public final class TestHandler implements DiffHandler {
    * @return Its 'abstract' representation or <code>null</code>.
    */
   public static String toSimpleString(Operator operator, Token token) {
-    return toSimpleString(operator, token, PrefixMapping.noNamespace());
+    return toSimpleString(operator, token, NamespaceSet.noNamespace());
   }
 
   /**
@@ -122,21 +122,21 @@ public final class TestHandler implements DiffHandler {
    *
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, Token token, PrefixMapping mapping) {
+  public static String toSimpleString(Operator operator, Token token, NamespaceSet namespaces) {
     // an element to open
     if (token instanceof StartElementToken) {
       StartElementToken open = (StartElementToken) token;
-      return '<' + getQName(open.getNamespaceURI(), open.getName(), mapping) + '>';
+      return '<' + getQName(open.getNamespaceURI(), open.getName(), namespaces) + '>';
     }
     // an element to close
     if (token instanceof EndElementToken) {
       EndElementToken close = (EndElementToken) token;
-      return "</" + getQName(close.getNamespaceURI(), close.getName(), mapping) + '>';
+      return "</" + getQName(close.getNamespaceURI(), close.getName(), namespaces) + '>';
     }
     // an element
     if (token instanceof ElementToken) {
       ElementToken element = (ElementToken) token;
-      return '<' + getQName(element.getNamespaceURI(), element.getName(), mapping) + "/>";
+      return '<' + getQName(element.getNamespaceURI(), element.getName(), namespaces) + "/>";
     }
     // an attribute
     if (token instanceof AttributeToken) {
@@ -157,9 +157,9 @@ public final class TestHandler implements DiffHandler {
     return token.toString();
   }
 
-  private static String getQName(String uri, String name, PrefixMapping mapping) {
+  private static String getQName(String uri, String name, NamespaceSet namespaces) {
     if (uri.isEmpty()) return name;
-    String prefix = mapping.getPrefix(uri);
+    String prefix = namespaces.getPrefix(uri);
     if (prefix == null) prefix = "{" + uri + "}";
     return prefix.isEmpty() ? name : (prefix + ':' + name);
   }

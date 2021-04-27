@@ -15,17 +15,14 @@
  */
 package org.pageseeder.diffx;
 
-import org.pageseeder.diffx.algorithm.DiffXAlgorithm;
-import org.pageseeder.diffx.algorithm.GuanoAlgorithm;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.format.SafeXMLFormatter;
+import org.pageseeder.diffx.core.OptimisticXMLProcessor;
+import org.pageseeder.diffx.format.SafeXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
-import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.sequence.SequenceSlicer;
-import org.pageseeder.diffx.xml.PrefixMapping;
+import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -105,7 +102,7 @@ public final class Extension {
 
     // Start comparing
     StringWriter out = new StringWriter();
-    diff(seq1, seq2, out, config);
+    diff(seq1, seq2, out);
 
     // Return a node
     try {
@@ -121,27 +118,16 @@ public final class Extension {
   /**
    * Compares the two specified xml files and prints the diff onto the given writer.
    *
-   * @param seq1   The first XML reader to compare.
-   * @param seq2   The first XML reader to compare.
-   * @param out    Where the output goes.
-   * @param config The DiffX configuration to use.
-   *
-   * @throws IOException Should an I/O exception occur.
+   * @param seq1 The first XML reader to compare.
+   * @param seq2 The first XML reader to compare.
+   * @param out  Where the output goes.
    */
-  private static void diff(Sequence seq1, Sequence seq2, Writer out, DiffXConfig config)
-      throws IOException {
-    SafeXMLFormatter formatter = new SafeXMLFormatter(out);
-    PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
-    formatter.declarePrefixMapping(new org.pageseeder.diffx.sequence.PrefixMapping(mapping));
-    if (config != null) {
-      formatter.setConfig(config);
-    }
-    SequenceSlicer slicer = new SequenceSlicer(seq1, seq2);
-    slicer.slice();
-    slicer.formatStart(formatter);
-    DiffXAlgorithm df = new GuanoAlgorithm(new EventSequence(seq1), new EventSequence(seq2));
-    df.process(formatter);
-    slicer.formatEnd(formatter);
+  private static void diff(Sequence seq1, Sequence seq2, Writer out) {
+    SafeXMLDiffOutput output = new SafeXMLDiffOutput(out);
+    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    output.setNamespaces(namespaces);
+    OptimisticXMLProcessor processor = new OptimisticXMLProcessor();
+    processor.diff(seq1.tokens(), seq2.tokens(), output);
   }
 
   /**
