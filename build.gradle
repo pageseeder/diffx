@@ -35,3 +35,9 @@ dependencies {
 test {
   useJUnitPlatform()
 }
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'org.pageseeder.diffx.Main'
+  }
+}
