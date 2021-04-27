@@ -17,6 +17,7 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -26,7 +27,6 @@ import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.util.Formatting;
-import org.pageseeder.diffx.xml.PrefixMapping;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -125,7 +125,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     }
     // namespaces declaration
     if (e instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping);
+      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
       this.openElements++;
     } else if (e instanceof EndElementToken) {
       this.openElements--;
@@ -147,7 +147,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping);
+        Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
         this.openElements++;
       }
       e.toXML(this.xml);
@@ -197,7 +197,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping);
+        Formatting.declareNamespaces(this.xml, this.mapping.getMapping());
         this.openElements++;
       }
       e.toXML(this.xml);

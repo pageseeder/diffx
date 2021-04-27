@@ -97,7 +97,7 @@ public class FormatComparisonTest {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
     formatter.setWriteXMLDeclaration(false);
-    formatter.declarePrefixMapping(namespaces);
+    formatter.declarePrefixMapping(new org.pageseeder.diffx.sequence.PrefixMapping(namespaces));
     Operations.format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());

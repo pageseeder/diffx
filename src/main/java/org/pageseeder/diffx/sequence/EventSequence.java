@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.xml.PrefixMapping;
 
 /**
  * @deprecated Provided for backward compatibility, use {@link Sequence} instead.
@@ -47,7 +46,7 @@ public class EventSequence {
   }
 
   public PrefixMapping getPrefixMapping() {
-    return this.sequence.getPrefixMapping();
+    return new PrefixMapping(this.sequence.getPrefixMapping());
   }
 
 }

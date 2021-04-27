@@ -132,7 +132,7 @@ public final class Extension {
       throws IOException {
     SafeXMLFormatter formatter = new SafeXMLFormatter(out);
     PrefixMapping mapping = PrefixMapping.merge(seq1.getPrefixMapping(), seq2.getPrefixMapping());
-    formatter.declarePrefixMapping(mapping);
+    formatter.declarePrefixMapping(new org.pageseeder.diffx.sequence.PrefixMapping(mapping));
     if (config != null) {
       formatter.setConfig(config);
     }

@@ -17,8 +17,8 @@ package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.xml.PrefixMapping;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -99,7 +99,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
 
   @Override
   public void declarePrefixMapping(PrefixMapping mapping) {
-    this.output.setPrefixMapping(mapping);
+    this.output.setPrefixMapping(mapping.getMapping());
   }
 
 }
