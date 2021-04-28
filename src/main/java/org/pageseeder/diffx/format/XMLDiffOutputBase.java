@@ -42,17 +42,19 @@ abstract class XMLDiffOutputBase implements XMLDiffOutput {
   private static final String LEGACY_DIFF_NS_URI = "http://www.topologi.com/2005/Diff-X";
 
   private static final EnumMap<Operator, Namespace> DEFAULT = new EnumMap<>(Operator.class);
+
   static {
     DEFAULT.put(Operator.MATCH, new Namespace(DIFF_NS_URI, "diff"));
-    DEFAULT.put(Operator.INS, new Namespace(DIFF_NS_URI+"/insert", "ins"));
-    DEFAULT.put(Operator.DEL, new Namespace(DIFF_NS_URI+"/delete", "del"));
+    DEFAULT.put(Operator.INS, new Namespace(DIFF_NS_URI + "/insert", "ins"));
+    DEFAULT.put(Operator.DEL, new Namespace(DIFF_NS_URI + "/delete", "del"));
   }
 
   private static final EnumMap<Operator, Namespace> LEGACY = new EnumMap<>(Operator.class);
+
   static {
     LEGACY.put(Operator.MATCH, new Namespace(LEGACY_DIFF_NS_URI, "dfx"));
-    LEGACY.put(Operator.INS, new Namespace(LEGACY_DIFF_NS_URI+"/Insert", "ins"));
-    LEGACY.put(Operator.DEL, new Namespace(LEGACY_DIFF_NS_URI+"/Delete", "del"));
+    LEGACY.put(Operator.INS, new Namespace(LEGACY_DIFF_NS_URI + "/Insert", "ins"));
+    LEGACY.put(Operator.DEL, new Namespace(LEGACY_DIFF_NS_URI + "/Delete", "del"));
   }
 
   protected NamespaceSet namespaces = NamespaceSet.noNamespace();
@@ -77,6 +79,7 @@ abstract class XMLDiffOutputBase implements XMLDiffOutput {
   public Namespace getDiffNamespace() {
     return this.useLegacyNamespaces ? LEGACY.get(Operator.MATCH) : DEFAULT.get(Operator.MATCH);
   }
+
   public Namespace getDiffNamespace(Operator operator) {
     return this.useLegacyNamespaces ? LEGACY.get(operator) : DEFAULT.get(operator);
   }

@@ -132,7 +132,7 @@ public final class Sequences {
     Sequence output = new Sequence(input.getNamespaces());
     for (Token token : input) {
       if (token instanceof TextToken) {
-        text.add((TextToken)token);
+        text.add((TextToken) token);
       } else {
         if (text.size() > 1) {
           output.addToken(new TextListToken(text));

@@ -16,7 +16,6 @@
 
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 @Deprecated

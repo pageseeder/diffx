@@ -118,40 +118,40 @@ public final class SequencesTest {
   }
 
   @Test
-  public void testFoldText1() throws LoadingException{
+  public void testFoldText1() throws LoadingException {
     Sequence input = Events.loadSequence("<a/>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText2() throws LoadingException{
+  public void testFoldText2() throws LoadingException {
     Sequence input = Events.loadSequence("<a>black</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText3() throws LoadingException{
+  public void testFoldText3() throws LoadingException {
     Sequence input = Events.loadSequence("<a>black cat</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
-    assertEquals(input.size()-1, output.size());
+    assertEquals(input.size() - 1, output.size());
     assertTrue(output.getToken(1) instanceof TextToken);
     assertEquals("black cat", ((TextToken) output.getToken(1)).getCharacters());
   }
 
   @Test
-  public void testFoldText4() throws LoadingException{
+  public void testFoldText4() throws LoadingException {
     Sequence input = Events.loadSequence("<p>a<b> black</b> cat</p>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText5() throws LoadingException{
+  public void testFoldText5() throws LoadingException {
     Sequence input = Events.loadSequence("<p>a black<b> cat</b></p>", TextGranularity.TEXT);
     Sequence output = Sequences.foldText(input);
-    assertEquals(input.size()-1, output.size());
+    assertEquals(input.size() - 1, output.size());
   }
 
 }

@@ -74,7 +74,7 @@ public final class StrictXMLDiffOutputTest {
     this.w = new StringWriter();
     this.output = new StrictXMLDiffOutput(this.w);
     this.output.setWriteXMLDeclaration(false);
-  //  this.output.useLegacyNamespaces = true;
+    //  this.output.useLegacyNamespaces = true;
   }
 
 //opening and closing elements ---------------------------------------------------------------

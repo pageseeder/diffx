@@ -27,10 +27,9 @@ import java.util.Properties;
  *
  * <p>This class also provides built XML namespaces as constants.
  *
- * @see <a href="https://www.w3.org/TR/REC-xml-names/">Namespaces in XML 1.0</a>
- *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @see <a href="https://www.w3.org/TR/REC-xml-names/">Namespaces in XML 1.0</a>
  * @since 0.6.0
  */
 public final class Namespace {

@@ -196,7 +196,7 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
   private static String getQName(AttributeToken attribute, NamespaceSet namespaces) {
     if (attribute.getName().indexOf(':') > 0) return attribute.getName();
     String prefix = namespaces.getPrefix(attribute.getNamespaceURI());
-    return prefix != null && !prefix.isEmpty()? prefix+":"+attribute.getName() : attribute.getName();
+    return prefix != null && !prefix.isEmpty() ? prefix + ":" + attribute.getName() : attribute.getName();
   }
 
 }

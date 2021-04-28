@@ -208,12 +208,12 @@ public final class SAXLoader implements XMLLoader {
     /**
      * The factory that will produce tokens according to the configuration.
      */
-    private TokenFactory tokenFactory;
+    private final TokenFactory tokenFactory;
 
     /**
      * The text tokenizer according to the configuration.
      */
-    private TextTokenizer tokenizer;
+    private final TextTokenizer tokenizer;
 
     Handler(DiffXConfig config) {
       this.tokenFactory = new TokenFactory(config.isNamespaceAware());

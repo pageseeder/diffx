@@ -208,7 +208,7 @@ public final class Sequence implements Iterable<Token> {
 
   @Override
   public String toString() {
-    return "Sequence{namespaces=" + namespaces +", tokens=" + tokens +'}';
+    return "Sequence{namespaces=" + namespaces + ", tokens=" + tokens + '}';
   }
 
   /**

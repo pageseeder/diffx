@@ -100,7 +100,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
     if (prefix.isEmpty()) {
       Namespace common = Namespace.getCommon(uri);
       if (common != null) return count == 0 ? common.getPrefix() : common.getPrefix() + count;
-      return "ns"+count;
+      return "ns" + count;
     }
     return prefix + count;
   }

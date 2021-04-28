@@ -16,10 +16,8 @@
 
 package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
