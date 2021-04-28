@@ -68,6 +68,18 @@ public final class Sequence implements Iterable<Token> {
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
+   * @param namespaces The size of the sequence.
+   */
+  public Sequence(NamespaceSet namespaces) {
+    this.tokens = new ArrayList<>();
+    this.namespaces.add(namespaces);
+  }
+
+  /**
+   * Creates a new token sequence of the specified size.
+   *
+   * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
+   *
    * @param tokens The size of the sequence.
    */
   public Sequence(List<Token> tokens) {

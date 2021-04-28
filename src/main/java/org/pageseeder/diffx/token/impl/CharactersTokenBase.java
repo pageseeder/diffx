@@ -55,9 +55,6 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
     this.hashCode = toHashCode(seq);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public final int hashCode() {
     return this.hashCode;

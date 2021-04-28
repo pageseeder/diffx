@@ -17,8 +17,12 @@ package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.impl.TextListToken;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -114,6 +118,32 @@ public final class Sequences {
       }
     }
     return max;
+  }
+
+  /**
+   * Fold consecutive text tokens into a single token while preserving the original tokens.
+   *
+   * @param input The input sequence
+   *
+   * @return The collapsed sequence.
+   */
+  public static Sequence foldText(Sequence input) {
+    List<TextToken> text = new ArrayList<>();
+    Sequence output = new Sequence(input.getNamespaces());
+    for (Token token : input) {
+      if (token instanceof TextToken) {
+        text.add((TextToken)token);
+      } else {
+        if (text.size() > 1) {
+          output.addToken(new TextListToken(text));
+          text.clear();
+        } else if (text.size() == 1) {
+          output.addToken(text.remove(0));
+        }
+        output.addToken(token);
+      }
+    }
+    return output;
   }
 
 }

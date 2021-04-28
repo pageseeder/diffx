@@ -22,6 +22,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.SmartXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
 import org.pageseeder.diffx.load.LineLoader;
+import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.TextToken;
@@ -82,26 +83,26 @@ public final class Events {
     return loadTokens(xml, config);
   }
 
-  public static List<Token> loadTokens(String xml, DiffXConfig config) throws DiffXException {
+  public static List<Token> loadTokens(String xml, DiffXConfig config) throws LoadingException {
     SAXLoader loader = new SAXLoader();
     loader.setConfig(config);
     return loader.load(xml).tokens();
   }
 
-  public static Sequence loadSequence(String xml, TextGranularity granularity) throws DiffXException {
+  public static Sequence loadSequence(String xml, TextGranularity granularity) throws LoadingException {
     if (xml.isEmpty()) return new Sequence();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
     return loadSequence(xml, config);
   }
 
-  public static Sequence loadSequence(String xml, DiffXConfig config) throws DiffXException {
+  public static Sequence loadSequence(String xml, DiffXConfig config) throws LoadingException {
     SAXLoader recorder = new SAXLoader();
     recorder.setConfig(config);
     return recorder.load(xml);
   }
 
-  public static Sequence loadSequence(Document xml, TextGranularity granularity) throws DiffXException {
+  public static Sequence loadSequence(Document xml, TextGranularity granularity) throws LoadingException {
     DOMLoader loader = new DOMLoader();
     DiffXConfig config = new DiffXConfig();
     config.setGranularity(granularity);
