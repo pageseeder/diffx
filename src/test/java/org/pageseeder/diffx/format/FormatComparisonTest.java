@@ -67,6 +67,20 @@ public class FormatComparisonTest {
     printDiffOutputs(xml1, xml2);
   }
 
+  @Test
+  public void compareOutputExample6() throws IOException, DiffXException {
+    String xml1 = "<root xmlns='https://example.org' xmlns:net='https://example.net' net:plus='+'></root>";
+    String xml2 = "<root xmlns='https://example.org' xmlns:net='https://example.net' net:minus='-'></root>";
+    printDiffOutputs(xml1, xml2);
+  }
+
+  @Test
+  public void compareOutputExample7() throws IOException, DiffXException {
+    String xml1 = "<html xml:lang='en'/>";
+    String xml2 = "<html xml:lang='es'/>";
+    printDiffOutputs(xml1, xml2);
+  }
+
   private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffXException {
     Sequence from = Events.loadSequence(xml1, TextGranularity.SPACE_WORD);
     Sequence to = Events.loadSequence(xml2, TextGranularity.SPACE_WORD);
@@ -85,12 +99,10 @@ public class FormatComparisonTest {
 
   private static void printAllOutputs(List<Operation> operations, NamespaceSet namespaces) throws IOException {
     printSafeXMLFormatter(operations, namespaces);
-    printSafeXMLOutput(operations, namespaces);
-    printBasicXMLOutput(operations, namespaces);
-    printConvenientXMLDiffOutput(operations, namespaces);
     printDefaultXMLOutput(operations, namespaces);
-    printSmartXMLDiffOutput(operations, namespaces);
+    printComprehensiveXMLOutput(operations, namespaces);
     printStrictXMLOutput(operations, namespaces);
+    printReportXMLOutput(operations, namespaces);
   }
 
   private static void printSafeXMLFormatter(List<Operation> operations, NamespaceSet namespaces) throws IOException {
@@ -104,9 +116,9 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printSafeXMLOutput(List<Operation> operations, NamespaceSet namespaces) throws IOException {
+  private static void printDefaultXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new SafeXMLDiffOutput(xml);
+    XMLDiffOutput output = new DefaultXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
     System.out.println(output.getClass().getSimpleName());
     System.out.println(xml);
@@ -120,33 +132,17 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printConvenientXMLDiffOutput(List<Operation> operations, NamespaceSet namespaces) {
+  private static void printComprehensiveXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new ConvenientXMLDiffOutput(xml);
+    CompleteXMLDiffOutput output = new CompleteXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
     System.out.println(output.getClass().getSimpleName());
     System.out.println(xml);
   }
 
-  private static void printBasicXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
+  private static void printReportXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new BasicXMLDiffOutput(xml);
-    printXMLDiffOutput(operations, namespaces, output);
-    System.out.println(output.getClass().getSimpleName());
-    System.out.println(xml);
-  }
-
-  private static void printDefaultXMLOutput(List<Operation> operations, NamespaceSet namespaces) {
-    StringWriter xml = new StringWriter();
-    DefaultXMDiffOutput output = new DefaultXMDiffOutput(xml);
-    printXMLDiffOutput(operations, namespaces, output);
-    System.out.println(output.getClass().getSimpleName());
-    System.out.println(xml);
-  }
-
-  private static void printSmartXMLDiffOutput(List<Operation> operations, NamespaceSet namespaces) {
-    StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new SmartXMLDiffOutput(xml);
+    XMLDiffReporter output = new XMLDiffReporter(xml);
     printXMLDiffOutput(operations, namespaces, output);
     System.out.println(output.getClass().getSimpleName());
     System.out.println(xml);

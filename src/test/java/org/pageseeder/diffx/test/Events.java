@@ -19,7 +19,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.format.SmartXMLDiffOutput;
+import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
 import org.pageseeder.diffx.load.LineLoader;
 import org.pageseeder.diffx.load.LoadingException;
@@ -121,12 +121,14 @@ public final class Events {
 
   public static String toXML(List<? extends Token> tokens, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
-    SmartXMLDiffOutput f = new SmartXMLDiffOutput(xml);
+    DefaultXMLDiffOutput f = new DefaultXMLDiffOutput(xml);
     f.setWriteXMLDeclaration(false);
     f.setNamespaces(namespaces);
+    f.start();
     for (Token token : tokens) {
       f.handle(Operator.MATCH, token);
     }
+    f.end();
     return xml.toString();
   }
 

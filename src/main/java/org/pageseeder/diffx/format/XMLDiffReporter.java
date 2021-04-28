@@ -21,7 +21,6 @@ import org.pageseeder.diffx.token.Namespaceable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
@@ -31,27 +30,17 @@ import java.io.Writer;
 
 /**
  * Provide an XML report of the XML diff.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ * @since 0.9.0
  */
-public class XMLDiffReporter implements XMLDiffOutput {
+public class XMLDiffReporter extends XMLDiffOutputBase implements XMLDiffOutput {
 
   private final XMLWriter xml;
 
-  private NamespaceSet namespaces = NamespaceSet.noNamespace();
-
-  private boolean includeXMLDeclaration;
-
   public XMLDiffReporter(Writer out) {
     this.xml = new XMLWriterNSImpl(out);
-  }
-
-  @Override
-  public void setWriteXMLDeclaration(boolean show) {
-    this.includeXMLDeclaration = show;
-  }
-
-  @Override
-  public void setNamespaces(NamespaceSet namespaces) {
-    this.namespaces = namespaces;
   }
 
   @Override

@@ -23,49 +23,27 @@ import org.pageseeder.diffx.xml.NamespaceSet;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
-import javax.xml.XMLConstants;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class DefaultXMDiffOutput implements XMLDiffOutput {
-
-  /**
-   * The namespace URI reserved for the diff.
-   */
-  public static final String DIFF_NS_URI = "https://www.pageseeder.org/diffx";
-
-  /**
-   * The prefix used by diff by default.
-   */
-  public static final String DIFF_NS_PREFIX = "diff";
+/**
+ * This XML output returns a complete representation of the differences.
+ *
+ * <p>It is a bit more verbose than the default output, but can be used to produce both input XML.
+ *
+ * @author Christophe LAuret
+ * @version 0.9.0
+ * @since 0.9.0
+ */
+public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XMLDiffOutput {
 
   /**
-   * The namespace used for diff elements.
+   * Underlying XML writer.
    */
-  public static final Namespace DIFF_NAMESPACE = new Namespace(DIFF_NS_URI, DIFF_NS_PREFIX);
-
-  /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = false;
-
   private final XMLWriter xml;
-
-  private NamespaceSet namespaces = NamespaceSet.noNamespace();
-
-  /**
-   * {@code true} (default) to include the XML namespace declaration when the {@link #start()} method is called.
-   */
-  private boolean includeXMLDeclaration = true;
-
-  /**
-   * {@code true} (default) to use the diff namespace for the {@code <ins/>} and {@code <del/>} elements.
-   */
-  private boolean useDiffNamespaceForElements = true;
 
   /**
    * Holds the list of attributes inserted to the previous element.
@@ -78,34 +56,21 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
   private final List<AttributeToken> deletedAttributes = new ArrayList<>();
 
   /**
-   * Used to know if all elements have been closed, in which case the namespace
-   * mapping should be redeclared before opening a new element
+   * Namespace URI used to report differences.
    */
-  private int openElements = 0;
+  private String diffNamespaceUri = getDiffNamespace().getUri();
 
-  public DefaultXMDiffOutput(Writer out) {
+  public CompleteXMLDiffOutput(Writer out) {
     this.xml = new XMLWriterNSImpl(out);
-  }
-
-  public void useDiffNamespaceForElements(boolean yes) {
-    this.useDiffNamespaceForElements = yes;
-  }
-
-  @Override
-  public void setWriteXMLDeclaration(boolean show) {
-    this.includeXMLDeclaration = show;
-  }
-
-  @Override
-  public void setNamespaces(NamespaceSet namespaces) {
-    this.namespaces = namespaces;
   }
 
   @Override
   public void start() {
+    this.diffNamespaceUri = getDiffNamespace().getUri();
     try {
       if (this.includeXMLDeclaration)
         this.xml.xmlDecl();
+      declareNamespaces();
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
@@ -122,18 +87,10 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
 
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
-    if (DEBUG) System.err.println(operator.toString() + token);
     try {
       // We must flush the inserted/deleted attributes
       if (!(token instanceof AttributeToken)) {
         this.flushAttributes();
-      }
-      // namespaces declaration
-      if (token instanceof StartElementToken) {
-        if (this.openElements == 0) declareNamespaces();
-        this.openElements++;
-      } else if (token instanceof EndElementToken) {
-        this.openElements--;
       }
       // Handle matches and clashes
       if (operator == Operator.MATCH) handleMatch(token);
@@ -145,30 +102,23 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
 
   private void handleMatch(Token token) throws IOException {
     token.toXML(this.xml);
-    this.insertSpaceIfRequired(token);
   }
 
   private void handleClash(Operator operator, Token token) throws IOException {
-    // insert an attribute to specify
     if (token instanceof StartElementToken) {
-      // namespaces declaration
-      if (this.openElements == 0) {
-        declareNamespaces();
-        this.openElements++;
-      }
       token.toXML(this.xml);
-      this.xml.attribute(DIFF_NS_URI, operator == Operator.INS ? "ins" : "del", "true");
+      // insert an attribute to specify if inserted or deleted
+      this.xml.attribute(this.diffNamespaceUri, operator == Operator.INS ? "ins" : "del", "true");
 
-      // just output the new line
     } else if (token == SpaceToken.NEW_LINE) {
+      // just output the new line
       token.toXML(this.xml);
 
-      // wrap the characters in a <ins> element
     } else if (token instanceof TextToken) {
-      this.xml.openElement(DIFF_NS_URI, operator == Operator.INS ? "ins" : "del", false);
+      // wrap the characters in a <ins> / <del> element
+      this.xml.openElement(this.diffNamespaceUri, operator == Operator.INS ? "ins" : "del", false);
       token.toXML(this.xml);
       this.xml.closeElement();
-      this.insertSpaceIfRequired(token);
 
     } else if (token instanceof AttributeToken) {
       if (operator == Operator.INS) {
@@ -179,11 +129,13 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
       }
 
     } else if (token instanceof EndElementToken) {
-      this.openElements--;
       token.toXML(this.xml);
 
     } else {
-      token.toXML(this.xml);
+      // TODO comments and processing instructions, wrap in <ins> / <del> like text ?
+      if (operator == Operator.INS) {
+        token.toXML(this.xml);
+      }
     }
   }
 
@@ -191,18 +143,11 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
    * Write the namespaces mapping to the XML output
    */
   private void declareNamespaces() {
-    // TODO Change so that there is no side-effect
-    NamespaceSet diff = new NamespaceSet(DIFF_NAMESPACE);
-    diff.add(this.namespaces);
-    for (Namespace namespace : diff) {
+    Namespace diff = getDiffNamespace();
+    this.xml.setPrefixMapping(diff.getUri(), diff.getPrefix());
+    for (Namespace namespace : this.namespaces) {
       this.xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
     }
-  }
-
-  private void insertSpaceIfRequired(Token token) throws IOException {
-//    if (token instanceof TextToken && !(token instanceof CharToken) && this.config.isIgnoreWhiteSpace() && !this.config.isPreserveWhiteSpace()) {
-//      this.xml.writeXML(" ");
-//    }
   }
 
   /**
@@ -211,17 +156,18 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
    * This method must be called before we finish writing the start element tag.
    */
   private void flushAttributes() throws IOException {
-    String namespace = useDiffNamespaceForElements ? DIFF_NS_URI : XMLConstants.NULL_NS_URI;
     // Attributes first
     if (!this.insertedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "ins-attributes", this.insertedAttributes.stream().map(AttributeToken::getName).collect(Collectors.joining(" ")));
+      String names = getQNames(this.insertedAttributes, this.namespaces);
+      this.xml.attribute(this.diffNamespaceUri, "ins-attributes", names);
     }
     if (!this.deletedAttributes.isEmpty()) {
-      this.xml.attribute(DIFF_NS_URI, "del-attributes", this.deletedAttributes.stream().map(AttributeToken::getName).collect(Collectors.joining(" ")));
+      String names = getQNames(this.deletedAttributes, this.namespaces);
+      this.xml.attribute(this.diffNamespaceUri, "del-attributes", names);
     }
     // Elements
     if (!this.insertedAttributes.isEmpty()) {
-      this.xml.openElement(namespace, "ins", false);
+      this.xml.openElement(this.diffNamespaceUri, "ins", false);
       for (AttributeToken attribute : this.insertedAttributes) {
         this.xml.attribute(attribute.getNamespaceURI(), attribute.getName(), attribute.getValue());
       }
@@ -229,13 +175,28 @@ public class DefaultXMDiffOutput implements XMLDiffOutput {
       this.insertedAttributes.clear();
     }
     if (!this.deletedAttributes.isEmpty()) {
-      this.xml.openElement(namespace, "del", false);
+      this.xml.openElement(this.diffNamespaceUri, "del", false);
       for (AttributeToken attribute : this.deletedAttributes) {
         this.xml.attribute(attribute.getNamespaceURI(), attribute.getName(), attribute.getValue());
       }
       this.xml.closeElement();
       this.deletedAttributes.clear();
     }
+  }
+
+  private static String getQNames(List<AttributeToken> attributes, NamespaceSet namespaces) {
+    StringBuilder names = new StringBuilder();
+    for (int i = 0; i < attributes.size(); i++) {
+      if (i > 0) names.append(' ');
+      names.append(getQName(attributes.get(i), namespaces));
+    }
+    return names.toString();
+  }
+
+  private static String getQName(AttributeToken attribute, NamespaceSet namespaces) {
+    if (attribute.getName().indexOf(':') > 0) return attribute.getName();
+    String prefix = namespaces.getPrefix(attribute.getNamespaceURI());
+    return prefix != null && !prefix.isEmpty()? prefix+":"+attribute.getName() : attribute.getName();
   }
 
 }

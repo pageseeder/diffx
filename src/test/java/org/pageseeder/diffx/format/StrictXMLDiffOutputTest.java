@@ -47,7 +47,12 @@ public final class StrictXMLDiffOutputTest {
   /**
    * The namespace declaration.
    */
-  private static final String NS_DECL = "xmlns:dfx=\"" + Constants.BASE_NS_URI + '"';
+  private static final String NS_DECL = "xmlns:diff=\"https://www.pageseeder.org/diffx\"";
+
+  /**
+   * The namespace declaration.
+   */
+  private static final String LEGACY_NS_DECL = "xmlns:dfx=\"" + Constants.BASE_NS_URI + '"';
 
   /**
    * The loader being tested.
@@ -57,7 +62,7 @@ public final class StrictXMLDiffOutputTest {
   /**
    * The formatter being tested.
    */
-  private XMLDiffOutput output = null;
+  private StrictXMLDiffOutput output = null;
 
   /**
    * The string writer.
@@ -68,6 +73,8 @@ public final class StrictXMLDiffOutputTest {
   public void setUp() {
     this.w = new StringWriter();
     this.output = new StrictXMLDiffOutput(this.w);
+    this.output.setWriteXMLDeclaration(false);
+  //  this.output.useLegacyNamespaces = true;
   }
 
 //opening and closing elements ---------------------------------------------------------------
@@ -80,8 +87,10 @@ public final class StrictXMLDiffOutputTest {
    */
   @Test
   public void testOpenAndClose0() throws DiffXException, IOException {
+    this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLEndElement("a"));
+    this.output.end();
     assertEquivalentToXML("<a/>");
     String xml = "<a " + NS_DECL + "></a>";
     assertEquals(xml, this.w.toString());
@@ -97,9 +106,11 @@ public final class StrictXMLDiffOutputTest {
    */
   @Test
   public void testAttributes0() throws DiffXException, IOException {
+    this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLAttribute("", "x", "y"));
     this.output.handle(Operator.MATCH, new XMLEndElement("a"));
+    this.output.end();
     assertEquivalentToXML("<a x='y'/>");
     String xml = "<a " + NS_DECL + " x=\"y\"></a>";
     assertEquals(xml, this.w.toString());

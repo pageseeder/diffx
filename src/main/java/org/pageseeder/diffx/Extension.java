@@ -19,7 +19,7 @@ import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.OptimisticXMLProcessor;
-import org.pageseeder.diffx.format.SafeXMLDiffOutput;
+import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.xml.NamespaceSet;
@@ -123,7 +123,7 @@ public final class Extension {
    * @param out  Where the output goes.
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out) {
-    SafeXMLDiffOutput output = new SafeXMLDiffOutput(out);
+    DefaultXMLDiffOutput output = new DefaultXMLDiffOutput(out);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     output.setNamespaces(namespaces);
     OptimisticXMLProcessor processor = new OptimisticXMLProcessor();

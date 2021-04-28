@@ -234,7 +234,7 @@ public final class Main {
    * @param out  Where the output goes.
    */
   private static void diff(Sequence seq1, Sequence seq2, Writer out) {
-    SmartXMLDiffOutput output = new SmartXMLDiffOutput(out);
+    DefaultXMLDiffOutput output = new DefaultXMLDiffOutput(out);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     output.setNamespaces(namespaces);
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
@@ -326,7 +326,7 @@ public final class Main {
     System.err.println("  -p [processor]  Choose a specific algorithm");
     System.err.println("                   optimistic* | xml | text");
     System.err.println("  -f [format]     Choose a specific formatter");
-    System.err.println("                   smart* | basic | convenient | strict");
+    System.err.println("                   default* | complete | strict | report");
     System.err.println("  -w [whitespace] Define whitespace processing");
     System.err.println("                   preserve* | compare | ignore");
     System.err.println("  -g [granul]     Define text diffing granularity");
@@ -391,18 +391,17 @@ public final class Main {
    * @param out  The writer to use.
    *
    * @return The formatter to use.
-   * @throws IOException Should and I/O error occur
    */
-  private static DiffHandler getOutputFormat(String[] args, Writer out) throws IOException {
+  private static DiffHandler getOutputFormat(String[] args, Writer out) {
     String formatArg = CommandLine.getParameter("-f", args);
-    if (formatArg == null || "smart".equals(formatArg))
-      return new SmartXMLDiffOutput(out);
-    if ("convenient".equals(formatArg))
-      return new ConvenientXMLDiffOutput(out);
-    if ("basic".equals(formatArg))
-      return new BasicXMLDiffOutput(out);
+    if (formatArg == null || "default".equals(formatArg))
+      return new DefaultXMLDiffOutput(out);
+    if ("complete".equals(formatArg))
+      return new CompleteXMLDiffOutput(out);
     if ("strict".equals(formatArg))
       return new StrictXMLDiffOutput(out);
+    if ("report".equals(formatArg))
+      return new XMLDiffReporter(out);
     usage();
     return null;
   }

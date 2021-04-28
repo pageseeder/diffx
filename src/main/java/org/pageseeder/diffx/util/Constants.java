@@ -32,16 +32,19 @@ public final class Constants {
   /**
    * The namespace URI used for elements that may have been modified.
    */
+  @Deprecated
   public static final String BASE_NS_URI = "http://www.topologi.com/2005/Diff-X";
 
   /**
    * The namespace URI used for elements that may have been deleted.
    */
+  @Deprecated
   public static final String DELETE_NS_URI = BASE_NS_URI + "/Delete";
 
   /**
    * The namespace URI used for elements that may have been inserted.
    */
+  @Deprecated
   public static final String INSERT_NS_URI = BASE_NS_URI + "/Insert";
 
 }

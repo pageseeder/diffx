@@ -43,7 +43,7 @@ import java.io.Writer;
 @Deprecated
 public final class SmartXMLFormatter implements XMLDiffXFormatter {
 
-  private final SmartXMLDiffOutput output;
+  private final DefaultXMLDiffOutput output;
 
   private boolean isDocumentStart = true;
 
@@ -57,7 +57,7 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * @see System#out
    */
   public SmartXMLFormatter() throws IOException {
-    this.output = new SmartXMLDiffOutput();
+    this.output = new DefaultXMLDiffOutput();
   }
 
   /**
@@ -66,7 +66,8 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
    * @param w The writer to use.
    */
   public SmartXMLFormatter(Writer w) {
-    this.output = new SmartXMLDiffOutput(w);
+    this.output = new DefaultXMLDiffOutput(w);
+    this.output.useLegacyNamespaces = true;
   }
 
   @Override

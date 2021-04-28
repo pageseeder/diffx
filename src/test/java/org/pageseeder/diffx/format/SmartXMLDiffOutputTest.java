@@ -185,7 +185,7 @@ public final class SmartXMLDiffOutputTest {
    *
    */
   public XMLDiffOutput makeOutput() throws IOException {
-    return new SmartXMLDiffOutput(new StringWriter());
+    return new DefaultXMLDiffOutput(new StringWriter());
   }
 
 }

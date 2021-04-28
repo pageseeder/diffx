@@ -16,13 +16,9 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.util.Constants;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.NamespaceSet;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -36,7 +32,7 @@ import java.io.Writer;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class StrictXMLDiffOutput implements XMLDiffOutput {
+public final class StrictXMLDiffOutput extends XMLDiffOutputBase implements XMLDiffOutput {
 
   /**
    * The tag used for deletions.
@@ -49,21 +45,9 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
   private static final String INS_TAG = "ins";
 
   /**
-   * The DiffX configuration to use
-   */
-  private DiffXConfig config = new DiffXConfig();
-
-  /**
    * XML output
    */
   private final XMLStreamWriter xml;
-
-  /**
-   * Set to <code>true</code> to include the XML declaration. This attribute is
-   * set to <code>false</code> when the {@link #setWriteXMLDeclaration(boolean)}
-   * is called with <code>false</code> or once the XML declaration has been written.
-   */
-  private boolean writeXMLDeclaration = true;
 
   /**
    * Set to <code>false</code> once the prefix mapping has been declared.
@@ -74,10 +58,6 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
    * Operator for the last open tag (set to MATCH when none)
    */
   private Operator lastOperatorTag = Operator.MATCH;
-
-  private boolean isDocumentStart = true;
-
-  // constructors -------------------------------------------------------------------------------
 
   /**
    * Creates a new formatter on the standard output.
@@ -111,9 +91,9 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
     output.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.TRUE);
     try {
       this.xml = output.createXMLStreamWriter(out);
-      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
-      this.xml.setPrefix("dfx", Constants.BASE_NS_URI);
-      this.xml.setDefaultNamespace(XMLConstants.NULL_NS_URI);
+//      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
+//      this.xml.setPrefix("dfx", Constants.BASE_NS_URI);
+//      this.xml.setDefaultNamespace(XMLConstants.NULL_NS_URI);
     } catch (XMLStreamException ex) {
       throw new IllegalStateException(ex);
     }
@@ -121,12 +101,19 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
 
   @Override
   public void start() {
-    if (this.writeXMLDeclaration) {
-      try {
+    try {
+      if (this.includeXMLDeclaration) {
         this.xml.writeStartDocument("utf-8", "1.0");
-      } catch (XMLStreamException ex) {
-        throw new RuntimeException(ex);
       }
+      this.xml.setDefaultNamespace(null);
+      for (Namespace namespace : this.namespaces) {
+        String uri = namespace.getUri();
+        if (!uri.isEmpty()) {
+          this.xml.setPrefix(namespace.getPrefix(), uri);
+        }
+      }
+    } catch (XMLStreamException ex) {
+      throw new IllegalStateException(ex);
     }
   }
 
@@ -145,13 +132,13 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
       if (token instanceof StartElementToken) {
         token.toXML(this.xml);
         if (this.declareNamespace) {
-          this.xml.writeNamespace("dfx", Constants.BASE_NS_URI);
+          this.xml.writeNamespace(getDiffNamespace().getPrefix(), getDiffNamespace().getUri());
           this.declareNamespace = false; // TODO Check if needed
         }
         if (operator == Operator.INS)
-          this.xml.writeAttribute(Constants.BASE_NS_URI, "insert", "true");
+          this.xml.writeAttribute(getDiffNamespace().getUri(), "insert", "true");
         if (operator == Operator.DEL)
-          this.xml.writeAttribute(Constants.BASE_NS_URI, "delete", "true");
+          this.xml.writeAttribute(getDiffNamespace().getUri(), "delete", "true");
 
         // an element to close
       } else if (token instanceof EndElementToken) {
@@ -174,27 +161,6 @@ public final class StrictXMLDiffOutput implements XMLDiffOutput {
         token.toXML(this.xml);
       }
       this.xml.flush();
-    } catch (XMLStreamException ex) {
-      ex.printStackTrace();
-    }
-  }
-
-  @Override
-  public void setWriteXMLDeclaration(boolean show) {
-    this.writeXMLDeclaration = show;
-  }
-
-
-  @Override
-  public void setNamespaces(NamespaceSet namespaces) {
-    try {
-      this.xml.setDefaultNamespace(null);
-      for (Namespace namespace : namespaces) {
-        String uri = namespace.getUri();
-        if (!uri.isEmpty()) {
-          this.xml.setPrefix(namespace.getPrefix(), uri);
-        }
-      }
     } catch (XMLStreamException ex) {
       ex.printStackTrace();
     }

@@ -18,7 +18,7 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.core.DiffAlgorithm;
-import org.pageseeder.diffx.format.SmartXMLDiffOutput;
+import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
@@ -58,7 +58,7 @@ public final class TestActions {
 
   public static String toXML(List<Action> actions, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
-    XMLDiffOutput output = new SmartXMLDiffOutput(xml);
+    XMLDiffOutput output = new DefaultXMLDiffOutput(xml);
     output.setNamespaces(namespaces);
     output.setWriteXMLDeclaration(false);
     output.start();

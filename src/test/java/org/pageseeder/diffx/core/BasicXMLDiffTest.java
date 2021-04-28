@@ -616,6 +616,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     Sequence seq1 = Events.loadSequence(xml1, TextGranularity.TEXT);
     Sequence seq2 = Events.loadSequence(xml2, TextGranularity.TEXT);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    System.err.println(namespaces);
 
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
