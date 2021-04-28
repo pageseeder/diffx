@@ -16,16 +16,15 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -47,12 +46,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
    * with
    * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_IdenticalC() throws IOException, DiffXException {
+  public final void testAdvanced_IdenticalC() throws LoadingException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X Y</a>";
     String exp = "<a>X Y</a>";
@@ -61,12 +57,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Wraps the XML in the same element.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_SelfWrapA() throws IOException, DiffXException {
+  public final void testAdvanced_SelfWrapA() throws LoadingException {
     String xml1 = "<a><a/></a>";
     String xml2 = "<a></a>";
     String[] exp1 = new String[]{
@@ -83,12 +76,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Wraps the XML in the same element.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_SelfWrapB() throws IOException, DiffXException {
+  public final void testAdvanced_SelfWrapB() throws LoadingException {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
     String[] exp1 = new String[]{
@@ -105,12 +95,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Splits / merge the text of the XML string in 2.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_SplitMergeA() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeA() throws LoadingException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     String exp1 = "<a><b>X- -Y</b>+ +<b>+Y+</b></a>";
@@ -121,12 +108,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Splits / merge the text of the XML string.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_SplitMergeA1() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeA1() throws LoadingException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     // split
@@ -145,12 +129,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Tests some moved branch.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_MovedBranch() throws IOException, DiffXException {
+  public final void testAdvanced_MovedBranch() throws LoadingException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
@@ -161,12 +142,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   /**
    * Splits the text of the XML string in 2.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testAdvanced_SplitMergeB() throws IOException, DiffXException {
+  public final void testAdvanced_SplitMergeB() throws LoadingException {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
     String exp1 = "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>";
@@ -175,19 +153,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
 
-  /**
-   * Compares two completely different XML documents.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;&lt;b&gt;x y&lt;/b&gt;&lt;c/&gt;&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;&lt;b/&gt;&lt;c&gt;x y&lt;/c&gt;&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testAdvanced_BestPath() throws IOException, DiffXException {
+  public final void testAdvanced_BestPath() throws LoadingException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<a><b/><b>X</b></a>";
     String exp1 = "<a>-<b>-</b><b>X</b></a>";
@@ -197,7 +164,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testAdvanced_Temp() throws IOException, DiffXException {
+  public final void testAdvanced_Temp() throws LoadingException {
     String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
     String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
 //    String exp1 = "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>";
@@ -206,20 +173,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml2, xml1);
   }
 
-  /**
-   * Compares two XML documents where the text of one element moves to
-   * another element.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;&lt;b&gt;x y&lt;/b&gt;&lt;c/&gt;&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;&lt;b/&gt;&lt;c&gt;x y&lt;/c&gt;&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testAdvanced_MoveB() throws IOException, DiffXException {
+  public final void testAdvanced_MoveB() throws LoadingException {
     String xml1 = "<a><b>x y</b><c/></a>";
     String xml2 = "<a><b/><c>x y</c></a>";
     String exp1 = "<a><b>+x+ +y</b><c>-x- -y</c></a>";
@@ -228,19 +183,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
 
-  /**
-   * Compares two XML documents with a simple difference in the text.
-   *
-   * <p>Compares
-   * <pre>&lt;a&gt;X&lt;/a&gt;</pre>
-   * with
-   * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testAdvanced_ModifiedTextC() throws IOException, DiffXException {
+  public final void testAdvanced_ModifiedTextC() throws LoadingException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X</a>";
     String exp1 = "<a>X+ +Y</a>";
@@ -249,14 +193,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
 
-  /**
-   * Compares two XML documents with differences in both the text and the element nodes.
-   *
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testAdvanced_TextElementC() throws IOException, DiffXException {
+  public final void testAdvanced_TextElementC() throws LoadingException {
     String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
     String xml2 = "<a><b>W X</b></a>";
     String exp1 = "<a><b>W X</b>+<c>+Y+ +Z+</c></a>";
@@ -265,12 +203,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     assertDiffXMLWordsOK(xml2, xml1, exp2);
   }
 
-  /**
-   * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testAdvanced_List() throws IOException, DiffXException {
+  public final void testAdvanced_List() throws LoadingException {
     String xml1 = "<ul><li>blue</li><li>red</li><li>green</li></ul>";
     String xml2 = "<ul><li>black</li><li>red</li><li>green</li></ul>";
     String[] exp = new String[]{
@@ -281,7 +215,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public void testChangeDefault_NS() throws IOException, DiffXException {
+  public void testChangeDefault_NS() throws LoadingException {
     String xml1 = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
     String xml2 = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
     assertDiffXMLWordsOK(xml1, xml2);
@@ -290,15 +224,15 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2) throws DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2) throws LoadingException {
     assertDiffXMLWordsOK(xml1, xml2, new String[0]);
   }
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String exp) throws DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2, String exp) throws LoadingException {
     assertDiffXMLWordsOK(xml1, xml2, new String[]{exp});
   }
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp) throws DiffXException {
+  private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp) throws LoadingException {
     // Record XML
     Sequence seq1 = Events.loadSequence(xml1, TextGranularity.WORD);
     Sequence seq2 = Events.loadSequence(xml2, TextGranularity.WORD);
