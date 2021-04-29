@@ -171,7 +171,6 @@ public class CoalescingFilterTest {
   @Test
   public void testMixFilter4() {
     List<Operation> src = TestHandler.parse("<a><b>X- -Y</b> +<b>+Y+</b></a>");
-    System.out.println(src);
     List<Operation> exp = TestHandler.parse("<a><b>X-( Y)</b> +<b>+Y+</b></a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }

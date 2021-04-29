@@ -29,13 +29,12 @@ public class TextTokenTest {
     WordToken ab = new WordToken("ab");
     WordToken bc = new WordToken("bc");
     WordToken abc = new WordToken("abc");
-    System.err.println(a.hashCode() + "/" + a.getCharacters().hashCode());
-    System.err.println(b.hashCode() + "/" + b.getCharacters().hashCode());
-    System.err.println(c.hashCode() + "/" + c.getCharacters().hashCode());
-    System.err.println(ab.hashCode() + "/" + ab.getCharacters().hashCode());
-    System.err.println(bc.hashCode() + "/" + bc.getCharacters().hashCode());
-    System.err.println(abc.hashCode() + "/" + abc.getCharacters().hashCode());
-
+//    System.err.println(a.hashCode() + "/" + a.getCharacters().hashCode());
+//    System.err.println(b.hashCode() + "/" + b.getCharacters().hashCode());
+//    System.err.println(c.hashCode() + "/" + c.getCharacters().hashCode());
+//    System.err.println(ab.hashCode() + "/" + ab.getCharacters().hashCode());
+//    System.err.println(bc.hashCode() + "/" + bc.getCharacters().hashCode());
+//    System.err.println(abc.hashCode() + "/" + abc.getCharacters().hashCode());
   }
 
 }
