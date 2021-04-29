@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;

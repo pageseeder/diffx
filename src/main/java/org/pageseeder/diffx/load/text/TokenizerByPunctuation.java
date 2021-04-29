@@ -19,10 +19,10 @@ import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
-import org.pageseeder.diffx.token.impl.SpaceToken;
-import org.pageseeder.diffx.token.impl.WordToken;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

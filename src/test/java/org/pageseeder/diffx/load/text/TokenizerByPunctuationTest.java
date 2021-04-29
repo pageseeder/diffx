@@ -21,7 +21,6 @@ import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
-import org.pageseeder.diffx.token.impl.WordToken;
 
 import java.util.List;
 
