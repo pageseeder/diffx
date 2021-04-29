@@ -56,12 +56,12 @@ public final class TokenListSlicer {
   /**
    * The common start between the two sequences.
    */
-  int start = -1;
+  int startCount = -1;
 
   /**
    * The common end between the two sequences.
    */
-  int end = -1;
+  int endCount = -1;
 
   /**
    * Creates a new sequence slicer.
@@ -76,11 +76,13 @@ public final class TokenListSlicer {
 
   /**
    * Analyse the sequences to know whether they can be sliced.
+   *
+   * @return the number of common tokens
    */
-  public boolean analyze() throws IllegalStateException {
-    this.start = computeStart();
-    this.end = sliceEnd(this.start);
-    return this.start > 0 || this.end > 0;
+  public int analyze() throws IllegalStateException {
+    this.startCount = computeStart();
+    this.endCount = sliceEnd(this.startCount);
+    return this.startCount + this.endCount;
   }
 
   /**
@@ -172,7 +174,7 @@ public final class TokenListSlicer {
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    */
   public void handleStart(DiffHandler handler) {
-    for (int i = 0; i < this.start; i++) {
+    for (int i = 0; i < this.startCount; i++) {
       handler.handle(Operator.MATCH, this.sequence1.get(i));
     }
   }
@@ -188,7 +190,7 @@ public final class TokenListSlicer {
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    */
   public void handleEnd(DiffHandler handler) {
-    int from = this.sequence1.size() - this.end;
+    int from = this.sequence1.size() - this.endCount;
     int to = this.sequence1.size();
     for (int i = from; i < to; i++) {
       handler.handle(Operator.MATCH, this.sequence1.get(i));
@@ -196,30 +198,44 @@ public final class TokenListSlicer {
   }
 
   /**
+   * @return The number of common tokens at the start of the sequence.
+   */
+  public int getStartCount() {
+    return this.startCount;
+  }
+
+  /**
+   * @return The number of common tokens at the end of the sequence.
+   */
+  public int getEndCount() {
+    return this.endCount;
+  }
+
+  /**
    * @return The common sublist at the start of the sequence.
    */
   public List<? extends Token> getStart() {
-    if (this.start <= 0) return Collections.emptyList();
-    return this.sequence1.subList(0, this.start);
+    if (this.startCount <= 0) return Collections.emptyList();
+    return this.sequence1.subList(0, this.startCount);
   }
 
   /**
    * @return The common sublist at the end of the sequence.
    */
   public List<? extends Token> getEnd() {
-    if (this.end <= 0) return Collections.emptyList();
+    if (this.endCount <= 0) return Collections.emptyList();
     int size = this.sequence1.size();
-    return this.sequence1.subList(size - this.end, size);
+    return this.sequence1.subList(size - this.endCount, size);
   }
 
   public List<? extends Token> getSubSequence1() {
-    if (this.start <= 0 && this.end <= 0) return this.sequence1;
-    return this.sequence1.subList(this.start, this.sequence1.size() - this.end);
+    if (this.startCount <= 0 && this.endCount <= 0) return this.sequence1;
+    return this.sequence1.subList(this.startCount, this.sequence1.size() - this.endCount);
   }
 
   public List<? extends Token> getSubSequence2() {
-    if (this.start <= 0 && this.end <= 0) return this.sequence2;
-    return this.sequence2.subList(this.start, this.sequence2.size() - this.end);
+    if (this.startCount <= 0 && this.endCount <= 0) return this.sequence2;
+    return this.sequence2.subList(this.startCount, this.sequence2.size() - this.endCount);
   }
 
 }

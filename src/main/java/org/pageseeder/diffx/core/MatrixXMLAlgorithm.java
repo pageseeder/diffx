@@ -25,7 +25,6 @@ import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,6 +38,11 @@ import java.util.List;
 public final class MatrixXMLAlgorithm implements DiffAlgorithm {
 
   /**
+   * The default maximum number of comparisons allowed for this algorithm.
+   */
+  public static final int DEFAULT_THRESHOLD = 64_000_000;
+
+  /**
    * Set to <code>true</code> to show debug info.
    */
   private static final boolean DEBUG = false;
@@ -46,7 +50,40 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   /**
    * Set to <code>true</code> to allow sequence slicing.
    */
-  private final boolean slice = true;
+  private boolean slice = true;
+
+  private int threshold = DEFAULT_THRESHOLD;
+
+  /**
+   * Set whether common tokens at the beginning or the end of the sequences can be removed from the diff.
+   *
+   * @param slice true to slice start and end of sequences;
+   *              false to force diffing on all tokens
+   */
+  public void setSlice(boolean slice) {
+    this.slice = slice;
+  }
+
+  /**
+   * Set the maximum number of tokens comparisons that can be performed.
+   *
+   * <p>If the number of tokens post-slicing is larger, it will throws an <code>IllegalArgumentException</code>.
+   *
+   * @param threshold Max number of token comparisons allowed
+   */
+  public void setThreshold(int threshold) {
+    this.threshold = threshold;
+  }
+
+  /**
+   * Indicates whether the diff between the two sequences can be computed.
+   */
+  public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
+    TokenListSlicer slicer = new TokenListSlicer(first, second);
+    int commonCount = this.slice ? slicer.analyze() : 0;
+    int matrixSize = (first.size() - commonCount)*(second.size() - commonCount);
+    return matrixSize > this.threshold;
+  }
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
@@ -76,10 +113,10 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
 
   private void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
     TokenListSlicer slicer = new TokenListSlicer(first, second);
-    boolean hasCommon = this.slice && slicer.analyze();
+    int common = this.slice ? slicer.analyze() : 0;
 
     // Check the end
-    if (hasCommon) {
+    if (common > 0) {
       slicer.handleStart(handler);
       List<? extends Token> firstSub = slicer.getSubSequence1();
       List<? extends Token> secondSub = slicer.getSubSequence2();
@@ -98,6 +135,10 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   private void processDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
     final int lengthA = first.size();
     final int lengthB = second.size();
+
+    // Throws error if we can't process
+    if (lengthA*lengthB > this.threshold)
+      throw new IllegalArgumentException("Too many tokens to compare! "+(lengthA*lengthB)+" is greater than "+this.threshold+".");
 
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();
@@ -275,42 +316,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     System.err.println(" okDelete=" + estate.isAllowed(Operator.DEL, tokenB));
   }
 
-
-  /**
-   * Slices the start of both sequences.
-   *
-   * @return The number of common elements at the start of the sequences.
-   */
-  public static int sliceStart(List<? extends Token> first, List<? extends Token> second) {
-    int count = 0;
-    Iterator<? extends Token> i = first.iterator();
-    Iterator<? extends Token> j = second.iterator();
-    while (i.hasNext() && j.hasNext()) {
-      Token token = i.next();
-      if (j.next().equals(token)) {
-        count++;
-      } else return count;
-    }
-    return count;
+  @Override
+  public String toString() {
+    return "MatrixXMLAlgorithm{" +
+        "slice=" + slice +
+        ", threshold=" + threshold +
+        '}';
   }
-
-  /**
-   * Slices the end of both sequences.
-   *
-   * @return The number of common elements at the end of the sequences.
-   * @throws IllegalStateException If the end buffer is not empty.
-   */
-  public static int sliceEnd(List<? extends Token> first, List<? extends Token> second, int start) {
-    int count = 0;
-    int i = first.size() - 1, j = second.size() - 1;
-    for (; i >= start && j >= start; i--, j--) {
-      Token token = first.get(i);
-      if (token.equals(second.get(j))) {
-        count++;
-      } else return count;
-    }
-    return count;
-  }
-
-
 }

@@ -16,34 +16,24 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operations;
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.CoalescingFilter;
-import org.pageseeder.diffx.handler.DiffFilter;
-import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.handler.OperationHandler;
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
+import org.pageseeder.diffx.handler.*;
 import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
-import org.pageseeder.diffx.token.impl.XMLEndElement;
-import org.pageseeder.xmlwriter.XMLWriter;
-
-import javax.xml.stream.XMLStreamWriter;
-import java.io.UncheckedIOException;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * A processor implementation which attempts to solve the diff using the most efficient algorithm,
  * and falls back to the default processor if unable to produce correct results.
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
  */
 public final class OptimisticXMLProcessor implements DiffProcessor {
 
   private static final boolean DEBUG = false;
 
   private boolean coalesce = false;
+
+  private int fallbackThreshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 
   /**
    * Set whether to consecutive text operations should be coalesced into a single operation.
@@ -52,6 +42,13 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
    */
   public void setCoalesce(boolean coalesce) {
     this.coalesce = coalesce;
+  }
+
+  /**
+   * Set the maximum amount of comparison in case the fast algorithm fails.
+   */
+  public void setFallbackThreshold(int fallbackThreshold) {
+    this.fallbackThreshold = fallbackThreshold;
   }
 
   @Override
@@ -93,176 +90,6 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
     return "OptimisticXMLProcessor{" +
         "coalesce=" + coalesce +
         '}';
-  }
-
-  /**
-   * A diff filter which attempts to return the insertions and deletions in an order that will result
-   * in a valid XML result.
-   */
-  private static class PostXMLFixer extends DiffFilter {
-
-    public PostXMLFixer(DiffHandler handler) {
-      super(handler);
-    }
-
-    private final Deque<StartOperation> unclosed = new ArrayDeque<>();
-
-    private final Queue<Token> deletions = new ArrayDeque<>();
-
-    private final Queue<Token> insertions = new ArrayDeque<>();
-
-    private Operator lastOperator = Operator.MATCH;
-
-    private Token lastToken = new VoidToken();
-
-    /**
-     * Flag indicating when the handler is unable to fix the XML.
-     */
-    private boolean hasError = false;
-
-    @Override
-    public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
-      if (operator == Operator.DEL) {
-        this.deletions.add(token);
-      } else if (operator == Operator.INS) {
-        this.insertions.add(token);
-      } else {
-        flushChanges();
-        if (token.getType() == TokenType.END_ELEMENT && !matchStart(Operator.MATCH, (EndElementToken) token)) {
-          sendMatchingEndElement();
-        } else {
-          send(operator, token);
-        }
-      }
-    }
-
-    private void flushChanges() {
-      while (!this.insertions.isEmpty() || !this.deletions.isEmpty()) {
-
-        // Flush attributes if the last token sent was an open element or attribute
-        if (this.lastToken.getType() == TokenType.START_ELEMENT || this.lastToken.getType() == TokenType.ATTRIBUTE) {
-          while (isAttribute(this.insertions.peek())) {
-            send(Operator.INS, this.insertions.remove());
-          }
-          while (isAttribute(this.deletions.peek())) {
-            send(Operator.DEL, this.deletions.remove());
-          }
-        }
-
-        // At this point there are no attributes left, tokens can only be START_ELEMENT, END_ELEMENT, TEXT, and OTHER
-        Token nextInsertion = this.insertions.peek();
-        Token nextDeletion = this.deletions.peek();
-
-        if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken) nextInsertion)) {
-          send(Operator.INS, this.insertions.remove());
-        } else if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken) nextDeletion)) {
-          send(Operator.DEL, this.deletions.remove());
-        } else if (isEndElement(nextInsertion)) {
-          this.hasError = true;
-          sendMatchingEndElement();
-          this.insertions.remove();
-        } else if (isEndElement(nextDeletion)) {
-          this.hasError = true;
-          sendMatchingEndElement();
-          this.deletions.remove();
-        } else {
-          if (this.lastOperator == Operator.INS && nextInsertion != null) send(Operator.INS, this.insertions.remove());
-          else if (this.lastOperator == Operator.DEL && nextDeletion != null)
-            send(Operator.DEL, this.deletions.remove());
-          else if (nextInsertion != null) send(Operator.INS, this.insertions.remove());
-          else if (nextDeletion != null) send(Operator.DEL, this.deletions.remove());
-        }
-
-      }
-
-    }
-
-    private boolean hasError() {
-      return this.hasError;
-    }
-
-    private static boolean isEndElement(Token token) {
-      return token != null && token.getType() == TokenType.END_ELEMENT;
-    }
-
-    private static boolean isAttribute(Token token) {
-      return token != null && token.getType() == TokenType.ATTRIBUTE;
-    }
-
-    private boolean matchStart(Operator operator, EndElementToken token) {
-      StartOperation op = this.unclosed.peek();
-      if (op == null) return false;
-      return op.operator == operator && token.match(op.token);
-    }
-
-    /**
-     * We ignore the reported end element token and send the matching end element token
-     */
-    private void sendMatchingEndElement() {
-      StartOperation lastStart = this.unclosed.peek();
-      if (lastStart != null) {
-        EndElementToken end = toEndElementToken(lastStart.token);
-        send(lastStart.operator, end);
-      }
-    }
-
-    private EndElementToken toEndElementToken(StartElementToken token) {
-      return new XMLEndElement(token);
-    }
-
-    private void send(Operator operator, Token token) {
-      this.target.handle(operator, token);
-      this.lastOperator = operator;
-      this.lastToken = token;
-      if (token.getType() == TokenType.START_ELEMENT) {
-        this.unclosed.push(new StartOperation(operator, (StartElementToken) token));
-      } else if (token.getType() == TokenType.END_ELEMENT) {
-        this.unclosed.pop();
-      }
-    }
-
-    @Override
-    public void end() {
-      this.flushChanges();
-    }
-  }
-
-  private static class StartOperation {
-    private final Operator operator;
-    private final StartElementToken token;
-
-    StartOperation(Operator operator, StartElementToken token) {
-      this.operator = operator;
-      this.token = token;
-    }
-
-    public Operator operator() {
-      return operator;
-    }
-
-    public StartElementToken token() {
-      return token;
-    }
-  }
-
-  private static class VoidToken implements Token {
-    @Override
-    public TokenType getType() {
-      return TokenType.OTHER;
-    }
-
-    @Override
-    public boolean equals(Token token) {
-      return token == this;
-    }
-
-    @Override
-    public void toXML(XMLWriter xml) {
-    }
-
-    @Override
-    public void toXML(XMLStreamWriter xml) {
-    }
   }
 
 }

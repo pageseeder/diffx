@@ -25,6 +25,19 @@ public class DefaultXMLProcessor implements DiffProcessor {
 
   private boolean coalesce = false;
 
+  private int threshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
+
+  /**
+   * Set the maximum number of tokens comparisons that can be performed.
+   *
+   * <p>If the number of tokens post-slicing is larger, it will throws an <code>IllegalArgumentException</code>.
+   *
+   * @param threshold Max number of token comparisons allowed
+   */
+  public void setThreshold(int threshold) {
+    this.threshold = threshold;
+  }
+
   /**
    * Set whether to consecutive text operations should be coalesced into a single operation.
    *
@@ -34,9 +47,16 @@ public class DefaultXMLProcessor implements DiffProcessor {
     this.coalesce = coalesce;
   }
 
+  public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
+    MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
+    algorithm.setThreshold(this.threshold);
+    return algorithm.isDiffComputable(first, second);
+  }
+
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
+    algorithm.setThreshold(this.threshold);
     DiffHandler actual = getFilter(handler);
     handler.start();
     algorithm.diff(first, second, actual);
