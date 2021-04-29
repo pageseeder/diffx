@@ -81,7 +81,7 @@ public final class TokenizerByPunctuationTest {
 
   @Test
   public void testSpace1() {
-    TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.IGNORE);
+    TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
     Token space = e.get(0);
