@@ -59,44 +59,36 @@ public final class TokenizerByWord implements TextTokenizer {
   }
 
   @Override
-  public List<TextToken> tokenize(CharSequence seq) {
-    if (seq == null) throw new NullPointerException("Character sequence is null");
-    if (seq.length() == 0) return Collections.emptyList();
-    List<TextToken> tokens = new ArrayList<>(seq.length());
+  public List<TextToken> tokenize(CharSequence text) {
+    if (text == null) throw new NullPointerException("Character sequence is null");
+    if (text.length() == 0) return Collections.emptyList();
+    List<TextToken> tokens = new ArrayList<>(text.length());
 
     Pattern p = Pattern.compile("\\s+");
-    Matcher m = p.matcher(seq);
+    Matcher m = p.matcher(text);
     int index = 0;
 
     // Add segments before each match found
     while (m.find()) {
       if (index != m.start()) {
-        String word = seq.subSequence(index, m.start()).toString();
+        String word = text.subSequence(index, m.start()).toString();
         tokens.add(getWordEvent(word));
       }
       // We don't even need to record a white space if they are ignored!
       if (whitespace != WhiteSpaceProcessing.IGNORE) {
-        String space = seq.subSequence(m.start(), m.end()).toString();
+        String space = text.subSequence(m.start(), m.end()).toString();
         tokens.add(getSpaceEvent(space));
       }
       index = m.end();
     }
 
     // Add remaining word if any
-    if (index != seq.length()) {
-      String word = seq.subSequence(index, seq.length()).toString();
+    if (index != text.length()) {
+      String word = text.subSequence(index, text.length()).toString();
       tokens.add(getWordEvent(word));
     }
 
     return tokens;
-  }
-
-  /**
-   * Always <code>TextGranularity.WORD</code>.
-   */
-  @Override
-  public TextGranularity granularity() {
-    return TextGranularity.WORD;
   }
 
   public static List<TextToken> tokenize(CharSequence seq, WhiteSpaceProcessing whitespace) {

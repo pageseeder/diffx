@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -25,29 +24,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * The tokenizer for characters tokens.
+ * Tokenizes text creating a text token instance of every character.
  *
- * <p>This class is not synchronized.
+ * <p>Obviously, given the number of tokens that this tokenizer generates, it should only be used for
+ * short strings or testing.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
 public final class TokenizerByChar implements TextTokenizer {
 
-  /**
-   * Creates a new tokenizer.
-   */
-  public TokenizerByChar() {
-  }
-
   @Override
-  public List<TextToken> tokenize(CharSequence seq) {
-    if (seq == null) throw new NullPointerException("Character sequence is null");
-    if (seq.length() == 0) return Collections.emptyList();
-    List<TextToken> tokens = new ArrayList<>(seq.length());
+  public List<TextToken> tokenize(CharSequence text) {
+    if (text == null) throw new NullPointerException("Character sequence is null");
+    if (text.length() == 0) return Collections.emptyList();
+    List<TextToken> tokens = new ArrayList<>(text.length());
     char c;
-    for (int i = 0; i < seq.length(); i++) {
-      c = seq.charAt(i);
+    for (int i = 0; i < text.length(); i++) {
+      c = text.charAt(i);
       TextToken token;
       if (Character.isWhitespace(c)) {
         token = SpaceToken.getInstance(c);
@@ -59,11 +53,4 @@ public final class TokenizerByChar implements TextTokenizer {
     return tokens;
   }
 
-  /**
-   * Always <code>TextGranularity.CHARACTER</code>.
-   */
-  @Override
-  public TextGranularity granularity() {
-    return TextGranularity.CHARACTER;
-  }
 }

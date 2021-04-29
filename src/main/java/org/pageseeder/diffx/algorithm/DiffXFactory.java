@@ -25,6 +25,7 @@ import java.lang.reflect.Constructor;
  * @author Christophe Lauret
  * @version 11 May 2010
  */
+@Deprecated
 public final class DiffXFactory {
 
   /**

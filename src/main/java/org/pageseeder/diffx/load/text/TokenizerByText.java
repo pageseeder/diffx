@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
@@ -54,28 +53,28 @@ public final class TokenizerByText implements TextTokenizer {
   }
 
   @Override
-  public List<TextToken> tokenize(CharSequence seq) {
-    if (seq == null) throw new NullPointerException("Character sequence is null");
-    if (seq.length() == 0) return Collections.emptyList();
-    int x = TokenizerUtils.getLeadingWhiteSpace(seq);
-    int y = TokenizerUtils.getTrailingWhiteSpace(seq);
+  public List<TextToken> tokenize(CharSequence text) {
+    if (text == null) throw new NullPointerException("Character sequence is null");
+    if (text.length() == 0) return Collections.emptyList();
+    int x = Tokenizers.getLeadingWhiteSpace(text);
+    int y = Tokenizers.getTrailingWhiteSpace(text);
     // no leading or trailing spaces return a singleton in all configurations
     if (x == 0 && y == 0) {
-      TextToken token = new CharactersToken(seq);
+      TextToken token = new CharactersToken(text);
       return Collections.singletonList(token);
     }
     // The text node is only white space (white space = leading space)
-    if (x == seq.length()) {
+    if (x == text.length()) {
       switch (this.whitespace) {
         case COMPARE:
-          return Collections.singletonList(SpaceToken.getInstance(seq.toString()));
+          return Collections.singletonList(SpaceToken.getInstance(text.toString()));
         case PRESERVE:
-          return Collections.singletonList(new IgnorableSpaceToken(seq.toString()));
+          return Collections.singletonList(new IgnorableSpaceToken(text.toString()));
         case IGNORE:
           return Collections.emptyList();
         default:
       }
-      TextToken token = new CharactersToken(seq);
+      TextToken token = new CharactersToken(text);
       return Collections.singletonList(token);
     }
     // some trailing or leading whitespace, behaviour changes depending on whitespace processing
@@ -84,38 +83,30 @@ public final class TokenizerByText implements TextTokenizer {
       case COMPARE:
         tokens = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
         if (x > 0) {
-          tokens.add(SpaceToken.getInstance(seq.subSequence(0, x)));
+          tokens.add(SpaceToken.getInstance(text.subSequence(0, x)));
         }
-        tokens.add(new CharactersToken(seq.subSequence(x, seq.length() - y)));
+        tokens.add(new CharactersToken(text.subSequence(x, text.length() - y)));
         if (y > 0) {
-          tokens.add(SpaceToken.getInstance(seq.subSequence(seq.length() - y, seq.length())));
+          tokens.add(SpaceToken.getInstance(text.subSequence(text.length() - y, text.length())));
         }
         break;
       case PRESERVE:
         tokens = new ArrayList<>(1 + (x > 0 ? 1 : 0) + (y > 0 ? 1 : 0));
         if (x > 0) {
-          tokens.add(new IgnorableSpaceToken(seq.subSequence(0, x)));
+          tokens.add(new IgnorableSpaceToken(text.subSequence(0, x)));
         }
-        tokens.add(new CharactersToken(seq.subSequence(x, seq.length() - y)));
+        tokens.add(new CharactersToken(text.subSequence(x, text.length() - y)));
         if (y > 0) {
-          tokens.add(new IgnorableSpaceToken(seq.subSequence(seq.length() - y, seq.length())));
+          tokens.add(new IgnorableSpaceToken(text.subSequence(text.length() - y, text.length())));
         }
         break;
       case IGNORE:
-        TextToken token = new CharactersToken(seq.subSequence(x, seq.length() - y));
+        TextToken token = new CharactersToken(text.subSequence(x, text.length() - y));
         tokens = Collections.singletonList(token);
         break;
       default:
     }
     return tokens;
-  }
-
-  /**
-   * Always <code>TextGranularity.CHARACTER</code>.
-   */
-  @Override
-  public TextGranularity granularity() {
-    return TextGranularity.TEXT;
   }
 
 }

@@ -82,7 +82,6 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
       out.end();
     }
 
-
   }
 
   private DiffHandler getFilter(DiffHandler handler) {

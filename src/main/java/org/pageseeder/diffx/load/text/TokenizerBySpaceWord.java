@@ -90,14 +90,6 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
     return tokens;
   }
 
-  /**
-   * Always <code>TextGranularity.WORD</code>.
-   */
-  @Override
-  public TextGranularity granularity() {
-    return TextGranularity.SPACE_WORD;
-  }
-
   public static List<TextToken> tokenize(CharSequence seq, WhiteSpaceProcessing whitespace) {
     TokenizerBySpaceWord tokenizer = new TokenizerBySpaceWord(whitespace);
     return tokenizer.tokenize(seq);

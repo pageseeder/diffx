@@ -33,12 +33,12 @@ public final class CharactersToken extends CharactersTokenBase implements TextTo
   /**
    * Creates a new characters token.
    *
-   * @param seq The char sequence.
+   * @param text The char sequence.
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public CharactersToken(CharSequence seq) throws NullPointerException {
-    super(seq);
+  public CharactersToken(CharSequence text) throws NullPointerException {
+    super(text);
   }
 
   @Override

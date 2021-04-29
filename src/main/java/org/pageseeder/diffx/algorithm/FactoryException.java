@@ -24,6 +24,7 @@ import org.pageseeder.diffx.DiffXException;
  * @author Christophe Lauret
  * @version 14 May 2005
  */
+@Deprecated
 public final class FactoryException extends DiffXException {
 
   /**
