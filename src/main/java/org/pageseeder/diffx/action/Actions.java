@@ -41,7 +41,7 @@ public class Actions {
    *                 <code>false</code> for generating the old sequence.
    */
   public static List<Token> generate(List<Action> actions, boolean positive) {
-    List<Token> generated = new LinkedList<>();
+    List<Token> generated = new ArrayList<>();
     for (Action action : actions) {
       if (positive ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
         generated.addAll(action.tokens());
