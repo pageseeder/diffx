@@ -29,6 +29,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
+@Deprecated
 public final class MultiplexFormatter implements DiffXFormatter {
 
   /**
