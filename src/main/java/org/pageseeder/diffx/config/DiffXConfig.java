@@ -220,4 +220,10 @@ public final class DiffXConfig {
     return this.whitespace != WhiteSpaceProcessing.IGNORE;
   }
 
+  /**
+   * @return the corresponding diff configuration.
+   */
+  public DiffConfig toDiffConfig() {
+    return new DiffConfig(this.isNamespaceAware, this.whitespace, this.granularity);
+  }
 }
