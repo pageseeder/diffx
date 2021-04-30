@@ -21,7 +21,7 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
-import org.pageseeder.diffx.handler.OperationHandler;
+import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.xml.NamespaceSet;
@@ -90,7 +90,7 @@ public class FormatComparisonTest {
   }
 
   private static List<Operation> toOperations(Sequence from, Sequence to) {
-    OperationHandler handler = new OperationHandler();
+    OperationsBuffer handler = new OperationsBuffer();
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(true);
     processor.diff(to.tokens(), from.tokens(), handler);

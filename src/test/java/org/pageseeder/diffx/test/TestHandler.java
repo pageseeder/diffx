@@ -18,7 +18,7 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.handler.OperationHandler;
+import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
@@ -177,7 +177,7 @@ public final class TestHandler implements DiffHandler {
   }
 
   public static List<Operation> parse(String ops) {
-    OperationHandler source = new OperationHandler();
+    OperationsBuffer source = new OperationsBuffer();
     char[] chars = ops.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       Operator operator = Operator.MATCH;
@@ -193,7 +193,7 @@ public final class TestHandler implements DiffHandler {
     return source.getOperations();
   }
 
-  private static int parseToken(char[] chars, int i, OperationHandler source, Operator operator) {
+  private static int parseToken(char[] chars, int i, OperationsBuffer source, Operator operator) {
     int j = i;
     Token token;
     if (isStartElement(chars, i)) {

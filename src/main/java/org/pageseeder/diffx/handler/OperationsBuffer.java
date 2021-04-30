@@ -24,14 +24,18 @@ import java.util.List;
 
 /**
  * Generates a list of operations from the output of the algorithms.
+ * <p>
+ * This handler is useful to capture the operations resulting from a diff.
+ *
+ * @see OperationsBuffer
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class OperationHandler implements DiffHandler {
+public class OperationsBuffer implements DiffHandler {
 
   /**
-   * The list of operations produced by this formatter.
+   * The list of operations produced by this handler.
    */
   private final List<Operation> operations = new ArrayList<>();
 
@@ -52,7 +56,21 @@ public class OperationHandler implements DiffHandler {
 
   @Override
   public String toString() {
-    return "OperationHandler";
+    return "OperationsBuffer";
   }
 
+  /**
+   * Apply the operations captured by this handler to the specified handler.
+   * <p>
+   * This method invokes both the start and end methods on the handler.
+   *
+   * @param handler receives start, handler and end events.
+   */
+  public void applyTo(DiffHandler handler) {
+    handler.start();
+    for (Operation operation : this.operations) {
+      handler.handle(operation.operator(), operation.token());
+    }
+    handler.end();
+  }
 }

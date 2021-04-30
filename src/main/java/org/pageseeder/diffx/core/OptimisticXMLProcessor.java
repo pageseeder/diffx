@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.handler.*;
 import org.pageseeder.diffx.token.Token;
 import java.util.List;
@@ -53,30 +52,17 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    // Try...
-    OperationHandler holding = new OperationHandler();
-    DiffAlgorithm algorithm = new KumarRanganAlgorithm();
-    PostXMLFixer fixer = new PostXMLFixer(holding);
-    fixer.start();
-    algorithm.diff(first, second, fixer);
-    fixer.end();
-
-    if (DEBUG && fixer.hasError()) {
-      System.err.println("Optimistic has error:");
-      System.err.println(holding.getOperations());
-    }
-
-    if (fixer.hasError()) {
-      algorithm = new MatrixXMLAlgorithm();
-      DiffHandler actual = getFilter(handler);
-      handler.start();
-      algorithm.diff(first, second, actual);
-      handler.end();
+    // Try with fast diff
+    OperationsBuffer buffer = new OperationsBuffer();
+    boolean successful = fastDiff(first, second, buffer);
+    if (successful) {
+      buffer.applyTo(getFilter(handler));
     } else {
-      DiffHandler out = getFilter(handler);
-      out.start();
-      Operations.handle(holding.getOperations(), out);
-      out.end();
+      if (DEBUG) {
+        System.err.println("Optimistic has error:");
+        System.err.println(buffer.getOperations());
+      }
+      fallbackDiff(first, second, getFilter(handler));
     }
 
   }
@@ -85,11 +71,35 @@ public final class OptimisticXMLProcessor implements DiffProcessor {
     return this.coalesce ? new CoalescingFilter(handler) : handler;
   }
 
+  /**
+   * Run fast algorithm and try to fix any XML errors after the diff.
+   */
+  private boolean fastDiff(List<? extends Token> first, List<? extends Token> second, OperationsBuffer buffer) {
+    DiffAlgorithm algorithm = new KumarRanganAlgorithm();
+    PostXMLFixer fixer = new PostXMLFixer(buffer);
+    fixer.start();
+    algorithm.diff(first, second, fixer);
+    fixer.end();
+    return !fixer.hasError();
+  }
+
+  /**
+   * Fall back on slower matrix-based algorithm.
+   */
+  private void fallbackDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+    MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
+    algorithm.setThreshold(this.fallbackThreshold);
+    DiffHandler actual = getFilter(handler);
+    actual.start();
+    algorithm.diff(first, second, actual);
+    actual.end();
+  }
+
   @Override
   public String toString() {
     return "OptimisticXMLProcessor{" +
         "coalesce=" + coalesce +
+        ", fallbackThreshold=" + fallbackThreshold +
         '}';
   }
-
 }

@@ -26,11 +26,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OperationHandlerText {
+public class OperationsBufferTest {
 
   @Test
   public void testEmpty() {
-    OperationHandler handler = new OperationHandler();
+    OperationsBuffer handler = new OperationsBuffer();
     List<Operation> Operations = handler.getOperations();
     assertTrue(Operations.isEmpty());
   }
@@ -39,7 +39,7 @@ public class OperationHandlerText {
   public void testSingle() {
     Token token = new CharToken('x');
     for (Operator operator : Operator.values()) {
-      OperationHandler handler = new OperationHandler();
+      OperationsBuffer handler = new OperationsBuffer();
       handler.handle(operator, token);
       List<Operation> operations = handler.getOperations();
       assertEquals(1, operations.size());
@@ -55,7 +55,7 @@ public class OperationHandlerText {
     Token token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       for (Operator operator2 : Operator.values()) {
-        OperationHandler handler = new OperationHandler();
+        OperationsBuffer handler = new OperationsBuffer();
         handler.handle(operator1, token1);
         handler.handle(operator2, token2);
         List<Operation> operations = handler.getOperations();

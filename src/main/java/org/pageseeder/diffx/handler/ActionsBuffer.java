@@ -24,14 +24,18 @@ import java.util.List;
 
 /**
  * Generates a list of actions from the output of the algorithms.
+ * <p>
+ * This handler is useful to capture the operations resulting from a diff.
+ *
+ * @see OperationsBuffer
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class ActionHandler implements DiffHandler {
+public class ActionsBuffer implements DiffHandler {
 
   /**
-   * The list of actions produced by this formatter.
+   * The list of actions produced by this handler.
    */
   private final List<Action> actions = new ArrayList<>();
 
@@ -70,7 +74,7 @@ public class ActionHandler implements DiffHandler {
 
   @Override
   public String toString() {
-    return "ActionHandler";
+    return "ActionsBuffer";
   }
 
 }

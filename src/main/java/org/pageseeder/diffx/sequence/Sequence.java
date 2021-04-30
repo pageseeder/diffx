@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * A sequence of tokens.
  *
- * <p>This class wraps a list of <code>Token</code>s alongside the prefix mapping.
+ * <p>This class wraps a list of <code>Token</code>s alongside the namespaces.
  *
  * <p>Implementation note: we use an <code>ArrayList</code> to store the tokens because some algorithms
  * need random access. Other list implementations may affect performance.</p>

@@ -187,7 +187,7 @@ public class CoalescingFilterTest {
   // --------------------------------------------------------------------------
 
   private List<Operation> coalesceOperations(List<Operation> operations) {
-    OperationHandler target = new OperationHandler();
+    OperationsBuffer target = new OperationsBuffer();
     CoalescingFilter filter = new CoalescingFilter(target);
     filter.start();
     Operations.handle(operations, filter);

@@ -22,7 +22,7 @@ import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
-import org.pageseeder.diffx.handler.ActionHandler;
+import org.pageseeder.diffx.handler.ActionsBuffer;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
@@ -38,7 +38,7 @@ public final class TestActions {
 
 
   public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends Token> seq1, List<? extends Token> seq2) {
-    ActionHandler handler = new ActionHandler();
+    ActionsBuffer handler = new ActionsBuffer();
     algorithm.diff(seq1, seq2, handler);
     return handler.getActions();
   }

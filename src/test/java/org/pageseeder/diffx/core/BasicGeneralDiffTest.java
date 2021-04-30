@@ -18,7 +18,7 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.ActionHandler;
+import org.pageseeder.diffx.handler.ActionsBuffer;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.RandomStringFactory;
@@ -664,7 +664,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     List<GeneralToken> seq1 = toGeneralTokens(text1);
     List<GeneralToken> seq2 = toGeneralTokens(text2);
     DiffAlgorithm algorithm = getDiffAlgorithm();
-    ActionHandler af = new ActionHandler();
+    ActionsBuffer af = new ActionsBuffer();
     TestHandler cf = new TestHandler();
 
     // Run the diff

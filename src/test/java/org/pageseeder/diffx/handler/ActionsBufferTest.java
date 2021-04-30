@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ActionHandlerText {
+public class ActionsBufferTest {
 
   @Test
   public void testEmpty() {
-    ActionHandler handler = new ActionHandler();
+    ActionsBuffer handler = new ActionsBuffer();
     List<Action> actions = handler.getActions();
     assertTrue(actions.isEmpty());
   }
@@ -42,7 +42,7 @@ public class ActionHandlerText {
   public void testSingle() {
     Token token = new CharToken('x');
     for (Operator operator : Operator.values()) {
-      ActionHandler handler = new ActionHandler();
+      ActionsBuffer handler = new ActionsBuffer();
       handler.handle(operator, token);
       List<Action> actions = handler.getActions();
       assertEquals(1, actions.size());
@@ -58,7 +58,7 @@ public class ActionHandlerText {
     Token token1 = new CharToken('x');
     Token token2 = new CharToken('y');
     for (Operator operator : Operator.values()) {
-      ActionHandler handler = new ActionHandler();
+      ActionsBuffer handler = new ActionsBuffer();
       handler.handle(operator, token1);
       handler.handle(operator, token2);
       List<Action> actions = handler.getActions();
@@ -78,7 +78,7 @@ public class ActionHandlerText {
     for (Operator operator1 : Operator.values()) {
       Iterable<Operator> others = Arrays.stream(Operator.values()).filter(o -> o != operator1).collect(Collectors.toSet());
       for (Operator operator2 : others) {
-        ActionHandler handler = new ActionHandler();
+        ActionsBuffer handler = new ActionsBuffer();
         handler.handle(operator1, token1);
         handler.handle(operator2, token2);
         List<Action> actions = handler.getActions();
