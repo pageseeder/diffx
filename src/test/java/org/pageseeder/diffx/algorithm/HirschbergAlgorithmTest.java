@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
 
 /**
- * Test case for Wagner-Fischer algorithm (text only).
+ * Test case for Hirschberg algorithm (text-only).
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class WagnerFischerAlgorithmTest {
+public final class HirschbergAlgorithmTest {
 
   private DiffAlgorithm newAlgorithm() {
-    return new WagnerFischerAlgorithm();
+    return new HirschbergAlgorithm();
   }
 
   @Nested

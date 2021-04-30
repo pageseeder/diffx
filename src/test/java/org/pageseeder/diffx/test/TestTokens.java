@@ -17,7 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
@@ -44,12 +44,12 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class Events {
+public final class TestTokens {
 
   /**
    * Prevents creation of instances.
    */
-  private Events() {
+  private TestTokens() {
   }
 
   public static TextToken toTextToken(String text) {
@@ -75,15 +75,13 @@ public final class Events {
     return s;
   }
 
-
   public static List<Token> loadTokens(String xml, TextGranularity granularity) throws DiffXException {
     if (xml.isEmpty()) return Collections.emptyList();
-    DiffXConfig config = new DiffXConfig();
-    config.setGranularity(granularity);
+    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
     return loadTokens(xml, config);
   }
 
-  public static List<Token> loadTokens(String xml, DiffXConfig config) throws LoadingException {
+  public static List<Token> loadTokens(String xml, DiffConfig config) throws LoadingException {
     SAXLoader loader = new SAXLoader();
     loader.setConfig(config);
     return loader.load(xml).tokens();
@@ -91,12 +89,11 @@ public final class Events {
 
   public static Sequence loadSequence(String xml, TextGranularity granularity) throws LoadingException {
     if (xml.isEmpty()) return new Sequence();
-    DiffXConfig config = new DiffXConfig();
-    config.setGranularity(granularity);
+    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
     return loadSequence(xml, config);
   }
 
-  public static Sequence loadSequence(String xml, DiffXConfig config) throws LoadingException {
+  public static Sequence loadSequence(String xml, DiffConfig config) throws LoadingException {
     SAXLoader recorder = new SAXLoader();
     recorder.setConfig(config);
     return recorder.load(xml);
@@ -104,8 +101,7 @@ public final class Events {
 
   public static Sequence loadSequence(Document xml, TextGranularity granularity) throws LoadingException {
     DOMLoader loader = new DOMLoader();
-    DiffXConfig config = new DiffXConfig();
-    config.setGranularity(granularity);
+    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
     loader.setConfig(config);
     return loader.load(xml);
   }

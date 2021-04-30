@@ -15,7 +15,11 @@
  */
 package org.pageseeder.diffx.core;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Nested;
+import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
+import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 
 /**
  * Test case for progressive XML processor.
@@ -54,6 +58,7 @@ public final class ProgressiveXMLProcessorTest {
   }
 
   @Nested
+  @Ignore
   public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
@@ -62,6 +67,7 @@ public final class ProgressiveXMLProcessorTest {
   }
 
   @Nested
+  @Ignore
   public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
@@ -72,6 +78,7 @@ public final class ProgressiveXMLProcessorTest {
   }
 
   @Nested
+  @Ignore
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {

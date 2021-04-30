@@ -17,12 +17,13 @@ package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.List;
@@ -234,8 +235,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
 
   private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp) throws LoadingException {
     // Record XML
-    Sequence seq1 = Events.loadSequence(xml1, TextGranularity.WORD);
-    Sequence seq2 = Events.loadSequence(xml2, TextGranularity.WORD);
+    Sequence seq1 = TestTokens.loadSequence(xml1, TextGranularity.WORD);
+    Sequence seq2 = TestTokens.loadSequence(xml2, TextGranularity.WORD);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     // Process as list of actions
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());

@@ -16,6 +16,9 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Nested;
+import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
+import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 
 /**
  * Test case for the default XML processor

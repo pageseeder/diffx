@@ -33,7 +33,7 @@ import java.io.StringWriter;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @see Events
+ * @see TestTokens
  */
 public final class TestFormatter implements DiffXFormatter {
 

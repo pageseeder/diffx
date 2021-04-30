@@ -71,6 +71,23 @@ public class ActionsBuffer implements DiffHandler {
     }
   }
 
+  /**
+   * Apply the action captured by this handler to the specified handler.
+   * <p>
+   * This method invokes both the start and end methods on the handler.
+   *
+   * @param handler receives start, handler and end events.
+   */
+  public void applyTo(DiffHandler handler) {
+    handler.start();
+    for (Action action : this.actions) {
+      for (Token token : action.tokens()) {
+        handler.handle(action.operator(), token);
+      }
+    }
+    handler.end();
+  }
+
   @Override
   public String toString() {
     return "ActionsBuffer";

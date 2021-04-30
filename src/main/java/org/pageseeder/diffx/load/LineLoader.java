@@ -62,6 +62,19 @@ public final class LineLoader implements Loader {
   }
 
   /**
+   * Loads the contents of the specified file using the charset provided.
+   *
+   * @return The corresponding sequence of tokens.
+   * @throws IOException Should an I/O error occur.
+   */
+  @Override
+  public Sequence load(Reader reader) throws IOException {
+    try (BufferedReader buffer = new BufferedReader(reader)) {
+      return getSequence(buffer);
+    }
+  }
+
+  /**
    * Runs this loader on the specified string.
    *
    * @param text The text string to process.

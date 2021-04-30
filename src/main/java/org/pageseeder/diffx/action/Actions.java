@@ -176,4 +176,15 @@ public class Actions {
       }
     }
   }
+
+  public static void applyTo(List<Action> actions, DiffHandler handler) {
+    handler.start();
+    for (Action action : actions) {
+      for (Token token : action.tokens()) {
+        handler.handle(action.operator(), token);
+      }
+    }
+    handler.end();
+  }
+
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;

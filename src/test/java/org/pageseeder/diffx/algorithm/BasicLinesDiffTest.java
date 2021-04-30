@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
@@ -95,8 +95,8 @@ public abstract class BasicLinesDiffTest extends AlgorithmTest {
   }
 
   private String processDiffLines(String text1, String text2) {
-    List<? extends Token> seq1 = Events.recordLineEvents(text1);
-    List<? extends Token> seq2 = Events.recordLineEvents(text2);
+    List<? extends Token> seq1 = TestTokens.recordLineEvents(text1);
+    List<? extends Token> seq2 = TestTokens.recordLineEvents(text2);
     DiffAlgorithm processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
     processor.diff(seq1, seq2, handler);

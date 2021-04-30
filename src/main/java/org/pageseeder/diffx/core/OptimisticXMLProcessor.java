@@ -15,6 +15,9 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.algorithm.KumarRanganAlgorithm;
+import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationsBuffer;
@@ -30,22 +33,11 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class OptimisticXMLProcessor implements DiffProcessor {
+public final class OptimisticXMLProcessor extends DiffProcessorBase implements DiffProcessor {
 
   private static final boolean DEBUG = false;
 
-  private boolean coalesce = false;
-
   private int fallbackThreshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
-
-  /**
-   * Set whether to consecutive text operations should be coalesced into a single operation.
-   *
-   * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
-   */
-  public void setCoalesce(boolean coalesce) {
-    this.coalesce = coalesce;
-  }
 
   /**
    * Set the maximum amount of comparison in case the fast algorithm fails.

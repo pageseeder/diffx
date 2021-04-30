@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * A testing utility class.
  *
- * @author Christophe Lauret (Weborganic)
+ * @author Christophe Lauret
  * @version 0.9.0
  */
 public class TestUtils {
@@ -30,7 +30,6 @@ public class TestUtils {
    */
   private TestUtils() {
   }
-
 
   /**
    * Returns the data directory for the class being tested.

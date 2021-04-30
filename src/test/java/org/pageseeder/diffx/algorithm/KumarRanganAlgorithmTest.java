@@ -15,18 +15,33 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.junit.jupiter.api.Nested;
 
 /**
- * Test case for Diff-X algorithm using the Smart matrix LCS algorithm.
+ * Test case for Wagner-Fischer algorithm (text only).
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class DiffXKumarRanganTest extends BaseAlgorithmLevel0Test {
+public final class KumarRanganAlgorithmTest {
 
-  public DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2) {
-    return new DiffXKumarRangan(new EventSequence(seq1), new EventSequence(seq2));
+  private DiffAlgorithm newAlgorithm() {
+    return new KumarRanganAlgorithm();
+  }
+
+  @Nested
+  public class GeneralDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
+
+  @Nested
+  public class LinesDiff extends BasicLinesDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
   }
 }

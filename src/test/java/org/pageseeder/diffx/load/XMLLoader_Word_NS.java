@@ -17,7 +17,7 @@ package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.*;
@@ -27,17 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public abstract class XMLLoader_Word_NS extends XMLLoaderTest {
 
   @Override
-  public DiffXConfig getConfig() {
-    DiffXConfig config = new DiffXConfig();
-    config.setNamespaceAware(true);
-    config.setGranularity(TextGranularity.WORD);
-    return config;
+  public DiffConfig getConfig() {
+    return DiffConfig.getDefault().granularity(TextGranularity.WORD);
   }
 
   @Test
   @DisplayName("<a ")
   public final void testInvalidElement() {
-    assertThrows(LoadingException.class, () -> record("<bad-xml", getConfig()));
+    assertThrows(LoadingException.class, () -> load("<bad-xml", getConfig()));
   }
 
   @Test

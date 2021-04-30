@@ -18,6 +18,7 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.*;
@@ -93,15 +94,12 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
 
   private void assertDiffXMLRandomOK(String docA, String docB) throws DiffXException {
     // Record XML
-    Sequence seq1 = Events.loadSequence(docA, TextGranularity.SPACE_WORD);
-    Sequence seq2 = Events.loadSequence(docB, TextGranularity.SPACE_WORD);
-    System.out.println();
+    Sequence seq1 = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
+    Sequence seq2 = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     // Process as list of actions
-    long t1 = System.nanoTime();
     List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
-    long t2 = System.nanoTime();
-//    System.out.println(seq1.size()+"/"+seq2.size()+" -> "+((t2-t1) / (seq1.size()+seq2.size())));
+
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);

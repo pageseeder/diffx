@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
@@ -361,7 +361,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "+a+xbx-a-x",
         "+a+xb-x-ax",
-        "-b-xax+b+x"
+        "-b-xax+b+x",
+        "-b+ax-a+bx"
     };
     assertGeneralDiffOK(a, b, exp);
   }

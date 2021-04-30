@@ -27,9 +27,9 @@ public class TestOperations {
   public static List<Operation> toTextOperations(String... ops) {
     OperationsBuffer source = new OperationsBuffer();
     for (String op : ops) {
-      if (op.startsWith("+")) source.handle(Operator.INS, Events.toTextToken(op.substring(1)));
-      else if (op.startsWith("-")) source.handle(Operator.DEL, Events.toTextToken(op.substring(1)));
-      else source.handle(Operator.MATCH, Events.toTextToken(op));
+      if (op.startsWith("+")) source.handle(Operator.INS, TestTokens.toTextToken(op.substring(1)));
+      else if (op.startsWith("-")) source.handle(Operator.DEL, TestTokens.toTextToken(op.substring(1)));
+      else source.handle(Operator.MATCH, TestTokens.toTextToken(op));
     }
     return source.getOperations();
   }

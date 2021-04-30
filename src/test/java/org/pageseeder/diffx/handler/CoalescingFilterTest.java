@@ -18,8 +18,8 @@ package org.pageseeder.diffx.handler;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -65,7 +65,7 @@ public class CoalescingFilterTest {
 
   @Test
   public void testCoalesceMultiple1() {
-    List<TextToken> tokens = Events.toTextTokens("A", " ", "big", " ", "cat!");
+    List<TextToken> tokens = TestTokens.toTextTokens("A", " ", "big", " ", "cat!");
     TextToken got = CoalescingFilter.coalesceText(tokens);
     assertEquals("A big cat!", got.getCharacters());
   }

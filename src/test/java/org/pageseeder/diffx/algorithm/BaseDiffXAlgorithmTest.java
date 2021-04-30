@@ -41,7 +41,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class BaseAlgorithmTest {
+@Deprecated
+public abstract class BaseDiffXAlgorithmTest {
 
   /**
    * The loader used for the tests.

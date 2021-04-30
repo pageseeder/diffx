@@ -1,11 +1,11 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
- * http://www.allette.com.au
+ * Copyright (c) 2010-2021 Allette Systems (Australia)
+ *    http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
@@ -22,28 +22,6 @@ import org.pageseeder.diffx.token.Token;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Performs the diff comparison using an optimized version of the linear space algorithm
- * of S.Kiran Kumar and C.Pandu Rangan.
- *
- * <p>This algorithm starts from the length of the first sequence as the maximum possible
- * LCS and reduces the length for every difference with the second sequence.
- *
- * <p>The time complexity is O(n(m-p)) and the space complexity is O(n+m).
- *
- * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
- * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987
- *
- * <p>This class reuses portions of code originally written by Mikko Koivisto and Tuomo Saarni.
- *
- * <p><a href="http://dblp.uni-trier.de/rec/bibtex/journals/acta/KumarR87">
- * http://dblp.uni-trier.de/rec/bibtex/journals/acta/KumarR87</a>
- *
- * <p><a href="http://users.utu.fi/~tuiisa/Java/">http://users.utu.fi/~tuiisa/Java/</a>
- *
- * @author Christophe Lauret
- * @version 0.9.0
- */
 public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
   /**

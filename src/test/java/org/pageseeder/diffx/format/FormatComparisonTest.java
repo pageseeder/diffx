@@ -23,7 +23,7 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
 import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
@@ -82,8 +82,8 @@ public class FormatComparisonTest {
   }
 
   private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffXException {
-    Sequence from = Events.loadSequence(xml1, TextGranularity.SPACE_WORD);
-    Sequence to = Events.loadSequence(xml2, TextGranularity.SPACE_WORD);
+    Sequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
+    Sequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());
     List<Operation> operations = toOperations(from, to);
     printAllOutputs(operations, namespaces);

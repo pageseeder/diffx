@@ -17,13 +17,14 @@ package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.RandomXMLFactory;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.w3c.dom.Document;
@@ -42,8 +43,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .10);
-    List<CharToken> second = Events.toCharTokens(from);
-    List<CharToken> first = Events.toCharTokens(to);
+    List<CharToken> second = TestTokens.toCharTokens(from);
+    List<CharToken> first = TestTokens.toCharTokens(to);
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
@@ -57,8 +58,8 @@ public class PerformanceTest {
       // Generate content
       String from = getRandomString(length, false);
       String to = vary(from, .2);
-      List<CharToken> second = Events.toCharTokens(from);
-      List<CharToken> first = Events.toCharTokens(to);
+      List<CharToken> second = TestTokens.toCharTokens(from);
+      List<CharToken> first = TestTokens.toCharTokens(to);
 
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
@@ -70,8 +71,8 @@ public class PerformanceTest {
 //  public void compareHirshbergVariations() throws IOException {
 //    String from = getRandomString(2000, false);
 //    String to = vary(from, .2);
-//    List<CharToken> second = Events.toCharTokens(from);
-//    List<CharToken> first = Events.toCharTokens(to);
+//    List<CharToken> second = TestTokens.toCharTokens(from);
+//    List<CharToken> first = TestTokens.toCharTokens(to);
 //
 //    // warm up
 //    profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
@@ -107,8 +108,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, false);
     String to = vary(from, .50);
-    List<CharToken> second = Events.toCharTokens(from);
-    List<CharToken> first = Events.toCharTokens(to);
+    List<CharToken> second = TestTokens.toCharTokens(from);
+    List<CharToken> first = TestTokens.toCharTokens(to);
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new TextOnlyProcessor(), first, second, 10);
@@ -120,8 +121,8 @@ public class PerformanceTest {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
-    List<Token> second = Events.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
-    List<Token> first = Events.loadTokens("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
+    List<Token> second = TestTokens.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
+    List<Token> first = TestTokens.loadTokens("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
     profileX(new DefaultXMLProcessor(), first, second, 10);
     profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
@@ -134,10 +135,10 @@ public class PerformanceTest {
     generateXML(xml1, xml2, 50);
 
     // Parse tokens
-    List<Token> secondText = Events.loadTokens(xml1.toString(), TextGranularity.TEXT);
-    List<Token> firstText = Events.loadTokens(xml2.toString(), TextGranularity.TEXT);
-    List<Token> secondWord = Events.loadTokens(xml1.toString(), TextGranularity.SPACE_WORD);
-    List<Token> firstWord = Events.loadTokens(xml2.toString(), TextGranularity.SPACE_WORD);
+    List<Token> secondText = TestTokens.loadTokens(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = TestTokens.loadTokens(xml2.toString(), TextGranularity.TEXT);
+    List<Token> secondWord = TestTokens.loadTokens(xml1.toString(), TextGranularity.SPACE_WORD);
+    List<Token> firstWord = TestTokens.loadTokens(xml2.toString(), TextGranularity.SPACE_WORD);
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new OptimisticXMLProcessor(), firstWord, secondWord, 10);
@@ -153,8 +154,8 @@ public class PerformanceTest {
       RandomXMLFactory factory = new RandomXMLFactory();
       Document from = factory.getRandomXML(5, 5);
       Document to = factory.vary(from, .2);
-      Sequence second = Events.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
-      Sequence first = Events.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+      Sequence second = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      Sequence first = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
 
       profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
       profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);
@@ -169,8 +170,8 @@ public class PerformanceTest {
     generateXML(xml1, xml2, 100);
 
     // Parse tokens
-    List<Token> secondText = Events.loadTokens(xml1.toString(), TextGranularity.TEXT);
-    List<Token> firstText = Events.loadTokens(xml2.toString(), TextGranularity.TEXT);
+    List<Token> secondText = TestTokens.loadTokens(xml1.toString(), TextGranularity.TEXT);
+    List<Token> firstText = TestTokens.loadTokens(xml2.toString(), TextGranularity.TEXT);
 
     OptimisticXMLProcessor coalescingProcessor = new OptimisticXMLProcessor();
     coalescingProcessor.setCoalesce(true);

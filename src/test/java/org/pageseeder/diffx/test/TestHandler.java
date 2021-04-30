@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @see Events
+ * @see TestTokens
  */
 public final class TestHandler implements DiffHandler {
 

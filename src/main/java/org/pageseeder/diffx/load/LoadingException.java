@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 
 /**
  * Class of exceptions occurring when trying to load tokens.
@@ -27,7 +27,7 @@ import org.pageseeder.diffx.DiffXException;
  * @version 0.9.0
  * @since 0.6.0
  */
-public final class LoadingException extends DiffXException {
+public final class LoadingException extends DiffException {
 
   /**
    * As required for Serializable.

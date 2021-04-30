@@ -31,7 +31,8 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseAlgorithmLevel2Test extends BaseAlgorithmLevel1Test {
+@Deprecated
+public abstract class BaseDiffXAlgorithmLevel2Test extends BaseDiffXAlgorithmLevel1Test {
 
 
   /**

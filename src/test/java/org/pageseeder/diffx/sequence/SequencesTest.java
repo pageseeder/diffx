@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.test.Events;
+import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.TextToken;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -119,21 +119,21 @@ public final class SequencesTest {
 
   @Test
   public void testFoldText1() throws LoadingException {
-    Sequence input = Events.loadSequence("<a/>", TextGranularity.SPACE_WORD);
+    Sequence input = TestTokens.loadSequence("<a/>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
   public void testFoldText2() throws LoadingException {
-    Sequence input = Events.loadSequence("<a>black</a>", TextGranularity.SPACE_WORD);
+    Sequence input = TestTokens.loadSequence("<a>black</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
   public void testFoldText3() throws LoadingException {
-    Sequence input = Events.loadSequence("<a>black cat</a>", TextGranularity.SPACE_WORD);
+    Sequence input = TestTokens.loadSequence("<a>black cat</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input.size() - 1, output.size());
     assertTrue(output.getToken(1) instanceof TextToken);
@@ -142,14 +142,14 @@ public final class SequencesTest {
 
   @Test
   public void testFoldText4() throws LoadingException {
-    Sequence input = Events.loadSequence("<p>a<b> black</b> cat</p>", TextGranularity.SPACE_WORD);
+    Sequence input = TestTokens.loadSequence("<p>a<b> black</b> cat</p>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
   public void testFoldText5() throws LoadingException {
-    Sequence input = Events.loadSequence("<p>a black<b> cat</b></p>", TextGranularity.TEXT);
+    Sequence input = TestTokens.loadSequence("<p>a black<b> cat</b></p>", TextGranularity.TEXT);
     Sequence output = Sequences.foldText(input);
     assertEquals(input.size() - 1, output.size());
   }

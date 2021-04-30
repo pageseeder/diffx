@@ -15,16 +15,10 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.NamespaceSet;
-import org.xml.sax.InputSource;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.UncheckedIOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,12 +35,12 @@ public abstract class XMLLoaderTest {
    *
    * @return A new recorder instance for testing
    */
-  public abstract XMLLoader newXMLRecorder(DiffXConfig config);
+  public abstract XMLLoader newXMLLoader(DiffConfig config);
 
   /**
    * @return The Diff-X config instance.
    */
-  public abstract DiffXConfig getConfig();
+  public abstract DiffConfig getConfig();
 
   /**
    * Checks that the given XML is equivalent to the given token sequence.
@@ -57,9 +51,9 @@ public abstract class XMLLoaderTest {
    *
    * @throws LoadingException Should an error occur while parsing XML.
    */
-  public final void assertEquivalent(Sequence exp, String xml, DiffXConfig config)
+  public final void assertEquivalent(Sequence exp, String xml, DiffConfig config)
       throws LoadingException {
-    Sequence got = record(xml, config);
+    Sequence got = load(xml, config);
     try {
       assertEquals(exp.size(), got.size());
       assertEquals(exp, got);
@@ -78,14 +72,9 @@ public abstract class XMLLoaderTest {
     }
   }
 
-  protected Sequence record(String xml, DiffXConfig config) throws LoadingException {
-    try (Reader reader = new StringReader(xml)) {
-      XMLLoader recorder = newXMLRecorder(config);
-      return recorder.load(new InputSource(reader));
-    } catch (IOException ex) {
-      // Shouldn't
-      throw new UncheckedIOException(ex);
-    }
+  protected Sequence load(String xml, DiffConfig config) throws LoadingException {
+    XMLLoader loaded = newXMLLoader(config);
+    return loaded.load(xml);
   }
 
 }

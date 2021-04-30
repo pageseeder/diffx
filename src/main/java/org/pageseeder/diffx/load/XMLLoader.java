@@ -78,6 +78,11 @@ public interface XMLLoader extends Loader {
     }
   }
 
+  @Override
+  default Sequence load(Reader reader) throws LoadingException, IOException {
+    return this.load(new InputSource(reader));
+  }
+
   /**
    * Parse the contents of the specified string as a sequence of XML tokens.
    *

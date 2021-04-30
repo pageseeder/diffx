@@ -19,6 +19,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 
@@ -31,6 +32,28 @@ import java.nio.charset.Charset;
  * @since 0.6.0
  */
 public interface Loader {
+
+  /**
+   * Runs the loader on the specified file.
+   *
+   * @param reader The file to process.
+   *
+   * @return The corresponding sequence of tokens.
+   * @throws LoadingException     If thrown while parsing.
+   * @throws UncheckedIOException Should I/O error occur.
+   */
+  Sequence load(Reader reader) throws LoadingException, IOException;
+
+  /**
+   * Runs the loader on the specified string.
+   *
+   * @param source The string to process.
+   *
+   * @return The recorded sequence of tokens.
+   * @throws LoadingException     If thrown while parsing.
+   * @throws UncheckedIOException Should I/O error occur.
+   */
+  Sequence load(String source) throws LoadingException;
 
   /**
    * Loads the contents of the specified file using the charset provided.
@@ -54,16 +77,5 @@ public interface Loader {
    * @throws IOException      Should I/O error occur.
    */
   Sequence load(File file) throws LoadingException, IOException;
-
-  /**
-   * Runs the loader on the specified string.
-   *
-   * @param source The string to process.
-   *
-   * @return The recorded sequence of tokens.
-   * @throws LoadingException     If thrown while parsing.
-   * @throws UncheckedIOException Should I/O error occur.
-   */
-  Sequence load(String source) throws LoadingException;
 
 }

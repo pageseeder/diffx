@@ -41,7 +41,8 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseAlgorithmLevel0Test extends BaseAlgorithmTest {
+@Deprecated
+public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTest {
 
   @Test
   public final void testLevel0_Empty() throws IOException {

@@ -16,16 +16,15 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.Actions;
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.algorithm.AlgorithmTest;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.Events;
 import org.pageseeder.diffx.test.TestActions;
-import org.pageseeder.diffx.test.TestHandler;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.test.TestTokens;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +38,7 @@ import java.util.List;
 public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
 
   @Test
-  public final void testCoalesce_Identical() throws DiffXException {
+  public final void testCoalesce_Identical() throws DiffException {
     String xml1 = "<a>X Y</a>";
     String xml2 = "<a>X Y</a>";
     String exp = "<a>X Y</a>";
@@ -47,7 +46,7 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testProg_SplitMergeA1() throws DiffXException {
+  public final void testProg_SplitMergeA1() throws DiffException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     // split
@@ -68,7 +67,7 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testCoalesce_Sticky() throws DiffXException {
+  public final void testCoalesce_Sticky() throws DiffException {
     String xml1 = "<a>a white cat</a>";
     String xml2 = "<a>a black hat</a>";
     String expA = "<a>a+( white cat)-( black hat)</a>";
@@ -77,7 +76,7 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testProg_MovedBranch() throws IOException, DiffXException {
+  public final void testProg_MovedBranch() throws DiffException {
     String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
@@ -87,7 +86,7 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testProg_BestPath() throws IOException, DiffXException {
+  public final void testProg_BestPath() throws DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<a><b/><b>X</b></a>";
     String exp1 = "<a>-<b>-</b><b>X</b></a>";
@@ -103,21 +102,15 @@ public abstract class CoalesceXMLDiffTest extends AlgorithmTest {
    * @param xml2 The first XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
    *
-   * @throws DiffXException Should an error occur while parsing XML.
+   * @throws DiffException Should an error occur while parsing XML.
    */
-  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, String... exp) throws DiffXException {
-    // Record XML
-    DiffXConfig config = new DiffXConfig();
-    config.setGranularity(TextGranularity.SPACE_WORD);
-    List<? extends Token> seq1 = Events.loadTokens(xml1, config);
-    List<? extends Token> seq2 = Events.loadTokens(xml2, config);
+  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, String... exp) throws DiffException {
+    DiffConfig config = DiffConfig.getDefault().granularity(TextGranularity.SPACE_WORD);
+    Sequence seq1 = TestTokens.loadSequence(xml1, config);
+    Sequence seq2 = TestTokens.loadSequence(xml2, config);
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1, seq2);
-
-    TestHandler th = new TestHandler();
-    Actions.handle(actions, th);
-
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions);

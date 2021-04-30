@@ -16,7 +16,12 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.algorithm.HirschbergAlgorithm;
+import org.pageseeder.diffx.algorithm.KumarRanganAlgorithm;
+import org.pageseeder.diffx.algorithm.WagnerFischerAlgorithm;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.Token;
 
 import java.util.Iterator;
@@ -30,7 +35,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TextOnlyProcessor implements DiffProcessor {
+public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor {
 
   /**
    * The main algorithms to choose from.
@@ -47,7 +52,7 @@ public final class TextOnlyProcessor implements DiffProcessor {
    * Create a text only processor using Kumar-Rangan's algorithm.
    */
   public TextOnlyProcessor() {
-    this(Algorithm.HIRSCHBERG);
+    this(Algorithm.KUMAR_RANGAN);
   }
 
   public TextOnlyProcessor(Algorithm algorithm) {
@@ -63,19 +68,22 @@ public final class TextOnlyProcessor implements DiffProcessor {
       for (Token token : first) handler.handle(Operator.INS, token);
     } else {
 
+      TokenListSlicer slicer = new TokenListSlicer(first, second);
+      int common = slicer.analyze();
+
       // Slice the beginning
-      int start = sliceStart(first, second);
-      int end = sliceEnd(first, second, start);
+      int startCount = slicer.getStartCount();
+      int endCount = slicer.getEndCount();
 
       // Copy the end
-      if (start > 0) {
-        for (int i = 0; i < start; i++) handler.handle(Operator.MATCH, first.get(i));
+      if (startCount > 0) {
+        for (int i = 0; i < startCount; i++) handler.handle(Operator.MATCH, first.get(i));
       }
 
       // Check the end
-      if (start > 0 || end > 0) {
-        List<? extends Token> firstSub = first.subList(start, first.size() - end);
-        List<? extends Token> secondSub = second.subList(start, second.size() - end);
+      if (startCount > 0 || endCount > 0) {
+        List<? extends Token> firstSub = first.subList(startCount, first.size() - endCount);
+        List<? extends Token> secondSub = second.subList(startCount, second.size() - endCount);
         if (firstSub.isEmpty() || secondSub.isEmpty()) {
           for (Token token : secondSub) handler.handle(Operator.DEL, token);
           for (Token token : firstSub) handler.handle(Operator.INS, token);
@@ -90,8 +98,8 @@ public final class TextOnlyProcessor implements DiffProcessor {
       }
 
       // Copy the end
-      if (end > 0) {
-        for (int i = first.size() - end; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
+      if (endCount > 0) {
+        for (int i = first.size() - endCount; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
       }
     }
     handler.end();
@@ -113,42 +121,6 @@ public final class TextOnlyProcessor implements DiffProcessor {
       default:
         throw new IllegalStateException("No algorithm defined");
     }
-  }
-
-  /**
-   * Slices the start of both sequences.
-   *
-   * @return The number of common elements at the start of the sequences.
-   */
-  public static int sliceStart(List<? extends Token> first, List<? extends Token> second) {
-    int count = 0;
-    Iterator<? extends Token> i = first.iterator();
-    Iterator<? extends Token> j = second.iterator();
-    while (i.hasNext() && j.hasNext()) {
-      Token token = i.next();
-      if (j.next().equals(token)) {
-        count++;
-      } else return count;
-    }
-    return count;
-  }
-
-  /**
-   * Slices the end of both sequences.
-   *
-   * @return The number of common elements at the end of the sequences.
-   * @throws IllegalStateException If the end buffer is not empty.
-   */
-  public int sliceEnd(List<? extends Token> first, List<? extends Token> second, int start) {
-    int count = 0;
-    int i = first.size() - 1, j = second.size() - 1;
-    for (; i >= start && j >= start; i--, j--) {
-      Token token = first.get(i);
-      if (token.equals(second.get(j))) {
-        count++;
-      } else return count;
-    }
-    return count;
   }
 
 }

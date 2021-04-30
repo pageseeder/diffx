@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx;
 
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.OptimisticXMLProcessor;
@@ -91,7 +91,7 @@ public final class Extension {
       throws DiffXException, IOException {
 
     // Get the config
-    DiffXConfig config = toConfig(whitespace, granularity);
+    DiffConfig config = toConfig(whitespace, granularity);
 
     // Get Sequences
     DOMLoader loader = new DOMLoader();
@@ -138,10 +138,10 @@ public final class Extension {
    *
    * @return the Diff-X config for the specified arguments as String.
    */
-  private static DiffXConfig toConfig(String whitespace, String granularity) {
+  private static DiffConfig toConfig(String whitespace, String granularity) {
     WhiteSpaceProcessing ws = WhiteSpaceProcessing.valueOf(whitespace);
     TextGranularity tg = TextGranularity.valueOf(granularity);
-    return new DiffXConfig(ws, tg);
+    return new DiffConfig(ws, tg);
   }
 
   /**
@@ -153,7 +153,7 @@ public final class Extension {
    *
    * @return the corresponding document node.
    */
-  private static Node toNode(String xml, DiffXConfig config, String factory) throws IOException, ParserConfigurationException, SAXException {
+  private static Node toNode(String xml, DiffConfig config, String factory) throws IOException, ParserConfigurationException, SAXException {
     DocumentBuilderFactory dbFactory = factory == null ? DocumentBuilderFactory.newInstance()
         : DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
     dbFactory.setNamespaceAware(config.isNamespaceAware());

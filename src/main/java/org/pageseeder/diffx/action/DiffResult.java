@@ -15,11 +15,9 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
-import java.io.IOException;
 import java.util.List;
 
 public final class DiffResult {
@@ -36,10 +34,6 @@ public final class DiffResult {
 
   public DiffResult reverse() {
     return new DiffResult(Actions.reverse(this.actions));
-  }
-
-  public void format(DiffXFormatter formatter) throws IOException {
-    Actions.format(this.actions, formatter);
   }
 
   public boolean isApplicableTo(List<Token> to, List<Token> from) {

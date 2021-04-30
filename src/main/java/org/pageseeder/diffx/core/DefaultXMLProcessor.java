@@ -15,15 +15,14 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
-public class DefaultXMLProcessor implements DiffProcessor {
-
-  private boolean coalesce = false;
+public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProcessor {
 
   private int threshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 

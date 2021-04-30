@@ -23,7 +23,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.pageseeder.diffx.test.Events.toTextTokens;
+import static org.pageseeder.diffx.test.TestTokens.toTextTokens;
 
 /**
  * Test case for the tokenizer.

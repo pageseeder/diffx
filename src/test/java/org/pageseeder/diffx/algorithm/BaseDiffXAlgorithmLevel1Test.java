@@ -35,7 +35,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BaseAlgorithmLevel1Test extends BaseAlgorithmLevel0Test {
+@Deprecated
+public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLevel0Test {
 
   /**
    * Compares two identical XML documents.

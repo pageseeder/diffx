@@ -128,22 +128,18 @@ public final class StrictXMLDiffOutputTest {
    */
   private void assertEquivalentToXML(String xml) throws DiffXException, IOException {
     // process the XML to get the sequence
-    Reader xmlr = new StringReader(xml);
-    Sequence exp = this.recorder.load(new InputSource(xmlr));
+    Sequence exp = this.recorder.load(xml);
     // process the output of the formatter
-    Reader xmlr2 = new StringReader(this.w.toString());
-    System.err.println(this.w.toString());
-    Sequence seq = this.recorder.load(new InputSource(xmlr2));
+    Sequence seq = this.recorder.load(this.w.toString());
     try {
-      assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);
     } catch (AssertionError ex) {
       PrintWriter pw = new PrintWriter(System.err);
       seq.export(pw);
       pw.flush();
+      System.err.println(this.w.toString());
       throw ex;
     }
-    System.err.println(this.w.toString());
   }
 
 }

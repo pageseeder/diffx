@@ -17,7 +17,7 @@ package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 
 /**
  * @author Christophe Lauret
@@ -25,18 +25,18 @@ import org.pageseeder.diffx.config.DiffXConfig;
  */
 public final class XMLStreamLoaderTest {
 
-  public XMLLoader configureRecorder(DiffXConfig config) {
-    XMLStreamLoader recorder = new XMLStreamLoader();
-    recorder.setConfig(config);
-    return recorder;
+  public XMLLoader configureLoader(DiffConfig config) {
+    XMLStreamLoader loader = new XMLStreamLoader();
+    loader.setConfig(config);
+    return loader;
   }
 
   @Nested
   @DisplayName("Text / No namespace")
   public class Text_NoNamespace extends XMLLoader_Text_NoNS {
     @Override
-    public XMLLoader newXMLRecorder(DiffXConfig config) {
-      return configureRecorder(config);
+    public XMLLoader newXMLLoader(DiffConfig config) {
+      return configureLoader(config);
     }
   }
 
@@ -44,8 +44,8 @@ public final class XMLStreamLoaderTest {
   @DisplayName("Word / Namespace aware")
   public class Word_NamespaceAware extends XMLLoader_Word_NS {
     @Override
-    public XMLLoader newXMLRecorder(DiffXConfig config) {
-      return configureRecorder(config);
+    public XMLLoader newXMLLoader(DiffConfig config) {
+      return configureLoader(config);
     }
   }
 
@@ -53,8 +53,8 @@ public final class XMLStreamLoaderTest {
   @DisplayName("SpaceWord / Namespace aware")
   public class SpaceWord_NamespaceAware extends XMLLoader_SpaceWord_NS {
     @Override
-    public XMLLoader newXMLRecorder(DiffXConfig config) {
-      return configureRecorder(config);
+    public XMLLoader newXMLLoader(DiffConfig config) {
+      return configureLoader(config);
     }
   }
 }

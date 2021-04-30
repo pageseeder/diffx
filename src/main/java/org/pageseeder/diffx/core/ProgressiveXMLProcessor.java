@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.CompareReplaceFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
@@ -26,18 +27,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class ProgressiveXMLProcessor implements DiffProcessor {
-
-  private boolean coalesce = false;
-
-  /**
-   * Set whether to consecutive text operations should be coalesced into a single operation.
-   *
-   * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
-   */
-  public void setCoalesce(boolean coalesce) {
-    this.coalesce = coalesce;
-  }
+public final class ProgressiveXMLProcessor extends DiffProcessorBase implements DiffProcessor {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {

@@ -15,9 +15,14 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.DiffException;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 
@@ -30,6 +35,19 @@ import java.util.List;
  * @version 0.9.0
  */
 public interface DiffProcessor extends DiffAlgorithm {
+
+  /**
+   * Performs the comparison and uses the specified handler.
+   *
+   * @param first   The first list of tokens to compare (inserted)
+   * @param second  The first list of tokens to compare (deleted)
+   * @param handler The handler for the results of the comparison
+   *
+   * @throws UncheckedIOException     If thrown by the handler while writing output.
+   * @throws IllegalStateException    If thrown by the algorithm or handler.
+   * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
+   */
+  void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler) throws DiffException, IOException;
 
   /**
    * Performs the comparison and uses the specified handler.
