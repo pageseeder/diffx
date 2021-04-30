@@ -129,7 +129,7 @@ public final class Main {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
-      loader.setConfig(config);
+      loader.setConfig(config.toDiffConfig());
     }
     Sequence seq1 = loader.load(xml1);
     Sequence seq2 = loader.load(xml2);
@@ -155,7 +155,7 @@ public final class Main {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
-      loader.setConfig(config);
+      loader.setConfig(config.toDiffConfig());
     }
     Sequence seq1 = loader.load(xml1);
     Sequence seq2 = loader.load(xml2);
@@ -179,7 +179,7 @@ public final class Main {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
     if (config != null) {
-      loader.setConfig(config);
+      loader.setConfig(config.toDiffConfig());
     }
     Sequence seq1 = loader.load(new InputSource(xml1));
     Sequence seq2 = loader.load(new InputSource(xml2));
