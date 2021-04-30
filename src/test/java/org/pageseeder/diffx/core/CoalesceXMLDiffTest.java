@@ -26,7 +26,6 @@ import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

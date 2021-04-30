@@ -24,6 +24,7 @@ package org.pageseeder.diffx;
  * @author Christophe Lauret
  * @version 27 March 2010
  */
+@Deprecated
 public class DiffXException extends Exception {
 
   /**

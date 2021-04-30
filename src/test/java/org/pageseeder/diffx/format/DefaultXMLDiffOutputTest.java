@@ -25,7 +25,8 @@ import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.pageseeder.diffx.action.Operator.*;

@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operations;
@@ -81,7 +82,7 @@ public class FormatComparisonTest {
     printDiffOutputs(xml1, xml2);
   }
 
-  private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffXException {
+  private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffException {
     Sequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
     Sequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());

@@ -83,12 +83,12 @@ public final class DiffAssertions {
   public static void assertIsCorrect(Sequence a, Sequence b, List<Action> actions) {
     // Apply to second sequence to ensure we get the first
     String got1 = TestTokens.toXML(Actions.generate(actions, true), a.getNamespaces());
-    String exp1 = TestTokens.toXML(a.tokens(), a.getNamespaces());
+    String exp1 = TestTokens.toXML(a);
     assertEquals(exp1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
     String got2 = TestTokens.toXML(Actions.generate(actions, false), b.getNamespaces());
-    String exp2 = TestTokens.toXML(b.tokens(), b.getNamespaces());
+    String exp2 = TestTokens.toXML(b);
     assertEquals(exp2, got2, "Applying diff to #1 did not produce #2");
   }
 

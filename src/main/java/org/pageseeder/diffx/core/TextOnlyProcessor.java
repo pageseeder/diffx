@@ -24,7 +24,6 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.Token;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**

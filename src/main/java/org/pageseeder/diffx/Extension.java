@@ -59,7 +59,7 @@ import java.util.Map;
  * on your classpath to use this extension function with Saxon.
  *
  * @author Christophe Lauret
- * @version 18 May 2010
+ * @version 0.9.0
  */
 public final class Extension {
 
@@ -84,11 +84,11 @@ public final class Extension {
    * @param whitespace  The white space processing (a valid {@link WhiteSpaceProcessing} value).
    * @param granularity The text granularity (a valid {@link TextGranularity} value).
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
   public static Node diff(Node xml1, Node xml2, String whitespace, String granularity)
-      throws DiffXException, IOException {
+      throws DiffException, IOException {
 
     // Get the config
     DiffConfig config = toConfig(whitespace, granularity);
@@ -109,7 +109,7 @@ public final class Extension {
       String factory = getFactoryClass(xml1, xml2);
       return toNode(out.toString(), config, factory);
     } catch (Exception ex) {
-      throw new DiffXException("Could not generate Node from Diff-X result", ex);
+      throw new DiffException("Could not generate Node from Diff result", ex);
     }
   }
 

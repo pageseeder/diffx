@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.handler.DiffHandler;
@@ -29,7 +29,6 @@ import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.w3c.dom.Document;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -117,7 +116,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareSingleElement_1000_20() throws IOException, DiffXException {
+  public void compareSingleElement_1000_20() throws DiffException {
     // Generate content
     String from = getRandomString(1000, true);
     String to = vary(from, .05);
@@ -128,7 +127,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareShallowXML() throws IOException, DiffXException {
+  public void compareShallowXML() throws DiffException {
     // Generate content
     StringBuilder xml1 = new StringBuilder();
     StringBuilder xml2 = new StringBuilder();
@@ -147,7 +146,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareXMLProcessors() throws DiffXException {
+  public void compareXMLProcessors() throws DiffException {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
       // Generate content
@@ -163,7 +162,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareCoalesce() throws IOException, DiffXException {
+  public void compareCoalesce() throws DiffException {
     // Generate content
     StringBuilder xml1 = new StringBuilder();
     StringBuilder xml2 = new StringBuilder();

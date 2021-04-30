@@ -27,14 +27,14 @@ package org.pageseeder.diffx;
 public class DiffException extends DiffXException {
 
   /**
-   * Creates a new Diff-X exception.
+   * Creates a new Diff exception.
    */
   public DiffException() {
     super();
   }
 
   /**
-   * Creates a new Diff-X exception with a given message.
+   * Creates a new Diff exception with a given message.
    *
    * @param message The message explaining the exception.
    */
@@ -43,7 +43,7 @@ public class DiffException extends DiffXException {
   }
 
   /**
-   * Creates a new Diff-X exception wrapping an occurring exception.
+   * Creates a new Diff exception wrapping an occurring exception.
    *
    * @param ex The exception to be wrapped.
    */
@@ -52,7 +52,7 @@ public class DiffException extends DiffXException {
   }
 
   /**
-   * Creates a new Diff-X exception wrapping an occurring exception.
+   * Creates a new Diff exception wrapping an occurring exception.
    *
    * @param message The message explaining the exception.
    * @param ex      The exception to be wrapped.

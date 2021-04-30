@@ -26,7 +26,9 @@ import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.util.Constants;
-import org.pageseeder.diffx.util.Formatting;
+import org.pageseeder.diffx.xml.Namespace;
+import org.pageseeder.diffx.xml.NamespaceSet;
+import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
@@ -125,7 +127,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     }
     // namespaces declaration
     if (e instanceof StartElementToken) {
-      if (this.openElements == 0) Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
+      if (this.openElements == 0) declareNamespaces(this.xml, this.mapping.getNamespaces());
       this.openElements++;
     } else if (e instanceof EndElementToken) {
       this.openElements--;
@@ -147,7 +149,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
+        declareNamespaces(this.xml, this.mapping.getNamespaces());
         this.openElements++;
       }
       e.toXML(this.xml);
@@ -197,7 +199,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     if (e instanceof StartElementToken) {
       // namespaces declaration
       if (this.openElements == 0) {
-        Formatting.declareNamespaces(this.xml, this.mapping.getNamespaces());
+        declareNamespaces(this.xml, this.mapping.getNamespaces());
         this.openElements++;
       }
       e.toXML(this.xml);
@@ -257,4 +259,17 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
     this.mapping = mapping;
   }
 
+  /**
+   * Write the namespace mapping to the XML output
+   */
+  private static void declareNamespaces(XMLWriter xml, NamespaceSet namespaces) {
+    xml.setPrefixMapping(Constants.BASE_NS_URI, "dfx");
+    xml.setPrefixMapping(Constants.DELETE_NS_URI, "del");
+    xml.setPrefixMapping(Constants.INSERT_NS_URI, "ins");
+    if (namespaces != null) {
+      for (Namespace namespace : namespaces) {
+        xml.setPrefixMapping(namespace.getUri(), namespace.getPrefix());
+      }
+    }
+  }
 }

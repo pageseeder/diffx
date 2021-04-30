@@ -95,8 +95,8 @@ public abstract class BasicLinesDiffTest extends AlgorithmTest {
   }
 
   private String processDiffLines(String text1, String text2) {
-    List<? extends Token> seq1 = TestTokens.recordLineEvents(text1);
-    List<? extends Token> seq2 = TestTokens.recordLineEvents(text2);
+    List<? extends Token> seq1 = TestTokens.loadLineEvents(text1);
+    List<? extends Token> seq2 = TestTokens.loadLineEvents(text2);
     DiffAlgorithm processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
     processor.diff(seq1, seq2, handler);

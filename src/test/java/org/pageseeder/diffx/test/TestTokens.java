@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.test;
 
-import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
@@ -75,38 +74,33 @@ public final class TestTokens {
     return s;
   }
 
-  public static List<Token> loadTokens(String xml, TextGranularity granularity) throws DiffXException {
-    if (xml.isEmpty()) return Collections.emptyList();
-    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
-    return loadTokens(xml, config);
+  public static List<Token> loadTokens(String xml, TextGranularity granularity) throws LoadingException {
+    return loadTokens(xml, DiffConfig.getDefault().granularity(granularity));
   }
 
   public static List<Token> loadTokens(String xml, DiffConfig config) throws LoadingException {
-    SAXLoader loader = new SAXLoader();
-    loader.setConfig(config);
-    return loader.load(xml).tokens();
+    return loadSequence(xml, config).tokens();
   }
 
   public static Sequence loadSequence(String xml, TextGranularity granularity) throws LoadingException {
-    if (xml.isEmpty()) return new Sequence();
-    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
-    return loadSequence(xml, config);
+    return loadSequence(xml, DiffConfig.getDefault().granularity(granularity));
   }
 
   public static Sequence loadSequence(String xml, DiffConfig config) throws LoadingException {
-    SAXLoader recorder = new SAXLoader();
-    recorder.setConfig(config);
-    return recorder.load(xml);
-  }
-
-  public static Sequence loadSequence(Document xml, TextGranularity granularity) throws LoadingException {
-    DOMLoader loader = new DOMLoader();
-    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
+    if (xml.isEmpty()) return new Sequence();
+    SAXLoader loader = new SAXLoader();
     loader.setConfig(config);
     return loader.load(xml);
   }
 
-  public static List<Token> recordLineEvents(String text) {
+  public static Sequence loadSequence(Document document, TextGranularity granularity) throws LoadingException {
+    DOMLoader loader = new DOMLoader();
+    DiffConfig config = DiffConfig.getDefault().granularity(granularity);
+    loader.setConfig(config);
+    return loader.load(document);
+  }
+
+  public static List<Token> loadLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();
     return new LineLoader().load(text).tokens();
   }
@@ -127,5 +121,19 @@ public final class TestTokens {
     f.end();
     return xml.toString();
   }
+
+  public static String toXML(Sequence sequence) {
+    StringWriter xml = new StringWriter();
+    DefaultXMLDiffOutput f = new DefaultXMLDiffOutput(xml);
+    f.setWriteXMLDeclaration(false);
+    f.setNamespaces(sequence.getNamespaces());
+    f.start();
+    for (Token token : sequence) {
+      f.handle(Operator.MATCH, token);
+    }
+    f.end();
+    return xml.toString();
+  }
+
 
 }

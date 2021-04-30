@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.TextGranularity;
@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class RandomXMLDiffTest extends AlgorithmTest {
 
   @Test
-  public final void testRandom1() throws DiffXException {
+  public final void testRandom1() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
       Document docA = factory.getRandomXML(3, 3);
@@ -50,7 +50,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testRandom2() throws DiffXException {
+  public final void testRandom2() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
       Document docA = factory.getRandomXML(3, 3);
@@ -60,7 +60,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testRandom3() throws DiffXException {
+  public final void testRandom3() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
       Document docA = factory.getRandomXML(6, 2);
@@ -70,7 +70,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testRandom4() throws DiffXException {
+  public final void testRandom4() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
       Document docA = factory.getRandomXML(3, 10);
@@ -80,7 +80,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   }
 
 //  @Test
-//  public final void testRandom5() throws DiffXException {
+//  public final void testRandom5() throws DiffException {
 //    RandomHTMLFactory factory = new RandomHTMLFactory();
 //    for (int i=0; i < 10; i++) {
 //      Document docA = factory.nextDocument();
@@ -92,7 +92,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLRandomOK(String docA, String docB) throws DiffXException {
+  private void assertDiffXMLRandomOK(String docA, String docB) throws DiffException {
     // Record XML
     Sequence seq1 = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
     Sequence seq2 = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);

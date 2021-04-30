@@ -18,7 +18,6 @@ package org.pageseeder.diffx.load;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.DiffXConfig;
 
 /**
  * @author Christophe Lauret
