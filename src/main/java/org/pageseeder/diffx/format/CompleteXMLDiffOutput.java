@@ -94,7 +94,7 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
       }
       // Handle matches and clashes
       if (operator == Operator.MATCH) handleMatch(token);
-      else handleClash(operator, token);
+      else handleEdit(operator, token);
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
@@ -104,7 +104,7 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
     token.toXML(this.xml);
   }
 
-  private void handleClash(Operator operator, Token token) throws IOException {
+  private void handleEdit(Operator operator, Token token) throws IOException {
     if (token instanceof StartElementToken) {
       token.toXML(this.xml);
       // insert an attribute to specify if inserted or deleted
@@ -112,7 +112,9 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
 
     } else if (token == SpaceToken.NEW_LINE) {
       // just output the new line
-      token.toXML(this.xml);
+      if (operator == Operator.INS) {
+        token.toXML(this.xml);
+      }
 
     } else if (token instanceof TextToken) {
       // wrap the characters in a <ins> / <del> element

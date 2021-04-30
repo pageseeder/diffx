@@ -41,14 +41,8 @@ import java.io.Writer;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @since 0.5.0
  */
 public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XMLDiffOutput {
-
-  /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = false;
 
   /**
    * The output goes here.
@@ -87,7 +81,6 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
 
   @Override
   public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
-    if (DEBUG) System.err.println(operator.toString() + token);
     try {
       if (operator.isEdit()) {
         handleEdit(operator, token);
@@ -124,16 +117,18 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
       // NB We can't report inserted/deleted attributes with namespaces
       if (operator == Operator.INS) {
         token.toXML(this.xml);
-        if (!hasPrefix(attribute))
+        if (hasNoPrefix(attribute))
           this.xml.attribute(getDiffNamespace(Operator.INS).getUri(), attribute.getName(), "true");
       } else {
-        if (!hasPrefix(attribute))
+        if (hasNoPrefix(attribute))
           this.xml.attribute(getDiffNamespace(Operator.DEL).getUri(), attribute.getName(), attribute.getValue());
       }
 
     } else if (token == SpaceToken.NEW_LINE) {
       // just output the new line
-      token.toXML(this.xml);
+      if (operator == Operator.INS) {
+        token.toXML(this.xml);
+      }
 
     } else if (token instanceof TextToken) {
       // wrap the characters in a <ins/del> element
@@ -144,16 +139,18 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
     } else if (token instanceof EndElementToken) {
       token.toXML(this.xml);
 
-      // just format naturally
     } else {
-      token.toXML(this.xml);
+      // Only include inserted content
+      if (operator == Operator.INS) {
+        token.toXML(this.xml);
+      }
     }
   }
 
-  private boolean hasPrefix(AttributeToken attribute) {
-    if (attribute.getName().indexOf(':') != -1) return true;
+  private boolean hasNoPrefix(AttributeToken attribute) {
+    if (attribute.getName().indexOf(':') != -1) return false;
     String prefix = this.namespaces.getPrefix(attribute.getNamespaceURI());
-    return prefix != null && !prefix.isEmpty();
+    return prefix == null || prefix.isEmpty();
   }
 
   /**
