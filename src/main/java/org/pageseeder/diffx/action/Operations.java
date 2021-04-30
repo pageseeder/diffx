@@ -106,23 +106,6 @@ public final class Operations {
     return out;
   }
 
-  public static void format(List<Operation> operations, DiffXFormatter formatter) throws IOException {
-    for (Operation operation : operations) {
-      switch (operation.operator()) {
-        case MATCH:
-          formatter.format(operation.token());
-          break;
-        case INS:
-          formatter.insert(operation.token());
-          break;
-        case DEL:
-          formatter.delete(operation.token());
-          break;
-        default:
-      }
-    }
-  }
-
   public static void handle(List<Operation> operations, DiffHandler handler) {
     for (Operation operation : operations) {
       handler.handle(operation.operator(), operation.token());

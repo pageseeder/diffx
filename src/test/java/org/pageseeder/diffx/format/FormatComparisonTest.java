@@ -34,49 +34,49 @@ import java.util.List;
 public class FormatComparisonTest {
 
   @Test
-  public void compareOutputExample1() throws IOException, DiffXException {
+  public void compareOutputExample1() throws IOException, DiffException {
     String xml1 = "<body><p class='test'>Hello</p><ul><li>Monday evening</li><li>Tuesday night</li></ul></body>";
     String xml2 = "<body><p id='a'>Hello</p><ol><li>Monday</li><li>Thursday night</li></ol></body>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample2() throws IOException, DiffXException {
+  public void compareOutputExample2() throws IOException, DiffException {
     String xml1 = "<body><p id='1'>Other representations might be used by specialist equipment</p></body>";
     String xml2 = "<body><p id='2'>Another representation may be used by specialist equipment.</p></body>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample3() throws IOException, DiffXException {
+  public void compareOutputExample3() throws IOException, DiffException {
     String xml1 = "<body><a href='https//example.org' title='Example' class='link'/></body>";
     String xml2 = "<body><a href='https//example.com' download='' class='link'/></body>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample4() throws IOException, DiffXException {
+  public void compareOutputExample4() throws IOException, DiffException {
     String xml1 = "<body>An <i>important</i> date</body>";
     String xml2 = "<body>An <b>important</b> date</body>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample5() throws IOException, DiffXException {
+  public void compareOutputExample5() throws IOException, DiffException {
     String xml1 = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
     String xml2 = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample6() throws IOException, DiffXException {
+  public void compareOutputExample6() throws IOException, DiffException {
     String xml1 = "<root xmlns='https://example.org' xmlns:net='https://example.net' net:plus='+'></root>";
     String xml2 = "<root xmlns='https://example.org' xmlns:net='https://example.net' net:minus='-'></root>";
     printDiffOutputs(xml1, xml2);
   }
 
   @Test
-  public void compareOutputExample7() throws IOException, DiffXException {
+  public void compareOutputExample7() throws IOException, DiffException {
     String xml1 = "<html xml:lang='en'/>";
     String xml2 = "<html xml:lang='es'/>";
     printDiffOutputs(xml1, xml2);
@@ -111,7 +111,7 @@ public class FormatComparisonTest {
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
     formatter.setWriteXMLDeclaration(false);
     formatter.declarePrefixMapping(new org.pageseeder.diffx.sequence.PrefixMapping(namespaces));
-    Operations.format(operations, formatter);
+    format(operations, formatter);
     xml.flush();
     System.out.println(formatter.getClass().getSimpleName());
     System.out.println(xml);
@@ -155,6 +155,23 @@ public class FormatComparisonTest {
     output.start();
     Operations.handle(operations, output);
     output.end();
+  }
+
+  private static void format(List<Operation> operations, DiffXFormatter formatter) throws IOException {
+    for (Operation operation : operations) {
+      switch (operation.operator()) {
+        case MATCH:
+          formatter.format(operation.token());
+          break;
+        case INS:
+          formatter.insert(operation.token());
+          break;
+        case DEL:
+          formatter.delete(operation.token());
+          break;
+        default:
+      }
+    }
   }
 
 }

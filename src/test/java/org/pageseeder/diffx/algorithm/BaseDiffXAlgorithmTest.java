@@ -24,6 +24,7 @@ import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.load.LineLoader;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.xml.sax.InputSource;
