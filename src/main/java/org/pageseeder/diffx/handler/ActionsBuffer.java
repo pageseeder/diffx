@@ -27,10 +27,9 @@ import java.util.List;
  * <p>
  * This handler is useful to capture the operations resulting from a diff.
  *
- * @see OperationsBuffer
- *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @see OperationsBuffer
  */
 public class ActionsBuffer implements DiffHandler {
 

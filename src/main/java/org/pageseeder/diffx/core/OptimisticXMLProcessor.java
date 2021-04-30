@@ -15,8 +15,12 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.handler.*;
+import org.pageseeder.diffx.handler.CoalescingFilter;
+import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.handler.OperationsBuffer;
+import org.pageseeder.diffx.handler.PostXMLFixer;
 import org.pageseeder.diffx.token.Token;
+
 import java.util.List;
 
 /**

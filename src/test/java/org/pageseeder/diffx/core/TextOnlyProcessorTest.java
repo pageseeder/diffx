@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested;
  */
 public final class TextOnlyProcessorTest {
 
-  private DiffAlgorithm newAlgorithm() {
+  private DiffAlgorithm newProcessor() {
     return new TextOnlyProcessor();
   }
 
@@ -33,7 +33,7 @@ public final class TextOnlyProcessorTest {
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
-      return newAlgorithm();
+      return newProcessor();
     }
   }
 
@@ -41,7 +41,7 @@ public final class TextOnlyProcessorTest {
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
-      return newAlgorithm();
+      return newProcessor();
     }
   }
 }

@@ -81,7 +81,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
     TokenListSlicer slicer = new TokenListSlicer(first, second);
     int commonCount = this.slice ? slicer.analyze() : 0;
-    int matrixSize = (first.size() - commonCount)*(second.size() - commonCount);
+    int matrixSize = (first.size() - commonCount) * (second.size() - commonCount);
     return matrixSize > this.threshold;
   }
 
@@ -137,8 +137,8 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     final int lengthB = second.size();
 
     // Throws error if we can't process
-    if (lengthA*lengthB > this.threshold)
-      throw new IllegalArgumentException("Too many tokens to compare! "+(lengthA*lengthB)+" is greater than "+this.threshold+".");
+    if (lengthA * lengthB > this.threshold)
+      throw new IllegalArgumentException("Too many tokens to compare! " + (lengthA * lengthB) + " is greater than " + this.threshold + ".");
 
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();

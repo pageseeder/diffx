@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
@@ -47,12 +46,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.7
  */
-public final class DOMLoader implements XMLLoader {
-
-  /**
-   * The DiffX configuration to use
-   */
-  private DiffXConfig config = new DiffXConfig();
+public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
 
   /**
    * The factory that will produce tokens according to the configuration.
@@ -85,26 +79,6 @@ public final class DOMLoader implements XMLLoader {
    * the declaration.
    */
   private boolean isFragment = true;
-
-  // methods ----------------------------------------------------------------------------------------
-
-  /**
-   * Returns the configuration used by this loader.
-   *
-   * @return the configuration used by this loader.
-   */
-  public DiffXConfig getConfig() {
-    return this.config;
-  }
-
-  /**
-   * Sets the configuration used by this loader.
-   *
-   * @param config The configuration used by this loader.
-   */
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
-  }
 
   @Override
   public Sequence load(String xml) throws LoadingException {

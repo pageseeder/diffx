@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
@@ -44,12 +43,7 @@ import static javax.xml.stream.XMLStreamConstants.COMMENT;
  * @version 0.9.0
  * @since 0.9.0
  */
-public final class XMLEventLoader implements XMLLoader {
-
-  /**
-   * The DiffX configuration to use
-   */
-  private DiffXConfig config = new DiffXConfig();
+public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
 
   @Override
   public Sequence load(File file) throws LoadingException, IOException {
@@ -82,24 +76,6 @@ public final class XMLEventLoader implements XMLLoader {
     } catch (XMLStreamException ex) {
       throw new LoadingException(ex);
     }
-  }
-
-  /**
-   * Returns the configuration used by this loader.
-   *
-   * @return the configuration used by this loader.
-   */
-  public DiffXConfig getConfig() {
-    return this.config;
-  }
-
-  /**
-   * Sets the configuration used by this loader.
-   *
-   * @param config The configuration used by this loader.
-   */
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
   }
 
   /**

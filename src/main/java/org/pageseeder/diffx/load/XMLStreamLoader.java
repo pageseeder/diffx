@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
@@ -47,12 +47,7 @@ import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
  * @version 0.9.0
  * @since 0.9.0
  */
-public final class XMLStreamLoader implements XMLLoader {
-
-  /**
-   * The DiffX configuration to use
-   */
-  private DiffXConfig config = new DiffXConfig();
+public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
 
   /**
    * Runs the loader on the specified file.
@@ -116,24 +111,6 @@ public final class XMLStreamLoader implements XMLLoader {
     }
   }
 
-  /**
-   * Returns the configuration used by this loader.
-   *
-   * @return the configuration used by this loader.
-   */
-  public DiffXConfig getConfig() {
-    return this.config;
-  }
-
-  /**
-   * Sets the configuration used by this loader.
-   *
-   * @param config The configuration used by this loader.
-   */
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
-  }
-
   public Sequence load(XMLStreamReader reader) throws LoadingException {
     TokenFactory tokenFactory = new TokenFactory(this.config.isNamespaceAware());
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
@@ -162,7 +139,7 @@ public final class XMLStreamLoader implements XMLLoader {
     return sequence;
   }
 
-  protected static XMLInputFactory toFactory(DiffXConfig config) {
+  protected static XMLInputFactory toFactory(DiffConfig config) {
     XMLInputFactory factory = XMLInputFactory.newInstance();
     factory.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
     factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);

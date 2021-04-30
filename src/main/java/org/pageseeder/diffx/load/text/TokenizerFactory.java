@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.load.text;
 
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 
@@ -42,21 +43,37 @@ public final class TokenizerFactory {
    * @return the corresponding tokenizer.
    * @throws NullPointerException If the configuration is <code>null</code>.
    */
-  public static TextTokenizer get(DiffXConfig config) {
+  public static TextTokenizer get(DiffConfig config) {
     if (config == null) throw new NullPointerException("The config should be specified");
-    TextGranularity granularity = config.getGranularity();
+    TextGranularity granularity = config.granularity();
     switch (granularity) {
       case CHARACTER:
         return new TokenizerByChar();
       case WORD:
-        return new TokenizerByWord(config.getWhiteSpaceProcessing());
+        return new TokenizerByWord(config.whitespace());
       case SPACE_WORD:
-        return new TokenizerBySpaceWord(config.getWhiteSpaceProcessing());
+        return new TokenizerBySpaceWord(config.whitespace());
+      case PUNCTUATION:
+        return new TokenizerByPunctuation(config.whitespace());
       case TEXT:
-        return new TokenizerByText(config.getWhiteSpaceProcessing());
+        return new TokenizerByText(config.whitespace());
       default:
         throw new IllegalArgumentException("Unsupported text granularity " + granularity);
     }
+  }
+
+  /**
+   * Returns the text tokenizer.
+   *
+   * @param config The configuration to use.
+   *
+   * @return the corresponding tokenizer.
+   * @throws NullPointerException If the configuration is <code>null</code>.
+   */
+  @Deprecated
+  public static TextTokenizer get(DiffXConfig config) {
+    if (config == null) throw new NullPointerException("The config should be specified");
+    return get(config.toDiffConfig());
   }
 
 }

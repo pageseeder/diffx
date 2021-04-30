@@ -39,6 +39,13 @@ public enum TextGranularity {
   SPACE_WORD,
 
   /**
+   * Differences are reported by comparing text between punctuation marks.
+   * <p>
+   * This is finer than text but coarser than word.
+   */
+  PUNCTUATION,
+
+  /**
    * Differences should be reported for the entire text node.
    */
   TEXT

@@ -146,6 +146,9 @@ public final class DiffXConfig {
     }
   }
 
+//  false -> (false, true)
+//  true -> (true, false|true)
+
   /**
    * Sets whether the Diff-X should report differences in prefixes.
    *
@@ -161,6 +164,10 @@ public final class DiffXConfig {
       this.isNamespaceAware = true;
     }
   }
+
+  //  false -> (false, true)
+  //  true -> (true, false|true)
+
 
   /**
    * Indicates whether the Diff-X takes namespaces into account.

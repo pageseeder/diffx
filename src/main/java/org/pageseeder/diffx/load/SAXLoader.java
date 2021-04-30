@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
@@ -52,7 +52,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.6.0
  */
-public final class SAXLoader implements XMLLoader {
+public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
   /**
    * The default XML reader in use.
@@ -74,11 +74,6 @@ public final class SAXLoader implements XMLLoader {
    * The XML reader class in use (set to the default XML reader).
    */
   private static String readerClassName = DEFAULT_XML_READER;
-
-  /**
-   * The DiffX configuration to use
-   */
-  private DiffXConfig config = new DiffXConfig();
 
   /**
    * Runs the loader on the specified input source.
@@ -108,24 +103,6 @@ public final class SAXLoader implements XMLLoader {
       throw new LoadingException(ex);
     }
     return handler.sequence;
-  }
-
-  /**
-   * Returns the configuration used by this loader.
-   *
-   * @return the configuration used by this loader.
-   */
-  public DiffXConfig getConfig() {
-    return this.config;
-  }
-
-  /**
-   * Sets the configuration used by this loader.
-   *
-   * @param config The configuration used by this loader.
-   */
-  public void setConfig(DiffXConfig config) {
-    this.config = config;
   }
 
   /**
@@ -160,12 +137,12 @@ public final class SAXLoader implements XMLLoader {
    *
    * @throws LoadingException If one of the features could not be set.
    */
-  private static XMLReader newReader(DiffXConfig config) throws LoadingException {
+  private static XMLReader newReader(DiffConfig config) throws LoadingException {
     try {
       XMLReader reader = XMLReaderFactory.createXMLReader(readerClassName);
       reader.setFeature("http://xml.org/sax/features/validation", false);
       reader.setFeature("http://xml.org/sax/features/namespaces", config.isNamespaceAware());
-      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", config.isReportPrefixDifferences());
+      reader.setFeature("http://xml.org/sax/features/namespace-prefixes", !config.isNamespaceAware());
       return reader;
     } catch (SAXException ex) {
       throw new LoadingException(ex);
@@ -215,7 +192,7 @@ public final class SAXLoader implements XMLLoader {
      */
     private final TextTokenizer tokenizer;
 
-    Handler(DiffXConfig config) {
+    Handler(DiffConfig config) {
       this.tokenFactory = new TokenFactory(config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(config);
     }

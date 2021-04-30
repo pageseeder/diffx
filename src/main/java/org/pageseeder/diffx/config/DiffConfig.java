@@ -40,8 +40,12 @@ public final class DiffConfig {
 
   private final TextGranularity granularity;
 
+  /**
+   * Create a default config that is namespace aware, preserves whitespaces and
+   * report differences within text at word level (including spaces, but excluding punctuation)
+   */
   public DiffConfig() {
-    this(true, WhiteSpaceProcessing.PRESERVE, TextGranularity.TEXT);
+    this(true, WhiteSpaceProcessing.PRESERVE, TextGranularity.SPACE_WORD);
   }
 
   public DiffConfig(WhiteSpaceProcessing whitespace, TextGranularity granularity) {
@@ -73,6 +77,14 @@ public final class DiffConfig {
    */
   public WhiteSpaceProcessing whitespace() {
     return whitespace;
+  }
+
+  /**
+   * Create a default config that is namespace aware, preserves whitespaces and
+   * report differences within text at word level (including spaces, but excluding punctuation)
+   */
+  public static DiffConfig legacyDefault() {
+    return new DiffConfig(true, WhiteSpaceProcessing.COMPARE, TextGranularity.WORD);
   }
 
   /**
