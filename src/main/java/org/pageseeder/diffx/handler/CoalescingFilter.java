@@ -127,7 +127,7 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
    *
    * @return A list of tokens with text tokens coalesced.
    */
-  public static List<Token> coalesce(List<Token> tokens) {
+  public static List<? extends Token> coalesce(List<? extends Token> tokens) {
     // If there's only one token, no need to coalesce
     if (tokens.size() <= 1) return tokens;
     List<Token> coalesced = new ArrayList<>();

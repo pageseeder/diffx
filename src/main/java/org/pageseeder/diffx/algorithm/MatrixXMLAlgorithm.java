@@ -74,8 +74,15 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
 
   /**
    * Indicates whether the diff between the two sequences can be computed.
+   *
+   * <p>This method first checks that size of (A) x size of B is below the threshold.
+   *
+   * <p>If it is above the threshold, it checks again after slicing.
    */
   public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
+    // Check without slicer first
+    if (first.size() * second.size() <= this.threshold) return true;
+    // Check if possible after slicing
     TokenListSlicer slicer = new TokenListSlicer(first, second);
     int commonCount = this.slice ? slicer.analyze() : 0;
     int matrixSize = (first.size() - commonCount) * (second.size() - commonCount);
@@ -135,7 +142,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
 
     // Throws error if we can't process
     if (lengthA * lengthB > this.threshold)
-      throw new IllegalArgumentException("Too many tokens to compare! " + (lengthA * lengthB) + " is greater than " + this.threshold + ".");
+      throw new DataLengthException(lengthA * lengthB, this.threshold);
 
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();

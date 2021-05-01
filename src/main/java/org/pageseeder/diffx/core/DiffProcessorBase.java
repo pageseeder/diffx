@@ -43,7 +43,7 @@ abstract class DiffProcessorBase implements DiffProcessor {
 
   @Override
   public void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler)
-      throws DiffException, IOException {
+      throws DiffException {
 
     // Supply the namespaces to the output
     if (handler instanceof XMLDiffOutput) {

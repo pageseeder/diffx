@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.pageseeder.diffx.algorithm.DataLengthException;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.KumarRanganAlgorithm;
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
@@ -39,6 +40,16 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
 
   private int fallbackThreshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 
+  private boolean isDownscaleAllowed = true;
+
+  public void setDownscaleAllowed(boolean allowed) {
+    this.isDownscaleAllowed = allowed;
+  }
+
+  boolean isDownscaleAllowed() {
+    return this.isDownscaleAllowed;
+  }
+
   /**
    * Set the maximum amount of comparison in case the fast algorithm fails.
    */
@@ -54,13 +65,10 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
     if (successful) {
       buffer.applyTo(getFilter(handler));
     } else {
-      if (DEBUG) {
-        System.err.println("Optimistic has error:");
-        System.err.println(buffer.getOperations());
-      }
-      fallbackDiff(first, second, getFilter(handler));
+      // Fallback on default diff
+      if (DEBUG) System.err.println("Fast diff failed! Falling back on default diff");
+      fallbackDiff(first, second, getFilter(handler), false);
     }
-
   }
 
   private DiffHandler getFilter(DiffHandler handler) {
@@ -82,13 +90,22 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
   /**
    * Fall back on slower matrix-based algorithm.
    */
-  private void fallbackDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  private void fallbackDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, boolean coalesced) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.fallbackThreshold);
     DiffHandler actual = getFilter(handler);
-    actual.start();
-    algorithm.diff(first, second, actual);
-    actual.end();
+    if (algorithm.isDiffComputable(first, second)) {
+      actual.start();
+      algorithm.diff(first, second, actual);
+      actual.end();
+    } else if (!coalesced && this.isDownscaleAllowed) {
+      if (DEBUG) System.err.println("Coalescing content to");
+      List<? extends Token> a = CoalescingFilter.coalesce(first);
+      List<? extends Token> b = CoalescingFilter.coalesce(second);
+      fallbackDiff(a, b, handler, true);
+    } else {
+      throw new DataLengthException(first.size()*second.size(), this.fallbackThreshold);
+    }
   }
 
   @Override

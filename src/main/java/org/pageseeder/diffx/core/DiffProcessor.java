@@ -47,7 +47,7 @@ public interface DiffProcessor extends DiffAlgorithm {
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler) throws DiffException, IOException;
+  void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler) throws DiffException;
 
   /**
    * Performs the comparison and uses the specified handler.
