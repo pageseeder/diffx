@@ -35,8 +35,10 @@ public interface DiffAlgorithm {
    * @param first   The first list of tokens to compare (inserted)
    * @param second  The first list of tokens to compare (deleted)
    * @param handler The handler for the results of the comparison
+   *
+   * @throws UncheckedIOException If an IO error occurred while handler the diff
+   * @throws IllegalStateException If the algorithm is in a state where it is unable to process the tokens.
    */
-  void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler)
-      throws UncheckedIOException, IllegalStateException;
+  void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler);
 
 }
