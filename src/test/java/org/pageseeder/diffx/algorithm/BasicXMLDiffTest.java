@@ -561,11 +561,9 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
     String[] exp1 = new String[]{
-        "<a><b><c></c>+</b>+<b><d></d></b></a>",
         "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>"
     };
     String[] exp2 = new String[]{
-        "<a><b><c></c>-</b>-<b><d></d></b></a>",
         "<a><b><c></c>+<d>+</d></b>-<b>-<d>-</d>-</b></a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
@@ -608,7 +606,9 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);
       DiffAssertions.assertMatchTestOutput(actions, exp, namespaces);
+
     } catch (AssertionError ex) {
+      System.out.println(DiffAssertions.toTestOutput(actions, namespaces));
       printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, namespaces), actions);
       throw ex;
     }
