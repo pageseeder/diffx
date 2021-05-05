@@ -55,6 +55,40 @@ public final class TestFormatter implements DiffXFormatter {
   }
 
   /**
+   * Returns a simple representation for each token in order to recognise them depending on
+   * their class.
+   *
+   * <p>This method will return <code>null</code> if it does not know how to format it.
+   *
+   * @param token The token to format
+   *
+   * @return Its 'abstract' representation or <code>null</code>.
+   */
+  public static String toAbstractString(Token token) {
+    // TODO: handle unknown token implementations nicely.
+    // an element to open
+    if (token instanceof StartElementToken) return '<' + ((StartElementToken) token).getName() + '>';
+    // an element to close
+    if (token instanceof EndElementToken) return "</" + ((EndElementToken) token).getName() + '>';
+    // an element
+    if (token instanceof ElementToken) return '<' + ((ElementToken) token).getName() + "/>";
+    // an attribute
+    if (token instanceof AttributeToken)
+      return "@{" + ((AttributeToken) token).getName() + '=' + ((AttributeToken) token).getValue() + '}';
+    // a word
+    if (token instanceof WordToken) return "$w{" + ((CharactersTokenBase) token).getCharacters() + '}';
+    // a white space token
+    if (token instanceof SpaceToken) return "$s{" + ((CharactersTokenBase) token).getCharacters() + '}';
+    // a single character
+    if (token instanceof CharToken) return "$c{" + ((CharToken) token).getCharacters() + '}';
+    // an ignorable space token
+    if (token instanceof IgnorableSpaceToken) return "$i{" + ((IgnorableSpaceToken) token).getCharacters() + '}';
+    // a single line
+    if (token instanceof LineToken) return "$L" + ((LineToken) token).getLineNumber();
+    return token.getClass().toString();
+  }
+
+  /**
    * Writes the abstract representation.
    *
    * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.token.Token)
@@ -114,41 +148,6 @@ public final class TestFormatter implements DiffXFormatter {
    */
   public String getOutput() {
     return this.out.toString();
-  }
-
-
-  /**
-   * Returns a simple representation for each token in order to recognise them depending on
-   * their class.
-   *
-   * <p>This method will return <code>null</code> if it does not know how to format it.
-   *
-   * @param token The token to format
-   *
-   * @return Its 'abstract' representation or <code>null</code>.
-   */
-  public static String toAbstractString(Token token) {
-    // TODO: handle unknown token implementations nicely.
-    // an element to open
-    if (token instanceof StartElementToken) return '<' + ((StartElementToken) token).getName() + '>';
-    // an element to close
-    if (token instanceof EndElementToken) return "</" + ((EndElementToken) token).getName() + '>';
-    // an element
-    if (token instanceof ElementToken) return '<' + ((ElementToken) token).getName() + "/>";
-    // an attribute
-    if (token instanceof AttributeToken)
-      return "@{" + ((AttributeToken) token).getName() + '=' + ((AttributeToken) token).getValue() + '}';
-    // a word
-    if (token instanceof WordToken) return "$w{" + ((CharactersTokenBase) token).getCharacters() + '}';
-    // a white space token
-    if (token instanceof SpaceToken) return "$s{" + ((CharactersTokenBase) token).getCharacters() + '}';
-    // a single character
-    if (token instanceof CharToken) return "$c{" + ((CharToken) token).getCharacters() + '}';
-    // an ignorable space token
-    if (token instanceof IgnorableSpaceToken) return "$i{" + ((IgnorableSpaceToken) token).getCharacters() + '}';
-    // a single line
-    if (token instanceof LineToken) return "$L" + ((LineToken) token).getLineNumber();
-    return token.getClass().toString();
   }
 
 }

@@ -206,7 +206,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public void testChangeDefault_NS() throws LoadingException {
+  public void testAdvanced_ChangeDefaultNamespace() throws LoadingException {
     String xml1 = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
     String xml2 = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
     assertDiffXMLWordsOK(xml1, xml2);

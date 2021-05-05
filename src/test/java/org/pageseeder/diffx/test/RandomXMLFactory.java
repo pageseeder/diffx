@@ -46,6 +46,23 @@ public class RandomXMLFactory {
 
   private final RandomStringFactory stringFactory = new RandomStringFactory();
 
+  public static final void prettyPrint(Document xml) throws TransformerException {
+    Transformer tf = TransformerFactory.newInstance().newTransformer();
+    tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+    tf.setOutputProperty(OutputKeys.INDENT, "yes");
+    Writer out = new StringWriter();
+    tf.transform(new DOMSource(xml), new StreamResult(out));
+    System.out.println(out);
+  }
+
+  public static void main(String[] args) throws Exception {
+    RandomXMLFactory f = new RandomXMLFactory();
+    Document docA = f.getRandomXML(5, 5);
+    prettyPrint(docA);
+    Document docB = f.vary(docA, .5);
+    prettyPrint(docB);
+  }
+
   public Document getRandomXML(int maxDepth, int maxBreadth) {
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -168,7 +185,6 @@ public class RandomXMLFactory {
     return attribute;
   }
 
-
   private Text nextTextNode(Document doc, int maxLength) {
     String content = stringFactory.getRandomString(random.nextInt(maxLength), true);
     return doc.createTextNode(content);
@@ -195,23 +211,6 @@ public class RandomXMLFactory {
 
   private String nextInlineElement() {
     return INLINE_ELEMENT_NAMES.get(random.nextInt(INLINE_ELEMENT_NAMES.size()));
-  }
-
-  public static final void prettyPrint(Document xml) throws TransformerException {
-    Transformer tf = TransformerFactory.newInstance().newTransformer();
-    tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-    tf.setOutputProperty(OutputKeys.INDENT, "yes");
-    Writer out = new StringWriter();
-    tf.transform(new DOMSource(xml), new StreamResult(out));
-    System.out.println(out);
-  }
-
-  public static void main(String[] args) throws Exception {
-    RandomXMLFactory f = new RandomXMLFactory();
-    Document docA = f.getRandomXML(5, 5);
-    prettyPrint(docA);
-    Document docB = f.vary(docA, .5);
-    prettyPrint(docB);
   }
 
 }

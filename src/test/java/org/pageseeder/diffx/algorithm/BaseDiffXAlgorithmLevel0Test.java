@@ -17,12 +17,12 @@ package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharToken;
 
@@ -44,6 +44,16 @@ import java.util.stream.Collectors;
 @Deprecated
 public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTest {
 
+  private static Sequence asSequenceOfCharTokens(String string) {
+    Sequence s = new Sequence();
+    for (char c : string.toCharArray()) {
+      s.addToken(new CharToken(c));
+    }
+    return s;
+  }
+
+  // Identical ----------------------------------------------------------------
+
   @Test
   public final void testLevel0_Empty() throws IOException {
     String a = "";
@@ -51,8 +61,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     String[] exp = new String[]{""};
     assertDiffOKLevel0(a, b, exp);
   }
-
-  // Identical ----------------------------------------------------------------
 
   @Test
   public final void testLevel0_Identical1() throws IOException {
@@ -78,6 +86,8 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     assertDiffOKLevel0(a, b, exp);
   }
 
+  // Inserts and deletes ------------------------------------------------------
+
   @Test
   public final void testLevel0_Identical10() throws IOException {
     String a = "abcdefghij";
@@ -85,8 +95,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     String[] exp = new String[]{"abcdefghij"};
     assertDiffOKLevel0(a, b, exp);
   }
-
-  // Inserts and deletes ------------------------------------------------------
 
   @Test
   public final void testLevel0_Insert1() throws IOException {
@@ -176,6 +184,8 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     assertDiffOKLevel0(a, b, exp);
   }
 
+  // Replacements -------------------------------------------------------------
+
   @Test
   public final void testLevel0_Delete6() throws IOException {
     String a = "test";
@@ -183,8 +193,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     String[] exp = new String[]{"test-i-n-g"};
     assertDiffOKLevel0(a, b, exp);
   }
-
-  // Replacements -------------------------------------------------------------
 
   @Test
   public final void testLevel0_Replace1() throws IOException {
@@ -217,6 +225,8 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     assertDiffOKLevel0(a, b, exp);
   }
 
+  // More complex cases -------------------------------------------------------
+
   @Test
   public final void testLevel0_Replace4() throws IOException {
     String a = "axa";
@@ -229,8 +239,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     };
     assertDiffOKLevel0(a, b, exp);
   }
-
-  // More complex cases -------------------------------------------------------
 
   @Test
   public final void testLevel0_Complex1() throws IOException {
@@ -285,6 +293,9 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     assertDiffOKLevel0(a, b, exp);
   }
 
+  // helpers
+  // --------------------------------------------------------------------------
+
   @Test
   public final void testLevel0_Complex6() throws IOException {
     String a = "balaclava";
@@ -294,9 +305,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     };
     assertDiffOKLevel0(a, b, exp);
   }
-
-  // helpers
-  // --------------------------------------------------------------------------
 
   public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
     Sequence seq1 = asSequenceOfCharTokens(text1);
@@ -316,14 +324,6 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
       printCharErrorDetails(text1, text2, exp, got, actions);
       throw ex;
     }
-  }
-
-  private static Sequence asSequenceOfCharTokens(String string) {
-    Sequence s = new Sequence();
-    for (char c : string.toCharArray()) {
-      s.addToken(new CharToken(c));
-    }
-    return s;
   }
 
   /**

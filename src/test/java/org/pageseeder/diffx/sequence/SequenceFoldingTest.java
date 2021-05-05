@@ -27,6 +27,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SequenceFoldingTest {
 
+  private static Sequence getSequence(String xml) {
+    try {
+      SAXLoader recorder = new SAXLoader();
+      return recorder.load(new InputSource(new StringReader(xml)));
+    } catch (LoadingException | IOException ex) {
+      throw new AssertionError("Unable record specified XML");
+    }
+  }
+
   @Test
   public void testEmpty() {
     Sequence sequence = new Sequence();
@@ -88,15 +97,6 @@ public class SequenceFoldingTest {
     Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
     Sequence out = SequenceFolding.forElements(new String[]{"d"}).fold(sequence);
     assertEquals(7, out.size());
-  }
-
-  private static Sequence getSequence(String xml) {
-    try {
-      SAXLoader recorder = new SAXLoader();
-      return recorder.load(new InputSource(new StringReader(xml)));
-    } catch (LoadingException | IOException ex) {
-      throw new AssertionError("Unable record specified XML");
-    }
   }
 
 }

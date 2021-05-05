@@ -24,14 +24,8 @@ import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.GeneralToken;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
-import org.pageseeder.xmlwriter.XMLWriter;
 
-import javax.xml.stream.XMLStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

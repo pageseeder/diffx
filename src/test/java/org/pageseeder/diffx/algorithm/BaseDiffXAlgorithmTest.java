@@ -16,7 +16,10 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.DiffXException;
-import org.pageseeder.diffx.action.*;
+import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.action.Actions;
+import org.pageseeder.diffx.action.DiffResult;
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.format.SmartXMLFormatter;
@@ -54,6 +57,38 @@ public abstract class BaseDiffXAlgorithmTest {
    * The Diff-X algorithm being tested.
    */
   private transient DiffXAlgorithm diffx = null;
+
+  public static String toXML(List<Action> actions) throws IOException {
+    StringWriter xml = new StringWriter();
+    XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
+    Actions.format(actions, formatter);
+    return xml.toString();
+  }
+
+  public static String toTestFormat(List<Action> actions) throws IOException {
+    TestFormatter formatter = new TestFormatter();
+    Actions.format(actions, formatter);
+    return formatter.getOutput();
+  }
+
+  public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {
+    // check the possible values
+    String diffout = toTestFormat(actions);
+    for (String s : exp) {
+      if (s.equals(diffout)) return;
+    }
+    assertEquals(exp[0], diffout);
+  }
+
+  public static void assertIsWellFormedXML(String xml) throws IOException {
+    try {
+      InputSource source = new InputSource(new StringReader(xml));
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      factory.newSAXParser().parse(source, new DefaultHandler());
+    } catch (SAXException | ParserConfigurationException ex) {
+      throw new AssertionError("XML is not well-formed");
+    }
+  }
 
   /**
    * Returns the Diff-X Algorithm instance from the specified sequences.
@@ -104,7 +139,6 @@ public abstract class BaseDiffXAlgorithmTest {
       throws IOException, DiffXException {
     assertDiffXMLOK(xml1, xml2, new String[]{exp});
   }
-
 
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
@@ -311,39 +345,6 @@ public abstract class BaseDiffXAlgorithmTest {
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);
     return formatter.getActions();
-  }
-
-  public static String toXML(List<Action> actions) throws IOException {
-    StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
-    Actions.format(actions, formatter);
-    return xml.toString();
-  }
-
-  public static String toTestFormat(List<Action> actions) throws IOException {
-    TestFormatter formatter = new TestFormatter();
-    Actions.format(actions, formatter);
-    return formatter.getOutput();
-  }
-
-  public static void assertMatchTestOutput(List<Action> actions, String[] exp) throws IOException {
-    // check the possible values
-    String diffout = toTestFormat(actions);
-    for (String s : exp) {
-      if (s.equals(diffout)) return;
-    }
-    assertEquals(exp[0], diffout);
-  }
-
-
-  public static void assertIsWellFormedXML(String xml) throws IOException {
-    try {
-      InputSource source = new InputSource(new StringReader(xml));
-      SAXParserFactory factory = SAXParserFactory.newInstance();
-      factory.newSAXParser().parse(source, new DefaultHandler());
-    } catch (SAXException | ParserConfigurationException ex) {
-      throw new AssertionError("XML is not well-formed");
-    }
   }
 
   /**

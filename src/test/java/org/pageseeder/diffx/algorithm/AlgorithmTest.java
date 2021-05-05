@@ -23,11 +23,6 @@ import java.util.List;
 public abstract class AlgorithmTest {
 
   /**
-   * @return The algorithm instance to use for texting.
-   */
-  public abstract DiffAlgorithm getDiffAlgorithm();
-
-  /**
    * Print the error details.
    */
   public static void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
@@ -45,5 +40,10 @@ public abstract class AlgorithmTest {
     }
     System.err.println();
   }
+
+  /**
+   * @return The algorithm instance to use for texting.
+   */
+  public abstract DiffAlgorithm getDiffAlgorithm();
 
 }

@@ -57,29 +57,25 @@ import java.util.Date;
 public final class MainTest {
 
   /**
-   * The XML reader.
-   */
-  private static XMLReader reader;
-
-  /**
    * The source files to test
    */
   private static final File source = TestUtils.getDataDirectory(Main.class);
-
   /**
    * The folder containing the results.
    */
   private static final File tmp = TestUtils.getTempDirectory(Main.class);
-
   /**
    * Folder containing the resulting Diff XML.
    */
   private static final File result = new File(tmp, "result");
-
   /**
    * The diff-X configuration.
    */
   private static final DiffXConfig config = new DiffXConfig();
+  /**
+   * The XML reader.
+   */
+  private static XMLReader reader;
 
   static {
     config.setWhiteSpaceProcessing(WhiteSpaceProcessing.IGNORE);

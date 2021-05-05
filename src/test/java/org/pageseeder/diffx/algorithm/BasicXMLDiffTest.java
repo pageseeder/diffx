@@ -580,14 +580,13 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
         "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>",
         "<a>+<b>-<x:b>X-</x:b>+</b></a>"
     };
-    String[] exp2 = new String[] {
+    String[] exp2 = new String[]{
         "<a>+<x:b>+X+</x:b>-<b>-X-</b></a>",
         "<a>+<x:b>-<b>X-</b>+</x:b></a>"
     };
     assertDiffXMLOKTextOnly(xml1, xml2, exp1);
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
-
 
 
   // helpers

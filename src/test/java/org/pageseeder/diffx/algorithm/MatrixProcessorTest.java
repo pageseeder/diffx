@@ -23,6 +23,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MatrixProcessorTest {
 
+  private static Sequence asSequenceOfCharTokens(String string) {
+    Sequence s = new Sequence();
+    for (char c : string.toCharArray()) {
+      s.addToken(new CharToken(c));
+    }
+    return s;
+  }
+
   @Test
   public void testBothEmpty() {
     Sequence s1 = new Sequence();
@@ -130,14 +138,6 @@ public class MatrixProcessorTest {
     Matrix matrix = new MatrixProcessor().process(s1, s2);
     assertEquals(77, matrix.size()); // 11x7
     assertEquals(4, matrix.getLCSLength()); // "deab"
-  }
-
-  private static Sequence asSequenceOfCharTokens(String string) {
-    Sequence s = new Sequence();
-    for (char c : string.toCharArray()) {
-      s.addToken(new CharToken(c));
-    }
-    return s;
   }
 
 }

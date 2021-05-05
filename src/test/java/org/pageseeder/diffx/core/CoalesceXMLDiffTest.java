@@ -20,7 +20,6 @@ import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
@@ -45,7 +44,7 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
   }
 
   @Test
-  public final void testProg_SplitMergeA1() throws DiffException {
+  public final void testCoalesce_SplitMergeA1() throws DiffException {
     String xml1 = "<a><b>X</b> <b>Y</b></a>";
     String xml2 = "<a><b>X Y</b></a>";
     // split
@@ -72,26 +71,6 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
     String expA = "<a>a+( white cat)-( black hat)</a>";
     String expB = "<a>a-( black hat)+( white cat)</a>";
     assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, expA, expB);
-  }
-
-  @Test
-  public final void testProg_MovedBranch() throws DiffException {
-    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
-  }
-
-  @Test
-  public final void testProg_BestPath() throws DiffException {
-    String xml1 = "<a><b>X</b></a>";
-    String xml2 = "<a><b/><b>X</b></a>";
-    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
   }
 
   /**

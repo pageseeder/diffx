@@ -64,17 +64,6 @@ public final class TestHandler implements DiffHandler {
   }
 
   /**
-   * Writes the abstract representation.
-   */
-  public void handle(Operator operator, Token token) {
-    if (operator != Operator.MATCH) out.append(operator.toString());
-    out.append(toSimpleString(operator, token, this.namespaces));
-  }
-
-
-  // Static helpers -------------------------------------------------------------------
-
-  /**
    * Formats the entire sequence by formatting each token.
    *
    * @param seq The token sequence to format
@@ -164,18 +153,6 @@ public final class TestHandler implements DiffHandler {
     return prefix.isEmpty() ? name : (prefix + ':' + name);
   }
 
-  /**
-   * @return The output of the handler.
-   */
-  public String getOutput() {
-    return this.out.toString();
-  }
-
-  @Override
-  public String toString() {
-    return "TestHandler";
-  }
-
   public static List<Operation> parse(String ops) {
     OperationsBuffer source = new OperationsBuffer();
     char[] chars = ops.toCharArray();
@@ -248,5 +225,25 @@ public final class TestHandler implements DiffHandler {
 
   private static boolean isText(char[] chars, int i) {
     return chars[i] == '(' && (i + 2) < chars.length && indexOf(chars, ')', i + 1) > i + 2;
+  }
+
+  /**
+   * Writes the abstract representation.
+   */
+  public void handle(Operator operator, Token token) {
+    if (operator != Operator.MATCH) out.append(operator.toString());
+    out.append(toSimpleString(operator, token, this.namespaces));
+  }
+
+  /**
+   * @return The output of the handler.
+   */
+  public String getOutput() {
+    return this.out.toString();
+  }
+
+  @Override
+  public String toString() {
+    return "TestHandler";
   }
 }

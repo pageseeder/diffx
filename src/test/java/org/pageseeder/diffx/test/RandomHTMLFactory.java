@@ -57,6 +57,15 @@ public class RandomHTMLFactory {
     }
   }
 
+  public static void main(String[] args) throws Exception {
+    RandomHTMLFactory f = new RandomHTMLFactory();
+    Document htmlA = f.nextDocument();
+    System.out.println(DOMUtils.toString(htmlA, true));
+    Document htmlB = f.vary(htmlA, .1);
+    System.out.println(DOMUtils.toString(htmlB, true));
+
+  }
+
   public Document nextDocument() {
     this.doc = builder.newDocument();
     Element html = this.doc.createElement("html");
@@ -118,7 +127,6 @@ public class RandomHTMLFactory {
         return stringFactory.getRandomString(random.nextInt(100), true);
     }
   }
-
 
   public Element nextTable(int cols, int rows) {
     Element table = this.doc.createElement("table");
@@ -334,16 +342,6 @@ public class RandomHTMLFactory {
         }
       }
     }
-  }
-
-
-  public static void main(String[] args) throws Exception {
-    RandomHTMLFactory f = new RandomHTMLFactory();
-    Document htmlA = f.nextDocument();
-    System.out.println(DOMUtils.toString(htmlA, true));
-    Document htmlB = f.vary(htmlA, .1);
-    System.out.println(DOMUtils.toString(htmlB, true));
-
   }
 
 }

@@ -42,6 +42,14 @@ public final class GeneralToken implements Token {
     this.c = c;
   }
 
+  public static List<GeneralToken> toList(String string) {
+    List<GeneralToken> s = new ArrayList<>();
+    for (char c : string.toCharArray()) {
+      s.add(new GeneralToken(c));
+    }
+    return s;
+  }
+
   @Override
   public TokenType getType() {
     return TokenType.OTHER;
@@ -78,14 +86,6 @@ public final class GeneralToken implements Token {
   @Override
   public String toString() {
     return Character.toString(c);
-  }
-
-  public static List<GeneralToken> toList(String string) {
-    List<GeneralToken> s = new ArrayList<>();
-    for (char c : string.toCharArray()) {
-      s.add(new GeneralToken(c));
-    }
-    return s;
   }
 
 }

@@ -36,6 +36,16 @@ import static org.pageseeder.diffx.test.TestOperations.toTextOperations;
 
 public class CoalescingFilterTest {
 
+  private static List<Operation> normalizeOperations(List<Operation> operations) {
+    return operations.stream().map(CoalescingFilterTest::normalizeOperation).collect(Collectors.toList());
+  }
+
+  private static Operation normalizeOperation(Operation operation) {
+    if (operation.token() instanceof TextToken)
+      return new Operation(operation.operator(), new CharactersToken(((TextToken) operation.token()).getCharacters()));
+    return operation;
+  }
+
   @Test
   public void testCoalesceEmpty() {
     TextToken got = CoalescingFilter.coalesceText(Collections.emptyList());
@@ -168,6 +178,10 @@ public class CoalescingFilterTest {
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
+
+  // Private helpers
+  // --------------------------------------------------------------------------
+
   @Test
   public void testMixFilter4() {
     List<Operation> src = TestHandler.parse("<a><b>X- -Y</b> +<b>+Y+</b></a>");
@@ -182,10 +196,6 @@ public class CoalescingFilterTest {
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
-
-  // Private helpers
-  // --------------------------------------------------------------------------
-
   private List<Operation> coalesceOperations(List<Operation> operations) {
     OperationsBuffer target = new OperationsBuffer();
     CoalescingFilter filter = new CoalescingFilter(target);
@@ -197,16 +207,6 @@ public class CoalescingFilterTest {
 
   private void assertEquivalentOperations(List<Operation> exp, List<Operation> got) {
     assertEquals(normalizeOperations(exp), normalizeOperations(got));
-  }
-
-  private static List<Operation> normalizeOperations(List<Operation> operations) {
-    return operations.stream().map(CoalescingFilterTest::normalizeOperation).collect(Collectors.toList());
-  }
-
-  private static Operation normalizeOperation(Operation operation) {
-    if (operation.token() instanceof TextToken)
-      return new Operation(operation.operator(), new CharactersToken(((TextToken) operation.token()).getCharacters()));
-    return operation;
   }
 
 }

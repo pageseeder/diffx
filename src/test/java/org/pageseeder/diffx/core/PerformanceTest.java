@@ -37,33 +37,26 @@ public class PerformanceTest {
   private static final DiffHandler VOID_HANDLER = (operator, token) -> {
   };
 
-  @Test
-  public void compareRandomString_1000_10() {
-    // Generate content
-    String from = getRandomString(1000, false);
-    String to = vary(from, .10);
-    List<CharToken> second = TestTokens.toCharTokens(from);
-    List<CharToken> first = TestTokens.toCharTokens(to);
-
-    profileX(new DefaultXMLProcessor(), first, second, 10);
-    profileX(new TextOnlyProcessor(), first, second, 10);
-    profileX(new OptimisticXMLProcessor(), first, second, 10);
+  private static long profileX(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second, int times) {
+    System.out.print(algorithm.toString());
+    System.out.print("\t" + first.size() + "/" + second.size() + " tokens");
+    // We do a dry run first
+    long f = profile(algorithm, first, second);
+    System.out.print(" First:" + f + "ms");
+    long total = 0;
+    for (int i = 0; i < times; i++) {
+      long t = profile(algorithm, first, second);
+      total += t;
+    }
+    System.out.println(" Avg:" + (total * 1.0 / times) + "ms");
+    return total;
   }
 
-  @Test
-  public void compareGeneralAlgorithms() {
-    int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
-    for (int length : lengths) {
-      // Generate content
-      String from = getRandomString(length, false);
-      String to = vary(from, .2);
-      List<CharToken> second = TestTokens.toCharTokens(from);
-      List<CharToken> first = TestTokens.toCharTokens(to);
-
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
-    }
+  private static long profile(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second) {
+    long t0 = System.nanoTime();
+    algorithm.diff(first, second, VOID_HANDLER);
+    long t1 = System.nanoTime();
+    return (t1 - t0) / 1_000_000;
   }
 
 //  @Test
@@ -101,6 +94,60 @@ public class PerformanceTest {
 //    System.out.println("Faster: "+((total1 > total2) ? "#2" : "#1")+" by "+pct+"%");
 //  }
 
+  private static void generateXML(StringBuilder xml1, StringBuilder xml2, int elements) {
+    // Generate content
+    Random r = new Random();
+    xml1.append("<root>\n");
+    xml2.append("<root>\n");
+    for (int i = 0; i < elements; i++) {
+      int f = r.nextInt(10);
+      String from = getRandomString(100 + f * 100, true);
+      String to = (r.nextInt(10) < 3) ? vary(from, .05) : from;
+      xml1.append("  <p>").append(from).append("</p>\n");
+      xml2.append("  <p>").append(to).append("</p>\n");
+    }
+    xml1.append("</root>");
+    xml2.append("</root>");
+  }
+
+  private static String getRandomString(int length, boolean spaces) {
+    RandomStringFactory factory = new RandomStringFactory();
+    return factory.getRandomString(length, spaces);
+  }
+
+  private static String vary(String source, double changes) {
+    RandomStringFactory factory = new RandomStringFactory();
+    return factory.vary(source, changes);
+  }
+
+  @Test
+  public void compareRandomString_1000_10() {
+    // Generate content
+    String from = getRandomString(1000, false);
+    String to = vary(from, .10);
+    List<CharToken> second = TestTokens.toCharTokens(from);
+    List<CharToken> first = TestTokens.toCharTokens(to);
+
+    profileX(new DefaultXMLProcessor(), first, second, 10);
+    profileX(new TextOnlyProcessor(), first, second, 10);
+    profileX(new OptimisticXMLProcessor(), first, second, 10);
+  }
+
+  @Test
+  public void compareGeneralAlgorithms() {
+    int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
+    for (int length : lengths) {
+      // Generate content
+      String from = getRandomString(length, false);
+      String to = vary(from, .2);
+      List<CharToken> second = TestTokens.toCharTokens(from);
+      List<CharToken> first = TestTokens.toCharTokens(to);
+
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
+    }
+  }
 
   @Test
   public void compareRandomString_1000_50() {
@@ -179,54 +226,6 @@ public class PerformanceTest {
     profileX(coalescingProcessor, firstText, secondText, 10);
     profileX(noCoalesceProcessor, firstText, secondText, 10);
 
-  }
-
-  private static long profileX(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second, int times) {
-    System.out.print(algorithm.toString());
-    System.out.print("\t" + first.size() + "/" + second.size() + " tokens");
-    // We do a dry run first
-    long f = profile(algorithm, first, second);
-    System.out.print(" First:" + f + "ms");
-    long total = 0;
-    for (int i = 0; i < times; i++) {
-      long t = profile(algorithm, first, second);
-      total += t;
-    }
-    System.out.println(" Avg:" + (total * 1.0 / times) + "ms");
-    return total;
-  }
-
-  private static long profile(DiffAlgorithm algorithm, List<? extends Token> first, List<? extends Token> second) {
-    long t0 = System.nanoTime();
-    algorithm.diff(first, second, VOID_HANDLER);
-    long t1 = System.nanoTime();
-    return (t1 - t0) / 1_000_000;
-  }
-
-  private static void generateXML(StringBuilder xml1, StringBuilder xml2, int elements) {
-    // Generate content
-    Random r = new Random();
-    xml1.append("<root>\n");
-    xml2.append("<root>\n");
-    for (int i = 0; i < elements; i++) {
-      int f = r.nextInt(10);
-      String from = getRandomString(100 + f * 100, true);
-      String to = (r.nextInt(10) < 3) ? vary(from, .05) : from;
-      xml1.append("  <p>").append(from).append("</p>\n");
-      xml2.append("  <p>").append(to).append("</p>\n");
-    }
-    xml1.append("</root>");
-    xml2.append("</root>");
-  }
-
-  private static String getRandomString(int length, boolean spaces) {
-    RandomStringFactory factory = new RandomStringFactory();
-    return factory.getRandomString(length, spaces);
-  }
-
-  private static String vary(String source, double changes) {
-    RandomStringFactory factory = new RandomStringFactory();
-    return factory.vary(source, changes);
   }
 
 }
