@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
@@ -54,7 +54,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_IdenticalA() throws DiffException {
+  public final void testBasic_IdenticalA() throws DiffException {
     String xml1 = "<a/>";
     String xml2 = "<a/>";
     String exp = "<a></a>";
@@ -72,7 +72,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_IdenticalB() throws DiffException {
+  public final void testBasic_IdenticalB() throws DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>X</a>";
     String exp = "<a>X</a>";
@@ -90,7 +90,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_IdenticalD() throws DiffException {
+  public final void testBasic_IdenticalD() throws DiffException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a m='x'/>";
     String exp = "<a>@(m=x)</a>";
@@ -108,7 +108,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_IdenticalE() throws DiffException {
+  public final void testBasic_IdenticalE() throws DiffException {
     String xml1 = "<a m='x' n='y'/>";
     String xml2 = "<a n='y' m='x'/>";
     String[] exp = new String[]{
@@ -131,7 +131,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TotalDiffA() throws DiffException {
+  public final void testBasic_TotalDiffA() throws DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     String[] exp1 = new String[]{
@@ -159,7 +159,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TotalDiffB() throws DiffException {
+  public final void testBasic_TotalDiffB() throws DiffException {
     String xml1 = "<a/>";
     String xml2 = "";
     String exp1 = "+<a>+</a>";
@@ -181,7 +181,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_ModifiedTextA() throws DiffException {
+  public final void testBasic_ModifiedTextA() throws DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
@@ -207,7 +207,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_ModifiedTextB() throws DiffException {
+  public final void testBasic_ModifiedTextB() throws DiffException {
     String xml1 = "<a>X </a>";
     String xml2 = "<a>X</a>";
     String exp1 = "<a>X+ </a>";
@@ -230,7 +230,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_MoveA() throws DiffException {
+  public final void testBasic_MoveA() throws DiffException {
     String xml1 = "<a><b>x</b><c/></a>";
     String xml2 = "<a><b/><c>x</c></a>";
     String exp1 = "<a><b>+x</b><c>-x</c></a>";
@@ -252,7 +252,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_ElementA() throws DiffException {
+  public final void testBasic_ElementA() throws DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     String[] exp1 = new String[]{
@@ -282,7 +282,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_ElementB() throws DiffException {
+  public final void testBasic_ElementB() throws DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     String[] exp1 = new String[]{
@@ -308,7 +308,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_ElementC() throws DiffException {
+  public final void testBasic_ElementC() throws DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     String[] exp1 = new String[]{
@@ -336,7 +336,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TextElementA() throws DiffException {
+  public final void testBasic_TextElementA() throws DiffException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><b>X</b></a>";
     String exp1 = "<a><b>X</b>+<c>+Y+</c></a>";
@@ -356,7 +356,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TextElementB() throws DiffException {
+  public final void testBasic_TextElementB() throws DiffException {
     String xml1 = "<a><b>X</b><c>Y</c></a>";
     String xml2 = "<a><c>Y</c></a>";
     String exp1 = "<a>+<b>+X+</b><c>Y</c></a>";
@@ -373,7 +373,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeA() throws DiffException {
+  public final void testBasic_AttributeA() throws DiffException {
     String xml1 = "<a m='x'/>";
     String xml2 = "<a/>";
     String exp1 = "<a>+@(m=x)</a>";
@@ -388,7 +388,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeB() throws DiffException {
+  public final void testBasic_AttributeB() throws DiffException {
     String xml1 = "<a m='y'/>";
     String xml2 = "<a m='x'/>";
     String[] exp1 = new String[]{
@@ -409,7 +409,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeC() throws DiffException {
+  public final void testBasic_AttributeC() throws DiffException {
     String xml2 = "<a n='w' m='x'/>";
     String xml1 = "<a m='y' n='z'/>";
     String[] exp = new String[]{
@@ -430,7 +430,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TextAttributeA() throws DiffException {
+  public final void testBasic_TextAttributeA() throws DiffException {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a>Y</a>";
     String[] exp1 = new String[]{
@@ -452,7 +452,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_TextAttributeB() throws DiffException {
+  public final void testBasic_TextAttributeB() throws DiffException {
     String xml1 = "<a m='x'>X</a>";
     String xml2 = "<a m='y'>Y</a>";
     String[] exp1 = new String[]{
@@ -477,7 +477,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeNamespaces0() throws DiffException {
+  public final void testBasic_AttributeNamespaces0() throws DiffException {
     String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='https://example.net'/>";
     String[] exp = new String[]{
@@ -487,14 +487,13 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     assertDiffXMLOKTextOnly(xml1, xml2, exp);
   }
 
-
   /**
    * Compares two XML documents where two attributes are on a different namespace.
    *
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeNamespaces1() throws DiffException {
+  public final void testBasic_AttributeNamespaces1() throws DiffException {
     String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='https://example.org'/>";
     String[] exp = new String[]{
@@ -511,7 +510,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_SelfWrapA() throws DiffException {
+  public final void testBasic_SelfWrapA() throws DiffException {
     String xml1 = "<a><a/></a>";
     String xml2 = "<a></a>";
     String[] exp1 = new String[]{
@@ -536,7 +535,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    * @throws DiffException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_SelfWrapB() throws DiffException {
+  public final void testBasic_SelfWrapB() throws DiffException {
     String xml1 = "<a><a>x</a></a>";
     String xml2 = "<a>x</a>";
     String[] exp1 = new String[]{
@@ -557,13 +556,8 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
 
 // split and merge problems -------------------------------------------------------------
 
-  /**
-   * Splits the text of the XML string in 2.
-   *
-   * @throws DiffException Should an error occur while parsing XML.
-   */
   @Test
-  public final void testLevel1_SplitMergeB() throws DiffException {
+  public final void testBasic_SplitMergeB() throws LoadingException {
     String xml1 = "<a><b><c/></b><b><d/></b></a>";
     String xml2 = "<a><b><c/><d/></b></a>";
     String[] exp1 = new String[]{
@@ -578,14 +572,32 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
+  @Test
+  public final void testAdvanced_Temp() throws LoadingException {
+    String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
+    String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
+    String[] exp1 = new String[]{
+        "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>",
+        "<a>+<b>-<x:b>X-</x:b>+</b></a>"
+    };
+    String[] exp2 = new String[] {
+        "<a>+<x:b>+X+</x:b>-<b>-X-</b></a>",
+        "<a>+<x:b>-<b>X-</b>+</x:b></a>"
+    };
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+  }
+
+
+
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String exp) throws DiffException {
+  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String exp) throws LoadingException {
     assertDiffXMLOKTextOnly(xml1, xml2, new String[]{exp});
   }
 
-  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp) throws DiffException {
+  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp) throws LoadingException {
     // Load XML
     Sequence seq1 = TestTokens.loadSequence(xml1, TextGranularity.TEXT);
     Sequence seq2 = TestTokens.loadSequence(xml2, TextGranularity.TEXT);

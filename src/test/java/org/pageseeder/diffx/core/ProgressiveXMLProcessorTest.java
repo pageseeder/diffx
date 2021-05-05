@@ -19,6 +19,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
+import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 
 /**
@@ -70,7 +71,7 @@ public final class ProgressiveXMLProcessorTest {
   @Ignore
   public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffProcessor getProcessor() {
       ProgressiveXMLProcessor processor = new ProgressiveXMLProcessor();
       processor.setCoalesce(true);
       return processor;

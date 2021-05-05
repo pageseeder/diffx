@@ -18,6 +18,7 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
+import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 
 /**
@@ -67,7 +68,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffProcessor getProcessor() {
       OptimisticXMLProcessor processor = new OptimisticXMLProcessor();
       processor.setCoalesce(true);
       return processor;

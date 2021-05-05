@@ -165,16 +165,6 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testAdvanced_Temp() throws LoadingException {
-    String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
-    String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
-//    String exp1 = "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>";
-//    String exp2 = "<a>+<x:b>+X+</x:b>-<b>-X-</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2);
-    assertDiffXMLWordsOK(xml2, xml1);
-  }
-
-  @Test
   public final void testAdvanced_MoveB() throws LoadingException {
     String xml1 = "<a><b>x y</b><c/></a>";
     String xml2 = "<a><b/><c>x y</c></a>";

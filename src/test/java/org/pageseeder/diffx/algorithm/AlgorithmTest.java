@@ -23,14 +23,14 @@ import java.util.List;
 public abstract class AlgorithmTest {
 
   /**
-   * @return The processor instance to use for texting.
+   * @return The algorithm instance to use for texting.
    */
   public abstract DiffAlgorithm getDiffAlgorithm();
 
   /**
    * Print the error details.
    */
-  protected void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
+  public static void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + xml1 + "\"");
     System.err.println("| Input B: \"" + xml2 + "\"");

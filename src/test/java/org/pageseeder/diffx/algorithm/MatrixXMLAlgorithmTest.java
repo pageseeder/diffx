@@ -13,31 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.core;
+package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
-import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
-import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 
 /**
- * Test case for the default XML processor
+ * Test case for the default XML algorithm.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class DefaultXMLProcessorTest {
+public final class MatrixXMLAlgorithmTest {
 
-  private DefaultXMLProcessor newProcessor() {
-    return new DefaultXMLProcessor();
+  private MatrixXMLAlgorithm newAlgorithm() {
+    return new MatrixXMLAlgorithm();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
-      return newProcessor();
+      return newAlgorithm();
     }
   }
 
@@ -45,7 +41,7 @@ public final class DefaultXMLProcessorTest {
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
-      return newProcessor();
+      return newAlgorithm();
     }
   }
 
@@ -53,33 +49,7 @@ public final class DefaultXMLProcessorTest {
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
-      return newProcessor();
-    }
-  }
-
-  @Nested
-  public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
-    @Override
-    public DiffAlgorithm getDiffAlgorithm() {
-      return newProcessor();
-    }
-  }
-
-  @Nested
-  public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
-    @Override
-    public DiffProcessor getProcessor() {
-      DefaultXMLProcessor processor = newProcessor();
-      processor.setCoalesce(true);
-      return processor;
-    }
-  }
-
-  @Nested
-  public class RandomXMLDiff extends RandomXMLDiffTest {
-    @Override
-    public DiffAlgorithm getDiffAlgorithm() {
-      return newProcessor();
+      return newAlgorithm();
     }
   }
 

@@ -29,41 +29,12 @@ import org.pageseeder.diffx.test.TestTokens;
 import java.util.List;
 
 /**
- * Test for the text coalescing option for processors.
+ * Test case to produce results of better "quality"
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class CoalesceXMLDiffTest extends ProcessorTest {
-
-  @Test
-  public final void testCoalesce_Identical() throws DiffException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X Y</a>";
-    String exp = "<a>X Y</a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp);
-  }
-
-  @Test
-  public final void testProg_SplitMergeA1() throws DiffException {
-    String xml1 = "<a><b>X</b> <b>Y</b></a>";
-    String xml2 = "<a><b>X Y</b></a>";
-    // split
-    String[] exp1 = new String[]{
-        "<a><b>X+</b> +<b>Y</b></a>",           // tags inserted
-        "<a><b>X-( Y)</b>+ +<b>+Y+</b></a>",    // text has moved
-        "<a>+<b>+X+</b>+ <b>+Y-(X Y)</b></a>",
-        "<a>+<b>+X+</b>+ <b>-X-( Y)+Y</b></a>"
-    };
-    // merge
-    String[] exp2 = new String[]{
-        "<a><b>X-</b> -<b>Y</b></a>",         // tags removed
-        "<a><b>X+( Y)</b>- -<b>-Y-</b></a>",  // text has moved
-        "<a>-<b>-X-</b>- <b>+X-Y+( Y)</b></a>"
-    };
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
-  }
+public abstract class QualityXMLDiffTest extends ProcessorTest {
 
   @Test
   public final void testCoalesce_Sticky() throws DiffException {
@@ -71,27 +42,7 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
     String xml2 = "<a>a black hat</a>";
     String expA = "<a>a+( white cat)-( black hat)</a>";
     String expB = "<a>a-( black hat)+( white cat)</a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, expA, expB);
-  }
-
-  @Test
-  public final void testProg_MovedBranch() throws DiffException {
-    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
-  }
-
-  @Test
-  public final void testProg_BestPath() throws DiffException {
-    String xml1 = "<a><b>X</b></a>";
-    String xml2 = "<a><b/><b>X</b></a>";
-    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
+    assertDiffXMLQualityOK(xml1, xml2, COMPARE_SPACE_WORDS, expA, expB);
   }
 
   /**
@@ -103,7 +54,7 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
    *
    * @throws DiffException Should an error occur while parsing XML.
    */
-  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, DiffConfig config, String... exp) throws DiffException {
+  public final void assertDiffXMLQualityOK(String xml1, String xml2, DiffConfig config, String... exp) throws DiffException {
     Sequence seq1 = TestTokens.loadSequence(xml1, config);
     Sequence seq2 = TestTokens.loadSequence(xml2, config);
 
