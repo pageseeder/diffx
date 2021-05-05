@@ -60,43 +60,52 @@ public class SequenceFoldingTest {
   @Test
   public void testSimple1b() {
     Sequence sequence = getSequence("<a><b/></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"a"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("a").fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testSimple1c() {
     Sequence sequence = getSequence("<a><b/></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"b"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("b").fold(sequence);
     assertEquals(3, out.size());
   }
 
   @Test
   public void testDeep1a() {
     Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"a"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("a").fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testDeep1b() {
     Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"b"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("b").fold(sequence);
     assertEquals(3, out.size());
   }
 
   @Test
   public void testDeep1c() {
     Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"c"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("c").fold(sequence);
     assertEquals(5, out.size());
   }
 
   @Test
   public void testDeep1d() {
     Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    Sequence out = SequenceFolding.forElements(new String[]{"d"}).fold(sequence);
+    Sequence out = SequenceFolding.forElements("d").fold(sequence);
     assertEquals(7, out.size());
   }
+
+  @Test
+  public void testTable1() {
+    Sequence sequence = getSequence("<table><row><cell>A</cell><cell>B</cell></row><row><cell>M</cell><cell>N</cell></row></table>");
+    Sequence out = SequenceFolding.forElements("row", "cell").fold(sequence);
+    System.out.println(out);
+    assertEquals(4, out.size());
+  }
+
 
 }

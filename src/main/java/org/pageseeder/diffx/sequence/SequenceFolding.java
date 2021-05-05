@@ -40,7 +40,7 @@ public class SequenceFolding {
     this.elements = elements;
   }
 
-  public static SequenceFolding forElements(String[] elements) {
+  public static SequenceFolding forElements(String... elements) {
     // Only keep distinct non-null element names
     List<String> list = Arrays.stream(elements)
         .filter(i -> i != null && i.length() > 0)
