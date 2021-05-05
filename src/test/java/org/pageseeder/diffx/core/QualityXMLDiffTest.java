@@ -36,12 +36,19 @@ import java.util.List;
 public abstract class QualityXMLDiffTest extends ProcessorTest {
 
   @Test
-  public final void testCoalesce_Sticky() throws DiffException {
-    String xml1 = "<a>a white cat</a>";
-    String xml2 = "<a>a black hat</a>";
-    String expA = "<a>a+( white cat)-( black hat)</a>";
-    String expB = "<a>a-( black hat)+( white cat)</a>";
-    assertDiffXMLQualityOK(xml1, xml2, COMPARE_SPACE_WORDS, expA, expB);
+  public final void testQuality_Table1() throws DiffException {
+    String xml1 = "<table><row><cell>A</cell><cell>A X</cell></row><row><cell>A</cell><cell>C X</cell></row><row><cell>B</cell><cell>C X</cell></row></table>";
+    String xml2 = "<table><row><cell>A</cell><cell>A X</cell></row><row><cell>B</cell><cell>C X</cell></row></table>";
+    String exp =  "<table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table>";
+    assertDiffXMLQualityOK(xml1, xml2, PRESERVE_SPACE_WORDS, exp);
+  }
+
+  @Test
+  public final void testQuality_Table2() throws DiffException {
+    String xml1 = "<fragment><table><row><cell>A</cell><cell>A X</cell></row><row><cell>A</cell><cell>C X</cell></row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
+    String xml2 = "<fragment><table><row><cell>A</cell><cell>A X</cell></row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
+    String exp =  "<fragment><table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
+    assertDiffXMLQualityOK(xml1, xml2, PRESERVE_SPACE_WORDS, exp);
   }
 
   /**
