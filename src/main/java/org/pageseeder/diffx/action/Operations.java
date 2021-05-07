@@ -15,12 +15,10 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,8 +38,8 @@ public final class Operations {
    * Generates the list of tokens from the list of operations.
    *
    * @param operations The list of operations.
-   * @param forward   <code>true</code> for generating the new sequence (INS or MATCH);
-   *                  <code>false</code> for generating the old sequence (DEL or MATCH).
+   * @param forward    <code>true</code> for generating the new sequence (INS or MATCH);
+   *                   <code>false</code> for generating the old sequence (DEL or MATCH).
    */
   public static <T> List<T> generate(List<Operation<T>> operations, boolean forward) {
     List<T> generated = new LinkedList<>();

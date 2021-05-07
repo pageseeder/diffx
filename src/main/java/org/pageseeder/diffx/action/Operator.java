@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.action;
 
 /**
- * The different basic types of difference operators used by DiffX.
+ * The different basic types of difference operators to generate an edit script.
  *
  * @author Christophe Lauret
  * @version 0.9.0

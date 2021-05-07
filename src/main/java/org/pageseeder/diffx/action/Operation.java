@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.token.Token;
-
 /**
  * An atomic Diff operation associated with a single token.
  *

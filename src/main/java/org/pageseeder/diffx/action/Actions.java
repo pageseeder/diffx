@@ -15,14 +15,11 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,7 +33,7 @@ public class Actions {
   /**
    * Generates the list of tokens from the list of actions.
    *
-   * @param actions  The list of actions.
+   * @param actions The list of actions.
    * @param forward <code>true</code> for generating the new sequence (A to B);
    *                <code>false</code> for generating the old sequence (B to A).
    */
@@ -58,20 +55,22 @@ public class Actions {
    * @param actions The list of actions.
    */
   public static <T> List<Operation<T>> toOperations(List<Action<T>> actions) {
-    List<Operation<T>> operations = new LinkedList<>();
+    List<Operation<T>> operations = new ArrayList<>();
     for (Action<T> action : actions) {
       Operator operator = action.operator();
       for (T token : action.tokens()) {
-        operations.add(new Operation(operator, token));
+        operations.add(new Operation<>(operator, token));
       }
     }
     return operations;
   }
 
   /**
-   * Reverse the actions by swapping the INS and DEL.
+   * Flip operator on the actions by swapping the INS and DEL.
+   *
+   * @return A new list of actions.
    */
-  public static <T> List<Action<T>> reverse(List<Action<T>> actions) {
+  public static <T> List<Action<T>> flip(List<Action<T>> actions) {
     List<Action<T>> reverse = new ArrayList<>(actions.size());
     for (Action<T> action : actions) {
       reverse.add(action.flip());
@@ -80,7 +79,7 @@ public class Actions {
   }
 
   /**
-   * Apply the specified list of action to the input sequence and return the corresponding output.
+   * Apply the specified list of actions to the input sequence and return the corresponding output.
    */
   public static Sequence apply(Sequence input, List<Action<Token>> actions) {
     List<Token> tokens = apply(input.tokens(), actions);
@@ -90,13 +89,18 @@ public class Actions {
   }
 
   /**
-   * Apply the specified list of action to the input sequence and return the corresponding output.
+   * Apply the specified list of actions to the input and return the corresponding output.
+   *
+   * <p>This method can be used to generate A from B.</p>
+   *
+   * @return The corresponding output.
+   * @throws IllegalArgumentException If the list of actions cannot be applied to the specified input
    */
   public static <T> List<T> apply(List<T> input, List<Action<T>> actions) {
     List<T> out = new ArrayList<>(input.size());
     int i = 0;
     try {
-      for (Action action : actions) {
+      for (Action<T> action : actions) {
         int count = action.tokens().size();
         switch (action.operator()) {
           case MATCH:
@@ -120,6 +124,18 @@ public class Actions {
     return out;
   }
 
+  /**
+   * Checks whether the specified list of actions is applicable to the two specified inputs.
+   *
+   * <p>Implementation note: this method iterates over the actions and ensure that the tokens
+   * as specified in the correct order and match A or B or both depending on the whether the
+   * operator is DEL, INS or MATCH respectively.</p>
+   *
+   * @param a       List of tokens that may be deleted or matched
+   * @param b       List of tokens that may be deleted of matched
+   * @param actions List of actions to check
+   * @param <T>     The type of token
+   */
   public static <T> boolean isApplicable(List<? extends T> a, List<? extends T> b, List<Action<T>> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
@@ -144,29 +160,6 @@ public class Actions {
       }
     }
     return true;
-  }
-
-  public static void format(List<Action<Token>> actions, DiffXFormatter formatter) throws IOException {
-    for (Action<Token> action : actions) {
-      switch (action.operator()) {
-        case MATCH:
-          for (Token token : action.tokens()) {
-            formatter.format(token);
-          }
-          break;
-        case INS:
-          for (Token token : action.tokens()) {
-            formatter.insert(token);
-          }
-          break;
-        case DEL:
-          for (Token token : action.tokens()) {
-            formatter.delete(token);
-          }
-          break;
-        default:
-      }
-    }
   }
 
   public static <T> void handle(List<Action<T>> actions, DiffHandler<T> handler) {
