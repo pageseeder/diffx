@@ -34,7 +34,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor {
+public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
 
   /**
    * The main algorithms to choose from.
@@ -59,7 +59,7 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (from.isEmpty() || to.isEmpty()) {
@@ -87,12 +87,12 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
           for (Token token : subB) handler.handle(Operator.INS, token);
           for (Token token : subA) handler.handle(Operator.DEL, token);
         } else {
-          DiffAlgorithm algorithm = getAlgorithm();
+          DiffAlgorithm<Token> algorithm = getAlgorithm();
           algorithm.diff(subA, subB, handler);
         }
 
       } else {
-        DiffAlgorithm algorithm = getAlgorithm();
+        DiffAlgorithm<Token> algorithm = getAlgorithm();
         algorithm.diff(from, to, handler);
       }
 
@@ -109,14 +109,14 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
     return "TextOnlyProcessor{algo=" + getAlgorithm().getClass().getSimpleName() + "}";
   }
 
-  private DiffAlgorithm getAlgorithm() {
+  private DiffAlgorithm<Token> getAlgorithm() {
     switch (this.algo) {
       case HIRSCHBERG:
-        return new HirschbergAlgorithm();
+        return new HirschbergAlgorithm<>();
       case WAGNER_FISCHER:
-        return new WagnerFischerAlgorithm();
+        return new WagnerFischerAlgorithm<>();
       case KUMAR_RANGAN:
-        return new KumarRanganAlgorithm();
+        return new KumarRanganAlgorithm<>();
       default:
         throw new IllegalStateException("No algorithm defined");
     }

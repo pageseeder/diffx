@@ -24,6 +24,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.List;
@@ -40,7 +41,7 @@ import static org.pageseeder.diffx.config.TextGranularity.WORD;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
+public abstract class AdvancedXMLDiffTest extends AlgorithmTest<Token> {
 
   /**
    * Compares two identical XML documents.
@@ -208,7 +209,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
     Sequence seqB = TestTokens.loadSequence(xmlB, granularity);
     NamespaceSet namespaces = NamespaceSet.merge(seqB.getNamespaces(), seqA.getNamespaces());
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());
+    List<Action<Token>> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());
     try {
       DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);

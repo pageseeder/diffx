@@ -20,27 +20,27 @@ import org.pageseeder.diffx.token.Token;
 
 import java.util.Arrays;
 
-public class MuxHandler implements DiffHandler {
+public class MuxHandler<T> implements DiffHandler<T> {
 
-  private final DiffHandler[] handlers;
+  private final DiffHandler<T>[] handlers;
 
-  public MuxHandler(DiffHandler... handlers) {
+  public MuxHandler(DiffHandler<T>... handlers) {
     this.handlers = handlers;
   }
 
   @Override
   public void start() {
-    for (DiffHandler handler : handlers) handler.start();
+    for (DiffHandler<T> handler : handlers) handler.start();
   }
 
   @Override
-  public void handle(Operator operator, Token token) throws IllegalStateException {
-    for (DiffHandler handler : handlers) handler.handle(operator, token);
+  public void handle(Operator operator, T token) throws IllegalStateException {
+    for (DiffHandler<T> handler : handlers) handler.handle(operator, token);
   }
 
   @Override
   public void end() {
-    for (DiffHandler handler : handlers) handler.end();
+    for (DiffHandler<T> handler : handlers) handler.end();
   }
 
   @Override

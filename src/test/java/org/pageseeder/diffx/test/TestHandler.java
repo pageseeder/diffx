@@ -38,7 +38,7 @@ import java.util.List;
  * @version 0.9.0
  * @see TestTokens
  */
-public final class TestHandler implements DiffHandler {
+public final class TestHandler implements DiffHandler<Token> {
 
   private final NamespaceSet namespaces;
 
@@ -153,8 +153,8 @@ public final class TestHandler implements DiffHandler {
     return prefix.isEmpty() ? name : (prefix + ':' + name);
   }
 
-  public static List<Operation> parse(String ops) {
-    OperationsBuffer source = new OperationsBuffer();
+  public static List<Operation<Token>> parse(String ops) {
+    OperationsBuffer<Token> source = new OperationsBuffer<>();
     char[] chars = ops.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       Operator operator = Operator.MATCH;
@@ -170,7 +170,7 @@ public final class TestHandler implements DiffHandler {
     return source.getOperations();
   }
 
-  private static int parseToken(char[] chars, int i, OperationsBuffer source, Operator operator) {
+  private static int parseToken(char[] chars, int i, OperationsBuffer<Token> source, Operator operator) {
     int j = i;
     Token token;
     if (isStartElement(chars, i)) {

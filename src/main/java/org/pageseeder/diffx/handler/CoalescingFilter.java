@@ -32,7 +32,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.9.0
  */
-public final class CoalescingFilter extends DiffFilter implements DiffHandler {
+public final class CoalescingFilter extends DiffFilter<Token> implements DiffHandler<Token> {
 
   /**
    * Buffer of text token to coalesce.
@@ -49,7 +49,7 @@ public final class CoalescingFilter extends DiffFilter implements DiffHandler {
    */
   private Operator current = Operator.MATCH;
 
-  public CoalescingFilter(DiffHandler target) {
+  public CoalescingFilter(DiffHandler<Token> target) {
     super(target);
   }
 

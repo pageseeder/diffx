@@ -21,6 +21,7 @@ import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.TextToken;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
@@ -36,13 +37,13 @@ import static org.pageseeder.diffx.test.TestOperations.toTextOperations;
 
 public class CoalescingFilterTest {
 
-  private static List<Operation> normalizeOperations(List<Operation> operations) {
+  private static List<Operation<Token>> normalizeOperations(List<Operation<Token>> operations) {
     return operations.stream().map(CoalescingFilterTest::normalizeOperation).collect(Collectors.toList());
   }
 
-  private static Operation normalizeOperation(Operation operation) {
+  private static Operation<Token> normalizeOperation(Operation<Token> operation) {
     if (operation.token() instanceof TextToken)
-      return new Operation(operation.operator(), new CharactersToken(((TextToken) operation.token()).getCharacters()));
+      return new Operation<>(operation.operator(), new CharactersToken(((TextToken) operation.token()).getCharacters()));
     return operation;
   }
 
@@ -82,99 +83,99 @@ public class CoalescingFilterTest {
 
   @Test
   public void testFilter1() {
-    List<Operation> got = toTextOperations("A", " ", "+big", " ", "castle");
-    List<Operation> exp = toTextOperations("A ", "+big", " castle");
+    List<Operation<Token>> got = toTextOperations("A", " ", "+big", " ", "castle");
+    List<Operation<Token>> exp = toTextOperations("A ", "+big", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter2() {
-    List<Operation> got = toTextOperations("The", "+ very", "+ big", "- large", "- medieval", " castle");
-    List<Operation> exp = toTextOperations("The", "+ very big", "- large medieval", " castle");
+    List<Operation<Token>> got = toTextOperations("The", "+ very", "+ big", "- large", "- medieval", " castle");
+    List<Operation<Token>> exp = toTextOperations("The", "+ very big", "- large medieval", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter3() {
-    List<Operation> got = toTextOperations("-A", "+The", "+ very", "+ big", " castle");
-    List<Operation> exp = toTextOperations("-A", "+The very big", " castle");
+    List<Operation<Token>> got = toTextOperations("-A", "+The", "+ very", "+ big", " castle");
+    List<Operation<Token>> exp = toTextOperations("-A", "+The very big", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter4() {
-    List<Operation> got = toTextOperations("A", "+ big", "- small", "+ blue", "- red", " castle");
-    List<Operation> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
+    List<Operation<Token>> got = toTextOperations("A", "+ big", "- small", "+ blue", "- red", " castle");
+    List<Operation<Token>> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter5() {
-    List<Operation> got = toTextOperations("A", "+ big", "+ blue", "- small", "- red", " castle");
-    List<Operation> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
+    List<Operation<Token>> got = toTextOperations("A", "+ big", "+ blue", "- small", "- red", " castle");
+    List<Operation<Token>> exp = toTextOperations("A", "+ big blue", "- small red", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter6() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
-    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    List<Operation<Token>> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
+    List<Operation<Token>> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter7() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
-    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    List<Operation<Token>> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
+    List<Operation<Token>> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter8() {
-    List<Operation> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
-    List<Operation> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
+    List<Operation<Token>> got = toTextOperations("A", "- small", "+ big", "+ blue", "- red", " castle");
+    List<Operation<Token>> exp = toTextOperations("A", "- small red", "+ big blue", " castle");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter9() {
-    List<Operation> got = toCharOperations("+AM+A+A-R");
-    List<Operation> exp = toTextOperations("+A", "M", "+AA", "-R");
+    List<Operation<Token>> got = toCharOperations("+AM+A+A-R");
+    List<Operation<Token>> exp = toTextOperations("+A", "M", "+AA", "-R");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter10() {
-    List<Operation> got = toCharOperations("+A+AMMM+A+A-D+A-D+A");
-    List<Operation> exp = toTextOperations("+AA", "MMM", "+AAAA", "-DD");
+    List<Operation<Token>> got = toCharOperations("+A+AMMM+A+A-D+A-D+A");
+    List<Operation<Token>> exp = toTextOperations("+AA", "MMM", "+AAAA", "-DD");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testFilter11() {
-    List<Operation> got = toCharOperations("+A-D+AMMM-D+A+A-D+A-D+A");
-    List<Operation> exp = toTextOperations("+AA", "-D", "MMM", "-DDD", "+AAAA");
+    List<Operation<Token>> got = toCharOperations("+A-D+AMMM-D+A+A-D+A-D+A");
+    List<Operation<Token>> exp = toTextOperations("+AA", "-D", "MMM", "-DDD", "+AAAA");
     assertEquivalentOperations(exp, coalesceOperations(got));
   }
 
   @Test
   public void testMixFilter1() {
-    List<Operation> src = TestHandler.parse("<a>A+BC</a>");
-    List<Operation> exp = TestHandler.parse("<a>A+BC</a>");
+    List<Operation<Token>> src = TestHandler.parse("<a>A+BC</a>");
+    List<Operation<Token>> exp = TestHandler.parse("<a>A+BC</a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
   @Test
   public void testMixFilter2() {
-    List<Operation> src = TestHandler.parse("<a>+A-B+C</a>");
-    List<Operation> exp = TestHandler.parse("<a>+(AC)-B</a>");
+    List<Operation<Token>> src = TestHandler.parse("<a>+A-B+C</a>");
+    List<Operation<Token>> exp = TestHandler.parse("<a>+(AC)-B</a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
   @Test
   public void testMixFilter3() {
-    List<Operation> src = TestHandler.parse("<a>A+BC-D</a>");
-    List<Operation> exp = TestHandler.parse("<a>A+BC-D</a>");
+    List<Operation<Token>> src = TestHandler.parse("<a>A+BC-D</a>");
+    List<Operation<Token>> exp = TestHandler.parse("<a>A+BC-D</a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
@@ -184,20 +185,20 @@ public class CoalescingFilterTest {
 
   @Test
   public void testMixFilter4() {
-    List<Operation> src = TestHandler.parse("<a><b>X- -Y</b> +<b>+Y+</b></a>");
-    List<Operation> exp = TestHandler.parse("<a><b>X-( Y)</b> +<b>+Y+</b></a>");
+    List<Operation<Token>> src = TestHandler.parse("<a><b>X- -Y</b> +<b>+Y+</b></a>");
+    List<Operation<Token>> exp = TestHandler.parse("<a><b>X-( Y)</b> +<b>+Y+</b></a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
   @Test
   public void testMixFilter5() {
-    List<Operation> src = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
-    List<Operation> exp = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
+    List<Operation<Token>> src = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
+    List<Operation<Token>> exp = TestHandler.parse("<a><b>-Y</b>+ +<b>+Y+</b></a>");
     assertEquivalentOperations(exp, coalesceOperations(src));
   }
 
-  private List<Operation> coalesceOperations(List<Operation> operations) {
-    OperationsBuffer target = new OperationsBuffer();
+  private List<Operation<Token>> coalesceOperations(List<Operation<Token>> operations) {
+    OperationsBuffer<Token> target = new OperationsBuffer<>();
     CoalescingFilter filter = new CoalescingFilter(target);
     filter.start();
     Operations.handle(operations, filter);
@@ -205,7 +206,7 @@ public class CoalescingFilterTest {
     return target.getOperations();
   }
 
-  private void assertEquivalentOperations(List<Operation> exp, List<Operation> got) {
+  private void assertEquivalentOperations(List<Operation<Token>> exp, List<Operation<Token>> got) {
     assertEquals(normalizeOperations(exp), normalizeOperations(got));
   }
 

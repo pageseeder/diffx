@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.sequence;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
@@ -54,10 +54,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart0() throws IOException, DiffXException {
+  public void testStart0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -70,10 +70,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart1() throws IOException, DiffXException {
+  public void testStart1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -84,10 +84,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart2() throws IOException, DiffXException {
+  public void testStart2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -99,10 +99,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart3() throws IOException, DiffXException {
+  public void testStart3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -114,10 +114,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart4() throws IOException, DiffXException {
+  public void testStart4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -129,10 +129,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart5() throws IOException, DiffXException {
+  public void testStart5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -143,10 +143,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart6() throws IOException, DiffXException {
+  public void testStart6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -156,10 +156,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart7() throws IOException, DiffXException {
+  public void testStart7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -169,10 +169,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart8() throws IOException, DiffXException {
+  public void testStart8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -182,10 +182,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd0() throws IOException, DiffXException {
+  public void testEnd0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -198,10 +198,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd1() throws IOException, DiffXException {
+  public void testEnd1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -212,10 +212,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd2() throws IOException, DiffXException {
+  public void testEnd2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -226,10 +226,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd3() throws IOException, DiffXException {
+  public void testEnd3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -240,10 +240,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd4() throws IOException, DiffXException {
+  public void testEnd4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -254,10 +254,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd5() throws IOException, DiffXException {
+  public void testEnd5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -268,10 +268,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd6() throws IOException, DiffXException {
+  public void testEnd6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -281,10 +281,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd7() throws IOException, DiffXException {
+  public void testEnd7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -294,10 +294,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd8() throws IOException, DiffXException {
+  public void testEnd8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -307,10 +307,10 @@ public final class NaiveSequenceSlicerTest {
 
   /**
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStartEnd0() throws IOException, DiffXException {
+  public void testStartEnd0() throws IOException, DiffException {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
     NaiveSequenceSlicer slicer = init(xml1, xml2);
@@ -335,9 +335,9 @@ public final class NaiveSequenceSlicerTest {
    *
    * @return The sequence slicer on the 2 sequences.
    * @throws IOException    Should an I/O exception occur.
-   * @throws DiffXException Should an error occur while parsing XML with SAX.
+   * @throws DiffException Should an error occur while parsing XML with SAX.
    */
-  private NaiveSequenceSlicer init(String xml1, String xml2) throws IOException, DiffXException {
+  private NaiveSequenceSlicer init(String xml1, String xml2) throws IOException, DiffException {
     // process the strings
     Reader xmlr1 = new StringReader(xml1);
     Reader xmlr2 = new StringReader(xml2);

@@ -20,12 +20,12 @@ import org.pageseeder.diffx.action.Operator;
 
 import java.util.List;
 
-public abstract class AlgorithmTest {
+public abstract class AlgorithmTest<T> {
 
   /**
    * Print the error details.
    */
-  public static void printXMLErrorDetails(String xmlA, String xmlB, String[] exp, String got, List<Action> actions) {
+  public static <T> void printXMLErrorDetails(String xmlA, String xmlB, String[] exp, String got, List<Action<T>> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + xmlA + "\"");
     System.err.println("| Input B: \"" + xmlB + "\"");
@@ -38,7 +38,7 @@ public abstract class AlgorithmTest {
     }
     System.err.println();
     System.err.print("| Actions: ");
-    for (Action action : actions) {
+    for (Action<?> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens());
     }
@@ -60,6 +60,6 @@ public abstract class AlgorithmTest {
   /**
    * @return The algorithm instance to use for texting.
    */
-  public abstract DiffAlgorithm getDiffAlgorithm();
+  public abstract DiffAlgorithm<T> getDiffAlgorithm();
 
 }

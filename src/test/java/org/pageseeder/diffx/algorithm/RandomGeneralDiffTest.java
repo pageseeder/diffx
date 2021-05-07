@@ -24,6 +24,7 @@ import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.GeneralToken;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class RandomGeneralDiffTest extends AlgorithmTest {
+public abstract class RandomGeneralDiffTest extends AlgorithmTest<Token> {
 
   @Test
   public final void testGeneral_RandomVariations1() {
@@ -73,7 +74,7 @@ public abstract class RandomGeneralDiffTest extends AlgorithmTest {
   }
 
   private void assertGeneralDiffOK(String a, String b) {
-    DiffAlgorithm algorithm = getDiffAlgorithm();
+    DiffAlgorithm<Token> algorithm = getDiffAlgorithm();
     BasicGeneralDiffTest.assertGeneralDiffOK(a, b, algorithm, new String[0]);
   }
 

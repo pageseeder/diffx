@@ -28,7 +28,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface DiffAlgorithm {
+public interface DiffAlgorithm<T> {
 
   /**
    * Performs the comparison and report changes to the specified handler.
@@ -40,6 +40,6 @@ public interface DiffAlgorithm {
    * @throws UncheckedIOException If an IO error occurred while handler the diff
    * @throws IllegalStateException If the algorithm is in a state where it is unable to process the tokens.
    */
-  void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler);
+  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
 
 }

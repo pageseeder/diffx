@@ -173,7 +173,7 @@ public final class TokenListSlicer {
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    */
-  public void handleStart(DiffHandler handler) {
+  public void handleStart(DiffHandler<Token> handler) {
     for (int i = 0; i < this.startCount; i++) {
       handler.handle(Operator.MATCH, this.sequence1.get(i));
     }
@@ -189,7 +189,7 @@ public final class TokenListSlicer {
    *
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    */
-  public void handleEnd(DiffHandler handler) {
+  public void handleEnd(DiffHandler<Token> handler) {
     int from = this.sequence1.size() - this.endCount;
     int to = this.sequence1.size();
     for (int i = from; i < to; i++) {

@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BasicLinesDiffTest extends AlgorithmTest {
+public abstract class BasicLinesDiffTest extends AlgorithmTest<Token> {
 
   @Test
   public final void testLines_NoChange() {
@@ -97,7 +97,7 @@ public abstract class BasicLinesDiffTest extends AlgorithmTest {
   private String processDiffLines(String textA, String textB) {
     List<? extends Token> seqA = TestTokens.loadLineEvents(textA);
     List<? extends Token> seqB = TestTokens.loadLineEvents(textB);
-    DiffAlgorithm processor = getDiffAlgorithm();
+    DiffAlgorithm<Token> processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
     processor.diff(seqA, seqB, handler);
     return handler.getOutput();

@@ -17,7 +17,6 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ import java.util.List;
  *
  * @link https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf
  */
-public final class HirschbergAlgorithm implements DiffAlgorithm {
+public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -46,7 +45,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // It is more efficient to supply the sizes than retrieve from lists
     algorithmC(from.size(), to.size(), from, to, handler);
   }
@@ -56,7 +55,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    *
    * @return the last line of the Needleman-Wunsch score matrix
    */
-  private static int[] algorithmB(int m, int n, List<? extends Token> a, List<? extends Token> b) {
+  private static <T> int[] algorithmB(int m, int n, List<? extends T> a, List<? extends T> b) {
     int[][] k = new int[2][n + 1];
     for (int i = 1; i <= m; i++) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
@@ -76,7 +75,7 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
    *
    * <p>Implementation note: we traverse the list in reverse, it is more efficient than reversing the lists.
    */
-  private static int[] algorithmBRev(int m, int n, List<? extends Token> a, List<? extends Token> b) {
+  private static <T> int[] algorithmBRev(int m, int n, List<? extends T> a, List<? extends T> b) {
     int[][] k = new int[2][n + 1];
     for (int i = m - 1; i >= 0; i--) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
@@ -110,25 +109,25 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   /**
    * Algorithm C as described by Hirschberg
    */
-  private static void algorithmC(int m, int n, List<? extends Token> a, List<? extends Token> b, DiffHandler handler) {
+  private static <T> void algorithmC(int m, int n, List<? extends T> a, List<? extends T> b, DiffHandler<T> handler) {
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
     if (n == 0) {
       if (DEBUG) System.out.println(" Step1 N=0");
-      for (Token token : a) {
+      for (T token : a) {
         handler.handle(Operator.DEL, token);
       }
 
     } else if (m == 0) {
       if (DEBUG) System.out.println(" Step1 M=0");
-      for (Token token : b) {
+      for (T token : b) {
         handler.handle(Operator.INS, token);
       }
 
     } else if (m == 1) {
       if (DEBUG) System.out.println(" Step1 M=1");
       boolean match = false;
-      Token a0 = a.get(0);
+      T a0 = a.get(0);
       for (int j = 0; j < n; j++) {
         if (a0.equals(b.get(j)) && !match) {
           handler.handle(Operator.MATCH, a0);

@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 /**
@@ -26,7 +27,7 @@ import org.pageseeder.diffx.xml.NamespaceSet;
  * @author Christophe Lauret
  * @since 0.9.0
  */
-public interface XMLDiffOutput extends DiffHandler {
+public interface XMLDiffOutput extends DiffHandler<Token> {
 
   /**
    * Set whether the formatter should include the XML declaration or not.

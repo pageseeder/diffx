@@ -316,7 +316,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     CharTestFormatter cf = new CharTestFormatter();
     diffx.process(new MultiplexFormatter(cf, af));
     String got = cf.getOutput();
-    List<Action> actions = af.getActions();
+    List<Action<Token>> actions = af.getActions();
 
     try {
       assertDiffIsCorrect(seq1, seq2, actions);
@@ -329,7 +329,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
   /**
    * Print the error details.
    */
-  private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action> actions) {
+  private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action<Token>> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + text1 + "\"");
     System.err.println("| Input B: \"" + text2 + "\"");
@@ -338,7 +338,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     for (String s : exp) System.err.print("\"" + s + "\" ");
     System.err.println();
     System.err.print("| Actions: ");
-    for (Action action : actions) {
+    for (Action<Token> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens().stream().map((token) -> ((CharToken) token).getChar()).collect(Collectors.toList()));
     }

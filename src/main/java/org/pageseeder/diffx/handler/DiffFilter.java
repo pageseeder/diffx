@@ -18,14 +18,14 @@ package org.pageseeder.diffx.handler;
 /**
  * A base class for handlers acting as filters for tokens
  */
-public abstract class DiffFilter implements DiffHandler {
+public abstract class DiffFilter<T> implements DiffHandler<T> {
 
   /**
    * Target format.
    */
-  protected final DiffHandler target;
+  protected final DiffHandler<T> target;
 
-  protected DiffFilter(DiffHandler target) {
+  protected DiffFilter(DiffHandler<T> target) {
     this.target = target;
   }
 

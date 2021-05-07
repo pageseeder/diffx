@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class Action {
+public final class Action<T> {
 
   /**
    * The type of action.
@@ -45,7 +43,7 @@ public final class Action {
   /**
    * The list of tokens associated with this action.
    */
-  private final List<Token> tokens;
+  private final List<T> tokens;
 
   /**
    * Creates a new action.
@@ -65,7 +63,7 @@ public final class Action {
    *
    * @throws NullPointerException If the given type is <code>null</code>.
    */
-  public Action(Operator operator, List<Token> tokens) {
+  public Action(Operator operator, List<T> tokens) {
     if (operator == null) throw new NullPointerException("An action must have a type.");
     this.operator = operator;
     this.tokens = tokens;
@@ -76,14 +74,14 @@ public final class Action {
    *
    * @param token The token to add.
    */
-  public void add(Token token) {
+  public void add(T token) {
     this.tokens.add(token);
   }
 
   /**
    * @return the list of Tokens.
    */
-  public List<Token> tokens() {
+  public List<T> tokens() {
     return this.tokens;
   }
 
@@ -98,12 +96,12 @@ public final class Action {
    * @return A new action using the opposite operator by swapping INS with DEL;
    * or the same actions if operator is MATCH.
    */
-  public Action flip() {
+  public Action<T> flip() {
     switch (this.operator) {
       case DEL:
-        return new Action(Operator.INS, this.tokens);
+        return new Action<>(Operator.INS, this.tokens);
       case INS:
-        return new Action(Operator.DEL, this.tokens);
+        return new Action<>(Operator.DEL, this.tokens);
       default:
         return this;
     }
@@ -113,7 +111,7 @@ public final class Action {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Action action = (Action) o;
+    Action<?> action = (Action<?>) o;
     if (this.operator != action.operator) return false;
     return this.tokens.equals(action.tokens);
   }

@@ -34,7 +34,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class OptimisticXMLProcessor extends DiffProcessorBase implements DiffProcessor {
+public final class OptimisticXMLProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
 
   private static final boolean DEBUG = false;
 
@@ -58,9 +58,9 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
     // Try with fast diff
-    OperationsBuffer buffer = new OperationsBuffer();
+    OperationsBuffer<Token> buffer = new OperationsBuffer<>();
     boolean successful = fastDiff(from, to, buffer);
     if (successful) {
       buffer.applyTo(getFilter(handler));
@@ -71,15 +71,15 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
     }
   }
 
-  private DiffHandler getFilter(DiffHandler handler) {
+  private DiffHandler<Token> getFilter(DiffHandler<Token> handler) {
     return this.coalesce ? new CoalescingFilter(handler) : handler;
   }
 
   /**
    * Run fast algorithm and try to fix any XML errors after the diff.
    */
-  private boolean fastDiff(List<? extends Token> from, List<? extends Token> to, OperationsBuffer buffer) {
-    DiffAlgorithm algorithm = new KumarRanganAlgorithm();
+  private boolean fastDiff(List<? extends Token> from, List<? extends Token> to, OperationsBuffer<Token> buffer) {
+    DiffAlgorithm<Token> algorithm = new KumarRanganAlgorithm<>();
     PostXMLFixer fixer = new PostXMLFixer(buffer);
     fixer.start();
     algorithm.diff(from, to, fixer);
@@ -90,10 +90,10 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
   /**
    * Fall back on slower matrix-based algorithm.
    */
-  private void fallbackDiff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler, boolean coalesced) {
+  private void fallbackDiff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler, boolean coalesced) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.fallbackThreshold);
-    DiffHandler actual = getFilter(handler);
+    DiffHandler<Token> actual = getFilter(handler);
     if (algorithm.isDiffComputable(from, to)) {
       actual.start();
       algorithm.diff(from, to, actual);

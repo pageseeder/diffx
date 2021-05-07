@@ -22,7 +22,6 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 
@@ -34,7 +33,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface DiffProcessor extends DiffAlgorithm {
+public interface DiffProcessor<T> extends DiffAlgorithm<T> {
 
   /**
    * Performs the comparison and uses the specified handler.
@@ -45,7 +44,7 @@ public interface DiffProcessor extends DiffAlgorithm {
    *
    * @throws DiffException Wrap any error occurring during processing.
    */
-  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler handler) throws DiffException;
+  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<Token> handler) throws DiffException;
 
   /**
    * Performs the comparison and uses the specified handler.
@@ -58,6 +57,6 @@ public interface DiffProcessor extends DiffAlgorithm {
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler);
+  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
 
 }

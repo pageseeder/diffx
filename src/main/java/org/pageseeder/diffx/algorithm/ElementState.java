@@ -41,7 +41,7 @@ import java.io.UncheckedIOException;
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class ElementState implements DiffHandler {
+public final class ElementState implements DiffHandler<Token> {
 
   /**
    * The stack of open elements.

@@ -17,7 +17,6 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +36,7 @@ import java.util.Objects;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class KumarRanganAlgorithm implements DiffAlgorithm {
+public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -45,8 +44,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
-    Instance instance = new Instance(from, to);
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
+    Instance<T> instance = new Instance(from, to);
     instance.process(handler);
   }
 
@@ -69,7 +68,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
    * Where possible, the name of the variables match the names used in the algorithm published in
    * "A Linear Space Algorithm for the LCS Problem".
    */
-  private static class Instance {
+  private static class Instance<T> {
 
     // Global integer arrays needed in the computation of the LCS
     private int[] R1, R2;
@@ -84,15 +83,15 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      */
     private int J = 0;
 
-    private final List<? extends Token> A;
-    private final List<? extends Token> B;
+    private final List<T> A;
+    private final List<T> B;
 
     /**
      * Events are reported here.
      */
-    private DiffHandler handler;
+    private DiffHandler<T> handler;
 
-    Instance(List<? extends Token> from, List<? extends Token> to) {
+    Instance(List<T> from, List<T> to) {
       this.A = Objects.requireNonNull(from);
       this.B = Objects.requireNonNull(to);
     }
@@ -102,7 +101,7 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *
      * @param handler The handler for the output.
      */
-    public void process(DiffHandler handler) {
+    public void process(DiffHandler<T> handler) {
       final int m = this.A.size();
       final int n = this.B.size();
       int p = calculateLength(m, n);

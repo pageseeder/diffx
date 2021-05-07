@@ -24,6 +24,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class CoalesceXMLDiffTest extends ProcessorTest {
+public abstract class CoalesceXMLDiffTest extends ProcessorTest<Token> {
 
   @Test
   public final void testCoalesce_Identical() throws DiffException {
@@ -88,7 +89,7 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
     Sequence seqB = TestTokens.loadSequence(xmlB, config);
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getProcessor(), seqA.tokens(), seqB.tokens());
+    List<Action<Token>> actions = TestActions.diffToActions(getProcessor(), seqA.tokens(), seqB.tokens());
     try {
       DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions);

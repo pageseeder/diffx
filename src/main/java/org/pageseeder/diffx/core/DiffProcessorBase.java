@@ -20,11 +20,12 @@ import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
 
-abstract class DiffProcessorBase implements DiffProcessor {
+abstract class DiffProcessorBase implements DiffProcessor<Token> {
 
   protected boolean coalesce = false;
 
@@ -42,7 +43,7 @@ abstract class DiffProcessorBase implements DiffProcessor {
   }
 
   @Override
-  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler handler)
+  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<Token> handler)
       throws DiffException {
 
     // Supply the namespaces to the output

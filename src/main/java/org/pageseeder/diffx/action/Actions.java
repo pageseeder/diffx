@@ -40,9 +40,9 @@ public class Actions {
    * @param forward <code>true</code> for generating the new sequence (A to B);
    *                <code>false</code> for generating the old sequence (B to A).
    */
-  public static List<Token> generate(List<Action> actions, boolean forward) {
-    List<Token> generated = new ArrayList<>();
-    for (Action action : actions) {
+  public static <T> List<T> generate(List<Action<T>> actions, boolean forward) {
+    List<T> generated = new ArrayList<>();
+    for (Action<T> action : actions) {
       if (forward ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
         generated.addAll(action.tokens());
       } else if (action.operator() == Operator.MATCH) {
@@ -57,11 +57,11 @@ public class Actions {
    *
    * @param actions The list of actions.
    */
-  public static List<Operation> toOperations(List<Action> actions) {
-    List<Operation> operations = new LinkedList<>();
-    for (Action action : actions) {
+  public static <T> List<Operation<T>> toOperations(List<Action<T>> actions) {
+    List<Operation<T>> operations = new LinkedList<>();
+    for (Action<T> action : actions) {
       Operator operator = action.operator();
-      for (Token token : action.tokens()) {
+      for (T token : action.tokens()) {
         operations.add(new Operation(operator, token));
       }
     }
@@ -71,9 +71,9 @@ public class Actions {
   /**
    * Reverse the actions by swapping the INS and DEL.
    */
-  public static List<Action> reverse(List<Action> actions) {
-    List<Action> reverse = new ArrayList<>(actions.size());
-    for (Action action : actions) {
+  public static <T> List<Action<T>> reverse(List<Action<T>> actions) {
+    List<Action<T>> reverse = new ArrayList<>(actions.size());
+    for (Action<T> action : actions) {
       reverse.add(action.flip());
     }
     return reverse;
@@ -82,8 +82,8 @@ public class Actions {
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static Sequence apply(Sequence input, List<Action> actions) {
-    List<? extends Token> tokens = apply(input.tokens(), actions);
+  public static Sequence apply(Sequence input, List<Action<Token>> actions) {
+    List<Token> tokens = apply(input.tokens(), actions);
     Sequence out = new Sequence(tokens.size());
     tokens.forEach(out::addToken);
     return out;
@@ -92,8 +92,8 @@ public class Actions {
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static List<Token> apply(List<? extends Token> input, List<Action> actions) {
-    List<Token> out = new ArrayList<>(input.size());
+  public static <T> List<T> apply(List<T> input, List<Action<T>> actions) {
+    List<T> out = new ArrayList<>(input.size());
     int i = 0;
     try {
       for (Action action : actions) {
@@ -120,24 +120,24 @@ public class Actions {
     return out;
   }
 
-  public static boolean isApplicable(List<? extends Token> a, List<? extends Token> b, List<Action> actions) {
+  public static <T> boolean isApplicable(List<? extends T> a, List<? extends T> b, List<Action<T>> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
-    for (Action action : actions) {
+    for (Action<T> action : actions) {
       if (action.operator() == Operator.MATCH) {
-        for (Token token : action.tokens()) {
+        for (T token : action.tokens()) {
           if (i >= a.size() || !token.equals(a.get(i))) return false;
           if (j >= b.size() || !token.equals(b.get(j))) return false;
           i++;
           j++;
         }
       } else if (action.operator() == Operator.DEL) {
-        for (Token token : action.tokens()) {
+        for (T token : action.tokens()) {
           if (i >= a.size() || !token.equals(a.get(i))) return false;
           i++;
         }
       } else if (action.operator() == Operator.INS) {
-        for (Token token : action.tokens()) {
+        for (T token : action.tokens()) {
           if (j >= b.size() || !token.equals(b.get(j))) return false;
           j++;
         }
@@ -146,8 +146,8 @@ public class Actions {
     return true;
   }
 
-  public static void format(List<Action> actions, DiffXFormatter formatter) throws IOException {
-    for (Action action : actions) {
+  public static void format(List<Action<Token>> actions, DiffXFormatter formatter) throws IOException {
+    for (Action<Token> action : actions) {
       switch (action.operator()) {
         case MATCH:
           for (Token token : action.tokens()) {
@@ -169,18 +169,18 @@ public class Actions {
     }
   }
 
-  public static void handle(List<Action> actions, DiffHandler handler) {
-    for (Action action : actions) {
-      for (Token token : action.tokens()) {
+  public static <T> void handle(List<Action<T>> actions, DiffHandler<T> handler) {
+    for (Action<T> action : actions) {
+      for (T token : action.tokens()) {
         handler.handle(action.operator(), token);
       }
     }
   }
 
-  public static void applyTo(List<Action> actions, DiffHandler handler) {
+  public static <T> void applyTo(List<Action<T>> actions, DiffHandler<T> handler) {
     handler.start();
-    for (Action action : actions) {
-      for (Token token : action.tokens()) {
+    for (Action<T> action : actions) {
+      for (T token : action.tokens()) {
         handler.handle(action.operator(), token);
       }
     }

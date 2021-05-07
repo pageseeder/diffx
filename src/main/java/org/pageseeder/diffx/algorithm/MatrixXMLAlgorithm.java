@@ -32,7 +32,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class MatrixXMLAlgorithm implements DiffAlgorithm {
+public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
 
   /**
    * The default maximum number of comparisons allowed for this algorithm.
@@ -90,7 +90,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
     final int lengthA = from.size();
     final int lengthB = to.size();
 
@@ -109,11 +109,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
 
     // Initialize state
     ElementState estate = new ElementState();
-    MuxHandler actual = new MuxHandler(handler, estate);
+    MuxHandler<Token> actual = new MuxHandler<>(handler, estate);
     diff(from, to, actual, estate);
   }
 
-  private void diff(List<? extends Token> A, List<? extends Token> B, DiffHandler handler, ElementState estate) {
+  private void diff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
     TokenListSlicer slicer = new TokenListSlicer(A, B);
     int common = this.slice ? slicer.analyze() : 0;
 
@@ -134,7 +134,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     }
   }
 
-  private void processDiff(List<? extends Token> A, List<? extends Token> B, DiffHandler handler, ElementState estate) {
+  private void processDiff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
     final int lengthA = A.size();
     final int lengthB = B.size();
 
@@ -143,7 +143,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
       throw new DataLengthException(lengthA * lengthB, this.threshold);
 
     // calculate the LCS length to fill the matrix
-    MatrixProcessor builder = new MatrixProcessor();
+    MatrixProcessor<Token> builder = new MatrixProcessor<>();
     builder.setInverse(true);
     Matrix matrix = builder.process(A, B);
 

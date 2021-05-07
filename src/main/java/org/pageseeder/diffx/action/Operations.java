@@ -43,9 +43,9 @@ public final class Operations {
    * @param forward   <code>true</code> for generating the new sequence (INS or MATCH);
    *                  <code>false</code> for generating the old sequence (DEL or MATCH).
    */
-  public static List<Token> generate(List<Operation> operations, boolean forward) {
-    List<Token> generated = new LinkedList<>();
-    for (Operation operation : operations) {
+  public static <T> List<T> generate(List<Operation<T>> operations, boolean forward) {
+    List<T> generated = new LinkedList<>();
+    for (Operation<T> operation : operations) {
       if (forward ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
         generated.add(operation.token());
       } else if (operation.operator() == Operator.MATCH) {
@@ -58,9 +58,9 @@ public final class Operations {
   /**
    * Flip the operations by swapping the INS and DEL.
    */
-  public static List<Operation> flip(List<Operation> operations) {
-    List<Operation> reverse = new ArrayList<>(operations.size());
-    for (Operation operation : operations) {
+  public static <T> List<Operation<T>> flip(List<Operation<T>> operations) {
+    List<Operation<T>> reverse = new ArrayList<>(operations.size());
+    for (Operation<T> operation : operations) {
       reverse.add(operation.flip());
     }
     return reverse;
@@ -69,7 +69,7 @@ public final class Operations {
   /**
    * Apply the specified list of operations to the input sequence and return the corresponding output.
    */
-  public static Sequence apply(Sequence input, List<Operation> operations) {
+  public static <T> Sequence apply(Sequence input, List<Operation<Token>> operations) {
     List<Token> tokens = apply(input.tokens(), operations);
     Sequence out = new Sequence(tokens.size());
     out.addTokens(tokens);
@@ -79,11 +79,11 @@ public final class Operations {
   /**
    * Apply the specified list of action to the input sequence and return the corresponding output.
    */
-  public static List<Token> apply(List<Token> input, List<Operation> operations) {
-    List<Token> out = new ArrayList<>(input.size());
+  public static <T> List<T> apply(List<T> input, List<Operation<T>> operations) {
+    List<T> out = new ArrayList<>(input.size());
     int i = 0;
     try {
-      for (Operation operation : operations) {
+      for (Operation<T> operation : operations) {
         switch (operation.operator()) {
           case MATCH:
             out.add(input.get(i));
@@ -106,8 +106,8 @@ public final class Operations {
     return out;
   }
 
-  public static void handle(List<Operation> operations, DiffHandler handler) {
-    for (Operation operation : operations) {
+  public static <T> void handle(List<Operation<T>> operations, DiffHandler<T> handler) {
+    for (Operation<T> operation : operations) {
       handler.handle(operation.operator(), operation.token());
     }
   }

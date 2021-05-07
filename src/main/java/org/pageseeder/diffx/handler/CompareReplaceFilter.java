@@ -26,7 +26,7 @@ import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
-public final class CompareReplaceFilter extends DiffFilter implements DiffHandler {
+public final class CompareReplaceFilter extends DiffFilter<Token> implements DiffHandler<Token> {
 
   // TODO initialize using config
   private final TextTokenizer tokenizer = new TokenizerBySpaceWord(WhiteSpaceProcessing.PRESERVE);
@@ -34,9 +34,9 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
   /**
    * The previous text operation.
    */
-  private Operation previous = null;
+  private Operation<Token> previous = null;
 
-  public CompareReplaceFilter(DiffHandler target) {
+  public CompareReplaceFilter(DiffHandler<Token> target) {
     super(target);
   }
 
@@ -48,7 +48,7 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
         this.previous = null;
       } else {
         flushPrevious();
-        this.previous = new Operation(operator, token);
+        this.previous = new Operation<>(operator, token);
       }
     } else {
       flushPrevious();
