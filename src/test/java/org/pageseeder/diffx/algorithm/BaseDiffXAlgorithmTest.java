@@ -322,7 +322,7 @@ public abstract class BaseDiffXAlgorithmTest {
 
   public final void assertDiffIsCorrect(Sequence seq1, Sequence seq2, List<Action> actions) {
     // Ensure that the diff is applicable
-    assertTrue(Actions.isApplicable(seq1.tokens(), seq2.tokens(), actions), "The resulting diff is not applicable");
+    assertTrue(Actions.isApplicable(seq2.tokens(), seq1.tokens(), actions), "The resulting diff is not applicable");
 
     // Apply to second sequence to ensure we get the first
     Sequence got1 = Actions.apply(seq2, actions);

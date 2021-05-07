@@ -22,16 +22,21 @@ import org.pageseeder.diffx.token.Token;
 import java.util.List;
 
 /**
- * An implementation of the Hirschberg algorithm algorithm to find the longest common subsequence (LS).
+ * An implementation of the Hirschberg algorithm to find the longest common subsequence (LCS).
  *
  * <p>Hirschberg proposed a linear space algorithm for the LCS using a divide and conquer approach.
  * This algorithm (Algorithm C) finds the intersecting point of the LCS sequence with the m/2 th row and solve
  * the problem recursively. It solves LCS problem in O(mn) time and in O(m+n) space.
+ *
  * <p>
  * See "A linear space algorithm for computing maximal common subsequences"
  *
+ * <p>The algorithm has been altered slightly to be able to computed the Shortest Edit Script (SES).
+ *
  * @author Christophe Lauret
  * @version 0.9.0
+ *
+ * @link https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf
  */
 public final class HirschbergAlgorithm implements DiffAlgorithm {
 
@@ -41,9 +46,9 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
     // It is more efficient to supply the sizes than retrieve from lists
-    algorithmC(first.size(), second.size(), first, second, handler);
+    algorithmC(from.size(), to.size(), from, to, handler);
   }
 
   /**
@@ -68,6 +73,8 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
 
   /**
    * Algorithm B as described by Hirschberg (in reverse)
+   *
+   * <p>Implementation note: we traverse the list in reverse, it is more efficient than reversing the lists.
    */
   private static int[] algorithmBRev(int m, int n, List<? extends Token> a, List<? extends Token> b) {
     int[][] k = new int[2][n + 1];
@@ -109,13 +116,13 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
     if (n == 0) {
       if (DEBUG) System.out.println(" Step1 N=0");
       for (Token token : a) {
-        handler.handle(Operator.INS, token);
+        handler.handle(Operator.DEL, token);
       }
 
     } else if (m == 0) {
       if (DEBUG) System.out.println(" Step1 M=0");
       for (Token token : b) {
-        handler.handle(Operator.DEL, token);
+        handler.handle(Operator.INS, token);
       }
 
     } else if (m == 1) {
@@ -127,10 +134,10 @@ public final class HirschbergAlgorithm implements DiffAlgorithm {
           handler.handle(Operator.MATCH, a0);
           match = true;
         } else {
-          handler.handle(Operator.DEL, b.get(j));
+          handler.handle(Operator.INS, b.get(j));
         }
       }
-      if (!match) handler.handle(Operator.INS, a0);
+      if (!match) handler.handle(Operator.DEL, a0);
 
     } else {
       if (DEBUG) System.out.println(" Step2");

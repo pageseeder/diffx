@@ -42,16 +42,16 @@ abstract class DiffProcessorBase implements DiffProcessor {
   }
 
   @Override
-  public void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler)
+  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler handler)
       throws DiffException {
 
     // Supply the namespaces to the output
     if (handler instanceof XMLDiffOutput) {
-      NamespaceSet namespaces = NamespaceSet.merge(first.getNamespaces(), first.getNamespaces());
+      NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), from.getNamespaces());
       ((XMLDiffOutput) handler).setNamespaces(namespaces);
     }
 
-    this.diff(first.tokens(), second.tokens(), handler);
+    this.diff(from.tokens(), to.tokens(), handler);
   }
 
 }

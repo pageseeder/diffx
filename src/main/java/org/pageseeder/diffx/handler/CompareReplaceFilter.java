@@ -56,11 +56,11 @@ public final class CompareReplaceFilter extends DiffFilter implements DiffHandle
     }
   }
 
-  private void diff(TextToken a, TextToken b, boolean positive) {
+  private void diff(TextToken a, TextToken b, boolean forward) {
     List<TextToken> tokensA = this.tokenizer.tokenize(a.getCharacters());
     List<TextToken> tokensB = this.tokenizer.tokenize(b.getCharacters());
     TextOnlyProcessor diff = new TextOnlyProcessor();
-    if (positive)
+    if (forward)
       diff.diff(tokensA, tokensB, this.target);
     else
       diff.diff(tokensB, tokensA, this.target);

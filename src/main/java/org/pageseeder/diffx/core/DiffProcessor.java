@@ -39,27 +39,25 @@ public interface DiffProcessor extends DiffAlgorithm {
   /**
    * Performs the comparison and uses the specified handler.
    *
-   * @param first   The first list of tokens to compare (inserted)
-   * @param second  The first list of tokens to compare (deleted)
+   * @param from  The original list of tokens to compare (deleted)
+   * @param to    The target list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
-   * @throws UncheckedIOException     If thrown by the handler while writing output.
-   * @throws IllegalStateException    If thrown by the algorithm or handler.
-   * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
+   * @throws DiffException Wrap any error occurring during processing.
    */
-  void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler) throws DiffException;
+  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler handler) throws DiffException;
 
   /**
    * Performs the comparison and uses the specified handler.
    *
-   * @param first   The first list of tokens to compare (inserted)
-   * @param second  The first list of tokens to compare (deleted)
+   * @param from  The first list of tokens to compare (deleted)
+   * @param to    The second list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
    * @throws UncheckedIOException     If thrown by the handler while writing output.
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler);
+  void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler);
 
 }

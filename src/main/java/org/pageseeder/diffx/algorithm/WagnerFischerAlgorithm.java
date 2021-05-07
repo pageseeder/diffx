@@ -30,13 +30,13 @@ import java.util.List;
 public final class WagnerFischerAlgorithm implements DiffAlgorithm {
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
     // calculate the LCS length to fill the matrix
     MatrixProcessor builder = new MatrixProcessor();
     builder.setInverse(true);
-    Matrix matrix = builder.process(first, second);
-    final int length1 = first.size();
-    final int length2 = second.size();
+    Matrix matrix = builder.process(from, to);
+    final int length1 = from.size();
+    final int length2 = to.size();
     int i = 0;
     int j = 0;
     Token t1;
@@ -44,13 +44,13 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
 
     // Backtrack start walking the matrix
     while (i < length1 && j < length2) {
-      t1 = first.get(i);
-      t2 = second.get(j);
+      t1 = from.get(i);
+      t2 = to.get(j);
       if (matrix.isGreaterX(i, j)) {
-        handler.handle(Operator.INS, t1);
+        handler.handle(Operator.DEL, t1);
         i++;
       } else if (matrix.isGreaterY(i, j)) {
-        handler.handle(Operator.DEL, t2);
+        handler.handle(Operator.INS, t2);
         j++;
       } else if (matrix.isSameXY(i, j)) {
         if (t1.equals(t2)) {
@@ -58,19 +58,19 @@ public final class WagnerFischerAlgorithm implements DiffAlgorithm {
           i++;
           j++;
         } else {
-          handler.handle(Operator.INS, t1);
+          handler.handle(Operator.DEL, t1);
           i++;
         }
       }
     }
 
-    // finish off the tokens from the first sequence
+    // finish off the tokens from A
     for (; i < length1; i++) {
-      handler.handle(Operator.INS, first.get(i));
+      handler.handle(Operator.DEL, from.get(i));
     }
-    // finish off the tokens from the second sequence
+    // finish off the tokens from B
     for (; j < length2; j++) {
-      handler.handle(Operator.DEL, second.get(j));
+      handler.handle(Operator.INS, to.get(j));
     }
   }
 }

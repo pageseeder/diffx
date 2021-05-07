@@ -72,9 +72,9 @@ public abstract class RandomGeneralDiffTest extends AlgorithmTest {
     }
   }
 
-  private void assertGeneralDiffOK(String text1, String text2) {
+  private void assertGeneralDiffOK(String a, String b) {
     DiffAlgorithm algorithm = getDiffAlgorithm();
-    BasicGeneralDiffTest.assertGeneralDiffOK(text1, text2, algorithm, new String[0]);
+    BasicGeneralDiffTest.assertGeneralDiffOK(a, b, algorithm, new String[0]);
   }
 
 }

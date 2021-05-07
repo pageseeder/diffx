@@ -40,13 +40,13 @@ public final class Operations {
    * Generates the list of tokens from the list of operations.
    *
    * @param operations The list of operations.
-   * @param positive   <code>true</code> for generating the new sequence (INS or MATCH);
-   *                   <code>false</code> for generating the old sequence (DEL or MATCH).
+   * @param forward   <code>true</code> for generating the new sequence (INS or MATCH);
+   *                  <code>false</code> for generating the old sequence (DEL or MATCH).
    */
-  public static List<Token> generate(List<Operation> operations, boolean positive) {
+  public static List<Token> generate(List<Operation> operations, boolean forward) {
     List<Token> generated = new LinkedList<>();
     for (Operation operation : operations) {
-      if (positive ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
+      if (forward ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
         generated.add(operation.token());
       } else if (operation.operator() == Operator.MATCH) {
         generated.add(operation.token());

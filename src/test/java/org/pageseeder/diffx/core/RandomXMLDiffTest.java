@@ -94,14 +94,14 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest {
 
   private void assertDiffXMLRandomOK(String docA, String docB) throws DiffException {
     // Record XML
-    Sequence seq1 = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
-    Sequence seq2 = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
-    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    Sequence seqA = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
+    Sequence seqB = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
+    NamespaceSet namespaces = NamespaceSet.merge(seqA.getNamespaces(), seqB.getNamespaces());
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());
 
     try {
-      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);
     } catch (AssertionError ex) {
       printXMLErrorDetails(docA, docB, new String[0], TestActions.toXML(actions, namespaces), actions);

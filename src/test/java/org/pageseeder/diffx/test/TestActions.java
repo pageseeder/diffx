@@ -32,9 +32,9 @@ import java.util.List;
  */
 public final class TestActions {
 
-  public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends Token> seq1, List<? extends Token> seq2) {
+  public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends Token> seqA, List<? extends Token> seqB) {
     ActionsBuffer handler = new ActionsBuffer();
-    algorithm.diff(seq1, seq2, handler);
+    algorithm.diff(seqA, seqB, handler);
     return handler.getActions();
   }
 

@@ -306,7 +306,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     assertDiffOKLevel0(a, b, exp);
   }
 
-  public final void assertDiffOKLevel0(String text1, String text2, String[] exp) throws IOException {
+  public final void assertDiffOKLevel0(String text1, String text2, String... exp) throws IOException {
     Sequence seq1 = asSequenceOfCharTokens(text1);
     Sequence seq2 = asSequenceOfCharTokens(text2);
 

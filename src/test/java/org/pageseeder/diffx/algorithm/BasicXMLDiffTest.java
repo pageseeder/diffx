@@ -28,6 +28,8 @@ import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.List;
 
+import static org.pageseeder.diffx.config.TextGranularity.TEXT;
+
 /**
  * Test case for Diff-X algorithm implementations.
  *
@@ -55,10 +57,10 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_IdenticalA() throws DiffException {
-    String xml1 = "<a/>";
-    String xml2 = "<a/>";
+    String xmlA = "<a/>";
+    String xmlB = "<a/>";
     String exp = "<a></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
   /**
@@ -73,10 +75,10 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_IdenticalB() throws DiffException {
-    String xml1 = "<a>X</a>";
-    String xml2 = "<a>X</a>";
+    String xmlA = "<a>X</a>";
+    String xmlB = "<a>X</a>";
     String exp = "<a>X</a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
   /**
@@ -91,10 +93,10 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_IdenticalD() throws DiffException {
-    String xml1 = "<a m='x'/>";
-    String xml2 = "<a m='x'/>";
+    String xmlA = "<a m='x'/>";
+    String xmlB = "<a m='x'/>";
     String exp = "<a>@(m=x)</a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
   /**
@@ -109,13 +111,13 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_IdenticalE() throws DiffException {
-    String xml1 = "<a m='x' n='y'/>";
-    String xml2 = "<a n='y' m='x'/>";
+    String xmlA = "<a n='y' m='x'/>";
+    String xmlB = "<a m='x' n='y'/>";
     String[] exp = new String[]{
         "<a>@(m=x)@(n=y)</a>",
         "<a>@(n=y)@(m=x)</a>"
     };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
 // total difference tests ---------------------------------------------------------------
@@ -132,20 +134,15 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TotalDiffA() throws DiffException {
-    String xml1 = "<a/>";
-    String xml2 = "<b/>";
-    String[] exp1 = new String[]{
+    String xmlA = "<b/>";
+    String xmlB = "<a/>";
+    String[] exp = new String[]{
         "+<a>+</a>-<b>-</b>",
         "+<a>-<b>-</b>+</a>",
         "-<b>+<a>+</a>-</b>",
         "-<b>-</b>+<a>+</a>"};
-    String[] exp2 = new String[]{
-        "-<a>-</a>+<b>+</b>",
-        "-<a>+<b>+</b>-</a>",
-        "+<b>-<a>-</a>+</b>",
-        "+<b>+</b>-<a>-</a>"};
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -160,12 +157,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TotalDiffB() throws DiffException {
-    String xml1 = "<a/>";
-    String xml2 = "";
-    String exp1 = "+<a>+</a>";
-    String exp2 = "-<a>-</a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "";
+    String xmlB = "<a/>";
+    String exp = "+<a>+</a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 // modified text test -------------------------------------------------------------------
@@ -182,18 +178,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_ModifiedTextA() throws DiffException {
-    String xml1 = "<a>X</a>";
-    String xml2 = "<a>Y</a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a>Y</a>";
+    String xmlB = "<a>X</a>";
+    String[] exp = new String[]{
         "<a>+X-Y</a>",
         "<a>-Y+X</a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-X+Y</a>",
-        "<a>+Y-X</a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -208,12 +200,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_ModifiedTextB() throws DiffException {
-    String xml1 = "<a>X </a>";
-    String xml2 = "<a>X</a>";
-    String exp1 = "<a>X+ </a>";
-    String exp2 = "<a>X- </a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a>X</a>";
+    String xmlB = "<a>X </a>";
+    String exp = "<a>X+ </a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 //moved text tests ---------------------------------------------------------------------
@@ -231,12 +222,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_MoveA() throws DiffException {
-    String xml1 = "<a><b>x</b><c/></a>";
-    String xml2 = "<a><b/><c>x</c></a>";
-    String exp1 = "<a><b>+x</b><c>-x</c></a>";
-    String exp2 = "<a><b>-x</b><c>+x</c></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a><b/><c>x</c></a>";
+    String xmlB = "<a><b>x</b><c/></a>";
+    String exp = "<a><b>+x</b><c>-x</c></a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 // element tests ------------------------------------------------------------------------
@@ -253,22 +243,16 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_ElementA() throws DiffException {
-    String xml1 = "<a><b/></a>";
-    String xml2 = "<a><c/></a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a><c/></a>";
+    String xmlB = "<a><b/></a>";
+    String[] exp = new String[]{
         "<a>+<b>+</b>-<c>-</c></a>",
         "<a>+<b>-<c>-</c>+</b></a>",
         "<a>-<c>+<b>+</b>-</c></a>",
         "<a>-<c>-</c>+<b>+</b></a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-<b>-</b>+<c>+</c></a>",
-        "<a>-<b>+<c>+</c>-</b></a>",
-        "<a>+<c>-<b>-</b>+</c></a>",
-        "<a>+<c>+</c>-<b>-</b></a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -283,18 +267,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_ElementB() throws DiffException {
-    String xml1 = "<a>X</a>";
-    String xml2 = "<b>X</b>";
-    String[] exp1 = new String[]{
+    String xmlA = "<b>X</b>";
+    String xmlB = "<a>X</a>";
+    String[] exp = new String[]{
         "-<b>+<a>X+</a>-</b>",
         "+<a>-<b>X-</b>+</a>"
     };
-    String[] exp2 = new String[]{
-        "+<b>-<a>X-</a>+</b>",
-        "-<a>+<b>X+</b>-</a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -309,18 +289,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_ElementC() throws DiffException {
-    String xml1 = "<a><b>X</b></a>";
-    String xml2 = "<b><a>X</a></b>";
-    String[] exp1 = new String[]{
+    String xmlA = "<b><a>X</a></b>";
+    String xmlB = "<a><b>X</b></a>";
+    String[] exp = new String[]{
         "+<a><b>-<a>X-</a></b>+</a>",
         "-<b><a>+<b>X+</b></a>-</b>"
     };
-    String[] exp2 = new String[]{
-        "+<b><a>-<b>X-</b></a>+</b>",
-        "-<a><b>+<a>X+</a></b>-</a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 // text and elements --------------------------------------------------------------------
@@ -337,12 +313,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TextElementA() throws DiffException {
-    String xml1 = "<a><b>X</b><c>Y</c></a>";
-    String xml2 = "<a><b>X</b></a>";
-    String exp1 = "<a><b>X</b>+<c>+Y+</c></a>";
-    String exp2 = "<a><b>X</b>-<c>-Y-</c></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a><b>X</b></a>";
+    String xmlB = "<a><b>X</b><c>Y</c></a>";
+    String exp = "<a><b>X</b>+<c>+Y+</c></a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -357,12 +332,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TextElementB() throws DiffException {
-    String xml1 = "<a><b>X</b><c>Y</c></a>";
-    String xml2 = "<a><c>Y</c></a>";
-    String exp1 = "<a>+<b>+X+</b><c>Y</c></a>";
-    String exp2 = "<a>-<b>-X-</b><c>Y</c></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a><c>Y</c></a>";
+    String xmlB = "<a><b>X</b><c>Y</c></a>";
+    String exp = "<a>+<b>+X+</b><c>Y</c></a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 // attributes tests ---------------------------------------------------------------------
@@ -374,12 +348,11 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_AttributeA() throws DiffException {
-    String xml1 = "<a m='x'/>";
-    String xml2 = "<a/>";
-    String exp1 = "<a>+@(m=x)</a>";
-    String exp2 = "<a>-@(m=x)</a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a/>";
+    String xmlB = "<a m='x'/>";
+    String exp = "<a>+@(m=x)</a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -389,18 +362,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_AttributeB() throws DiffException {
-    String xml1 = "<a m='y'/>";
-    String xml2 = "<a m='x'/>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a m='x'/>";
+    String xmlB = "<a m='y'/>";
+    String[] exp = new String[]{
         "<a>-@(m=x)+@(m=y)</a>",
         "<a>+@(m=y)-@(m=x)</a>",
     };
-    String[] exp2 = new String[]{
-        "<a>+@(m=x)-@(m=y)</a>",
-        "<a>-@(m=y)+@(m=x)</a>",
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -410,8 +379,8 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_AttributeC() throws DiffException {
-    String xml2 = "<a n='w' m='x'/>";
-    String xml1 = "<a m='y' n='z'/>";
+    String xmlA = "<a n='w' m='x'/>";
+    String xmlB = "<a m='y' n='z'/>";
     String[] exp = new String[]{
         "<a>+@(m=y)+@(n=z)-@(m=x)-@(n=w)</a>",
         "<a>+@(m=y)-@(m=x)+@(n=z)-@(n=w)</a>",
@@ -420,7 +389,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
         "<a>-@(m=x)+@(m=y)-@(n=w)+@(n=z)</a>",
         "<a>-@(m=x)-@(n=w)+@(m=y)+@(n=z)</a>"
     };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
   /**
@@ -431,18 +400,14 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TextAttributeA() throws DiffException {
-    String xml1 = "<a m='x'>X</a>";
-    String xml2 = "<a>Y</a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a>Y</a>";
+    String xmlB = "<a m='x'>X</a>";
+    String[] exp = new String[]{
         "<a>+@(m=x)+X-Y</a>",
         "<a>+@(m=x)-Y+X</a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-@(m=x)-X+Y</a>",
-        "<a>-@(m=x)+Y-X</a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -453,22 +418,16 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_TextAttributeB() throws DiffException {
-    String xml1 = "<a m='x'>X</a>";
-    String xml2 = "<a m='y'>Y</a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a m='y'>Y</a>";
+    String xmlB = "<a m='x'>X</a>";
+    String[] exp = new String[]{
         "<a>+@(m=x)-@(m=y)+X-Y</a>",
         "<a>+@(m=x)-@(m=y)-Y+X</a>",
         "<a>-@(m=y)+@(m=x)+X-Y</a>",
         "<a>-@(m=y)+@(m=x)-Y+X</a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-@(m=x)+@(m=y)-X+Y</a>",
-        "<a>-@(m=x)+@(m=y)+Y-X</a>",
-        "<a>+@(m=y)-@(m=x)-X+Y</a>",
-        "<a>+@(m=y)-@(m=x)+Y-X</a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -478,13 +437,13 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_AttributeNamespaces0() throws DiffException {
-    String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
-    String xml2 = "<a f:m='y' xmlns:f='https://example.net'/>";
+    String xmlA = "<a f:m='y' xmlns:f='https://example.net'/>";
+    String xmlB = "<a e:m='y' xmlns:e='https://example.org'/>";
     String[] exp = new String[]{
         "<a>+@(m=y)-@(m=y)</a>",
         "<a>-@(m=y)+@(m=y)</a>"
     };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
   /**
@@ -494,12 +453,12 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_AttributeNamespaces1() throws DiffException {
-    String xml1 = "<a e:m='y' xmlns:e='https://example.org'/>";
-    String xml2 = "<a f:m='y' xmlns:f='https://example.org'/>";
+    String xmlA = "<a f:m='y' xmlns:f='https://example.org'/>";
+    String xmlB = "<a e:m='y' xmlns:e='https://example.org'/>";
     String[] exp = new String[]{
         "<a>@(m=y)</a>"
     };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
   }
 
 // self wrap tests ----------------------------------------------------------------------
@@ -511,22 +470,16 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_SelfWrapA() throws DiffException {
-    String xml1 = "<a><a/></a>";
-    String xml2 = "<a></a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a></a>";
+    String xmlB = "<a><a/></a>";
+    String[] exp = new String[]{
         "<a>+<a>+</a></a>",
         "+<a><a></a>+</a>",
         "<a>+<a></a>+</a>",
         "+<a><a>+</a></a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-<a>-</a></a>",
-        "-<a><a></a>-</a>",
-        "<a>-<a></a>-</a>",
-        "-<a><a>-</a></a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -536,22 +489,16 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_SelfWrapB() throws DiffException {
-    String xml1 = "<a><a>x</a></a>";
-    String xml2 = "<a>x</a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a>x</a>";
+    String xmlB = "<a><a>x</a></a>";
+    String[] exp = new String[]{
         "<a>+<a>x+</a></a>",
         "+<a><a>x</a>+</a>",
         "<a>+<a>x</a>+</a>",
         "+<a><a>x+</a></a>",
     };
-    String[] exp2 = new String[]{
-        "<a>-<a>x-</a></a>",
-        "-<a><a>x</a>-</a>",
-        "<a>-<a>x</a>-</a>",
-        "-<a><a>x-</a></a>",
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   /**
@@ -559,22 +506,20 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testBasic_MovedBranch() throws LoadingException {
-    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
+    String xmlB = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
+    String exp = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   @Test
   public final void testBasic_BestPath() throws LoadingException {
-    String xml1 = "<a><b>X</b></a>";
-    String xml2 = "<a><b/><b>X</b></a>";
-    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    String xmlA = "<a><b/><b>X</b></a>";
+    String xmlB = "<a><b>X</b></a>";
+    String exp = "<a>-<b>-</b><b>X</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
 
@@ -582,57 +527,46 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
 
   @Test
   public final void testBasic_SplitMergeB() throws LoadingException {
-    String xml1 = "<a><b><c/></b><b><d/></b></a>";
-    String xml2 = "<a><b><c/><d/></b></a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a><b><c/><d/></b></a>";
+    String xmlB = "<a><b><c/></b><b><d/></b></a>";
+    String[] exp = new String[]{
         "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>"
     };
-    String[] exp2 = new String[]{
-        "<a><b><c></c>+<d>+</d></b>-<b>-<d>-</d>-</b></a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
 
   @Test
   public final void testBasic_NSTemp() throws LoadingException {
-    String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
-    String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
+    String xmlB = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
+    String[] exp = new String[]{
         "<a>-<x:b>-X-</x:b>+<b>+X+</b></a>",
-        "<a>+<b>-<x:b>X-</x:b>+</b></a>"
+        "<a>+<b>-<x:b>X-</x:b>+</b></a>",
+        "<a>-<x:b>+<b>X+</b>-</x:b></a>"
     };
-    String[] exp2 = new String[]{
-        "<a>+<x:b>+X+</x:b>-<b>-X-</b></a>",
-        "<a>+<x:b>-<b>X-</b>+</x:b></a>"
-    };
-    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
-    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, TEXT, exp);
+    assertDiffXMLOK(xmlB, xmlA, TEXT, flip(exp));
   }
-
 
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String exp) throws LoadingException {
-    assertDiffXMLOKTextOnly(xml1, xml2, new String[]{exp});
-  }
-
-  private void assertDiffXMLOKTextOnly(String xml1, String xml2, String[] exp) throws LoadingException {
+  private void assertDiffXMLOK(String xmlA, String xmlB, TextGranularity granularity, String... exp) throws LoadingException {
     // Load XML
-    Sequence seq1 = TestTokens.loadSequence(xml1, TextGranularity.TEXT);
-    Sequence seq2 = TestTokens.loadSequence(xml2, TextGranularity.TEXT);
-    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    Sequence seqA = TestTokens.loadSequence(xmlA, granularity);
+    Sequence seqB = TestTokens.loadSequence(xmlB, granularity);
+    NamespaceSet namespaces = NamespaceSet.merge(seqA.getNamespaces(), seqB.getNamespaces());
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
+    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());
     try {
-      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);
       DiffAssertions.assertMatchTestOutput(actions, exp, namespaces);
 
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, DiffAssertions.toTestOutput(actions, namespaces), actions);
+      printXMLErrorDetails(xmlA, xmlB, exp, DiffAssertions.toTestOutput(actions, namespaces), actions);
       throw ex;
     }
   }

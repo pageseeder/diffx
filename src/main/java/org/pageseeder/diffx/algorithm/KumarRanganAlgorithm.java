@@ -22,6 +22,21 @@ import org.pageseeder.diffx.token.Token;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * An implementation of the S. Kiran Kumar and C. Pandu Rangan algorithm to find the longest
+ * common subsequence (LcS).
+ *
+ * <p>Implementation note: this algorithm effectively detects the correct changes in the
+ * sequences, but cannot be used on XML sequences as it cannot always produce well-formed XML.
+ *
+ * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
+ * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987
+ *
+ * <p>The algorithm has been adjusted to generate the shortest edit script (SES)</p>
+ *
+ * @author Christophe Lauret
+ * @version 0.9.0
+ */
 public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
   /**
@@ -30,8 +45,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    Instance instance = new Instance(first, second);
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
+    Instance instance = new Instance(from, to);
     instance.process(handler);
   }
 
@@ -69,17 +84,17 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      */
     private int J = 0;
 
-    private final List<? extends Token> first;
-    private final List<? extends Token> second;
+    private final List<? extends Token> A;
+    private final List<? extends Token> B;
 
     /**
      * Events are reported here.
      */
     private DiffHandler handler;
 
-    Instance(List<? extends Token> first, List<? extends Token> second) {
-      this.first = Objects.requireNonNull(first);
-      this.second = Objects.requireNonNull(second);
+    Instance(List<? extends Token> from, List<? extends Token> to) {
+      this.A = Objects.requireNonNull(from);
+      this.B = Objects.requireNonNull(to);
     }
 
     /**
@@ -88,8 +103,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      * @param handler The handler for the output.
      */
     public void process(DiffHandler handler) {
-      final int m = this.first.size();
-      final int n = this.second.size();
+      final int m = this.A.size();
+      final int n = this.B.size();
       int p = calculateLength(m, n);
       this.handler = handler;
 
@@ -221,8 +236,8 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
 
         // The real index in the global char table is:
         // current_index * sign + beginning index of the sub-char array
-        while (posB > lowerB && !this.first.get((i - 1) * sign + startA)
-            .equals(this.second.get((posB - 1) * sign + startB))) {
+        while (posB > lowerB && !this.A.get((i - 1) * sign + startA)
+            .equals(this.B.get((posB - 1) * sign + startB))) {
           posB--;
         }
         int temp = Math.max(posB, lowerB);
@@ -340,44 +355,44 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
         printLL();
       }
 
-      // Deleted elements from the second sequence
+      // Inserted elements from B
       // `LL[p] - 1 + startB` contains index of the first item in the second subsequence matching the first subsequence
-      deleteUpTo(this.LL[p] - 1 + startB);
+      insertUpTo(this.LL[p] - 1 + startB);
 
       int i = 0;
 
-      // 2. Start in order for the first subsequence and get the index of the second subsequence
-      while (i < p && this.first.get(i + startA).equals(this.second.get(this.LL[p - i] - 1 + startB))) {
-        this.handler.handle(Operator.MATCH, this.first.get(i + startA));
+      // 2. Start in order for the A subsequence and get the index of the B subsequence
+      while (i < p && this.A.get(i + startA).equals(this.B.get(this.LL[p - i] - 1 + startB))) {
+        this.handler.handle(Operator.MATCH, this.A.get(i + startA));
         this.J++;
         i++;
         if (i < p) {
-          // removed tokens from the second subsequence
-          deleteUpTo(this.LL[p - i] - 1 + startB);
+          // Inserted tokens from B
+          insertUpTo(this.LL[p - i] - 1 + startB);
         }
       }
 
-      // possibly an token from the first subsequence to insert
+      // possibly an token from the A subsequence to delete
       if (i < m) {
-        this.handler.handle(Operator.INS, this.first.get(i + startA));
+        this.handler.handle(Operator.DEL, this.A.get(i + startA));
       }
 
       // 3.
       i++;
 
-      // 4. The second part of the first subsequence
+      // 4. The second part of the A subsequence
       while (i < m) {
-        this.handler.handle(Operator.MATCH, this.first.get(i + startA));
+        this.handler.handle(Operator.MATCH, this.A.get(i + startA));
         this.J++;
         i++;
 
-        while (i < m && this.J < endB && !this.first.get(i + startA).equals(this.second.get(this.J))) {
-          deleteUpTo(this.J + 1);
+        while (i < m && this.J < endB && !this.A.get(i + startA).equals(this.B.get(this.J))) {
+          insertUpTo(this.J + 1);
         }
       }
 
-      // finish writing the missing tokens from the second subsequence
-      deleteUpTo(this.LL[0] - 1 + startB);
+      // finish writing the missing tokens from the B subsequence
+      insertUpTo(this.LL[0] - 1 + startB);
     }
 
     /**
@@ -491,9 +506,9 @@ public final class KumarRanganAlgorithm implements DiffAlgorithm {
      *
      * @param jSeq2 The index of the LL array for the next token of the second sequence.
      */
-    private void deleteUpTo(int jSeq2) {
+    private void insertUpTo(int jSeq2) {
       while (jSeq2 > this.J) {
-        this.handler.handle(Operator.DEL, this.second.get(this.J++));
+        this.handler.handle(Operator.INS, this.B.get(this.J++));
       }
     }
 

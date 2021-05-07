@@ -25,13 +25,17 @@ public abstract class AlgorithmTest {
   /**
    * Print the error details.
    */
-  public static void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action> actions) {
+  public static void printXMLErrorDetails(String xmlA, String xmlB, String[] exp, String got, List<Action> actions) {
     System.err.println("+------------------------------------------------");
-    System.err.println("| Input A: \"" + xml1 + "\"");
-    System.err.println("| Input B: \"" + xml2 + "\"");
+    System.err.println("| Input A: \"" + xmlA + "\"");
+    System.err.println("| Input B: \"" + xmlB + "\"");
     System.err.println("| Output:  \"" + got + "\"");
-    System.err.print("| Expect:  ");
-    for (String s : exp) System.err.print("\"" + s + "\" ");
+    if (exp != null && exp.length > 0) {
+      System.err.println("| Expect:  \"" + exp[0] + "\" ");
+      for (int i=1; i < exp.length; i++) {
+        System.err.println("|     or:  \"" + exp[i] + "\" ");
+      }
+    }
     System.err.println();
     System.err.print("| Actions: ");
     for (Action action : actions) {
@@ -39,6 +43,18 @@ public abstract class AlgorithmTest {
       System.err.print(action.tokens());
     }
     System.err.println();
+  }
+
+  public static String flip(String exp) {
+    return exp.replace('+', '*').replace('-', '+').replace('*', '-');
+  }
+
+  public static String[] flip(String... exp) {
+    String[] flipped = new String[exp.length];
+    for (int i=0; i < exp.length; i++) {
+      flipped[i] = flip(exp[i]);
+    }
+    return flipped;
   }
 
   /**

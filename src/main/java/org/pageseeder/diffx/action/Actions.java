@@ -37,13 +37,13 @@ public class Actions {
    * Generates the list of tokens from the list of actions.
    *
    * @param actions  The list of actions.
-   * @param positive <code>true</code> for generating the new sequence;
-   *                 <code>false</code> for generating the old sequence.
+   * @param forward <code>true</code> for generating the new sequence (A to B);
+   *                <code>false</code> for generating the old sequence (B to A).
    */
-  public static List<Token> generate(List<Action> actions, boolean positive) {
+  public static List<Token> generate(List<Action> actions, boolean forward) {
     List<Token> generated = new ArrayList<>();
     for (Action action : actions) {
-      if (positive ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
+      if (forward ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
         generated.addAll(action.tokens());
       } else if (action.operator() == Operator.MATCH) {
         generated.addAll(action.tokens());
@@ -131,12 +131,12 @@ public class Actions {
           i++;
           j++;
         }
-      } else if (action.operator() == Operator.INS) {
+      } else if (action.operator() == Operator.DEL) {
         for (Token token : action.tokens()) {
           if (i >= a.size() || !token.equals(a.get(i))) return false;
           i++;
         }
-      } else if (action.operator() == Operator.DEL) {
+      } else if (action.operator() == Operator.INS) {
         for (Token token : action.tokens()) {
           if (j >= b.size() || !token.equals(b.get(j))) return false;
           j++;

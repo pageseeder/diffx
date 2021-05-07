@@ -46,19 +46,19 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
     this.coalesce = coalesce;
   }
 
-  public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
+  public boolean isDiffComputable(List<? extends Token> from, List<? extends Token> to) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.threshold);
-    return algorithm.isDiffComputable(first, second);
+    return algorithm.isDiffComputable(from, to);
   }
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler handler) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.threshold);
     DiffHandler actual = getFilter(handler);
     handler.start();
-    algorithm.diff(first, second, actual);
+    algorithm.diff(from, to, actual);
     handler.end();
   }
 

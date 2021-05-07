@@ -37,63 +37,64 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest {
 
   @Test
   public final void testCoalesce_Identical() throws DiffException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X Y</a>";
+    String xmlA = "<a>X Y</a>";
+    String xmlB = "<a>X Y</a>";
     String exp = "<a>X Y</a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp);
+    assertDiffXMLCoalesceOK(xmlA, xmlB, COMPARE_SPACE_WORDS, exp);
   }
 
   @Test
-  public final void testCoalesce_SplitMergeA1() throws DiffException {
-    String xml1 = "<a><b>X</b> <b>Y</b></a>";
-    String xml2 = "<a><b>X Y</b></a>";
-    // split
-    String[] exp1 = new String[]{
-        "<a><b>X+</b> +<b>Y</b></a>",           // tags inserted
+  public final void testCoalesce_Split() throws DiffException {
+    String xmlA = "<a><b>X Y</b></a>";
+    String xmlB = "<a><b>X</b> <b>Y</b></a>";
+    String[] exp = new String[]{
+//        "<a><b>X+</b> +<b>Y</b></a>",           // tags inserted
         "<a><b>X-( Y)</b>+ +<b>+Y+</b></a>",    // text has moved
-        "<a>+<b>+X+</b>+ <b>+Y-(X Y)</b></a>",
-        "<a>+<b>+X+</b>+ <b>-X-( Y)+Y</b></a>"
+//        "<a>+<b>+X+</b>+ <b>+Y-(X Y)</b></a>",
+//        "<a>+<b>+X+</b>+ <b>-X-( Y)+Y</b></a>",
     };
-    // merge
-    String[] exp2 = new String[]{
-        "<a><b>X-</b> -<b>Y</b></a>",         // tags removed
-        "<a><b>X+( Y)</b>- -<b>-Y-</b></a>",  // text has moved
-        "<a>-<b>-X-</b>- <b>+X-Y+( Y)</b></a>"
-    };
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, exp1);
-    assertDiffXMLCoalesceOK(xml2, xml1, COMPARE_SPACE_WORDS, exp2);
+    assertDiffXMLCoalesceOK(xmlA, xmlB, COMPARE_SPACE_WORDS, exp);
   }
+
+  @Test
+  public final void testCoalesce_Merge() throws DiffException {
+    String xmlA = "<a><b>X</b> <b>Y</b></a>";
+    String xmlB = "<a><b>X Y</b></a>";
+    String exp = "<a><b>X+( Y)</b>- -<b>-Y-</b></a>";
+    assertDiffXMLCoalesceOK(xmlA, xmlB, COMPARE_SPACE_WORDS, exp);
+  }
+
 
   @Test
   public final void testCoalesce_Sticky() throws DiffException {
-    String xml1 = "<a>a white cat</a>";
-    String xml2 = "<a>a black hat</a>";
+    String xmlA = "<a>a black hat</a>";
+    String xmlB = "<a>a white cat</a>";
     String expA = "<a>a+( white cat)-( black hat)</a>";
     String expB = "<a>a-( black hat)+( white cat)</a>";
-    assertDiffXMLCoalesceOK(xml1, xml2, COMPARE_SPACE_WORDS, expA, expB);
+    assertDiffXMLCoalesceOK(xmlA, xmlB, COMPARE_SPACE_WORDS, expA, expB);
   }
 
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
    *
-   * @param xml1 The first XML to compare with diffx.
-   * @param xml2 The first XML to compare with diffx.
+   * @param xmlA The first XML to compare with diffx.
+   * @param xmlB The second XML to compare with diffx.
    * @param exp  The expected result as formatted by the TestFormatter.
    *
    * @throws DiffException Should an error occur while parsing XML.
    */
-  public final void assertDiffXMLCoalesceOK(String xml1, String xml2, DiffConfig config, String... exp) throws DiffException {
-    Sequence seq1 = TestTokens.loadSequence(xml1, config);
-    Sequence seq2 = TestTokens.loadSequence(xml2, config);
+  public final void assertDiffXMLCoalesceOK(String xmlA, String xmlB, DiffConfig config, String... exp) throws DiffException {
+    Sequence seqA = TestTokens.loadSequence(xmlA, config);
+    Sequence seqB = TestTokens.loadSequence(xmlB, config);
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getProcessor(), seq1.tokens(), seq2.tokens());
+    List<Action> actions = TestActions.diffToActions(getProcessor(), seqA.tokens(), seqB.tokens());
     try {
-      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions);
       DiffAssertions.assertMatchTestOutput(actions, exp);
     } catch (AssertionError ex) {
-      AlgorithmTest.printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions), actions);
+      AlgorithmTest.printXMLErrorDetails(xmlA, xmlB, exp, DiffAssertions.toTestOutput(actions), actions);
       throw ex;
     }
   }
