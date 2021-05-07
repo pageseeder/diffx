@@ -99,7 +99,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   @Override
   public int length() {
     if (this.length < 0) {
-      MatrixProcessor builder = new MatrixProcessor();
+      MatrixProcessor<Token> builder = new MatrixProcessor<>();
       builder.setInverse(true);
       this.matrix = builder.process(this.sequence1, this.sequence2);
       this.length = this.matrix.getLCSLength();

@@ -104,7 +104,7 @@ public final class MatrixProcessor<T> {
     return matrix;
   }
 
-  private static <T>  Matrix computeInverse(List<? extends T> first, List<? extends T> second) {
+  private static <T> Matrix computeInverse(List<? extends T> first, List<? extends T> second) {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
@@ -129,7 +129,7 @@ public final class MatrixProcessor<T> {
     return matrix;
   }
 
-  private static<T> void printDebug(List<? extends T> first, List<? extends T> second, Matrix matrix, PrintStream out) {
+  private static <T> void printDebug(List<? extends T> first, List<? extends T> second, Matrix matrix, PrintStream out) {
     out.print("A:");
     for (T token : first) {
       out.print(token + "\t");

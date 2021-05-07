@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.token.Token;
 
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -37,7 +36,7 @@ public interface DiffAlgorithm<T> {
    * @param to      The target list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
-   * @throws UncheckedIOException If an IO error occurred while handler the diff
+   * @throws UncheckedIOException  If an IO error occurred while handler the diff
    * @throws IllegalStateException If the algorithm is in a state where it is unable to process the tokens.
    */
   void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);

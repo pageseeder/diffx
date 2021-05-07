@@ -31,7 +31,7 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // calculate the LCS length to fill the matrix
-    MatrixProcessor<T> builder = new MatrixProcessor();
+    MatrixProcessor<T> builder = new MatrixProcessor<>();
     builder.setInverse(true);
     Matrix matrix = builder.process(from, to);
     final int length1 = from.size();

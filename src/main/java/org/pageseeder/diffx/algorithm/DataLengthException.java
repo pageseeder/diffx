@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 /**
- * Exception thrown when the size of the input data exceeds the maxmimum supported by the
+ * Exception thrown when the size of the input data exceeds the maximum supported by the
  * algorithm or processor.
  *
  * @author Christophe Lauret
