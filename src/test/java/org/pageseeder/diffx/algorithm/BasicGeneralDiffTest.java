@@ -23,6 +23,7 @@ import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.GeneralToken;
 import org.pageseeder.diffx.test.TestHandler;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BasicGeneralDiffTest extends AlgorithmTest {
+public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
 
   @Test
   public final void testGeneral_Empty() {
@@ -86,160 +87,160 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Insert1() {
-    String a = "x";
-    String b = "";
+    String a = "";
+    String b = "x";
     String[] exp = new String[]{"+x"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete1() {
-    String a = "";
-    String b = "y";
+    String a = "y";
+    String b = "";
     String[] exp = new String[]{"-y"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert2() {
-    String a = "xx";
-    String b = "";
+    String a = "";
+    String b = "xx";
     String[] exp = new String[]{"+x+x"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete2() {
-    String a = "";
-    String b = "yy";
+    String a = "yy";
+    String b = "";
     String[] exp = new String[]{"-y-y"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert3() {
-    String a = "xx";
-    String b = "x";
+    String a = "x";
+    String b = "xx";
     String[] exp = new String[]{"x+x", "+xx"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete3() {
-    String a = "y";
-    String b = "yy";
+    String a = "yy";
+    String b = "y";
     String[] exp = new String[]{"y-y", "-yy"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert4() {
-    String a = "xxx";
-    String b = "xx";
+    String a = "xx";
+    String b = "xxx";
     String[] exp = new String[]{"+xxx", "x+xx", "xx+x"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete4() {
-    String a = "yy";
-    String b = "yyy";
+    String a = "yyy";
+    String b = "yy";
     String[] exp = new String[]{"-yyy", "y-yy", "yy-y"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert5() {
-    String a = "   x   ";
-    String b = "      ";
+    String a = "      ";
+    String b = "   x   ";
     String[] exp = new String[]{"   +x   "};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete5() {
-    String a = "      ";
-    String b = "   y   ";
+    String a = "   y   ";
+    String b = "      ";
     String[] exp = new String[]{"   -y   "};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert6() {
-    String a = "testing";
-    String b = "test";
+    String a = "test";
+    String b = "testing";
     String[] exp = new String[]{"test+i+n+g"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete6() {
-    String a = "test";
-    String b = "testing";
+    String a = "testing";
+    String b = "test";
     String[] exp = new String[]{"test-i-n-g"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert7() {
-    String a = "foretaste";
-    String b = "taste";
+    String a = "taste";
+    String b = "foretaste";
     String[] exp = new String[]{"+f+o+r+etaste"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete7() {
-    String a = "taste";
-    String b = "foretaste";
+    String a = "foretaste";
+    String b = "taste";
     String[] exp = new String[]{"-f-o-r-etaste"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert8() {
-    String a = "baobab";
-    String b = "bobb";
+    String a = "bobb";
+    String b = "baobab";
     String[] exp = new String[]{"b+aob+ab"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete8() {
-    String a = "bobb";
-    String b = "baobab";
+    String a = "baobab";
+    String b = "bobb";
     String[] exp = new String[]{"b-aob-ab"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert9() {
-    String a = "alibaba";
-    String b = "libb";
+    String a = "libb";
+    String b = "alibaba";
     String[] exp = new String[]{"+alib+ab+a"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete9() {
-    String a = "libb";
-    String b = "alibaba";
+    String a = "alibaba";
+    String b = "libb";
     String[] exp = new String[]{"-alib-ab-a"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert10() {
-    String a = "links";
-    String b = "ink";
+    String a = "ink";
+    String b = "links";
     String[] exp = new String[]{"+link+s"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete10() {
-    String a = "ink";
-    String b = "links";
+    String a = "links";
+    String b = "ink";
     String[] exp = new String[]{"-link-s"};
     assertGeneralDiffOK(a, b, exp);
   }
@@ -247,32 +248,32 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Insert11() {
-    String a = "inks";
-    String b = "ink";
+    String a = "ink";
+    String b = "inks";
     String[] exp = new String[]{"ink+s"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete11() {
-    String a = "ink";
-    String b = "inks";
+    String a = "inks";
+    String b = "ink";
     String[] exp = new String[]{"ink-s"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Insert12() {
-    String a = "link";
-    String b = "ink";
+    String a = "ink";
+    String b = "link";
     String[] exp = new String[]{"+link"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Delete12() {
-    String a = "ink";
-    String b = "link";
+    String a = "link";
+    String b = "ink";
     String[] exp = new String[]{"-link"};
     assertGeneralDiffOK(a, b, exp);
   }
@@ -280,16 +281,16 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace1() {
-    String a = "x";
-    String b = "y";
+    String a = "y";
+    String b = "x";
     String[] exp = new String[]{"+x-y", "-y+x"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Replace2() {
-    String a = "xx";
-    String b = "yy";
+    String a = "yy";
+    String b = "xx";
     String[] exp = new String[]{
         "+x+x-y-y",
         "+x-y+x-y",
@@ -303,16 +304,16 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace3() {
-    String a = "xax";
-    String b = "xbx";
+    String a = "xbx";
+    String b = "xax";
     String[] exp = new String[]{"x+a-bx", "x-b+ax"};
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Replace4() {
-    String a = "axa";
-    String b = "bxb";
+    String a = "bxb";
+    String b = "axa";
     String[] exp = new String[]{
         "+a-bx+a-b",
         "+a-bx-b+a",
@@ -324,8 +325,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace5() {
-    String a = "axax";
-    String b = "bxbx";
+    String a = "bxbx";
+    String b = "axax";
     String[] exp = new String[]{
         "+a-bx+a-bx",
         "+a-bx-b+ax",
@@ -337,8 +338,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace6() {
-    String a = "xaxa";
-    String b = "xbxb";
+    String a = "xbxb";
+    String b = "xaxa";
     String[] exp = new String[]{
         "x+a-bx+a-b",
         "x+a-bx-b+a",
@@ -350,22 +351,23 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace7() {
-    String a = "axbx";
-    String b = "bxax";
+    String a = "bxax";
+    String b = "axbx";
     String[] exp = new String[]{
         "+a+xbx-a-x",
         "+a+xb-x-ax",
+        "+a-bx+b-ax",
         "-b-xax+b+x",
         "-b+ax-a+bx",
-        "-b-xa+x+bx"
+        "-b-xa+x+bx",
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Replace8() {
-    String a = "axax";
-    String b = "bxbx";
+    String a = "bxbx";
+    String b = "axax";
     String[] exp = new String[]{
         "+a-bx+a-bx",
         "+a-bx-b+ax",
@@ -377,20 +379,21 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace9() {
-    String a = "axaxa";
-    String b = "bxbxb";
+    String a = "bxbxb";
+    String b = "axaxa";
     String[] exp = new String[]{
         "-b+ax-b+ax-b+a",
         "+a-bx+a-bx-b+a",
-        "+a-bx+a-bx+a-b"
+        "+a-bx+a-bx+a-b",
+        "-b+ax-b+ax+a-b"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Replace10() {
-    String a = "axbxa";
-    String b = "bxaxb";
+    String a = "bxaxb";
+    String b = "axbxa";
     String[] exp = new String[]{
         "+a+xbxa-x-b",
         "-b-xaxb+x+a"
@@ -400,8 +403,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Replace11() {
-    String a = "xaxax";
-    String b = "xbxbx";
+    String a = "xbxbx";
+    String b = "xaxax";
     String[] exp = new String[]{
         "x+a-bx+a-bx",
         "x+a-bx-b+ax",
@@ -415,8 +418,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex1() {
-    String a = "aba";
-    String b = "bab";
+    String a = "bab";
+    String b = "aba";
     String[] exp = new String[]{
         "+aba-b",
         "-bab+a"
@@ -426,8 +429,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex2() {
-    String a = "abab";
-    String b = "baba";
+    String a = "baba";
+    String b = "abab";
     String[] exp = new String[]{
         "+abab-a",
         "-baba+b"
@@ -437,8 +440,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex3() {
-    String a = "ababa";
-    String b = "babab";
+    String a = "babab";
+    String b = "ababa";
     String[] exp = new String[]{
         "+ababa-b",
         "-babab+a",
@@ -448,8 +451,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex4() {
-    String a = "one little";
-    String b = "two little";
+    String a = "two little";
+    String b = "one little";
     String[] exp = new String[]{
         "-t-wo+n+e little"
     };
@@ -458,8 +461,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex5() {
-    String a = "one little";
-    String b = "too little";
+    String a = "too little";
+    String b = "one little";
     String[] exp = new String[]{
         "-t-oo+n+e little",
         "-to+n+e-o little",
@@ -471,21 +474,23 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex6() {
-    String a = "balaclava";
-    String b = "bilabial";
+    String a = "bilabial";
+    String b = "balaclava";
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
         "b-i+ala+c-b-i+la+v-l+a",
         "b+a-ila+c+l-b-ia+v+a-l",
-        "b-i+ala-b-i-a+cl+a+v+a"
+        "b-i+ala-b-i-a+cl+a+v+a",
+        "b-i-la-b-i+la+cl+a+v+a",
+        "b+a-ila-b+c+l-ia+v+a-l"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Complex7() {
-    String a = "Saturday";
-    String b = "Sunday";
+    String a = "Sunday";
+    String b = "Saturday";
     String[] exp = new String[]{
         "S+a+tu+r-nday",
         "S+a+tu-n+rday"
@@ -495,8 +500,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex9() {
-    String a = "Monday Tuesday Sunday";
-    String b = "Monday Sunday";
+    String a = "Monday Sunday";
+    String b = "Monday Tuesday Sunday";
     String[] exp = new String[]{
         "Monday +T+u+e+s+d+a+y+ Sunday",
         "Monday+ +T+u+e+s+d+a+y Sunday",
@@ -507,8 +512,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex10() {
-    String a = "Monday Sunday";
-    String b = "Monday Tuesday Sunday";
+    String a = "Monday Tuesday Sunday";
+    String b = "Monday Sunday";
     String[] exp = new String[]{
         "Monday -T-u-e-s-d-a-y- Sunday",
         "Monday- -T-u-e-s-d-a-y Sunday",
@@ -519,137 +524,148 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
 
   @Test
   public final void testGeneral_Complex11() {
-    String a = "A car";
-    String b = "A train";
+    String a = "A train";
+    String b = "A car";
     String[] exp = new String[]{
         "A +c+a-tr-a-i-n",
+        "A +c-t-ra+r-i-n",
+        "A -t+c-ra-i+r-n",
         "A -t-r+ca-i-n+r",
-        "A +c-t-ra+r-i-n"
+        "A -t-r+ca-i+r-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Complex12() {
-    String a = "The car";
-    String b = "A train";
+    String a = "A train";
+    String b = "The car";
     String[] exp = new String[]{
         "+T+h-A+e -t-r+ca-i-n+r",
+        "+T+h+e-A -t+c-ra-i+r-n",
         "+T+h+e-A +c+a-tr-a-i-n",
         "+T+h+e-A +c-t-ra+r-i-n",
-        "-A+T+h+e -t-r+ca-i-n+r"
+        "-A+T+h+e -t-r+ca-i-n+r",
+        "-A+T+h+e -t-r+ca-i+r-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Complex13() {
-    String a = "The red car";
-    String b = "A blue train";
+    String a = "A blue train";
+    String b = "The red car";
     String[] exp = new String[]{
         "+T+h+e-A +r-b-l-ue+d +c+a-tr-a-i-n",
+        "+T+h+e-A -b-l+r-ue+d -t+c-ra-i+r-n",
+        "+T+h+e-A +r-b-l-ue+d +c-t-ra+r-i-n",
         "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r",
         "+T+h-A- -b-l-ue -tr+e+d+ +ca+r-i-n",
-        "-A- -b-l-u+T+he -tr+e+d+ +ca-i-n+r"
+        "-A- -b-l-u+T+he -tr+e+d+ +ca-i-n+r",
+        "-A- -b-l-u+T+he -tr+e+d+ +ca-i+r-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Complex14() {
-    String a = "The little car";
-    String b = "A big train";
+    String a = "A big train";
+    String b = "The little car";
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t+l+e-g +c+a-tr-a-i-n",
         "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r",
         "+T+h+e-A +l-bi-g- t+t+l+e+ +c-ra+r-i-n",
-        "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i-n+r"
+        "-A+T+h+e -b+li-g- +tt-r+l+e+ +ca-i-n+r",
+        "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i-n+r",
+        "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i+r-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_Complex15() {
-    String a = "The little red car";
-    String b = "A big blue train";
+    String a = "A big blue train";
+    String b = "The little red car";
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca+r-i-n",
         "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r",
         "+T+h-A+e -b+li+t-g- -b+tl-ue -tr+e+d+ +ca-i-n+r",
-        "-A+T+h+e -b+li-g- -b+t+tl-ue -tr+e+d+ +ca-i-n+r"
+        "+T+h+e-A +l-bi-g- +t+t-bl-ue -tr+e+d+ +ca-i+r-n",
+        "-A+T+h+e -b+li-g- -b+t+tl-ue -tr+e+d+ +ca-i-n+r",
+        "-A+T+h+e -b+li-g- -b+t+tl-ue -tr+e+d+ +ca-i+r-n"
     };
     assertGeneralDiffOK(a, b, exp);
   }
 
   @Test
   public final void testGeneral_complex16() {
-    String a = "xabx";
-    String b = "abamx";
+    String a = "abamx";
+    String b = "xabx";
     assertGeneralDiffOK(a, b);
   }
 
   @Test
   public final void testGeneral_complex17() {
-    String a = "xabcdefghijkmnopqrx";
-    String b = "abcdefghijkjmnopqrx";
+    String a = "abcdefghijkjmnopqrx";
+    String b = "xabcdefghijkmnopqrx";
     assertGeneralDiffOK(a, b);
   }
 
   @Test
   public final void testGeneral_complex18() {
-    String a = "rhxrwpdunx";
-    String b = "rhrwpdpunwx";
+    String a = "rhrwpdpunwx";
+    String b = "rhxrwpdunx";
     assertGeneralDiffOK(a, b);
   }
 
   @Test
   public final void testGeneral_complex19() {
-    String a = "tbdcllohjt";
-    String b = "bddcdlohjt";
+    String a = "bddcdlohjt";
+    String b = "tbdcllohjt";
     assertGeneralDiffOK(a, b);
   }
 
   @Test
   public final void testGeneral_complex20() {
-    String a = "tbdcl";
-    String b = "bddcdl";
+    String a = "bddcdl";
+    String b = "tbdcl";
     assertGeneralDiffOK(a, b);
   }
 
   // helpers
   // --------------------------------------------------------------------------
 
-  public final void assertGeneralDiffOK(String text1, String text2) {
-    assertGeneralDiffOK(text1, text2, new String[]{});
+  public final void assertGeneralDiffOK(String testA, String textB) {
+    assertGeneralDiffOK(testA, textB, new String[]{});
   }
 
-  public final void assertGeneralDiffOK(String text1, String text2, String[] exp) {
-    DiffAlgorithm algorithm = getDiffAlgorithm();
-    assertGeneralDiffOK(text1, text2, algorithm, exp);
+  public final void assertGeneralDiffOK(String textA, String textB, String[] exp) {
+    DiffAlgorithm<Token> algorithm = getDiffAlgorithm();
+    assertGeneralDiffOK(textA, textB, algorithm, exp);
   }
 
-  public static void assertGeneralDiffOK(String text1, String text2, DiffAlgorithm algorithm, String[] exp) {
-    List<GeneralToken> seq1 = GeneralToken.toList(text1);
-    List<GeneralToken> seq2 = GeneralToken.toList(text2);
-    ActionsBuffer af = new ActionsBuffer();
+  public static void assertGeneralDiffOK(String textA, String textB, DiffAlgorithm<Token> algorithm, String[] exp) {
+    List<GeneralToken> seqA = GeneralToken.toList(textA);
+    List<GeneralToken> seqB = GeneralToken.toList(textB);
+    ActionsBuffer<Token> af = new ActionsBuffer<>();
     TestHandler cf = new TestHandler();
 
     // Run the diff
-    algorithm.diff(seq1, seq2, new MuxHandler(cf, af));
+    algorithm.diff(seqA, seqB, new MuxHandler<>(cf, af));
 
     // Extract output and actions
     String got = cf.getOutput();
-    List<Action> actions = af.getActions();
+    List<Action<Token>> actions = af.getActions();
 
     // Check
     try {
-      DiffAssertions.assertIsApplicable(seq1, seq2, actions);
-      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsApplicable(seqA, seqB, actions);
+      DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       if (exp.length > 0) {
         DiffAssertions.assertMatchTestOutput(actions, exp);
       }
     } catch (AssertionError ex) {
-      printGeneralErrorDetails(text1, text2, exp, got, actions);
+      printGeneralErrorDetails(textA, textB, exp, got, actions);
       throw ex;
     }
   }
@@ -657,10 +673,10 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   /**
    * Print the error details.
    */
-  private static void printGeneralErrorDetails(String text1, String text2, String[] exp, String got, List<Action> actions) {
+  private static void printGeneralErrorDetails(String textA, String textB, String[] exp, String got, List<Action<Token>> actions) {
     System.err.println("+------------------------------------------------");
-    System.err.println("| Input A: \"" + text1 + "\"");
-    System.err.println("| Input B: \"" + text2 + "\"");
+    System.err.println("| Input A: \"" + textA + "\"");
+    System.err.println("| Input B: \"" + textB + "\"");
     System.err.println("| Output:  \"" + got + "\"");
     if (exp.length > 0) {
       System.err.print("| Expect:  ");
@@ -668,7 +684,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
       System.err.println();
     }
     System.err.print("| Actions: ");
-    for (Action action : actions) {
+    for (Action<Token> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens().stream().map(Object::toString).collect(Collectors.toList()));
     }

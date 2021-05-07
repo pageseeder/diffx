@@ -16,36 +16,31 @@
 package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
-public final class DiffResult {
+public final class DiffResult<T> {
 
-  private final List<Action> actions;
+  private final List<Action<T>> actions;
 
-  public DiffResult(List<Action> actions) {
+  public DiffResult(List<Action<T>> actions) {
     this.actions = actions;
   }
 
-  public List<Action> actions() {
+  public List<Action<T>> actions() {
     return this.actions;
   }
 
-  public DiffResult reverse() {
-    return new DiffResult(Actions.reverse(this.actions));
+  public DiffResult<T> reverse() {
+    return new DiffResult<>(Actions.reverse(this.actions));
   }
 
-  public boolean isApplicableTo(List<Token> to, List<Token> from) {
+  public boolean isApplicableTo(List<T> to, List<T> from) {
     return Actions.isApplicable(to, from, this.actions);
   }
 
-  public List<Token> apply(List<Token> tokens) {
+  public List<T> apply(List<T> tokens) {
     return Actions.apply(tokens, this.actions);
-  }
-
-  public Sequence apply(Sequence sequence) {
-    return Actions.apply(sequence, this.actions);
   }
 
   public boolean hasChanges() {

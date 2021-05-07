@@ -20,6 +20,7 @@ import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.token.Token;
 
 /**
  * Test case for progressive XML processor.
@@ -29,14 +30,14 @@ import org.pageseeder.diffx.algorithm.DiffAlgorithm;
  */
 public final class OptimisticXMLProcessorTest {
 
-  private DiffAlgorithm newProcessor() {
+  private DiffAlgorithm<Token> newProcessor() {
     return new OptimisticXMLProcessor();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -44,7 +45,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -52,7 +53,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -60,7 +61,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -68,7 +69,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
     @Override
-    public DiffProcessor getProcessor() {
+    public DiffProcessor<Token> getProcessor() {
       OptimisticXMLProcessor processor = new OptimisticXMLProcessor();
       processor.setCoalesce(true);
       return processor;
@@ -78,7 +79,7 @@ public final class OptimisticXMLProcessorTest {
   @Nested
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newProcessor();
     }
   }

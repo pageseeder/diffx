@@ -34,7 +34,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor {
+public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
 
   /**
    * The main algorithms to choose from.
@@ -59,15 +59,15 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
   }
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
-    if (first.isEmpty() || second.isEmpty()) {
-      for (Token token : second) handler.handle(Operator.DEL, token);
-      for (Token token : first) handler.handle(Operator.INS, token);
+    if (from.isEmpty() || to.isEmpty()) {
+      for (Token token : to) handler.handle(Operator.INS, token);
+      for (Token token : from) handler.handle(Operator.DEL, token);
     } else {
 
-      TokenListSlicer slicer = new TokenListSlicer(first, second);
+      TokenListSlicer slicer = new TokenListSlicer(from, to);
       int common = slicer.analyze();
 
       // Slice the beginning
@@ -76,29 +76,29 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
 
       // Copy the end
       if (startCount > 0) {
-        for (int i = 0; i < startCount; i++) handler.handle(Operator.MATCH, first.get(i));
+        for (int i = 0; i < startCount; i++) handler.handle(Operator.MATCH, from.get(i));
       }
 
       // Check the end
       if (startCount > 0 || endCount > 0) {
-        List<? extends Token> firstSub = first.subList(startCount, first.size() - endCount);
-        List<? extends Token> secondSub = second.subList(startCount, second.size() - endCount);
-        if (firstSub.isEmpty() || secondSub.isEmpty()) {
-          for (Token token : secondSub) handler.handle(Operator.DEL, token);
-          for (Token token : firstSub) handler.handle(Operator.INS, token);
+        List<? extends Token> subA = from.subList(startCount, from.size() - endCount);
+        List<? extends Token> subB = to.subList(startCount, to.size() - endCount);
+        if (subA.isEmpty() || subB.isEmpty()) {
+          for (Token token : subB) handler.handle(Operator.INS, token);
+          for (Token token : subA) handler.handle(Operator.DEL, token);
         } else {
-          DiffAlgorithm algorithm = getAlgorithm();
-          algorithm.diff(firstSub, secondSub, handler);
+          DiffAlgorithm<Token> algorithm = getAlgorithm();
+          algorithm.diff(subA, subB, handler);
         }
 
       } else {
-        DiffAlgorithm algorithm = getAlgorithm();
-        algorithm.diff(first, second, handler);
+        DiffAlgorithm<Token> algorithm = getAlgorithm();
+        algorithm.diff(from, to, handler);
       }
 
       // Copy the end
       if (endCount > 0) {
-        for (int i = first.size() - endCount; i < first.size(); i++) handler.handle(Operator.MATCH, first.get(i));
+        for (int i = from.size() - endCount; i < from.size(); i++) handler.handle(Operator.MATCH, from.get(i));
       }
     }
     handler.end();
@@ -109,14 +109,14 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
     return "TextOnlyProcessor{algo=" + getAlgorithm().getClass().getSimpleName() + "}";
   }
 
-  private DiffAlgorithm getAlgorithm() {
+  private DiffAlgorithm<Token> getAlgorithm() {
     switch (this.algo) {
       case HIRSCHBERG:
-        return new HirschbergAlgorithm();
+        return new HirschbergAlgorithm<>();
       case WAGNER_FISCHER:
-        return new WagnerFischerAlgorithm();
+        return new WagnerFischerAlgorithm<>();
       case KUMAR_RANGAN:
-        return new KumarRanganAlgorithm();
+        return new KumarRanganAlgorithm<>();
       default:
         throw new IllegalStateException("No algorithm defined");
     }

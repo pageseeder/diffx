@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
+import org.pageseeder.diffx.token.Token;
 
 /**
  * Test case for Hirschberg algorithm (text-only).
@@ -25,14 +26,14 @@ import org.junit.jupiter.api.Nested;
  */
 public final class HirschbergAlgorithmTest {
 
-  private DiffAlgorithm newAlgorithm() {
-    return new HirschbergAlgorithm();
+  private DiffAlgorithm<Token> newAlgorithm() {
+    return new HirschbergAlgorithm<>();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -40,7 +41,7 @@ public final class HirschbergAlgorithmTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -48,7 +49,7 @@ public final class HirschbergAlgorithmTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

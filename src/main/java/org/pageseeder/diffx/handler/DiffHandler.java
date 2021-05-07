@@ -29,7 +29,7 @@ import java.io.UncheckedIOException;
  * @version 0.9.0
  */
 @FunctionalInterface
-public interface DiffHandler {
+public interface DiffHandler<T> {
 
   /**
    * Receives notification of the start of the processing.
@@ -48,7 +48,7 @@ public interface DiffHandler {
    * @throws UncheckedIOException  Should an I/O exception occur.
    * @throws IllegalStateException If the handler is not in a state to run this method.
    */
-  void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException;
+  void handle(Operator operator, T token) throws UncheckedIOException, IllegalStateException;
 
   /**
    * Receives notification of the end of the processing.

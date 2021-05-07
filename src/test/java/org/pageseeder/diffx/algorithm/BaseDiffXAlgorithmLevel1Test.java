@@ -483,7 +483,7 @@ public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLev
    * @throws DiffXException Should an error occur while parsing XML.
    */
   @Test
-  public final void testLevel1_AttributeNamespaces0() throws IOException, DiffXException {
+  public final void testLevel1_AttributeNamespaces0() {
     String xml1 = "<a e:m='y' xmlns:e='h://e.org'/>";
     String xml2 = "<a f:m='y' xmlns:f='h://f.org'/>";
     String[] exp = new String[]{};

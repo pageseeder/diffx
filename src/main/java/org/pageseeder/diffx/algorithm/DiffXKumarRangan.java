@@ -80,7 +80,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     if (this.length < 0) {
       DiffAlgorithm algo = new KumarRanganAlgorithm();
       AtomicInteger length = new AtomicInteger();
-      algo.diff(this.sequence1.getSequence().tokens(), this.sequence2.getSequence().tokens(), (operator, token) -> {
+      algo.diff(this.sequence2.getSequence().tokens(), this.sequence1.getSequence().tokens(), (operator, token) -> {
         if (operator == Operator.MATCH) length.getAndIncrement();
       });
       this.length = length.get();
@@ -100,7 +100,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
     DiffAlgorithm algo = new KumarRanganAlgorithm();
     try {
       FormattingAdapter adapter = new FormattingAdapter(formatter);
-      algo.diff(this.sequence1.getSequence().tokens(), this.sequence2.getSequence().tokens(), adapter);
+      algo.diff(this.sequence2.getSequence().tokens(), this.sequence1.getSequence().tokens(), adapter);
     } catch (UncheckedIOException ex) {
       // Unwrap
       throw ex.getCause();

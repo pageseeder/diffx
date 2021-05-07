@@ -32,17 +32,17 @@ import java.util.List;
  */
 public final class TestActions {
 
-  public static List<Action> diffToActions(DiffAlgorithm algorithm, List<? extends Token> seq1, List<? extends Token> seq2) {
-    ActionsBuffer handler = new ActionsBuffer();
-    algorithm.diff(seq1, seq2, handler);
+  public static <T> List<Action<T>> diffToActions(DiffAlgorithm<T> algorithm, List<? extends T> seqA, List<? extends T> seqB) {
+    ActionsBuffer<T> handler = new ActionsBuffer<>();
+    algorithm.diff(seqA, seqB, handler);
     return handler.getActions();
   }
 
-  public static String toXML(List<Action> actions) {
+  public static String toXML(List<Action<Token>> actions) {
     return toXML(actions, NamespaceSet.noNamespace());
   }
 
-  public static String toXML(List<Action> actions, NamespaceSet namespaces) {
+  public static String toXML(List<Action<Token>> actions, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new DefaultXMLDiffOutput(xml);
     output.setNamespaces(namespaces);

@@ -24,6 +24,7 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
+import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class QualityXMLDiffTest extends ProcessorTest {
+public abstract class QualityXMLDiffTest extends ProcessorTest<Token> {
 
   @Test
   public final void testQuality_Table1() throws DiffException {
@@ -65,7 +66,7 @@ public abstract class QualityXMLDiffTest extends ProcessorTest {
     Sequence seq2 = TestTokens.loadSequence(xml2, config);
 
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getProcessor(), seq1.tokens(), seq2.tokens());
+    List<Action<Token>> actions = TestActions.diffToActions(getProcessor(), seq1.tokens(), seq2.tokens());
     try {
       DiffAssertions.assertIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions);

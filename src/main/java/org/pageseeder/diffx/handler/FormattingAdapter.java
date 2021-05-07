@@ -28,7 +28,7 @@ import java.io.UncheckedIOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class FormattingAdapter implements DiffHandler {
+public class FormattingAdapter implements DiffHandler<Token> {
 
   /**
    * The target formatter protected to allow any subclasses to access it.

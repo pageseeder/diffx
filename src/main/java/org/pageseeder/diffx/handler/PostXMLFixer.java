@@ -36,11 +36,11 @@ import java.util.Queue;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class PostXMLFixer extends DiffFilter {
+public final class PostXMLFixer extends DiffFilter<Token> {
 
   private static final Token NIL = new NilToken();
 
-  public PostXMLFixer(DiffHandler handler) {
+  public PostXMLFixer(DiffHandler<Token> handler) {
     super(handler);
   }
 

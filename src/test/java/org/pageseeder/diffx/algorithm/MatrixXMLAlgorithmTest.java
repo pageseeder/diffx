@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
+import org.pageseeder.diffx.token.Token;
 
 /**
  * Test case for the default XML algorithm.
@@ -32,7 +33,7 @@ public final class MatrixXMLAlgorithmTest {
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -40,7 +41,7 @@ public final class MatrixXMLAlgorithmTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -48,7 +49,7 @@ public final class MatrixXMLAlgorithmTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -56,7 +57,7 @@ public final class MatrixXMLAlgorithmTest {
   @Nested
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<Token> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

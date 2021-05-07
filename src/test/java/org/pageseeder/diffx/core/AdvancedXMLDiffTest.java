@@ -24,9 +24,12 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.List;
+
+import static org.pageseeder.diffx.config.TextGranularity.WORD;
 
 /**
  * Test case for Diff-X algorithm implementations.
@@ -38,7 +41,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
+public abstract class AdvancedXMLDiffTest extends AlgorithmTest<Token> {
 
   /**
    * Compares two identical XML documents.
@@ -49,11 +52,11 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    * <pre>&lt;a&gt;X Y&lt;/a&gt;</pre>
    */
   @Test
-  public final void testAdvanced_IdenticalC() throws LoadingException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X Y</a>";
+  public final void testAdvanced_Identical() throws LoadingException {
+    String xmlA = "<a>X Y</a>";
+    String xmlB = "<a>X Y</a>";
     String exp = "<a>X Y</a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
   }
 
   /**
@@ -61,18 +64,14 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_SelfWrapA() throws LoadingException {
-    String xml1 = "<a><a/></a>";
-    String xml2 = "<a></a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a></a>";
+    String xmlB = "<a><a/></a>";
+    String[] exp = new String[]{
         "<a>+<a>+</a></a>",
         "+<a><a></a>+</a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-<a>-</a></a>",
-        "-<a><a></a>-</a>"
-    };
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   /**
@@ -80,18 +79,14 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_SelfWrapB() throws LoadingException {
-    String xml1 = "<a><a>x</a></a>";
-    String xml2 = "<a>x</a>";
-    String[] exp1 = new String[]{
+    String xmlA = "<a>x</a>";
+    String xmlB = "<a><a>x</a></a>";
+    String[] exp = new String[]{
         "<a>+<a>x+</a></a>",
         "+<a><a>x</a>+</a>"
     };
-    String[] exp2 = new String[]{
-        "<a>-<a>x-</a></a>",
-        "-<a><a>x</a>-</a>"
-    };
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   /**
@@ -99,12 +94,11 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_SplitMergeA() throws LoadingException {
-    String xml1 = "<a><b>X</b> <b>Y</b></a>";
-    String xml2 = "<a><b>X Y</b></a>";
-    String exp1 = "<a><b>X- -Y</b>+ +<b>+Y+</b></a>";
-    String exp2 = "<a><b>X+ +Y</b>- -<b>-Y-</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b>X Y</b></a>";
+    String xmlB = "<a><b>X</b> <b>Y</b></a>";
+    String exp = "<a><b>X- -Y</b>+ +<b>+Y+</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   /**
@@ -112,20 +106,15 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_SplitMergeA1() throws LoadingException {
-    String xml1 = "<a><b>X</b> <b>Y</b></a>";
-    String xml2 = "<a><b>X Y</b></a>";
+    String xmlA = "<a><b>X Y</b></a>";
+    String xmlB = "<a><b>X</b> <b>Y</b></a>";
     // split
-    String[] exp1 = new String[]{
-        "<a><b>X+</b> +<b>Y</b></a>",               // tags inserted
+    String[] exp = new String[]{
+        "<a><b>X+</b> +<b>Y</b></a>",       // tags inserted (!!!)
         "<a><b>X- -Y</b>+ +<b>+Y+</b></a>"  // text has moved
     };
-    // merge
-    String[] exp2 = new String[]{
-        "<a><b>X-</b> -<b>Y</b></a>",               // tags removed
-        "<a><b>X+ +Y</b>- -<b>-Y-</b></a>"  // text has moved
-    };
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   /**
@@ -133,12 +122,11 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_MovedBranch() throws LoadingException {
-    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
-    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
+    String xmlB = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
+    String exp = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   /**
@@ -146,98 +134,90 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest {
    */
   @Test
   public final void testAdvanced_SplitMergeB() throws LoadingException {
-    String xml1 = "<a><b><c/></b><b><d/></b></a>";
-    String xml2 = "<a><b><c/><d/></b></a>";
-    String exp1 = "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>";
-    String exp2 = "<a><b><c></c>+<d>+</d></b>-<b>-<d>-</d>-</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b><c/><d/></b></a>";
+    String xmlB = "<a><b><c/></b><b><d/></b></a>";
+    String exp = "<a><b><c></c>-<d>-</d></b>+<b>+<d>+</d>+</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public final void testAdvanced_BestPath() throws LoadingException {
-    String xml1 = "<a><b>X</b></a>";
-    String xml2 = "<a><b/><b>X</b></a>";
-    String exp1 = "<a>-<b>-</b><b>X</b></a>";
-    String exp2 = "<a>+<b>+</b><b>X</b></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b/><b>X</b></a>";
+    String xmlB = "<a><b>X</b></a>";
+    String exp = "<a>-<b>-</b><b>X</b></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public final void testAdvanced_MoveB() throws LoadingException {
-    String xml1 = "<a><b>x y</b><c/></a>";
-    String xml2 = "<a><b/><c>x y</c></a>";
-    String exp1 = "<a><b>+x+ +y</b><c>-x- -y</c></a>";
-    String exp2 = "<a><b>-x- -y</b><c>+x+ +y</c></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b/><c>x y</c></a>";
+    String xmlB = "<a><b>x y</b><c/></a>";
+    String exp = "<a><b>+x+ +y</b><c>-x- -y</c></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public final void testAdvanced_ModifiedTextC() throws LoadingException {
-    String xml1 = "<a>X Y</a>";
-    String xml2 = "<a>X</a>";
-    String exp1 = "<a>X+ +Y</a>";
-    String exp2 = "<a>X- -Y</a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a>X</a>";
+    String xmlB = "<a>X Y</a>";
+    String exp = "<a>X+ +Y</a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public final void testAdvanced_TextElementC() throws LoadingException {
-    String xml1 = "<a><b>W X</b><c>Y Z</c></a>";
-    String xml2 = "<a><b>W X</b></a>";
-    String exp1 = "<a><b>W X</b>+<c>+Y+ +Z+</c></a>";
-    String exp2 = "<a><b>W X</b>-<c>-Y- -Z-</c></a>";
-    assertDiffXMLWordsOK(xml1, xml2, exp1);
-    assertDiffXMLWordsOK(xml2, xml1, exp2);
+    String xmlA = "<a><b>W X</b></a>";
+    String xmlB = "<a><b>W X</b><c>Y Z</c></a>";
+    String exp = "<a><b>W X</b>+<c>+Y+ +Z+</c></a>";
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public final void testAdvanced_List() throws LoadingException {
-    String xml1 = "<ul><li>blue</li><li>red</li><li>green</li></ul>";
-    String xml2 = "<ul><li>black</li><li>red</li><li>green</li></ul>";
+    String xmlB = "<ul><li>blue</li><li>red</li><li>green</li></ul>";
+    String xmlA = "<ul><li>black</li><li>red</li><li>green</li></ul>";
     String[] exp = new String[]{
         "<ul><li>+(blue)-(black)</li><li>red</li><li>green</li></ul>",
         "<ul><li>-(black)+(blue)</li><li>red</li><li>green</li></ul>"
     };
-    assertDiffXMLWordsOK(xml1, xml2, exp);
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
+    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }
 
   @Test
   public void testAdvanced_ChangeDefaultNamespace() throws LoadingException {
-    String xml1 = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
-    String xml2 = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
-    assertDiffXMLWordsOK(xml1, xml2);
+    String xmlB = "<body><svg xmlns='http://www.w3.org/2000/svg' version='1.1'><rect width='100%' height='100%' fill='red' /></svg></body>";
+    String xmlA = "<body><svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='100%' height='100%' fill='blue' /></svg></body>";
+    assertDiffXMLOK(xmlA, xmlB, WORD);
   }
 
   // helpers
   // --------------------------------------------------------------------------
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2) throws LoadingException {
-    assertDiffXMLWordsOK(xml1, xml2, new String[0]);
+  private void assertDiffXMLOK(String xmlA, String xmlB, TextGranularity granularity) throws LoadingException {
+    assertDiffXMLOK(xmlA, xmlB, granularity, new String[0]);
   }
 
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String exp) throws LoadingException {
-    assertDiffXMLWordsOK(xml1, xml2, new String[]{exp});
-  }
-
-  private void assertDiffXMLWordsOK(String xml1, String xml2, String[] exp) throws LoadingException {
+  private void assertDiffXMLOK(String xmlA, String xmlB, TextGranularity granularity, String... exp) throws LoadingException {
     // Record XML
-    Sequence seq1 = TestTokens.loadSequence(xml1, TextGranularity.WORD);
-    Sequence seq2 = TestTokens.loadSequence(xml2, TextGranularity.WORD);
-    NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+    Sequence seqA = TestTokens.loadSequence(xmlA, granularity);
+    Sequence seqB = TestTokens.loadSequence(xmlB, granularity);
+    NamespaceSet namespaces = NamespaceSet.merge(seqB.getNamespaces(), seqA.getNamespaces());
     // Process as list of actions
-    List<Action> actions = TestActions.diffToActions(getDiffAlgorithm(), seq1.tokens(), seq2.tokens());
+    List<Action<Token>> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());
     try {
-      DiffAssertions.assertIsCorrect(seq1, seq2, actions);
+      DiffAssertions.assertIsCorrect(seqA, seqB, actions);
       DiffAssertions.assertIsWellFormedXML(actions, namespaces);
       if (exp.length > 0) {
         DiffAssertions.assertMatchTestOutput(actions, exp, namespaces);
       }
     } catch (AssertionError ex) {
-      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, namespaces), actions);
+      printXMLErrorDetails(xmlA, xmlB, exp, DiffAssertions.toTestOutput(actions, namespaces), actions);
       throw ex;
     }
   }

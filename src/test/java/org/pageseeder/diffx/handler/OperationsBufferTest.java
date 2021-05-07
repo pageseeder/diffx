@@ -30,8 +30,8 @@ public class OperationsBufferTest {
 
   @Test
   public void testEmpty() {
-    OperationsBuffer handler = new OperationsBuffer();
-    List<Operation> Operations = handler.getOperations();
+    OperationsBuffer<Object> handler = new OperationsBuffer<>();
+    List<Operation<Object>> Operations = handler.getOperations();
     assertTrue(Operations.isEmpty());
   }
 
@@ -39,11 +39,11 @@ public class OperationsBufferTest {
   public void testSingle() {
     Token token = new CharToken('x');
     for (Operator operator : Operator.values()) {
-      OperationsBuffer handler = new OperationsBuffer();
+      OperationsBuffer<Token> handler = new OperationsBuffer<>();
       handler.handle(operator, token);
-      List<Operation> operations = handler.getOperations();
+      List<Operation<Token>> operations = handler.getOperations();
       assertEquals(1, operations.size());
-      Operation operation = operations.get(0);
+      Operation<Token> operation = operations.get(0);
       assertEquals(operator, operation.operator());
       assertEquals(token, operation.token());
     }
@@ -55,15 +55,15 @@ public class OperationsBufferTest {
     Token token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       for (Operator operator2 : Operator.values()) {
-        OperationsBuffer handler = new OperationsBuffer();
+        OperationsBuffer<Token> handler = new OperationsBuffer<>();
         handler.handle(operator1, token1);
         handler.handle(operator2, token2);
-        List<Operation> operations = handler.getOperations();
+        List<Operation<Token>> operations = handler.getOperations();
         assertEquals(2, operations.size());
-        Operation Operation1 = operations.get(0);
-        Operation Operation2 = operations.get(1);
-        assertEquals(new Operation(operator1, token1), Operation1);
-        assertEquals(new Operation(operator2, token2), Operation2);
+        Operation<Token> Operation1 = operations.get(0);
+        Operation<Token> Operation2 = operations.get(1);
+        assertEquals(new Operation<>(operator1, token1), Operation1);
+        assertEquals(new Operation<>(operator2, token2), Operation2);
       }
     }
   }

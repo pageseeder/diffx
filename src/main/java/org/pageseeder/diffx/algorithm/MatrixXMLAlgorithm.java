@@ -27,12 +27,12 @@ import java.util.List;
 /**
  * An XML-aware algorithm based on the Wagner-Fisher algorithm.
  *
- * <p>This algorithm uses a matrix and a stack of elements to compute the edit path.</p>
+ * <p>This algorithm uses a matrix to compute the edit path and a stack to eliminate invalid paths.</p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class MatrixXMLAlgorithm implements DiffAlgorithm {
+public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
 
   /**
    * The default maximum number of comparisons allowed for this algorithm.
@@ -75,79 +75,77 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
   /**
    * Indicates whether the diff between the two sequences can be computed.
    *
-   * <p>This method first checks that size of (A) x size of B is below the threshold.
+   * <p>This method from checks that size of (A) x size of B is below the threshold.
    *
    * <p>If it is above the threshold, it checks again after slicing.
    */
-  public boolean isDiffComputable(List<? extends Token> first, List<? extends Token> second) {
-    // Check without slicer first
-    if (first.size() * second.size() <= this.threshold) return true;
+  public boolean isDiffComputable(List<? extends Token> from, List<? extends Token> to) {
+    // Check without slicer from
+    if (from.size() * to.size() <= this.threshold) return true;
     // Check if possible after slicing
-    TokenListSlicer slicer = new TokenListSlicer(first, second);
+    TokenListSlicer slicer = new TokenListSlicer(from, to);
     int commonCount = this.slice ? slicer.analyze() : 0;
-    int matrixSize = (first.size() - commonCount) * (second.size() - commonCount);
+    int matrixSize = (from.size() - commonCount) * (to.size() - commonCount);
     return matrixSize > this.threshold;
   }
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-
-    final int lengthA = first.size();
-    final int lengthB = second.size();
+  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
+    final int lengthA = from.size();
+    final int lengthB = to.size();
 
     // handle the case when one of the two sequences is empty
     if (lengthA == 0 || lengthB == 0) {
-      // the first sequence is empty, tokens from the second sequence have been deleted
-      for (Token token : second) {
-        handler.handle(Operator.DEL, token);
-      }
-      // the second sequence is empty, tokens from the first sequence have been inserted
-      for (Token token : first) {
+      // A is empty, insert all tokens from B
+      for (Token token : to) {
         handler.handle(Operator.INS, token);
+      }
+      // B is empty, delete all tokens from A
+      for (Token token : from) {
+        handler.handle(Operator.DEL, token);
       }
       return;
     }
 
     // Initialize state
     ElementState estate = new ElementState();
-    MuxHandler actual = new MuxHandler(handler, estate);
-    diff(first, second, actual, estate);
-
+    MuxHandler<Token> actual = new MuxHandler<>(handler, estate);
+    diff(from, to, actual, estate);
   }
 
-  private void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
-    TokenListSlicer slicer = new TokenListSlicer(first, second);
+  private void diff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
+    TokenListSlicer slicer = new TokenListSlicer(A, B);
     int common = this.slice ? slicer.analyze() : 0;
 
     // Check the end
     if (common > 0) {
       slicer.handleStart(handler);
-      List<? extends Token> firstSub = slicer.getSubSequence1();
-      List<? extends Token> secondSub = slicer.getSubSequence2();
-      if (firstSub.isEmpty() || secondSub.isEmpty()) {
-        for (Token token : secondSub) handler.handle(Operator.DEL, token);
-        for (Token token : firstSub) handler.handle(Operator.INS, token);
+      List<? extends Token> subA = slicer.getSubSequence1();
+      List<? extends Token> subB = slicer.getSubSequence2();
+      if (subA.isEmpty() || subB.isEmpty()) {
+        for (Token token : subB) handler.handle(Operator.INS, token);
+        for (Token token : subA) handler.handle(Operator.DEL, token);
       } else {
-        processDiff(firstSub, secondSub, handler, estate);
+        processDiff(subA, subB, handler, estate);
       }
       slicer.handleEnd(handler);
     } else {
-      processDiff(first, second, handler, estate);
+      processDiff(A, B, handler, estate);
     }
   }
 
-  private void processDiff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler, ElementState estate) {
-    final int lengthA = first.size();
-    final int lengthB = second.size();
+  private void processDiff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
+    final int lengthA = A.size();
+    final int lengthB = B.size();
 
     // Throws error if we can't process
     if (lengthA * lengthB > this.threshold)
       throw new DataLengthException(lengthA * lengthB, this.threshold);
 
     // calculate the LCS length to fill the matrix
-    MatrixProcessor builder = new MatrixProcessor();
+    MatrixProcessor<Token> builder = new MatrixProcessor<>();
     builder.setInverse(true);
-    Matrix matrix = builder.process(first, second);
+    Matrix matrix = builder.process(A, B);
 
     int i = 0;
     int j = 0;
@@ -155,16 +153,16 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     Token tokenB;
     // start walking the matrix
     while (i < lengthA && j < lengthB) {
-      tokenA = first.get(i);
-      tokenB = second.get(j);
-      // we can only insert or delete, priority to insert
+      tokenA = A.get(i);
+      tokenB = B.get(j);
+      // we can only insert or delete, priority to delete
       if (matrix.isGreaterX(i, j)) {
-        // follow the natural path and insert
-        if (estate.isAllowed(Operator.INS, tokenA) && !estate.hasPriorityOver(tokenB, tokenA)) {
+        // follow the natural path
+        if (estate.isAllowed(Operator.DEL, tokenA) && !estate.hasPriorityOver(tokenB, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] >i +" + tokenA);
           }
-          handler.handle(Operator.INS, tokenA);
+          handler.handle(Operator.DEL, tokenA);
           i++;
 
           // if we can format checking at the stack, let's do it
@@ -177,29 +175,29 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           j++;
 
           // go counter current and delete
-        } else if (estate.isAllowed(Operator.DEL, tokenB)) {
+        } else if (estate.isAllowed(Operator.INS, tokenB)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] >d -" + tokenB);
           }
-          handler.handle(Operator.DEL, tokenB);
+          handler.handle(Operator.INS, tokenB);
           j++;
 
         } else {
           if (DEBUG) {
             System.err.print("\n(i) case greater X");
-            printLost(i, j, matrix, estate, first, second);
+            printLost(i, j, matrix, estate, A, B);
           }
           break;
         }
 
-        // we can only insert or delete, priority to delete
+        // we can only insert or delete, priority to insert
       } else if (matrix.isGreaterY(i, j)) {
         // follow the natural and delete
-        if (estate.isAllowed(Operator.DEL, tokenB) && !estate.hasPriorityOver(tokenA, tokenB)) {
+        if (estate.isAllowed(Operator.INS, tokenB) && !estate.hasPriorityOver(tokenA, tokenB)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] <d -" + tokenB);
           }
-          handler.handle(Operator.DEL, tokenB);
+          handler.handle(Operator.INS, tokenB);
           j++;
 
           // if we can format checking at the stack, let's do it
@@ -212,22 +210,22 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           j++;
 
           // insert (counter-current)
-        } else if (estate.isAllowed(Operator.INS, tokenA)) {
+        } else if (estate.isAllowed(Operator.DEL, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] <i +" + tokenA);
           }
-          handler.handle(Operator.INS, tokenA);
+          handler.handle(Operator.DEL, tokenA);
           i++;
 
         } else {
           if (DEBUG) {
             System.err.println("\n(i) case greater Y");
-            printLost(i, j, matrix, estate, first, second);
+            printLost(i, j, matrix, estate, A, B);
           }
           break;
         }
 
-        // elements from i inserted and j deleted
+        // elements from i deleted and j inserted
         // we have to make a choice for where we are going
       } else if (matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
@@ -240,34 +238,34 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
           j++;
 
           // we can insert the closing tag
-        } else if (estate.isAllowed(Operator.INS, tokenA)
+        } else if (estate.isAllowed(Operator.DEL, tokenA)
             && !(tokenB instanceof AttributeToken && !(tokenA instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] =i +" + tokenA);
           }
-          handler.handle(Operator.INS, tokenA);
+          handler.handle(Operator.DEL, tokenA);
           i++;
 
           // we can delete the closing tag
-        } else if (estate.isAllowed(Operator.DEL, tokenB)
+        } else if (estate.isAllowed(Operator.INS, tokenB)
             && !(tokenA instanceof AttributeToken && !(tokenB instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] =d -" + tokenB);
           }
-          handler.handle(Operator.DEL, tokenB);
+          handler.handle(Operator.INS, tokenB);
           j++;
 
         } else {
           if (DEBUG) {
             System.err.println("\n(i) case same");
-            printLost(i, j, matrix, estate, first, second);
+            printLost(i, j, matrix, estate, A, B);
           }
           break;
         }
       } else {
         if (DEBUG) {
           System.err.println("\n(i) case ???");
-          printLost(i, j, matrix, estate, first, second);
+          printLost(i, j, matrix, estate, A, B);
         }
         break;
       }
@@ -276,20 +274,20 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
       }
     }
 
-    // finish off the tokens from the first sequence
+    // finish off: delete remaining tokens from A
     while (i < lengthA) {
       if (DEBUG) {
-        System.err.println("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] _i -" + first.get(i));
+        System.err.println("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] _i -" + A.get(i));
       }
-      handler.handle(Operator.INS, first.get(i));
+      handler.handle(Operator.DEL, A.get(i));
       i++;
     }
-    // finish off the tokens from the second sequence
+    // finish off: insert remaining tokens from B
     while (j < lengthB) {
       if (DEBUG) {
-        System.err.println("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] _d -" + second.get(j));
+        System.err.println("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] _d -" + B.get(j));
       }
-      handler.handle(Operator.DEL, second.get(j));
+      handler.handle(Operator.INS, B.get(j));
       j++;
     }
   }
@@ -316,8 +314,8 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm {
     System.err.println(" sameXY=" + matrix.isSameXY(i, j));
     System.err.println(" okFormat1=" + estate.isAllowed(Operator.MATCH, tokenA));
     System.err.println(" okFormat2=" + estate.isAllowed(Operator.MATCH, tokenB));
-    System.err.println(" okInsert=" + estate.isAllowed(Operator.INS, tokenA));
-    System.err.println(" okDelete=" + estate.isAllowed(Operator.DEL, tokenB));
+    System.err.println(" okDelete=" + estate.isAllowed(Operator.DEL, tokenA));
+    System.err.println(" okInsert=" + estate.isAllowed(Operator.INS, tokenB));
   }
 
   @Override

@@ -22,7 +22,6 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 
@@ -34,32 +33,30 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface DiffProcessor extends DiffAlgorithm {
+public interface DiffProcessor<T> extends DiffAlgorithm<T> {
 
   /**
    * Performs the comparison and uses the specified handler.
    *
-   * @param first   The first list of tokens to compare (inserted)
-   * @param second  The first list of tokens to compare (deleted)
+   * @param from  The original list of tokens to compare (deleted)
+   * @param to    The target list of tokens to compare (inserted)
+   * @param handler The handler for the results of the comparison
+   *
+   * @throws DiffException Wrap any error occurring during processing.
+   */
+  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<Token> handler) throws DiffException;
+
+  /**
+   * Performs the comparison and uses the specified handler.
+   *
+   * @param from  The first list of tokens to compare (deleted)
+   * @param to    The second list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
    * @throws UncheckedIOException     If thrown by the handler while writing output.
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(Sequence first, Sequence second, DiffConfig config, DiffHandler handler) throws DiffException;
-
-  /**
-   * Performs the comparison and uses the specified handler.
-   *
-   * @param first   The first list of tokens to compare (inserted)
-   * @param second  The first list of tokens to compare (deleted)
-   * @param handler The handler for the results of the comparison
-   *
-   * @throws UncheckedIOException     If thrown by the handler while writing output.
-   * @throws IllegalStateException    If thrown by the algorithm or handler.
-   * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
-   */
-  void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler);
+  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
 
 }

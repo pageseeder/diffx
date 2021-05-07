@@ -20,7 +20,7 @@ import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 
-abstract class ProcessorTest {
+abstract class ProcessorTest<T> {
 
   protected static final DiffConfig COMPARE_SPACE_WORDS = new DiffConfig(WhiteSpaceProcessing.COMPARE, TextGranularity.SPACE_WORD);
 
@@ -33,6 +33,6 @@ abstract class ProcessorTest {
   /**
    * @return The processor instance to use for texting.
    */
-  public abstract DiffProcessor getProcessor();
+  public abstract DiffProcessor<T> getProcessor();
 
 }

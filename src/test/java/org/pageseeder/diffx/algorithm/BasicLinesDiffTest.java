@@ -31,75 +31,75 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BasicLinesDiffTest extends AlgorithmTest {
+public abstract class BasicLinesDiffTest extends AlgorithmTest<Token> {
 
   @Test
   public final void testLines_NoChange() {
-    String text1 = "line #1\n"
+    String textA = "line #1\n"
         + "line #2\n"
         + "line #3\n";
-    String text2 = "line #1\n"
+    String textB = "line #1\n"
         + "line #2\n"
         + "line #3\n";
     String exp = "L1L2L3";
-    String diff = processDiffLines(text1, text2);
+    String diff = processDiffLines(textA, textB);
     assertEquals(exp, diff);
   }
 
   @Test
   public final void testLines_Swap() {
-    String text1 = "line #1\n"
-        + "line #2\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
+    String textA = "line #1\n"
         + "line #X\n"
+        + "line #3\n";
+    String textB = "line #1\n"
+        + "line #2\n"
         + "line #3\n";
     String[] exp = new String[]{
         "L1+L2-L2L3",
         "L1-L2+L2L3"
     };
-    assertDiffLinesOK(text1, text2, exp);
+    assertDiffLinesOK(textA, textB, exp);
   }
 
   @Test
   public final void testLines_Insert() {
-    String text1 = "line #1\n"
-        + "line #2\n"
+    String textA = "line #1\n"
         + "line #3\n";
-    String text2 = "line #1\n"
+    String textB = "line #1\n"
+        + "line #2\n"
         + "line #3\n";
     String[] exp = new String[]{
         "L1+L2L2",
         "L1+L2L3"
     };
-    assertDiffLinesOK(text1, text2, exp);
+    assertDiffLinesOK(textA, textB, exp);
   }
 
   @Test
   public final void testLines_Remove() {
-    String text1 = "line #1\n"
-        + "line #3\n";
-    String text2 = "line #1\n"
+    String textA = "line #1\n"
         + "line #2\n"
+        + "line #3\n";
+    String textB = "line #1\n"
         + "line #3\n";
     String[] exp = new String[]{
         "L1-L2L2",
         "L1-L2L3"
     };
-    assertDiffLinesOK(text1, text2, exp);
+    assertDiffLinesOK(textA, textB, exp);
   }
 
-  private void assertDiffLinesOK(String text1, String text2, String[] exp) {
-    String actual = processDiffLines(text1, text2);
+  private void assertDiffLinesOK(String textA, String textB, String[] exp) {
+    String actual = processDiffLines(textA, textB);
     DiffAssertions.assertEqualsAny(exp, actual);
   }
 
-  private String processDiffLines(String text1, String text2) {
-    List<? extends Token> seq1 = TestTokens.loadLineEvents(text1);
-    List<? extends Token> seq2 = TestTokens.loadLineEvents(text2);
-    DiffAlgorithm processor = getDiffAlgorithm();
+  private String processDiffLines(String textA, String textB) {
+    List<? extends Token> seqA = TestTokens.loadLineEvents(textA);
+    List<? extends Token> seqB = TestTokens.loadLineEvents(textB);
+    DiffAlgorithm<Token> processor = getDiffAlgorithm();
     TestHandler handler = new TestHandler();
-    processor.diff(seq1, seq2, handler);
+    processor.diff(seqA, seqB, handler);
     return handler.getOutput();
   }
 

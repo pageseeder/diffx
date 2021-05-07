@@ -17,7 +17,6 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -28,7 +27,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class MatrixProcessor {
+public final class MatrixProcessor<T> {
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -72,7 +71,7 @@ public final class MatrixProcessor {
    *
    * @return the matrix using dynamic programming
    */
-  public Matrix process(List<? extends Token> first, List<? extends Token> second) {
+  public Matrix process(List<? extends T> first, List<? extends T> second) {
     Matrix matrix = this.inverse ? computeInverse(first, second) : compute(first, second);
     if (DEBUG) {
       printDebug(first, second, matrix, System.err);
@@ -80,8 +79,7 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-
-  private static Matrix compute(List<? extends Token> first, List<? extends Token> second) {
+  private static <T> Matrix compute(List<? extends T> first, List<? extends T> second) {
     Matrix matrix = getMatrix(first, second, false);
     int length1 = first.size();
     int length2 = second.size();
@@ -106,7 +104,7 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static Matrix computeInverse(List<? extends Token> first, List<? extends Token> second) {
+  private static <T>  Matrix computeInverse(List<? extends T> first, List<? extends T> second) {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
@@ -131,14 +129,14 @@ public final class MatrixProcessor {
     return matrix;
   }
 
-  private static void printDebug(List<? extends Token> first, List<? extends Token> second, Matrix matrix, PrintStream out) {
+  private static<T> void printDebug(List<? extends T> first, List<? extends T> second, Matrix matrix, PrintStream out) {
     out.print("A:");
-    for (Token token : first) {
+    for (T token : first) {
       out.print(token + "\t");
     }
     out.println();
     out.print("B:");
-    for (Token token : second) {
+    for (T token : second) {
       out.print(token + "\t");
     }
     out.println();
@@ -153,7 +151,7 @@ public final class MatrixProcessor {
    *
    * @return The most appropriate matrix.
    */
-  private static Matrix getMatrix(List<? extends Token> first, List<? extends Token> second, boolean inverse) {
+  private static <T> Matrix getMatrix(List<? extends T> first, List<? extends T> second, boolean inverse) {
     if (first.size() + 1 > Short.MAX_VALUE || second.size() + 1 > Short.MAX_VALUE)
       return inverse ? new InvMatrixInt() : new MatrixInt();
     else
