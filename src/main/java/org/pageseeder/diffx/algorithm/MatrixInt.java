@@ -25,7 +25,7 @@ public final class MatrixInt extends MatrixIntBase {
 
   @Override
   public void incrementPath(int i, int j) {
-    this.matrix[i][j] = this.matrix[i - 1][j - 1];
+    this.matrix[i][j] = this.matrix[i - 1][j - 1] + 1;
   }
 
   @Override
