@@ -38,6 +38,14 @@ public final class KumarRanganAlgorithmTest {
   }
 
   @Nested
+  public class RandomGeneralDiff extends RandomGeneralDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
+
+  @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {

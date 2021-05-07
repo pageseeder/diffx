@@ -22,7 +22,6 @@ import org.pageseeder.diffx.handler.ActionsBuffer;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.GeneralToken;
-import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestHandler;
 
 import java.util.List;
@@ -357,7 +356,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
         "+a+xbx-a-x",
         "+a+xb-x-ax",
         "-b-xax+b+x",
-        "-b+ax-a+bx"
+        "-b+ax-a+bx",
+        "-b-xa+x+bx"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -463,7 +463,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "-t-oo+n+e little",
         "-to+n+e-o little",
-        "-to+n-o+e little"
+        "-to+n-o+e little",
+        "-to-o+n+e little"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -475,7 +476,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
         "b-i+ala+c-b-i+la+v-l+a",
-        "b+a-ila+c+l-b-ia+v+a-l"
+        "b+a-ila+c+l-b-ia+v+a-l",
+        "b-i+ala-b-i-a+cl+a+v+a"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -535,6 +537,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
         "+T+h-A+e -t-r+ca-i-n+r",
         "+T+h+e-A +c+a-tr-a-i-n",
         "+T+h+e-A +c-t-ra+r-i-n",
+        "-A+T+h+e -t-r+ca-i-n+r"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -546,7 +549,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "+T+h+e-A +r-b-l-ue+d +c+a-tr-a-i-n",
         "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r",
-        "+T+h-A- -b-l-ue -tr+e+d+ +ca+r-i-n"
+        "+T+h-A- -b-l-ue -tr+e+d+ +ca+r-i-n",
+        "-A- -b-l-u+T+he -tr+e+d+ +ca-i-n+r"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -558,7 +562,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t+l+e-g +c+a-tr-a-i-n",
         "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r",
-        "+T+h+e-A +l-bi-g- t+t+l+e+ +c-ra+r-i-n"
+        "+T+h+e-A +l-bi-g- t+t+l+e+ +c-ra+r-i-n",
+        "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i-n+r"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -570,7 +575,8 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     String[] exp = new String[]{
         "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca+r-i-n",
         "+T+h+e-A +l-bi+t+t-g- -bl-ue -tr+e+d+ +ca-i-n+r",
-        "+T+h-A+e -b+li+t-g- -b+tl-ue -tr+e+d+ +ca-i-n+r"
+        "+T+h-A+e -b+li+t-g- -b+tl-ue -tr+e+d+ +ca-i-n+r",
+        "-A+T+h+e -b+li-g- -b+t+tl-ue -tr+e+d+ +ca-i-n+r"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -610,45 +616,6 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
     assertGeneralDiffOK(a, b);
   }
 
-
-  // Random variations -------------------------------------------------------
-
-  @Test
-  public final void testGeneral_RandomVariations1() {
-    RandomStringFactory factory = new RandomStringFactory();
-    for (int n = 3; n < 20; n++) {
-      for (int i = 0; i < 100; i++) {
-        String a = factory.getRandomString(10, false);
-        String b = factory.vary(a, .1);
-        assertGeneralDiffOK(a, b);
-      }
-    }
-  }
-
-  @Test
-  public final void testGeneral_RandomVariations2() {
-    RandomStringFactory factory = new RandomStringFactory();
-    for (int n = 3; n < 20; n++) {
-      for (int i = 0; i < 100; i++) {
-        String a = factory.getRandomString(100, false);
-        String b = factory.vary(a, .1);
-        assertGeneralDiffOK(a, b);
-      }
-    }
-  }
-
-  @Test
-  public final void testGeneral_RandomVariations3() {
-    RandomStringFactory factory = new RandomStringFactory();
-    for (int n = 3; n < 20; n++) {
-      for (int i = 0; i < 100; i++) {
-        String a = factory.getRandomString(100, false);
-        String b = factory.vary(a, .2);
-        assertGeneralDiffOK(a, b);
-      }
-    }
-  }
-
   // helpers
   // --------------------------------------------------------------------------
 
@@ -657,9 +624,13 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   }
 
   public final void assertGeneralDiffOK(String text1, String text2, String[] exp) {
+    DiffAlgorithm algorithm = getDiffAlgorithm();
+    assertGeneralDiffOK(text1, text2, algorithm, exp);
+  }
+
+  public static void assertGeneralDiffOK(String text1, String text2, DiffAlgorithm algorithm, String[] exp) {
     List<GeneralToken> seq1 = GeneralToken.toList(text1);
     List<GeneralToken> seq2 = GeneralToken.toList(text2);
-    DiffAlgorithm algorithm = getDiffAlgorithm();
     ActionsBuffer af = new ActionsBuffer();
     TestHandler cf = new TestHandler();
 
@@ -678,7 +649,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
         DiffAssertions.assertMatchTestOutput(actions, exp);
       }
     } catch (AssertionError ex) {
-      printCharErrorDetails(text1, text2, exp, got, actions);
+      printGeneralErrorDetails(text1, text2, exp, got, actions);
       throw ex;
     }
   }
@@ -686,7 +657,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest {
   /**
    * Print the error details.
    */
-  private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action> actions) {
+  private static void printGeneralErrorDetails(String text1, String text2, String[] exp, String got, List<Action> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + text1 + "\"");
     System.err.println("| Input B: \"" + text2 + "\"");

@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.algorithm.RandomGeneralDiffTest;
 
 /**
  * Test case for text only algorithm.
@@ -34,6 +35,14 @@ public final class TextOnlyProcessorTest {
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newProcessor();
+    }
+  }
+
+  @Nested
+  public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
       return newProcessor();

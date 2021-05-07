@@ -554,6 +554,30 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
     assertDiffXMLOKTextOnly(xml2, xml1, exp2);
   }
 
+  /**
+   * Tests some moved branch.
+   */
+  @Test
+  public final void testBasic_MovedBranch() throws LoadingException {
+    String xml1 = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
+    String xml2 = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
+    String exp1 = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    String exp2 = "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+  }
+
+  @Test
+  public final void testBasic_BestPath() throws LoadingException {
+    String xml1 = "<a><b>X</b></a>";
+    String xml2 = "<a><b/><b>X</b></a>";
+    String exp1 = "<a>-<b>-</b><b>X</b></a>";
+    String exp2 = "<a>+<b>+</b><b>X</b></a>";
+    assertDiffXMLOKTextOnly(xml1, xml2, exp1);
+    assertDiffXMLOKTextOnly(xml2, xml1, exp2);
+  }
+
+
 // split and merge problems -------------------------------------------------------------
 
   @Test
@@ -571,7 +595,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
   }
 
   @Test
-  public final void testAdvanced_Temp() throws LoadingException {
+  public final void testBasic_NSTemp() throws LoadingException {
     String xml1 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><b>X</b></a>";
     String xml2 = "<a xmlns:x='https://x.example.com' xmlns:y='https://y.example.com' xmlns='https://example.org'><x:b>X</x:b></a>";
     String[] exp1 = new String[]{
@@ -608,8 +632,7 @@ public abstract class BasicXMLDiffTest extends AlgorithmTest {
       DiffAssertions.assertMatchTestOutput(actions, exp, namespaces);
 
     } catch (AssertionError ex) {
-      System.out.println(DiffAssertions.toTestOutput(actions, namespaces));
-      printXMLErrorDetails(xml1, xml2, exp, TestActions.toXML(actions, namespaces), actions);
+      printXMLErrorDetails(xml1, xml2, exp, DiffAssertions.toTestOutput(actions, namespaces), actions);
       throw ex;
     }
   }
