@@ -16,22 +16,29 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.core.AdvancedXMLDiffTest;
 
 /**
- * Test case for Hirschberg algorithm (text-only).
+ * Test case for the default XML algorithm.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class HirschbergXMLAlgorithmTest {
+public final class MatrixXMLAlgorithm2Test {
 
-  private DiffAlgorithm newAlgorithm() {
-    return new HirschbergXMLAlgorithm();
+  private MatrixXMLAlgorithm2 newAlgorithm() {
+    return new MatrixXMLAlgorithm2();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
+
+  @Nested
+  public class LinesDiff extends BasicLinesDiffTest {
     @Override
     public DiffAlgorithm getDiffAlgorithm() {
       return newAlgorithm();
@@ -45,13 +52,5 @@ public final class HirschbergXMLAlgorithmTest {
       return newAlgorithm();
     }
   }
-
-//  @Nested
-//  public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
-//    @Override
-//    public DiffAlgorithm getDiffAlgorithm() {
-//      return newAlgorithm();
-//    }
-//  }
 
 }

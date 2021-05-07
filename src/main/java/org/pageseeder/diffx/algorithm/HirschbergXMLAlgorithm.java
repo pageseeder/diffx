@@ -20,6 +20,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.token.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,9 +46,8 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
 
   @Override
   public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
-    // It is more efficient to supply the sizes than retrieve from lists
-
     Instance instance = new Instance(first, second, handler);
+    // It is more efficient to supply the sizes than retrieve from lists
     instance.algorithmC(first.size(), second.size(), first, second, handler);
   }
 
@@ -67,12 +67,13 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
 
     public void process() {
       MuxHandler actual = new MuxHandler(this.handler, this.estate);
-      algorithmC(first.size(), second.size(), first, second, actual);
+      System.out.println("--------------------------------");
+      algorithmC(this.first.size(), this.second.size(), this.first, this.second, actual);
     }
 
     private static int score(Token from, Token to, boolean rev) {
-      if (!rev && to instanceof StartElementToken) return 2;
-      if (rev && to instanceof EndElementToken) return 2;
+//      if (!rev && to instanceof StartElementToken) return 2;
+//      if (rev && to instanceof EndElementToken) return 2;
 //    if (to instanceof AttributeToken) return 2;
       return 1;
     }
@@ -83,10 +84,12 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
      * @return the last line of the Needleman-Wunsch score matrix
      */
     private int[] algorithmB(int m, int n, List<? extends Token> a, List<? extends Token> b) {
+      System.out.print("__Fwd: ");
       int[][] k = new int[2][n + 1];
       for (int i = 1; i <= m; i++) {
         if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
         for (int j = 1; j <= n; j++) {
+          System.out.print(" "+a.get(i - 1)+"|"+b.get(j - 1)+" ");
           // TODO use state to check if allowed
           if (a.get(i - 1).equals(b.get(j - 1))) {
             k[1][j] = k[0][j - 1] + score(null, a.get(i-1), false);
@@ -95,6 +98,7 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
           }
         }
       }
+      System.out.println();
       return k[1];
     }
 
@@ -102,10 +106,12 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
      * Algorithm B as described by Hirschberg (in reverse)
      */
     private int[] algorithmBRev(int m, int n, List<? extends Token> a, List<? extends Token> b) {
+      System.out.print("__Rev ");
       int[][] k = new int[2][n + 1];
       for (int i = m - 1; i >= 0; i--) {
         if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
         for (int j = n - 1; j >= 0; j--) {
+          System.out.print(" "+a.get(i)+"|"+b.get(j)+" ");
           // TODO use state to check if allowed
           if (a.get(i).equals(b.get(j))) {
             k[1][n - j] = k[0][n - j - 1] + score(null, a.get(i), true);
@@ -114,6 +120,7 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
           }
         }
       }
+      System.out.println();
       return k[1];
     }
 
@@ -140,13 +147,13 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
       if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
       if (n == 0) {
-        if (DEBUG) System.out.println(" Step1 N=0");
+        if (DEBUG) System.out.println(" Step1 N=0 -> +"+a);
         for (Token token : a) {
           handler.handle(Operator.INS, token);
         }
 
       } else if (m == 0) {
-        if (DEBUG) System.out.println(" Step1 M=0");
+        if (DEBUG) System.out.println(" Step1 M=0 -> -"+b);
         for (Token token : b) {
           handler.handle(Operator.DEL, token);
         }
@@ -171,6 +178,8 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
 
         int[] l1 = algorithmB(h, n, a.subList(0, h), b);
         int[] l2 = algorithmBRev(m - h, n, a.subList(h, a.size()), b);
+        System.out.println("L1"+ Arrays.toString(l1));
+        System.out.println("L2"+Arrays.toString(l2));
         int k = findK(l1, l2, n);
 
         // Recursive call
