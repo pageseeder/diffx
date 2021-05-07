@@ -29,15 +29,15 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
-public final class MatrixXMLAlgorithm2 implements DiffAlgorithm {
+public final class MatrixXMLAlgorithm2 implements DiffAlgorithm<Token> {
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler<Token> handler) {
     Instance instance = new Instance();
     instance.computeMatrix(first, second);
-    List<Operation> operations = instance.backtrace(first, second);
+    List<Operation<Token>> operations = instance.backtrace(first, second);
     Collections.reverse(operations);
-    for (Operation operation : operations) {
+    for (Operation<Token> operation : operations) {
       handler.handle(operation.operator(), operation.token());
     }
     System.out.println(instance);
@@ -92,35 +92,35 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm {
     }
 
 
-    private List<Operation> backtrace(List<? extends Token> first, List<? extends Token> second) {
-      OperationsBuffer buffer = new OperationsBuffer();
+    private List<Operation<Token>> backtrace(List<? extends Token> first, List<? extends Token> second) {
+      OperationsBuffer<Token> buffer = new OperationsBuffer<>();
       final int length1 = first.size();
       final int length2 = second.size();
       int i = length1;
       int j = length2;
       Token t1;
       Token t2;
-      Deque<Operation> started = new ArrayDeque<>();
+      Deque<Operation<Token>> started = new ArrayDeque<>();
       // Backtrack start walking the matrix
       while (i > 0 && j > 0) {
         t1 = first.get(i-1);
         t2 = second.get(j-1);
         if (this.matrix[i][j-1] < this.matrix[i-1][j]) {
           if (t1 instanceof EndElementToken) {
-            started.push(new Operation(Operator.INS, ((EndElementToken)t1).getOpenElement()));
+            started.push(new Operation<>(Operator.INS, ((EndElementToken)t1).getOpenElement()));
           }
           buffer.handle(Operator.INS, t1);
           i--;
         } else if (this.matrix[i][j-1] > this.matrix[i-1][j]) {
           if (t2 instanceof EndElementToken) {
-            started.push(new Operation(Operator.DEL, ((EndElementToken)t2).getOpenElement()));
+            started.push(new Operation<>(Operator.DEL, ((EndElementToken)t2).getOpenElement()));
           }
           buffer.handle(Operator.DEL, t2);
           j--;
         } else if (this.matrix[i][j-1] == this.matrix[i-1][j]) {
           if (t1.equals(t2)) {
             if (t2 instanceof EndElementToken) {
-              started.push(new Operation(Operator.MATCH, ((EndElementToken)t2).getOpenElement()));
+              started.push(new Operation<>(Operator.MATCH, ((EndElementToken)t2).getOpenElement()));
             }
             buffer.handle(Operator.MATCH, t1);
             i--;
@@ -129,7 +129,7 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm {
             System.out.print("choice: ("+Operator.INS+t1+") or ("+Operator.DEL+t2+") -> ");
             boolean insert = true;
             if (!started.isEmpty()) {
-              Operation op = started.peek();
+              Operation<Token> op = started.peek();
               if (t2 instanceof StartElementToken && op.token().equals(t2) && op.operator() == Operator.DEL) {
                 insert = false;
               }
@@ -140,14 +140,14 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm {
             if (insert) {
               System.out.println("("+Operator.INS+t1+")!");
               if (t1 instanceof EndElementToken) {
-                started.push(new Operation(Operator.INS, ((EndElementToken)t1).getOpenElement()));
+                started.push(new Operation<>(Operator.INS, ((EndElementToken)t1).getOpenElement()));
               }
               buffer.handle(Operator.INS, t1);
               i--;
             } else {
               System.out.println("("+Operator.DEL+t2+")!");
               if (t2 instanceof EndElementToken) {
-                started.push(new Operation(Operator.DEL, ((EndElementToken)t2).getOpenElement()));
+                started.push(new Operation<>(Operator.DEL, ((EndElementToken)t2).getOpenElement()));
               }
               buffer.handle(Operator.DEL, t2);
               j--;

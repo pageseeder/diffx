@@ -37,7 +37,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
+public final class HirschbergXMLAlgorithm implements DiffAlgorithm<Token> {
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -45,7 +45,7 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
   private static final boolean DEBUG = true;
 
   @Override
-  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+  public void diff(List<? extends Token> first, List<? extends Token> second, DiffHandler<Token> handler) {
     Instance instance = new Instance(first, second, handler);
     // It is more efficient to supply the sizes than retrieve from lists
     instance.algorithmC(first.size(), second.size(), first, second, handler);
@@ -55,18 +55,18 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
 
     private final List<? extends Token> first;
     private final List<? extends Token> second;
-    private final DiffHandler handler;
+    private final DiffHandler<Token> handler;
 
     ElementState estate = new ElementState();
 
-    Instance(List<? extends Token> first, List<? extends Token> second, DiffHandler handler) {
+    Instance(List<? extends Token> first, List<? extends Token> second, DiffHandler<Token> handler) {
       this.first = first;
       this.second = second;
       this.handler = handler;
     }
 
     public void process() {
-      MuxHandler actual = new MuxHandler(this.handler, this.estate);
+      MuxHandler<Token> actual = new MuxHandler<>(this.handler, this.estate);
       System.out.println("--------------------------------");
       algorithmC(this.first.size(), this.second.size(), this.first, this.second, actual);
     }
@@ -143,7 +143,7 @@ public final class HirschbergXMLAlgorithm implements DiffAlgorithm {
     /**
      * Algorithm C as described by Hirschberg
      */
-    private void algorithmC(int m, int n, List<? extends Token> a, List<? extends Token> b, DiffHandler handler) {
+    private void algorithmC(int m, int n, List<? extends Token> a, List<? extends Token> b, DiffHandler<Token> handler) {
       if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
       if (n == 0) {
