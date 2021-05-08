@@ -30,7 +30,7 @@ import org.pageseeder.diffx.token.Token;
  */
 public final class OptimisticXMLProcessorTest {
 
-  private DiffAlgorithm<Token> newProcessor() {
+  private OptimisticXMLProcessor newProcessor() {
     return new OptimisticXMLProcessor();
   }
 
@@ -80,7 +80,9 @@ public final class OptimisticXMLProcessorTest {
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
     public DiffAlgorithm<Token> getDiffAlgorithm() {
-      return newProcessor();
+      OptimisticXMLProcessor processor = newProcessor();
+      processor.setFallbackThreshold(Integer.MAX_VALUE);
+      return processor;
     }
   }
 

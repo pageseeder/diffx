@@ -80,7 +80,9 @@ public final class DefaultXMLProcessorTest {
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
     public DiffAlgorithm<Token> getDiffAlgorithm() {
-      return newProcessor();
+      DefaultXMLProcessor processor = newProcessor();
+      processor.setThreshold(Integer.MAX_VALUE);
+      return processor;
     }
   }
 

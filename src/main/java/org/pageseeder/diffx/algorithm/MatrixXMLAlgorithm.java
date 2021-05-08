@@ -17,7 +17,6 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Token;
@@ -108,12 +107,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
     }
 
     // Initialize state
-    ElementState estate = new ElementState();
-    MuxHandler<Token> actual = new MuxHandler<>(handler, estate);
-    diff(from, to, actual, estate);
+    ElementStackFilter estate = new ElementStackFilter(handler);
+    diff(from, to, estate);
   }
 
-  private void diff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
+  private void diff(List<? extends Token> A, List<? extends Token> B, ElementStackFilter handler) {
     TokenListSlicer slicer = new TokenListSlicer(A, B);
     int common = this.slice ? slicer.analyze() : 0;
 
@@ -126,15 +124,15 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         for (Token token : subB) handler.handle(Operator.INS, token);
         for (Token token : subA) handler.handle(Operator.DEL, token);
       } else {
-        processDiff(subA, subB, handler, estate);
+        processDiff(subA, subB, handler);
       }
       slicer.handleEnd(handler);
     } else {
-      processDiff(A, B, handler, estate);
+      processDiff(A, B, handler);
     }
   }
 
-  private void processDiff(List<? extends Token> A, List<? extends Token> B, DiffHandler<Token> handler, ElementState estate) {
+  private void processDiff(List<? extends Token> A, List<? extends Token> B, ElementStackFilter handler) {
     final int lengthA = A.size();
     final int lengthB = B.size();
 
@@ -158,7 +156,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
       // we can only insert or delete, priority to delete
       if (matrix.isGreaterX(i, j)) {
         // follow the natural path
-        if (estate.isAllowed(Operator.DEL, tokenA) && !estate.hasPriorityOver(tokenB, tokenA)) {
+        if (handler.isAllowed(Operator.DEL, tokenA) && !handler.hasPriorityOver(tokenB, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] >i +" + tokenA);
           }
@@ -166,7 +164,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + tokenA);
           }
@@ -175,7 +173,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           j++;
 
           // go counter current and delete
-        } else if (estate.isAllowed(Operator.INS, tokenB)) {
+        } else if (handler.isAllowed(Operator.INS, tokenB)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] >d -" + tokenB);
           }
@@ -185,7 +183,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         } else {
           if (DEBUG) {
             System.err.print("\n(i) case greater X");
-            printLost(i, j, matrix, estate, A, B);
+            printLost(i, j, matrix, handler, A, B);
           }
           break;
         }
@@ -193,7 +191,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         // we can only insert or delete, priority to insert
       } else if (matrix.isGreaterY(i, j)) {
         // follow the natural and delete
-        if (estate.isAllowed(Operator.INS, tokenB) && !estate.hasPriorityOver(tokenA, tokenB)) {
+        if (handler.isAllowed(Operator.INS, tokenB) && !handler.hasPriorityOver(tokenA, tokenB)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] <d -" + tokenB);
           }
@@ -201,7 +199,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + tokenA);
           }
@@ -210,7 +208,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           j++;
 
           // insert (counter-current)
-        } else if (estate.isAllowed(Operator.DEL, tokenA)) {
+        } else if (handler.isAllowed(Operator.DEL, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] <i +" + tokenA);
           }
@@ -220,7 +218,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         } else {
           if (DEBUG) {
             System.err.println("\n(i) case greater Y");
-            printLost(i, j, matrix, estate, A, B);
+            printLost(i, j, matrix, handler, A, B);
           }
           break;
         }
@@ -229,7 +227,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         // we have to make a choice for where we are going
       } else if (matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (tokenA.equals(tokenB) && estate.isAllowed(Operator.MATCH, tokenA)) {
+        if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + tokenA);
           }
@@ -238,7 +236,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           j++;
 
           // we can insert the closing tag
-        } else if (estate.isAllowed(Operator.DEL, tokenA)
+        } else if (handler.isAllowed(Operator.DEL, tokenA)
             && !(tokenB instanceof AttributeToken && !(tokenA instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + j + "] =i +" + tokenA);
@@ -247,7 +245,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
           i++;
 
           // we can delete the closing tag
-        } else if (estate.isAllowed(Operator.INS, tokenB)
+        } else if (handler.isAllowed(Operator.INS, tokenB)
             && !(tokenA instanceof AttributeToken && !(tokenB instanceof AttributeToken))) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + i + "," + (j + 1) + "] =d -" + tokenB);
@@ -258,19 +256,19 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
         } else {
           if (DEBUG) {
             System.err.println("\n(i) case same");
-            printLost(i, j, matrix, estate, A, B);
+            printLost(i, j, matrix, handler, A, B);
           }
           break;
         }
       } else {
         if (DEBUG) {
           System.err.println("\n(i) case ???");
-          printLost(i, j, matrix, estate, A, B);
+          printLost(i, j, matrix, handler, A, B);
         }
         break;
       }
       if (DEBUG) {
-        System.err.println("    stack:" + estate.currentChange() + estate.current());
+        System.err.println("    stack:" + handler.current());
       }
     }
 
@@ -299,7 +297,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
    * @param i The X position.
    * @param j The Y position.
    */
-  private void printLost(int i, int j, Matrix matrix, ElementState estate, List<? extends Token> first, List<? extends Token> second) {
+  private void printLost(int i, int j, Matrix matrix, ElementStackFilter estate, List<? extends Token> first, List<? extends Token> second) {
     Token tokenA = first.get(i);
     Token tokenB = second.get(j);
     System.err.println("(!) Ambiguous choice in (" + i + "," + j + ")");
