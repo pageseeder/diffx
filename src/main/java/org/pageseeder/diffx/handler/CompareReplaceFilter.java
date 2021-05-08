@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
@@ -41,7 +42,7 @@ public final class CompareReplaceFilter extends DiffFilter<Token> implements Dif
   }
 
   @Override
-  public void handle(Operator operator, Token token) {
+  public void handle(@NotNull Operator operator, Token token) {
     if (token instanceof TextToken && operator.isEdit()) {
       if (this.previous != null) {
         diff((TextToken) token, (TextToken) this.previous.token(), operator == Operator.INS);

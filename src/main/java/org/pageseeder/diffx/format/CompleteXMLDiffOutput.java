@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -86,7 +87,7 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
   }
 
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     try {
       // We must flush the inserted/deleted attributes
       if (!(token instanceof AttributeToken)) {

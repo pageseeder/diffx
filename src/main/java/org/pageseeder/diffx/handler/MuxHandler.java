@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class MuxHandler<T> implements DiffHandler<T> {
   }
 
   @Override
-  public void handle(Operator operator, T token) throws IllegalStateException {
+  public void handle(@NotNull Operator operator, T token) throws IllegalStateException {
     for (DiffHandler<T> handler : handlers) handler.handle(operator, token);
   }
 

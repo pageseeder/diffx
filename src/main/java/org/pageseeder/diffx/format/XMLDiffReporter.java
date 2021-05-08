@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.Namespaceable;
@@ -73,7 +74,7 @@ public class XMLDiffReporter extends XMLDiffOutputBase implements XMLDiffOutput 
   }
 
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     try {
       xml.openElement(toElementName(operator));
       xml.attribute("type", token.getType().toString());

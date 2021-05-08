@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -75,7 +76,7 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   private boolean hasError = false;
 
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (operator == Operator.DEL) {
       this.deletions.add(token);
     } else if (operator == Operator.INS) {

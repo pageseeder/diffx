@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.token.Token;
@@ -48,7 +49,7 @@ public class FormattingAdapter implements DiffHandler<Token> {
    * @throws UncheckedIOException Wraps any IO exception thrown by the formatter
    */
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException {
     try {
       switch (operator) {
         case MATCH:

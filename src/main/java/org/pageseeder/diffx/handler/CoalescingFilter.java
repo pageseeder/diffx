@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.Token;
@@ -54,7 +55,7 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
   }
 
   @Override
-  public void handle(Operator operator, Token token) throws IllegalStateException {
+  public void handle(@NotNull Operator operator, @NotNull Token token) throws IllegalStateException {
     if (token instanceof TextToken) {
       handleText((TextToken) token, operator);
     } else {
@@ -69,7 +70,7 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
     this.target.end();
   }
 
-  private void handleText(TextToken token, Operator operator) {
+  private void handleText(@NotNull TextToken token, @NotNull Operator operator) {
     if (this.current == operator) {
       // Same operator simply add the token
       this.buffer.add(token);
@@ -109,7 +110,7 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
    *
    * @return A single text token
    */
-  public static TextToken coalesceText(List<TextToken> tokens) {
+  public static TextToken coalesceText(@NotNull List<TextToken> tokens) {
     // If there's only one token, no need to coalesce
     if (tokens.size() == 1) return tokens.get(0);
     // Concatenate text of all text nodes
@@ -127,7 +128,7 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
    *
    * @return A list of tokens with text tokens coalesced.
    */
-  public static List<? extends Token> coalesce(List<? extends Token> tokens) {
+  public static List<? extends Token> coalesce(@NotNull List<? extends Token> tokens) {
     // If there's only one token, no need to coalesce
     if (tokens.size() <= 1) return tokens;
     List<Token> coalesced = new ArrayList<>();
