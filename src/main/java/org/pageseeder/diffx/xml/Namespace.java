@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.xml;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.xml.XMLConstants;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -68,11 +70,11 @@ public final class Namespace {
     this.prefix = Objects.requireNonNull(prefix);
   }
 
-  public String getUri() {
+  public @NotNull String getUri() {
     return this.uri;
   }
 
-  public String getPrefix() {
+  public @NotNull String getPrefix() {
     return this.prefix;
   }
 
