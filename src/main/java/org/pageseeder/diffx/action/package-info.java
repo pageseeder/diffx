@@ -15,6 +15,5 @@
  */
 /**
  *
- *
  */
 package org.pageseeder.diffx.action;

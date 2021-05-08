@@ -100,7 +100,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
   public void handle(@NotNull Operator operator, @NotNull Token token) {
     this.target.handle(operator, token);
     if (token instanceof StartElementToken) {
-      this.elements.push(new Operation<>(operator, (StartElementToken)token));
+      this.elements.push(new Operation<>(operator, (StartElementToken) token));
     } else if (token instanceof EndElementToken) {
       this.elements.pop();
     }
@@ -124,7 +124,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
     // Only check for end element tokens
     if (!(token instanceof EndElementToken)) return true;
     // Check that it matches the
-    StartElementToken start = ((EndElementToken)token).getOpenElement();
+    StartElementToken start = ((EndElementToken) token).getOpenElement();
     return matchCurrent(operator, start);
   }
 
@@ -133,7 +133,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
    * matches the name and URI of the current open element.
    *
    * @param operator The token to check.
-   * @param start The token to check.
+   * @param start    The token to check.
    *
    * @return <code>true</code> if it matches the current element;
    * <code>false</code> otherwise.
