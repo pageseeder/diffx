@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.handler;
 
 import org.jetbrains.annotations.NotNull;
+import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -48,7 +49,7 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   /**
    * Keeps track of start elements tokens without a matching end element.
    */
-  private final Deque<StartOperation> unclosed = new ArrayDeque<>();
+  private final Deque<Operation<StartElementToken>> unclosed = new ArrayDeque<>();
 
   /**
    * Deletions from the current list of successive edits.
@@ -146,19 +147,19 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   }
 
   private boolean matchStart(Operator operator, EndElementToken token) {
-    StartOperation op = this.unclosed.peek();
+    Operation<StartElementToken> op = this.unclosed.peek();
     if (op == null) return false;
-    return op.operator == operator && token.match(op.token);
+    return op.operator() == operator && token.match(op.token());
   }
 
   /**
    * We ignore the reported end element token and send the matching end element token
    */
   private void sendMatchingEndElement() {
-    StartOperation lastStart = this.unclosed.peek();
+    Operation<StartElementToken> lastStart = this.unclosed.peek();
     if (lastStart != null) {
-      EndElementToken end = toEndElementToken(lastStart.token);
-      send(lastStart.operator, end);
+      EndElementToken end = toEndElementToken(lastStart.token());
+      send(lastStart.operator(), end);
     }
   }
 
@@ -171,7 +172,7 @@ public final class PostXMLFixer extends DiffFilter<Token> {
     this.lastOperator = operator;
     this.lastToken = token;
     if (token.getType() == TokenType.START_ELEMENT) {
-      this.unclosed.push(new StartOperation(operator, (StartElementToken) token));
+      this.unclosed.push(new Operation<>(operator, (StartElementToken) token));
     } else if (token.getType() == TokenType.END_ELEMENT) {
       this.unclosed.pop();
     }
@@ -180,24 +181,6 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   @Override
   public void end() {
     this.flushChanges();
-  }
-
-  private static class StartOperation {
-    private final Operator operator;
-    private final StartElementToken token;
-
-    StartOperation(Operator operator, StartElementToken token) {
-      this.operator = operator;
-      this.token = token;
-    }
-
-    public Operator operator() {
-      return operator;
-    }
-
-    public StartElementToken token() {
-      return token;
-    }
   }
 
   private static class NilToken implements Token {
