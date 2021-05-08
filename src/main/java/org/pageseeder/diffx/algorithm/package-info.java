@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * Main algorithm implementations.
+ * Main algorithm implementations and supporting classes.
  */
 package org.pageseeder.diffx.algorithm;

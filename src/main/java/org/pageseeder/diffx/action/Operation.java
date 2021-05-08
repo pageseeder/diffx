@@ -15,10 +15,10 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.token.Token;
+import java.util.Objects;
 
 /**
- * An atomic Diff operation associated with a single token.
+ * An immutable atomic Diff operation associated with a single token.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -29,9 +29,14 @@ public final class Operation<T> {
 
   private final T token;
 
+  /**
+   * Create an operation.
+   *
+   * @throws NullPointerException If either parameter is null.
+   */
   public Operation(Operator operator, T token) {
-    this.operator = operator;
-    this.token = token;
+    this.operator = Objects.requireNonNull(operator);
+    this.token = Objects.requireNonNull(token);
   }
 
   public Operator operator() {
@@ -67,7 +72,7 @@ public final class Operation<T> {
   }
 
   /**
-   * @return the reserve operation by swapping INS with DEL.
+   * @return the reserve operation by swapping INS with DEL or the same operation if MATCH.
    */
   public Operation<T> flip() {
     return this.operator == Operator.MATCH ? this : new Operation<>(this.operator.flip(), this.token);

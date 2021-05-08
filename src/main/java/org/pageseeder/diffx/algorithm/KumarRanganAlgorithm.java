@@ -45,7 +45,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    Instance<T> instance = new Instance(from, to);
+    Instance<T> instance = new Instance<>(from, to);
     instance.process(handler);
   }
 
@@ -83,15 +83,15 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      */
     private int J = 0;
 
-    private final List<T> A;
-    private final List<T> B;
+    private final List<? extends T> A;
+    private final List<? extends T> B;
 
     /**
      * Events are reported here.
      */
     private DiffHandler<T> handler;
 
-    Instance(List<T> from, List<T> to) {
+    Instance(List<? extends T> from, List<? extends T> to) {
       this.A = Objects.requireNonNull(from);
       this.B = Objects.requireNonNull(to);
     }

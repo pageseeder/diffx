@@ -104,7 +104,7 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
       List<? extends Token> b = CoalescingFilter.coalesce(to);
       fallbackDiff(a, b, handler, true);
     } else {
-      throw new DataLengthException(from.size()*to.size(), this.fallbackThreshold);
+      throw new DataLengthException(from.size() * to.size(), this.fallbackThreshold);
     }
   }
 

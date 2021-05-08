@@ -29,6 +29,7 @@ import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.test.DiffAssertions;
+import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.token.Token;
 import org.xml.sax.InputSource;
@@ -62,13 +63,13 @@ public abstract class BaseDiffXAlgorithmTest {
   public static String toXML(List<Action<Token>> actions) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
-    Actions.format(actions, formatter);
+    TestActions.format(actions, formatter);
     return xml.toString();
   }
 
   public static String toTestFormat(List<Action<Token>> actions) throws IOException {
     TestFormatter formatter = new TestFormatter();
-    Actions.format(actions, formatter);
+    TestActions.format(actions, formatter);
     return formatter.getOutput();
   }
 
@@ -330,7 +331,7 @@ public abstract class BaseDiffXAlgorithmTest {
     assertEquals(seq1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
-    Sequence got2 = Actions.apply(seq1, Actions.reverse(actions));
+    Sequence got2 = Actions.apply(seq1, Actions.flip(actions));
     assertEquals(seq2, got2, "Applying diff to #1 did not produce #2");
   }
 

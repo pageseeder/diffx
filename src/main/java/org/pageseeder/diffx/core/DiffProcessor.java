@@ -38,8 +38,8 @@ public interface DiffProcessor<T> extends DiffAlgorithm<T> {
   /**
    * Performs the comparison and uses the specified handler.
    *
-   * @param from  The original list of tokens to compare (deleted)
-   * @param to    The target list of tokens to compare (inserted)
+   * @param from    The original list of tokens to compare (deleted)
+   * @param to      The target list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
    * @throws DiffException Wrap any error occurring during processing.
@@ -49,8 +49,8 @@ public interface DiffProcessor<T> extends DiffAlgorithm<T> {
   /**
    * Performs the comparison and uses the specified handler.
    *
-   * @param from  The first list of tokens to compare (deleted)
-   * @param to    The second list of tokens to compare (inserted)
+   * @param from    The first list of tokens to compare (deleted)
+   * @param to      The second list of tokens to compare (inserted)
    * @param handler The handler for the results of the comparison
    *
    * @throws UncheckedIOException     If thrown by the handler while writing output.

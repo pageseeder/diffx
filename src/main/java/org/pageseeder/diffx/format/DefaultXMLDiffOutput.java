@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -80,7 +81,7 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
   }
 
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     try {
       if (operator.isEdit()) {
         handleEdit(operator, token);

@@ -19,6 +19,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.FormattingAdapter;
 import org.pageseeder.diffx.sequence.EventSequence;
+import org.pageseeder.diffx.token.Token;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -78,7 +79,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
   @Override
   public int length() {
     if (this.length < 0) {
-      DiffAlgorithm algo = new KumarRanganAlgorithm();
+      DiffAlgorithm<Token> algo = new KumarRanganAlgorithm<>();
       AtomicInteger length = new AtomicInteger();
       algo.diff(this.sequence2.getSequence().tokens(), this.sequence1.getSequence().tokens(), (operator, token) -> {
         if (operator == Operator.MATCH) length.getAndIncrement();
@@ -97,7 +98,7 @@ public final class DiffXKumarRangan extends DiffXAlgorithmBase {
    */
   @Override
   public void process(DiffXFormatter formatter) throws IOException {
-    DiffAlgorithm algo = new KumarRanganAlgorithm();
+    DiffAlgorithm<Token> algo = new KumarRanganAlgorithm<>();
     try {
       FormattingAdapter adapter = new FormattingAdapter(formatter);
       algo.diff(this.sequence2.getSequence().tokens(), this.sequence1.getSequence().tokens(), adapter);

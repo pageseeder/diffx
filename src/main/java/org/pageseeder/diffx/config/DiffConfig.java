@@ -51,7 +51,7 @@ public final class DiffConfig {
   }
 
   /**
-   * Indicates whether the namespaces should be handled or ignored.
+   * Indicates whether the namespaces should be handled or ignored when processing XML.
    */
   public boolean isNamespaceAware() {
     return this.isNamespaceAware;

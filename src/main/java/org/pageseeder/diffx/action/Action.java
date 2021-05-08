@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An action associated to a sequence of DiffX tokens.
+ * An action associated to a sequence of tokens.
  * <p>
- * Wraps an token and binds it with an action type.
+ * Wraps a token and binds it with an operator.
  * <p>
  * A type of action for the tokens:
  * <ul>
@@ -30,13 +30,15 @@ import java.util.List;
  *   <li>Preserve a diffx token.</li>
  * </ul>
  *
+ * @param <T> The type of token.
+ *
  * @author Christophe Lauret
  * @version 0.9.0
  */
 public final class Action<T> {
 
   /**
-   * The type of action.
+   * The operator.
    */
   private final Operator operator;
 
@@ -79,7 +81,7 @@ public final class Action<T> {
   }
 
   /**
-   * @return the list of Tokens.
+   * @return the list of tokens.
    */
   public List<T> tokens() {
     return this.tokens;

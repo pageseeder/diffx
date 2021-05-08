@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.pageseeder.diffx.sequence.Sequence;
-
 import java.util.List;
 
 public final class DiffResult<T> {
@@ -32,7 +30,7 @@ public final class DiffResult<T> {
   }
 
   public DiffResult<T> reverse() {
-    return new DiffResult<>(Actions.reverse(this.actions));
+    return new DiffResult<>(Actions.flip(this.actions));
   }
 
   public boolean isApplicableTo(List<T> to, List<T> from) {

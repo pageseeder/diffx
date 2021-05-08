@@ -41,7 +41,7 @@ public final class TextListToken implements TextToken {
   private final TextToken[] tokens;
 
   public TextListToken(List<? extends TextToken> tokens) {
-    this.tokens = tokens.toArray(new TextToken[tokens.size()]);
+    this.tokens = tokens.toArray(new TextToken[0]);
   }
 
   @Override

@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.Token;
 
 import java.io.UncheckedIOException;
 
@@ -34,7 +34,10 @@ public interface DiffHandler<T> {
   /**
    * Receives notification of the start of the processing.
    * <p>
-   * This method is called before any other method.
+   * This method is called before any other method. Implementations can use this method to initialise
+   * objects required by the handler.
+   * <p>
+   * The default implementation does nothing.
    */
   default void start() {
   }
@@ -47,13 +50,17 @@ public interface DiffHandler<T> {
    *
    * @throws UncheckedIOException  Should an I/O exception occur.
    * @throws IllegalStateException If the handler is not in a state to run this method.
+   * @throws IllegalStateException If the handler is not in a state to run this method.
    */
-  void handle(Operator operator, T token) throws UncheckedIOException, IllegalStateException;
+  void handle(@NotNull Operator operator, @NotNull T token);
 
   /**
    * Receives notification of the end of the processing.
    * <p>
-   * This method is called after any other method.
+   * This method is called after any other method. Implementations can use this method to initialise
+   * objects required by the handler.
+   * <p>
+   * The default implementation does nothing.
    */
   default void end() {
   }

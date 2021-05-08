@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 
@@ -41,7 +42,7 @@ public class OperationsBuffer<T> implements DiffHandler<T> {
    * Create a new operation for the operator and token.
    */
   @Override
-  public void handle(Operator operator, T token) {
+  public void handle(@NotNull Operator operator, T token) {
     this.operations.add(new Operation<>(operator, token));
   }
 

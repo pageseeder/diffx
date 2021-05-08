@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
@@ -236,7 +237,7 @@ public final class ElementState implements DiffHandler<Token> {
    * @param operator The corresponding operator
    */
   @Override
-  public void handle(Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
     if (token instanceof StartElementToken) {
       push((StartElementToken) token, operator);
     } else if (token instanceof EndElementToken) {

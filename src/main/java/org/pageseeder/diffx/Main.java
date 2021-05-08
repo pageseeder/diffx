@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx;
 
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
@@ -23,9 +24,9 @@ import org.pageseeder.diffx.core.DiffProcessor;
 import org.pageseeder.diffx.core.OptimisticXMLProcessor;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.format.*;
-import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.util.CommandLine;
 import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Node;
@@ -49,25 +50,22 @@ public final class Main {
   private Main() {
   }
 
-  // equivalent methods -------------------------------------------------------------------
-
   /**
    * Returns <code>true</code> if the two specified files are XML equivalent by looking at the
    * sequence SAX events reported an XML reader.
    *
-   * @param xml1 The first XML stream to compare.
-   * @param xml2 The first XML stream to compare.
+   * @param xmlA The first XML stream to compare.
+   * @param xmlB The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
    * <code>false</code> otherwise.
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static boolean equivalent(File xml1, File xml2)
-      throws DiffXException, IOException {
+  public static boolean equivalent(File xmlA, File xmlB) throws DiffException, IOException {
     Loader loader = new SAXLoader();
-    Sequence seq0 = loader.load(xml1);
-    Sequence seq1 = loader.load(xml2);
+    Sequence seq0 = loader.load(xmlA);
+    Sequence seq1 = loader.load(xmlB);
     return seq0.equals(seq1);
   }
 
@@ -75,19 +73,18 @@ public final class Main {
    * Returns <code>true</code> if the two specified input streams are equivalent by looking at the
    * sequence SAX events reported an XML reader.
    *
-   * @param xml1 The first XML stream to compare.
-   * @param xml2 The first XML stream to compare.
+   * @param xmlA The first XML stream to compare.
+   * @param xmlB The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
    * <code>false</code> otherwise.
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static boolean equivalent(InputStream xml1, InputStream xml2)
-      throws DiffXException, IOException {
+  public static boolean equivalent(InputStream xmlA, InputStream xmlB) throws DiffException, IOException {
     SAXLoader loader = new SAXLoader();
-    Sequence seq0 = loader.load(new InputSource(xml1));
-    Sequence seq1 = loader.load(new InputSource(xml2));
+    Sequence seq0 = loader.load(new InputSource(xmlA));
+    Sequence seq1 = loader.load(new InputSource(xmlB));
     return seq0.equals(seq1);
   }
 
@@ -95,44 +92,41 @@ public final class Main {
    * Returns <code>true</code> if the two specified readers are equivalent by looking at the
    * sequence SAX events reported an XML reader.
    *
-   * @param xml1 The first XML stream to compare.
-   * @param xml2 The first XML stream to compare.
+   * @param xmlA The first XML stream to compare.
+   * @param xmlB The first XML stream to compare.
    *
    * @return <code>true</code> If the XML are considered equivalent;
    * <code>false</code> otherwise.
-   * @throws DiffXException If a DiffX exception is reported by the loaders.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException If a DiffX exception is reported by the loaders.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static boolean equivalent(Reader xml1, Reader xml2)
-      throws DiffXException, IOException {
+  public static boolean equivalent(Reader xmlA, Reader xmlB) throws DiffException, IOException {
     SAXLoader loader = new SAXLoader();
-    Sequence seq0 = loader.load(new InputSource(xml1));
-    Sequence seq1 = loader.load(new InputSource(xml2));
+    Sequence seq0 = loader.load(new InputSource(xmlA));
+    Sequence seq1 = loader.load(new InputSource(xmlB));
     return seq0.equals(seq1);
   }
-
-  // diff methods -------------------------------------------------------------------------
 
   /**
    * Compares the two specified XML nodes and prints the diff onto the given writer.
    *
-   * @param xml1   The first XML node to compare.
-   * @param xml2   The second XML node to compare.
+   * @param xmlA   The first XML node to compare.
+   * @param xmlB   The second XML node to compare.
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Node xml1, Node xml2, Writer out, DiffXConfig config)
-      throws DiffXException, IOException {
+  public static void diff(Node xmlA, Node xmlB, Writer out, DiffXConfig config)
+      throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    Sequence seq1 = loader.load(xml1);
-    Sequence seq2 = loader.load(xml2);
+    Sequence seq1 = loader.load(xmlA);
+    Sequence seq2 = loader.load(xmlB);
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -142,23 +136,23 @@ public final class Main {
    *
    * <p>Only the first node in the node list is sequenced.
    *
-   * @param xml1   The first XML node list to compare.
-   * @param xml2   The second XML node list to compare.
+   * @param xmlA   The first XML node list to compare.
+   * @param xmlB   The second XML node list to compare.
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(NodeList xml1, NodeList xml2, Writer out, DiffXConfig config)
-      throws DiffXException, IOException {
+  public static void diff(NodeList xmlA, NodeList xmlB, Writer out, DiffXConfig config)
+      throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    Sequence seq1 = loader.load(xml1);
-    Sequence seq2 = loader.load(xml2);
+    Sequence seq1 = loader.load(xmlA);
+    Sequence seq2 = loader.load(xmlB);
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -166,23 +160,23 @@ public final class Main {
   /**
    * Compares the two specified xml files and prints the diff onto the given writer.
    *
-   * @param xml1   The first XML reader to compare.
-   * @param xml2   The first XML reader to compare.
+   * @param xmlA   The first XML reader to compare.
+   * @param xmlB   The first XML reader to compare.
    * @param out    Where the output goes.
    * @param config The DiffX configuration to use.
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Reader xml1, Reader xml2, Writer out, DiffXConfig config)
-      throws DiffXException, IOException {
+  public static void diff(Reader xmlA, Reader xmlB, Writer out, DiffXConfig config)
+      throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    Sequence seq1 = loader.load(new InputSource(xml1));
-    Sequence seq2 = loader.load(new InputSource(xml2));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -190,19 +184,18 @@ public final class Main {
   /**
    * Compares the two specified xml files and prints the diff onto the given writer.
    *
-   * @param xml1 The first XML reader to compare.
-   * @param xml2 The first XML reader to compare.
+   * @param xmlA The first XML reader to compare.
+   * @param xmlB The first XML reader to compare.
    * @param out  Where the output goes
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Reader xml1, Reader xml2, Writer out)
-      throws DiffXException, IOException {
+  public static void diff(Reader xmlA, Reader xmlB, Writer out) throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
-    Sequence seq1 = loader.load(new InputSource(xml1));
-    Sequence seq2 = loader.load(new InputSource(xml2));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -210,19 +203,19 @@ public final class Main {
   /**
    * Compares the two specified xml files and prints the diff onto the given writer.
    *
-   * @param xml1 The first XML input stream to compare.
-   * @param xml2 The first XML input stream to compare.
+   * @param xmlA The first XML input stream to compare.
+   * @param xmlB The first XML input stream to compare.
    * @param out  Where the output goes
    *
-   * @throws DiffXException Should a Diff-X exception occur.
-   * @throws IOException    Should an I/O exception occur.
+   * @throws DiffException Should a Diff-X exception occur.
+   * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(InputStream xml1, InputStream xml2, OutputStream out)
-      throws DiffXException, IOException {
+  public static void diff(InputStream xmlA, InputStream xmlB, OutputStream out)
+      throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
-    Sequence seq1 = loader.load(new InputSource(xml1));
-    Sequence seq2 = loader.load(new InputSource(xml2));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     diff(seq1, seq2, new OutputStreamWriter(out));
   }
 
@@ -249,7 +242,6 @@ public final class Main {
    * @param args The command-line arguments
    */
   public static void main(String[] args) {
-    // TODO: better command-line interface
     if (args.length < 2) {
       usage();
       return;
@@ -259,42 +251,41 @@ public final class Main {
       boolean quiet = CommandLine.hasSwitch("-quiet", args);
 
       // get the files
-      File xml1 = new File(args[args.length - 2]);
-      File xml2 = new File(args[args.length - 1]);
+      File xmlA = new File(args[args.length - 2]);
+      File xmlB = new File(args[args.length - 1]);
 
       // loading
+      // TODO Use nanotime for profiling
       long t0 = System.currentTimeMillis();
       Loader loader = getRecorder(args);
       if (loader == null) return;
-      Sequence seq1 = loader.load(xml1);
-      Sequence seq2 = loader.load(xml2);
+      Sequence seq1 = loader.load(xmlA);
+      Sequence seq2 = loader.load(xmlB);
       long t1 = System.currentTimeMillis();
       if (profile) {
         System.err.println("Loaded files in " + (t1 - t0) + "ms");
       }
 
       // get the config
-      DiffXConfig config = new DiffXConfig();
-      config.setGranularity(getTextGranularity(args));
-      config.setWhiteSpaceProcessing(getWhiteSpaceProcessing(args));
+      DiffConfig config = DiffConfig.getDefault()
+          .granularity(getTextGranularity(args))
+          .whitespace(getWhiteSpaceProcessing(args));
       if (!quiet) {
-        System.err.println("Whitespace processing: " + getTextGranularity(args) + " " + getWhiteSpaceProcessing(args));
+        System.err.println("Whitespace processing: " + config.granularity() + " " + config.whitespace());
       }
 
       // get and setup the formatter
       Writer out = new OutputStreamWriter(getOutput(args), StandardCharsets.UTF_8);
-      DiffHandler output = getOutputFormat(args, out);
+      XMLDiffOutput output = getOutputFormat(args, out);
       if (output == null) return;
-      if (output instanceof XMLDiffOutput) {
-        NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
-        ((XMLDiffOutput) output).setNamespaces(namespaces);
-      }
+      NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
+      output.setNamespaces(namespaces);
 
       // start algorithm
       if (!quiet) {
         System.err.println("Matrix: " + seq1.size() + "x" + seq2.size());
       }
-      DiffProcessor processor = getProcessor(args);
+      DiffProcessor<Token> processor = getProcessor(args);
       if (processor == null) return;
       processor.diff(seq1.tokens(), seq2.tokens(), output);
 
@@ -374,7 +365,7 @@ public final class Main {
    *
    * @return The algorithm to use.
    */
-  private static DiffProcessor getProcessor(String[] args) {
+  private static DiffProcessor<Token> getProcessor(String[] args) {
     String loaderArg = CommandLine.getParameter("-p", args);
     if (loaderArg == null || "optimistic".equals(loaderArg))
       return new DefaultXMLProcessor();
@@ -392,7 +383,7 @@ public final class Main {
    *
    * @return The formatter to use.
    */
-  private static DiffHandler getOutputFormat(String[] args, Writer out) {
+  private static XMLDiffOutput getOutputFormat(String[] args, Writer out) {
     String formatArg = CommandLine.getParameter("-f", args);
     if (formatArg == null || "default".equals(formatArg))
       return new DefaultXMLDiffOutput(out);

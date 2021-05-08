@@ -34,7 +34,6 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- *
  * @link https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {

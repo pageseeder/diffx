@@ -23,8 +23,6 @@ import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
-import java.io.IOException;
-
 abstract class DiffProcessorBase implements DiffProcessor<Token> {
 
   protected boolean coalesce = false;
