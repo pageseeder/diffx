@@ -52,8 +52,8 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm<Token> {
       int length2 = second.size();
       this.matrix = new int[length1 + 1][length2 + 1];
 
-      StartOperation[] startJ = new StartOperation[length1+1];
-      Deque<StartOperation> starts = new ArrayDeque<>();
+      Operation<StartElementToken>[] startJ = new Operation[length1+1];
+      Deque<Operation<StartElementToken>> starts = new ArrayDeque<>();
 
       // allocate storage for array L;
       for (int i = 0; i <= length1; i++) {
@@ -66,7 +66,7 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm<Token> {
             Token b = second.get(j - 1);
             if (a.equals(b)) {
               if (a instanceof StartElementToken) {
-                starts.push(new StartOperation(Operator.MATCH, (StartElementToken)a));
+                starts.push(new Operation<>(Operator.MATCH, (StartElementToken)a));
               }
               int score = (a instanceof AttributeToken)? 3 : (a instanceof StartElementToken)? 2 : 1;
               // the tokens are the same
@@ -77,10 +77,10 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm<Token> {
 
               // Insertion
               if (ins >= del && a instanceof StartElementToken) {
-                starts.push(new StartOperation(Operator.INS, (StartElementToken)a));
+                starts.push(new Operation<>(Operator.INS, (StartElementToken)a));
               // Deletion
               } else if (del >= ins && b instanceof StartElementToken) {
-                starts.push(new StartOperation(Operator.DEL, (StartElementToken)b));
+                starts.push(new Operation<>(Operator.DEL, (StartElementToken)b));
               }
 
               // different tokens
@@ -181,25 +181,6 @@ public final class MatrixXMLAlgorithm2 implements DiffAlgorithm<Token> {
       return out.toString();
     }
 
-  }
-
-
-  private static class StartOperation {
-    private final Operator operator;
-    private final StartElementToken token;
-
-    StartOperation(Operator operator, StartElementToken token) {
-      this.operator = operator;
-      this.token = token;
-    }
-
-    public Operator operator() {
-      return operator;
-    }
-
-    public StartElementToken token() {
-      return token;
-    }
   }
 
 }
