@@ -480,6 +480,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
         "b-i+ala+c-b-i+la+v-l+a",
+        "b+a-ila+c-b-i-al+a+v+a",
         "b+a-ila+c+l-b-ia+v+a-l",
         "b-i+ala-b-i-a+cl+a+v+a",
         "b-i-la-b-i+la+cl+a+v+a",
