@@ -16,10 +16,7 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
-import org.pageseeder.diffx.algorithm.HirschbergAlgorithm;
-import org.pageseeder.diffx.algorithm.KumarRanganAlgorithm;
-import org.pageseeder.diffx.algorithm.WagnerFischerAlgorithm;
+import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.Token;
@@ -42,7 +39,9 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
   public enum Algorithm {
     HIRSCHBERG,
     WAGNER_FISCHER,
-    KUMAR_RANGAN
+    KUMAR_RANGAN,
+    MYER_GREEDY,
+    MYER_LINEAR,
   }
 
   private final Algorithm algo;
@@ -117,6 +116,10 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
         return new WagnerFischerAlgorithm<>();
       case KUMAR_RANGAN:
         return new KumarRanganAlgorithm<>();
+      case MYER_GREEDY:
+        return new MyersGreedyAlgorithm<>();
+      case MYER_LINEAR:
+        return new MyersLinearAlgorithm<>();
       default:
         throw new IllegalStateException("No algorithm defined");
     }

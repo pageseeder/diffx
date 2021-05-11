@@ -134,17 +134,37 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareGeneralAlgorithms() {
+  public void compareGeneralAlgorithms1() {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
       // Generate content
       String from = getRandomString(length, false);
-      String to = vary(from, .2);
+      String to = vary(from, .25);
       List<CharToken> second = TestTokens.toCharTokens(from);
       List<CharToken> first = TestTokens.toCharTokens(to);
 
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 2);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 2);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
+    }
+  }
+
+  @Test
+  public void compareGeneralAlgorithms2() {
+    int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
+    for (int length : lengths) {
+      // Generate content
+      String from = getRandomString(length, false);
+      String to = vary(from, .05);
+      List<CharToken> second = TestTokens.toCharTokens(from);
+      List<CharToken> first = TestTokens.toCharTokens(to);
+
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
+      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
       profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
     }
   }
