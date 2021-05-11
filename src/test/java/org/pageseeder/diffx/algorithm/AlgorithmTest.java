@@ -32,7 +32,7 @@ public abstract class AlgorithmTest<T> {
     System.err.println("| Output:  \"" + got + "\"");
     if (exp != null && exp.length > 0) {
       System.err.println("| Expect:  \"" + exp[0] + "\" ");
-      for (int i=1; i < exp.length; i++) {
+      for (int i = 1; i < exp.length; i++) {
         System.err.println("|     or:  \"" + exp[i] + "\" ");
       }
     }
@@ -51,7 +51,7 @@ public abstract class AlgorithmTest<T> {
 
   public static String[] flip(String... exp) {
     String[] flipped = new String[exp.length];
-    for (int i=0; i < exp.length; i++) {
+    for (int i = 0; i < exp.length; i++) {
       flipped[i] = flip(exp[i]);
     }
     return flipped;
