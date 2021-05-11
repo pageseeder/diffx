@@ -15,10 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.DataLengthException;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
-import org.pageseeder.diffx.algorithm.KumarRanganAlgorithm;
-import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
+import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationsBuffer;
@@ -79,7 +76,7 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
    * Run fast algorithm and try to fix any XML errors after the diff.
    */
   private boolean fastDiff(List<? extends Token> from, List<? extends Token> to, OperationsBuffer<Token> buffer) {
-    DiffAlgorithm<Token> algorithm = new KumarRanganAlgorithm<>();
+    DiffAlgorithm<Token> algorithm = new MyersGreedyAlgorithm<>();
     PostXMLFixer fixer = new PostXMLFixer(buffer);
     fixer.start();
     algorithm.diff(from, to, fixer);
