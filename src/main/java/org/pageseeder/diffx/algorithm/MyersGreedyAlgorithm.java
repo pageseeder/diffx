@@ -75,7 +75,6 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
      */
     private List<Snake> computePath() {
       Vector vector = Vector.createGreedy(this.sizeA, this.sizeB);
-      List<Snake> snakes = new ArrayList<>();
       List<Vector> vectors = new ArrayList<>();
       Snake last = null;
 
@@ -94,44 +93,8 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
       if (last == null)
         throw new IllegalStateException("Unable to find a solution!");
 
-      // Find the solving snake
-      solve(snakes, vectors);
-
-      return snakes;
-    }
-
-    /**
-     * @throws IllegalStateException If no solution could be found
-     */
-    private void solve(List<Snake> snakes, List<Vector> vectors) {
-      Point p = new Point(this.sizeA, this.sizeB);
-
-      for (int d = vectors.size() - 1; p.x() > 0 || p.y() > 0; d--) {
-        Vector vector = vectors.get(d);
-        int k = p.x() - p.y();
-        int xEnd = vector.getX(k);
-        int yEnd = xEnd - k;
-
-        if (!p.isSame(xEnd, yEnd))
-          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
-
-        Snake solution = createToPoint(p, vector, k, d, this.a, this.b);
-
-        if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
-          throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
-
-        if (snakes.size() > 0) {
-          Snake snake = snakes.get(0);
-          // Combine snakes if possible
-          if (!snake.append(solution)) {
-            snakes.add(0, solution);
-          }
-        } else {
-          snakes.add(0, solution);
-        }
-
-        p = solution.getStartPoint();
-      }
+      // Compute the snakes from the vectors
+      return solve(vectors);
     }
 
     /**
@@ -169,6 +132,43 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
 
       return null;
     }
+
+    /**
+     * @throws IllegalStateException If no solution could be found
+     */
+    private List<Snake> solve(List<Vector> vectors) {
+      List<Snake> snakes = new ArrayList<>();
+      Point p = new Point(this.sizeA, this.sizeB);
+
+      for (int d = vectors.size() - 1; p.x() > 0 || p.y() > 0; d--) {
+        Vector vector = vectors.get(d);
+        int k = p.x() - p.y();
+        int xEnd = vector.getX(k);
+        int yEnd = xEnd - k;
+
+        if (!p.isSame(xEnd, yEnd))
+          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
+
+        Snake solution = createToPoint(p, vector, k, d, this.a, this.b);
+
+        if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
+          throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
+
+        if (snakes.size() > 0) {
+          Snake snake = snakes.get(0);
+          // Combine snakes if possible
+          if (!snake.append(solution)) {
+            snakes.add(0, solution);
+          }
+        } else {
+          snakes.add(0, solution);
+        }
+
+        p = solution.getStartPoint();
+      }
+      return snakes;
+    }
+
   }
 
   private static <T> Snake createToPoint(Point point, Vector vector, int k, int d,
@@ -181,7 +181,9 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     int xEnd = down ? xStart : xStart + 1;
     int yEnd = xEnd - k;
     int matching = 0;
-    while (xEnd < aEnd && yEnd < bEnd && a.get(xEnd).equals(b.get(yEnd))) {
+    // We no longer need to check for equality here
+//    while (xEnd < aEnd && yEnd < bEnd && a.get(xEnd).equals(b.get(yEnd))) {
+    while (xEnd < aEnd && yEnd < bEnd) {
       xEnd++;
       yEnd++;
       matching++;
