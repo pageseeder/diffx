@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import java.util.Arrays;
+
 /**
  * Hold x-positions of end-points on a k-line.
  *
@@ -154,6 +156,13 @@ final class Vector {
   }
 
   /**
+   * Create a copy for D in forward direction (delta=0)
+   */
+  public Vector createCopy(int d) {
+    return createCopy(d, true, 0);
+  }
+
+  /**
    * Creates a new deep copy of this object.
    *
    * @param d         Number of differences for the same trace
@@ -178,7 +187,7 @@ final class Vector {
 
   @Override
   public String toString() {
-    return "Vector " + this.array.length + " [ " + (this.delta - this.max) + " .. " + this.delta + " .. " +
-        (this.delta + this.max) + " ]";
+    return "V " + this.array.length + " {" + (this.delta - this.max) + ".." + this.delta + ".." +
+        (this.delta + this.max) + "} "+ Arrays.toString(this.array);
   }
 }

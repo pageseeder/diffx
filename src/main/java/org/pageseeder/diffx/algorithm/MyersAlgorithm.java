@@ -36,7 +36,7 @@ import java.util.List;
  */
 public abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
 
-  private final static boolean DEBUG = false;
+  private final static boolean DEBUG = true;
 
   /**
    * Handles the results of the diff.
