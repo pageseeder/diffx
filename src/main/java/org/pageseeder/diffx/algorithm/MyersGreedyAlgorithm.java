@@ -149,7 +149,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
         if (!p.isSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
-        Snake solution = createToPoint(p, vector, k, d, this.a, this.b);
+        Snake solution = createToPoint(p, vector, k, d);
 
         if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
           throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
@@ -171,8 +171,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
 
   }
 
-  private static <T> Snake createToPoint(Point point, Vector vector, int k, int d,
-                                         List<? extends T> a, List<? extends T> b) {
+  private static <T> Snake createToPoint(Point point, Vector vector, int k, int d) {
     final int aEnd = point.x();
     final int bEnd = point.y();
     boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
@@ -180,14 +179,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     int yStart = xStart - (down ? k + 1 : k - 1);
     int xEnd = down ? xStart : xStart + 1;
     int yEnd = xEnd - k;
-    int matching = 0;
-    // We no longer need to check for equality here
-//    while (xEnd < aEnd && yEnd < bEnd && a.get(xEnd).equals(b.get(yEnd))) {
-    while (xEnd < aEnd && yEnd < bEnd) {
-      xEnd++;
-      yEnd++;
-      matching++;
-    }
+    int matching = Math.min(aEnd - xEnd, bEnd - yEnd);
 
     // Create corresponding snake instance
     Snake.Direction direction = down ? Snake.Direction.DOWN : Snake.Direction.RIGHT;
