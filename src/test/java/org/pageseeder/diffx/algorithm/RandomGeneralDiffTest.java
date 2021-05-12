@@ -16,18 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.ActionsBuffer;
-import org.pageseeder.diffx.handler.MuxHandler;
-import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.GeneralToken;
 import org.pageseeder.diffx.test.RandomStringFactory;
-import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.token.Token;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Unit tests on random strings.

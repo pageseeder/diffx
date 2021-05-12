@@ -96,22 +96,9 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<Token> {
   public final void testAdvanced_SplitMergeA() throws LoadingException {
     String xmlA = "<a><b>X Y</b></a>";
     String xmlB = "<a><b>X</b> <b>Y</b></a>";
-    String exp = "<a><b>X- -Y</b>+ +<b>+Y+</b></a>";
-    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
-    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
-  }
-
-  /**
-   * Splits / merge the text of the XML string.
-   */
-  @Test
-  public final void testAdvanced_SplitMergeA1() throws LoadingException {
-    String xmlA = "<a><b>X Y</b></a>";
-    String xmlB = "<a><b>X</b> <b>Y</b></a>";
-    // split
     String[] exp = new String[]{
-        "<a><b>X+</b> +<b>Y</b></a>",       // tags inserted (!!!)
-        "<a><b>X- -Y</b>+ +<b>+Y+</b></a>"  // text has moved
+        "<a><b>X- -Y</b>+ +<b>+Y+</b></a>",
+        "<a>+<b>+X+</b>+ <b>-X- Y</b></a>"
     };
     assertDiffXMLOK(xmlA, xmlB, WORD, exp);
     assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));

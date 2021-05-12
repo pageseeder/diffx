@@ -23,7 +23,7 @@ import java.util.Objects;
 
 /**
  * An implementation of the S. Kiran Kumar and C. Pandu Rangan algorithm to find the longest
- * common subsequence (LcS).
+ * common subsequence (LCS).
  *
  * <p>Implementation note: this algorithm effectively detects the correct changes in the
  * sequences, but cannot be used on XML sequences as it cannot always produce well-formed XML.

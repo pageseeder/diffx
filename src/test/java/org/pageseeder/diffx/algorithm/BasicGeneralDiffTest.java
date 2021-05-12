@@ -383,9 +383,10 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
     String b = "axaxa";
     String[] exp = new String[]{
         "-b+ax-b+ax-b+a",
+        "-b+ax-b+ax+a-b",
+        "-b+ax+a-bx+a-b",
         "+a-bx+a-bx-b+a",
         "+a-bx+a-bx+a-b",
-        "-b+ax-b+ax+a-b"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -479,10 +480,12 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
     String[] exp = new String[]{
         "b+a+l+a+c-ila+v-b-ia-l",
         "b-i+ala+c-b-i+la+v-l+a",
+        "b+a-ila+c-b-i-al+a+v+a",
         "b+a-ila+c+l-b-ia+v+a-l",
         "b-i+ala-b-i-a+cl+a+v+a",
         "b-i-la-b-i+la+cl+a+v+a",
-        "b+a-ila-b+c+l-ia+v+a-l"
+        "b+a-ila-b+c+l-ia+v+a-l",
+        "b+a-ila+c+l+a+v-b-ia-l"
     };
     assertGeneralDiffOK(a, b, exp);
   }
@@ -561,6 +564,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
         "+T+h+e-A +r-b-l-ue+d +c-t-ra+r-i-n",
         "+T-A- -b-l-u+he -tr+e+d+ +ca-i-n+r",
         "+T+h-A- -b-l-ue -tr+e+d+ +ca+r-i-n",
+        "+T+h-A+e -b-l-u+re+d +c-t+ar-a-i-n",
         "-A- -b-l-u+T+he -tr+e+d+ +ca-i-n+r",
         "-A- -b-l-u+T+he -tr+e+d+ +ca-i+r-n"
     };
