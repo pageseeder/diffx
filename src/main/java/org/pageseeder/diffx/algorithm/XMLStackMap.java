@@ -47,12 +47,12 @@ final class XMLStackMap {
 
   void nextDiff() {
     this.previous = this.stacks;
-    this.stacks = new HashMap<>(this.previous.size()+1);
+    this.stacks = new HashMap<>(this.previous.size() + 1);
   }
 
   void initK(int k, boolean down) {
     Deque<Operation<StartElementToken>> stack = new ArrayDeque<>();
-    Deque<Operation<StartElementToken>> prev = this.previous.get(down? k + 1 : k - 1);
+    Deque<Operation<StartElementToken>> prev = this.previous.get(down ? k + 1 : k - 1);
     if (prev != null) stack.addAll(prev);
     this.stacks.put(k, stack);
   }
@@ -68,7 +68,7 @@ final class XMLStackMap {
   void update(int k, Operator operator, XMLToken token) {
 //    this.lastToken.put(k, token);
     Deque<Operation<StartElementToken>> stack = getStack(k);
-    if (token instanceof StartElementToken) stack.push(new Operation<>(operator, (StartElementToken)token));
+    if (token instanceof StartElementToken) stack.push(new Operation<>(operator, (StartElementToken) token));
     if (token instanceof EndElementToken) stack.pop();
   }
 
@@ -77,7 +77,7 @@ final class XMLStackMap {
       // Ensure that the end element matches the start element
       Deque<Operation<StartElementToken>> stack = getStack(k);
       Operation<StartElementToken> last = stack.peek();
-      return last != null && last.operator() == operator && ((EndElementToken)token).match(last.token());
+      return last != null && last.operator() == operator && ((EndElementToken) token).match(last.token());
 //    } else if (token instanceof AttributeToken) {
 //      // Ensure that attribute comes after start element or another attribute
 //      XMLToken last = lastToken.get(k);

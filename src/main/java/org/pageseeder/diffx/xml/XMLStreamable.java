@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.xml;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -34,6 +36,6 @@ public interface XMLStreamable {
    *
    * @throws XMLStreamException If thrown by XMLStreamWriter
    */
-  void toXML(XMLStreamWriter xml) throws XMLStreamException;
+  void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException;
 
 }

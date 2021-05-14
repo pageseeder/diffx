@@ -25,7 +25,6 @@ import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.xmlwriter.XMLWriter;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
@@ -78,7 +77,7 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
   private boolean hasError = false;
 
   @Override
-  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, @NotNull XMLToken token) throws UncheckedIOException, IllegalStateException {
     if (operator == Operator.DEL) {
       this.deletions.add(token);
     } else if (operator == Operator.INS) {
@@ -187,7 +186,7 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
   private static class NilToken implements XMLToken {
 
     @Override
-    public XMLTokenType getType() {
+    public @NotNull XMLTokenType getType() {
       return XMLTokenType.OTHER;
     }
 
@@ -197,21 +196,16 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
     }
 
     @Override
-    public void toXML(XMLWriter xml) {
+    public void toXML(@NotNull XMLWriter xml) {
     }
 
     @Override
-    public void toXML(XMLStreamWriter xml) {
+    public void toXML(@NotNull XMLStreamWriter xml) {
     }
 
     @Override
-    public String getName() {
-      return null;
-    }
-
-    @Override
-    public String getNamespaceURI() {
-      return XMLConstants.NULL_NS_URI;
+    public @NotNull String getName() {
+      return "";
     }
 
     @Override

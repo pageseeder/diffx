@@ -42,7 +42,7 @@ public final class CompareReplaceFilter extends DiffFilter<XMLToken> implements 
   }
 
   @Override
-  public void handle(@NotNull Operator operator, XMLToken token) {
+  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
     if (token instanceof TextToken && operator.isEdit()) {
       if (this.previous != null) {
         diff((TextToken) token, (TextToken) this.previous.token(), operator == Operator.INS);
@@ -60,7 +60,7 @@ public final class CompareReplaceFilter extends DiffFilter<XMLToken> implements 
   private void diff(TextToken a, TextToken b, boolean forward) {
     List<TextToken> tokensA = this.tokenizer.tokenize(a.getCharacters());
     List<TextToken> tokensB = this.tokenizer.tokenize(b.getCharacters());
-    TextOnlyProcessor diff = new TextOnlyProcessor();
+    TextOnlyProcessor<XMLToken> diff = new TextOnlyProcessor<>();
     if (forward)
       diff.diff(tokensA, tokensB, this.target);
     else

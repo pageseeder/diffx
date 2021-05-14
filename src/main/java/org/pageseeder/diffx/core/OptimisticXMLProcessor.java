@@ -15,7 +15,10 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.*;
+import org.pageseeder.diffx.algorithm.DataLengthException;
+import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
+import org.pageseeder.diffx.algorithm.MyersGreedyAlgorithm;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationsBuffer;

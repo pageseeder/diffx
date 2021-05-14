@@ -42,7 +42,7 @@ public class OperationsBuffer<T> implements DiffHandler<T> {
    * Create a new operation for the operator and token.
    */
   @Override
-  public void handle(@NotNull Operator operator, T token) {
+  public void handle(@NotNull Operator operator, @NotNull T token) {
     this.operations.add(new Operation<>(operator, token));
   }
 

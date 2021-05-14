@@ -29,6 +29,7 @@ import java.io.UncheckedIOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
+@Deprecated
 public class FormattingAdapter implements DiffHandler<XMLToken> {
 
   /**

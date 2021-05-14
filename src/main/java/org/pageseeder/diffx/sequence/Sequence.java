@@ -28,11 +28,10 @@ import java.util.List;
  *
  * <p>This class wraps a list of <code>XMLToken</code>s alongside the namespaces.
  *
- * @implNote we use an <code>ArrayList</code> to store the tokens because some algorithms
- * need random access. Other list implementations may affect performance.
- *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @implNote we use an <code>ArrayList</code> to store the tokens because some algorithms
+ * need random access. Other list implementations may affect performance.
  * @since 0.7
  */
 public final class Sequence implements Iterable<XMLToken> {

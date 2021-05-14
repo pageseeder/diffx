@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -96,17 +97,17 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   }
 
   @Override
-  public String getName() {
+  public @NotNull String getName() {
     return this.name;
   }
 
   @Override
-  public String getNamespaceURI() {
+  public @NotNull String getNamespaceURI() {
     return this.uri;
   }
 
   @Override
-  public String getValue() {
+  public @NotNull String getValue() {
     return this.value;
   }
 
@@ -144,12 +145,12 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   }
 
   @Override
-  public void toXML(XMLWriter xml) throws IOException {
+  public void toXML(@NotNull XMLWriter xml) throws IOException {
     xml.attribute(this.uri, this.name, this.value);
   }
 
   @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     if (this.uri.isEmpty())
       xml.writeAttribute(this.name, this.value);
     else

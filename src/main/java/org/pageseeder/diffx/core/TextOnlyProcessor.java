@@ -167,7 +167,7 @@ public final class TextOnlyProcessor<T> implements DiffProcessor<T> {
       return this.startCount + this.endCount;
     }
 
-    int computeStart(){
+    int computeStart() {
       int counter = 0;
       Iterator<? extends T> i = this.a.iterator();
       Iterator<? extends T> j = this.b.iterator();

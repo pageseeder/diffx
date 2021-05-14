@@ -67,7 +67,7 @@ public final class Operations {
   /**
    * Apply the specified list of operations to the input sequence and return the corresponding output.
    */
-  public static <T> Sequence apply(Sequence input, List<Operation<XMLToken>> operations) {
+  public static Sequence apply(Sequence input, List<Operation<XMLToken>> operations) {
     List<XMLToken> tokens = apply(input.tokens(), operations);
     Sequence out = new Sequence(tokens.size());
     out.addTokens(tokens);

@@ -188,6 +188,6 @@ final class Vector {
   @Override
   public String toString() {
     return "V " + this.array.length + " {" + (this.delta - this.max) + ".." + this.delta + ".." +
-        (this.delta + this.max) + "} "+ Arrays.toString(this.array);
+        (this.delta + this.max) + "} " + Arrays.toString(this.array);
   }
 }

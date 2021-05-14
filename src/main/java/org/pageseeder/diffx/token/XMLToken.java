@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.xml.XMLStreamable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
@@ -36,12 +37,30 @@ import javax.xml.XMLConstants;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface XMLToken extends XMLWritable, XMLStreamable {
+public interface XMLToken extends Token, XMLWritable, XMLStreamable {
+
+  /**
+   * Returns the local name of the token.
+   *
+   * <p>This method should never return <code>null</code>.
+   *
+   * @return The local name of the attribute.
+   */
+  @NotNull String getName();
+
+  /**
+   * Returns the value of the token.
+   *
+   * <p>This method should never return <code>null</code>.
+   *
+   * @return The value of the attribute.
+   */
+  String getValue();
 
   /**
    * @return The type of token.
    */
-  XMLTokenType getType();
+  @NotNull XMLTokenType getType();
 
   /**
    * Indicates whether the specified token is equal to this token.
@@ -54,15 +73,6 @@ public interface XMLToken extends XMLWritable, XMLStreamable {
   boolean equals(XMLToken token);
 
   /**
-   * Returns the local name of the token.
-   *
-   * <p>This method should never return <code>null</code>.
-   *
-   * @return The local name of the attribute.
-   */
-  String getName();
-
-  /**
    * Returns the namespace URI the token.
    *
    * <p>This method should return <code>""</code> (empty string) if the implementation
@@ -70,17 +80,8 @@ public interface XMLToken extends XMLWritable, XMLStreamable {
    *
    * @return The namespace URI the attribute belongs to or <code>""</code>.
    */
-  default String getNamespaceURI() {
+  default @NotNull String getNamespaceURI() {
     return XMLConstants.NULL_NS_URI;
   }
-
-  /**
-   * Returns the value of the token.
-   *
-   * <p>This method should never return <code>null</code>.
-   *
-   * @return The value of the attribute.
-   */
-  String getValue();
 
 }

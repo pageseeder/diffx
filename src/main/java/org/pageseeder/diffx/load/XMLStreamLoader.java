@@ -20,10 +20,10 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.XMLComment;
-import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.token.impl.XMLComment;
+import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
 import org.xml.sax.InputSource;
 
 import javax.xml.XMLConstants;

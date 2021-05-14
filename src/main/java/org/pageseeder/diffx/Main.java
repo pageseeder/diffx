@@ -26,6 +26,7 @@ import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.util.CommandLine;
 import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Node;
@@ -284,7 +285,7 @@ public final class Main {
       if (!quiet) {
         System.err.println("Matrix: " + seq1.size() + "x" + seq2.size());
       }
-      DiffProcessor processor = getProcessor(args);
+      DiffProcessor<XMLToken> processor = getProcessor(args);
       if (processor == null) return;
       processor.diff(seq1.tokens(), seq2.tokens(), output);
 
@@ -313,7 +314,7 @@ public final class Main {
     System.err.println("  -o [output]     The output file");
     System.err.println("  -l [loader]     Choose a specific loader");
     System.err.println("                   sax* | dom | stream | stax | text");
-    System.err.println("  -p [processor]  Choose a specific algorithm");
+    System.err.println("  -p [processor]  Choose a specific processor");
     System.err.println("                   optimistic* | xml | text");
     System.err.println("  -f [format]     Choose a specific formatter");
     System.err.println("                   default* | complete | strict | report");
@@ -364,14 +365,14 @@ public final class Main {
    *
    * @return The algorithm to use.
    */
-  private static DiffProcessor<?> getProcessor(String[] args) {
+  private static DiffProcessor<XMLToken> getProcessor(String[] args) {
     String loaderArg = CommandLine.getParameter("-p", args);
     if (loaderArg == null || "optimistic".equals(loaderArg))
       return new DefaultXMLProcessor();
     if ("xml".equals(loaderArg))
       return new OptimisticXMLProcessor();
     if ("text".equals(loaderArg))
-      return new TextOnlyProcessor();
+      return new TextOnlyProcessor<>();
     usage();
     return null;
   }

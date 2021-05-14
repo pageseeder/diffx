@@ -50,7 +50,6 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
 
   /**
    * An instance of this algorithm for the sequences being compared.
-
    */
   private static class Instance {
 
@@ -86,7 +85,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
       boolean found = false;
       for (int d = 0; d <= max; d++) {
         found = forward(vector, elements, d);
-        if (DEBUG) System.err.println("D"+d+": "+elements+" | "+vector+"\n");
+        if (DEBUG) System.err.println("D" + d + ": " + elements + " | " + vector + "\n");
         vectors.add(vector.createCopy(d));
         // We've found a path
         if (found) break;
@@ -115,13 +114,13 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
         int y = x - k;
 
         XMLToken editToken = getEditToken(down, x, y);
-        if (DEBUG) System.err.print("D"+d+"? K"+k+" "+(down? "DOWN" : "RIGHT")+" ("+x+","+y+")");
+        if (DEBUG) System.err.print("D" + d + "? K" + k + " " + (down ? "DOWN" : "RIGHT") + " (" + x + "," + y + ")");
 
         if (editToken == null || elements.isAllowed(k, down ? Operator.INS : Operator.DEL, editToken)) {
 
           if (editToken != null) {
-            Operator op = down? Operator.INS : Operator.DEL;
-            if (DEBUG) System.out.print(" "+ op + editToken);
+            Operator op = down ? Operator.INS : Operator.DEL;
+            if (DEBUG) System.out.print(" " + op + editToken);
             elements.update(k, op, editToken);
           }
 
@@ -135,12 +134,12 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
           }
 
         } else {
-          if (DEBUG) System.out.print(" !"+(down ? Operator.INS : Operator.DEL)+editToken);
-          x = down ? x : x -1;
+          if (DEBUG) System.out.print(" !" + (down ? Operator.INS : Operator.DEL) + editToken);
+          x = down ? x : x - 1;
           y = down ? y - 1 : y;
         }
 
-        if (DEBUG) System.out.println(" -> ("+x+","+y+")");
+        if (DEBUG) System.out.println(" -> (" + x + "," + y + ")");
 
         // Save end points
         vector.setX(k, x);
@@ -155,9 +154,9 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
     }
 
     private XMLToken getEditToken(boolean down, int x, int y) {
-      boolean hasEdit = down? y > 0 && y <= sizeB : x > 0 && x <= sizeA;
+      boolean hasEdit = down ? y > 0 && y <= sizeB : x > 0 && x <= sizeA;
       if (!hasEdit) return null;
-      return down ? this.b.get(y-1) : this.a.get(x-1);
+      return down ? this.b.get(y - 1) : this.a.get(x - 1);
     }
 
     /**
@@ -172,7 +171,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
         int k = p.x() - p.y();
         int xEnd = vector.getX(k);
         int yEnd = xEnd - k;
-        if (DEBUG) System.out.println("D="+d+" k="+k+" x="+xEnd+" y="+yEnd);
+        if (DEBUG) System.out.println("D=" + d + " k=" + k + " x=" + xEnd + " y=" + yEnd);
 
         if (!p.isSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");

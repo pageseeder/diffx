@@ -18,7 +18,7 @@ package org.pageseeder.diffx.action;
 import java.util.Objects;
 
 /**
- * An immutable atomic Diff operation associated with a single token.
+ * An immutable atomic Diff operation on a single token.
  *
  * @author Christophe Lauret
  * @version 0.9.0
