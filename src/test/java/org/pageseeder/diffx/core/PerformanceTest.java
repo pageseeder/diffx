@@ -144,17 +144,17 @@ public class PerformanceTest {
       List<CharToken> second = TestTokens.toCharTokens(from);
       List<CharToken> first = TestTokens.toCharTokens(to);
 
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
     }
   }
 
   @Test
   public void compareGeneralAlgorithms2() {
-    int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
+    int[] lengths = new int[]{500, 1_000, 2_000, 5_000, 10_000};
     for (int length : lengths) {
       // Generate content
       String from = getRandomString(length, false);
@@ -162,11 +162,11 @@ public class PerformanceTest {
       List<CharToken> second = TestTokens.toCharTokens(from);
       List<CharToken> first = TestTokens.toCharTokens(to);
 
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
-      profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
     }
   }
 
@@ -179,7 +179,7 @@ public class PerformanceTest {
     List<CharToken> first = TestTokens.toCharTokens(to);
 
     profileX(new DefaultXMLProcessor(), first, second, 10);
-    profileX(new TextOnlyProcessor(), first, second, 10);
+    profileX(new TextOnlyProcessor<CharToken>(), first, second, 10);
     profileX(new OptimisticXMLProcessor(), first, second, 10);
   }
 

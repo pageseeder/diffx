@@ -16,9 +16,11 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
+import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.DOWN;
@@ -37,13 +39,37 @@ import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.RIGHT;
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial1">Myers' Diff Algorithm: The basic greedy algorithm</a>
  */
-public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements DiffAlgorithm<T> {
+public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
 
   @Override
   public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
-    Instance<T> instance = new Instance<>(from, to);
-    List<EdgeSnake> snakes = instance.computePath();
-    handleResults(from, to, handler, snakes);
+    MyersGreedyAlgorithm.Instance<T> instance = new MyersGreedyAlgorithm.Instance<>(from, to);
+    List<Snake> snakes = instance.computePath();
+    handle(from, to, handler, snakes);
+  }
+
+  /**
+   * Handles the results of the diff by following the snakes.
+   */
+  private void handle(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<Snake> snakes) {
+    int x = 0;
+    int y = 0;
+    for (Snake snake : snakes) {
+      Point start = snake.getStart();
+      while (x < start.x()) {
+        handler.handle(Operator.DEL, a.get(x));
+        x++;
+      }
+      while (y < start.y()) {
+        handler.handle(Operator.INS, b.get(y));
+        y++;
+      }
+      for (int i = 0; i < snake.length(); i++) {
+        handler.handle(Operator.MATCH, a.get(x));
+        x++;
+        y++;
+      }
+    }
   }
 
   /**
@@ -73,24 +99,24 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
      * @return the corresponding list of snakes
      * @throws IllegalStateException If no solution was found.
      */
-    private List<EdgeSnake> computePath() {
+    private List<Snake> computePath() {
       Vector vector = Vector.createGreedy(this.sizeA, this.sizeB);
       List<Vector> vectors = new ArrayList<>();
-      EdgeSnake last = null;
 
       // Maximum length for the path (N + M)
       final int max = sizeA + sizeB;
 
       // Find the endpoint of the furthest reaching D-path in diagonal k
+      boolean found = false;
       for (int d = 0; d <= max; d++) {
-        last = forward(vector, d);
+        found = forward(vector, d);
         vectors.add(vector.createCopy(d, true, 0));
-        if (last != null) {
+        if (found) {
           break;
         }
       }
 
-      if (last == null)
+      if (!found)
         throw new IllegalStateException("Unable to find a solution!");
 
       // Compute the snakes from the vectors
@@ -100,25 +126,22 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * @return the last snake when a solution has been found.
      */
-    private EdgeSnake forward(Vector vector, int d) {
+    private boolean forward(Vector vector, int d) {
       for (int k = -d; k <= d; k += 2) {
         // DOWN (insertion) or RIGHT (deletion)
         boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
 
         // To get to line k, we move DOWN (k+1) or RIGHT (k-1)
         int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
-        int yStart = xStart - (down ? k + 1 : k - 1);
 
         // Calculate end points
         int xEnd = down ? xStart : xStart + 1;
         int yEnd = xEnd - k;
 
         // Follow diagonals
-        int matching = 0;
         while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd).equals(b.get(yEnd))) {
           xEnd++;
           yEnd++;
-          matching++;
         }
 
         // Save end points
@@ -126,64 +149,46 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
 
         // Check if we've reached the end
         if (xEnd >= sizeA && yEnd >= sizeB) {
-          return EdgeSnake.create(0, sizeA, 0, sizeB, down ? DOWN : RIGHT, xStart, yStart, 1, matching);
+          return true;
         }
       }
 
-      return null;
+      return false;
     }
 
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private List<EdgeSnake> solve(List<Vector> vectors) {
-      List<EdgeSnake> snakes = new ArrayList<>();
-      Point p = new Point(this.sizeA, this.sizeB);
+    private List<Snake> solve(List<Vector> vectors) {
+      LinkedList<Snake> snakes = new LinkedList<>();
+      Point target = new Point(this.sizeA, this.sizeB);
 
-      for (int d = vectors.size() - 1; p.x() > 0 || p.y() > 0; d--) {
+      // We go backwards following the vectors to get the snakes
+      for (int d = vectors.size() - 1; target.x() > 0 || target.y() > 0; d--) {
         Vector vector = vectors.get(d);
-        int k = p.x() - p.y();
+        int k = target.x() - target.y();
         int xEnd = vector.getX(k);
         int yEnd = xEnd - k;
 
-        if (!p.isSame(xEnd, yEnd))
-          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
+        if (!target.isSame(xEnd, yEnd))
+          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + target + " V:( " + xEnd + ", " + yEnd + " )");
 
-        EdgeSnake solution = createToPoint(p, vector, k, d);
+        boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
+        int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
+        int yStart = xStart - (down ? k + 1 : k - 1);
+        int matching = Math.min(xEnd - xStart, yEnd - yStart);
 
-        if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
-          throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
-
-        if (snakes.size() > 0) {
-          EdgeSnake snake = snakes.get(0);
-          // Combine snakes if possible
-          if (!snake.append(solution)) {
-            snakes.add(0, solution);
-          }
-        } else {
-          snakes.add(0, solution);
+        // Only include non-empty snakes and the last one
+        if (matching > 0 || snakes.isEmpty()) {
+          Snake snake = new Snake(new Point(target.x() - matching, target.y() - matching), matching);
+          snakes.addFirst(snake);
         }
 
-        p = solution.getStartPoint();
+        target = new Point(xStart, Math.max(yStart, 0));
       }
       return snakes;
     }
 
-  }
-
-  private static EdgeSnake createToPoint(Point point, Vector vector, int k, int d) {
-    final int aEnd = point.x();
-    final int bEnd = point.y();
-    boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
-    int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
-    int yStart = xStart - (down ? k + 1 : k - 1);
-    int xEnd = down ? xStart : xStart + 1;
-    int yEnd = xEnd - k;
-    int matching = Math.min(aEnd - xEnd, bEnd - yEnd);
-
-    // Create corresponding snake instance
-    EdgeSnake.Direction direction = down ? EdgeSnake.Direction.DOWN : EdgeSnake.Direction.RIGHT;
-    return EdgeSnake.create(0, aEnd, 0, bEnd, direction, xStart, yStart, 1, matching);
   }
 
 }

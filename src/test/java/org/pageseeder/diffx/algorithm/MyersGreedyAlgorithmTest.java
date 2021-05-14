@@ -27,7 +27,7 @@ import org.pageseeder.diffx.token.XMLToken;
 public final class MyersGreedyAlgorithmTest {
 
   private MyersGreedyAlgorithm<XMLToken> newAlgorithm() {
-    return new MyersGreedyAlgorithm<XMLToken>();
+    return new MyersGreedyAlgorithm<>();
   }
 
   @Nested
@@ -49,7 +49,7 @@ public final class MyersGreedyAlgorithmTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

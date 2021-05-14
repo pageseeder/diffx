@@ -43,6 +43,10 @@ public final class Point {
     return x == this.x && y == this.y;
   }
 
+  public Point plus(int x, int y) {
+    return new Point(this.x+x, this.y+y);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
