@@ -21,6 +21,7 @@ import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.RandomGeneralDiffTest;
 import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Test case for text only algorithm.
@@ -30,14 +31,14 @@ import org.pageseeder.diffx.token.Token;
  */
 public final class TextOnlyProcessorTest {
 
-  private DiffAlgorithm<Token> newProcessor() {
-    return new TextOnlyProcessor();
+  private DiffAlgorithm<XMLToken> newProcessor() {
+    return new TextOnlyProcessor<>();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -45,7 +46,7 @@ public final class TextOnlyProcessorTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -53,7 +54,7 @@ public final class TextOnlyProcessorTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }

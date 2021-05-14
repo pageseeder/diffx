@@ -24,7 +24,7 @@ import org.pageseeder.diffx.core.DefaultXMLProcessor;
 import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.TestTokens;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.IOException;
@@ -37,19 +37,19 @@ public class FormatComparisonTest {
     Sequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
     Sequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());
-    List<Operation<Token>> operations = toOperations(from, to);
+    List<Operation<XMLToken>> operations = toOperations(from, to);
     printAllOutputs(operations, namespaces);
   }
 
-  private static List<Operation<Token>> toOperations(Sequence from, Sequence to) {
-    OperationsBuffer<Token> handler = new OperationsBuffer<>();
+  private static List<Operation<XMLToken>> toOperations(Sequence from, Sequence to) {
+    OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(true);
     processor.diff(to.tokens(), from.tokens(), handler);
     return handler.getOperations();
   }
 
-  private static void printAllOutputs(List<Operation<Token>> operations, NamespaceSet namespaces) throws IOException {
+  private static void printAllOutputs(List<Operation<XMLToken>> operations, NamespaceSet namespaces) throws IOException {
     printSafeXMLFormatter(operations, namespaces);
     printDefaultXMLOutput(operations, namespaces);
     printComprehensiveXMLOutput(operations, namespaces);
@@ -57,7 +57,7 @@ public class FormatComparisonTest {
     printReportXMLOutput(operations, namespaces);
   }
 
-  private static void printSafeXMLFormatter(List<Operation<Token>> operations, NamespaceSet namespaces) throws IOException {
+  private static void printSafeXMLFormatter(List<Operation<XMLToken>> operations, NamespaceSet namespaces) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
     formatter.setWriteXMLDeclaration(false);
@@ -68,7 +68,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printDefaultXMLOutput(List<Operation<Token>> operations, NamespaceSet namespaces) {
+  private static void printDefaultXMLOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new DefaultXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -76,7 +76,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printStrictXMLOutput(List<Operation<Token>> operations, NamespaceSet namespaces) {
+  private static void printStrictXMLOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffOutput output = new StrictXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -84,7 +84,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printComprehensiveXMLOutput(List<Operation<Token>> operations, NamespaceSet namespaces) {
+  private static void printComprehensiveXMLOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     CompleteXMLDiffOutput output = new CompleteXMLDiffOutput(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -92,7 +92,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printReportXMLOutput(List<Operation<Token>> operations, NamespaceSet namespaces) {
+  private static void printReportXMLOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     XMLDiffReporter output = new XMLDiffReporter(xml);
     printXMLDiffOutput(operations, namespaces, output);
@@ -100,7 +100,7 @@ public class FormatComparisonTest {
     System.out.println(xml);
   }
 
-  private static void printXMLDiffOutput(List<Operation<Token>> operations, NamespaceSet namespaces, XMLDiffOutput output) {
+  private static void printXMLDiffOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces, XMLDiffOutput output) {
     output.setWriteXMLDeclaration(false);
     output.setNamespaces(namespaces);
     output.start();
@@ -108,8 +108,8 @@ public class FormatComparisonTest {
     output.end();
   }
 
-  private static void format(List<Operation<Token>> operations, DiffXFormatter formatter) throws IOException {
-    for (Operation<Token> operation : operations) {
+  private static void format(List<Operation<XMLToken>> operations, DiffXFormatter formatter) throws IOException {
+    for (Operation<XMLToken> operation : operations) {
       switch (operation.operator()) {
         case MATCH:
           formatter.format(operation.token());

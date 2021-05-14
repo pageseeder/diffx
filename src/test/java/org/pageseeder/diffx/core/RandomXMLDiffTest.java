@@ -23,7 +23,7 @@ import org.pageseeder.diffx.algorithm.DiffAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.*;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Document;
 
@@ -39,7 +39,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class RandomXMLDiffTest extends AlgorithmTest<Token> {
+public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
 
   @Test
   public final void testRandom1() throws DiffException {
@@ -100,8 +100,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<Token> {
     Sequence seqB = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(seqA.getNamespaces(), seqB.getNamespaces());
     // Process as list of actions
-    DiffAlgorithm<Token> algo = getDiffAlgorithm();
-    List<Action<Token>> actions = TestActions.diffToActions(algo, seqA.tokens(), seqB.tokens());
+    DiffAlgorithm<XMLToken> algo = getDiffAlgorithm();
+    List<Action<XMLToken>> actions = TestActions.diffToActions(algo, seqA.tokens(), seqB.tokens());
 
     try {
       DiffAssertions.assertIsCorrect(seqA, seqB, actions);

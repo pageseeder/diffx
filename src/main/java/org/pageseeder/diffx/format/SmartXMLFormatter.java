@@ -18,7 +18,7 @@ package org.pageseeder.diffx.format;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -71,21 +71,21 @@ public final class SmartXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void format(Token token) throws IOException {
+  public void format(XMLToken token) throws IOException {
     this.startIfFirst();
     this.output.handleMatch(token);
     this.output.xml.flush();
   }
 
   @Override
-  public void insert(Token token) throws IOException {
+  public void insert(XMLToken token) throws IOException {
     this.startIfFirst();
     this.output.handleEdit(Operator.INS, token);
     this.output.xml.flush();
   }
 
   @Override
-  public void delete(Token token) throws IOException {
+  public void delete(XMLToken token) throws IOException {
     this.startIfFirst();
     this.output.handleEdit(Operator.DEL, token);
     this.output.xml.flush();

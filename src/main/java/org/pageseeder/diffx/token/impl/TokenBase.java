@@ -15,30 +15,30 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * A base class for DiffX tokens.
  *
  * <p>
  * This class is purely provided for convenience and consistency, it is best, although not strictly
- * required, that most <code>Token</code> implementations extend this class.
+ * required, that most <code>XMLToken</code> implementations extend this class.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  * @since 0.6.0
  */
-abstract class TokenBase implements Token {
+abstract class TokenBase implements XMLToken {
 
   @Override
   public abstract int hashCode();
 
   @Override
-  public abstract boolean equals(Token token);
+  public abstract boolean equals(XMLToken token);
 
   /**
-   * Invokes the {@link Token#equals(Token)} method if the specified object if not
-   * <code>null</code> and is an instance of {@link Token}.
+   * Invokes the {@link XMLToken#equals(XMLToken)} method if the specified object if not
+   * <code>null</code> and is an instance of {@link XMLToken}.
    *
    * @param o The object to compare.
    *
@@ -47,8 +47,8 @@ abstract class TokenBase implements Token {
    */
   @Override
   public final boolean equals(Object o) {
-    if (!(o instanceof Token)) return false;
-    return equals((Token) o);
+    if (!(o instanceof XMLToken)) return false;
+    return equals((XMLToken) o);
   }
 
 }

@@ -19,7 +19,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 
@@ -99,7 +99,7 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
   @Override
   public int length() {
     if (this.length < 0) {
-      MatrixProcessor<Token> builder = new MatrixProcessor<>();
+      MatrixProcessor<XMLToken> builder = new MatrixProcessor<>();
       builder.setInverse(true);
       this.matrix = builder.process(this.sequence1, this.sequence2);
       this.length = this.matrix.getLCSLength();
@@ -123,8 +123,8 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
     length();
     int i = 0;
     int j = 0;
-    Token t1;
-    Token t2;
+    XMLToken t1;
+    XMLToken t2;
     // start walking the matrix
     while (i < this.length1 && j < this.length2) {
       t1 = this.sequence1.getToken(i);
@@ -338,8 +338,8 @@ public final class GuanoAlgorithm implements DiffXAlgorithm {
    * @param j The Y position.
    */
   private void printLost(int i, int j) {
-    Token t1 = this.sequence1.getToken(i);
-    Token t2 = this.sequence2.getToken(j);
+    XMLToken t1 = this.sequence1.getToken(i);
+    XMLToken t2 = this.sequence2.getToken(j);
     System.err.println("(!) Ambiguous choice in (" + i + "," + j + ")");
     System.err.println(" ? +" + t1);
     System.err.println(" ? -" + t2);

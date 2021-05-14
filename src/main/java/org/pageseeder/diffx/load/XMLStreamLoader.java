@@ -20,8 +20,8 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CommentToken;
-import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.impl.XMLComment;
+import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.xml.sax.InputSource;
@@ -112,7 +112,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   public Sequence load(XMLStreamReader reader) throws LoadingException {
-    TokenFactory tokenFactory = new TokenFactory(this.config.isNamespaceAware());
+    XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
     Sequence sequence = new Sequence();
@@ -147,7 +147,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     return factory;
   }
 
-  private static void processStartElement(XMLStreamReader stream, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
+  private static void processStartElement(XMLStreamReader stream, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     assert stream.isStartElement();
     QName name = stream.getName();
     StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
@@ -185,7 +185,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processEndElement(XMLStreamReader stream, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
+  private static void processEndElement(XMLStreamReader stream, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     assert stream.isEndElement();
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
     EndElementToken endElement = factory.newEndElement(startElement);
@@ -206,10 +206,10 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
    */
   private static void processOther(XMLStreamReader stream, Sequence sequence) {
     if (stream.getEventType() == PROCESSING_INSTRUCTION) {
-      Token token = new ProcessingInstructionToken(stream.getPITarget(), stream.getPIData());
+      XMLToken token = new XMLProcessingInstruction(stream.getPITarget(), stream.getPIData());
       sequence.addToken(token);
     } else if (stream.getEventType() == COMMENT) {
-      CommentToken token = new CommentToken(stream.getText());
+      XMLComment token = new XMLComment(stream.getText());
       sequence.addToken(token);
     }
   }

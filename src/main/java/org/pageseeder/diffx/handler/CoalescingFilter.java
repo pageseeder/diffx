@@ -18,7 +18,7 @@ package org.pageseeder.diffx.handler;
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.9.0
  */
-public final class CoalescingFilter extends DiffFilter<Token> implements DiffHandler<Token> {
+public final class CoalescingFilter extends DiffFilter<XMLToken> implements DiffHandler<XMLToken> {
 
   /**
    * Buffer of text token to coalesce.
@@ -50,12 +50,12 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
    */
   private Operator current = Operator.MATCH;
 
-  public CoalescingFilter(DiffHandler<Token> target) {
+  public CoalescingFilter(DiffHandler<XMLToken> target) {
     super(target);
   }
 
   @Override
-  public void handle(@NotNull Operator operator, @NotNull Token token) throws IllegalStateException {
+  public void handle(@NotNull Operator operator, @NotNull XMLToken token) throws IllegalStateException {
     if (token instanceof TextToken) {
       handleText((TextToken) token, operator);
     } else {
@@ -128,12 +128,12 @@ public final class CoalescingFilter extends DiffFilter<Token> implements DiffHan
    *
    * @return A list of tokens with text tokens coalesced.
    */
-  public static List<? extends Token> coalesce(@NotNull List<? extends Token> tokens) {
+  public static List<? extends XMLToken> coalesce(@NotNull List<? extends XMLToken> tokens) {
     // If there's only one token, no need to coalesce
     if (tokens.size() <= 1) return tokens;
-    List<Token> coalesced = new ArrayList<>();
+    List<XMLToken> coalesced = new ArrayList<>();
     CoalescingFilter filter = new CoalescingFilter((operator, token) -> coalesced.add(token));
-    for (Token token : tokens) filter.handle(Operator.MATCH, token);
+    for (XMLToken token : tokens) filter.handle(Operator.MATCH, token);
     return coalesced;
   }
 

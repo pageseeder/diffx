@@ -17,9 +17,8 @@ package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.core.AdvancedXMLDiffTest;
-import org.pageseeder.diffx.core.DefaultXMLProcessor;
 import org.pageseeder.diffx.core.RandomXMLDiffTest;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Test case for the Myers' greedy algorithm.
@@ -36,7 +35,7 @@ public final class MyersGreedyXMLAlgorithmTest {
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -44,7 +43,7 @@ public final class MyersGreedyXMLAlgorithmTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -60,7 +59,7 @@ public final class MyersGreedyXMLAlgorithmTest {
   @Nested
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -68,7 +67,7 @@ public final class MyersGreedyXMLAlgorithmTest {
   @Nested
   public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -76,7 +75,7 @@ public final class MyersGreedyXMLAlgorithmTest {
   @Nested
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

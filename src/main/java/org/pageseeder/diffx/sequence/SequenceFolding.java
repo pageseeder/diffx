@@ -18,7 +18,7 @@ package org.pageseeder.diffx.sequence;
 import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.XMLElement;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class SequenceFolding {
   public Sequence fold(Sequence input) {
     if (this.elements.isEmpty()) return input;
     FoldingProcessor processor = new FoldingProcessor();
-    for (Token token : input.tokens()) {
+    for (XMLToken token : input.tokens()) {
       processor.add(token);
     }
     return processor.sequence();
@@ -76,28 +76,28 @@ public class SequenceFolding {
    *
    * @return The collapsed sequence.
    */
-  public List<? extends Token> fold(List<? extends Token> tokens) {
+  public List<? extends XMLToken> fold(List<? extends XMLToken> tokens) {
     if (this.elements.isEmpty()) return tokens;
     FoldingProcessor processor = new FoldingProcessor();
-    for (Token token : tokens) {
+    for (XMLToken token : tokens) {
       processor.add(token);
     }
     return processor.tokens();
   }
 
-  private boolean isFoldable(Token token) {
+  private boolean isFoldable(XMLToken token) {
     if (!(token instanceof StartElementToken)) return false;
     if (this.elements == ALL) return true;
     return this.elements.contains(((StartElementToken) token).getName());
   }
 
-  private boolean isMatching(Token token, StartElementToken open) {
+  private boolean isMatching(XMLToken token, StartElementToken open) {
     return token instanceof EndElementToken && ((EndElementToken) token).match(open);
   }
 
   private class FoldingProcessor {
 
-    private final List<Token> tokens = new ArrayList<>();
+    private final List<XMLToken> tokens = new ArrayList<>();
 
     private final List<Folder> stack = new ArrayList<>();
 
@@ -109,7 +109,7 @@ public class SequenceFolding {
       return this.stack.size() > 0;
     }
 
-    void add(Token token) {
+    void add(XMLToken token) {
       if (isFoldable(token)) {
         Folder subfolder = new Folder((StartElementToken) token);
         this.stack.add(subfolder);
@@ -131,7 +131,7 @@ public class SequenceFolding {
       }
     }
 
-    List<? extends Token> tokens() {
+    List<? extends XMLToken> tokens() {
       return this.tokens;
     }
 
@@ -144,13 +144,13 @@ public class SequenceFolding {
 
     final StartElementToken open;
 
-    private final List<Token> children = new ArrayList<>();
+    private final List<XMLToken> children = new ArrayList<>();
 
     Folder(StartElementToken open) {
       this.open = open;
     }
 
-    void add(Token token) {
+    void add(XMLToken token) {
       this.children.add(token);
     }
 

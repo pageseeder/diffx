@@ -26,7 +26,6 @@ import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.*;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.util.CommandLine;
 import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.Node;
@@ -285,7 +284,7 @@ public final class Main {
       if (!quiet) {
         System.err.println("Matrix: " + seq1.size() + "x" + seq2.size());
       }
-      DiffProcessor<Token> processor = getProcessor(args);
+      DiffProcessor processor = getProcessor(args);
       if (processor == null) return;
       processor.diff(seq1.tokens(), seq2.tokens(), output);
 
@@ -365,7 +364,7 @@ public final class Main {
    *
    * @return The algorithm to use.
    */
-  private static DiffProcessor<Token> getProcessor(String[] args) {
+  private static DiffProcessor<?> getProcessor(String[] args) {
     String loaderArg = CommandLine.getParameter("-p", args);
     if (loaderArg == null || "optimistic".equals(loaderArg))
       return new DefaultXMLProcessor();

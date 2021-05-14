@@ -18,7 +18,7 @@ package org.pageseeder.diffx.sequence;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -119,12 +119,12 @@ public final class SequenceSlicer {
     this.start = new Sequence();
     int toBeRemoved = 0; // the number of tokens to be removed
     int depth = 0;       // the depth of the XML or number of open elements
-    Iterator<Token> i = this.sequence1.iterator();
-    Iterator<Token> j = this.sequence2.iterator();
+    Iterator<XMLToken> i = this.sequence1.iterator();
+    Iterator<XMLToken> j = this.sequence2.iterator();
     int counter = 0;
     // calculate the max possible index for slicing.
     while (i.hasNext() && j.hasNext()) {
-      Token token = i.next();
+      XMLToken token = i.next();
       if (j.next().equals(token)) {
         counter++;
         // increase the depth
@@ -145,7 +145,7 @@ public final class SequenceSlicer {
     }
     // slice the beginning of the file
     for (int k = 0; k < toBeRemoved; k++) {
-      Token token = this.sequence1.removeToken(0);
+      XMLToken token = this.sequence1.removeToken(0);
       this.sequence2.removeToken(0);
       this.start.addToken(token);
     }
@@ -171,7 +171,7 @@ public final class SequenceSlicer {
     int pos1 = this.sequence1.size() - 1;  // current position of the first sequence
     int pos2 = this.sequence2.size() - 1;  // current position of the second sequence
     while (pos1 >= 0 && pos2 >= 0) {
-      Token token = this.sequence1.getToken(pos1);
+      XMLToken token = this.sequence1.getToken(pos1);
       if (token.equals(this.sequence2.getToken(pos2))) {
         counter++;
         // increase the depth for close, decrease for open
@@ -194,7 +194,7 @@ public final class SequenceSlicer {
     // slice the end of the first sequence
     int downTo = this.sequence1.size() - toBeRemoved;
     for (int k = this.sequence1.size() - 1; k >= downTo; k--) {
-      Token token = this.sequence1.removeToken(k);
+      XMLToken token = this.sequence1.removeToken(k);
       this.end.addToken(0, token);
     }
     // slice the end of the second sequence

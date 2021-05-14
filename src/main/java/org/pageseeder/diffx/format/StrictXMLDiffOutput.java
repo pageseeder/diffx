@@ -119,9 +119,9 @@ public final class StrictXMLDiffOutput extends XMLDiffOutputBase implements XMLD
   }
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
-      if (token.getType() != TokenType.ATTRIBUTE) {
+      if (token.getType() != XMLTokenType.ATTRIBUTE) {
         // close any ins / del tag that don't match the current operator
         if (this.lastOperatorTag.isEdit() && this.lastOperatorTag != operator) {
           this.xml.writeEndElement();

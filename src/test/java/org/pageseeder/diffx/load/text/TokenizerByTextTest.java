@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load.text;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -126,7 +126,7 @@ public final class TokenizerByTextTest {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
-    Token space = e.get(0);
+    XMLToken space = e.get(0);
     assertEquals(new SpaceToken(" "), space);
     assertSame(SpaceToken.SINGLE_WHITESPACE, space);
   }
@@ -139,7 +139,7 @@ public final class TokenizerByTextTest {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("  ");
     assertEquals(1, e.size());
-    Token space = e.get(0);
+    XMLToken space = e.get(0);
     assertEquals(new SpaceToken("  "), space);
     assertSame(SpaceToken.DOUBLE_WHITESPACE, space);
   }
@@ -152,7 +152,7 @@ public final class TokenizerByTextTest {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("\n");
     assertEquals(1, e.size());
-    Token space = e.get(0);
+    XMLToken space = e.get(0);
     assertEquals(new SpaceToken("\n"), space);
     assertSame(SpaceToken.NEW_LINE, space);
   }

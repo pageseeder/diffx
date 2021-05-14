@@ -20,28 +20,25 @@ import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
-abstract class DiffProcessorBase implements DiffProcessor<Token> {
+abstract class DiffProcessorBase implements XMLDiffProcessor {
 
   protected boolean coalesce = false;
 
-  /**
-   * Set whether to consecutive text operations should be coalesced into a single operation.
-   *
-   * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
-   */
+  @Override
   public void setCoalesce(boolean coalesce) {
     this.coalesce = coalesce;
   }
 
+  @Override
   public boolean isCoalescing() {
     return this.coalesce;
   }
 
   @Override
-  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<Token> handler)
+  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<XMLToken> handler)
       throws DiffException {
 
     // Supply the namespaces to the output

@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class EndElementTokenTest {
+public class EndElementXMLTokenTest {
 
   @Test
   void testEquals() {

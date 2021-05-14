@@ -20,7 +20,7 @@ import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.handler.PostXMLFixer;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class OptimisticXMLProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
+public final class OptimisticXMLProcessor extends DiffProcessorBase implements XMLDiffProcessor {
 
   private static final boolean DEBUG = false;
 
@@ -55,9 +55,9 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     // Try with fast diff
-    OperationsBuffer<Token> buffer = new OperationsBuffer<>();
+    OperationsBuffer<XMLToken> buffer = new OperationsBuffer<>();
     boolean successful = fastDiff(from, to, buffer);
     if (successful) {
       buffer.applyTo(getFilter(handler));
@@ -68,15 +68,15 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
     }
   }
 
-  private DiffHandler<Token> getFilter(DiffHandler<Token> handler) {
+  private DiffHandler<XMLToken> getFilter(DiffHandler<XMLToken> handler) {
     return this.coalesce ? new CoalescingFilter(handler) : handler;
   }
 
   /**
    * Run fast algorithm and try to fix any XML errors after the diff.
    */
-  private boolean fastDiff(List<? extends Token> from, List<? extends Token> to, OperationsBuffer<Token> buffer) {
-    DiffAlgorithm<Token> algorithm = new MyersGreedyAlgorithm<>();
+  private boolean fastDiff(List<? extends XMLToken> from, List<? extends XMLToken> to, OperationsBuffer<XMLToken> buffer) {
+    DiffAlgorithm<XMLToken> algorithm = new MyersGreedyAlgorithm<>();
     PostXMLFixer fixer = new PostXMLFixer(buffer);
     fixer.start();
     algorithm.diff(from, to, fixer);
@@ -87,18 +87,18 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements D
   /**
    * Fall back on slower matrix-based algorithm.
    */
-  private void fallbackDiff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler, boolean coalesced) {
+  private void fallbackDiff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler, boolean coalesced) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.fallbackThreshold);
-    DiffHandler<Token> actual = getFilter(handler);
+    DiffHandler<XMLToken> actual = getFilter(handler);
     if (algorithm.isDiffComputable(from, to)) {
       actual.start();
       algorithm.diff(from, to, actual);
       actual.end();
     } else if (!coalesced && this.isDownscaleAllowed) {
       if (DEBUG) System.err.println("Coalescing content to");
-      List<? extends Token> a = CoalescingFilter.coalesce(from);
-      List<? extends Token> b = CoalescingFilter.coalesce(to);
+      List<? extends XMLToken> a = CoalescingFilter.coalesce(from);
+      List<? extends XMLToken> b = CoalescingFilter.coalesce(to);
       fallbackDiff(a, b, handler, true);
     } else {
       throw new DataLengthException(from.size() * to.size(), this.fallbackThreshold);

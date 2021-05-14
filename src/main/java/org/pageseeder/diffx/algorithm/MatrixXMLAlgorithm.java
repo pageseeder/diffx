@@ -19,7 +19,7 @@ import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
+public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
 
   /**
    * The default maximum number of comparisons allowed for this algorithm.
@@ -78,7 +78,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
    *
    * <p>If it is above the threshold, it checks again after slicing.
    */
-  public boolean isDiffComputable(List<? extends Token> from, List<? extends Token> to) {
+  public boolean isDiffComputable(List<? extends XMLToken> from, List<? extends XMLToken> to) {
     // Check without slicer from
     if (from.size() * to.size() <= this.threshold) return true;
     // Check if possible after slicing
@@ -89,18 +89,18 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     final int lengthA = from.size();
     final int lengthB = to.size();
 
     // handle the case when one of the two sequences is empty
     if (lengthA == 0 || lengthB == 0) {
       // A is empty, insert all tokens from B
-      for (Token token : to) {
+      for (XMLToken token : to) {
         handler.handle(Operator.INS, token);
       }
       // B is empty, delete all tokens from A
-      for (Token token : from) {
+      for (XMLToken token : from) {
         handler.handle(Operator.DEL, token);
       }
       return;
@@ -111,18 +111,18 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
     diff(from, to, estate);
   }
 
-  private void diff(List<? extends Token> A, List<? extends Token> B, ElementStackFilter handler) {
+  private void diff(List<? extends XMLToken> A, List<? extends XMLToken> B, ElementStackFilter handler) {
     TokenListSlicer slicer = new TokenListSlicer(A, B);
     int common = this.slice ? slicer.analyze() : 0;
 
     // Check the end
     if (common > 0) {
       slicer.handleStart(handler);
-      List<? extends Token> subA = slicer.getSubSequence1();
-      List<? extends Token> subB = slicer.getSubSequence2();
+      List<? extends XMLToken> subA = slicer.getSubSequence1();
+      List<? extends XMLToken> subB = slicer.getSubSequence2();
       if (subA.isEmpty() || subB.isEmpty()) {
-        for (Token token : subB) handler.handle(Operator.INS, token);
-        for (Token token : subA) handler.handle(Operator.DEL, token);
+        for (XMLToken token : subB) handler.handle(Operator.INS, token);
+        for (XMLToken token : subA) handler.handle(Operator.DEL, token);
       } else {
         processDiff(subA, subB, handler);
       }
@@ -132,7 +132,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
     }
   }
 
-  private void processDiff(List<? extends Token> A, List<? extends Token> B, ElementStackFilter handler) {
+  private void processDiff(List<? extends XMLToken> A, List<? extends XMLToken> B, ElementStackFilter handler) {
     final int lengthA = A.size();
     final int lengthB = B.size();
 
@@ -141,14 +141,14 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
       throw new DataLengthException(lengthA * lengthB, this.threshold);
 
     // calculate the LCS length to fill the matrix
-    MatrixProcessor<Token> builder = new MatrixProcessor<>();
+    MatrixProcessor<XMLToken> builder = new MatrixProcessor<>();
     builder.setInverse(true);
     Matrix matrix = builder.process(A, B);
 
     int i = 0;
     int j = 0;
-    Token tokenA;
-    Token tokenB;
+    XMLToken tokenA;
+    XMLToken tokenB;
     // start walking the matrix
     while (i < lengthA && j < lengthB) {
       tokenA = A.get(i);
@@ -297,9 +297,9 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<Token> {
    * @param i The X position.
    * @param j The Y position.
    */
-  private void printLost(int i, int j, Matrix matrix, ElementStackFilter estate, List<? extends Token> first, List<? extends Token> second) {
-    Token tokenA = first.get(i);
-    Token tokenB = second.get(j);
+  private void printLost(int i, int j, Matrix matrix, ElementStackFilter estate, List<? extends XMLToken> first, List<? extends XMLToken> second) {
+    XMLToken tokenA = first.get(i);
+    XMLToken tokenB = second.get(j);
     System.err.println("(!) Ambiguous choice in (" + i + "," + j + ")");
     System.err.println(" ? +" + tokenA);
     System.err.println(" ? -" + tokenB);

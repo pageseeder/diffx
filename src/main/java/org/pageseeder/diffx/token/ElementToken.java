@@ -17,7 +17,7 @@ package org.pageseeder.diffx.token;
 
 import java.util.List;
 
-public interface ElementToken extends Namespaceable, Token {
+public interface ElementToken extends XMLToken {
 
   /**
    * @return The local name of the element.
@@ -35,11 +35,11 @@ public interface ElementToken extends Namespaceable, Token {
    *
    * @return the list of tokens making up this element
    */
-  List<Token> getEvents();
+  List<XMLToken> getEvents();
 
   @Override
-  default TokenType getType() {
-    return TokenType.ELEMENT;
+  default XMLTokenType getType() {
+    return XMLTokenType.ELEMENT;
   }
 
 }

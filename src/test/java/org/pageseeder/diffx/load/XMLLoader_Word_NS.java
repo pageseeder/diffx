@@ -210,7 +210,7 @@ public abstract class XMLLoader_Word_NS extends XMLLoaderTest {
     String xml = "<elt><?target data?></elt>";
     Sequence exp = new Sequence();
     exp.addToken(new XMLStartElement("elt"));
-    exp.addToken(new ProcessingInstructionToken("target", "data"));
+    exp.addToken(new XMLProcessingInstruction("target", "data"));
     exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
@@ -221,7 +221,7 @@ public abstract class XMLLoader_Word_NS extends XMLLoaderTest {
     String xml = "<elt><?wow?></elt>";
     Sequence exp = new Sequence();
     exp.addToken(new XMLStartElement("elt"));
-    exp.addToken(new ProcessingInstructionToken("wow", ""));
+    exp.addToken(new XMLProcessingInstruction("wow", ""));
     exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -89,10 +89,10 @@ public final class NaiveSequenceSlicer {
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     this.start = new Sequence();
     int count = 0;
-    Iterator<Token> i = this.sequence1.iterator();
-    Iterator<Token> j = this.sequence2.iterator();
+    Iterator<XMLToken> i = this.sequence1.iterator();
+    Iterator<XMLToken> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      Token token = i.next();
+      XMLToken token = i.next();
       if (j.next().equals(token)) {
         count++;
         i.remove();
@@ -120,7 +120,7 @@ public final class NaiveSequenceSlicer {
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
     while (pos1 >= 0 && pos2 >= 0) {
-      Token token1 = this.sequence1.getToken(pos1);
+      XMLToken token1 = this.sequence1.getToken(pos1);
       if (token1.equals(this.sequence2.getToken(pos2))) {
         count++;
         this.sequence1.removeToken(pos1--);
@@ -153,10 +153,10 @@ public final class NaiveSequenceSlicer {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
     int count = 0;
-    Iterator<Token> i = this.sequence1.iterator();
-    Iterator<Token> j = this.sequence2.iterator();
+    Iterator<XMLToken> i = this.sequence1.iterator();
+    Iterator<XMLToken> j = this.sequence2.iterator();
     while (i.hasNext() && j.hasNext()) {
-      Token token = i.next();
+      XMLToken token = i.next();
       if (j.next().equals(token)) {
         count++;
         i.remove();

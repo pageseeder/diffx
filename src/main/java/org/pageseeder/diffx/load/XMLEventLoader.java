@@ -85,7 +85,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
    * @throws LoadingException Wraps any parsing {@link XMLStreamException}
    */
   public Sequence load(XMLEventReader reader) throws LoadingException {
-    TokenFactory tokenFactory = new TokenFactory(this.config.isNamespaceAware());
+    XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
@@ -121,7 +121,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processStartElement(StartElement event, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
+  private static void processStartElement(StartElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     QName name = event.getName();
     StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
     sequence.addToken(startElement);
@@ -146,7 +146,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processEndElement(EndElement event, Sequence sequence, TokenFactory factory, List<StartElementToken> startElements) {
+  private static void processEndElement(EndElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
     EndElementToken endElement = factory.newEndElement(startElement);
     sequence.addToken(endElement);
@@ -168,10 +168,10 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   private static void processOther(XMLEvent event, Sequence sequence) {
     if (event.isProcessingInstruction()) {
       ProcessingInstruction instruction = (ProcessingInstruction) event;
-      Token token = new ProcessingInstructionToken(instruction.getTarget(), instruction.getData());
+      XMLToken token = new XMLProcessingInstruction(instruction.getTarget(), instruction.getData());
       sequence.addToken(token);
     } else if (event.getEventType() == COMMENT) {
-      CommentToken token = new CommentToken(((Comment) event).getText());
+      XMLComment token = new XMLComment(((Comment) event).getText());
       sequence.addToken(token);
     }
   }

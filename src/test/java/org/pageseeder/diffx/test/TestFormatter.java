@@ -64,7 +64,7 @@ public final class TestFormatter implements DiffXFormatter {
    *
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toAbstractString(Token token) {
+  public static String toAbstractString(XMLToken token) {
     // TODO: handle unknown token implementations nicely.
     // an element to open
     if (token instanceof StartElementToken) return '<' + ((StartElementToken) token).getName() + '>';
@@ -91,9 +91,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#format(org.pageseeder.diffx.token.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#format(XMLToken)
    */
-  public void format(Token e) {
+  public void format(XMLToken e) {
     out.write(toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println(toAbstractString(e));
@@ -102,9 +102,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a plus sign '+' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(org.pageseeder.diffx.token.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#insert(XMLToken)
    */
-  public void insert(Token e) {
+  public void insert(XMLToken e) {
     out.write("+" + toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println("+" + toAbstractString(e));
@@ -113,9 +113,9 @@ public final class TestFormatter implements DiffXFormatter {
   /**
    * Writes a minus sign '-' followed by the abstract representation.
    *
-   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(org.pageseeder.diffx.token.Token)
+   * @see org.pageseeder.diffx.format.DiffXFormatter#delete(XMLToken)
    */
-  public void delete(Token e) {
+  public void delete(XMLToken e) {
     out.write("-" + toAbstractString(e));
     out.flush();
     if (DEBUG) System.err.println("-" + toAbstractString(e));

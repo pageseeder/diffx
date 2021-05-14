@@ -87,10 +87,10 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
   }
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
       // We must flush the inserted/deleted attributes
-      if (!(token instanceof AttributeToken)) {
+      if (token.getType() != XMLTokenType.ATTRIBUTE) {
         this.flushAttributes();
       }
       // Handle matches and clashes
@@ -101,11 +101,11 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
     }
   }
 
-  private void handleMatch(Token token) throws IOException {
+  private void handleMatch(XMLToken token) throws IOException {
     token.toXML(this.xml);
   }
 
-  private void handleEdit(Operator operator, Token token) throws IOException {
+  private void handleEdit(Operator operator, XMLToken token) throws IOException {
     if (token instanceof StartElementToken) {
       token.toXML(this.xml);
       // insert an attribute to specify if inserted or deleted

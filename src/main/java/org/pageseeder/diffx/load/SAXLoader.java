@@ -20,8 +20,8 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CommentToken;
-import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.impl.XMLComment;
+import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
 import org.xml.sax.*;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Loads the SAX events in an {@link org.pageseeder.diffx.sequence.Sequence}.
+ * Loads the SAX events in an {@link Sequence}.
  *
  * <p>It is possible to specify the name of the XML reader implementation class.
  * By default this class will try to use the Crimson parser
@@ -185,7 +185,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     /**
      * The factory that will produce tokens according to the configuration.
      */
-    private final TokenFactory tokenFactory;
+    private final XMLTokenFactory tokenFactory;
 
     /**
      * The text tokenizer according to the configuration.
@@ -193,7 +193,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     private final TextTokenizer tokenizer;
 
     Handler(DiffConfig config) {
-      this.tokenFactory = new TokenFactory(config.isNamespaceAware());
+      this.tokenFactory = new XMLTokenFactory(config.isNamespaceAware());
       this.tokenizer = TokenizerFactory.get(config);
     }
 
@@ -247,7 +247,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
     @Override
     public void processingInstruction(String target, String data) {
-      this.sequence.addToken(new ProcessingInstructionToken(target, data));
+      this.sequence.addToken(new XMLProcessingInstruction(target, data));
     }
 
     @Override
@@ -309,7 +309,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
     @Override
     public void comment(char[] ch, int start, int length) throws SAXException {
-      this.sequence.addToken(new CommentToken(new String(ch, start, length)));
+      this.sequence.addToken(new XMLComment(new String(ch, start, length)));
     }
 
     @Override

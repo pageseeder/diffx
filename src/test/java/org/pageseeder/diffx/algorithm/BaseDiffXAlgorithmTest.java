@@ -31,7 +31,7 @@ import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestFormatter;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -60,20 +60,20 @@ public abstract class BaseDiffXAlgorithmTest {
    */
   private transient DiffXAlgorithm diffx = null;
 
-  public static String toXML(List<Action<Token>> actions) throws IOException {
+  public static String toXML(List<Action<XMLToken>> actions) throws IOException {
     StringWriter xml = new StringWriter();
     XMLDiffXFormatter formatter = new SmartXMLFormatter(xml);
     TestActions.format(actions, formatter);
     return xml.toString();
   }
 
-  public static String toTestFormat(List<Action<Token>> actions) throws IOException {
+  public static String toTestFormat(List<Action<XMLToken>> actions) throws IOException {
     TestFormatter formatter = new TestFormatter();
     TestActions.format(actions, formatter);
     return formatter.getOutput();
   }
 
-  public static void assertMatchTestOutput(List<Action<Token>> actions, String[] exp) throws IOException {
+  public static void assertMatchTestOutput(List<Action<XMLToken>> actions, String[] exp) throws IOException {
     // check the possible values
     String diffout = toTestFormat(actions);
     for (String s : exp) {
@@ -117,7 +117,7 @@ public abstract class BaseDiffXAlgorithmTest {
     Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
     Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
     // Process as list of actions
-    DiffResult<Token> result = processResult(seq1, seq2);
+    DiffResult<XMLToken> result = processResult(seq1, seq2);
     try {
       assertDiffIsCorrect(seq1, seq2, result.actions());
       DiffAssertions.assertIsWellFormedXML(result.actions());
@@ -202,7 +202,7 @@ public abstract class BaseDiffXAlgorithmTest {
     Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
     Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
     // Process as list of actions
-    List<Action<Token>> actions = diffToActions(seq1, seq2);
+    List<Action<XMLToken>> actions = diffToActions(seq1, seq2);
     try {
       assertDiffIsCorrect(seq1, seq2, actions);
       DiffAssertions.assertIsWellFormedXML(actions);
@@ -238,7 +238,7 @@ public abstract class BaseDiffXAlgorithmTest {
     mf.add(tf);
     this.diffx.process(tf);
     // check for validity
-    List<Action<Token>> actions = af.getActions();
+    List<Action<XMLToken>> actions = af.getActions();
     assertTrue(Actions.isApplicable(seq1.tokens(), seq2.tokens(), actions));
     return tf.getOutput();
   }
@@ -322,7 +322,7 @@ public abstract class BaseDiffXAlgorithmTest {
     }
   }
 
-  public final void assertDiffIsCorrect(Sequence seq1, Sequence seq2, List<Action<Token>> actions) {
+  public final void assertDiffIsCorrect(Sequence seq1, Sequence seq2, List<Action<XMLToken>> actions) {
     // Ensure that the diff is applicable
     assertTrue(Actions.isApplicable(seq2.tokens(), seq1.tokens(), actions), "The resulting diff is not applicable");
 
@@ -335,14 +335,14 @@ public abstract class BaseDiffXAlgorithmTest {
     assertEquals(seq2, got2, "Applying diff to #1 did not produce #2");
   }
 
-  public DiffResult<Token> processResult(Sequence seq1, Sequence seq2) throws IOException {
+  public DiffResult<XMLToken> processResult(Sequence seq1, Sequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);
     return new DiffResult<>(formatter.getActions());
   }
 
-  public List<Action<Token>> diffToActions(Sequence seq1, Sequence seq2) throws IOException {
+  public List<Action<XMLToken>> diffToActions(Sequence seq1, Sequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);
@@ -352,7 +352,7 @@ public abstract class BaseDiffXAlgorithmTest {
   /**
    * Print the error details.
    */
-  protected void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action<Token>> actions) {
+  protected void printXMLErrorDetails(String xml1, String xml2, String[] exp, String got, List<Action<XMLToken>> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + xml1 + "\"");
     System.err.println("| Input B: \"" + xml2 + "\"");
@@ -361,7 +361,7 @@ public abstract class BaseDiffXAlgorithmTest {
     for (String s : exp) System.err.print("\"" + s + "\" ");
     System.err.println();
     System.err.print("| Actions: ");
-    for (Action<Token> action : actions) {
+    for (Action<XMLToken> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens());
     }

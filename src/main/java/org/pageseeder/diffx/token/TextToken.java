@@ -17,6 +17,7 @@ package org.pageseeder.diffx.token;
 
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.io.IOException;
  * @version 0.9.0
  * @since 0.5.0
  */
-public interface TextToken extends Token {
+public interface TextToken extends XMLToken {
 
   /**
    * Returns the characters that this token represents.
@@ -41,8 +42,23 @@ public interface TextToken extends Token {
   String getCharacters();
 
   @Override
-  default TokenType getType() {
-    return TokenType.TEXT;
+  default String getName() {
+    return "";
+  }
+
+  @Override
+  default String getValue() {
+    return getCharacters();
+  }
+
+  @Override
+  default String getNamespaceURI() {
+    return XMLConstants.NULL_NS_URI;
+  }
+
+  @Override
+  default XMLTokenType getType() {
+    return XMLTokenType.TEXT;
   }
 
   @Override

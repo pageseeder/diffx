@@ -17,7 +17,7 @@ package org.pageseeder.diffx.action;
 
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -67,8 +67,8 @@ public final class Operations {
   /**
    * Apply the specified list of operations to the input sequence and return the corresponding output.
    */
-  public static <T> Sequence apply(Sequence input, List<Operation<Token>> operations) {
-    List<Token> tokens = apply(input.tokens(), operations);
+  public static <T> Sequence apply(Sequence input, List<Operation<XMLToken>> operations) {
+    List<XMLToken> tokens = apply(input.tokens(), operations);
     Sequence out = new Sequence(tokens.size());
     out.addTokens(tokens);
     return out;

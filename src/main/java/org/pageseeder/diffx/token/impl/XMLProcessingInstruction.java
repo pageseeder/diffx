@@ -15,10 +15,11 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
+import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.util.Objects;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class ProcessingInstructionToken extends TokenBase implements Token {
+public final class XMLProcessingInstruction extends TokenBase implements XMLToken {
 
   /**
    * The target of the processing instruction.
@@ -55,15 +56,27 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public ProcessingInstructionToken(String target, String data) throws NullPointerException {
+  public XMLProcessingInstruction(String target, String data) throws NullPointerException {
     this.target = Objects.requireNonNull(target, "Processing instruction target must not be null, use \"\" instead");
     this.data = Objects.requireNonNull(data, "Processing instruction data must not be null, use \"\" instead");
     this.hashCode = toHashCode(target, data);
   }
 
   /**
-   * Returns the target of the processing instruction.
-   *
+   * @return The target of the processing instruction.
+   */
+  public String getName() {
+    return this.target;
+  }
+
+  /**
+   * @return The data of the processing instruction.
+   */
+  public String getValue() {
+    return this.data;
+  }
+
+  /**
    * @return The target of the processing instruction.
    */
   public String getTarget() {
@@ -71,8 +84,6 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   }
 
   /**
-   * Returns the data of the processing instruction.
-   *
    * @return The data of the processing instruction.
    */
   public String getData() {
@@ -93,10 +104,10 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
-    ProcessingInstructionToken pi = (ProcessingInstructionToken) token;
+    XMLProcessingInstruction pi = (XMLProcessingInstruction) token;
     return pi.target.equals(this.target) && pi.data.equals(this.data);
   }
 
@@ -116,8 +127,8 @@ public final class ProcessingInstructionToken extends TokenBase implements Token
   }
 
   @Override
-  public TokenType getType() {
-    return TokenType.OTHER;
+  public XMLTokenType getType() {
+    return XMLTokenType.PROCESSING_INSTRUCTION;
   }
 
   /**

@@ -190,7 +190,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
     String xml = "<elt><?target data?></elt>";
     Sequence exp = new Sequence();
     exp.addToken(new XMLStartElement("elt"));
-    exp.addToken(new ProcessingInstructionToken("target", "data"));
+    exp.addToken(new XMLProcessingInstruction("target", "data"));
     exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
@@ -201,7 +201,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
     String xml = "<elt><?target-only?></elt>";
     Sequence exp = new Sequence();
     exp.addToken(new XMLStartElement("elt"));
-    exp.addToken(new ProcessingInstructionToken("target-only", ""));
+    exp.addToken(new XMLProcessingInstruction("target-only", ""));
     exp.addToken(new XMLEndElement("elt"));
     assertEquivalent(exp, xml, getConfig());
   }
@@ -258,7 +258,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
     String xml = "<x><!-- What did I say? --></x>";
     Sequence exp = new Sequence();
     exp.addToken(new XMLStartElement("x"));
-    exp.addToken(new CommentToken(" What did I say? "));
+    exp.addToken(new XMLComment(" What did I say? "));
     exp.addToken(new XMLEndElement("x"));
     assertEquivalent(exp, xml, getConfig());
   }

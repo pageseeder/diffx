@@ -18,7 +18,7 @@ package org.pageseeder.diffx.handler;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.List;
@@ -37,13 +37,13 @@ public class OperationsBufferTest {
 
   @Test
   public void testSingle() {
-    Token token = new CharToken('x');
+    XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
-      OperationsBuffer<Token> handler = new OperationsBuffer<>();
+      OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
       handler.handle(operator, token);
-      List<Operation<Token>> operations = handler.getOperations();
+      List<Operation<XMLToken>> operations = handler.getOperations();
       assertEquals(1, operations.size());
-      Operation<Token> operation = operations.get(0);
+      Operation<XMLToken> operation = operations.get(0);
       assertEquals(operator, operation.operator());
       assertEquals(token, operation.token());
     }
@@ -51,17 +51,17 @@ public class OperationsBufferTest {
 
   @Test
   public void testMixed() {
-    Token token1 = new CharToken('x');
-    Token token2 = new CharToken('y');
+    XMLToken token1 = new CharToken('x');
+    XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       for (Operator operator2 : Operator.values()) {
-        OperationsBuffer<Token> handler = new OperationsBuffer<>();
+        OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
         handler.handle(operator1, token1);
         handler.handle(operator2, token2);
-        List<Operation<Token>> operations = handler.getOperations();
+        List<Operation<XMLToken>> operations = handler.getOperations();
         assertEquals(2, operations.size());
-        Operation<Token> Operation1 = operations.get(0);
-        Operation<Token> Operation2 = operations.get(1);
+        Operation<XMLToken> Operation1 = operations.get(0);
+        Operation<XMLToken> Operation2 = operations.get(1);
         assertEquals(new Operation<>(operator1, token1), Operation1);
         assertEquals(new Operation<>(operator2, token2), Operation2);
       }

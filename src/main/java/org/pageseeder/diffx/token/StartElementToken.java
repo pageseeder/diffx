@@ -28,21 +28,11 @@ import java.io.IOException;
  * @version 0.9.0
  * @since 0.5.0
  */
-public interface StartElementToken extends Namespaceable, Token {
-
-  /**
-   * @return The local name of the element.
-   */
-  String getName();
-
-  /**
-   * @return The namespace URI the element belongs to.
-   */
-  String getNamespaceURI();
+public interface StartElementToken extends XMLToken {
 
   @Override
-  default TokenType getType() {
-    return TokenType.START_ELEMENT;
+  default XMLTokenType getType() {
+    return XMLTokenType.START_ELEMENT;
   }
 
   @Override

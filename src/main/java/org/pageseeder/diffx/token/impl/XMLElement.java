@@ -18,7 +18,7 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -29,11 +29,11 @@ import java.util.List;
 
 public class XMLElement extends TokenBase implements ElementToken {
 
-  private final List<Token> tokens;
+  private final List<XMLToken> tokens;
 
   private final int hashCode;
 
-  public XMLElement(StartElementToken open, EndElementToken close, List<Token> children) {
+  public XMLElement(StartElementToken open, EndElementToken close, List<XMLToken> children) {
     this.tokens = new ArrayList<>();
     this.tokens.add(open);
     this.tokens.addAll(children);
@@ -43,16 +43,21 @@ public class XMLElement extends TokenBase implements ElementToken {
 
   @Override
   public String getName() {
-    return ((StartElementToken) this.tokens.get(0)).getName();
+    return this.tokens.get(0).getName();
   }
 
   @Override
   public String getNamespaceURI() {
-    return ((StartElementToken) this.tokens.get(0)).getNamespaceURI();
+    return this.tokens.get(0).getNamespaceURI();
   }
 
   @Override
-  public List<Token> getEvents() {
+  public String getValue() {
+    return null;
+  }
+
+  @Override
+  public List<XMLToken> getEvents() {
     return this.tokens;
   }
 
@@ -70,7 +75,7 @@ public class XMLElement extends TokenBase implements ElementToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token.getClass() != this.getClass()) return false;
     XMLElement element = (XMLElement) token;
     if (element.hashCode != this.hashCode) return false;
@@ -85,14 +90,14 @@ public class XMLElement extends TokenBase implements ElementToken {
 
   @Override
   public void toXML(XMLWriter xml) throws IOException {
-    for (Token token : this.tokens) {
+    for (XMLToken token : this.tokens) {
       token.toXML(xml);
     }
   }
 
   @Override
   public void toXML(XMLStreamWriter xml) throws XMLStreamException {
-    for (Token token : this.tokens) {
+    for (XMLToken token : this.tokens) {
       token.toXML(xml);
     }
   }
@@ -104,9 +109,9 @@ public class XMLElement extends TokenBase implements ElementToken {
    *
    * @return a number suitable as a hashcode.
    */
-  private static int toHashCode(List<Token> tokens) {
+  private static int toHashCode(List<XMLToken> tokens) {
     int result = 1;
-    for (Token token : tokens)
+    for (XMLToken token : tokens)
       result = 31 * result + (token == null ? 0 : token.hashCode());
     return result;
   }

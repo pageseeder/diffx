@@ -81,7 +81,7 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
   }
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
       if (operator.isEdit()) {
         handleEdit(operator, token);
@@ -103,11 +103,11 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
     }
   }
 
-  void handleMatch(Token token) throws IOException {
+  void handleMatch(XMLToken token) throws IOException {
     token.toXML(this.xml);
   }
 
-  void handleEdit(Operator operator, Token token) throws IOException {
+  void handleEdit(Operator operator, XMLToken token) throws IOException {
     if (token instanceof StartElementToken) {
       token.toXML(this.xml);
       // insert an attribute to specify operator

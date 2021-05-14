@@ -23,11 +23,11 @@ import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerBySpaceWord;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;
 
-public final class CompareReplaceFilter extends DiffFilter<Token> implements DiffHandler<Token> {
+public final class CompareReplaceFilter extends DiffFilter<XMLToken> implements DiffHandler<XMLToken> {
 
   // TODO initialize using config
   private final TextTokenizer tokenizer = new TokenizerBySpaceWord(WhiteSpaceProcessing.PRESERVE);
@@ -35,14 +35,14 @@ public final class CompareReplaceFilter extends DiffFilter<Token> implements Dif
   /**
    * The previous text operation.
    */
-  private Operation<Token> previous = null;
+  private Operation<XMLToken> previous = null;
 
-  public CompareReplaceFilter(DiffHandler<Token> target) {
+  public CompareReplaceFilter(DiffHandler<XMLToken> target) {
     super(target);
   }
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) {
+  public void handle(@NotNull Operator operator, XMLToken token) {
     if (token instanceof TextToken && operator.isEdit()) {
       if (this.previous != null) {
         diff((TextToken) token, (TextToken) this.previous.token(), operator == Operator.INS);

@@ -20,7 +20,7 @@ import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Test case for the default XML processor
@@ -37,7 +37,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -45,7 +45,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -53,7 +53,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -61,7 +61,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class AdvancedXMLDiff extends AdvancedXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }
@@ -69,7 +69,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class CoalesceXMLDiff extends CoalesceXMLDiffTest {
     @Override
-    public DiffProcessor<Token> getProcessor() {
+    public DiffProcessor<XMLToken> getProcessor() {
       DefaultXMLProcessor processor = newProcessor();
       processor.setCoalesce(true);
       return processor;
@@ -79,7 +79,7 @@ public final class DefaultXMLProcessorTest {
   @Nested
   public class RandomXMLDiff extends RandomXMLDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       DefaultXMLProcessor processor = newProcessor();
       processor.setThreshold(Integer.MAX_VALUE);
       return processor;

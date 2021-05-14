@@ -17,7 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.test.RandomStringFactory;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Unit tests on random strings.
@@ -25,7 +25,7 @@ import org.pageseeder.diffx.token.Token;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class RandomGeneralDiffTest extends AlgorithmTest<Token> {
+public abstract class RandomGeneralDiffTest extends AlgorithmTest<XMLToken> {
 
   @Test
   public final void testGeneral_RandomVariations1() {
@@ -64,7 +64,7 @@ public abstract class RandomGeneralDiffTest extends AlgorithmTest<Token> {
   }
 
   private void assertGeneralDiffOK(String a, String b) {
-    DiffAlgorithm<Token> algorithm = getDiffAlgorithm();
+    DiffAlgorithm<XMLToken> algorithm = getDiffAlgorithm();
     BasicGeneralDiffTest.assertGeneralDiffOK(a, b, algorithm, new String[0]);
   }
 

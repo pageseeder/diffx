@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -68,7 +68,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    * @return <code>true</code> if considered equal; <code>false</code> otherwise.
    */
   @Override
-  public final boolean equals(Token token) {
+  public final boolean equals(XMLToken token) {
     if (this == token)
       return true;
     if (token.getClass() != this.getClass())

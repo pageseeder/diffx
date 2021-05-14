@@ -16,10 +16,11 @@
 
 package org.pageseeder.diffx.test;
 
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
+import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.Objects;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class GeneralToken implements Token {
+public final class GeneralToken implements XMLToken {
 
   final char c;
 
@@ -51,8 +52,8 @@ public final class GeneralToken implements Token {
   }
 
   @Override
-  public TokenType getType() {
-    return TokenType.OTHER;
+  public XMLTokenType getType() {
+    return XMLTokenType.OTHER;
   }
 
   @Override
@@ -63,7 +64,7 @@ public final class GeneralToken implements Token {
     return c == that.c;
   }
 
-  public boolean equals(Token o) {
+  public boolean equals(XMLToken o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     GeneralToken that = (GeneralToken) o;
@@ -88,4 +89,18 @@ public final class GeneralToken implements Token {
     return Character.toString(c);
   }
 
+  @Override
+  public String getName() {
+    return "";
+  }
+
+  @Override
+  public String getNamespaceURI() {
+    return XMLConstants.NULL_NS_URI;
+  }
+
+  @Override
+  public String getValue() {
+    return null;
+  }
 }

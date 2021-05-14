@@ -17,10 +17,7 @@ package org.pageseeder.diffx.format;
 
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.Namespaceable;
-import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.xmlwriter.XMLWriter;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
@@ -74,19 +71,19 @@ public class XMLDiffReporter extends XMLDiffOutputBase implements XMLDiffOutput 
   }
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, @NotNull XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
       xml.openElement(toElementName(operator));
       xml.attribute("type", token.getType().toString());
-      if (token instanceof Namespaceable) {
-        xml.attribute("name", ((Namespaceable) token).getName());
-        xml.attribute("namespace-uri", ((Namespaceable) token).getNamespaceURI());
+      if (!token.getName().isEmpty()) {
+        xml.attribute("name", token.getName());
+        xml.attribute("namespace-uri", token.getNamespaceURI());
       }
-      if (token instanceof AttributeToken) {
-        xml.attribute("value", ((AttributeToken) token).getValue());
+      if (token.getType() == XMLTokenType.ATTRIBUTE) {
+        xml.attribute("value", token.getValue());
       }
       xml.attribute("class-name", token.getClass().getSimpleName());
-      if (token instanceof TextToken) {
+      if (token.getType() == XMLTokenType.TEXT) {
         xml.writeText(((TextToken) token).getCharacters());
       }
       xml.closeElement();

@@ -18,19 +18,19 @@ package org.pageseeder.diffx.token;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.test.RandomStringFactory;
-import org.pageseeder.diffx.token.impl.XMLAttribute;
+import org.pageseeder.diffx.token.impl.XMLStartElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public final class AttributeTokenTest {
+public final class StartElementXMLTokenTest {
 
   @Test
   void testEquals() {
-    AttributeToken token = new XMLAttribute("https://example.org", "title", "test");
-    AttributeToken other = new XMLAttribute("https://example.org", "title", "test");
+    StartElementToken token = new XMLStartElement("https://example.org", "test");
+    StartElementToken other = new XMLStartElement("https://example.org", "test");
     TokenTest.assertEqualsNullIsFalse(token);
     TokenTest.assertEqualsIsReflexive(token);
     Assertions.assertEquals(token, other);
@@ -39,13 +39,11 @@ public final class AttributeTokenTest {
 
   @Test
   void testNotEquals() {
-    List<AttributeToken> tokens = Arrays.asList(
-        new XMLAttribute("title", "test"),
-        new XMLAttribute("title", "test2"),
-        new XMLAttribute("title2", "test"),
-        new XMLAttribute("https://example.org", "title", "test"),
-        new XMLAttribute("https://example.org", "title", "test2"),
-        new XMLAttribute("https://example.org", "title2", "test")
+    List<StartElementToken> tokens = Arrays.asList(
+        new XMLStartElement("test"),
+        new XMLStartElement("test2"),
+        new XMLStartElement("https://example.org", "test"),
+        new XMLStartElement("https://example.org", "test2")
     );
     TokenTest.assertNotEqualsINotSame(tokens);
   }
@@ -53,37 +51,30 @@ public final class AttributeTokenTest {
   @Test
   public void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
-    List<AttributeToken> tokens = new ArrayList<>();
+    List<StartElementToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
-      tokens.add(new XMLAttribute(
+      tokens.add(new XMLStartElement(
           i % 2 == 0 ? "" : "https://example.org",
-          factory.getRandomString(8, false),
-          factory.getRandomString(16, false)));
+          factory.getRandomString(8, false)));
     }
     TokenTest.assertHashCollisionLessThan(tokens, .001);
   }
-
 
   @Test
   public void testPerformance() {
     String[] uris = new String[]{"", "https://example.org", "https://example.net"};
     String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
-    String[] values = new String[]{"",
-        "1", "12", "123", "1234", "12345", "123456",
-        "a", "ab", "abc", "abcd", "abcde", "abcdef",
-        "some longer value", "other"};
-    List<AttributeToken> tokens1 = new ArrayList<>();
-    List<AttributeToken> tokens2 = new ArrayList<>();
+    List<StartElementToken> tokens1 = new ArrayList<>();
+    List<StartElementToken> tokens2 = new ArrayList<>();
     for (String uri : uris)
-      for (String name : names)
-        for (String value : values) {
-          tokens1.add(new XMLAttribute(name, value));
-          tokens2.add(new XMLAttribute(uri, name, value));
-        }
+      for (String name : names) {
+        tokens1.add(new XMLStartElement(name));
+        tokens2.add(new XMLStartElement(uri, name));
+      }
     long t1 = 0;
     long t2 = 0;
     Random r = new Random();
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 100_000; i++) {
       if (r.nextBoolean()) {
         t1 += TokenTest.profileEquals(tokens1);
         t2 += TokenTest.profileEquals(tokens2);
@@ -92,8 +83,8 @@ public final class AttributeTokenTest {
         t1 += TokenTest.profileEquals(tokens1);
       }
     }
-    System.out.println("T1=" + (t1 / 100_000) + " " + (t1 < t2 ? (t1 - t2) / 100_000 : ""));
-    System.out.println("T2=" + (t2 / 100_000) + " " + (t2 < t1 ? (t2 - t1) / 100_000 : ""));
+    System.out.println("T1=" + (t1 / 1_000_000) + " " + (t1 < t2 ? (t1 - t2) / 1_000_000 : ""));
+    System.out.println("T2=" + (t2 / 1_000_000) + " " + (t2 < t1 ? (t2 - t1) / 1_000_000 : ""));
   }
 
 }

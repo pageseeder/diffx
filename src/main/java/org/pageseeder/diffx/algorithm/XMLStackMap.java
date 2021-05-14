@@ -18,10 +18,9 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -41,7 +40,7 @@ final class XMLStackMap {
 
   private Map<Integer, Deque<Operation<StartElementToken>>> stacks = new HashMap<>();
 //
-//  private Map<Integer, Token> lastToken = new HashMap<>();
+//  private Map<Integer, XMLToken> lastToken = new HashMap<>();
 
   XMLStackMap() {
   }
@@ -62,18 +61,18 @@ final class XMLStackMap {
     return this.stacks.get(k);
   }
 
-//  Token getLastToken(int k) {
+//  XMLToken getLastToken(int k) {
 //    return this.lastToken.get(k);
 //  }
 
-  void update(int k, Operator operator, Token token) {
+  void update(int k, Operator operator, XMLToken token) {
 //    this.lastToken.put(k, token);
     Deque<Operation<StartElementToken>> stack = getStack(k);
     if (token instanceof StartElementToken) stack.push(new Operation<>(operator, (StartElementToken)token));
     if (token instanceof EndElementToken) stack.pop();
   }
 
-  boolean isAllowed(int k, Operator operator, Token token) {
+  boolean isAllowed(int k, Operator operator, XMLToken token) {
     if (token instanceof EndElementToken) {
       // Ensure that the end element matches the start element
       Deque<Operation<StartElementToken>> stack = getStack(k);
@@ -81,7 +80,7 @@ final class XMLStackMap {
       return last != null && last.operator() == operator && ((EndElementToken)token).match(last.token());
 //    } else if (token instanceof AttributeToken) {
 //      // Ensure that attribute comes after start element or another attribute
-//      Token last = lastToken.get(k);
+//      XMLToken last = lastToken.get(k);
 //      return last instanceof StartElementToken || last instanceof AttributeToken;
     }
     return true;

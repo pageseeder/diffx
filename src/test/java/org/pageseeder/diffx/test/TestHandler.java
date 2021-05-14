@@ -38,7 +38,7 @@ import java.util.List;
  * @version 0.9.0
  * @see TestTokens
  */
-public final class TestHandler implements DiffHandler<Token> {
+public final class TestHandler implements DiffHandler<XMLToken> {
 
   private final NamespaceSet namespaces;
 
@@ -70,7 +70,7 @@ public final class TestHandler implements DiffHandler<Token> {
    */
   public static String format(Sequence seq) {
     TestHandler handler = new TestHandler();
-    for (Token token : seq) {
+    for (XMLToken token : seq) {
       handler.handle(Operator.MATCH, token);
     }
     return handler.getOutput();
@@ -81,9 +81,9 @@ public final class TestHandler implements DiffHandler<Token> {
    *
    * @param tokens The tokens to format
    */
-  public static String format(List<? extends Token> tokens) {
+  public static String format(List<? extends XMLToken> tokens) {
     TestHandler handler = new TestHandler();
-    for (Token token : tokens) {
+    for (XMLToken token : tokens) {
       handler.handle(Operator.MATCH, token);
     }
     return handler.getOutput();
@@ -98,7 +98,7 @@ public final class TestHandler implements DiffHandler<Token> {
    *
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, Token token) {
+  public static String toSimpleString(Operator operator, XMLToken token) {
     return toSimpleString(operator, token, NamespaceSet.noNamespace());
   }
 
@@ -111,7 +111,7 @@ public final class TestHandler implements DiffHandler<Token> {
    *
    * @return Its 'abstract' representation or <code>null</code>.
    */
-  public static String toSimpleString(Operator operator, Token token, NamespaceSet namespaces) {
+  public static String toSimpleString(Operator operator, XMLToken token, NamespaceSet namespaces) {
     // an element to open
     if (token instanceof StartElementToken) {
       StartElementToken open = (StartElementToken) token;
@@ -153,8 +153,8 @@ public final class TestHandler implements DiffHandler<Token> {
     return prefix.isEmpty() ? name : (prefix + ':' + name);
   }
 
-  public static List<Operation<Token>> parse(String ops) {
-    OperationsBuffer<Token> source = new OperationsBuffer<>();
+  public static List<Operation<XMLToken>> parse(String ops) {
+    OperationsBuffer<XMLToken> source = new OperationsBuffer<>();
     char[] chars = ops.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       Operator operator = Operator.MATCH;
@@ -170,9 +170,9 @@ public final class TestHandler implements DiffHandler<Token> {
     return source.getOperations();
   }
 
-  private static int parseToken(char[] chars, int i, OperationsBuffer<Token> source, Operator operator) {
+  private static int parseToken(char[] chars, int i, OperationsBuffer<XMLToken> source, Operator operator) {
     int j = i;
-    Token token;
+    XMLToken token;
     if (isStartElement(chars, i)) {
       token = new XMLStartElement(Character.toString(chars[i + 1]));
       j = i + 2;
@@ -230,7 +230,7 @@ public final class TestHandler implements DiffHandler<Token> {
   /**
    * Writes the abstract representation.
    */
-  public void handle(Operator operator, Token token) {
+  public void handle(Operator operator, XMLToken token) {
     if (operator != Operator.MATCH) out.append(operator.toString());
     out.append(toSimpleString(operator, token, this.namespaces));
   }

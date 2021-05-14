@@ -25,7 +25,7 @@ import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
@@ -74,11 +74,11 @@ public final class TestTokens {
     return s;
   }
 
-  public static List<Token> loadTokens(String xml, TextGranularity granularity) throws LoadingException {
+  public static List<XMLToken> loadTokens(String xml, TextGranularity granularity) throws LoadingException {
     return loadTokens(xml, DiffConfig.getDefault().granularity(granularity));
   }
 
-  public static List<Token> loadTokens(String xml, DiffConfig config) throws LoadingException {
+  public static List<XMLToken> loadTokens(String xml, DiffConfig config) throws LoadingException {
     return loadSequence(xml, config).tokens();
   }
 
@@ -100,22 +100,22 @@ public final class TestTokens {
     return loader.load(document);
   }
 
-  public static List<Token> loadLineEvents(String text) {
+  public static List<XMLToken> loadLineEvents(String text) {
     if (text.isEmpty()) return Collections.emptyList();
     return new LineLoader().load(text).tokens();
   }
 
-  public static String toXML(List<? extends Token> tokens) {
+  public static String toXML(List<? extends XMLToken> tokens) {
     return toXML(tokens, new NamespaceSet());
   }
 
-  public static String toXML(List<? extends Token> tokens, NamespaceSet namespaces) {
+  public static String toXML(List<? extends XMLToken> tokens, NamespaceSet namespaces) {
     StringWriter xml = new StringWriter();
     DefaultXMLDiffOutput f = new DefaultXMLDiffOutput(xml);
     f.setWriteXMLDeclaration(false);
     f.setNamespaces(namespaces);
     f.start();
-    for (Token token : tokens) {
+    for (XMLToken token : tokens) {
       f.handle(Operator.MATCH, token);
     }
     f.end();
@@ -128,7 +128,7 @@ public final class TestTokens {
     f.setWriteXMLDeclaration(false);
     f.setNamespaces(sequence.getNamespaces());
     f.start();
-    for (Token token : sequence) {
+    for (XMLToken token : sequence) {
       f.handle(Operator.MATCH, token);
     }
     f.end();

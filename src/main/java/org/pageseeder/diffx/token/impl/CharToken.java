@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -24,7 +24,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
- * Token corresponding to a single character.
+ * XMLToken corresponding to a single character.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -56,7 +56,7 @@ public final class CharToken extends TokenBase implements TextToken {
   }
 
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token.getClass() != this.getClass()) return false;
     return this.c == ((CharToken) token).c;
   }

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ public interface DiffXFormatter {
    * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void format(Token token) throws IOException, IllegalStateException;
+  void format(XMLToken token) throws IOException, IllegalStateException;
 
   /**
    * Formats the specified inserted token.
@@ -47,7 +47,7 @@ public interface DiffXFormatter {
    * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void insert(Token token) throws IOException, IllegalStateException;
+  void insert(XMLToken token) throws IOException, IllegalStateException;
 
   /**
    * Formats the specified deleted token.
@@ -57,7 +57,7 @@ public interface DiffXFormatter {
    * @throws IOException           Should an I/O exception occurs while formatting.
    * @throws IllegalStateException If the formatter is not in a state to run this method.
    */
-  void delete(Token token) throws IOException, IllegalStateException;
+  void delete(XMLToken token) throws IOException, IllegalStateException;
 
   /**
    * Sets the configuration to use with this formatter.

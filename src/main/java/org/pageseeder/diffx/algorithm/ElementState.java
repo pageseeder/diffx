@@ -21,7 +21,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.UncheckedIOException;
 
@@ -42,7 +42,7 @@ import java.io.UncheckedIOException;
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class ElementState implements DiffHandler<Token> {
+public final class ElementState implements DiffHandler<XMLToken> {
 
   /**
    * The stack of open elements.
@@ -145,7 +145,7 @@ public final class ElementState implements DiffHandler<Token> {
    *
    * @return The index of the first occurrence of the argument in this list;
    * returns <code>-1</code if the object is not found.
-   * @see org.pageseeder.diffx.token.Token#equals(Token)
+   * @see XMLToken#equals(XMLToken)
    */
   public int indexOf(StartElementToken element) {
     if (element == null) {
@@ -217,7 +217,7 @@ public final class ElementState implements DiffHandler<Token> {
    * @return <code>true</code> if it matches the current element;
    * <code>false</code> otherwise.
    */
-  public boolean matchCurrent(Token token) {
+  public boolean matchCurrent(XMLToken token) {
     // cannot match if empty
     if (isEmpty()) return false;
     // cannot match if not a close element token
@@ -237,7 +237,7 @@ public final class ElementState implements DiffHandler<Token> {
    * @param operator The corresponding operator
    */
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     if (token instanceof StartElementToken) {
       push((StartElementToken) token, operator);
     } else if (token instanceof EndElementToken) {
@@ -259,7 +259,7 @@ public final class ElementState implements DiffHandler<Token> {
    * @return <code>true</code> if it matches the current element;
    * <code>false</code> otherwise.
    */
-  public boolean isAllowed(Operator operator, Token token) {
+  public boolean isAllowed(Operator operator, XMLToken token) {
     // cannot match if not a close element token
     if (!(token instanceof EndElementToken)) return true;
     // cannot match if empty
@@ -281,7 +281,7 @@ public final class ElementState implements DiffHandler<Token> {
    * @return <code>true</code> if first specified token has priority over the second element;
    * <code>false</code> otherwise.
    */
-  public boolean hasPriorityOver(Token token1, Token token2) {
+  public boolean hasPriorityOver(XMLToken token1, XMLToken token2) {
     return token1 instanceof AttributeToken
         && !(token2 instanceof AttributeToken)
         && !isEmpty();

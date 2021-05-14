@@ -18,7 +18,7 @@ package org.pageseeder.diffx.format;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.PrefixMapping;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -62,7 +62,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void format(Token token) {
+  public void format(XMLToken token) {
     if (this.isDocumentStart) {
       this.output.start();
       this.isDocumentStart = false;
@@ -71,7 +71,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(Token token) {
+  public void insert(XMLToken token) {
     if (this.isDocumentStart) {
       this.output.start();
       this.isDocumentStart = false;
@@ -80,7 +80,7 @@ public final class StrictXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void delete(Token token) throws IllegalStateException {
+  public void delete(XMLToken token) throws IllegalStateException {
     if (this.isDocumentStart) {
       this.output.start();
       this.isDocumentStart = false;

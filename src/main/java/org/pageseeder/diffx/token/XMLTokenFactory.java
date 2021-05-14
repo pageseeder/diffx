@@ -31,7 +31,7 @@ import org.pageseeder.diffx.token.impl.XMLStartElement;
  * @version 0.9.0
  * @since 0.5.0
  */
-public final class TokenFactory {
+public final class XMLTokenFactory {
 
   /**
    * Indicates whether the factory should generate namespace tokens.
@@ -41,7 +41,7 @@ public final class TokenFactory {
   /**
    * Creates a new namespace aware factory for tokens.
    */
-  public TokenFactory() {
+  public XMLTokenFactory() {
     this.isNamespaceAware = true;
   }
 
@@ -51,7 +51,7 @@ public final class TokenFactory {
    * @param isNamespaceAware <code>true</code> to create new namespace aware factory;
    *                         <code>false</code> otherwise.
    */
-  public TokenFactory(boolean isNamespaceAware) {
+  public XMLTokenFactory(boolean isNamespaceAware) {
     this.isNamespaceAware = isNamespaceAware;
   }
 

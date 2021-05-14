@@ -18,7 +18,7 @@ package org.pageseeder.diffx.handler;
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -29,7 +29,7 @@ import java.io.UncheckedIOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class FormattingAdapter implements DiffHandler<Token> {
+public class FormattingAdapter implements DiffHandler<XMLToken> {
 
   /**
    * The target formatter protected to allow any subclasses to access it.
@@ -49,7 +49,7 @@ public class FormattingAdapter implements DiffHandler<Token> {
    * @throws UncheckedIOException Wraps any IO exception thrown by the formatter
    */
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException {
     try {
       switch (operator) {
         case MATCH:

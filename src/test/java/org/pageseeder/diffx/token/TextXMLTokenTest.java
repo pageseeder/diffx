@@ -18,7 +18,7 @@ package org.pageseeder.diffx.token;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.token.impl.WordToken;
 
-public class TextTokenTest {
+public class TextXMLTokenTest {
 
 
   @Test

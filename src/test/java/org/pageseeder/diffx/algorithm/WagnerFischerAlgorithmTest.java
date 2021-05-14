@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Test case for Wagner-Fischer algorithm (text only).
@@ -26,14 +26,14 @@ import org.pageseeder.diffx.token.Token;
  */
 public final class WagnerFischerAlgorithmTest {
 
-  private DiffAlgorithm<Token> newAlgorithm() {
+  private DiffAlgorithm<XMLToken> newAlgorithm() {
     return new WagnerFischerAlgorithm<>();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -41,7 +41,7 @@ public final class WagnerFischerAlgorithmTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -49,7 +49,7 @@ public final class WagnerFischerAlgorithmTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

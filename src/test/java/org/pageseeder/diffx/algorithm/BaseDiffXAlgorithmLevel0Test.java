@@ -23,7 +23,7 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.ActionFormatter;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.io.IOException;
@@ -316,7 +316,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     CharTestFormatter cf = new CharTestFormatter();
     diffx.process(new MultiplexFormatter(cf, af));
     String got = cf.getOutput();
-    List<Action<Token>> actions = af.getActions();
+    List<Action<XMLToken>> actions = af.getActions();
 
     try {
       assertDiffIsCorrect(seq1, seq2, actions);
@@ -329,7 +329,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
   /**
    * Print the error details.
    */
-  private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action<Token>> actions) {
+  private void printCharErrorDetails(String text1, String text2, String[] exp, String got, List<Action<XMLToken>> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + text1 + "\"");
     System.err.println("| Input B: \"" + text2 + "\"");
@@ -338,7 +338,7 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     for (String s : exp) System.err.print("\"" + s + "\" ");
     System.err.println();
     System.err.print("| Actions: ");
-    for (Action<Token> action : actions) {
+    for (Action<XMLToken> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens().stream().map((token) -> ((CharToken) token).getChar()).collect(Collectors.toList()));
     }
@@ -350,17 +350,17 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
     final StringBuilder out = new StringBuilder();
 
     @Override
-    public void format(Token token) throws IllegalStateException {
+    public void format(XMLToken token) throws IllegalStateException {
       out.append(((CharToken) token).getChar());
     }
 
     @Override
-    public void insert(Token token) throws IllegalStateException {
+    public void insert(XMLToken token) throws IllegalStateException {
       out.append('+').append(((CharToken) token).getChar());
     }
 
     @Override
-    public void delete(Token token) throws IllegalStateException {
+    public void delete(XMLToken token) throws IllegalStateException {
       out.append('-').append(((CharToken) token).getChar());
     }
 

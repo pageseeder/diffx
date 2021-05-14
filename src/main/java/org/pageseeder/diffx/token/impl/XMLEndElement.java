@@ -17,7 +17,7 @@ package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * The token corresponding to the <code>startElement</code> SAX event.
@@ -96,6 +96,11 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   }
 
   @Override
+  public String getValue() {
+    return null;
+  }
+
+  @Override
   public boolean match(StartElementToken token) {
     if (token == null) return false;
     if (token == this.open) return true;
@@ -117,7 +122,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof EndElementToken)) return false;
     if (this.hashCode() != token.hashCode()) return false;

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Nested;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * Test case for the Myers' greedy algorithm.
@@ -26,14 +26,14 @@ import org.pageseeder.diffx.token.Token;
  */
 public final class MyersGreedyAlgorithmTest {
 
-  private MyersGreedyAlgorithm<Token> newAlgorithm() {
-    return new MyersGreedyAlgorithm<Token>();
+  private MyersGreedyAlgorithm<XMLToken> newAlgorithm() {
+    return new MyersGreedyAlgorithm<XMLToken>();
   }
 
   @Nested
   public class GeneralDiff extends BasicGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }
@@ -41,7 +41,7 @@ public final class MyersGreedyAlgorithmTest {
   @Nested
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
-    public DiffAlgorithm<Token> getDiffAlgorithm() {
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
       return newAlgorithm();
     }
   }

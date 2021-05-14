@@ -20,11 +20,12 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
+import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
@@ -38,11 +39,11 @@ import java.util.Queue;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class PostXMLFixer extends DiffFilter<Token> {
+public final class PostXMLFixer extends DiffFilter<XMLToken> {
 
-  private static final Token NIL = new NilToken();
+  private static final XMLToken NIL = new NilToken();
 
-  public PostXMLFixer(DiffHandler<Token> handler) {
+  public PostXMLFixer(DiffHandler<XMLToken> handler) {
     super(handler);
   }
 
@@ -54,12 +55,12 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   /**
    * Deletions from the current list of successive edits.
    */
-  private final Queue<Token> deletions = new ArrayDeque<>();
+  private final Queue<XMLToken> deletions = new ArrayDeque<>();
 
   /**
    * Insertions from the current list of successive edits.
    */
-  private final Queue<Token> insertions = new ArrayDeque<>();
+  private final Queue<XMLToken> insertions = new ArrayDeque<>();
 
   /**
    * Last operator used (never null)
@@ -69,7 +70,7 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   /**
    * Last token (never null)
    */
-  private Token lastToken = NIL;
+  private XMLToken lastToken = NIL;
 
   /**
    * Flag indicating when the handler is unable to fix the XML.
@@ -77,14 +78,14 @@ public final class PostXMLFixer extends DiffFilter<Token> {
   private boolean hasError = false;
 
   @Override
-  public void handle(@NotNull Operator operator, Token token) throws UncheckedIOException, IllegalStateException {
+  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     if (operator == Operator.DEL) {
       this.deletions.add(token);
     } else if (operator == Operator.INS) {
       this.insertions.add(token);
     } else {
       flushChanges();
-      if (token.getType() == TokenType.END_ELEMENT && !matchStart(Operator.MATCH, (EndElementToken) token)) {
+      if (token.getType() == XMLTokenType.END_ELEMENT && !matchStart(Operator.MATCH, (EndElementToken) token)) {
         sendMatchingEndElement();
       } else {
         send(operator, token);
@@ -96,7 +97,7 @@ public final class PostXMLFixer extends DiffFilter<Token> {
     while (!this.insertions.isEmpty() || !this.deletions.isEmpty()) {
 
       // Flush attributes if the last token sent was an open element or attribute
-      if (this.lastToken.getType() == TokenType.START_ELEMENT || this.lastToken.getType() == TokenType.ATTRIBUTE) {
+      if (this.lastToken.getType() == XMLTokenType.START_ELEMENT || this.lastToken.getType() == XMLTokenType.ATTRIBUTE) {
         while (isAttribute(this.insertions.peek())) {
           send(Operator.INS, this.insertions.remove());
         }
@@ -106,8 +107,8 @@ public final class PostXMLFixer extends DiffFilter<Token> {
       }
 
       // At this point there are no attributes left, tokens can only be START_ELEMENT, END_ELEMENT, TEXT, and OTHER
-      Token nextInsertion = this.insertions.peek();
-      Token nextDeletion = this.deletions.peek();
+      XMLToken nextInsertion = this.insertions.peek();
+      XMLToken nextDeletion = this.deletions.peek();
 
       if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken) nextInsertion)) {
         send(Operator.INS, this.insertions.remove());
@@ -138,12 +139,12 @@ public final class PostXMLFixer extends DiffFilter<Token> {
     return this.hasError;
   }
 
-  private static boolean isEndElement(Token token) {
-    return token != null && token.getType() == TokenType.END_ELEMENT;
+  private static boolean isEndElement(XMLToken token) {
+    return token != null && token.getType() == XMLTokenType.END_ELEMENT;
   }
 
-  private static boolean isAttribute(Token token) {
-    return token != null && token.getType() == TokenType.ATTRIBUTE;
+  private static boolean isAttribute(XMLToken token) {
+    return token != null && token.getType() == XMLTokenType.ATTRIBUTE;
   }
 
   private boolean matchStart(Operator operator, EndElementToken token) {
@@ -167,13 +168,13 @@ public final class PostXMLFixer extends DiffFilter<Token> {
     return new XMLEndElement(token);
   }
 
-  private void send(Operator operator, Token token) {
+  private void send(Operator operator, XMLToken token) {
     this.target.handle(operator, token);
     this.lastOperator = operator;
     this.lastToken = token;
-    if (token.getType() == TokenType.START_ELEMENT) {
+    if (token.getType() == XMLTokenType.START_ELEMENT) {
       this.unclosed.push(new Operation<>(operator, (StartElementToken) token));
-    } else if (token.getType() == TokenType.END_ELEMENT) {
+    } else if (token.getType() == XMLTokenType.END_ELEMENT) {
       this.unclosed.pop();
     }
   }
@@ -183,15 +184,15 @@ public final class PostXMLFixer extends DiffFilter<Token> {
     this.flushChanges();
   }
 
-  private static class NilToken implements Token {
+  private static class NilToken implements XMLToken {
 
     @Override
-    public TokenType getType() {
-      return TokenType.OTHER;
+    public XMLTokenType getType() {
+      return XMLTokenType.OTHER;
     }
 
     @Override
-    public boolean equals(Token token) {
+    public boolean equals(XMLToken token) {
       return token == this;
     }
 
@@ -201,6 +202,21 @@ public final class PostXMLFixer extends DiffFilter<Token> {
 
     @Override
     public void toXML(XMLStreamWriter xml) {
+    }
+
+    @Override
+    public String getName() {
+      return null;
+    }
+
+    @Override
+    public String getNamespaceURI() {
+      return XMLConstants.NULL_NS_URI;
+    }
+
+    @Override
+    public String getValue() {
+      return null;
     }
   }
 

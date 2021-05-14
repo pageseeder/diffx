@@ -18,7 +18,7 @@ package org.pageseeder.diffx.load.text;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 
@@ -83,7 +83,7 @@ public final class TokenizerByPunctuationTest {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
-    Token space = e.get(0);
+    XMLToken space = e.get(0);
     assertEquals(new IgnorableSpaceToken(" "), space);
   }
 
@@ -92,7 +92,7 @@ public final class TokenizerByPunctuationTest {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat");
     assertEquals(1, e.size());
-    Token text = e.get(0);
+    XMLToken text = e.get(0);
     assertEquals(new CharactersToken("A black cat"), text);
   }
 

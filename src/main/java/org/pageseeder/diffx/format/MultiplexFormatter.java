@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.pageseeder.diffx.config.DiffXConfig;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,21 +74,21 @@ public final class MultiplexFormatter implements DiffXFormatter {
   }
 
   @Override
-  public void format(Token e) throws IOException {
+  public void format(XMLToken e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.format(e);
     }
   }
 
   @Override
-  public void insert(Token e) throws IOException {
+  public void insert(XMLToken e) throws IOException {
     for (DiffXFormatter f : this.formatters) {
       f.insert(e);
     }
   }
 
   @Override
-  public void delete(Token e) throws IOException, IllegalStateException {
+  public void delete(XMLToken e) throws IOException, IllegalStateException {
     for (DiffXFormatter f : this.formatters) {
       f.delete(e);
     }

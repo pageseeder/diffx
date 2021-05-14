@@ -15,10 +15,11 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.pageseeder.diffx.token.Token;
-import org.pageseeder.diffx.token.TokenType;
+import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
@@ -32,7 +33,7 @@ import java.util.Objects;
  * @version 0.9.0
  * @since 0.6.0
  */
-public final class CommentToken extends TokenBase implements Token {
+public final class XMLComment extends TokenBase implements XMLToken {
 
   /**
    * The comment string.
@@ -51,7 +52,7 @@ public final class CommentToken extends TokenBase implements Token {
    *
    * @throws NullPointerException if the comment is <code>null</code>.
    */
-  public CommentToken(String comment) throws NullPointerException {
+  public XMLComment(String comment) throws NullPointerException {
     this.comment = Objects.requireNonNull(comment, "Comment must not be null, use \"\" instead");
     this.hashCode = toHashcode(comment);
   }
@@ -77,10 +78,10 @@ public final class CommentToken extends TokenBase implements Token {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
-    CommentToken other = (CommentToken) token;
+    XMLComment other = (XMLComment) token;
     return other.comment.equals(this.comment);
   }
 
@@ -100,8 +101,18 @@ public final class CommentToken extends TokenBase implements Token {
   }
 
   @Override
-  public TokenType getType() {
-    return TokenType.OTHER;
+  public XMLTokenType getType() {
+    return XMLTokenType.COMMENT;
+  }
+
+  @Override
+  public String getName() {
+    return "";
+  }
+
+  @Override
+  public String getValue() {
+    return this.comment;
   }
 
   /**

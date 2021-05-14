@@ -21,21 +21,21 @@ import java.util.List;
 
 public class TokenTest {
 
-  public static void assertEqualsNullIsFalse(Token token) {
+  public static void assertEqualsNullIsFalse(XMLToken token) {
     Assertions.assertFalse(token.equals(null));
   }
 
-  public static void assertEqualsIsReflexive(Token token) {
+  public static void assertEqualsIsReflexive(XMLToken token) {
     Assertions.assertTrue(token.equals(token));
   }
 
 
-  public static void assertHashCollisionLessThan(List<? extends Token> tokens, double percent) {
+  public static void assertHashCollisionLessThan(List<? extends XMLToken> tokens, double percent) {
     int clashCount = 0;
     for (int i = 0; i < tokens.size(); i++) {
       for (int j = i; j < tokens.size(); j++) {
-        Token a = tokens.get(i);
-        Token b = tokens.get(j);
+        XMLToken a = tokens.get(i);
+        XMLToken b = tokens.get(j);
         boolean equals = a.equals(b);
         boolean sameHash = a.hashCode() == b.hashCode();
         if (equals != sameHash) {
@@ -49,10 +49,10 @@ public class TokenTest {
     Assertions.assertTrue(clashPercent < percent, "Too many hash collisions: " + clashCount + "/" + total + " " + clashPercent * 100 + "%");
   }
 
-  public static long profileEquals(List<? extends Token> tokens) {
+  public static long profileEquals(List<? extends XMLToken> tokens) {
     long t0 = System.nanoTime();
-    for (Token a : tokens) {
-      for (Token b : tokens) {
+    for (XMLToken a : tokens) {
+      for (XMLToken b : tokens) {
         a.equals(b);
       }
     }
@@ -60,9 +60,9 @@ public class TokenTest {
     return t1 - t0;
   }
 
-  public static void assertNotEqualsINotSame(List<? extends Token> tokens) {
-    for (Token a : tokens) {
-      for (Token b : tokens) {
+  public static void assertNotEqualsINotSame(List<? extends XMLToken> tokens) {
+    for (XMLToken a : tokens) {
+      for (XMLToken b : tokens) {
         if (a != b) {
           Assertions.assertNotEquals(a, b);
           Assertions.assertNotEquals(a.hashCode(), b.hashCode());

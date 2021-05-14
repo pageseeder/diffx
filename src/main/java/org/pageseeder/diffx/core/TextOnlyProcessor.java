@@ -18,20 +18,19 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.sequence.TokenListSlicer;
-import org.pageseeder.diffx.token.Token;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * An implementation of dynamic programming algorithm for computing the LCS.
+ * A processors for the text only tokens.
  * <p>
  * It is designed for text only and designed for simple sequences of tokens.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TextOnlyProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
+public final class TextOnlyProcessor<T> implements DiffProcessor<T> {
 
   /**
    * The main algorithms to choose from.
@@ -58,16 +57,16 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (from.isEmpty() || to.isEmpty()) {
-      for (Token token : to) handler.handle(Operator.INS, token);
-      for (Token token : from) handler.handle(Operator.DEL, token);
+      for (T token : to) handler.handle(Operator.INS, token);
+      for (T token : from) handler.handle(Operator.DEL, token);
     } else {
 
-      TokenListSlicer slicer = new TokenListSlicer(from, to);
-      int common = slicer.analyze();
+      Slicer<T> slicer = new Slicer<>(from, to);
+      slicer.analyze();
 
       // Slice the beginning
       int startCount = slicer.getStartCount();
@@ -80,18 +79,18 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
 
       // Check the end
       if (startCount > 0 || endCount > 0) {
-        List<? extends Token> subA = from.subList(startCount, from.size() - endCount);
-        List<? extends Token> subB = to.subList(startCount, to.size() - endCount);
+        List<? extends T> subA = from.subList(startCount, from.size() - endCount);
+        List<? extends T> subB = to.subList(startCount, to.size() - endCount);
         if (subA.isEmpty() || subB.isEmpty()) {
-          for (Token token : subB) handler.handle(Operator.INS, token);
-          for (Token token : subA) handler.handle(Operator.DEL, token);
+          for (T token : subB) handler.handle(Operator.INS, token);
+          for (T token : subA) handler.handle(Operator.DEL, token);
         } else {
-          DiffAlgorithm<Token> algorithm = getAlgorithm();
+          DiffAlgorithm<T> algorithm = getAlgorithm();
           algorithm.diff(subA, subB, handler);
         }
 
       } else {
-        DiffAlgorithm<Token> algorithm = getAlgorithm();
+        DiffAlgorithm<T> algorithm = getAlgorithm();
         algorithm.diff(from, to, handler);
       }
 
@@ -108,7 +107,7 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
     return "TextOnlyProcessor{algo=" + getAlgorithm().getClass().getSimpleName() + "}";
   }
 
-  private DiffAlgorithm<Token> getAlgorithm() {
+  private DiffAlgorithm<T> getAlgorithm() {
     switch (this.algo) {
       case HIRSCHBERG:
         return new HirschbergAlgorithm<>();
@@ -123,6 +122,97 @@ public final class TextOnlyProcessor extends DiffProcessorBase implements DiffPr
       default:
         throw new IllegalStateException("No algorithm defined");
     }
+  }
+
+  /**
+   * Identify common sequences at beginning and end of specified sequences.
+   *
+   * @author Christophe Lauret
+   * @version 0.9.0
+   */
+  private static final class Slicer<T> {
+
+    final List<? extends T> a;
+    final List<? extends T> b;
+
+    /**
+     * The common start between the two sequences.
+     */
+    int startCount = -1;
+
+    /**
+     * The common end between the two sequences.
+     */
+    int endCount = -1;
+
+    /**
+     * Creates a new sequence slicer.
+     *
+     * @param a The first sequence to slice.
+     * @param b The second sequence to slice.
+     */
+    public Slicer(List<? extends T> a, List<? extends T> b) {
+      this.a = a;
+      this.b = b;
+    }
+
+    /**
+     * Analyse the sequences to know whether they can be sliced.
+     *
+     * @return the number of common tokens
+     */
+    public int analyze() throws IllegalStateException {
+      this.startCount = computeStart();
+      this.endCount = sliceEnd(this.startCount);
+      return this.startCount + this.endCount;
+    }
+
+    int computeStart(){
+      int counter = 0;
+      Iterator<? extends T> i = this.a.iterator();
+      Iterator<? extends T> j = this.b.iterator();
+      // calculate the max possible index for slicing.
+      while (i.hasNext() && j.hasNext()) {
+        if (j.next().equals(i.next())) {
+          counter++;
+        } else {
+          break;
+        }
+      }
+      return counter;
+    }
+
+    public int sliceEnd(int start) {
+      int counter = 0;     // number of tokens evaluated
+      int pos1 = this.a.size() - 1;  // current position of the first sequence
+      int pos2 = this.b.size() - 1;  // current position of the second sequence
+      while (pos1 >= start && pos2 >= start) {
+        T token = this.a.get(pos1);
+        if (token.equals(this.b.get(pos2))) {
+          counter++;
+          pos1--;
+          pos2--;
+        } else {
+          break;
+        }
+      }
+      return counter;
+    }
+
+    /**
+     * @return The number of common tokens at the start of the sequence.
+     */
+    public int getStartCount() {
+      return this.startCount;
+    }
+
+    /**
+     * @return The number of common tokens at the end of the sequence.
+     */
+    public int getEndCount() {
+      return this.endCount;
+    }
+
   }
 
 }

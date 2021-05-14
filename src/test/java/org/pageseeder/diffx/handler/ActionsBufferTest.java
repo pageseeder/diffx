@@ -18,7 +18,7 @@ package org.pageseeder.diffx.handler;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class ActionsBufferTest {
 
   @Test
   public void testSingle() {
-    Token token = new CharToken('x');
+    XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
       ActionsBuffer handler = new ActionsBuffer();
       handler.handle(operator, token);
@@ -55,8 +55,8 @@ public class ActionsBufferTest {
 
   @Test
   public void testDouble() {
-    Token token1 = new CharToken('x');
-    Token token2 = new CharToken('y');
+    XMLToken token1 = new CharToken('x');
+    XMLToken token2 = new CharToken('y');
     for (Operator operator : Operator.values()) {
       ActionsBuffer handler = new ActionsBuffer();
       handler.handle(operator, token1);
@@ -73,8 +73,8 @@ public class ActionsBufferTest {
 
   @Test
   public void testMixed() {
-    Token token1 = new CharToken('x');
-    Token token2 = new CharToken('y');
+    XMLToken token1 = new CharToken('x');
+    XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       Iterable<Operator> others = Arrays.stream(Operator.values()).filter(o -> o != operator1).collect(Collectors.toSet());
       for (Operator operator2 : others) {

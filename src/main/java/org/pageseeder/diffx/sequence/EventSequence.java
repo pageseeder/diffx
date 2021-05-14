@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 /**
  * @deprecated Provided for backward compatibility, use {@link Sequence} instead.
@@ -29,7 +29,7 @@ public class EventSequence {
     this.sequence = sequence;
   }
 
-  public Token getToken(int i) {
+  public XMLToken getToken(int i) {
     return this.sequence.getToken(i);
   }
 

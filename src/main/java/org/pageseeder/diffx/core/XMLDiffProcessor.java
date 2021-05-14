@@ -15,8 +15,11 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.DiffException;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -29,7 +32,30 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public interface DiffProcessor<T> extends DiffAlgorithm<T> {
+public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
+
+  /**
+   * Set whether to consecutive text operations should be coalesced into a single operation.
+   *
+   * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
+   */
+  void setCoalesce(boolean coalesce);
+
+  /**
+   * Indicates whether the processor will coalesce consecutive text insertions and deletions
+   */
+  boolean isCoalescing();
+
+  /**
+   * Performs the comparison and uses the specified handler.
+   *
+   * @param from    The original list of tokens to compare (deleted)
+   * @param to      The target list of tokens to compare (inserted)
+   * @param handler The handler for the results of the comparison
+   *
+   * @throws DiffException Wrap any error occurring during processing.
+   */
+  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<XMLToken> handler) throws DiffException;
 
   /**
    * Performs the comparison and uses the specified handler.
@@ -42,6 +68,6 @@ public interface DiffProcessor<T> extends DiffAlgorithm<T> {
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
+  void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler);
 
 }

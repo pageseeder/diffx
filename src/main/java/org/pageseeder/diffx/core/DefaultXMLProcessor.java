@@ -18,11 +18,11 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.handler.DiffHandler;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;
 
-public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProcessor<Token> {
+public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProcessor<XMLToken> {
 
   private int threshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 
@@ -46,23 +46,23 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
     this.coalesce = coalesce;
   }
 
-  public boolean isDiffComputable(List<Token> from, List<Token> to) {
+  public boolean isDiffComputable(List<XMLToken> from, List<XMLToken> to) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.threshold);
     return algorithm.isDiffComputable(from, to);
   }
 
   @Override
-  public void diff(List<? extends Token> from, List<? extends Token> to, DiffHandler<Token> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.threshold);
-    DiffHandler<Token> actual = getFilter(handler);
+    DiffHandler<XMLToken> actual = getFilter(handler);
     handler.start();
     algorithm.diff(from, to, actual);
     handler.end();
   }
 
-  private DiffHandler<Token> getFilter(DiffHandler<Token> handler) {
+  private DiffHandler<XMLToken> getFilter(DiffHandler<XMLToken> handler) {
     return this.coalesce ? new CoalescingFilter(handler) : handler;
   }
 

@@ -28,7 +28,7 @@ import java.io.IOException;
  * @version 0.9.0
  * @since 0.5.0
  */
-public interface AttributeToken extends Namespaceable, Token {
+public interface AttributeToken extends XMLToken {
 
   /**
    * Returns the local name of the attribute.
@@ -59,12 +59,12 @@ public interface AttributeToken extends Namespaceable, Token {
   String getNamespaceURI();
 
   @Override
-  default TokenType getType() {
-    return TokenType.ATTRIBUTE;
+  default XMLTokenType getType() {
+    return XMLTokenType.ATTRIBUTE;
   }
 
   @Override
-  default boolean equals(Token token) {
+  default boolean equals(XMLToken token) {
     if (!(token instanceof AttributeToken)) return false;
     if (token.hashCode() != this.hashCode()) return false;
     AttributeToken other = (AttributeToken) token;

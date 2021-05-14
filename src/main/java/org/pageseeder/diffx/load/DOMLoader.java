@@ -19,8 +19,8 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.*;
-import org.pageseeder.diffx.token.impl.CommentToken;
-import org.pageseeder.diffx.token.impl.ProcessingInstructionToken;
+import org.pageseeder.diffx.token.impl.XMLComment;
+import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
 import org.pageseeder.diffx.xml.NamespaceSet;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -51,7 +51,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   /**
    * The factory that will produce tokens according to the configuration.
    */
-  private TokenFactory tokenFactory;
+  private XMLTokenFactory tokenFactory;
 
   /**
    * The text tokenizer used by this loader.
@@ -119,7 +119,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    */
   public Sequence load(Node node) throws LoadingException {
     // initialise the state variables.
-    this.tokenFactory = new TokenFactory(this.config.isNamespaceAware());
+    this.tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     this.tokenizer = TokenizerFactory.get(this.config);
     this.sequence = new Sequence();
     this.namespaces = this.sequence.getNamespaces();
@@ -219,7 +219,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @param pi The W3C DOM PI node to load.
    */
   private void loadPI(ProcessingInstruction pi) {
-    this.sequence.addToken(new ProcessingInstructionToken(pi.getTarget(), pi.getData()));
+    this.sequence.addToken(new XMLProcessingInstruction(pi.getTarget(), pi.getData()));
   }
 
   /**
@@ -228,7 +228,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @param comment The W3C DOM comment node to load.
    */
   private void loadComment(Comment comment) {
-    this.sequence.addToken(new CommentToken(comment.getTextContent()));
+    this.sequence.addToken(new XMLComment(comment.getTextContent()));
   }
 
   /**

@@ -25,6 +25,8 @@ import java.io.UncheckedIOException;
  *
  * <p>Handlers may be used to filter or format the operations of diff processors.
  *
+ * @param <T> The type of token the handler is designe for
+ *
  * @author Christophe Lauret
  * @version 0.9.0
  */

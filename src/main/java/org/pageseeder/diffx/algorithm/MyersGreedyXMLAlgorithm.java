@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.handler.PostXMLFixer;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +31,12 @@ import java.util.List;
  * @version 0.9.0
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  */
-public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> implements DiffAlgorithm<Token> {
+public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> implements DiffAlgorithm<XMLToken> {
 
   private final static boolean DEBUG = false;
 
   @Override
-  public void diff(@NotNull List<? extends Token> from, @NotNull List<? extends Token> to, @NotNull DiffHandler<Token> handler) {
+  public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
     Instance instance = new Instance(from, to);
     List<Snake> snakes = instance.computePath();
     // Auto-correct (required until we can fix the attributes)
@@ -54,12 +54,12 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
    */
   private static class Instance {
 
-    private final List<? extends Token> a;
-    private final List<? extends Token> b;
+    private final List<? extends XMLToken> a;
+    private final List<? extends XMLToken> b;
     private final int sizeA;
     private final int sizeB;
 
-    Instance(List<? extends Token> a, List<? extends Token> b) {
+    Instance(List<? extends XMLToken> a, List<? extends XMLToken> b) {
       this.a = a;
       this.b = b;
       this.sizeA = a.size();
@@ -114,7 +114,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
         int x = down ? xUp : xLeft + 1;
         int y = x - k;
 
-        Token editToken = getEditToken(down, x, y);
+        XMLToken editToken = getEditToken(down, x, y);
         if (DEBUG) System.err.print("D"+d+"? K"+k+" "+(down? "DOWN" : "RIGHT")+" ("+x+","+y+")");
 
         if (editToken == null || elements.isAllowed(k, down ? Operator.INS : Operator.DEL, editToken)) {
@@ -154,7 +154,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
       return false;
     }
 
-    private Token getEditToken(boolean down, int x, int y) {
+    private XMLToken getEditToken(boolean down, int x, int y) {
       boolean hasEdit = down? y > 0 && y <= sizeB : x > 0 && x <= sizeA;
       if (!hasEdit) return null;
       return down ? this.b.get(y-1) : this.a.get(x-1);

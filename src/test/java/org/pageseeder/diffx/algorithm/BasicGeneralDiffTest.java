@@ -23,7 +23,7 @@ import org.pageseeder.diffx.handler.MuxHandler;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.GeneralToken;
 import org.pageseeder.diffx.test.TestHandler;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
+public abstract class BasicGeneralDiffTest extends AlgorithmTest<XMLToken> {
 
   @Test
   public final void testGeneral_Empty() {
@@ -644,14 +644,14 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
   }
 
   public final void assertGeneralDiffOK(String textA, String textB, String[] exp) {
-    DiffAlgorithm<Token> algorithm = getDiffAlgorithm();
+    DiffAlgorithm<XMLToken> algorithm = getDiffAlgorithm();
     assertGeneralDiffOK(textA, textB, algorithm, exp);
   }
 
-  public static void assertGeneralDiffOK(String textA, String textB, DiffAlgorithm<Token> algorithm, String[] exp) {
+  public static void assertGeneralDiffOK(String textA, String textB, DiffAlgorithm<XMLToken> algorithm, String[] exp) {
     List<GeneralToken> seqA = GeneralToken.toList(textA);
     List<GeneralToken> seqB = GeneralToken.toList(textB);
-    ActionsBuffer<Token> af = new ActionsBuffer<>();
+    ActionsBuffer<XMLToken> af = new ActionsBuffer<>();
     TestHandler cf = new TestHandler();
 
     // Run the diff
@@ -659,7 +659,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
 
     // Extract output and actions
     String got = cf.getOutput();
-    List<Action<Token>> actions = af.getActions();
+    List<Action<XMLToken>> actions = af.getActions();
 
     // Check
     try {
@@ -677,7 +677,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
   /**
    * Print the error details.
    */
-  private static void printGeneralErrorDetails(String textA, String textB, String[] exp, String got, List<Action<Token>> actions) {
+  private static void printGeneralErrorDetails(String textA, String textB, String[] exp, String got, List<Action<XMLToken>> actions) {
     System.err.println("+------------------------------------------------");
     System.err.println("| Input A: \"" + textA + "\"");
     System.err.println("| Input B: \"" + textB + "\"");
@@ -688,7 +688,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<Token> {
       System.err.println();
     }
     System.err.print("| Actions: ");
-    for (Action<Token> action : actions) {
+    for (Action<XMLToken> action : actions) {
       System.err.print(action.operator() == Operator.DEL ? '-' : action.operator() == Operator.INS ? '+' : '=');
       System.err.print(action.tokens().stream().map(Object::toString).collect(Collectors.toList()));
     }

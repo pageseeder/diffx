@@ -17,7 +17,7 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -76,7 +76,7 @@ public final class TextListToken implements TextToken {
   }
 
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof TextToken)) return false;
     if (this.hashCode() != token.hashCode()) return false;

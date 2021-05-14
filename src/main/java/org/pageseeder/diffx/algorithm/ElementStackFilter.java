@@ -23,7 +23,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,7 +45,7 @@ import java.util.Deque;
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class ElementStackFilter extends DiffFilter<Token> {
+public final class ElementStackFilter extends DiffFilter<XMLToken> {
 
   /**
    * The stack of open elements.
@@ -55,7 +55,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
   /**
    * Constructs a new filter.
    */
-  public ElementStackFilter(DiffHandler<Token> target) {
+  public ElementStackFilter(DiffHandler<XMLToken> target) {
     super(target);
     this.elements = new ArrayDeque<>(16);
   }
@@ -97,7 +97,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
    * @param operator The corresponding operator
    */
   @Override
-  public void handle(@NotNull Operator operator, @NotNull Token token) {
+  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
     this.target.handle(operator, token);
     if (token instanceof StartElementToken) {
       this.elements.push(new Operation<>(operator, (StartElementToken) token));
@@ -120,7 +120,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
    * @return <code>true</code> if it matches the current element;
    * <code>false</code> otherwise.
    */
-  public boolean isAllowed(Operator operator, Token token) {
+  public boolean isAllowed(Operator operator, XMLToken token) {
     // Only check for end element tokens
     if (!(token instanceof EndElementToken)) return true;
     // Check that it matches the
@@ -156,7 +156,7 @@ public final class ElementStackFilter extends DiffFilter<Token> {
    * @return <code>true</code> if first specified token has priority over the second element;
    * <code>false</code> otherwise.
    */
-  public boolean hasPriorityOver(Token token1, Token token2) {
+  public boolean hasPriorityOver(XMLToken token1, XMLToken token2) {
     return token1 instanceof AttributeToken
         && !(token2 instanceof AttributeToken)
         && !isEmpty();

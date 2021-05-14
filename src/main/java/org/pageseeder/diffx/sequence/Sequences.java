@@ -15,10 +15,7 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.token.EndElementToken;
-import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.TextListToken;
 
 import java.util.ArrayList;
@@ -50,17 +47,17 @@ public final class Sequences {
    */
   public static boolean isWellFormed(Sequence sequence) {
     if (sequence == null) return false;
-    Stack<Token> open = new Stack<>();
-    Token token;
+    Stack<XMLToken> open = new Stack<>();
+    XMLToken token;
     for (int i = 0; i < sequence.size(); i++) {
       token = sequence.getToken(i);
-      if (token instanceof StartElementToken) {
+      if (token.getType() == XMLTokenType.START_ELEMENT) {
         open.push(token);
-      } else if (token instanceof EndElementToken) {
+      } else if (token.getType() == XMLTokenType.END_ELEMENT) {
         if (open.empty()) return false;
         StartElementToken o = (StartElementToken) open.peek();
         String lastOpenElementName = o.getName();
-        String closeElementName = ((EndElementToken) token).getName();
+        String closeElementName = token.getName();
         if (!closeElementName.equals(lastOpenElementName)) return false;
       }
     }
@@ -106,7 +103,7 @@ public final class Sequences {
     int max = 0;
     int tmp = 0;
     for (int i = 0; i < sequence.size(); i++) {
-      Token token = sequence.getToken(i);
+      XMLToken token = sequence.getToken(i);
       if (token instanceof StartElementToken) {
         tmp = 0;
       } else if (token instanceof EndElementToken) {
@@ -130,7 +127,7 @@ public final class Sequences {
   public static Sequence foldText(Sequence input) {
     List<TextToken> text = new ArrayList<>();
     Sequence output = new Sequence(input.getNamespaces());
-    for (Token token : input) {
+    for (XMLToken token : input) {
       if (token instanceof TextToken) {
         text.add((TextToken) token);
       } else {

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.sequence;
 
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.PrintWriter;
@@ -24,18 +24,18 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A sequence of tokens.
+ * A sequence of XML tokens.
  *
- * <p>This class wraps a list of <code>Token</code>s alongside the namespaces.
+ * <p>This class wraps a list of <code>XMLToken</code>s alongside the namespaces.
  *
- * <p>Implementation note: we use an <code>ArrayList</code> to store the tokens because some algorithms
- * need random access. Other list implementations may affect performance.</p>
+ * @implNote we use an <code>ArrayList</code> to store the tokens because some algorithms
+ * need random access. Other list implementations may affect performance.
  *
  * @author Christophe Lauret
  * @version 0.9.0
  * @since 0.7
  */
-public final class Sequence implements Iterable<Token> {
+public final class Sequence implements Iterable<XMLToken> {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -45,7 +45,7 @@ public final class Sequence implements Iterable<Token> {
   /**
    * The sequence of tokens.
    */
-  private final List<Token> tokens;
+  private final List<XMLToken> tokens;
 
   /**
    * Creates a new token sequence.
@@ -82,7 +82,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @param tokens The size of the sequence.
    */
-  public Sequence(List<Token> tokens) {
+  public Sequence(List<XMLToken> tokens) {
     this.tokens = tokens;
   }
 
@@ -100,7 +100,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @param token The token to be added.
    */
-  public void addToken(Token token) {
+  public void addToken(XMLToken token) {
     this.tokens.add(token);
   }
 
@@ -110,7 +110,7 @@ public final class Sequence implements Iterable<Token> {
    * @param i     The position of the token.
    * @param token The token to be added.
    */
-  public void addToken(int i, Token token) {
+  public void addToken(int i, XMLToken token) {
     this.tokens.add(i, token);
   }
 
@@ -119,7 +119,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @param tokens The tokens to be added.
    */
-  public void addTokens(List<? extends Token> tokens) {
+  public void addTokens(List<? extends XMLToken> tokens) {
     this.tokens.addAll(tokens);
   }
 
@@ -130,7 +130,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @return the token at position i.
    */
-  public Token getToken(int i) {
+  public XMLToken getToken(int i) {
     return this.tokens.get(i);
   }
 
@@ -142,7 +142,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @return The token at the previous position.
    */
-  public Token setToken(int index, Token token) {
+  public XMLToken setToken(int index, XMLToken token) {
     return this.tokens.set(index, token);
   }
 
@@ -153,7 +153,7 @@ public final class Sequence implements Iterable<Token> {
    *
    * @return The removed token.
    */
-  public Token removeToken(int index) {
+  public XMLToken removeToken(int index) {
     return this.tokens.remove(index);
   }
 
@@ -167,7 +167,7 @@ public final class Sequence implements Iterable<Token> {
   /**
    * @return the sequence of tokens.
    */
-  public List<Token> tokens() {
+  public List<XMLToken> tokens() {
     return this.tokens;
   }
 
@@ -217,7 +217,7 @@ public final class Sequence implements Iterable<Token> {
    * @param w The print writer receiving the SAX events.
    */
   public void export(PrintWriter w) {
-    for (Token token : this.tokens) {
+    for (XMLToken token : this.tokens) {
       w.println(token.toString());
     }
     w.flush();
@@ -281,14 +281,14 @@ public final class Sequence implements Iterable<Token> {
   }
 
   @Override
-  public Iterator<Token> iterator() {
+  public Iterator<XMLToken> iterator() {
     return this.tokens().iterator();
   }
 
-  private static boolean equals(List<Token> first, List<Token> second) {
+  private static boolean equals(List<XMLToken> first, List<XMLToken> second) {
     if (first.size() != second.size()) return false;
-    Token x1;
-    Token x2;
+    XMLToken x1;
+    XMLToken x2;
     for (int i = 0; i < first.size(); i++) {
       x1 = first.get(i);
       x2 = second.get(i);

@@ -18,15 +18,15 @@ package org.pageseeder.diffx.test;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.OperationsBuffer;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.List;
 
 public class TestOperations {
 
-  public static List<Operation<Token>> toTextOperations(String... ops) {
-    OperationsBuffer<Token> source = new OperationsBuffer<>();
+  public static List<Operation<XMLToken>> toTextOperations(String... ops) {
+    OperationsBuffer<XMLToken> source = new OperationsBuffer<>();
     for (String op : ops) {
       if (op.startsWith("+")) source.handle(Operator.INS, TestTokens.toTextToken(op.substring(1)));
       else if (op.startsWith("-")) source.handle(Operator.DEL, TestTokens.toTextToken(op.substring(1)));
@@ -35,8 +35,8 @@ public class TestOperations {
     return source.getOperations();
   }
 
-  public static List<Operation<Token>> toCharOperations(String ops) {
-    OperationsBuffer<Token> source = new OperationsBuffer<>();
+  public static List<Operation<XMLToken>> toCharOperations(String ops) {
+    OperationsBuffer<XMLToken> source = new OperationsBuffer<>();
     char[] chars = ops.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       char c = chars[i];

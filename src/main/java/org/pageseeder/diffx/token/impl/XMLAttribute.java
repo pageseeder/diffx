@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.AttributeToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
@@ -124,7 +124,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof AttributeToken)) return false;
     if (this.hashCode != token.hashCode()) return false;

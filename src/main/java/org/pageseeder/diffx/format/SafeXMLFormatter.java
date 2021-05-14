@@ -21,7 +21,7 @@ import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.CharactersTokenBase;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -121,7 +121,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   // methods ------------------------------------------------------------------------------------
 
   @Override
-  public void format(Token e) throws IOException {
+  public void format(XMLToken e) throws IOException {
     if (DEBUG) {
       System.err.println("=" + e);
     }
@@ -141,7 +141,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void insert(Token e) throws IOException {
+  public void insert(XMLToken e) throws IOException {
     if (DEBUG) {
       System.err.println("+" + e);
     }
@@ -191,7 +191,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
   }
 
   @Override
-  public void delete(Token e) throws IOException {
+  public void delete(XMLToken e) throws IOException {
     if (DEBUG) {
       System.err.println("-" + e);
     }

@@ -28,7 +28,7 @@ import java.io.IOException;
  * @version 0.9.0
  * @since 0.5.0
  */
-public interface EndElementToken extends Namespaceable, Token {
+public interface EndElementToken extends XMLToken {
 
   /**
    * Returns the local name of the element.
@@ -70,8 +70,8 @@ public interface EndElementToken extends Namespaceable, Token {
   boolean match(StartElementToken token);
 
   @Override
-  default TokenType getType() {
-    return TokenType.END_ELEMENT;
+  default XMLTokenType getType() {
+    return XMLTokenType.END_ELEMENT;
   }
 
   @Override

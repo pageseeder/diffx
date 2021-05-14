@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.token.impl;
 
 import org.pageseeder.diffx.token.StartElementToken;
-import org.pageseeder.diffx.token.Token;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
@@ -30,7 +30,7 @@ import java.io.IOException;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class XMLStartElement extends TokenBase implements Token, StartElementToken {
+public final class XMLStartElement extends TokenBase implements XMLToken, StartElementToken {
 
   /**
    * The namespace URI of the element.
@@ -105,7 +105,7 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Token token) {
+  public boolean equals(XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof StartElementToken)) return false;
     if (this.hashCode != token.hashCode()) return false;
@@ -135,6 +135,11 @@ public final class XMLStartElement extends TokenBase implements Token, StartElem
     } else {
       xml.writeStartElement(this.uri, this.name);
     }
+  }
+
+  @Override
+  public String getValue() {
+    return null;
   }
 
   /**
