@@ -21,8 +21,8 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.pageseeder.diffx.algorithm.Snake.Direction.DOWN;
-import static org.pageseeder.diffx.algorithm.Snake.Direction.RIGHT;
+import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.DOWN;
+import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.RIGHT;
 
 /**
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper
@@ -42,7 +42,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
   @Override
   public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
     Instance<T> instance = new Instance<>(from, to);
-    List<Snake> snakes = instance.computePath();
+    List<EdgeSnake> snakes = instance.computePath();
     handleResults(from, to, handler, snakes);
   }
 
@@ -73,10 +73,10 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
      * @return the corresponding list of snakes
      * @throws IllegalStateException If no solution was found.
      */
-    private List<Snake> computePath() {
+    private List<EdgeSnake> computePath() {
       Vector vector = Vector.createGreedy(this.sizeA, this.sizeB);
       List<Vector> vectors = new ArrayList<>();
-      Snake last = null;
+      EdgeSnake last = null;
 
       // Maximum length for the path (N + M)
       final int max = sizeA + sizeB;
@@ -100,7 +100,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * @return the last snake when a solution has been found.
      */
-    private Snake forward(Vector vector, int d) {
+    private EdgeSnake forward(Vector vector, int d) {
       for (int k = -d; k <= d; k += 2) {
         // DOWN (insertion) or RIGHT (deletion)
         boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
@@ -126,7 +126,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
 
         // Check if we've reached the end
         if (xEnd >= sizeA && yEnd >= sizeB) {
-          return Snake.create(0, sizeA, 0, sizeB, down ? DOWN : RIGHT, xStart, yStart, 1, matching);
+          return EdgeSnake.create(0, sizeA, 0, sizeB, down ? DOWN : RIGHT, xStart, yStart, 1, matching);
         }
       }
 
@@ -136,8 +136,8 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private List<Snake> solve(List<Vector> vectors) {
-      List<Snake> snakes = new ArrayList<>();
+    private List<EdgeSnake> solve(List<Vector> vectors) {
+      List<EdgeSnake> snakes = new ArrayList<>();
       Point p = new Point(this.sizeA, this.sizeB);
 
       for (int d = vectors.size() - 1; p.x() > 0 || p.y() > 0; d--) {
@@ -149,13 +149,13 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
         if (!p.isSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
-        Snake solution = createToPoint(p, vector, k, d);
+        EdgeSnake solution = createToPoint(p, vector, k, d);
 
         if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
           throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
         if (snakes.size() > 0) {
-          Snake snake = snakes.get(0);
+          EdgeSnake snake = snakes.get(0);
           // Combine snakes if possible
           if (!snake.append(solution)) {
             snakes.add(0, solution);
@@ -171,7 +171,7 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
 
   }
 
-  private static Snake createToPoint(Point point, Vector vector, int k, int d) {
+  private static EdgeSnake createToPoint(Point point, Vector vector, int k, int d) {
     final int aEnd = point.x();
     final int bEnd = point.y();
     boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
@@ -182,8 +182,8 @@ public final class MyersGreedyAlgorithm<T> extends MyersAlgorithm<T> implements 
     int matching = Math.min(aEnd - xEnd, bEnd - yEnd);
 
     // Create corresponding snake instance
-    Snake.Direction direction = down ? Snake.Direction.DOWN : Snake.Direction.RIGHT;
-    return Snake.create(0, aEnd, 0, bEnd, direction, xStart, yStart, 1, matching);
+    EdgeSnake.Direction direction = down ? EdgeSnake.Direction.DOWN : EdgeSnake.Direction.RIGHT;
+    return EdgeSnake.create(0, aEnd, 0, bEnd, direction, xStart, yStart, 1, matching);
   }
 
 }

@@ -41,8 +41,8 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Handles the results of the diff.
    */
-  protected void handleResults(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<Snake> snakes) {
-    for (Snake snake : snakes) {
+  protected void handleResults(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<EdgeSnake> snakes) {
+    for (EdgeSnake snake : snakes) {
       if (DEBUG) System.err.println(snake);
       if (snake.isForward()) {
         handleForward(a, b, handler, snake);
@@ -55,7 +55,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Handles the results of the diff for a single snake in forward direction.
    */
-  private void handleForward(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull Snake snake) {
+  private void handleForward(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake) {
     Point start = snake.getStartPoint();
     Point mid = snake.getMidPoint();
     Point end = snake.getEndPoint();
@@ -70,7 +70,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Handles the results of the diff for a single snake in reverse direction.
    */
-  private void handleReverse(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull Snake snake) {
+  private void handleReverse(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake) {
     Point start = snake.getEndPoint();
     Point mid = snake.getMidPoint();
     Point end = snake.getStartPoint();
@@ -82,7 +82,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
     handleEdited(a, b, handler, snake, mid, end);
   }
 
-  private void handleEdited(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull Snake snake, Point start, Point mid) {
+  private void handleEdited(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake, Point start, Point mid) {
     if (snake.deleted() > 0) {
       for (int i = start.x(); i < mid.x(); i++) {
         handler.handle(Operator.DEL, a.get(i));

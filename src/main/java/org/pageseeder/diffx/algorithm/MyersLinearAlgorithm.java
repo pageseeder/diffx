@@ -21,7 +21,7 @@ import org.pageseeder.diffx.handler.DiffHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.pageseeder.diffx.algorithm.Snake.Direction.*;
+import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.*;
 
 /**
  * An implementation of the linear algorithm as outlined in Eugene Myers' paper
@@ -41,7 +41,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
   @Override
   public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
     Instance<T> instance = new Instance<>(from, to);
-    List<Snake> snakes = instance.computePath();
+    List<EdgeSnake> snakes = instance.computePath();
     handleResults(from, to, handler, snakes);
   }
 
@@ -55,17 +55,17 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       this.b = b;
     }
 
-    public List<Snake> computePath() {
+    public List<EdgeSnake> computePath() {
       Vector VForward = Vector.createLinear(this.a.size(), this.b.size(), true);
       Vector VReverse = Vector.createLinear(this.a.size(), this.b.size(), false);
-      List<Snake> snakes = new ArrayList<>();
+      List<EdgeSnake> snakes = new ArrayList<>();
       List<Vector> forwardVs = new ArrayList<>();
       List<Vector> reverseVs = new ArrayList<>();
       computePath(0, snakes, forwardVs, reverseVs, 0, this.a.size(), 0, this.b.size(), VForward, VReverse);
       return snakes;
     }
 
-    private void computePath(int recursion, List<Snake> snakes,
+    private void computePath(int recursion, List<EdgeSnake> snakes,
                              List<Vector> forwardVs, List<Vector> reverseVs,
                              int startA, int sizeA,
                              int startB, int sizeB,
@@ -73,7 +73,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
 
       // Only deletions
       if (sizeB == 0 && sizeA > 0) {
-        Snake right = Snake.create(startA, sizeA, startB, sizeB, RIGHT, startA, startB, sizeA, 0);
+        EdgeSnake right = EdgeSnake.create(startA, sizeA, startB, sizeB, RIGHT, startA, startB, sizeA, 0);
         if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(right)) {
           snakes.add(right);
         }
@@ -81,7 +81,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
 
       // Only insertions
       if (sizeA == 0 && sizeB > 0) {
-        Snake down = Snake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, sizeB, 0);
+        EdgeSnake down = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, sizeB, 0);
         if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(down)) {
           snakes.add(down);
         }
@@ -120,7 +120,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
             if (middle.snake().x - startA != middle.snake().y - startB)
               throw new IllegalStateException("Missed D0 forward");
 
-            Snake snake = Snake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, 0, middle.snake().x - startA);
+            EdgeSnake snake = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, 0, middle.snake().x - startA);
             if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(snake)) {
               snakes.add(snake);
             }
@@ -140,7 +140,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
             if (startA + sizeA - middle.snake().x != startB + sizeB - middle.snake().y)
               throw new IllegalStateException("Missed D0 reverse");
 
-            Snake snake = Snake.create(startA, sizeA, startB, sizeB, DOWN, middle.snake().x, middle.snake().y, 0, startA + sizeA - middle.snake().x);
+            EdgeSnake snake = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, middle.snake().x, middle.snake().y, 0, startA + sizeA - middle.snake().x);
             if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(snake)) {
               snakes.add(snake);
             }
@@ -192,7 +192,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           }
 
           // Length of an SES is 2D-1, the last snake of the forward path is the middle snake.
-          Snake forward = Snake.create(startA, sizeA, startB, sizeB, down ? DOWN : RIGHT, xStart + startA, yStart + startB, 1, matching);
+          EdgeSnake forward = EdgeSnake.create(startA, sizeA, startB, sizeB, down ? DOWN : RIGHT, xStart + startA, yStart + startB, 1, matching);
           forward.setDiff(d);
           return new MiddleSnake((2 * d) - 1, forward);
         }
@@ -228,7 +228,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           }
 
           // Length of an SES is 2D. The last snake of the reverse path is the middle snake
-          Snake reverse = Snake.create(startA, sizeA, startB, sizeB, up ? UP : LEFT, xStart + startA, yStart + startB, 1, matching);
+          EdgeSnake reverse = EdgeSnake.create(startA, sizeA, startB, sizeB, up ? UP : LEFT, xStart + startA, yStart + startB, 1, matching);
           reverse.setDiff(d);
           return new MiddleSnake(2 * d, reverse);
         }
@@ -248,9 +248,9 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
 
     private final int diff;
 
-    private final Snake snake;
+    private final EdgeSnake snake;
 
-    public MiddleSnake(int diff, @NotNull Snake snake) {
+    public MiddleSnake(int diff, @NotNull EdgeSnake snake) {
       this.diff = diff;
       this.snake = snake;
     }
@@ -273,7 +273,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       return this.snake.isForward();
     }
 
-    public Snake snake() {
+    public EdgeSnake snake() {
       return this.snake;
     }
 
