@@ -108,12 +108,31 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<Token> {
    * Tests some moved branch.
    */
   @Test
-  public final void testAdvanced_MovedBranch() throws LoadingException {
+  public final void testAdvanced_MovedBranch1() throws LoadingException {
     String xmlA = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String xmlB = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String exp = "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>";
+    String[] exp = new String[] {
+        "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>",
+        "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a><b>-N+A</b>+</a>+<b>+N+</b></a>",
+        "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a><b>+A-N</b>+</a>+<b>+N+</b></a>"
+    };
     assertDiffXMLOK(xmlA, xmlB, WORD, exp);
-    assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
+  }
+
+  /**
+   * Tests some moved branch.
+   */
+  @Test
+  public final void testAdvanced_MovedBranch2() throws LoadingException {
+    String xmlA = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
+    String xmlB = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
+    String[] exp = new String[] {
+        "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>",
+        "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>",
+        "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a><b>-A+N</b>-</a>-<b>-N-</b></a>",
+        "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a><b>+N-A</b>-</a>-<b>-N-</b></a>"
+    };
+    assertDiffXMLOK(xmlA, xmlB, WORD, exp);
   }
 
   /**
@@ -132,7 +151,10 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<Token> {
   public final void testAdvanced_BestPath() throws LoadingException {
     String xmlA = "<a><b/><b>X</b></a>";
     String xmlB = "<a><b>X</b></a>";
-    String exp = "<a>-<b>-</b><b>X</b></a>";
+    String[] exp = new String[] {
+        "<a>-<b>-</b><b>X</b></a>",
+        "<a><b>+X</b>-<b>-X-</b></a>"
+    };
     assertDiffXMLOK(xmlA, xmlB, WORD, exp);
     assertDiffXMLOK(xmlB, xmlA, WORD, flip(exp));
   }

@@ -18,13 +18,11 @@ package org.pageseeder.diffx.algorithm;
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operator;
 import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.handler.PostXMLFixer;
 import org.pageseeder.diffx.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.pageseeder.diffx.algorithm.Snake.Direction.DOWN;
-import static org.pageseeder.diffx.algorithm.Snake.Direction.RIGHT;
 
 /**
  * An implementation of Myers' greedy algorithm adjusted for XML.
@@ -35,11 +33,19 @@ import static org.pageseeder.diffx.algorithm.Snake.Direction.RIGHT;
  */
 public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> implements DiffAlgorithm<Token> {
 
+  private final static boolean DEBUG = false;
+
   @Override
   public void diff(@NotNull List<? extends Token> from, @NotNull List<? extends Token> to, @NotNull DiffHandler<Token> handler) {
     Instance instance = new Instance(from, to);
     List<Snake> snakes = instance.computePath();
-    handleResults(from, to, handler, snakes);
+    // Auto-correct (required until we can fix the attributes)
+    PostXMLFixer correction = new PostXMLFixer(handler);
+    correction.start();
+    handleResults(from, to, correction, snakes);
+    correction.end();
+    // No autocorrect
+//    handleResults(from, to, handler, snakes);
   }
 
   /**
@@ -69,25 +75,23 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
      * @throws IllegalStateException If no solution was found.
      */
     private List<Snake> computePath() {
-      XMLVector vector = XMLVector.createGreedy(this.sizeA, this.sizeB);
-      List<XMLVector> vectors = new ArrayList<>();
+      Vector vector = Vector.createGreedy(this.sizeA, this.sizeB);
+      List<Vector> vectors = new ArrayList<>();
+      XMLStackMap elements = new XMLStackMap();
 
       // Maximum length for the path (N + M)
       final int max = sizeA + sizeB;
 
       // Find the endpoint of the furthest reaching D-path in diagonal k
-      Snake last = null;
+      boolean found = false;
       for (int d = 0; d <= max; d++) {
-        last = forward(vector, d);
-        System.out.println("D"+d+": "+vector);
+        found = forward(vector, elements, d);
+        if (DEBUG) System.err.println("D"+d+": "+elements+" | "+vector+"\n");
         vectors.add(vector.createCopy(d));
-        // We've found the last snake
-        if (last != null)
-          break;
+        // We've found a path
+        if (found) break;
       }
-
-      if (last == null)
-        throw new IllegalStateException("Unable to find a solution!");
+      if (!found) throw new IllegalStateException("Unable to find a solution!");
 
       // Return the corresponding snakes
       return solve(vectors);
@@ -96,88 +100,84 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
     /**
      * @return the last snake when a solution has been found.
      */
-    private Snake forward(XMLVector vector, int d) {
+    private boolean forward(Vector vector, XMLStackMap elements, int d) {
+      elements.nextDiff();
       for (int k = -d; k <= d; k += 2) {
+        int xLeft = k != -d ? vector.getX(k - 1) : 0;
+        int xUp = k != d ? vector.getX(k + 1) : 0;
         // DOWN (insertion) or RIGHT (deletion)
-        boolean down = k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1));
-
-        // To get to line k, we move DOWN (k+1) or RIGHT (k-1)
-        int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
-        int yStart = xStart - (down ? k + 1 : k - 1);
+        boolean down = k == -d || (k != d && xLeft < xUp);
+        // TODO There may be a choice to reach k via k-1 (right) or k+1 (down) if xLeft+1 == xUp
+        elements.initK(k, down);
 
         // Calculate end points
-        int xEnd = down ? xStart : xStart + 1;
-        int yEnd = xEnd - k;
-        System.out.print("D"+d+"? K"+k+" "+(down? "DOWN" : "RIGHT")+" ("+xEnd+","+yEnd+")");
+        int x = down ? xUp : xLeft + 1;
+        int y = x - k;
 
-        int matching = 0;
-        Token editToken = getEditToken(down, xEnd, yEnd);
-        if (editToken == null || vector.isAllowed(k, down ? Operator.INS : Operator.DEL, editToken)) {
- //       if (true) {
+        Token editToken = getEditToken(down, x, y);
+        if (DEBUG) System.err.print("D"+d+"? K"+k+" "+(down? "DOWN" : "RIGHT")+" ("+x+","+y+")");
 
-          if (down && yEnd > 0) {
-            System.out.print(" +" + b.get(yEnd - 1));
-            vector.update(k, Operator.INS, b.get(yEnd - 1));
-          } else if (xEnd > 0) {
-            System.out.print(" -" + a.get(xEnd - 1));
-            vector.update(k, Operator.DEL, a.get(xEnd - 1));
+        if (editToken == null || elements.isAllowed(k, down ? Operator.INS : Operator.DEL, editToken)) {
+
+          if (editToken != null) {
+            Operator op = down? Operator.INS : Operator.DEL;
+            if (DEBUG) System.out.print(" "+ op + editToken);
+            elements.update(k, op, editToken);
           }
 
           // Follow diagonals
-          while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd).equals(b.get(yEnd)) && vector.isAllowed(k, Operator.MATCH, a.get(xEnd))) {
-//          while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd).equals(b.get(yEnd))) {
-            System.out.print(" =" + a.get(xEnd));
-            vector.update(k, Operator.MATCH, a.get(xEnd));
-            xEnd++;
-            yEnd++;
-            matching++;
+          while (x < sizeA && y < sizeB && a.get(x).equals(b.get(y))
+              && elements.isAllowed(k, Operator.MATCH, a.get(x))) {
+            if (DEBUG) System.out.print(" =" + a.get(x));
+            elements.update(k, Operator.MATCH, a.get(x));
+            x++;
+            y++;
           }
 
         } else {
-          System.out.print(" !"+(down ? Operator.INS : Operator.DEL)+editToken);
-//          xEnd = down ? xEnd : xEnd -1;
-//          yEnd = down ? yEnd - 1 : yEnd;
+          if (DEBUG) System.out.print(" !"+(down ? Operator.INS : Operator.DEL)+editToken);
+          x = down ? x : x -1;
+          y = down ? y - 1 : y;
         }
 
-        System.out.println(" -> ("+xEnd+","+yEnd+")");
+        if (DEBUG) System.out.println(" -> ("+x+","+y+")");
 
         // Save end points
-        vector.setX(k, xEnd);
+        vector.setX(k, x);
 
         // Check if we've reached the end
-        if (xEnd >= sizeA && yEnd >= sizeB) {
-          return Snake.create(0, sizeA, 0, sizeB, down ? DOWN : RIGHT, xStart, yStart, 1, matching);
+        if (x >= sizeA && y >= sizeB) {
+          return true;
         }
       }
 
-      return null;
+      return false;
     }
 
     private Token getEditToken(boolean down, int x, int y) {
-      boolean hasEdit = down? y > 0 : x > 0;
+      boolean hasEdit = down? y > 0 && y <= sizeB : x > 0 && x <= sizeA;
       if (!hasEdit) return null;
-      return down ? b.get(y-1) : a.get(x-1);
+      return down ? this.b.get(y-1) : this.a.get(x-1);
     }
-
 
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private List<Snake> solve(List<XMLVector> vectors) {
+    private List<Snake> solve(List<Vector> vectors) {
       List<Snake> snakes = new ArrayList<>();
       Point p = new Point(this.sizeA, this.sizeB);
 
       for (int d = vectors.size() - 1; p.x() > 0 || p.y() > 0; d--) {
-        XMLVector vector = vectors.get(d);
+        Vector vector = vectors.get(d);
         int k = p.x() - p.y();
         int xEnd = vector.getX(k);
         int yEnd = xEnd - k;
-        System.out.println("D="+d+" k="+k+" x="+xEnd+" y="+yEnd);
+        if (DEBUG) System.out.println("D="+d+" k="+k+" x="+xEnd+" y="+yEnd);
 
         if (!p.isSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
-        Snake solution = createToPoint(p, vector.vector, k, d);
+        Snake solution = createToPoint(p, vector, k, d);
 
         if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
           throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
@@ -199,7 +199,6 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
 
   }
 
-
   private static <T> Snake createToPoint(Point point, Vector vector, int k, int d) {
     final int aEnd = point.x();
     final int bEnd = point.y();
@@ -215,4 +214,8 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<Token> impleme
     return Snake.create(0, aEnd, 0, bEnd, direction, xStart, yStart, 1, matching);
   }
 
+  @Override
+  public String toString() {
+    return "MyersGreedyXMLAlgorithm";
+  }
 }

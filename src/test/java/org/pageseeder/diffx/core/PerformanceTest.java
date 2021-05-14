@@ -18,6 +18,7 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.algorithm.MyersGreedyXMLAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.handler.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
@@ -208,8 +209,12 @@ public class PerformanceTest {
 
     profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
     profileX(new OptimisticXMLProcessor(), firstWord, secondWord, 10);
+    profileX(new MyersGreedyXMLAlgorithm(), firstWord, secondWord, 10);
+
     profileX(new DefaultXMLProcessor(), firstText, firstText, 10);
     profileX(new OptimisticXMLProcessor(), firstText, secondText, 10);
+    profileX(new MyersGreedyXMLAlgorithm(), firstText, secondText, 10);
+
   }
 
   @Test
@@ -225,6 +230,7 @@ public class PerformanceTest {
 
       profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
       profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);
+      profileX(new MyersGreedyXMLAlgorithm(), first.tokens(), second.tokens(), 10);
     }
   }
 

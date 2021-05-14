@@ -34,9 +34,9 @@ import java.util.List;
  * @version 0.9.0
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  */
-public abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
+abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
 
-  private final static boolean DEBUG = true;
+  private final static boolean DEBUG = false;
 
   /**
    * Handles the results of the diff.
