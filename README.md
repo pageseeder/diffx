@@ -1,5 +1,3 @@
-[ ![Download](https://api.bintray.com/packages/pageseeder/maven/diffx/images/download.svg) ](https://bintray.com/pageseeder/maven/diffx/_latestVersion)
-
 # DiffX
 
 A java API for comparing XML documents by analysing the sequence of XML events.

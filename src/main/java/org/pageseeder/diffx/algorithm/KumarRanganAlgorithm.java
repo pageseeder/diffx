@@ -25,13 +25,13 @@ import java.util.Objects;
  * An implementation of the S. Kiran Kumar and C. Pandu Rangan algorithm to find the longest
  * common subsequence (LCS).
  *
- * <p>Implementation note: this algorithm effectively detects the correct changes in the
- * sequences, but cannot be used on XML sequences as it cannot always produce well-formed XML.
- *
  * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
  * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987
  *
  * <p>The algorithm has been adjusted to generate the shortest edit script (SES)</p>
+ *
+ * @implNote this algorithm effectively detects the correct changes in the sequences, but cannot be used on
+ * XML sequences as it cannot always produce well-formed XML.
  *
  * @author Christophe Lauret
  * @version 0.9.0
