@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.BasicXMLDiffTest;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.token.XMLToken;
 
 /**

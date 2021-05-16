@@ -15,7 +15,8 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.handler.FormattingAdapter;
 import org.pageseeder.diffx.sequence.EventSequence;

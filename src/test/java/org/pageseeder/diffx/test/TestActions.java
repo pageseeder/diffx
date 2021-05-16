@@ -17,7 +17,7 @@ package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.XMLDiffOutput;

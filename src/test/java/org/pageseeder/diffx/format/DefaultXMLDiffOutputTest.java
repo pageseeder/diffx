@@ -29,7 +29,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.pageseeder.diffx.action.Operator.*;
+import static org.pageseeder.diffx.api.Operator.*;
 
 /**
  * Test class for the smart XML Diff output.

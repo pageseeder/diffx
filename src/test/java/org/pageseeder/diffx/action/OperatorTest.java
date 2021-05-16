@@ -18,7 +18,7 @@ package org.pageseeder.diffx.action;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.pageseeder.diffx.action.Operator.*;
+import static org.pageseeder.diffx.api.Operator.*;
 
 public class OperatorTest {
 

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 

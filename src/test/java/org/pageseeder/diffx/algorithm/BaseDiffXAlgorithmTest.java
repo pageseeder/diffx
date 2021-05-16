@@ -19,7 +19,7 @@ import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.DiffResult;
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
 import org.pageseeder.diffx.format.SmartXMLFormatter;

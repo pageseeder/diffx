@@ -16,15 +16,13 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.api.DiffHandler;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.DOWN;
-import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.RIGHT;
 
 /**
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper

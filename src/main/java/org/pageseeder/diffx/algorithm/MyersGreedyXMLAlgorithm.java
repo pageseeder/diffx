@@ -16,8 +16,9 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.handler.PostXMLFixer;
 import org.pageseeder.diffx.token.XMLToken;
 

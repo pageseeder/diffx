@@ -17,10 +17,10 @@ package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.MyersGreedyXMLAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
 import org.pageseeder.diffx.test.RandomStringFactory;

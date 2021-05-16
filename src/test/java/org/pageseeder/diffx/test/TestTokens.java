@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.test;
 
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;

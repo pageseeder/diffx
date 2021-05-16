@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.format;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;

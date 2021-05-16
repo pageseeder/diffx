@@ -18,7 +18,7 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.format.XMLDiffOutput;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.sequence.PrefixMapping;
 import org.pageseeder.diffx.token.XMLToken;

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.Operator;
 
 /**
  * An edge-snake is non-diagonal edge and then a possibly empty sequence of diagonal edges from the edit graph.

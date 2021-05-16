@@ -17,7 +17,8 @@ package org.pageseeder.diffx.handler;
 
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operation;
-import org.pageseeder.diffx.action.Operator;
+import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.load.text.TextTokenizer;

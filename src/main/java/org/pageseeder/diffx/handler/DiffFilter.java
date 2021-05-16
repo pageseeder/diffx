@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.handler;
 
+import org.pageseeder.diffx.api.DiffHandler;
+
 /**
  * A base class for handlers acting as filters for tokens
  */

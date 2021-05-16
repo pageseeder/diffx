@@ -16,7 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffHandler;
 
 import java.util.ArrayList;
 import java.util.List;

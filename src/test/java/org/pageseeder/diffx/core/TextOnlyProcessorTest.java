@@ -18,9 +18,8 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.RandomGeneralDiffTest;
-import org.pageseeder.diffx.token.Token;
 import org.pageseeder.diffx.token.XMLToken;
 
 /**

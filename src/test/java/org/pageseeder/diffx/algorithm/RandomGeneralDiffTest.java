@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.XMLToken;
 

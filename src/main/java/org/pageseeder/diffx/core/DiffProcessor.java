@@ -15,8 +15,8 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.pageseeder.diffx.algorithm.DiffAlgorithm;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffHandler;
 
 import java.io.UncheckedIOException;
 import java.util.List;

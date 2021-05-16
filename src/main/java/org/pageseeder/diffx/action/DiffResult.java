@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.action;
 
+import org.pageseeder.diffx.api.Operator;
+
 import java.util.List;
 
 public final class DiffResult<T> {

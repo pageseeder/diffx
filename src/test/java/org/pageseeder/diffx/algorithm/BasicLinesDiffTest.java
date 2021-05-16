@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.test.TestTokens;

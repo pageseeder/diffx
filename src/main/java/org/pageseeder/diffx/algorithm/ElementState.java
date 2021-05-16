@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.action.Operator;
-import org.pageseeder.diffx.handler.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;

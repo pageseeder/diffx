@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.algorithm;
-
-import org.pageseeder.diffx.handler.DiffHandler;
+package org.pageseeder.diffx.api;
 
 import java.io.UncheckedIOException;
 import java.util.List;
