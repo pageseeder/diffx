@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
-import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.handler.CoalescingFilter;
 import org.pageseeder.diffx.token.XMLToken;
 
 import java.util.List;

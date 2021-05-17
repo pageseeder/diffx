@@ -45,7 +45,7 @@ public final class Sequences {
    * @return <code>true</code> if the sequence is "well-formed";
    * <code>false</code> otherwise.
    */
-  public static boolean isWellFormed(Sequence sequence) {
+  public static boolean isWellFormed(XMLSequence sequence) {
     if (sequence == null) return false;
     Stack<XMLToken> open = new Stack<>();
     XMLToken token;
@@ -74,7 +74,7 @@ public final class Sequences {
    *
    * @return The maximum depth.
    */
-  public static int getMaxDepth(Sequence sequence) {
+  public static int getMaxDepth(XMLSequence sequence) {
     int max = 0;
     int depth = 0;
     for (int i = 0; i < sequence.size(); i++) {
@@ -99,7 +99,7 @@ public final class Sequences {
    *
    * @return The maximum number of tokens.
    */
-  public static int getMaxElementContent(Sequence sequence) {
+  public static int getMaxElementContent(XMLSequence sequence) {
     int max = 0;
     int tmp = 0;
     for (int i = 0; i < sequence.size(); i++) {
@@ -124,9 +124,9 @@ public final class Sequences {
    *
    * @return The collapsed sequence.
    */
-  public static Sequence foldText(Sequence input) {
+  public static XMLSequence foldText(XMLSequence input) {
     List<TextToken> text = new ArrayList<>();
-    Sequence output = new Sequence(input.getNamespaces());
+    XMLSequence output = new XMLSequence(input.getNamespaces());
     for (XMLToken token : input) {
       if (token instanceof TextToken) {
         text.add((TextToken) token);

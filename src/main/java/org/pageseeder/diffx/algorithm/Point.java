@@ -44,7 +44,7 @@ public final class Point {
   }
 
   public Point plus(int x, int y) {
-    return new Point(this.x+x, this.y+y);
+    return new Point(this.x + x, this.y + y);
   }
 
   @Override

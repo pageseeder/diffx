@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operation;
-import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.api.DiffHandler;
-import org.pageseeder.diffx.handler.OperationsBuffer;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
 import org.pageseeder.diffx.xml.NamespaceSet;
@@ -68,7 +68,7 @@ public final class TestHandler implements DiffHandler<XMLToken> {
    *
    * @param seq The token sequence to format
    */
-  public static String format(Sequence seq) {
+  public static String format(XMLSequence seq) {
     TestHandler handler = new TestHandler();
     for (XMLToken token : seq) {
       handler.handle(Operator.MATCH, token);

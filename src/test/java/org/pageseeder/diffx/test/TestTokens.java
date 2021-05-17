@@ -15,15 +15,14 @@
  */
 package org.pageseeder.diffx.test;
 
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
-import org.pageseeder.diffx.load.LineLoader;
-import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
@@ -34,7 +33,6 @@ import org.w3c.dom.Document;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,27 +80,22 @@ public final class TestTokens {
     return loadSequence(xml, config).tokens();
   }
 
-  public static Sequence loadSequence(String xml, TextGranularity granularity) throws LoadingException {
+  public static XMLSequence loadSequence(String xml, TextGranularity granularity) throws LoadingException {
     return loadSequence(xml, DiffConfig.getDefault().granularity(granularity));
   }
 
-  public static Sequence loadSequence(String xml, DiffConfig config) throws LoadingException {
-    if (xml.isEmpty()) return new Sequence();
+  public static XMLSequence loadSequence(String xml, DiffConfig config) throws LoadingException {
+    if (xml.isEmpty()) return new XMLSequence();
     SAXLoader loader = new SAXLoader();
     loader.setConfig(config);
     return loader.load(xml);
   }
 
-  public static Sequence loadSequence(Document document, TextGranularity granularity) throws LoadingException {
+  public static XMLSequence loadSequence(Document document, TextGranularity granularity) throws LoadingException {
     DOMLoader loader = new DOMLoader();
     DiffConfig config = DiffConfig.getDefault().granularity(granularity);
     loader.setConfig(config);
     return loader.load(document);
-  }
-
-  public static List<XMLToken> loadLineEvents(String text) {
-    if (text.isEmpty()) return Collections.emptyList();
-    return new LineLoader().load(text).tokens();
   }
 
   public static String toXML(List<? extends XMLToken> tokens) {
@@ -122,7 +115,7 @@ public final class TestTokens {
     return xml.toString();
   }
 
-  public static String toXML(Sequence sequence) {
+  public static String toXML(XMLSequence sequence) {
     StringWriter xml = new StringWriter();
     DefaultXMLDiffOutput f = new DefaultXMLDiffOutput(xml);
     f.setWriteXMLDeclaration(false);

@@ -21,7 +21,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.*;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
@@ -96,8 +96,8 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
 
   private void assertDiffXMLRandomOK(String docA, String docB) throws DiffException {
     // Record XML
-    Sequence seqA = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
-    Sequence seqB = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
+    XMLSequence seqA = TestTokens.loadSequence(docA, TextGranularity.SPACE_WORD);
+    XMLSequence seqB = TestTokens.loadSequence(docB, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(seqA.getNamespaces(), seqB.getNamespaces());
     // Process as list of actions
     DiffAlgorithm<XMLToken> algo = getDiffAlgorithm();

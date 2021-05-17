@@ -18,9 +18,9 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.load.LoadingException;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
@@ -111,7 +111,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
   public final void testAdvanced_MovedBranch1() throws LoadingException {
     String xmlA = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
     String xmlB = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
-    String[] exp = new String[] {
+    String[] exp = new String[]{
         "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>",
         "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a><b>-N+A</b>+</a>+<b>+N+</b></a>",
         "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a><b>+A-N</b>+</a>+<b>+N+</b></a>"
@@ -126,7 +126,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
   public final void testAdvanced_MovedBranch2() throws LoadingException {
     String xmlA = "<a><b>M</b><a><b>A</b></a><b>N</b></a>";
     String xmlB = "<a><b>M<a><b>A</b></a></b><b>N</b></a>";
-    String[] exp = new String[] {
+    String[] exp = new String[]{
         "<a><b>M-<a>-<b>-A-</b>-</a></b>+<a>+<b>+A+</b>+</a><b>N</b></a>",
         "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a>-<b>-A-</b>-</a><b>N</b></a>",
         "<a><b>M+<a>+<b>+A+</b>+</a></b>-<a><b>-A+N</b>-</a>-<b>-N-</b></a>",
@@ -151,7 +151,7 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
   public final void testAdvanced_BestPath() throws LoadingException {
     String xmlA = "<a><b/><b>X</b></a>";
     String xmlB = "<a><b>X</b></a>";
-    String[] exp = new String[] {
+    String[] exp = new String[]{
         "<a>-<b>-</b><b>X</b></a>",
         "<a><b>+X</b>-<b>-X-</b></a>"
     };
@@ -214,8 +214,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
 
   private void assertDiffXMLOK(String xmlA, String xmlB, TextGranularity granularity, String... exp) throws LoadingException {
     // Record XML
-    Sequence seqA = TestTokens.loadSequence(xmlA, granularity);
-    Sequence seqB = TestTokens.loadSequence(xmlB, granularity);
+    XMLSequence seqA = TestTokens.loadSequence(xmlA, granularity);
+    XMLSequence seqB = TestTokens.loadSequence(xmlB, granularity);
     NamespaceSet namespaces = NamespaceSet.merge(seqB.getNamespaces(), seqA.getNamespaces());
     // Process as list of actions
     List<Action<XMLToken>> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());

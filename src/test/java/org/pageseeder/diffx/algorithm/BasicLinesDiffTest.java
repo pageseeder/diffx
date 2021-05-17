@@ -17,11 +17,13 @@ package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.load.LineLoader;
 import org.pageseeder.diffx.test.DiffAssertions;
-import org.pageseeder.diffx.test.TestHandler;
-import org.pageseeder.diffx.test.TestTokens;
-import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.impl.LineToken;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public abstract class BasicLinesDiffTest extends AlgorithmTest<XMLToken> {
+public abstract class BasicLinesDiffTest extends AlgorithmTest<LineToken> {
 
   @Test
   public final void testLines_NoChange() {
@@ -96,12 +98,31 @@ public abstract class BasicLinesDiffTest extends AlgorithmTest<XMLToken> {
   }
 
   private String processDiffLines(String textA, String textB) {
-    List<? extends XMLToken> seqA = TestTokens.loadLineEvents(textA);
-    List<? extends XMLToken> seqB = TestTokens.loadLineEvents(textB);
-    DiffAlgorithm<XMLToken> processor = getDiffAlgorithm();
-    TestHandler handler = new TestHandler();
+    List<LineToken> seqA = loadLineEvents(textA);
+    List<LineToken> seqB = loadLineEvents(textB);
+    DiffAlgorithm<LineToken> processor = getDiffAlgorithm();
+    TestLineHandler handler = new TestLineHandler();
     processor.diff(seqA, seqB, handler);
     return handler.getOutput();
   }
 
+  private static List<LineToken> loadLineEvents(String text) {
+    if (text.isEmpty()) return Collections.emptyList();
+    return new LineLoader().load(text);
+  }
+
+  private static class TestLineHandler implements DiffHandler<LineToken> {
+
+    StringBuilder out = new StringBuilder();
+
+    @Override
+    public void handle(Operator operator, LineToken token) {
+      if (operator != Operator.MATCH) this.out.append(operator.toString());
+      this.out.append("L").append(token.getLineNumber());
+    }
+
+    String getOutput() {
+      return this.out.toString();
+    }
+  }
 }

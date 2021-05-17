@@ -17,12 +17,12 @@ package org.pageseeder.diffx;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
-import org.pageseeder.diffx.load.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.test.TestUtils;
 import org.w3c.dom.Node;
@@ -136,8 +136,8 @@ public final class MainTest {
         File infoFile = new File(rc, "info.txt");
         PrintStream info = new PrintStream(new BufferedOutputStream(new FileOutputStream(infoFile)), true);
         // print the sequences
-        Sequence s1 = printSequence(xml1, info);
-        Sequence s2 = printSequence(xml2, info);
+        XMLSequence s1 = printSequence(xml1, info);
+        XMLSequence s2 = printSequence(xml2, info);
         // process the diff
         long ta = processDiffX(xml1, xml2, info);
         long tb = processDiffX(xml2, xml1, info);
@@ -196,8 +196,8 @@ public final class MainTest {
    *
    * @throws IOException Should an error occur.
    */
-  private Sequence printSequence(File xml, PrintStream info) throws IOException {
-    Sequence s = new Sequence();
+  private XMLSequence printSequence(File xml, PrintStream info) throws IOException {
+    XMLSequence s = new XMLSequence();
     // report the sequence of tokens
     SAXLoader recorder = new SAXLoader();
     if (config != null) recorder.setConfig(config);

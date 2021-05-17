@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.XMLToken;

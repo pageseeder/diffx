@@ -17,6 +17,7 @@ package org.pageseeder.diffx.handler;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.action.Action;
+import org.pageseeder.diffx.action.ActionsBuffer;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;

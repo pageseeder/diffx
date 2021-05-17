@@ -15,10 +15,11 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.XMLComment;
 import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
@@ -34,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Loads the SAX events in an {@link Sequence}.
+ * Loads the SAX events in an {@link XMLSequence}.
  *
  * <p>It is possible to specify the name of the XML reader implementation class.
  * By default this class will try to use the Crimson parser
@@ -85,7 +86,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    * @throws IOException      Should I/O error occur.
    */
   @Override
-  public Sequence load(InputSource is) throws LoadingException, IOException {
+  public XMLSequence load(InputSource is) throws LoadingException, IOException {
     XMLReader reader = newReader(this.config);
     Handler handler = new Handler(this.config);
     reader.setContentHandler(handler);
@@ -165,7 +166,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     /**
      * The sequence of token for this loader.
      */
-    private Sequence sequence;
+    private XMLSequence sequence;
 
     /**
      * A buffer for character data.
@@ -197,13 +198,13 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       this.tokenizer = TokenizerFactory.get(config);
     }
 
-    public Sequence getSequence() {
+    public XMLSequence getSequence() {
       return this.sequence;
     }
 
     @Override
     public void startDocument() {
-      this.sequence = new Sequence();
+      this.sequence = new XMLSequence();
       this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
       this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
     }

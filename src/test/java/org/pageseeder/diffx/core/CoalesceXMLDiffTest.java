@@ -20,7 +20,7 @@ import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
@@ -85,8 +85,8 @@ public abstract class CoalesceXMLDiffTest extends ProcessorTest<XMLToken> {
    * @throws DiffException Should an error occur while parsing XML.
    */
   public final void assertDiffXMLCoalesceOK(String xmlA, String xmlB, DiffConfig config, String... exp) throws DiffException {
-    Sequence seqA = TestTokens.loadSequence(xmlA, config);
-    Sequence seqB = TestTokens.loadSequence(xmlB, config);
+    XMLSequence seqA = TestTokens.loadSequence(xmlA, config);
+    XMLSequence seqB = TestTokens.loadSequence(xmlB, config);
 
     // Process as list of actions
     List<Action<XMLToken>> actions = TestActions.diffToActions(getProcessor(), seqA.tokens(), seqB.tokens());

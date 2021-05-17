@@ -16,16 +16,15 @@
 package org.pageseeder.diffx.api;
 
 import org.jetbrains.annotations.NotNull;
-import org.pageseeder.diffx.api.Operator;
 
 import java.io.UncheckedIOException;
 
 /**
- * An interface for handling the output of diff processors.
+ * An interface for handling the output of diff processors and algorithms.
  *
  * <p>Handlers may be used to filter or format the operations of diff processors.
  *
- * @param <T> The type of token the handler is designe for
+ * @param <T> The type of token the handler is designed for
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -35,11 +34,9 @@ public interface DiffHandler<T> {
 
   /**
    * Receives notification of the start of the processing.
-   * <p>
-   * This method is called before any other method. Implementations can use this method to initialise
-   * objects required by the handler.
-   * <p>
-   * The default implementation does nothing.
+   *
+   * @apiNote This method is called before any other method. Implementations can use this method to initialise
+   * objects required by the handler. The default implementation does nothing.
    */
   default void start() {
   }
@@ -58,11 +55,9 @@ public interface DiffHandler<T> {
 
   /**
    * Receives notification of the end of the processing.
-   * <p>
-   * This method is called after any other method. Implementations can use this method to initialise
-   * objects required by the handler.
-   * <p>
-   * The default implementation does nothing.
+   *
+   * @apiNote This method is called after any other method. Implementations can use this method to initialise
+   * objects required by the handler. The default implementation does nothing.
    */
   default void end() {
   }

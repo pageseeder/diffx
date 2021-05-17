@@ -43,22 +43,22 @@ public final class NaiveSequenceSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final Sequence sequence1;
+  final XMLSequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final Sequence sequence2;
+  final XMLSequence sequence2;
 
   /**
    * The common start between the two sequences.
    */
-  Sequence start;
+  XMLSequence start;
 
   /**
    * The common end between the two sequences.
    */
-  Sequence end;
+  XMLSequence end;
 
   // constructor --------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ public final class NaiveSequenceSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
-  public NaiveSequenceSlicer(Sequence seq0, Sequence seq1) {
+  public NaiveSequenceSlicer(XMLSequence seq0, XMLSequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
   }
@@ -87,7 +87,7 @@ public final class NaiveSequenceSlicer {
   public int sliceStart() throws IllegalStateException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
-    this.start = new Sequence();
+    this.start = new XMLSequence();
     int count = 0;
     Iterator<XMLToken> i = this.sequence1.iterator();
     Iterator<XMLToken> j = this.sequence2.iterator();
@@ -115,7 +115,7 @@ public final class NaiveSequenceSlicer {
   public int sliceEnd() throws IllegalStateException {
     if (this.end != null)
       throw new IllegalStateException("The end buffer already contains a subsequence.");
-    this.end = new Sequence();
+    this.end = new XMLSequence();
     int count = 0;
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
@@ -233,7 +233,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current start sequence buffer or <code>null</code> if none.
    */
-  public Sequence getStart() {
+  public XMLSequence getStart() {
     return this.start;
   }
 
@@ -242,7 +242,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current end sequence buffer or <code>null</code> if none.
    */
-  public Sequence getEnd() {
+  public XMLSequence getEnd() {
     return this.end;
   }
 

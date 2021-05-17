@@ -17,8 +17,8 @@ package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,8 +27,6 @@ import java.util.List;
 /**
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper
  * "An O(ND) Difference Algorithm and its Variations".
- *
- * <p>Portions of this code are based on the C# implementation of Nicholas Butler at SimplyGenius.NET
  *
  * @param <T> The type of token being compared
  *
@@ -102,7 +100,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
       List<Vector> vectors = new ArrayList<>();
 
       // Maximum length for the path (N + M)
-      final int max = sizeA + sizeB;
+      final int max = this.sizeA + this.sizeB;
 
       // Find the endpoint of the furthest reaching D-path in diagonal k
       boolean found = false;
@@ -146,7 +144,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
         vector.setX(k, xEnd);
 
         // Check if we've reached the end
-        if (xEnd >= sizeA && yEnd >= sizeB) {
+        if (xEnd >= this.sizeA && yEnd >= this.sizeB) {
           return true;
         }
       }
@@ -157,7 +155,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private List<Snake> solve(List<Vector> vectors) {
+    private @NotNull List<Snake> solve(@NotNull List<Vector> vectors) {
       LinkedList<Snake> snakes = new LinkedList<>();
       Point target = new Point(this.sizeA, this.sizeB);
 

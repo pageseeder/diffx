@@ -28,7 +28,6 @@ public enum Operator {
    * An insertion.
    */
   INS(true) {
-
     /**
      * @return Always DEL
      */

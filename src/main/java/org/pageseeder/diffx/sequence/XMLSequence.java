@@ -1,11 +1,11 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
- * http://www.allette.com.au
+ * Copyright (c) 2010-2021 Allette Systems (Australia)
+ *    http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,12 @@
  */
 package org.pageseeder.diffx.sequence;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.PrintWriter;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +36,7 @@ import java.util.List;
  * need random access. Other list implementations may affect performance.
  * @since 0.7
  */
-public final class Sequence implements Iterable<XMLToken> {
+public final class XMLSequence extends AbstractList<XMLToken> implements List<XMLToken> {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -49,7 +51,7 @@ public final class Sequence implements Iterable<XMLToken> {
   /**
    * Creates a new token sequence.
    */
-  public Sequence() {
+  public XMLSequence() {
     this.tokens = new ArrayList<>();
   }
 
@@ -58,7 +60,7 @@ public final class Sequence implements Iterable<XMLToken> {
    *
    * @param size The size of the sequence.
    */
-  public Sequence(int size) {
+  public XMLSequence(int size) {
     this.tokens = new ArrayList<>(size);
   }
 
@@ -69,7 +71,7 @@ public final class Sequence implements Iterable<XMLToken> {
    *
    * @param namespaces The size of the sequence.
    */
-  public Sequence(NamespaceSet namespaces) {
+  public XMLSequence(NamespaceSet namespaces) {
     this.tokens = new ArrayList<>();
     this.namespaces.add(namespaces);
   }
@@ -81,17 +83,33 @@ public final class Sequence implements Iterable<XMLToken> {
    *
    * @param tokens The size of the sequence.
    */
-  public Sequence(List<XMLToken> tokens) {
+  public XMLSequence(List<XMLToken> tokens) {
     this.tokens = tokens;
   }
 
   /**
-   * Adds a sequence of tokens to this sequence.
+   * Adds a sequence of tokens to this sequence and merge the namespaces if any.
    *
-   * @param seq The sequence of tokens to be added.
+   * @param sequence The sequence of tokens to be added.
    */
-  public void addSequence(Sequence seq) {
-    this.tokens.addAll(seq.tokens);
+  public void addSequence(@NotNull XMLSequence sequence) {
+    this.tokens.addAll(sequence.tokens);
+    this.namespaces.add(sequence.namespaces);
+  }
+
+  @Override
+  public XMLToken get(int index) {
+    return this.tokens.get(index);
+  }
+
+  @Override
+  public void add(int index, XMLToken token) {
+    this.tokens.add(index, token);
+  }
+
+  @Override
+  public boolean add(XMLToken token) {
+    return this.tokens.add(token);
   }
 
   /**
@@ -183,7 +201,7 @@ public final class Sequence implements Iterable<XMLToken> {
    * @return <code>true</code> if the specified token sequence is equal to this one;
    * <code>false</code> otherwise.
    */
-  public boolean equals(Sequence seq) {
+  public boolean equals(XMLSequence seq) {
     if (seq == null) return false;
     return equals(this.tokens, seq.tokens);
   }
@@ -191,8 +209,8 @@ public final class Sequence implements Iterable<XMLToken> {
   /**
    * Returns <code>true</code> if the specified token sequence is the same as this one.
    *
-   * <p>This method will redirect to the {@link #equals(Sequence)} method if the
-   * specified object is an instance of {@link Sequence}.
+   * <p>This method will redirect to the {@link #equals(XMLSequence)} method if the
+   * specified object is an instance of {@link XMLSequence}.
    *
    * @param o The sequence of tokens to compare with this one.
    *
@@ -201,13 +219,13 @@ public final class Sequence implements Iterable<XMLToken> {
    */
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof Sequence)) return false;
-    return this.equals((Sequence) o);
+    if (!(o instanceof XMLSequence)) return false;
+    return this.equals((XMLSequence) o);
   }
 
   @Override
   public String toString() {
-    return "Sequence{namespaces=" + namespaces + ", tokens=" + tokens + '}';
+    return "XMLSequence{namespaces=" + namespaces + ", tokens=" + tokens + '}';
   }
 
   /**
@@ -220,21 +238,6 @@ public final class Sequence implements Iterable<XMLToken> {
       w.println(token.toString());
     }
     w.flush();
-  }
-
-  /**
-   * Maps a namespace URI to a prefix.
-   *
-   * @param uri    The namespace URI to map.
-   * @param prefix The prefix to use.
-   *
-   * @throws NullPointerException if the URI or prefix is <code>null</code>
-   * @see NamespaceSet#add(String, String)
-   * @deprecated Use {@link #addNamespace(String, String)}
-   */
-  @Deprecated
-  public void mapPrefix(String uri, String prefix) throws NullPointerException {
-    this.namespaces.add(uri, prefix);
   }
 
   /**
@@ -281,7 +284,7 @@ public final class Sequence implements Iterable<XMLToken> {
 
   @Override
   public Iterator<XMLToken> iterator() {
-    return this.tokens().iterator();
+    return this.tokens.iterator();
   }
 
   private static boolean equals(List<XMLToken> first, List<XMLToken> second) {

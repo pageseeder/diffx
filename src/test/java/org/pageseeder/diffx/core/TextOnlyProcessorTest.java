@@ -18,9 +18,10 @@ package org.pageseeder.diffx.core;
 import org.junit.jupiter.api.Nested;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
-import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.RandomGeneralDiffTest;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.impl.LineToken;
 
 /**
  * Test case for text only algorithm.
@@ -30,7 +31,7 @@ import org.pageseeder.diffx.token.XMLToken;
  */
 public final class TextOnlyProcessorTest {
 
-  private DiffAlgorithm<XMLToken> newProcessor() {
+  private <T> DiffAlgorithm<T> newProcessor() {
     return new TextOnlyProcessor<>();
   }
 
@@ -53,7 +54,7 @@ public final class TextOnlyProcessorTest {
   @Nested
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
-    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+    public DiffAlgorithm<LineToken> getDiffAlgorithm() {
       return newProcessor();
     }
   }

@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.test;
 
 import org.pageseeder.diffx.action.Operation;
+import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.api.Operator;
-import org.pageseeder.diffx.handler.OperationsBuffer;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 

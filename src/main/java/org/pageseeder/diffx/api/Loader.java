@@ -1,11 +1,11 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
- * http://www.allette.com.au
+ * Copyright (c) 2010-2021 Allette Systems (Australia)
+ *    http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.load;
-
-import org.pageseeder.diffx.sequence.Sequence;
+package org.pageseeder.diffx.api;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * A class implementing this interface must be able to produce a sequence of tokens
@@ -31,7 +30,7 @@ import java.nio.charset.Charset;
  * @version 0.9.0
  * @since 0.6.0
  */
-public interface Loader {
+public interface Loader<T> {
 
   /**
    * Runs the loader on the specified file.
@@ -39,21 +38,21 @@ public interface Loader {
    * @param reader The file to process.
    *
    * @return The corresponding sequence of tokens.
-   * @throws LoadingException     If thrown while parsing.
-   * @throws UncheckedIOException Should I/O error occur.
+   * @throws LoadingException If thrown while parsing.
+   * @throws IOException      Should I/O error occur.
    */
-  Sequence load(Reader reader) throws LoadingException, IOException;
+  List<T> load(Reader reader) throws LoadingException, IOException;
 
   /**
    * Runs the loader on the specified string.
    *
    * @param source The string to process.
    *
-   * @return The recorded sequence of tokens.
+   * @return The corresponding sequence of tokens.
    * @throws LoadingException     If thrown while parsing.
    * @throws UncheckedIOException Should I/O error occur.
    */
-  Sequence load(String source) throws LoadingException;
+  List<T> load(String source) throws LoadingException;
 
   /**
    * Loads the contents of the specified file using the charset provided.
@@ -65,7 +64,7 @@ public interface Loader {
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
-  Sequence load(File file, Charset charset) throws LoadingException, IOException;
+  List<T> load(File file, Charset charset) throws LoadingException, IOException;
 
   /**
    * Runs the loader on the specified file.
@@ -76,6 +75,6 @@ public interface Loader {
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
-  Sequence load(File file) throws LoadingException, IOException;
+  List<T> load(File file) throws LoadingException, IOException;
 
 }

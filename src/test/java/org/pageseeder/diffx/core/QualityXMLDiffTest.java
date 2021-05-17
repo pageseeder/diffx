@@ -20,7 +20,7 @@ import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
@@ -40,7 +40,7 @@ public abstract class QualityXMLDiffTest extends ProcessorTest<XMLToken> {
   public final void testQuality_Table1() throws DiffException {
     String xml1 = "<table><row><cell>A</cell><cell>A X</cell></row><row><cell>A</cell><cell>C X</cell></row><row><cell>B</cell><cell>C X</cell></row></table>";
     String xml2 = "<table><row><cell>A</cell><cell>A X</cell></row><row><cell>B</cell><cell>C X</cell></row></table>";
-    String exp =  "<table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table>";
+    String exp = "<table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table>";
     assertDiffXMLQualityOK(xml1, xml2, PRESERVE_SPACE_WORDS, exp);
   }
 
@@ -48,7 +48,7 @@ public abstract class QualityXMLDiffTest extends ProcessorTest<XMLToken> {
   public final void testQuality_Table2() throws DiffException {
     String xml1 = "<fragment><table><row><cell>A</cell><cell>A X</cell></row><row><cell>A</cell><cell>C X</cell></row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
     String xml2 = "<fragment><table><row><cell>A</cell><cell>A X</cell></row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
-    String exp =  "<fragment><table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
+    String exp = "<fragment><table><row><cell>A</cell><cell>A X</cell></row>+<row>+<cell>+A+</cell>+<cell>+C+( X)+</cell>+</row><row><cell>B</cell><cell>C X</cell></row></table></fragment>";
     assertDiffXMLQualityOK(xml1, xml2, PRESERVE_SPACE_WORDS, exp);
   }
 
@@ -62,8 +62,8 @@ public abstract class QualityXMLDiffTest extends ProcessorTest<XMLToken> {
    * @throws DiffException Should an error occur while parsing XML.
    */
   public final void assertDiffXMLQualityOK(String xml1, String xml2, DiffConfig config, String... exp) throws DiffException {
-    Sequence seq1 = TestTokens.loadSequence(xml1, config);
-    Sequence seq2 = TestTokens.loadSequence(xml2, config);
+    XMLSequence seq1 = TestTokens.loadSequence(xml1, config);
+    XMLSequence seq2 = TestTokens.loadSequence(xml2, config);
 
     // Process as list of actions
     List<Action<XMLToken>> actions = TestActions.diffToActions(getProcessor(), seq1.tokens(), seq2.tokens());

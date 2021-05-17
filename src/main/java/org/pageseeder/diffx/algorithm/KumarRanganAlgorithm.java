@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,11 +31,10 @@ import java.util.Objects;
  *
  * <p>The algorithm has been adjusted to generate the shortest edit script (SES)</p>
  *
- * @implNote this algorithm effectively detects the correct changes in the sequences, but cannot be used on
- * XML sequences as it cannot always produce well-formed XML.
- *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @implNote this algorithm effectively detects the correct changes in the sequences, but cannot be used on
+ * XML sequences as it cannot always produce well-formed XML.
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
@@ -49,8 +48,6 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
     Instance<T> instance = new Instance<>(from, to);
     instance.process(handler);
   }
-
-  // static helpers -----------------------------------------------------------------------------
 
   /**
    * Copies the first array into the second one up to the specified index (included).

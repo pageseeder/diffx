@@ -15,7 +15,10 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.api.Loader;
+import org.pageseeder.diffx.api.LoadingException;
+import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.token.XMLToken;
 import org.xml.sax.InputSource;
 
 import java.io.*;
@@ -30,7 +33,7 @@ import java.nio.charset.Charset;
  * @version 0.9.0
  * @since 0.6.0
  */
-public interface XMLLoader extends Loader {
+public interface XMLLoader extends Loader<XMLToken> {
 
   /**
    * Loads the from XML tokens from the specified input source.
@@ -41,7 +44,7 @@ public interface XMLLoader extends Loader {
    * @throws LoadingException If thrown whilst parsing.
    * @throws IOException      Should an I/O error occur.
    */
-  Sequence load(InputSource is) throws LoadingException, IOException;
+  XMLSequence load(InputSource is) throws LoadingException, IOException;
 
   /**
    * Loads the content of the specified file as a sequence of XML tokens.
@@ -55,7 +58,7 @@ public interface XMLLoader extends Loader {
    * @throws IOException      Should an I/O error occur.
    */
   @Override
-  default Sequence load(File file) throws LoadingException, IOException {
+  default XMLSequence load(File file) throws LoadingException, IOException {
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       return load(new InputSource(in));
     }
@@ -72,14 +75,14 @@ public interface XMLLoader extends Loader {
    * @throws IOException      Should an I/O error occur.
    */
   @Override
-  default Sequence load(File file, Charset charset) throws LoadingException, IOException {
+  default XMLSequence load(File file, Charset charset) throws LoadingException, IOException {
     try (Reader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
       return load(new InputSource(reader));
     }
   }
 
   @Override
-  default Sequence load(Reader reader) throws LoadingException, IOException {
+  default XMLSequence load(Reader reader) throws LoadingException, IOException {
     return this.load(new InputSource(reader));
   }
 
@@ -95,7 +98,7 @@ public interface XMLLoader extends Loader {
    * @throws LoadingException If thrown while parsing.
    */
   @Override
-  default Sequence load(String source) throws LoadingException {
+  default XMLSequence load(String source) throws LoadingException {
     try {
       return this.load(new InputSource(new StringReader(source)));
     } catch (IOException ex) {

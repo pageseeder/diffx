@@ -54,9 +54,8 @@ public final class Snake {
   }
 
   /**
-   * @implNote The new end point is computed as the starting point plus the length.
-   *
    * @return The end point of the snake
+   * @implNote The new end point is computed as the starting point plus the length.
    */
   public Point getEnd() {
     return this.start.plus(length, length);

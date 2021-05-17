@@ -16,8 +16,8 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * <p>
  * See "A linear space algorithm for computing maximal common subsequences"
  *
- * <p>The algorithm has been altered slightly to be able to computed the Shortest Edit Script (SES).
+ * <p>The algorithm has been altered slightly to be able to compute the Shortest Edit Script (SES).
  *
  * @author Christophe Lauret
  * @version 0.9.0

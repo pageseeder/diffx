@@ -15,9 +15,11 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.pageseeder.diffx.api.Loader;
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.XMLComment;
 import org.pageseeder.diffx.token.impl.XMLProcessingInstruction;
@@ -61,7 +63,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   /**
    * The sequence of token for this loader.
    */
-  private Sequence sequence;
+  private XMLSequence sequence;
 
   /**
    * The sequence of token for this loader.
@@ -81,7 +83,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   private boolean isFragment = true;
 
   @Override
-  public Sequence load(String xml) throws LoadingException {
+  public XMLSequence load(String xml) throws LoadingException {
     return load(new InputSource(new StringReader(xml)));
   }
 
@@ -94,7 +96,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @throws LoadingException If thrown while parsing.
    */
   @Override
-  public Sequence load(InputSource is) throws LoadingException {
+  public XMLSequence load(InputSource is) throws LoadingException {
     this.isFragment = false; // input source is not a fragment
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     dbFactory.setNamespaceAware(this.config.isNamespaceAware());
@@ -117,11 +119,11 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @return The recorded sequence of tokens.
    * @throws LoadingException If thrown while parsing.
    */
-  public Sequence load(Node node) throws LoadingException {
+  public XMLSequence load(Node node) throws LoadingException {
     // initialise the state variables.
     this.tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     this.tokenizer = TokenizerFactory.get(this.config);
-    this.sequence = new Sequence();
+    this.sequence = new XMLSequence();
     this.namespaces = this.sequence.getNamespaces();
     // start processing the nodes
     loadNode(node);
@@ -140,9 +142,9 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @return The recorded sequence of tokens.
    * @throws LoadingException If thrown while parsing.
    */
-  public Sequence load(NodeList node) throws LoadingException {
+  public XMLSequence load(NodeList node) throws LoadingException {
     if (node.getLength() == 0)
-      return new Sequence();
+      return new XMLSequence();
     return load(node.item(0));
   }
 

@@ -17,10 +17,11 @@ package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.impl.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,7 +46,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a/>")
   public final void testEmptyElement() throws LoadingException {
     String xml = "<a/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new XMLEndElement("a"));
     assertEquivalent(exp, xml, getConfig());
@@ -55,7 +56,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a>XX</a>")
   public final void testTextElement1() throws LoadingException {
     String xml = "<a>XX</a>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("XX"));
     exp.addToken(new XMLEndElement("a"));
@@ -66,7 +67,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a>XX  YY</a>")
   public final void testTextElement2() throws LoadingException {
     String xml = "<a>XX  YY</a>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("XX  YY"));
     exp.addToken(new XMLEndElement("a"));
@@ -77,7 +78,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a>The black hat; A white cat!</a>")
   public final void testTextElement3() throws LoadingException {
     String xml = "<a>The black hat; A white cat!</a>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new CharactersToken("The black hat; A white cat!"));
     exp.addToken(new XMLEndElement("a"));
@@ -88,7 +89,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a><b>WWW</b></a>")
   public final void testElements1() throws LoadingException {
     String xml = "<a><b>WWW</b></a>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new XMLStartElement("b"));
     exp.addToken(new CharactersToken("WWW"));
@@ -101,7 +102,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<a><b>XX</b><c>YY</c></a>")
   public final void testElements2() throws LoadingException {
     String xml = "<a><b>XX</b><c>YY</c></a>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new XMLStartElement("b"));
     exp.addToken(new CharactersToken("XX"));
@@ -117,7 +118,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<t>&lt;</t>")
   public final void testCharEntityLT() throws LoadingException {
     String xml = "<t>&lt;</t>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("<"));
     exp.addToken(new XMLEndElement("t"));
@@ -128,7 +129,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<t>&gt;</t>")
   public final void testCharEntityGT() throws LoadingException {
     String xml = "<t>&gt;</t>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken(">"));
     exp.addToken(new XMLEndElement("t"));
@@ -139,7 +140,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<t>&amp;</t>")
   public final void testCharEntityAMP() throws LoadingException {
     String xml = "<t>&amp;</t>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("&"));
     exp.addToken(new XMLEndElement("t"));
@@ -150,7 +151,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<t>&#x8012;</t>")
   public final void testCharEntityNumerical() throws LoadingException {
     String xml = "<t>&#x8012;</t>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("t"));
     exp.addToken(new CharactersToken("" + (char) 0x8012));
     exp.addToken(new XMLEndElement("t"));
@@ -161,7 +162,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<elt attr='value'/>")
   public final void testAttribute1() throws LoadingException {
     String xml = "<elt attr='value'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLAttribute("attr", "value"));
     exp.addToken(new XMLEndElement("elt"));
@@ -175,7 +176,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<elt b='second' c='third' a='first'/>")
   public final void testSortAttributes1() throws LoadingException {
     String xml = "<elt b='second' c='third' a='first'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLAttribute("a", "first"));
     exp.addToken(new XMLAttribute("b", "second"));
@@ -188,7 +189,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<elt><?target data?></elt>")
   public final void testProcessingInstruction1() throws LoadingException {
     String xml = "<elt><?target data?></elt>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLProcessingInstruction("target", "data"));
     exp.addToken(new XMLEndElement("elt"));
@@ -199,7 +200,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<elt><?target-only?></elt>")
   public final void testProcessingInstruction2() throws LoadingException {
     String xml = "<elt><?target-only?></elt>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLProcessingInstruction("target-only", ""));
     exp.addToken(new XMLEndElement("elt"));
@@ -210,7 +211,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<elt xmlns='https://example.org'/>")
   public final void testElementNamespace1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLAttribute("xmlns", "https://example.org"));
     exp.addToken(new XMLEndElement("elt"));
@@ -221,7 +222,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<x:elt xmlns:x='https://example.org'/>")
   public final void testElementNamespace2() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("x:elt"));
     exp.addToken(new XMLAttribute("xmlns:x", "https://example.org"));
     exp.addToken(new XMLEndElement("x:elt"));
@@ -232,7 +233,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("https://example.org")
   public final void testAttributeNamespace1() throws LoadingException {
     String xml = "<elt xmlns='https://example.org' a='1'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("elt"));
     exp.addToken(new XMLAttribute("a", "1"));
     exp.addToken(new XMLAttribute("xmlns", "https://example.org"));
@@ -244,7 +245,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<x:elt xmlns:x='https://example.org' x:a='1'/>")
   public final void testAttributeNamespaceB2() throws LoadingException {
     String xml = "<x:elt xmlns:x='https://example.org' x:a='1'/>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("x:elt"));
     exp.addToken(new XMLAttribute("x:a", "1"));
     exp.addToken(new XMLAttribute("xmlns:x", "https://example.org"));
@@ -256,7 +257,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
   @DisplayName("<x><!-- What did I say? --></x>")
   public final void testComment() throws LoadingException {
     String xml = "<x><!-- What did I say? --></x>";
-    Sequence exp = new Sequence();
+    XMLSequence exp = new XMLSequence();
     exp.addToken(new XMLStartElement("x"));
     exp.addToken(new XMLComment(" What did I say? "));
     exp.addToken(new XMLEndElement("x"));

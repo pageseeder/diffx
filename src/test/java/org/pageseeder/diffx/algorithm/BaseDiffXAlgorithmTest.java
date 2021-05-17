@@ -26,12 +26,13 @@ import org.pageseeder.diffx.format.SmartXMLFormatter;
 import org.pageseeder.diffx.format.XMLDiffXFormatter;
 import org.pageseeder.diffx.load.LineLoader;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.token.impl.LineToken;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -100,7 +101,7 @@ public abstract class BaseDiffXAlgorithmTest {
    *
    * @return The Diff-X Algorithm instance.
    */
-  public abstract DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2);
+  public abstract DiffXAlgorithm makeDiffX(XMLSequence seq1, XMLSequence seq2);
 
   /**
    * Asserts that the Diff-X operation for XML meets expectations.
@@ -114,8 +115,8 @@ public abstract class BaseDiffXAlgorithmTest {
   public final void assertDiffXMLOK(String xml1, String xml2) throws IOException, DiffXException {
     // Record XML
     SAXLoader recorder = new SAXLoader();
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
+    XMLSequence seq1 = "".equals(xml1) ? new XMLSequence(0) : recorder.load(xml1);
+    XMLSequence seq2 = "".equals(xml2) ? new XMLSequence(0) : recorder.load(xml2);
     // Process as list of actions
     DiffResult<XMLToken> result = processResult(seq1, seq2);
     try {
@@ -199,8 +200,8 @@ public abstract class BaseDiffXAlgorithmTest {
       throws IOException, DiffXException {
     // Record XML
     SAXLoader recorder = new SAXLoader();
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : recorder.load(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : recorder.load(xml2);
+    XMLSequence seq1 = "".equals(xml1) ? new XMLSequence(0) : recorder.load(xml1);
+    XMLSequence seq2 = "".equals(xml2) ? new XMLSequence(0) : recorder.load(xml2);
     // Process as list of actions
     List<Action<XMLToken>> actions = diffToActions(seq1, seq2);
     try {
@@ -227,8 +228,8 @@ public abstract class BaseDiffXAlgorithmTest {
   private String processDiffXML(String xml1, String xml2)
       throws IOException, DiffXException, IllegalStateException {
     // process the strings
-    Sequence seq1 = "".equals(xml1) ? new Sequence(0) : this.recorder.load(xml1);
-    Sequence seq2 = "".equals(xml2) ? new Sequence(0) : this.recorder.load(xml2);
+    XMLSequence seq1 = "".equals(xml1) ? new XMLSequence(0) : this.recorder.load(xml1);
+    XMLSequence seq2 = "".equals(xml2) ? new XMLSequence(0) : this.recorder.load(xml2);
 
     this.diffx = makeDiffX(seq1, seq2);
     MultiplexFormatter mf = new MultiplexFormatter();
@@ -282,10 +283,14 @@ public abstract class BaseDiffXAlgorithmTest {
   protected String processDiffText(String text1, String text2)
       throws IOException, IllegalStateException {
     // process the strings
-    LineLoader recorder = new LineLoader();
-    Sequence seq1 = recorder.load(text1);
-    Sequence seq2 = recorder.load(text2);
-    this.diffx = makeDiffX(seq1, seq2);
+    LineLoader loader = new LineLoader();
+    List<LineToken> linesA = loader.load(text1);
+    List<LineToken> linesB = loader.load(text2);
+    XMLSequence seqA = new XMLSequence();
+    seqA.addAll(linesA);
+    XMLSequence seqB = new XMLSequence();
+    seqA.addAll(linesB);
+    this.diffx = makeDiffX(seqA, seqB);
     TestFormatter tf = new TestFormatter();
     this.diffx.process(tf);
     return tf.getOutput();
@@ -322,27 +327,27 @@ public abstract class BaseDiffXAlgorithmTest {
     }
   }
 
-  public final void assertDiffIsCorrect(Sequence seq1, Sequence seq2, List<Action<XMLToken>> actions) {
+  public final void assertDiffIsCorrect(XMLSequence seq1, XMLSequence seq2, List<Action<XMLToken>> actions) {
     // Ensure that the diff is applicable
     assertTrue(Actions.isApplicable(seq2.tokens(), seq1.tokens(), actions), "The resulting diff is not applicable");
 
     // Apply to second sequence to ensure we get the first
-    Sequence got1 = Actions.apply(seq2, actions);
+    XMLSequence got1 = Actions.apply(seq2, actions);
     assertEquals(seq1, got1, "Applying diff to #2 did not produce #1");
 
     // Apply to first sequence to ensure we get the second
-    Sequence got2 = Actions.apply(seq1, Actions.flip(actions));
+    XMLSequence got2 = Actions.apply(seq1, Actions.flip(actions));
     assertEquals(seq2, got2, "Applying diff to #1 did not produce #2");
   }
 
-  public DiffResult<XMLToken> processResult(Sequence seq1, Sequence seq2) throws IOException {
+  public DiffResult<XMLToken> processResult(XMLSequence seq1, XMLSequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);
     return new DiffResult<>(formatter.getActions());
   }
 
-  public List<Action<XMLToken>> diffToActions(Sequence seq1, Sequence seq2) throws IOException {
+  public List<Action<XMLToken>> diffToActions(XMLSequence seq1, XMLSequence seq2) throws IOException {
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);
     ActionFormatter formatter = new ActionFormatter();
     diffx.process(formatter);

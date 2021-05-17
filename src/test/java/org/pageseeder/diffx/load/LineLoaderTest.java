@@ -16,11 +16,10 @@
 package org.pageseeder.diffx.load;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.sequence.Sequence;
 import org.pageseeder.diffx.token.impl.LineToken;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,127 +29,78 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public final class LineLoaderTest {
 
-  /**
-   * The recorder being tested.
-   */
-  final LineLoader recorder = new LineLoader();
+  final LineLoader loader = new LineLoader();
 
-  /**
-   * Tests a simple case.
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testSimpleLine0() throws IOException {
+  public void testSimpleLine0() {
     String text = "line 1\n"
         + "line2\n";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("line 1", 1));
-    exp.addToken(new LineToken("line2", 2));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("line 1", 1));
+    exp.add(new LineToken("line2", 2));
     assertEqualsText(exp, text);
   }
 
-  /**
-   * Tests a simple case.
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testSimpleLine2() throws IOException {
+  public void testSimpleLine2() {
     String text = "line #1\n"
         + "line #2\n"
         + "line #3\n"
         + "line #4";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("line #1", 1));
-    exp.addToken(new LineToken("line #2", 2));
-    exp.addToken(new LineToken("line #3", 3));
-    exp.addToken(new LineToken("line #4", 4));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("line #1", 1));
+    exp.add(new LineToken("line #2", 2));
+    exp.add(new LineToken("line #3", 3));
+    exp.add(new LineToken("line #4", 4));
     assertEqualsText(exp, text);
   }
 
-  /**
-   * Tests a simple case.
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testEmptyLine() throws IOException {
+  public void testEmptyLine() {
     String text = "line #1\n"
         + "\n"
         + "line #3\n"
         + "line #4";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("line #1", 1));
-    exp.addToken(new LineToken("", 2));
-    exp.addToken(new LineToken("line #3", 3));
-    exp.addToken(new LineToken("line #4", 4));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("line #1", 1));
+    exp.add(new LineToken("", 2));
+    exp.add(new LineToken("line #3", 3));
+    exp.add(new LineToken("line #4", 4));
     assertEqualsText(exp, text);
   }
 
-  /**
-   * Tests a simple case.
-   *
-   * <pre>
-   *   &lt;a&gt;XX&lt;/a&gt;
-   * </pre>
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testXMLLine0() throws IOException {
+  public void testXMLLine0() {
     String text = "<a>XX</a>";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("<a>XX</a>", 1));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("<a>XX</a>", 1));
     assertEqualsText(exp, text);
   }
 
-  /**
-   * Tests parsing the &amp;lt;, it should remain the same.
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testEncoding1() throws IOException {
+  public void testEncoding1() {
     String text = "&lt;";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("&lt;", 1));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("&lt;", 1));
     assertEqualsText(exp, text);
   }
 
-  /**
-   * Tests parsing character &amp;#x8012;, it should remain the same.
-   *
-   * @throws IOException Should an I/O exception occur.
-   */
   @Test
-  public void testEncoding3() throws IOException {
+  public void testEncoding3() {
     String xml = "&#x8012;";
-    Sequence exp = new Sequence();
-    exp.addToken(new LineToken("&#x8012;", 1));
+    List<LineToken> exp = new ArrayList<>();
+    exp.add(new LineToken("&#x8012;", 1));
     assertEqualsText(exp, xml);
   }
 
-// helpers ------------------------------------------------------------------------------------
-
   /**
-   * Checks that the given XML is equivalent to the given token sequence.
-   *
-   * @param exp  The expected token sequence.
+   * @param exp  The expected list.
    * @param text The text to parse
-   *             \
    */
-  private void assertEqualsText(Sequence exp, String text) {
-    Sequence seq = this.recorder.load(text);
-    try {
-      assertEquals(exp.size(), seq.size());
-      assertEquals(exp, seq);
-    } catch (AssertionError ex) {
-      PrintWriter pw = new PrintWriter(System.err);
-      seq.export(pw);
-      pw.flush();
-      throw ex;
-    }
+  private void assertEqualsText(List<LineToken> exp, String text) {
+    List<LineToken> seq = this.loader.load(text);
+    assertEquals(exp.size(), seq.size());
+    assertEquals(exp, seq);
   }
 
 }

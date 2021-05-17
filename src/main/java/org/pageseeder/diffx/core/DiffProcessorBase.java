@@ -16,10 +16,10 @@
 package org.pageseeder.diffx.core;
 
 import org.pageseeder.diffx.DiffException;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.format.XMLDiffOutput;
-import org.pageseeder.diffx.api.DiffHandler;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
@@ -38,7 +38,7 @@ abstract class DiffProcessorBase implements XMLDiffProcessor {
   }
 
   @Override
-  public void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<XMLToken> handler)
+  public void diff(XMLSequence from, XMLSequence to, DiffConfig config, DiffHandler<XMLToken> handler)
       throws DiffException {
 
     // Supply the namespaces to the output

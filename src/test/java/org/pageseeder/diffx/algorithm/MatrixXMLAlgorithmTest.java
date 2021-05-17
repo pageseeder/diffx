@@ -48,14 +48,6 @@ public final class MatrixXMLAlgorithmTest {
   }
 
   @Nested
-  public class LinesDiff extends BasicLinesDiffTest {
-    @Override
-    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
-      return newAlgorithm();
-    }
-  }
-
-  @Nested
   public class BasicXMLDiff extends BasicXMLDiffTest {
     @Override
     public DiffAlgorithm<XMLToken> getDiffAlgorithm() {

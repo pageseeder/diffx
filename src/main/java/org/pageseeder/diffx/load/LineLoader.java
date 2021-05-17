@@ -15,11 +15,13 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.api.Loader;
 import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Loads the contents of a text file as list of line tokens.
@@ -28,7 +30,7 @@ import java.nio.charset.Charset;
  * @version 0.9.0
  * @since 0.7.0
  */
-public final class LineLoader implements Loader {
+public final class LineLoader implements Loader<LineToken> {
 
   /**
    * Loads the contents of the specified file using the default settings from the {@link FileReader}.
@@ -39,9 +41,9 @@ public final class LineLoader implements Loader {
    * @throws IOException Should an I/O error occur.
    */
   @Override
-  public Sequence load(File file) throws IOException {
+  public List<LineToken> load(File file) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-      return getSequence(reader);
+      return getLines(reader);
     }
   }
 
@@ -55,9 +57,9 @@ public final class LineLoader implements Loader {
    * @throws IOException Should an I/O error occur.
    */
   @Override
-  public Sequence load(File file, Charset charset) throws IOException {
+  public List<LineToken> load(File file, Charset charset) throws IOException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
-      return getSequence(reader);
+      return getLines(reader);
     }
   }
 
@@ -68,9 +70,9 @@ public final class LineLoader implements Loader {
    * @throws IOException Should an I/O error occur.
    */
   @Override
-  public Sequence load(Reader reader) throws IOException {
+  public List<LineToken> load(Reader reader) throws IOException {
     try (BufferedReader buffer = new BufferedReader(reader)) {
-      return getSequence(buffer);
+      return getLines(buffer);
     }
   }
 
@@ -82,21 +84,21 @@ public final class LineLoader implements Loader {
    * @return The recorded sequence of tokens.
    */
   @Override
-  public Sequence load(String text) {
+  public List<LineToken> load(String text) {
     try {
       BufferedReader reader = new BufferedReader(new StringReader(text));
-      return getSequence(reader);
+      return getLines(reader);
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
   }
 
-  private Sequence getSequence(BufferedReader reader) throws IOException {
+  private List<LineToken> getLines(BufferedReader reader) throws IOException {
     String line = reader.readLine();
     int count = 0;
-    Sequence sequence = new Sequence();
+    List<LineToken> sequence = new ArrayList();
     while (line != null) {
-      sequence.addToken(new LineToken(line, ++count));
+      sequence.add(new LineToken(line, ++count));
       line = reader.readLine();
     }
     return sequence;

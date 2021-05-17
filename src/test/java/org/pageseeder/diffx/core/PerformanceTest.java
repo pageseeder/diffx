@@ -17,11 +17,11 @@ package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
-import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.algorithm.MyersGreedyXMLAlgorithm;
-import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.test.DOMUtils;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.RandomXMLFactory;
@@ -144,8 +144,8 @@ public class PerformanceTest {
       List<CharToken> second = TestTokens.toCharTokens(from);
       List<CharToken> first = TestTokens.toCharTokens(to);
 
-      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
       profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_GREEDY), first, second, 10);
+      profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.MYER_LINEAR), first, second, 10);
       profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.KUMAR_RANGAN), first, second, 10);
       profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
       profileX(new TextOnlyProcessor<CharToken>(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
@@ -225,8 +225,8 @@ public class PerformanceTest {
       RandomXMLFactory factory = new RandomXMLFactory();
       Document from = factory.getRandomXML(5, 5);
       Document to = factory.vary(from, .2);
-      Sequence second = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
-      Sequence first = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+      XMLSequence second = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      XMLSequence first = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
 
       profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
       profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);

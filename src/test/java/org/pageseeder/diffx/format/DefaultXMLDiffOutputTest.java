@@ -18,9 +18,9 @@ package org.pageseeder.diffx.format;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
-import org.pageseeder.diffx.load.LoadingException;
+import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.Sequence;
+import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
@@ -141,9 +141,9 @@ public final class DefaultXMLDiffOutputTest {
   private void assertEquivalentToXML(String xml) throws LoadingException {
     // process the XML to get the sequence
     SAXLoader loader = new SAXLoader();
-    Sequence exp = loader.load(xml);
+    XMLSequence exp = loader.load(xml);
     // process the output of the output
-    Sequence seq = loader.load(this.w.toString());
+    XMLSequence seq = loader.load(this.w.toString());
     try {
       assertEquals(exp, seq);
     } catch (AssertionError ex) {
