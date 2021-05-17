@@ -55,4 +55,14 @@ likely to exceed the capacity of the system.
 Comparison
 ---
 
+### Generic algorithms
 
+Performance comparing random strings of various lengths with 25% difference.
+
+| Algorithm               |   500 |  1,000 |  2,000 |   5,000 |  10,000 |   20,000 |
+| ----------------------- | ----- | ------ | ------ | ------- | ------- | -------- |
+| MyersGreedyAlgorithm    |   0ms |  1.8ms |  3.2ms |  19.9ms |  74.3ms |  384.5ms |
+| MyersLinearAlgorithm    | 0.2ms |  2.6ms |  7.0ms |  22.6ms |  79.8ms |  342.6ms |
+| KumarRanganAlgorithm    | 0.8ms |  2.0ms |  7.8ms |  46.0ms | 174.0ms |  732.6ms |
+| HirschbergAlgorithm     | 2.9ms |  5.0ms | 19.8ms | 120.8ms | 479.7ms | 1917.4ms |
+| WagnerFischerAlgorithm  | 3.2ms |  7.0ms | 25.7ms | 168.5ms | 720.6ms |          |
