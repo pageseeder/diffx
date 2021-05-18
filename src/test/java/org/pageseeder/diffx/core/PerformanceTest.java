@@ -68,38 +68,8 @@ public class PerformanceTest {
   }
 
 //  @Test
-//  public void compareHirshbergVariations() throws IOException {
-//    String from = getRandomString(2000, false);
-//    String to = vary(from, .2);
-//    List<CharToken> second = TestTokens.toCharTokens(from);
-//    List<CharToken> first = TestTokens.toCharTokens(to);
-//
-//    // warm up
-//    profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.WAGNER_FISCHER), first, second, 10);
-//    profileX(new TextOnlyProcessor(TextOnlyProcessor.Algorithm.HIRSCHBERG), first, second, 10);
-//
-//    Random r = new Random();
-//    int total1 = 0;
-//    int total2 = 0;
-//    for (int i=0; i < 2000; i++) {
-//      if (i % 100 == 0) System.out.println(i+"...");
-//      if (r.nextInt(2) == 0) {
-//        total2 += profile(new TextOnlyProcessor(2), first, second);
-//        total1 += profile(new TextOnlyProcessor(1), first, second);
-//      } else {
-//        total1 += profile(new TextOnlyProcessor(1), first, second);
-//        total2 += profile(new TextOnlyProcessor(2), first, second);
-//      }
-//    }
-//    System.out.println();
-//    System.out.println("Total #1 "+new TextOnlyProcessor(1).toString()+": "+total1);
-//    System.out.println("Total #2 "+new TextOnlyProcessor(2).toString()+": "+total2);
-//
-//    double pct = (total1 > total2)
-//        ? (total1 - total2)*100.0 / total1
-//        : (total2 - total1)*100.0 / total2;
-//
-//    System.out.println("Faster: "+((total1 > total2) ? "#2" : "#1")+" by "+pct+"%");
+//  public void compareMyersVariations() {
+//    compareGenericAlgorithms(new MyersGreedyAlgorithm<>(), new MyersGreedyAlgorithm2<>());
 //  }
 
   private static void generateXML(StringBuilder xml1, StringBuilder xml2, int elements) {
@@ -432,6 +402,41 @@ public class PerformanceTest {
     out.append(s);
     for (int i=0; i < length-s.length(); i++) out.append(' ');
     return out.toString();
+  }
+
+
+  private void compareGenericAlgorithms(DiffAlgorithm<CharToken> diff1, DiffAlgorithm<CharToken> diff2) {
+    String from = getRandomString(5_000, false);
+    String to = vary(from, .2);
+    List<CharToken> second = TestTokens.toCharTokens(from);
+    List<CharToken> first = TestTokens.toCharTokens(to);
+
+    // warm up
+    profileX(diff1, first, second, 10);
+    profileX(diff2, first, second, 10);
+
+    Random r = new Random();
+    int total1 = 0;
+    int total2 = 0;
+    for (int i=0; i < 1000; i++) {
+      if (i % 100 == 0) System.out.println(i+"...");
+      if (r.nextInt(2) == 0) {
+        total2 += profile(diff2, first, second);
+        total1 += profile(diff1, first, second);
+      } else {
+        total1 += profile(diff1, first, second);
+        total2 += profile(diff2, first, second);
+      }
+    }
+    System.out.println();
+    System.out.println("Total #1 "+diff1.getClass().getSimpleName()+": "+total1);
+    System.out.println("Total #2 "+diff2.getClass().getSimpleName()+": "+total2);
+
+    double pct = (total1 > total2)
+        ? (total1 - total2)*100.0 / total1
+        : (total2 - total1)*100.0 / total2;
+
+    System.out.println("Faster: "+((total1 > total2) ? "#2" : "#1")+" by "+pct+"%");
   }
 }
 
