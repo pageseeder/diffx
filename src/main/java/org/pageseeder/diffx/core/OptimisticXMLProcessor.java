@@ -19,6 +19,7 @@ import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.algorithm.DataLengthException;
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.algorithm.MyersGreedyAlgorithm;
+import org.pageseeder.diffx.algorithm.MyersGreedyXMLAlgorithm;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.handler.CoalescingFilter;
@@ -28,8 +29,13 @@ import org.pageseeder.diffx.token.XMLToken;
 import java.util.List;
 
 /**
- * A processor implementation which attempts to solve the diff using the most efficient algorithm,
- * and falls back to the default processor if unable to produce correct results.
+ * The optimistic XML processor attempts to process XML using a non-XML algorithm and fall back on to
+ * an XML-aware algorithm if it is unable to produce a well-formed diff solution.
+ *
+ * <p>In many cases, when changes occur within text, the generic LCS is the same as the XML-LCS. When
+ * that is the case, an correct XML solution can simply be found be reordering the tokens in the results
+ * using the {@link PostXMLFixer}. Since generic LCS solution are more efficient than their XML
+ * counterpart, we get the solution more efficiently.</p>
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -67,7 +73,7 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
     } else {
       // Fallback on default diff
       if (DEBUG) System.err.println("Fast diff failed! Falling back on default diff");
-      fallbackDiff(from, to, getFilter(handler), false);
+      fallbackDiffMyers(from, to, getFilter(handler), false);
     }
   }
 
@@ -90,9 +96,8 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
   /**
    * Fall back on slower matrix-based algorithm.
    */
-  private void fallbackDiff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler, boolean coalesced) {
+  private void fallbackDiffMatrix(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler, boolean coalesced) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
-    algorithm.setThreshold(this.fallbackThreshold);
     DiffHandler<XMLToken> actual = getFilter(handler);
     if (algorithm.isDiffComputable(from, to)) {
       actual.start();
@@ -102,17 +107,29 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
       if (DEBUG) System.err.println("Coalescing content to");
       List<? extends XMLToken> a = CoalescingFilter.coalesce(from);
       List<? extends XMLToken> b = CoalescingFilter.coalesce(to);
-      fallbackDiff(a, b, handler, true);
+      fallbackDiffMatrix(a, b, handler, true);
     } else {
       throw new DataLengthException(from.size() * to.size(), this.fallbackThreshold);
     }
   }
 
+
+  /**
+   * Fall back on XML algorithm
+   */
+  private void fallbackDiffMyers(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler, boolean coalesced) {
+    MyersGreedyXMLAlgorithm algorithm = new MyersGreedyXMLAlgorithm();
+    DiffHandler<XMLToken> actual = getFilter(handler);
+    actual.start();
+    algorithm.diff(from, to, actual);
+    actual.end();
+  }
+
+
   @Override
   public String toString() {
     return "OptimisticXMLProcessor{" +
         "coalesce=" + coalesce +
-        ", fallbackThreshold=" + fallbackThreshold +
         '}';
   }
 }
