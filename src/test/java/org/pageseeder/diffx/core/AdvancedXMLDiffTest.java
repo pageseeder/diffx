@@ -20,7 +20,7 @@ import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.TextGranularity;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
@@ -214,8 +214,8 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
 
   private void assertDiffXMLOK(String xmlA, String xmlB, TextGranularity granularity, String... exp) throws LoadingException {
     // Record XML
-    XMLSequence seqA = TestTokens.loadSequence(xmlA, granularity);
-    XMLSequence seqB = TestTokens.loadSequence(xmlB, granularity);
+    Sequence seqA = TestTokens.loadSequence(xmlA, granularity);
+    Sequence seqB = TestTokens.loadSequence(xmlB, granularity);
     NamespaceSet namespaces = NamespaceSet.merge(seqB.getNamespaces(), seqA.getNamespaces());
     // Process as list of actions
     List<Action<XMLToken>> actions = TestActions.diffToActions(getDiffAlgorithm(), seqA.tokens(), seqB.tokens());

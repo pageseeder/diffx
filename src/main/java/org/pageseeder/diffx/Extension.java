@@ -21,8 +21,8 @@ import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.OptimisticXMLProcessor;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
 import org.pageseeder.diffx.load.DOMLoader;
-import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.xml.NamespaceSet;
+import org.pageseeder.diffx.xml.Sequence;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -96,8 +96,8 @@ public final class Extension {
     // Get Sequences
     DOMLoader loader = new DOMLoader();
     loader.setConfig(config);
-    XMLSequence seq1 = loader.load(xml1);
-    XMLSequence seq2 = loader.load(xml2);
+    Sequence seq1 = loader.load(xml1);
+    Sequence seq2 = loader.load(xml2);
     if (seq1.size() == 0 && seq2.size() == 0) return null;
 
     // Start comparing
@@ -122,7 +122,7 @@ public final class Extension {
    * @param seq2 The first XML reader to compare.
    * @param out  Where the output goes.
    */
-  private static void diff(XMLSequence seq1, XMLSequence seq2, Writer out) {
+  private static void diff(Sequence seq1, Sequence seq2, Writer out) {
     DefaultXMLDiffOutput output = new DefaultXMLDiffOutput(out);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     output.setNamespaces(namespaces);

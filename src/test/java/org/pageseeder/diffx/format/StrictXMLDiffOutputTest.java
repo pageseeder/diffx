@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
@@ -129,9 +129,9 @@ public final class StrictXMLDiffOutputTest {
    */
   private void assertEquivalentToXML(String xml) throws DiffXException, IOException {
     // process the XML to get the sequence
-    XMLSequence exp = this.recorder.load(xml);
+    Sequence exp = this.recorder.load(xml);
     // process the output of the formatter
-    XMLSequence seq = this.recorder.load(this.w.toString());
+    Sequence seq = this.recorder.load(this.w.toString());
     try {
       assertEquals(exp, seq);
     } catch (AssertionError ex) {

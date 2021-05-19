@@ -21,7 +21,7 @@ import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.MultiplexFormatter;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.ActionFormatter;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
@@ -44,8 +44,8 @@ import java.util.stream.Collectors;
 @Deprecated
 public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTest {
 
-  private static XMLSequence asSequenceOfCharTokens(String string) {
-    XMLSequence s = new XMLSequence();
+  private static Sequence asSequenceOfCharTokens(String string) {
+    Sequence s = new Sequence();
     for (char c : string.toCharArray()) {
       s.addToken(new CharToken(c));
     }
@@ -307,8 +307,8 @@ public abstract class BaseDiffXAlgorithmLevel0Test extends BaseDiffXAlgorithmTes
   }
 
   public final void assertDiffOKLevel0(String text1, String text2, String... exp) throws IOException {
-    XMLSequence seq1 = asSequenceOfCharTokens(text1);
-    XMLSequence seq2 = asSequenceOfCharTokens(text2);
+    Sequence seq1 = asSequenceOfCharTokens(text1);
+    Sequence seq2 = asSequenceOfCharTokens(text2);
 
     // Setup and process
     DiffXAlgorithm diffx = makeDiffX(seq1, seq2);

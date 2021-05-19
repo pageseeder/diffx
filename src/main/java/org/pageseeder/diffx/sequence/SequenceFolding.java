@@ -20,6 +20,7 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.XMLElement;
+import org.pageseeder.diffx.xml.Sequence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +61,7 @@ public class SequenceFolding {
    *
    * @return The collapsed sequence.
    */
-  public XMLSequence fold(XMLSequence input) {
+  public Sequence fold(Sequence input) {
     if (this.elements.isEmpty()) return input;
     FoldingProcessor processor = new FoldingProcessor();
     for (XMLToken token : input.tokens()) {
@@ -88,7 +89,7 @@ public class SequenceFolding {
   private boolean isFoldable(XMLToken token) {
     if (!(token instanceof StartElementToken)) return false;
     if (this.elements == ALL) return true;
-    return this.elements.contains(((StartElementToken) token).getName());
+    return this.elements.contains(token.getName());
   }
 
   private boolean isMatching(XMLToken token, StartElementToken open) {
@@ -135,8 +136,8 @@ public class SequenceFolding {
       return this.tokens;
     }
 
-    XMLSequence sequence() {
-      return new XMLSequence(this.tokens);
+    Sequence sequence() {
+      return new Sequence(this.tokens);
     }
   }
 

@@ -1,6 +1,6 @@
 /*
- * Copyright 2010-2015 Allette Systems (Australia)
- * http://www.allette.com.au
+ * Copyright 2010-2021 Allette Systems (Australia)
+ *    http://www.allette.com.au
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.sequence;
+package org.pageseeder.diffx.xml;
 
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.TextListToken;
@@ -45,7 +45,7 @@ public final class Sequences {
    * @return <code>true</code> if the sequence is "well-formed";
    * <code>false</code> otherwise.
    */
-  public static boolean isWellFormed(XMLSequence sequence) {
+  public static boolean isWellFormed(Sequence sequence) {
     if (sequence == null) return false;
     Stack<XMLToken> open = new Stack<>();
     XMLToken token;
@@ -74,7 +74,7 @@ public final class Sequences {
    *
    * @return The maximum depth.
    */
-  public static int getMaxDepth(XMLSequence sequence) {
+  public static int getMaxDepth(Sequence sequence) {
     int max = 0;
     int depth = 0;
     for (int i = 0; i < sequence.size(); i++) {
@@ -99,7 +99,7 @@ public final class Sequences {
    *
    * @return The maximum number of tokens.
    */
-  public static int getMaxElementContent(XMLSequence sequence) {
+  public static int getMaxElementContent(Sequence sequence) {
     int max = 0;
     int tmp = 0;
     for (int i = 0; i < sequence.size(); i++) {
@@ -124,9 +124,9 @@ public final class Sequences {
    *
    * @return The collapsed sequence.
    */
-  public static XMLSequence foldText(XMLSequence input) {
+  public static Sequence foldText(Sequence input) {
     List<TextToken> text = new ArrayList<>();
-    XMLSequence output = new XMLSequence(input.getNamespaces());
+    Sequence output = new Sequence(input.getNamespaces());
     for (XMLToken token : input) {
       if (token instanceof TextToken) {
         text.add((TextToken) token);

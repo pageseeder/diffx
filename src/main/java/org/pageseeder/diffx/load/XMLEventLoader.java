@@ -18,9 +18,9 @@ package org.pageseeder.diffx.load;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
-import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.*;
+import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.InputSource;
 
 import javax.xml.XMLConstants;
@@ -47,7 +47,7 @@ import static javax.xml.stream.XMLStreamConstants.COMMENT;
 public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
 
   @Override
-  public XMLSequence load(File file) throws LoadingException, IOException {
+  public Sequence load(File file) throws LoadingException, IOException {
     XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
       XMLEventReader reader = factory.createXMLEventReader(in);
@@ -58,7 +58,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   @Override
-  public XMLSequence load(String xml) throws LoadingException {
+  public Sequence load(String xml) throws LoadingException {
     XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try (StringReader source = new StringReader(xml)) {
       XMLEventReader reader = factory.createXMLEventReader(source);
@@ -69,7 +69,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   @Override
-  public XMLSequence load(InputSource source) throws LoadingException, IOException {
+  public Sequence load(InputSource source) throws LoadingException, IOException {
     XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
     try {
       XMLEventReader reader = toXMLEventReader(factory, source);
@@ -85,12 +85,12 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
    * @return the corresponding sequence.
    * @throws LoadingException Wraps any parsing {@link XMLStreamException}
    */
-  public XMLSequence load(XMLEventReader reader) throws LoadingException {
+  public Sequence load(XMLEventReader reader) throws LoadingException {
     XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
-    XMLSequence sequence = new XMLSequence();
+    Sequence sequence = new Sequence();
     sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
     sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
     try {
@@ -114,7 +114,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     return sequence;
   }
 
-  private static void processNamespaces(StartElement event, XMLSequence sequence) {
+  private static void processNamespaces(StartElement event, Sequence sequence) {
     // `getNamespaces` must return `Namespaces` instances by contract
     for (Iterator<?> ns = event.getNamespaces(); ns.hasNext(); ) {
       Namespace namespace = (Namespace) ns.next();
@@ -122,14 +122,14 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processStartElement(StartElement event, XMLSequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processStartElement(StartElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     QName name = event.getName();
     StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
     sequence.addToken(startElement);
     startElements.add(startElement);
   }
 
-  private static void processAttributes(StartElement event, XMLSequence sequence, boolean namespaceAware, AttributeComparator comparator) {
+  private static void processAttributes(StartElement event, Sequence sequence, boolean namespaceAware, AttributeComparator comparator) {
     // `getAttributes` must return `Attribute` instances by contract
     List<AttributeToken> attributes = null;
     for (Iterator<?> it = event.getAttributes(); it.hasNext(); ) {
@@ -147,13 +147,13 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processEndElement(EndElement event, XMLSequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processEndElement(EndElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
     EndElementToken endElement = factory.newEndElement(startElement);
     sequence.addToken(endElement);
   }
 
-  private static void processText(Characters event, XMLSequence sequence, TextTokenizer tokenizer) {
+  private static void processText(Characters event, Sequence sequence, TextTokenizer tokenizer) {
     if (event.isIgnorableWhiteSpace()) {
       sequence.addToken(new IgnorableSpaceToken(event.getData()));
     } else if (event.isWhiteSpace()) {
@@ -166,7 +166,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   /**
    * Processing instructions and comments.
    */
-  private static void processOther(XMLEvent event, XMLSequence sequence) {
+  private static void processOther(XMLEvent event, Sequence sequence) {
     if (event.isProcessingInstruction()) {
       ProcessingInstruction instruction = (ProcessingInstruction) event;
       XMLToken token = new XMLProcessingInstruction(instruction.getTarget(), instruction.getData());

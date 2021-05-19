@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.InputSource;
 
 import java.io.*;
@@ -348,14 +348,14 @@ public abstract class BaseXMLFormatterTest {
   private void assertRoundTripOK(String xml) throws DiffXException, IOException {
     // process the XML to get the sequence
     Reader xmlr = new StringReader(xml);
-    XMLSequence exp = this.recorder.load(new InputSource(xmlr));
+    Sequence exp = this.recorder.load(new InputSource(xmlr));
     // format the sequence
     for (int i = 0; i < exp.size(); i++) {
       this.formatter.format(exp.getToken(i));
     }
     // process the output of the formatter
     Reader xmlr2 = new StringReader(this.w.toString());
-    XMLSequence seq = this.recorder.load(new InputSource(xmlr2));
+    Sequence seq = this.recorder.load(new InputSource(xmlr2));
     try {
       assertEquals(exp.size(), seq.size());
       assertEquals(exp, seq);

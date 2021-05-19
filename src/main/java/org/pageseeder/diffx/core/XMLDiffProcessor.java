@@ -18,8 +18,8 @@ package org.pageseeder.diffx.core;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.xml.Sequence;
 
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -55,7 +55,7 @@ public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
    *
    * @throws DiffException Wrap any error occurring during processing.
    */
-  void diff(XMLSequence from, XMLSequence to, DiffConfig config, DiffHandler<XMLToken> handler) throws DiffException;
+  void diff(Sequence from, Sequence to, DiffConfig config, DiffHandler<XMLToken> handler) throws DiffException;
 
   /**
    * Performs the comparison and uses the specified handler.

@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.sequence.EventSequence;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 
 /**
  * Test case for Diff-X algorithm using the Smart matrix LCS algorithm.
@@ -27,7 +27,7 @@ import org.pageseeder.diffx.sequence.XMLSequence;
 @Deprecated
 public final class DiffXKumarRanganTestDiffX extends BaseDiffXAlgorithmLevel0Test {
 
-  public DiffXAlgorithm makeDiffX(XMLSequence seq1, XMLSequence seq2) {
+  public DiffXAlgorithm makeDiffX(Sequence seq1, Sequence seq2) {
     return new DiffXKumarRangan(new EventSequence(seq1), new EventSequence(seq2));
   }
 }

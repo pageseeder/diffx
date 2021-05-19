@@ -21,6 +21,7 @@ import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
+import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -45,12 +46,12 @@ public final class XMLSequenceSlicerTest {
   /**
    * The first sequence.
    */
-  private XMLSequence seq1;
+  private Sequence seq1;
 
   /**
    * The second sequence.
    */
-  private XMLSequence seq2;
+  private Sequence seq2;
 
   /**
    * @throws IOException   Should an I/O exception occur.
@@ -61,7 +62,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(3);
+    Sequence exp = new Sequence(3);
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XXX"));
     exp.addToken(new XMLEndElement("a"));
@@ -77,7 +78,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLStartElement("a"));
     assertStartOK(slicer, exp);
   }
@@ -91,7 +92,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -106,7 +107,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -121,7 +122,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(2);
+    Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XXX"));
     assertStartOK(slicer, exp);
@@ -136,7 +137,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLStartElement("a"));
     assertStartOK(slicer, exp);
   }
@@ -150,7 +151,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -163,7 +164,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -176,7 +177,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
 
@@ -189,7 +190,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(3);
+    Sequence exp = new Sequence(3);
     exp.addToken(new XMLStartElement("a"));
     exp.addToken(new WordToken("XXX"));
     exp.addToken(new XMLEndElement("a"));
@@ -205,7 +206,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
   }
@@ -219,7 +220,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
   }
@@ -233,7 +234,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
   }
@@ -247,7 +248,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
   }
@@ -261,7 +262,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(1);
+    Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
   }
@@ -275,7 +276,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -288,7 +289,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -301,7 +302,7 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence exp = new XMLSequence(0);
+    Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
 
@@ -314,9 +315,9 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence start = new XMLSequence(1);
+    Sequence start = new Sequence(1);
     start.addToken(new XMLStartElement("a"));
-    XMLSequence end = new XMLSequence(1);
+    Sequence end = new Sequence(1);
     end.addToken(new XMLEndElement("a"));
     assertStartOK(slicer, start);
     assertEndOK(slicer, end);
@@ -331,11 +332,11 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><b/><b>WWW</b></a>";
     String xml2 = "<a><b/><b>VVV</b></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence start = new XMLSequence(3);
+    Sequence start = new Sequence(3);
     start.addToken(new XMLStartElement("a"));
     start.addToken(new XMLStartElement("b"));
     start.addToken(new XMLEndElement("b"));
-    XMLSequence end = new XMLSequence(1);
+    Sequence end = new Sequence(1);
     end.addToken(new XMLEndElement("a"));
     assertStartOK(slicer, start);
     assertEndOK(slicer, end);
@@ -350,12 +351,12 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><e>tt</e><b>WWW</b><c>xxx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence start = new XMLSequence(4);
+    Sequence start = new Sequence(4);
     start.addToken(new XMLStartElement("a"));
     start.addToken(new XMLStartElement("e"));
     start.addToken(new WordToken("tt"));
     start.addToken(new XMLEndElement("e"));
-    XMLSequence end = new XMLSequence(4);
+    Sequence end = new Sequence(4);
     end.addToken(new XMLStartElement("c"));
     end.addToken(new WordToken("xxx"));
     end.addToken(new XMLEndElement("c"));
@@ -373,9 +374,9 @@ public final class XMLSequenceSlicerTest {
     String xml1 = "<a><e>t</e><b>WWW</b><c>xx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
     SequenceSlicer slicer = init(xml1, xml2);
-    XMLSequence start = new XMLSequence(1);
+    Sequence start = new Sequence(1);
     start.addToken(new XMLStartElement("a"));
-    XMLSequence end = new XMLSequence(1);
+    Sequence end = new Sequence(1);
     end.addToken(new XMLEndElement("a"));
     assertStartOK(slicer, start);
     assertEndOK(slicer, end);
@@ -409,7 +410,7 @@ public final class XMLSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertStartOK(SequenceSlicer slicer, XMLSequence exp) {
+  private void assertStartOK(SequenceSlicer slicer, Sequence exp) {
     int len1 = this.seq1.size() - exp.size();
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK
@@ -427,7 +428,7 @@ public final class XMLSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertEndOK(SequenceSlicer slicer, XMLSequence exp) {
+  private void assertEndOK(SequenceSlicer slicer, Sequence exp) {
     int len1 = this.seq1.size() - exp.size();
     int len2 = this.seq2.size() - exp.size();
     // check the length are OK

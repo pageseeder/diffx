@@ -171,7 +171,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
       // display the attribute normally
     } else if (e instanceof AttributeToken) {
       e.toXML(this.xml);
-      this.xml.attribute("ins:" + ((AttributeToken) e).getName(), "true");
+      this.xml.attribute("ins:" + e.getName(), "true");
 
       // wrap the char in a <ins> element
     } else if (e instanceof CharToken) {
@@ -220,7 +220,7 @@ public final class SafeXMLFormatter implements XMLDiffXFormatter {
 
       // put the attribute as part of the 'delete' namespace
     } else if (e instanceof AttributeToken) {
-      this.xml.attribute("del:" + ((AttributeToken) e).getName(), ((AttributeToken) e).getValue());
+      this.xml.attribute("del:" + e.getName(), e.getValue());
 
       // wrap the char in a <del> element
     } else if (e instanceof CharToken) {

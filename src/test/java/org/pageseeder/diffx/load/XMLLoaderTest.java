@@ -17,7 +17,7 @@ package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
@@ -52,9 +52,9 @@ public abstract class XMLLoaderTest {
    *
    * @throws LoadingException Should an error occur while parsing XML.
    */
-  public final void assertEquivalent(XMLSequence exp, String xml, DiffConfig config)
+  public final void assertEquivalent(Sequence exp, String xml, DiffConfig config)
       throws LoadingException {
-    XMLSequence got = load(xml, config);
+    Sequence got = load(xml, config);
     try {
       assertEquals(exp.size(), got.size());
       assertEquals(exp, got);
@@ -73,7 +73,7 @@ public abstract class XMLLoaderTest {
     }
   }
 
-  protected XMLSequence load(String xml, DiffConfig config) throws LoadingException {
+  protected Sequence load(String xml, DiffConfig config) throws LoadingException {
     XMLLoader loaded = newXMLLoader(config);
     return loaded.load(xml);
   }

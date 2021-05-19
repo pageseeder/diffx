@@ -19,6 +19,7 @@ import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.xml.Sequence;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -46,22 +47,22 @@ public final class SequenceSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final XMLSequence sequence1;
+  final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final XMLSequence sequence2;
+  final Sequence sequence2;
 
   /**
    * The common start between the two sequences.
    */
-  XMLSequence start;
+  Sequence start;
 
   /**
    * The common end between the two sequences.
    */
-  XMLSequence end;
+  Sequence end;
 
   // constructor --------------------------------------------------------------------------------
 
@@ -84,7 +85,7 @@ public final class SequenceSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
-  public SequenceSlicer(XMLSequence seq0, XMLSequence seq1) {
+  public SequenceSlicer(Sequence seq0, Sequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
   }
@@ -116,7 +117,7 @@ public final class SequenceSlicer {
   public int sliceStart() throws IllegalStateException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
-    this.start = new XMLSequence();
+    this.start = new Sequence();
     int toBeRemoved = 0; // the number of tokens to be removed
     int depth = 0;       // the depth of the XML or number of open elements
     Iterator<XMLToken> i = this.sequence1.iterator();
@@ -164,7 +165,7 @@ public final class SequenceSlicer {
   public int sliceEnd() throws IllegalStateException {
     if (this.end != null)
       throw new IllegalStateException("The end buffer already contains a subsequence.");
-    this.end = new XMLSequence();
+    this.end = new Sequence();
     int depth = 0;       // the depth of the XML or number of open elements
     int toBeRemoved = 0; // number of tokens to be removed from the end
     int counter = 0;     // number of tokens evaluated
@@ -248,7 +249,7 @@ public final class SequenceSlicer {
    *
    * @return The current start sequence buffer or <code>null</code> if none.
    */
-  public XMLSequence getStart() {
+  public Sequence getStart() {
     return this.start;
   }
 
@@ -257,7 +258,7 @@ public final class SequenceSlicer {
    *
    * @return The current end sequence buffer or <code>null</code> if none.
    */
-  public XMLSequence getEnd() {
+  public Sequence getEnd() {
     return this.end;
   }
 

@@ -17,6 +17,7 @@ package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.xml.Sequence;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -43,22 +44,22 @@ public final class NaiveSequenceSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final XMLSequence sequence1;
+  final Sequence sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final XMLSequence sequence2;
+  final Sequence sequence2;
 
   /**
    * The common start between the two sequences.
    */
-  XMLSequence start;
+  Sequence start;
 
   /**
    * The common end between the two sequences.
    */
-  XMLSequence end;
+  Sequence end;
 
   // constructor --------------------------------------------------------------------------------
 
@@ -68,7 +69,7 @@ public final class NaiveSequenceSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
-  public NaiveSequenceSlicer(XMLSequence seq0, XMLSequence seq1) {
+  public NaiveSequenceSlicer(Sequence seq0, Sequence seq1) {
     this.sequence1 = seq0;
     this.sequence2 = seq1;
   }
@@ -87,7 +88,7 @@ public final class NaiveSequenceSlicer {
   public int sliceStart() throws IllegalStateException {
     if (this.start != null)
       throw new IllegalStateException("The start buffer already contains a subsequence.");
-    this.start = new XMLSequence();
+    this.start = new Sequence();
     int count = 0;
     Iterator<XMLToken> i = this.sequence1.iterator();
     Iterator<XMLToken> j = this.sequence2.iterator();
@@ -115,7 +116,7 @@ public final class NaiveSequenceSlicer {
   public int sliceEnd() throws IllegalStateException {
     if (this.end != null)
       throw new IllegalStateException("The end buffer already contains a subsequence.");
-    this.end = new XMLSequence();
+    this.end = new Sequence();
     int count = 0;
     int pos1 = this.sequence1.size() - 1;
     int pos2 = this.sequence2.size() - 1;
@@ -233,7 +234,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current start sequence buffer or <code>null</code> if none.
    */
-  public XMLSequence getStart() {
+  public Sequence getStart() {
     return this.start;
   }
 
@@ -242,7 +243,7 @@ public final class NaiveSequenceSlicer {
    *
    * @return The current end sequence buffer or <code>null</code> if none.
    */
-  public XMLSequence getEnd() {
+  public Sequence getEnd() {
     return this.end;
   }
 

@@ -20,7 +20,7 @@ import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.profile.ProfileInfo;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.RandomXMLFactory;
@@ -165,8 +165,8 @@ public class PerformanceTest {
       RandomXMLFactory factory = new RandomXMLFactory();
       Document from = factory.getRandomXML(5, 5);
       Document to = factory.vary(from, .2);
-      XMLSequence second = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
-      XMLSequence first = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+      Sequence second = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      Sequence first = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
 
       ProfileInfo.profileX(new DefaultXMLProcessor(), first.tokens(), second.tokens(), 10);
       ProfileInfo.profileX(new OptimisticXMLProcessor(), first.tokens(), second.tokens(), 10);
@@ -183,8 +183,8 @@ public class PerformanceTest {
       RandomXMLFactory factory = new RandomXMLFactory();
       Document from = factory.getRandomXML(5, 10);
       Document to = factory.vary(from, .2);
-      XMLSequence a = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
-      XMLSequence b = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
+      Sequence a = TestTokens.loadSequence(DOMUtils.toString(from, true), TextGranularity.WORD);
+      Sequence b = TestTokens.loadSequence(DOMUtils.toString(to, true), TextGranularity.WORD);
 
       ProfileInfo.profileX(new MatrixXMLAlgorithm(), a.tokens(), b.tokens(), 10);
       ProfileInfo.profileX(new MyersGreedyXMLAlgorithm(), a.tokens(), b.tokens(), 10);

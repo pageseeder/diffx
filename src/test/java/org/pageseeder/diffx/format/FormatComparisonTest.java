@@ -22,7 +22,7 @@ import org.pageseeder.diffx.action.Operations;
 import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
@@ -34,14 +34,14 @@ import java.util.List;
 public class FormatComparisonTest {
 
   private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffException {
-    XMLSequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
-    XMLSequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
+    Sequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
+    Sequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());
     List<Operation<XMLToken>> operations = toOperations(from, to);
     printAllOutputs(operations, namespaces);
   }
 
-  private static List<Operation<XMLToken>> toOperations(XMLSequence from, XMLSequence to) {
+  private static List<Operation<XMLToken>> toOperations(Sequence from, Sequence to) {
     OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
     DefaultXMLProcessor processor = new DefaultXMLProcessor();
     processor.setCoalesce(true);

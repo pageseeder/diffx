@@ -20,7 +20,7 @@ import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.algorithm.AlgorithmTest;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DiffAssertions;
 import org.pageseeder.diffx.test.TestActions;
 import org.pageseeder.diffx.test.TestTokens;
@@ -62,8 +62,8 @@ public abstract class QualityXMLDiffTest extends ProcessorTest<XMLToken> {
    * @throws DiffException Should an error occur while parsing XML.
    */
   public final void assertDiffXMLQualityOK(String xml1, String xml2, DiffConfig config, String... exp) throws DiffException {
-    XMLSequence seq1 = TestTokens.loadSequence(xml1, config);
-    XMLSequence seq2 = TestTokens.loadSequence(xml2, config);
+    Sequence seq1 = TestTokens.loadSequence(xml1, config);
+    Sequence seq2 = TestTokens.loadSequence(xml2, config);
 
     // Process as list of actions
     List<Action<XMLToken>> actions = TestActions.diffToActions(getProcessor(), seq1.tokens(), seq2.tokens());

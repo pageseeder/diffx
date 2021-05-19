@@ -19,7 +19,7 @@ import org.opentest4j.AssertionFailedError;
 import org.pageseeder.diffx.action.Action;
 import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.api.Operator;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
@@ -80,7 +80,7 @@ public final class DiffAssertions {
   /**
    * Asserts that the list of actions lead to the correct XML
    */
-  public static void assertIsCorrect(XMLSequence a, XMLSequence b, List<Action<XMLToken>> actions) {
+  public static void assertIsCorrect(Sequence a, Sequence b, List<Action<XMLToken>> actions) {
     // Apply actions to A to ensure we get B
     String gotB = TestTokens.toXML(Actions.generate(actions, true), b.getNamespaces());
     String expB = TestTokens.toXML(b);

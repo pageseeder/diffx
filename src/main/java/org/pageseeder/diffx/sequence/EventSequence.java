@@ -16,16 +16,17 @@
 package org.pageseeder.diffx.sequence;
 
 import org.pageseeder.diffx.token.XMLToken;
+import org.pageseeder.diffx.xml.Sequence;
 
 /**
- * @deprecated Provided for backward compatibility, use {@link XMLSequence} instead.
+ * @deprecated Provided for backward compatibility, use {@link Sequence} instead.
  */
 @Deprecated
 public class EventSequence {
 
-  final XMLSequence sequence;
+  final Sequence sequence;
 
-  public EventSequence(XMLSequence sequence) {
+  public EventSequence(Sequence sequence) {
     this.sequence = sequence;
   }
 
@@ -37,7 +38,7 @@ public class EventSequence {
     return this.sequence.size();
   }
 
-  public XMLSequence getSequence() {
+  public Sequence getSequence() {
     return sequence;
   }
 

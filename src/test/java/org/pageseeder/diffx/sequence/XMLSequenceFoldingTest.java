@@ -18,6 +18,7 @@ package org.pageseeder.diffx.sequence;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
+import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class XMLSequenceFoldingTest {
 
-  private static XMLSequence getSequence(String xml) {
+  private static Sequence getSequence(String xml) {
     try {
       SAXLoader recorder = new SAXLoader();
       return recorder.load(new InputSource(new StringReader(xml)));
@@ -38,71 +39,71 @@ public class XMLSequenceFoldingTest {
 
   @Test
   public void testEmpty() {
-    XMLSequence sequence = new XMLSequence();
-    XMLSequence out = SequenceFolding.forAllElements().fold(sequence);
+    Sequence sequence = new Sequence();
+    Sequence out = SequenceFolding.forAllElements().fold(sequence);
     assertEquals(0, out.size());
   }
 
   @Test
   public void testSimple() {
-    XMLSequence sequence = getSequence("<a/>");
-    XMLSequence out = SequenceFolding.forAllElements().fold(sequence);
+    Sequence sequence = getSequence("<a/>");
+    Sequence out = SequenceFolding.forAllElements().fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testSimple1a() {
-    XMLSequence sequence = getSequence("<a><b/></a>");
-    XMLSequence out = SequenceFolding.forAllElements().fold(sequence);
+    Sequence sequence = getSequence("<a><b/></a>");
+    Sequence out = SequenceFolding.forAllElements().fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testSimple1b() {
-    XMLSequence sequence = getSequence("<a><b/></a>");
-    XMLSequence out = SequenceFolding.forElements("a").fold(sequence);
+    Sequence sequence = getSequence("<a><b/></a>");
+    Sequence out = SequenceFolding.forElements("a").fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testSimple1c() {
-    XMLSequence sequence = getSequence("<a><b/></a>");
-    XMLSequence out = SequenceFolding.forElements("b").fold(sequence);
+    Sequence sequence = getSequence("<a><b/></a>");
+    Sequence out = SequenceFolding.forElements("b").fold(sequence);
     assertEquals(3, out.size());
   }
 
   @Test
   public void testDeep1a() {
-    XMLSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    XMLSequence out = SequenceFolding.forElements("a").fold(sequence);
+    Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    Sequence out = SequenceFolding.forElements("a").fold(sequence);
     assertEquals(1, out.size());
   }
 
   @Test
   public void testDeep1b() {
-    XMLSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    XMLSequence out = SequenceFolding.forElements("b").fold(sequence);
+    Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    Sequence out = SequenceFolding.forElements("b").fold(sequence);
     assertEquals(3, out.size());
   }
 
   @Test
   public void testDeep1c() {
-    XMLSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    XMLSequence out = SequenceFolding.forElements("c").fold(sequence);
+    Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    Sequence out = SequenceFolding.forElements("c").fold(sequence);
     assertEquals(5, out.size());
   }
 
   @Test
   public void testDeep1d() {
-    XMLSequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
-    XMLSequence out = SequenceFolding.forElements("d").fold(sequence);
+    Sequence sequence = getSequence("<a><b><c><d>x</d></c></b></a>");
+    Sequence out = SequenceFolding.forElements("d").fold(sequence);
     assertEquals(7, out.size());
   }
 
   @Test
   public void testTable1() {
-    XMLSequence sequence = getSequence("<table><row><cell>A</cell><cell>B</cell></row><row><cell>M</cell><cell>N</cell></row></table>");
-    XMLSequence out = SequenceFolding.forElements("row", "cell").fold(sequence);
+    Sequence sequence = getSequence("<table><row><cell>A</cell><cell>B</cell></row><row><cell>M</cell><cell>N</cell></row></table>");
+    Sequence out = SequenceFolding.forElements("row", "cell").fold(sequence);
     System.out.println(out);
     assertEquals(4, out.size());
   }

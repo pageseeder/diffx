@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.sequence;
+package org.pageseeder.diffx.xml;
 
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.XMLToken;
-import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.io.PrintWriter;
 import java.util.AbstractList;
@@ -36,7 +35,7 @@ import java.util.List;
  * need random access. Other list implementations may affect performance.
  * @since 0.7
  */
-public final class XMLSequence extends AbstractList<XMLToken> implements List<XMLToken> {
+public final class Sequence extends AbstractList<XMLToken> implements List<XMLToken> {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -51,7 +50,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
   /**
    * Creates a new token sequence.
    */
-  public XMLSequence() {
+  public Sequence() {
     this.tokens = new ArrayList<>();
   }
 
@@ -60,7 +59,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    *
    * @param size The size of the sequence.
    */
-  public XMLSequence(int size) {
+  public Sequence(int size) {
     this.tokens = new ArrayList<>(size);
   }
 
@@ -71,7 +70,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    *
    * @param namespaces The size of the sequence.
    */
-  public XMLSequence(NamespaceSet namespaces) {
+  public Sequence(NamespaceSet namespaces) {
     this.tokens = new ArrayList<>();
     this.namespaces.add(namespaces);
   }
@@ -83,7 +82,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    *
    * @param tokens The size of the sequence.
    */
-  public XMLSequence(List<XMLToken> tokens) {
+  public Sequence(List<XMLToken> tokens) {
     this.tokens = tokens;
   }
 
@@ -92,7 +91,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    *
    * @param sequence The sequence of tokens to be added.
    */
-  public void addSequence(@NotNull XMLSequence sequence) {
+  public void addSequence(@NotNull Sequence sequence) {
     this.tokens.addAll(sequence.tokens);
     this.namespaces.add(sequence.namespaces);
   }
@@ -201,7 +200,7 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    * @return <code>true</code> if the specified token sequence is equal to this one;
    * <code>false</code> otherwise.
    */
-  public boolean equals(XMLSequence seq) {
+  public boolean equals(Sequence seq) {
     if (seq == null) return false;
     return equals(this.tokens, seq.tokens);
   }
@@ -209,8 +208,8 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
   /**
    * Returns <code>true</code> if the specified token sequence is the same as this one.
    *
-   * <p>This method will redirect to the {@link #equals(XMLSequence)} method if the
-   * specified object is an instance of {@link XMLSequence}.
+   * <p>This method will redirect to the {@link #equals(Sequence)} method if the
+   * specified object is an instance of {@link Sequence}.
    *
    * @param o The sequence of tokens to compare with this one.
    *
@@ -219,8 +218,8 @@ public final class XMLSequence extends AbstractList<XMLToken> implements List<XM
    */
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof XMLSequence)) return false;
-    return this.equals((XMLSequence) o);
+    if (!(o instanceof Sequence)) return false;
+    return this.equals((Sequence) o);
   }
 
   @Override

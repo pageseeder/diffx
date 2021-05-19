@@ -16,7 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.sequence.XMLSequence;
+import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MatrixProcessorTest {
 
-  private static XMLSequence asSequenceOfCharTokens(String string) {
-    XMLSequence s = new XMLSequence();
+  private static Sequence asSequenceOfCharTokens(String string) {
+    Sequence s = new Sequence();
     for (char c : string.toCharArray()) {
       s.addToken(new CharToken(c));
     }
@@ -34,8 +34,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testBothEmpty() {
-    XMLSequence s1 = new XMLSequence();
-    XMLSequence s2 = new XMLSequence();
+    Sequence s1 = new Sequence();
+    Sequence s2 = new Sequence();
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(1, matrix.size());
     assertEquals(0, matrix.getLCSLength());
@@ -43,8 +43,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testFirstEmpty() {
-    XMLSequence s1 = new XMLSequence();
-    XMLSequence s2 = asSequenceOfCharTokens("y");
+    Sequence s1 = new Sequence();
+    Sequence s2 = asSequenceOfCharTokens("y");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(2, matrix.size()); // 1x2
     assertEquals(0, matrix.getLCSLength());
@@ -52,8 +52,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testSecondEmpty() {
-    XMLSequence s1 = asSequenceOfCharTokens("x");
-    XMLSequence s2 = new XMLSequence();
+    Sequence s1 = asSequenceOfCharTokens("x");
+    Sequence s2 = new Sequence();
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(2, matrix.size()); // 2x1
@@ -62,8 +62,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testOneByOne() {
-    XMLSequence s1 = asSequenceOfCharTokens("x");
-    XMLSequence s2 = asSequenceOfCharTokens("x");
+    Sequence s1 = asSequenceOfCharTokens("x");
+    Sequence s2 = asSequenceOfCharTokens("x");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(4, matrix.size()); // 2x2
@@ -72,8 +72,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testTwoByTwo() {
-    XMLSequence s1 = asSequenceOfCharTokens("xy");
-    XMLSequence s2 = asSequenceOfCharTokens("xy");
+    Sequence s1 = asSequenceOfCharTokens("xy");
+    Sequence s2 = asSequenceOfCharTokens("xy");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(9, matrix.size()); // 3x3
@@ -82,8 +82,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testIdentical() {
-    XMLSequence s1 = asSequenceOfCharTokens("xyz");
-    XMLSequence s2 = asSequenceOfCharTokens("xyz");
+    Sequence s1 = asSequenceOfCharTokens("xyz");
+    Sequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     matrix.get(0, 0);
     assertEquals(16, matrix.size()); // 4x4
@@ -92,8 +92,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testDifference1() {
-    XMLSequence s1 = asSequenceOfCharTokens("xyz");
-    XMLSequence s2 = asSequenceOfCharTokens("xuz");
+    Sequence s1 = asSequenceOfCharTokens("xyz");
+    Sequence s2 = asSequenceOfCharTokens("xuz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(16, matrix.size()); // 4x4
     assertEquals(2, matrix.getLCSLength()); // 'x' 'z'
@@ -101,8 +101,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testDifference2() {
-    XMLSequence s1 = asSequenceOfCharTokens("xyz");
-    XMLSequence s2 = asSequenceOfCharTokens("xuv");
+    Sequence s1 = asSequenceOfCharTokens("xyz");
+    Sequence s2 = asSequenceOfCharTokens("xuv");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(16, matrix.size()); // 4x4
     assertEquals(1, matrix.getLCSLength()); // 'x'
@@ -110,8 +110,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testNoCommon() {
-    XMLSequence s1 = asSequenceOfCharTokens("abc");
-    XMLSequence s2 = asSequenceOfCharTokens("xyz");
+    Sequence s1 = asSequenceOfCharTokens("abc");
+    Sequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     // Only zeros!
     for (int i = 0; i < matrix.lengthX(); i++) {
@@ -125,8 +125,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testExample1() {
-    XMLSequence s1 = asSequenceOfCharTokens("GCCCTAGCG");
-    XMLSequence s2 = asSequenceOfCharTokens("GCGCAATG");
+    Sequence s1 = asSequenceOfCharTokens("GCCCTAGCG");
+    Sequence s2 = asSequenceOfCharTokens("GCGCAATG");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(90, matrix.size()); // 10x9
     assertEquals(5, matrix.getLCSLength()); // "GCGAG"
@@ -134,8 +134,8 @@ public class MatrixProcessorTest {
 
   @Test
   public void testExample2() {
-    XMLSequence s1 = asSequenceOfCharTokens("acbdeacbed");
-    XMLSequence s2 = asSequenceOfCharTokens("debabb");
+    Sequence s1 = asSequenceOfCharTokens("acbdeacbed");
+    Sequence s2 = asSequenceOfCharTokens("debabb");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
     assertEquals(77, matrix.size()); // 11x7
     assertEquals(4, matrix.getLCSLength()); // "deab"

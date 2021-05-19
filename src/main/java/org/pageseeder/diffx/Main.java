@@ -25,10 +25,10 @@ import org.pageseeder.diffx.core.OptimisticXMLProcessor;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.format.*;
 import org.pageseeder.diffx.load.*;
-import org.pageseeder.diffx.sequence.XMLSequence;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.util.CommandLine;
 import org.pageseeder.diffx.xml.NamespaceSet;
+import org.pageseeder.diffx.xml.Sequence;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -64,8 +64,8 @@ public final class Main {
    */
   public static boolean equivalent(File xmlA, File xmlB) throws DiffException, IOException {
     XMLLoader loader = new SAXLoader();
-    XMLSequence seq0 = loader.load(xmlA);
-    XMLSequence seq1 = loader.load(xmlB);
+    Sequence seq0 = loader.load(xmlA);
+    Sequence seq1 = loader.load(xmlB);
     return seq0.equals(seq1);
   }
 
@@ -83,8 +83,8 @@ public final class Main {
    */
   public static boolean equivalent(InputStream xmlA, InputStream xmlB) throws DiffException, IOException {
     SAXLoader loader = new SAXLoader();
-    XMLSequence seq0 = loader.load(new InputSource(xmlA));
-    XMLSequence seq1 = loader.load(new InputSource(xmlB));
+    Sequence seq0 = loader.load(new InputSource(xmlA));
+    Sequence seq1 = loader.load(new InputSource(xmlB));
     return seq0.equals(seq1);
   }
 
@@ -102,8 +102,8 @@ public final class Main {
    */
   public static boolean equivalent(Reader xmlA, Reader xmlB) throws DiffException, IOException {
     SAXLoader loader = new SAXLoader();
-    XMLSequence seq0 = loader.load(new InputSource(xmlA));
-    XMLSequence seq1 = loader.load(new InputSource(xmlB));
+    Sequence seq0 = loader.load(new InputSource(xmlA));
+    Sequence seq1 = loader.load(new InputSource(xmlB));
     return seq0.equals(seq1);
   }
 
@@ -125,8 +125,8 @@ public final class Main {
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    XMLSequence seq1 = loader.load(xmlA);
-    XMLSequence seq2 = loader.load(xmlB);
+    Sequence seq1 = loader.load(xmlA);
+    Sequence seq2 = loader.load(xmlB);
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -151,8 +151,8 @@ public final class Main {
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    XMLSequence seq1 = loader.load(xmlA);
-    XMLSequence seq2 = loader.load(xmlB);
+    Sequence seq1 = loader.load(xmlA);
+    Sequence seq2 = loader.load(xmlB);
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -175,8 +175,8 @@ public final class Main {
     if (config != null) {
       loader.setConfig(config.toDiffConfig());
     }
-    XMLSequence seq1 = loader.load(new InputSource(xmlA));
-    XMLSequence seq2 = loader.load(new InputSource(xmlB));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -194,8 +194,8 @@ public final class Main {
   public static void diff(Reader xmlA, Reader xmlB, Writer out) throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
-    XMLSequence seq1 = loader.load(new InputSource(xmlA));
-    XMLSequence seq2 = loader.load(new InputSource(xmlB));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     // start slicing
     diff(seq1, seq2, out);
   }
@@ -214,8 +214,8 @@ public final class Main {
       throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
-    XMLSequence seq1 = loader.load(new InputSource(xmlA));
-    XMLSequence seq2 = loader.load(new InputSource(xmlB));
+    Sequence seq1 = loader.load(new InputSource(xmlA));
+    Sequence seq2 = loader.load(new InputSource(xmlB));
     diff(seq1, seq2, new OutputStreamWriter(out));
   }
 
@@ -226,7 +226,7 @@ public final class Main {
    * @param seq2 The first XML reader to compare.
    * @param out  Where the output goes.
    */
-  private static void diff(XMLSequence seq1, XMLSequence seq2, Writer out) {
+  private static void diff(Sequence seq1, Sequence seq2, Writer out) {
     DefaultXMLDiffOutput output = new DefaultXMLDiffOutput(out);
     NamespaceSet namespaces = NamespaceSet.merge(seq1.getNamespaces(), seq2.getNamespaces());
     output.setNamespaces(namespaces);
@@ -259,8 +259,8 @@ public final class Main {
       long t0 = System.currentTimeMillis();
       XMLLoader loader = getLoader(args);
       if (loader == null) return;
-      XMLSequence seq1 = loader.load(xmlA);
-      XMLSequence seq2 = loader.load(xmlB);
+      Sequence seq1 = loader.load(xmlA);
+      Sequence seq2 = loader.load(xmlB);
       long t1 = System.currentTimeMillis();
       if (profile) {
         System.err.println("Loaded files in " + (t1 - t0) + "ms");
