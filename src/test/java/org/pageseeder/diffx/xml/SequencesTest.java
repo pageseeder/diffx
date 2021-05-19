@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.sequence;
+package org.pageseeder.diffx.xml;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;

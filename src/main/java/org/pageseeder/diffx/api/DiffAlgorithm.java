@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.UncheckedIOException;
 import java.util.List;
 
@@ -37,6 +39,6 @@ public interface DiffAlgorithm<T> {
    * @throws UncheckedIOException  If an IO error occurred while handler the diff
    * @throws IllegalStateException If the algorithm is in a state where it is unable to process the tokens.
    */
-  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
+  void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler);
 
 }

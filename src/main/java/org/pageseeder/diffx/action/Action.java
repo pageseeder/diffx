@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An action associated to a sequence of tokens.
+ * An action associated to a list of tokens.
  * <p>
  * Wraps a token and binds it with an operator.
  * <p>
@@ -101,14 +101,7 @@ public final class Action<T> {
    * or the same actions if operator is MATCH.
    */
   public Action<T> flip() {
-    switch (this.operator) {
-      case DEL:
-        return new Action<>(Operator.INS, this.tokens);
-      case INS:
-        return new Action<>(Operator.DEL, this.tokens);
-      default:
-        return this;
-    }
+    return this.operator == Operator.MATCH ? this : new Action<>(this.operator.flip(), this.tokens);
   }
 
   @Override

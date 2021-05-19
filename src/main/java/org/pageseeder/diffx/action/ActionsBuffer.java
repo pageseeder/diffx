@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Generates a list of actions from the output of the algorithms.
  * <p>
- * This handler is useful to capture the operations resulting from a diff.
+ * This handler is useful to capture the operations resulting from a diff and generate and edit script.
  *
  * @author Christophe Lauret
  * @version 0.9.0
