@@ -199,7 +199,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
 
   }
 
-  private static <T> EdgeSnake createToPoint(Point point, Vector vector, int k, int d) {
+  private static EdgeSnake createToPoint(Point point, Vector vector, int k, int d) {
     final int aEnd = point.x();
     final int bEnd = point.y();
     boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
