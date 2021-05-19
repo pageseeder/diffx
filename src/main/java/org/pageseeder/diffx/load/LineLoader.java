@@ -96,7 +96,7 @@ public final class LineLoader implements Loader<LineToken> {
   private List<LineToken> getLines(BufferedReader reader) throws IOException {
     String line = reader.readLine();
     int count = 0;
-    List<LineToken> sequence = new ArrayList();
+    List<LineToken> sequence = new ArrayList<>();
     while (line != null) {
       sequence.add(new LineToken(line, ++count));
       line = reader.readLine();
