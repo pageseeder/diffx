@@ -87,7 +87,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
       for (int d = 0; d <= max; d++) {
         found = forward(vector, elements, d);
         if (DEBUG) System.err.println("D" + d + ": " + elements + " | " + vector + "\n");
-        vectors.add(vector.createCopy(d));
+        vectors.add(vector.snapshot(d));
         // We've found a path
         if (found) break;
       }

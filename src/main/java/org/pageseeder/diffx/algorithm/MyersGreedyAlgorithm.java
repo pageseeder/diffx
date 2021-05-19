@@ -106,7 +106,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
       boolean found = false;
       for (int d = 0; d <= max; d++) {
         found = forward(vector, d);
-        vectors.add(vector.createCopy(d, true, 0));
+        vectors.add(vector.snapshot(d));
         if (found) {
           break;
         }
@@ -128,23 +128,20 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
         boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
 
         // To get to line k, we move DOWN (k+1) or RIGHT (k-1)
-        int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
-
-        // Calculate end points
-        int xEnd = down ? xStart : xStart + 1;
-        int yEnd = xEnd - k;
+        int x = down ? vector.getX(k + 1) : vector.getX(k - 1) + 1;
+        int y = x - k;
 
         // Follow diagonals
-        while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd).equals(b.get(yEnd))) {
-          xEnd++;
-          yEnd++;
+        while (x < this.sizeA && y < this.sizeB && this.a.get(x).equals(this.b.get(y))) {
+          x++;
+          y++;
         }
 
         // Save end points
-        vector.setX(k, xEnd);
+        vector.setX(k, x);
 
         // Check if we've reached the end
-        if (xEnd >= this.sizeA && yEnd >= this.sizeB) {
+        if (x >= this.sizeA && y >= this.sizeB) {
           return true;
         }
       }

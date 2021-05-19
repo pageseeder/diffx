@@ -87,17 +87,6 @@ final class Vector {
   }
 
   /**
-   * Calculates the y-position of an end point based on the x-position and the k-line.
-   *
-   * @param k The k-line the end point is on
-   *
-   * @return The y-position of the end point
-   */
-  public int getY(int k) {
-    return this.getX(k) - k;
-  }
-
-  /**
    * Create a new V array for the linear algorithm.
    *
    * @param m       The length of the first sequence
@@ -126,15 +115,11 @@ final class Vector {
    * @param forward true if forward comparison; false otherwise
    * @param max     Maximum number of end points
    */
-  private static Vector create(int m, int n, boolean forward, int max) {
+  public static Vector create(int m, int n, boolean forward, int max) {
     if (max <= 0) {
       max = 1;
     }
-
-    // as each point on a k-line can either come from a down or right move
-    // there can only be two successor points for each end-point
     int[] array = new int[2 * max + 1];
-
     Vector vector = new Vector(array, forward, max, 0);
     vector.init(m, n);
     return vector;
@@ -156,24 +141,23 @@ final class Vector {
   }
 
   /**
-   * Create a copy for D in forward direction (delta=0)
+   * Create a snapshot of V for D in forward direction (delta=0)
    */
-  public Vector createCopy(int d) {
-    return createCopy(d, true, 0);
+  public Vector snapshot(int d) {
+    return snapshot(d, true, 0);
   }
 
   /**
-   * Creates a new deep copy of this object.
+   * Create a snapshot of V
    *
-   * @param d         Number of differences for the same trace
-   * @param isForward The comparison direction; True if forward, false otherwise
-   * @param delta     Keeps track of the differences between the first and the second object to compare as they may differ in
-   *                  length
+   * @param d         Number of differences
+   * @param isForward The comparison direction
+   * @param delta     Difference in length between two sequences
    *
    * @return A copy of this object
    * @throws IllegalArgumentException If d > the maximum number of end points to store
    */
-  public Vector createCopy(int d, boolean isForward, int delta) {
+  public Vector snapshot(int d, boolean isForward, int delta) {
     assert !(isForward && delta != 0);
     if (d == 0) {
       d++;

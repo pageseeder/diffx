@@ -198,7 +198,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           return new MiddleSnake((2 * d) - 1, forward);
         }
         if (forwardVs != null) {
-          forwardVs.add(VForward.createCopy(d, true, 0));
+          forwardVs.add(VForward.snapshot(d, true, 0));
         }
 
         // For k in -D to D in steps of 2 Do
@@ -234,7 +234,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           return new MiddleSnake(2 * d, reverse);
         }
         if (reverseVs != null) {
-          reverseVs.add(VReverse.createCopy(d, false, delta));
+          reverseVs.add(VReverse.snapshot(d, false, delta));
         }
       }
 

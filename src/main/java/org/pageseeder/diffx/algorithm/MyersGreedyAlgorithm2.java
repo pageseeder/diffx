@@ -21,12 +21,14 @@ import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper
  * "An O(ND) Difference Algorithm and its Variations".
+ *
+ * @implNote This alternative version does not compute te snakes: it computes backwards first
+ * and reports to the handler during backtrace.
  *
  * @param <T> The type of token being compared
  *
@@ -40,32 +42,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
   @Override
   public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
     MyersGreedyAlgorithm2.Instance<T> instance = new MyersGreedyAlgorithm2.Instance<>(from, to);
-    List<Snake> snakes = instance.computePath();
-    handle(from, to, handler, snakes);
-  }
-
-  /**
-   * Handles the results of the diff by following the snakes.
-   */
-  private void handle(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<Snake> snakes) {
-    int x = 0;
-    int y = 0;
-    for (Snake snake : snakes) {
-      Point start = snake.getStart();
-      while (x < start.x()) {
-        handler.handle(Operator.DEL, a.get(x));
-        x++;
-      }
-      while (y < start.y()) {
-        handler.handle(Operator.INS, b.get(y));
-        y++;
-      }
-      for (int i = 0; i < snake.length(); i++) {
-        handler.handle(Operator.MATCH, a.get(x));
-        x++;
-        y++;
-      }
-    }
+    instance.diff(handler);
   }
 
   /**
@@ -90,23 +67,23 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
     /**
      * Compute the path to generate the shortest edit sequence (SES) between the two lists.
      *
-     * <p>The solution is a list of snakes connected to each other and forming the path from (0,0) to (N,M)
+     * @param handler receives notifications of edits
      *
-     * @return the corresponding list of snakes
      * @throws IllegalStateException If no solution was found.
      */
-    private List<Snake> computePath() {
-      Vector vector = Vector.createGreedy(this.sizeA, this.sizeB);
-      List<Vector> vectors = new ArrayList<>();
-
+    private void diff(DiffHandler<T> handler) {
       // Maximum length for the path (N + M)
       final int max = this.sizeA + this.sizeB;
+      final int delta = this.sizeA - this.sizeB;
+
+      Vector vector = Vector.create(this.sizeA, this.sizeB, false, max);
+      List<Vector> vectors = new ArrayList<>();
 
       // Find the endpoint of the furthest reaching D-path in diagonal k
       int diff = -1;
       for (int d = 0; d <= max; d++) {
-        diff = forward(vector, d);
-        vectors.add(vector.createCopy(d, true, 0));
+        diff = reverse(vector, d);
+        vectors.add(vector.snapshot(d, false, delta));
         if (diff >= 0) {
           break;
         }
@@ -116,32 +93,32 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         throw new IllegalStateException("Unable to find a solution!");
 
       // Compute the snakes from the vectors
-      return solve(vectors);
+      solve(vectors, handler);
     }
 
     /**
-     * @return the last snake when a solution has been found.
+     * @return the number of differences found
      */
-    private int forward(Vector vector, int d) {
-      for (int k = -d; k <= d; k += 2) {
-        // DOWN (insertion) or RIGHT (deletion)
-        boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
+    private int reverse(Vector vector, int d) {
+      int delta = this.sizeA - this.sizeB;
+      for (int k = -d + delta; k <= d + delta; k += 2) {
 
-        // Calculate end points
-        int x = down ? vector.getX(k + 1) : vector.getX(k - 1) + 1;
+        // UP (insertion) or LEFT (deletion)
+        boolean up = (k == d + delta || (k != -d + delta && vector.getX(k - 1) < vector.getX(k + 1)));
+        int x = up ? vector.getX(k - 1) : vector.getX(k + 1) - 1;
         int y = x - k;
 
         // Follow diagonals
-        while (x < sizeA && y < sizeB && a.get(x).equals(b.get(y))) {
-          x++;
-          y++;
+        while (x > 0 && y > 0 && a.get(x-1).equals(b.get(y-1))) {
+          x--;
+          y--;
         }
 
         // Save end points
         vector.setX(k, x);
 
         // Check if we've reached the end
-        if (x >= this.sizeA && y >= this.sizeB) {
+        if (x <= 0 && y <= 0) {
           return d;
         }
       }
@@ -152,36 +129,54 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private @NotNull List<Snake> solve(@NotNull List<Vector> vectors) {
-      LinkedList<Snake> snakes = new LinkedList<>();
-      Point target = new Point(this.sizeA, this.sizeB);
+    private void solve(@NotNull List<Vector> vectors, DiffHandler<T> handler) {
+      Point target = new Point(0, 0);
+      final int delta = this.sizeA - this.sizeB;
+      int x = 0;
+      int y = 0;
 
-      // We go backwards following the vectors to get the snakes
-      for (int d = vectors.size() - 1; target.x() > 0 || target.y() > 0; d--) {
+      // We following the vectors to get the snakes
+      for (int d = vectors.size() - 1; target.x() < sizeA || target.y() > sizeB; d--) {
         Vector vector = vectors.get(d);
         int k = target.x() - target.y();
-        int xEnd = vector.getX(k);
-        int yEnd = xEnd - k;
+        int startX = vector.getX(k);
+        int startY = startX - k;
 
-        if (!target.isSame(xEnd, yEnd))
-          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + target + " V:( " + xEnd + ", " + yEnd + " )");
+        if (!target.isSame(startX, startY))
+          throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + target + " V:( " + startX + ", " + startY + " )");
 
-        boolean down = (k == -d || (k != d && vector.getX(k - 1) < vector.getX(k + 1)));
-        int xStart = down ? vector.getX(k + 1) : vector.getX(k - 1);
-        int yStart = xStart - (down ? k + 1 : k - 1);
-        int matching = Math.min(xEnd - xStart, yEnd - yStart);
+        boolean up = (k == d + delta || (k != -d + delta && vector.getX(k - 1) < vector.getX(k + 1)));
+        int endX = up ? vector.getX(k - 1) : vector.getX(k + 1);
+        int endY = endX - (up ? k - 1 : k + 1);
 
-        // Only include non-empty snakes and the last one
-        if (matching > 0 || snakes.isEmpty()) {
-          Snake snake = new Snake(new Point(target.x() - matching, target.y() - matching), matching);
-          snakes.addFirst(snake);
+        int matching = Math.min(endX - startX, endY - startY);
+        // Reverse: matching first
+        for (int i=0; i < matching; i++) {
+          handler.handle(Operator.MATCH, a.get(x));
+          x++;
+          y++;
         }
-
-        target = new Point(xStart, Math.max(yStart, 0));
+        // Insertions and deletions
+        while (x < endX && x < sizeA) {
+          handler.handle(Operator.DEL, a.get(x));
+          x++;
+        }
+        while (y < endY && y < sizeB) {
+          handler.handle(Operator.INS, b.get(y));
+          y++;
+        }
+        target = new Point(endX, Math.min(endY, sizeB));
       }
-      return snakes;
+      // Insertions and deletions remaining at the end
+      while ( x < sizeA) {
+        handler.handle(Operator.DEL, a.get(x));
+        x++;
+      }
+      while (y < sizeB) {
+        handler.handle(Operator.INS, b.get(y));
+        y++;
+      }
     }
-
   }
 
 }
