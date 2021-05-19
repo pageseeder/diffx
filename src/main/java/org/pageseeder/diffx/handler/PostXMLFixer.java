@@ -98,11 +98,11 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
 
       // Flush attributes if the last token sent was an open element or attribute
       if (this.lastToken.getType() == XMLTokenType.START_ELEMENT || this.lastToken.getType() == XMLTokenType.ATTRIBUTE) {
-        while (isAttribute(this.insertions.peek())) {
-          send(Operator.INS, this.insertions.remove());
-        }
         while (isAttribute(this.deletions.peek())) {
           send(Operator.DEL, this.deletions.remove());
+        }
+        while (isAttribute(this.insertions.peek())) {
+          send(Operator.INS, this.insertions.remove());
         }
       }
 
@@ -110,27 +110,27 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
       XMLToken nextInsertion = this.insertions.peek();
       XMLToken nextDeletion = this.deletions.peek();
 
-      if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken) nextInsertion)) {
-        send(Operator.INS, this.insertions.remove());
-      } else if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken) nextDeletion)) {
+      if (isEndElement(nextDeletion) && matchStart(Operator.DEL, (EndElementToken) nextDeletion)) {
         send(Operator.DEL, this.deletions.remove());
-      } else if (isEndElement(nextInsertion)) {
-        this.hasError = true;
-        sendMatchingEndElement();
-        this.insertions.remove();
+      } else if (isEndElement(nextInsertion) && matchStart(Operator.INS, (EndElementToken) nextInsertion)) {
+        send(Operator.INS, this.insertions.remove());
       } else if (isEndElement(nextDeletion)) {
         this.hasError = true;
         sendMatchingEndElement();
         this.deletions.remove();
+      } else if (isEndElement(nextInsertion)) {
+        this.hasError = true;
+        sendMatchingEndElement();
+        this.insertions.remove();
       } else {
-        if (this.lastOperator == Operator.INS && nextInsertion != null)
-          send(Operator.INS, this.insertions.remove());
-        else if (this.lastOperator == Operator.DEL && nextDeletion != null)
+        if (this.lastOperator == Operator.DEL && nextDeletion != null)
           send(Operator.DEL, this.deletions.remove());
-        else if (nextInsertion != null)
+        else if (this.lastOperator == Operator.INS && nextInsertion != null)
           send(Operator.INS, this.insertions.remove());
         else if (nextDeletion != null)
           send(Operator.DEL, this.deletions.remove());
+        else if (nextInsertion != null)
+          send(Operator.INS, this.insertions.remove());
       }
     }
   }
