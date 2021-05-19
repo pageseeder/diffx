@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffXException;
 
@@ -576,7 +578,7 @@ public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLev
    *
    * @throws IOException Should an I/O exception occur.
    */
-  @Test
+  @Test @Disabled
   public final void testLevel1_SameLine0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
@@ -594,7 +596,7 @@ public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLev
    *
    * @throws IOException Should an I/O exception occur.
    */
-  @Test
+  @Test @Disabled
   public final void testLevel1_LineChange0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
@@ -614,7 +616,7 @@ public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLev
    *
    * @throws IOException Should an I/O exception occur.
    */
-  @Test
+  @Test @Disabled
   public final void testLevel1_LineInsert0() throws IOException {
     String text1 = "line #1\n"
         + "line #2\n"
@@ -633,7 +635,7 @@ public abstract class BaseDiffXAlgorithmLevel1Test extends BaseDiffXAlgorithmLev
    *
    * @throws IOException Should an I/O exception occur.
    */
-  @Test
+  @Test @Disabled
   public final void testLevel1_LineRemove0() throws IOException {
     String text1 = "line #1\n"
         + "line #3\n";
