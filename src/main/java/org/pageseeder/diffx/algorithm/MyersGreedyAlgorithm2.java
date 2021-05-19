@@ -27,13 +27,12 @@ import java.util.List;
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper
  * "An O(ND) Difference Algorithm and its Variations".
  *
- * @implNote This alternative version does not compute te snakes: it computes backwards first
- * and reports to the handler during backtrace.
- *
  * @param <T> The type of token being compared
  *
  * @author Christophe Lauret
  * @version 0.9.0
+ * @implNote This alternative version does not compute te snakes: it computes backwards first
+ * and reports to the handler during backtrace.
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial1">Myers' Diff Algorithm: The basic greedy algorithm</a>
  */
@@ -109,7 +108,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         int y = x - k;
 
         // Follow diagonals
-        while (x > 0 && y > 0 && a.get(x-1).equals(b.get(y-1))) {
+        while (x > 0 && y > 0 && a.get(x - 1).equals(b.get(y - 1))) {
           x--;
           y--;
         }
@@ -151,7 +150,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
 
         int matching = Math.min(endX - startX, endY - startY);
         // Reverse: matching first
-        for (int i=0; i < matching; i++) {
+        for (int i = 0; i < matching; i++) {
           handler.handle(Operator.MATCH, a.get(x));
           x++;
           y++;
@@ -168,7 +167,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         target = new Point(endX, Math.min(endY, sizeB));
       }
       // Insertions and deletions remaining at the end
-      while ( x < sizeA) {
+      while (x < sizeA) {
         handler.handle(Operator.DEL, a.get(x));
         x++;
       }
