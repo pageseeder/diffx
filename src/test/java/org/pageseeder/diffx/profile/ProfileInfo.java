@@ -32,24 +32,23 @@ public final class ProfileInfo {
   private long total;
 
   ProfileInfo(DiffAlgorithm<?> algorithm, int times, int sizeA, int sizeB) {
-    this.algorithm = algorithm.getClass().getSimpleName();
+    this.algorithm = Profilers.toName(algorithm);
     this.times = times;
     this.sizeA = sizeA;
     this.sizeB = sizeB;
   }
 
-  double average() {
-    return this.total * 1.0 / this.times;
+  long average() {
+    return this.total / this.times;
   }
 
   @Override
   public String toString() {
-    StringBuilder out = new StringBuilder();
-    out.append(this.algorithm.toString());
-    out.append("\t").append(sizeA).append("/").append(sizeB).append(" tokens");
-    out.append("\tFirst:").append(first).append("ms");
-    out.append("\tAvg:").append(average()).append("ms");
-    return out.toString();
+    String out = this.algorithm +
+        "\t" + this.sizeA + "/" + this.sizeB + " tokens" +
+        "\tFirst:" + this.first + "µs" +
+        "\tAvg:" + average() + "µs";
+    return out;
   }
 
   public static <T> ProfileInfo profileX(DiffAlgorithm<T> algorithm, List<? extends T> a, List<? extends T> b, int times, boolean quiet) {
@@ -76,7 +75,7 @@ public final class ProfileInfo {
     long t0 = System.nanoTime();
     algorithm.diff(a, b, (operator, token) -> {});
     long t1 = System.nanoTime();
-    return (t1 - t0) / 1_000_000;
+    return (t1 - t0) / 1_000;
   }
 
 }

@@ -15,11 +15,14 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.config.TextGranularity;
+import org.pageseeder.diffx.profile.Pair;
 import org.pageseeder.diffx.profile.ProfileInfo;
+import org.pageseeder.diffx.profile.Profilers;
 import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
 import org.pageseeder.diffx.test.RandomStringFactory;
@@ -33,127 +36,101 @@ import java.util.*;
 
 public class PerformanceTest {
 
-  private static void generateXML(StringBuilder xml1, StringBuilder xml2, int elements) {
+  private static void generateXML(StringBuilder xmlA, StringBuilder xmlB, int elements) {
     // Generate content
     Random r = new Random();
-    xml1.append("<root>\n");
-    xml2.append("<root>\n");
+    xmlA.append("<root>\n");
+    xmlB.append("<root>\n");
     for (int i = 0; i < elements; i++) {
       int f = r.nextInt(10);
-      String from = getRandomString(100 + f * 100, true);
-      String to = (r.nextInt(10) < 3) ? vary(from, .05) : from;
-      xml1.append("  <p>").append(from).append("</p>\n");
-      xml2.append("  <p>").append(to).append("</p>\n");
+      String from = Profilers.getRandomString(100 + f * 100, true);
+      String to = (r.nextInt(10) < 3) ? Profilers.vary(from, .05) : from;
+      xmlA.append("  <p>").append(from).append("</p>\n");
+      xmlB.append("  <p>").append(to).append("</p>\n");
     }
-    xml1.append("</root>");
-    xml2.append("</root>");
-  }
-
-  private static String getRandomString(int length, boolean spaces) {
-    RandomStringFactory factory = new RandomStringFactory();
-    return factory.getRandomString(length, spaces);
-  }
-
-  private static String vary(String source, double changes) {
-    RandomStringFactory factory = new RandomStringFactory();
-    return factory.vary(source, changes);
+    xmlA.append("</root>");
+    xmlB.append("</root>");
   }
 
   @Test
-  public void compareRandomString_1000_10() {
-    // Generate content
-    String from = getRandomString(1000, false);
-    String to = vary(from, .10);
-    List<CharToken> second = TestTokens.toCharTokens(from);
-    List<CharToken> first = TestTokens.toCharTokens(to);
-
-    ProfileInfo.profileX(new DefaultXMLProcessor(), first, second, 10);
-    ProfileInfo.profileX(new TextOnlyProcessor<CharToken>(), first, second, 10);
-    ProfileInfo.profileX(new OptimisticXMLProcessor(), first, second, 10);
-  }
-
-  @Test
-  public void compareGeneralAlgorithms1() {
-    int[] lengths = new int[]{500, 1_000, 2_000, 5_000, 10_000};
-    for (int length : lengths) {
-      // Generate content
-      String from = getRandomString(length, false);
-      String to = vary(from, .25);
-      List<CharToken> a = TestTokens.toCharTokens(from);
-      List<CharToken> b = TestTokens.toCharTokens(to);
-
-      ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new MyersGreedyAlgorithm2<>(), a, b, 10);
-      ProfileInfo.profileX(new MyersLinearAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new KumarRanganAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new HirschbergAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new WagnerFischerAlgorithm<>(), a, b, 10);
-    }
-  }
-
-  @Test
-  public void compareGeneralAlgorithms2() {
+  @DisplayName("General algorithm / 500 to 10,000 chars / 5% variation")
+  public void compareGeneralAlgorithms_var5pct() {
     int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
     for (int length : lengths) {
-      // Generate content
-      String from = getRandomString(length, false);
-      String to = vary(from, .05);
-      List<CharToken> a = TestTokens.toCharTokens(from);
-      List<CharToken> b = TestTokens.toCharTokens(to);
-
-      ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new MyersGreedyAlgorithm2<>(), a, b, 10);
-      ProfileInfo.profileX(new MyersLinearAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new KumarRanganAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new HirschbergAlgorithm<>(), a, b, 10);
-      ProfileInfo.profileX(new WagnerFischerAlgorithm<>(), a, b, 10);
+      Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .05);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm2<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersLinearAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new KumarRanganAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new HirschbergAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new WagnerFischerAlgorithm<>(), p.a, p.b, 10);
     }
   }
 
   @Test
-  public void compareRandomString_1000_50() {
-    // Generate content
-    String from = getRandomString(1000, false);
-    String to = vary(from, .50);
-    List<CharToken> second = TestTokens.toCharTokens(from);
-    List<CharToken> first = TestTokens.toCharTokens(to);
-
-    ProfileInfo.profileX(new DefaultXMLProcessor(), first, second, 10);
-    ProfileInfo.profileX(new TextOnlyProcessor<>(), first, second, 10);
-    ProfileInfo.profileX(new OptimisticXMLProcessor(), first, second, 10);
+  @DisplayName("General algorithm / 500 to 10,000 chars / 25% variation")
+  public void compareGeneralAlgorithms_var25pct() {
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
+    for (int length : lengths) {
+      Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .25);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm2<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersLinearAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new KumarRanganAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new HirschbergAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new WagnerFischerAlgorithm<>(), p.a, p.b, 10);
+    }
   }
 
   @Test
+  @DisplayName("XML processors / 1,000 chars / 10% variation")
+  public void compareRandomString_1000_10() {
+    Pair<List<CharToken>> p = Profilers.getRandomStringPair(1_000, false, .10);
+    ProfileInfo.profileX(new DefaultXMLProcessor(), p.a, p.b, 10);
+    ProfileInfo.profileX(new TextOnlyProcessor<>(), p.a, p.b, 10);
+    ProfileInfo.profileX(new OptimisticXMLProcessor(), p.a, p.b, 10);
+  }
+
+  @Test
+  @DisplayName("XML processors / 1,000 chars / 50% variation")
+  public void compareRandomString_1000_50() {
+    Pair<List<CharToken>> p = Profilers.getRandomStringPair(1_000, false, .50);
+    ProfileInfo.profileX(new DefaultXMLProcessor(), p.a, p.b, 10);
+    ProfileInfo.profileX(new TextOnlyProcessor<>(), p.a, p.b, 10);
+    ProfileInfo.profileX(new OptimisticXMLProcessor(), p.a, p.b, 10);
+  }
+
+  @Test
+  @DisplayName("XML processors / Single element 1,000 chars / 5% variation")
   public void compareSingleElement_1000_20() throws DiffException {
-    // Generate content
-    String from = getRandomString(1000, true);
-    String to = vary(from, .05);
-    List<XMLToken> second = TestTokens.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
-    List<XMLToken> first = TestTokens.loadTokens("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
-    ProfileInfo.profileX(new DefaultXMLProcessor(), first, second, 10);
-    ProfileInfo.profileX(new OptimisticXMLProcessor(), first, second, 10);
+    String from = Profilers.getRandomString(1000, true);
+    String to = Profilers.vary(from, .05);
+    List<XMLToken> a = TestTokens.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
+    List<XMLToken> b = TestTokens.loadTokens("<root>" + to + "</root>", TextGranularity.SPACE_WORD);
+    ProfileInfo.profileX(new DefaultXMLProcessor(), a, b,10);
+    ProfileInfo.profileX(new OptimisticXMLProcessor(), a, b, 10);
   }
 
   @Test
   public void compareShallowXML() throws DiffException {
     // Generate content
-    StringBuilder xml1 = new StringBuilder();
-    StringBuilder xml2 = new StringBuilder();
-    generateXML(xml1, xml2, 50);
+    StringBuilder xmlA = new StringBuilder();
+    StringBuilder xmlB = new StringBuilder();
+    generateXML(xmlA, xmlB, 50);
 
     // Parse tokens
-    List<XMLToken> secondText = TestTokens.loadTokens(xml1.toString(), TextGranularity.TEXT);
-    List<XMLToken> firstText = TestTokens.loadTokens(xml2.toString(), TextGranularity.TEXT);
-    List<XMLToken> secondWord = TestTokens.loadTokens(xml1.toString(), TextGranularity.SPACE_WORD);
-    List<XMLToken> firstWord = TestTokens.loadTokens(xml2.toString(), TextGranularity.SPACE_WORD);
+    List<XMLToken> xmlAText = TestTokens.loadTokens(xmlA.toString(), TextGranularity.TEXT);
+    List<XMLToken> xmlBText = TestTokens.loadTokens(xmlB.toString(), TextGranularity.TEXT);
+    List<XMLToken> xmlAWord = TestTokens.loadTokens(xmlA.toString(), TextGranularity.SPACE_WORD);
+    List<XMLToken> xmlBWord = TestTokens.loadTokens(xmlB.toString(), TextGranularity.SPACE_WORD);
 
-    ProfileInfo.profileX(new DefaultXMLProcessor(), firstWord, secondWord, 10);
-    ProfileInfo.profileX(new OptimisticXMLProcessor(), firstWord, secondWord, 10);
-    ProfileInfo.profileX(new MyersGreedyXMLAlgorithm(), firstWord, secondWord, 10);
+    ProfileInfo.profileX(new DefaultXMLProcessor(), xmlAWord, xmlBWord,10);
+    ProfileInfo.profileX(new OptimisticXMLProcessor(), xmlAWord, xmlBWord,10);
+    ProfileInfo.profileX(new MyersGreedyXMLAlgorithm(), xmlAWord, xmlBWord,10);
 
-    ProfileInfo.profileX(new DefaultXMLProcessor(), firstText, firstText, 10);
-    ProfileInfo.profileX(new OptimisticXMLProcessor(), firstText, secondText, 10);
-    ProfileInfo.profileX(new MyersGreedyXMLAlgorithm(), firstText, secondText, 10);
+    ProfileInfo.profileX(new DefaultXMLProcessor(), xmlBText, xmlBText, 10);
+    ProfileInfo.profileX(new OptimisticXMLProcessor(), xmlBText, xmlAText, 10);
+    ProfileInfo.profileX(new MyersGreedyXMLAlgorithm(), xmlBText, xmlAText, 10);
 
   }
 
@@ -194,13 +171,13 @@ public class PerformanceTest {
   @Test
   public void compareCoalesce() throws DiffException {
     // Generate content
-    StringBuilder xml1 = new StringBuilder();
-    StringBuilder xml2 = new StringBuilder();
-    generateXML(xml1, xml2, 100);
+    StringBuilder xmlA = new StringBuilder();
+    StringBuilder xmlB = new StringBuilder();
+    generateXML(xmlA, xmlB, 100);
 
     // Parse tokens
-    List<XMLToken> secondText = TestTokens.loadTokens(xml1.toString(), TextGranularity.TEXT);
-    List<XMLToken> firstText = TestTokens.loadTokens(xml2.toString(), TextGranularity.TEXT);
+    List<XMLToken> secondText = TestTokens.loadTokens(xmlA.toString(), TextGranularity.TEXT);
+    List<XMLToken> firstText = TestTokens.loadTokens(xmlB.toString(), TextGranularity.TEXT);
 
     OptimisticXMLProcessor coalescingProcessor = new OptimisticXMLProcessor();
     coalescingProcessor.setCoalesce(true);

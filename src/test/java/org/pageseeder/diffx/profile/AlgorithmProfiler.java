@@ -28,14 +28,14 @@ import java.util.*;
 public class AlgorithmProfiler {
 
   public static void main(String[] args) {
-//    compareBySize();
-//    compareByDifference();
+    int times = 10;
+    compareBySize(times);
+    compareByDifference(times);
 
-    compareSideBySide(new MyersGreedyAlgorithm<>(), new MyersGreedyAlgorithm2<>());
+//    compareSideBySide(new MyersGreedyAlgorithm<>(), new MyersGreedyAlgorithm2<>());
   }
 
-  private static void compareBySize() {
-    final int times = 100;
+  private static void compareBySize(int times) {
     int[] lengths = new int[]{500, 1_000, 2_000, 5_000, 10_000, 20_000, 50_000};
     double[] variations = new double[]{ .05, .25 };
     NumberFormat sizeFormat = new DecimalFormat("#,###");
@@ -52,32 +52,27 @@ public class AlgorithmProfiler {
       System.out.println("Variation: "+(variation*100)+"%");
       Map<String, List<ProfileInfo>> results = new HashMap<>();
       for (DiffAlgorithm<CharToken> algorithm : algorithms) {
-        results.put(algorithm.getClass().getSimpleName(), new ArrayList<>());
+        results.put(Profilers.toName(algorithm), new ArrayList<>());
       }
       for (int length : lengths) {
-        // Generate content
-        String from = Profilers.getRandomString(length, false);
-        String to = Profilers.vary(from, variation);
-        List<CharToken> a = TestTokens.toCharTokens(from);
-        List<CharToken> b = TestTokens.toCharTokens(to);
-
+        Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, variation);
         for (DiffAlgorithm<CharToken> algorithm : algorithms) {
-          ProfileInfo info = ProfileInfo.profileX(algorithm, a, b, times, true);
-          results.get(algorithm.getClass().getSimpleName()).add(info);
+          ProfileInfo info = ProfileInfo.profileX(algorithm, p.a, p.b, times, true);
+          results.get(Profilers.toName(algorithm)).add(info);
         }
       }
 
       // Print results
       System.out.print("| Algorithm               |");
-      for (int length : lengths) System.out.print(" "+Profilers.padLeft(sizeFormat.format(length), 7)+" |");
+      for (int length : lengths) System.out.print(" "+Profilers.padLeft(sizeFormat.format(length), 9)+" |");
       System.out.println();
       System.out.print("| ----------------------- |");
-      for (int ignored : lengths) System.out.print(" ------- |");
+      for (int ignored : lengths) System.out.print(" --------- |");
       System.out.println();
-      for (Map.Entry<String, List<ProfileInfo>> entry : results.entrySet()) {
+      for (Map.Entry<String, List<ProfileInfo>> entry : sortEntries(results)) {
         System.out.print("| "+Profilers.padRight(entry.getKey(), 23) +" |");
         for (ProfileInfo info : entry.getValue()) {
-          System.out.print(" "+Profilers.padLeft(info.average() +"ms", 7)+" |");
+          System.out.print(" "+Profilers.padLeft(sizeFormat.format(info.average()), 9)+" |");
         }
         System.out.println();
       }
@@ -85,9 +80,7 @@ public class AlgorithmProfiler {
     }
   }
 
-
-  private static void compareByDifference() {
-    final int times = 100;
+  private static void compareByDifference(int times) {
     int[] lengths = new int[]{ 10_000 };
     double[] variations = new double[]{ .01, .05, .25, .5, .75, .99 };
     NumberFormat sizeFormat = new DecimalFormat("#,###");
@@ -104,32 +97,27 @@ public class AlgorithmProfiler {
       System.out.println("Length: "+sizeFormat.format(length));
       Map<String, List<ProfileInfo>> results = new HashMap<>();
       for (DiffAlgorithm<CharToken> algorithm : algorithms) {
-        results.put(algorithm.getClass().getSimpleName(), new ArrayList<>());
+        results.put(Profilers.toName(algorithm), new ArrayList<>());
       }
       for (double variation : variations) {
-        // Generate content
-        String from = Profilers.getRandomString(length, false);
-        String to = Profilers.vary(from, variation);
-        List<CharToken> a = TestTokens.toCharTokens(from);
-        List<CharToken> b = TestTokens.toCharTokens(to);
-
+        Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, variation);
         for (DiffAlgorithm<CharToken> algorithm : algorithms) {
-          ProfileInfo info = ProfileInfo.profileX(algorithm, a, b, times, true);
-          results.get(algorithm.getClass().getSimpleName()).add(info);
+          ProfileInfo info = ProfileInfo.profileX(algorithm, p.a, p.b, times, true);
+          results.get(Profilers.toName(algorithm)).add(info);
         }
       }
 
       // Print results
       System.out.print("| Algorithm               |");
-      for (double variation : variations) System.out.print(" "+Profilers.padLeft(""+variation*100, 7)+"% |");
+      for (double variation : variations) System.out.print(" "+Profilers.padLeft(sizeFormat.format(variation*100), 7)+"% |");
       System.out.println();
       System.out.print("| ----------------------- |");
-      for (double variation : variations) System.out.print(" ------- |");
+      for (double ignored : variations) System.out.print(" -------- |");
       System.out.println();
-      for (Map.Entry<String, List<ProfileInfo>> entry : results.entrySet()) {
+      for (Map.Entry<String, List<ProfileInfo>> entry : sortEntries(results)) {
         System.out.print("| "+Profilers.padRight(entry.getKey(), 23) +" |");
         for (ProfileInfo info : entry.getValue()) {
-          System.out.print(" "+Profilers.padLeft(info.average() +"ms", 7)+" |");
+          System.out.print(" "+Profilers.padLeft(sizeFormat.format(info.average()), 8)+" |");
         }
         System.out.println();
       }
@@ -139,26 +127,22 @@ public class AlgorithmProfiler {
 
 
   private static void compareSideBySide(DiffAlgorithm<CharToken> diff1, DiffAlgorithm<CharToken> diff2) {
-    String from = Profilers.getRandomString(10_000, false);
-    String to = Profilers.vary(from, .25);
-    List<CharToken> b = TestTokens.toCharTokens(from);
-    List<CharToken> a = TestTokens.toCharTokens(to);
+    Pair<List<CharToken>> p = Profilers.getRandomStringPair(10_000, false, .25);
 
     // warm up
-    ProfileInfo.profileX(diff1, a, b, 10);
-    ProfileInfo.profileX(diff2, a, b, 10);
+    ProfileInfo.profileX(diff1, p.a, p.b, 10);
+    ProfileInfo.profileX(diff2, p.a, p.b, 10);
 
-    Random r = new Random();
     int total1 = 0;
     int total2 = 0;
     for (int i=0; i < 1000; i++) {
-      if (i % 100 == 0) System.out.println(i+"...");
+      if (i % 100 == 0) System.out.println(i+"... "+ (total1 > total2? Profilers.toName(diff2) : Profilers.toName(diff1) ));
       if (i % 2 == 0) {
-        total2 += ProfileInfo.profile(diff2, a, b);
-        total1 += ProfileInfo.profile(diff1, a, b);
+        total2 += ProfileInfo.profile(diff2, p.a, p.b);
+        total1 += ProfileInfo.profile(diff1, p.a, p.b);
       } else {
-        total1 += ProfileInfo.profile(diff1, a, b);
-        total2 += ProfileInfo.profile(diff2, a, b);
+        total1 += ProfileInfo.profile(diff1, p.a, p.b);
+        total2 += ProfileInfo.profile(diff2, p.a, p.b);
       }
     }
     System.out.println();
@@ -172,5 +156,11 @@ public class AlgorithmProfiler {
     System.out.println("Faster: "+((total1 > total2) ? Profilers.toName(diff2) : Profilers.toName(diff1))+" by "+pct+"%");
   }
 
+
+  private static Iterable<Map.Entry<String, List<ProfileInfo>>> sortEntries(Map<String, List<ProfileInfo>> results) {
+    List<Map.Entry<String, List<ProfileInfo>>> entries = new ArrayList<>(results.entrySet());
+    entries.sort((entrya, entryb) -> (int)(entrya.getValue().get(0).average() - entryb.getValue().get(0).average()));
+    return entries;
+  }
 
 }

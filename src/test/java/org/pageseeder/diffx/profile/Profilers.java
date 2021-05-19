@@ -19,6 +19,10 @@ package org.pageseeder.diffx.profile;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.test.RandomStringFactory;
+import org.pageseeder.diffx.test.TestTokens;
+import org.pageseeder.diffx.token.impl.CharToken;
+
+import java.util.List;
 
 /**
  * Utility class for profilers
@@ -53,6 +57,14 @@ public final class Profilers {
 
   public static String toName(DiffAlgorithm<?> algorithm) {
     return algorithm.getClass().getSimpleName();
+  }
+
+  public static Pair<List<CharToken>> getRandomStringPair(int length, boolean spaces, double variation) {
+    String from = Profilers.getRandomString(length, false);
+    String to = Profilers.vary(from, variation);
+    List<CharToken> a = TestTokens.toCharTokens(from);
+    List<CharToken> b = TestTokens.toCharTokens(to);
+    return new Pair(a, b);
   }
 
 }
