@@ -73,7 +73,12 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
     } else {
       // Fallback on default diff
       if (DEBUG) System.err.println("Fast diff failed! Falling back on default diff");
-      fallbackDiffMyers(from, to, getFilter(handler), false);
+      try {
+        fallbackDiffMyers(from, to, getFilter(handler));
+      } catch (IllegalStateException ex) {
+        // In some rare cases Myers XML fails, we fallback on the matrix
+        fallbackDiffMatrix(from, to, getFilter(handler), false);
+      }
     }
   }
 
@@ -113,11 +118,10 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
     }
   }
 
-
   /**
    * Fall back on XML algorithm
    */
-  private void fallbackDiffMyers(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler, boolean coalesced) {
+  private void fallbackDiffMyers(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     MyersGreedyXMLAlgorithm algorithm = new MyersGreedyXMLAlgorithm();
     DiffHandler<XMLToken> actual = getFilter(handler);
     actual.start();
