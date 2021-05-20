@@ -53,6 +53,17 @@ public class OperationsBuffer<T> implements DiffHandler<T> {
     return this.operations;
   }
 
+  /**
+   * Count the number of operations of type INS or DEL.
+   *
+   * @return The number of edits in the buffer.
+   */
+  public int countEdits() {
+    int edits = 0;
+    for (Operation<?> op : this.operations) if (op.operator().isEdit()) edits++;
+    return edits;
+  }
+
   @Override
   public String toString() {
     return "OperationsBuffer";

@@ -57,6 +57,17 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
   }
 
   /**
+   * Count the number of atomic operations of type INS or DEL.
+   *
+   * @return The number of edits in the buffer.
+   */
+  public int countEdits() {
+    int edits = 0;
+    for (Action<?> action : this.actions) if (action.operator().isEdit()) edits += action.tokens().size();
+    return edits;
+  }
+
+  /**
    * Sets up the action prior to handling the operation.
    *
    * <p>If the action does not exist or is of a different type, create a new one
