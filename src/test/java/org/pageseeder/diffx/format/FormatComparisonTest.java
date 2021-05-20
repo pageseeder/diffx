@@ -33,7 +33,7 @@ import java.util.List;
 
 public class FormatComparisonTest {
 
-  private static void printDiffOutputs(String xml1, String xml2) throws IOException, DiffException {
+  private static void printDiffOutputs(String xml1, String xml2) throws DiffException {
     Sequence from = TestTokens.loadSequence(xml1, TextGranularity.SPACE_WORD);
     Sequence to = TestTokens.loadSequence(xml2, TextGranularity.SPACE_WORD);
     NamespaceSet namespaces = NamespaceSet.merge(from.getNamespaces(), to.getNamespaces());
@@ -49,23 +49,11 @@ public class FormatComparisonTest {
     return handler.getOperations();
   }
 
-  private static void printAllOutputs(List<Operation<XMLToken>> operations, NamespaceSet namespaces) throws IOException {
-    printSafeXMLFormatter(operations, namespaces);
+  private static void printAllOutputs(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
     printDefaultXMLOutput(operations, namespaces);
     printComprehensiveXMLOutput(operations, namespaces);
     printStrictXMLOutput(operations, namespaces);
     printReportXMLOutput(operations, namespaces);
-  }
-
-  private static void printSafeXMLFormatter(List<Operation<XMLToken>> operations, NamespaceSet namespaces) throws IOException {
-    StringWriter xml = new StringWriter();
-    XMLDiffXFormatter formatter = new SafeXMLFormatter(xml);
-    formatter.setWriteXMLDeclaration(false);
-    formatter.declarePrefixMapping(new org.pageseeder.diffx.sequence.PrefixMapping(namespaces));
-    format(operations, formatter);
-    xml.flush();
-    System.out.println(formatter.getClass().getSimpleName());
-    System.out.println(xml);
   }
 
   private static void printDefaultXMLOutput(List<Operation<XMLToken>> operations, NamespaceSet namespaces) {
@@ -106,23 +94,6 @@ public class FormatComparisonTest {
     output.start();
     Operations.handle(operations, output);
     output.end();
-  }
-
-  private static void format(List<Operation<XMLToken>> operations, DiffXFormatter formatter) throws IOException {
-    for (Operation<XMLToken> operation : operations) {
-      switch (operation.operator()) {
-        case MATCH:
-          formatter.format(operation.token());
-          break;
-        case INS:
-          formatter.insert(operation.token());
-          break;
-        case DEL:
-          formatter.delete(operation.token());
-          break;
-        default:
-      }
-    }
   }
 
   @Test

@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.DiffXConfig;
 
 /**
  * Base class for XML loaders.
@@ -47,16 +46,6 @@ abstract class XMLLoaderBase implements XMLLoader {
    */
   public void setConfig(DiffConfig config) {
     this.config = config;
-  }
-
-  /**
-   * Sets the configuration used by this loader.
-   *
-   * @param config The configuration used by this loader.
-   */
-  @Deprecated
-  public void setConfig(DiffXConfig config) {
-    this.config = config.toDiffConfig();
   }
 
 }

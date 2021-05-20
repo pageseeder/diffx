@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.sequence.EventSequence;
 import org.pageseeder.diffx.xml.Sequence;
 
 import java.io.PrintStream;
@@ -38,17 +37,6 @@ public final class MatrixProcessor<T> {
 
   public void setInverse(boolean inverse) {
     this.inverse = inverse;
-  }
-
-  /**
-   * @param first  The first sequence of tokens to test.
-   * @param second The second sequence of tokens to test.
-   *
-   * @return the matrix using dynamic programming
-   */
-  @Deprecated
-  public Matrix process(EventSequence first, EventSequence second) {
-    return process(first.getSequence(), second.getSequence());
   }
 
   /**

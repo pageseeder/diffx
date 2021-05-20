@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pageseeder.diffx.sequence;
+package org.pageseeder.diffx.xml;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class XMLSequenceFoldingTest {
+public class SequenceFoldingTest {
 
   private static Sequence getSequence(String xml) {
     try {

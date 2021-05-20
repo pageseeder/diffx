@@ -19,7 +19,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.impl.*;
@@ -30,10 +29,7 @@ public abstract class XMLLoader_Text_NoNS extends XMLLoaderTest {
 
   @Override
   public DiffConfig getConfig() {
-    DiffXConfig config = new DiffXConfig();
-    config.setNamespaceAware(false);
-    config.setGranularity(TextGranularity.TEXT);
-    return config.toDiffConfig();
+    return DiffConfig.getDefault().noNamespaces().granularity(TextGranularity.TEXT);
   }
 
   @Test

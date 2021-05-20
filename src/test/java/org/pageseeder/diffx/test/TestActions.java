@@ -20,12 +20,10 @@ import org.pageseeder.diffx.action.Actions;
 import org.pageseeder.diffx.action.ActionsBuffer;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.format.DefaultXMLDiffOutput;
-import org.pageseeder.diffx.format.DiffXFormatter;
 import org.pageseeder.diffx.format.XMLDiffOutput;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -53,30 +51,6 @@ public final class TestActions {
     Actions.handle(actions, output);
     output.end();
     return xml.toString();
-  }
-
-  @Deprecated
-  public static void format(List<Action<XMLToken>> actions, DiffXFormatter formatter) throws IOException {
-    for (Action<XMLToken> action : actions) {
-      switch (action.operator()) {
-        case MATCH:
-          for (XMLToken token : action.tokens()) {
-            formatter.format(token);
-          }
-          break;
-        case INS:
-          for (XMLToken token : action.tokens()) {
-            formatter.insert(token);
-          }
-          break;
-        case DEL:
-          for (XMLToken token : action.tokens()) {
-            formatter.delete(token);
-          }
-          break;
-        default:
-      }
-    }
   }
 
 }

@@ -16,7 +16,6 @@
 package org.pageseeder.diffx;
 
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.core.DefaultXMLProcessor;
@@ -118,12 +117,12 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Node xmlA, Node xmlB, Writer out, DiffXConfig config)
+  public static void diff(Node xmlA, Node xmlB, Writer out, DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
-      loader.setConfig(config.toDiffConfig());
+      loader.setConfig(config);
     }
     Sequence seq1 = loader.load(xmlA);
     Sequence seq2 = loader.load(xmlB);
@@ -144,12 +143,12 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(NodeList xmlA, NodeList xmlB, Writer out, DiffXConfig config)
+  public static void diff(NodeList xmlA, NodeList xmlB, Writer out, DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
     if (config != null) {
-      loader.setConfig(config.toDiffConfig());
+      loader.setConfig(config);
     }
     Sequence seq1 = loader.load(xmlA);
     Sequence seq2 = loader.load(xmlB);
@@ -168,12 +167,12 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Reader xmlA, Reader xmlB, Writer out, DiffXConfig config)
+  public static void diff(Reader xmlA, Reader xmlB, Writer out, DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
     if (config != null) {
-      loader.setConfig(config.toDiffConfig());
+      loader.setConfig(config);
     }
     Sequence seq1 = loader.load(new InputSource(xmlA));
     Sequence seq2 = loader.load(new InputSource(xmlB));

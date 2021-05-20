@@ -18,12 +18,12 @@ package org.pageseeder.diffx;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;
-import org.pageseeder.diffx.config.DiffXConfig;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.load.SAXLoader;
+import org.pageseeder.diffx.test.TestHandler;
 import org.pageseeder.diffx.xml.Sequence;
-import org.pageseeder.diffx.test.TestFormatter;
 import org.pageseeder.diffx.test.TestUtils;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -68,20 +68,18 @@ public final class MainTest {
    * Folder containing the resulting Diff XML.
    */
   private static final File result = new File(tmp, "result");
+
   /**
    * The diff-X configuration.
    */
-  private static final DiffXConfig config = new DiffXConfig();
+  private static final DiffConfig config = DiffConfig.getDefault()
+      .whitespace(WhiteSpaceProcessing.IGNORE)
+      .granularity(TextGranularity.WORD);
+
   /**
    * The XML reader.
    */
   private static XMLReader reader;
-
-  static {
-    config.setWhiteSpaceProcessing(WhiteSpaceProcessing.IGNORE);
-    config.setGranularity(TextGranularity.WORD);
-    System.err.println("Config: wsp=" + config.getWhiteSpaceProcessing() + " tg=" + config.getGranularity());
-  }
 
   /**
    * Initialises the XML reader.
@@ -199,13 +197,13 @@ public final class MainTest {
   private Sequence printSequence(File xml, PrintStream info) throws IOException {
     Sequence s = new Sequence();
     // report the sequence of tokens
-    SAXLoader recorder = new SAXLoader();
-    if (config != null) recorder.setConfig(config);
+    SAXLoader loader = new SAXLoader();
+    loader.setConfig(config);
     info.println("Printing sequence");
     info.println("  file = " + xml.getParent() + "\\" + xml.getName());
     try {
       long t0 = System.nanoTime();
-      s = recorder.load(xml);
+      s = loader.load(xml);
       long t1 = System.nanoTime();
       info.println("  size = " + s.size());
       info.println("  loading time = " + (t1 - t0) + "nanoseconds");
@@ -216,10 +214,8 @@ public final class MainTest {
     info.println("  size = " + s.size());
     info.println("::start");
     try {
-      s = recorder.load(xml);
-      TestFormatter tf1 = new TestFormatter();
-      tf1.format(s);
-      info.println(tf1.getOutput());
+      s = loader.load(xml);
+      info.println(TestHandler.format(s.tokens()));
     } catch (Exception ex) {
       info.println("Could no print the sequence, because of the following error:");
       ex.printStackTrace(info);

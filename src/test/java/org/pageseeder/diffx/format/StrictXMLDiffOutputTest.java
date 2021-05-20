@@ -17,7 +17,7 @@ package org.pageseeder.diffx.format;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.DiffXException;
+import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.xml.Sequence;
@@ -83,11 +83,11 @@ public final class StrictXMLDiffOutputTest {
   /**
    * Test open and closing an element.
    *
-   * @throws DiffXException Should an error occur whilst parsing one of the XML files.
+   * @throws DiffException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
   @Test
-  public void testOpenAndClose0() throws DiffXException, IOException {
+  public void testOpenAndClose0() throws DiffException, IOException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLEndElement("a"));
@@ -102,11 +102,11 @@ public final class StrictXMLDiffOutputTest {
   /**
    * Test formatting an attribute.
    *
-   * @throws DiffXException Should an error occur whilst parsing one of the XML files.
+   * @throws DiffException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
   @Test
-  public void testAttributes0() throws DiffXException, IOException {
+  public void testAttributes0() throws DiffException, IOException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLAttribute("", "x", "y"));
@@ -124,10 +124,10 @@ public final class StrictXMLDiffOutputTest {
    *
    * @param xml The first XML to test.
    *
-   * @throws DiffXException Should an error occur whilst parsing one of the XML files.
+   * @throws DiffException Should an error occur whilst parsing one of the XML files.
    * @throws IOException    Should an I/O error occur.
    */
-  private void assertEquivalentToXML(String xml) throws DiffXException, IOException {
+  private void assertEquivalentToXML(String xml) throws DiffException, IOException {
     // process the XML to get the sequence
     Sequence exp = this.recorder.load(xml);
     // process the output of the formatter

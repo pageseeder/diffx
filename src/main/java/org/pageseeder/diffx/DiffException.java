@@ -24,7 +24,7 @@ package org.pageseeder.diffx;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class DiffException extends DiffXException {
+public class DiffException extends Exception {
 
   /**
    * Creates a new Diff exception.

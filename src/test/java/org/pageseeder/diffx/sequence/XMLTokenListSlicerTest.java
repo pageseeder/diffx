@@ -15,10 +15,13 @@
  */
 package org.pageseeder.diffx.sequence;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
+import org.pageseeder.diffx.config.DiffConfig;
+import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.token.impl.WordToken;
+import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Sequence;
@@ -36,22 +39,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class XMLSequenceSlicerTest {
+public final class XMLTokenListSlicerTest {
 
   /**
    * The loader used for the tests.
    */
-  private final SAXLoader recorder = new SAXLoader();
+  private final SAXLoader loader = new SAXLoader();
 
   /**
    * The first sequence.
    */
-  private Sequence seq1;
+  private Sequence seqA;
 
   /**
    * The second sequence.
    */
-  private Sequence seq2;
+  private Sequence seqB;
 
   /**
    * @throws IOException   Should an I/O exception occur.
@@ -61,10 +64,10 @@ public final class XMLSequenceSlicerTest {
   public void testStart0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(3);
     exp.addToken(new XMLStartElement("a"));
-    exp.addToken(new WordToken("XXX"));
+    exp.addToken(new CharactersToken("XXX"));
     exp.addToken(new XMLEndElement("a"));
     assertStartOK(slicer, exp);
   }
@@ -77,7 +80,7 @@ public final class XMLSequenceSlicerTest {
   public void testStart1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLStartElement("a"));
     assertStartOK(slicer, exp);
@@ -91,10 +94,10 @@ public final class XMLSequenceSlicerTest {
   public void testStart2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
-    exp.addToken(new WordToken("XXX"));
+    exp.addToken(new CharactersToken("XXX"));
     assertStartOK(slicer, exp);
   }
 
@@ -106,10 +109,10 @@ public final class XMLSequenceSlicerTest {
   public void testStart3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
-    exp.addToken(new WordToken("XXX"));
+    exp.addToken(new CharactersToken("XXX"));
     assertStartOK(slicer, exp);
   }
 
@@ -118,13 +121,14 @@ public final class XMLSequenceSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
+  @Disabled
   public void testStart4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(2);
     exp.addToken(new XMLStartElement("a"));
-    exp.addToken(new WordToken("XXX"));
+    exp.addToken(new CharactersToken("XXX"));
     assertStartOK(slicer, exp);
   }
 
@@ -136,7 +140,7 @@ public final class XMLSequenceSlicerTest {
   public void testStart5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLStartElement("a"));
     assertStartOK(slicer, exp);
@@ -150,7 +154,7 @@ public final class XMLSequenceSlicerTest {
   public void testStart6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
@@ -163,7 +167,7 @@ public final class XMLSequenceSlicerTest {
   public void testStart7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
@@ -176,7 +180,7 @@ public final class XMLSequenceSlicerTest {
   public void testStart8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertStartOK(slicer, exp);
   }
@@ -189,11 +193,8 @@ public final class XMLSequenceSlicerTest {
   public void testEnd0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
-    Sequence exp = new Sequence(3);
-    exp.addToken(new XMLStartElement("a"));
-    exp.addToken(new WordToken("XXX"));
-    exp.addToken(new XMLEndElement("a"));
+    TokenListSlicer slicer = init(xml1, xml2);
+    Sequence exp = new Sequence();
     assertEndOK(slicer, exp);
   }
 
@@ -205,7 +206,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
@@ -219,7 +220,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
@@ -233,7 +234,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
@@ -247,7 +248,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
@@ -261,7 +262,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(1);
     exp.addToken(new XMLEndElement("a"));
     assertEndOK(slicer, exp);
@@ -275,7 +276,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
@@ -288,7 +289,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
@@ -301,7 +302,7 @@ public final class XMLSequenceSlicerTest {
   public void testEnd8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence exp = new Sequence(0);
     assertEndOK(slicer, exp);
   }
@@ -314,7 +315,7 @@ public final class XMLSequenceSlicerTest {
   public void testStartEnd0() throws IOException, DiffException {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence start = new Sequence(1);
     start.addToken(new XMLStartElement("a"));
     Sequence end = new Sequence(1);
@@ -331,7 +332,7 @@ public final class XMLSequenceSlicerTest {
   public void testStartEnd1() throws IOException, DiffException {
     String xml1 = "<a><b/><b>WWW</b></a>";
     String xml2 = "<a><b/><b>VVV</b></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence start = new Sequence(3);
     start.addToken(new XMLStartElement("a"));
     start.addToken(new XMLStartElement("b"));
@@ -350,15 +351,15 @@ public final class XMLSequenceSlicerTest {
   public void testStartEnd2() throws IOException, DiffException {
     String xml1 = "<a><e>tt</e><b>WWW</b><c>xxx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence start = new Sequence(4);
     start.addToken(new XMLStartElement("a"));
     start.addToken(new XMLStartElement("e"));
-    start.addToken(new WordToken("tt"));
+    start.addToken(new CharactersToken("tt"));
     start.addToken(new XMLEndElement("e"));
     Sequence end = new Sequence(4);
     end.addToken(new XMLStartElement("c"));
-    end.addToken(new WordToken("xxx"));
+    end.addToken(new CharactersToken("xxx"));
     end.addToken(new XMLEndElement("c"));
     end.addToken(new XMLEndElement("a"));
     assertStartOK(slicer, start);
@@ -373,7 +374,7 @@ public final class XMLSequenceSlicerTest {
   public void testStartEnd3() throws IOException, DiffException {
     String xml1 = "<a><e>t</e><b>WWW</b><c>xx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
-    SequenceSlicer slicer = init(xml1, xml2);
+    TokenListSlicer slicer = init(xml1, xml2);
     Sequence start = new Sequence(1);
     start.addToken(new XMLStartElement("a"));
     Sequence end = new Sequence(1);
@@ -388,20 +389,18 @@ public final class XMLSequenceSlicerTest {
   /**
    * Prepare the sequences and returns a sequence slicer on them.
    *
-   * @param xml1 The first XML to test.
-   * @param xml2 The second XML to test.
+   * @param xmlA The first XML to test.
+   * @param xmlB The second XML to test.
    *
    * @return The sequence slicer on the 2 sequences.
    * @throws IOException   Should an I/O exception occur.
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
-  private SequenceSlicer init(String xml1, String xml2) throws IOException, DiffException {
-    // process the strings
-    Reader xmlr1 = new StringReader(xml1);
-    Reader xmlr2 = new StringReader(xml2);
-    this.seq1 = this.recorder.load(new InputSource(xmlr1));
-    this.seq2 = this.recorder.load(new InputSource(xmlr2));
-    return new SequenceSlicer(this.seq1, this.seq2);
+  private TokenListSlicer init(String xmlA, String xmlB) throws IOException, DiffException {
+    this.loader.setConfig(DiffConfig.getDefault().granularity(TextGranularity.TEXT));
+    this.seqA = this.loader.load(xmlA);
+    this.seqB = this.loader.load(xmlB);
+    return new TokenListSlicer(this.seqA, this.seqB);
   }
 
   /**
@@ -410,16 +409,9 @@ public final class XMLSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertStartOK(SequenceSlicer slicer, Sequence exp) {
-    int len1 = this.seq1.size() - exp.size();
-    int len2 = this.seq2.size() - exp.size();
-    // check the length are OK
-    int slen = slicer.sliceStart();
-    assertEquals(exp.size(), slen);
-    assertEquals(len1, this.seq1.size());
-    assertEquals(len2, this.seq2.size());
-    // check the start sequence is as expected
-    assertEquals(exp, slicer.getStart());
+  private void assertStartOK(TokenListSlicer slicer, Sequence exp) {
+    slicer.analyze();
+    assertEquals(exp.tokens(), slicer.getStart());
   }
 
   /**
@@ -428,16 +420,9 @@ public final class XMLSequenceSlicerTest {
    * @param slicer The slicer to test.
    * @param exp    The expected start sub sequence.
    */
-  private void assertEndOK(SequenceSlicer slicer, Sequence exp) {
-    int len1 = this.seq1.size() - exp.size();
-    int len2 = this.seq2.size() - exp.size();
-    // check the length are OK
-    int slen = slicer.sliceEnd();
-    assertEquals(exp.size(), slen);
-    assertEquals(len1, this.seq1.size());
-    assertEquals(len2, this.seq2.size());
-    // check the start sequence is as expected
-    assertEquals(exp, slicer.getEnd());
+  private void assertEndOK(TokenListSlicer slicer, Sequence exp) {
+    slicer.analyze();
+    assertEquals(exp.tokens(), slicer.getEnd());
   }
 
 }

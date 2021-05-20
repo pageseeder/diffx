@@ -16,7 +16,6 @@
 package org.pageseeder.diffx.load.text;
 
 import org.pageseeder.diffx.config.DiffConfig;
-import org.pageseeder.diffx.config.DiffXConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 
 /**
@@ -60,20 +59,6 @@ public final class TokenizerFactory {
       default:
         throw new IllegalArgumentException("Unsupported text granularity " + granularity);
     }
-  }
-
-  /**
-   * Returns the text tokenizer.
-   *
-   * @param config The configuration to use.
-   *
-   * @return the corresponding tokenizer.
-   * @throws NullPointerException If the configuration is <code>null</code>.
-   */
-  @Deprecated
-  public static TextTokenizer get(DiffXConfig config) {
-    if (config == null) throw new NullPointerException("The config should be specified");
-    return get(config.toDiffConfig());
   }
 
 }

@@ -41,7 +41,6 @@ import java.util.List;
  * @since 0.7.0
  */
 public final class TokenListSlicer {
-  // FIXME: symmetrical slicing.
 
   /**
    * The first sequence of tokens to test.
