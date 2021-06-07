@@ -129,6 +129,16 @@ public final class DefaultXMLDiffOutputTest {
     assertEquivalentToXML("<a xmlns:del='https://www.pageseeder.org/diffx/delete' del:x='y'/>");
   }
 
+  @Test
+  public void testDoubleRoot() throws LoadingException {
+    // If XML are completely different, they may result in multiple document elements
+    this.output.handle(INS, new XMLStartElement("b"));
+    this.output.handle(INS, new XMLEndElement("b"));
+    this.output.handle(DEL, new XMLStartElement("a"));
+    this.output.handle(DEL, new XMLEndElement("a"));
+    assertEquivalentToXML("<b xmlns:diff='https://www.pageseeder.org/diffx' diff:insert='true'/><a xmlns:diff='https://www.pageseeder.org/diffx' diff:delete='true'/>");
+  }
+
 // helpers ------------------------------------------------------------------------------------
 
   /**
@@ -141,9 +151,9 @@ public final class DefaultXMLDiffOutputTest {
   private void assertEquivalentToXML(String xml) throws LoadingException {
     // process the XML to get the sequence
     SAXLoader loader = new SAXLoader();
-    Sequence exp = loader.load(xml);
+    Sequence exp = loader.load("<root>"+xml+"</root>");
     // process the output of the output
-    Sequence seq = loader.load(this.w.toString());
+    Sequence seq = loader.load("<root>"+this.w.toString()+"</root>");
     try {
       assertEquals(exp, seq);
     } catch (AssertionError ex) {

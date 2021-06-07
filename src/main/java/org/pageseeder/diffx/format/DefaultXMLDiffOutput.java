@@ -51,6 +51,11 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
   final XMLWriterNSImpl xml;
 
   /**
+   * Required to keep track of namespaces
+   */
+  private int level = 0;
+
+  /**
    * Creates a new output on the standard output.
    *
    * @see System#out
@@ -74,7 +79,6 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
       if (this.includeXMLDeclaration) {
         this.xml.xmlDecl();
       }
-      declareNamespaces();
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
     }
@@ -82,12 +86,18 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
 
   @Override
   public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
+    if (this.level == 0) {
+      declareNamespaces();
+    }
     try {
       if (operator.isEdit()) {
         handleEdit(operator, token);
       } else {
         handleMatch(token);
       }
+      if (token.getType() == XMLTokenType.START_ELEMENT) this.level++;
+      else if (token.getType() == XMLTokenType.END_ELEMENT) this.level--;
+
       this.xml.flush();
     } catch (IOException ex) {
       throw new UncheckedIOException(ex);
@@ -108,12 +118,12 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
   }
 
   void handleEdit(Operator operator, XMLToken token) throws IOException {
-    if (token instanceof StartElementToken) {
+    if (token.getType() == XMLTokenType.START_ELEMENT) {
       token.toXML(this.xml);
       // insert an attribute to specify operator
       this.xml.attribute(getDiffNamespace().getUri(), operator == Operator.INS ? "insert" : "delete", "true");
 
-    } else if (token instanceof AttributeToken) {
+    } else if (token.getType() == XMLTokenType.ATTRIBUTE) {
       AttributeToken attribute = (AttributeToken) token;
       // NB We can't report inserted/deleted attributes with namespaces
       if (operator == Operator.INS) {
@@ -131,13 +141,13 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
         token.toXML(this.xml);
       }
 
-    } else if (token instanceof TextToken) {
+    } else if (token.getType() == XMLTokenType.TEXT) {
       // wrap the characters in a <ins/del> element
       this.xml.openElement(getDiffNamespace().getUri(), toElement(operator), false);
       token.toXML(this.xml);
       this.xml.closeElement();
 
-    } else if (token instanceof EndElementToken) {
+    } else if (token.getType() == XMLTokenType.END_ELEMENT) {
       token.toXML(this.xml);
 
     } else {
