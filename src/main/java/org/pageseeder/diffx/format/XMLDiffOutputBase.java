@@ -62,7 +62,7 @@ abstract class XMLDiffOutputBase implements XMLDiffOutput {
   /**
    * {@code true} (default) to include the XML namespace declaration when the {@link #start()} method is called.
    */
-  protected boolean includeXMLDeclaration = true;
+  protected boolean includeXMLDeclaration = false;
 
   protected boolean useLegacyNamespaces = false;
 
