@@ -92,9 +92,6 @@ public final class StrictXMLDiffOutput extends XMLDiffOutputBase implements XMLD
     output.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.TRUE);
     try {
       this.xml = output.createXMLStreamWriter(out);
-//      this.xml.setPrefix(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI);
-//      this.xml.setPrefix("dfx", Constants.BASE_NS_URI);
-//      this.xml.setDefaultNamespace(XMLConstants.NULL_NS_URI);
     } catch (XMLStreamException ex) {
       throw new IllegalStateException(ex);
     }

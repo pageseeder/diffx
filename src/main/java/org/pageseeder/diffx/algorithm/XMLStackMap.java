@@ -39,8 +39,6 @@ final class XMLStackMap {
   private Map<Integer, Deque<Operation<StartElementToken>>> previous = new HashMap<>();
 
   private Map<Integer, Deque<Operation<StartElementToken>>> stacks = new HashMap<>();
-//
-//  private Map<Integer, XMLToken> lastToken = new HashMap<>();
 
   XMLStackMap() {
   }
@@ -61,12 +59,7 @@ final class XMLStackMap {
     return this.stacks.get(k);
   }
 
-//  XMLToken getLastToken(int k) {
-//    return this.lastToken.get(k);
-//  }
-
   void update(int k, Operator operator, XMLToken token) {
-//    this.lastToken.put(k, token);
     Deque<Operation<StartElementToken>> stack = getStack(k);
     if (token instanceof StartElementToken) stack.push(new Operation<>(operator, (StartElementToken) token));
     if (token instanceof EndElementToken) stack.pop();
@@ -78,10 +71,6 @@ final class XMLStackMap {
       Deque<Operation<StartElementToken>> stack = getStack(k);
       Operation<StartElementToken> last = stack.peek();
       return last != null && last.operator() == operator && ((EndElementToken) token).match(last.token());
-//    } else if (token instanceof AttributeToken) {
-//      // Ensure that attribute comes after start element or another attribute
-//      XMLToken last = lastToken.get(k);
-//      return last instanceof StartElementToken || last instanceof AttributeToken;
     }
     return true;
   }
