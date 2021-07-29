@@ -29,7 +29,7 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
   /**
    * Set the maximum number of tokens comparisons that can be performed.
    *
-   * <p>If the number of tokens post-slicing is larger, it will throws an <code>IllegalArgumentException</code>.
+   * <p>If the number of tokens post-slicing is larger, it will throw an <code>IllegalArgumentException</code>.
    *
    * @param threshold Max number of token comparisons allowed
    */

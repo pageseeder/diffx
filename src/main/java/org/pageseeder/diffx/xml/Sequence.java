@@ -112,7 +112,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Adds an token to this sequence.
+   * Adds a token to this sequence.
    *
    * @param token The token to be added.
    */
@@ -121,7 +121,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Inserts an token to this sequence at the specified position.
+   * Inserts a token to this sequence at the specified position.
    *
    * @param i     The position of the token.
    * @param token The token to be added.
@@ -131,7 +131,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Adds an token to this sequence.
+   * Adds a token to this sequence.
    *
    * @param tokens The tokens to be added.
    */
@@ -151,7 +151,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Replaces an token of this sequence at the specified position.
+   * Replaces a token of this sequence at the specified position.
    *
    * @param index The 0-based index of the position.
    * @param token The token to be inserted.
@@ -163,7 +163,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Removes an token from this sequence at the specified position.
+   * Removes a token from this sequence at the specified position.
    *
    * @param index The 0-based index of the position.
    *

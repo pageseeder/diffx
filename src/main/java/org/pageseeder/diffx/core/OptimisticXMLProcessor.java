@@ -76,7 +76,7 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
       try {
         fallbackDiffMyers(from, to, getFilter(handler));
       } catch (IllegalStateException ex) {
-        // In some rare cases Myers XML fails, we fallback on the matrix
+        // In some rare cases Myers XML fails, we fall back on the matrix
         fallbackDiffMatrix(from, to, getFilter(handler), false);
       }
     }

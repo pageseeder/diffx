@@ -19,6 +19,7 @@ import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An action associated to a list of tokens.
@@ -65,16 +66,15 @@ public final class Action<T> {
    *
    * @param operator The type of action.
    *
-   * @throws NullPointerException If the given type is <code>null</code>.
+   * @throws NullPointerException If either parameter is null.
    */
   public Action(Operator operator, List<T> tokens) {
-    if (operator == null) throw new NullPointerException("An action must have a type.");
-    this.operator = operator;
-    this.tokens = tokens;
+    this.operator = Objects.requireNonNull(operator);
+    this.tokens = Objects.requireNonNull(tokens);
   }
 
   /**
-   * Add an token to the list for this action.
+   * Add a token to the list for this action.
    *
    * @param token The token to add.
    */
@@ -98,7 +98,7 @@ public final class Action<T> {
 
   /**
    * @return A new action using the opposite operator by swapping INS with DEL;
-   * or the same actions if operator is MATCH.
+   * or the same action if operator is MATCH.
    */
   public Action<T> flip() {
     return this.operator == Operator.MATCH ? this : new Action<>(this.operator.flip(), this.tokens);
@@ -115,13 +115,13 @@ public final class Action<T> {
 
   @Override
   public int hashCode() {
-    int result = operator.hashCode();
-    result = 31 * result + tokens.hashCode();
+    int result = this.operator.hashCode();
+    result = 31 * result + this.tokens.hashCode();
     return result;
   }
 
   @Override
   public String toString() {
-    return "Action{" + operator + "," + tokens + '}';
+    return "Action{" + this.operator + "," + this.tokens + '}';
   }
 }

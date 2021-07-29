@@ -28,6 +28,7 @@ public enum Operator {
    * An insertion.
    */
   INS(true) {
+
     /**
      * @return Always DEL
      */
@@ -36,7 +37,7 @@ public enum Operator {
     }
 
     /**
-     * @return Always "+"
+     * @return "+"
      */
     public String toString() {
       return "+";
@@ -48,15 +49,16 @@ public enum Operator {
    * A deletion.
    */
   DEL(true) {
+
     /**
-     * @return Always INS
+     * @return INS
      */
     public Operator flip() {
       return INS;
     }
 
     /**
-     * @return Always "-"
+     * @return "-"
      */
     public String toString() {
       return "-";
@@ -68,15 +70,16 @@ public enum Operator {
    * A match.
    */
   MATCH(false) {
+
     /**
-     * @return Always MATCH
+     * @return MATCH
      */
     public Operator flip() {
       return this;
     }
 
     /**
-     * @return Always "="
+     * @return "="
      */
     public String toString() {
       return "=";
@@ -98,7 +101,7 @@ public enum Operator {
    * @return true if the operator is an edit (insertion or deletion).
    */
   public boolean isEdit() {
-    return isEdit;
+    return this.isEdit;
   }
 
 }

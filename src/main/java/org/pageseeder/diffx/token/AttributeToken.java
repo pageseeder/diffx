@@ -22,7 +22,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 
 /**
- * An token for attributes.
+ * A token for attributes.
  *
  * @author Christophe Lauret
  * @version 0.9.0

@@ -134,14 +134,14 @@ public final class EdgeSnake {
   }
 
   /**
-   * @return The mid point of this snake segment
+   * @return The mid-point of this snake segment
    */
   public Point getMidPoint() {
     return new Point(this.getXMid(), this.getYMid());
   }
 
   /**
-   * @return The end point of this snake segment
+   * @return The end-point of this snake segment
    */
   public Point getEndPoint() {
     return new Point(this.getXEnd(), this.getYEnd());
@@ -156,7 +156,7 @@ public final class EdgeSnake {
   }
 
   /**
-   * @return The x-position of the mid point
+   * @return The x-position of the mid-point
    */
   public int getXMid() {
     if (this.direction.operator != Operator.DEL) return this.x;
@@ -164,7 +164,7 @@ public final class EdgeSnake {
   }
 
   /**
-   * @return The y-position of the mid point
+   * @return The y-position of the mid-point
    */
   public int getYMid() {
     if (this.direction.operator != Operator.INS) return this.y;

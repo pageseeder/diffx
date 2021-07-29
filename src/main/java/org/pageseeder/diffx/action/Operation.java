@@ -42,11 +42,11 @@ public final class Operation<T> {
   }
 
   public Operator operator() {
-    return operator;
+    return this.operator;
   }
 
   public T token() {
-    return token;
+    return this.token;
   }
 
   @Override

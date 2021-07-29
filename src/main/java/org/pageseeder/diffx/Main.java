@@ -273,7 +273,7 @@ public final class Main {
         System.err.println("Whitespace processing: " + config.granularity() + " " + config.whitespace());
       }
 
-      // get and setup the formatter
+      // get and set up the formatter
       Writer out = new OutputStreamWriter(getOutput(args), StandardCharsets.UTF_8);
       XMLDiffOutput output = getOutputFormat(args, out);
       if (output == null) return;
@@ -299,7 +299,7 @@ public final class Main {
   }
 
   /**
-   * Displays the usage on the System.err console
+   * Displays the usage on the <code>System.err</code> console
    */
   public static void usage() {
     System.err.println("Compare the SAX events returned by two XML files.");

@@ -102,7 +102,7 @@ public interface Matrix {
   boolean isGreaterY(int i, int j);
 
   /**
-   * Returns <code>true</code> we moving on the X direction is
+   * Returns <code>true</code> when moving on the X direction is
    * equivalent to moving on the Y direction.
    *
    * <p>if value(i+1, j) == value(i, j+1)
@@ -119,7 +119,7 @@ public interface Matrix {
    * Releases all the resources used only by this matrix object.
    *
    * <p>This class is not usable, until after invoking this method, unless
-   * it is setup again.
+   * it is set up again.
    */
   void release();
 

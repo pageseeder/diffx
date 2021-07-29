@@ -146,15 +146,15 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
     // Always replace the mapping for namespace URI directly
     Namespace previous = this.namespacesByUri.put(namespace.getUri(), namespace);
     if (previous != null) {
-      // If previously mapped we must removed the old prefix mapping
+      // If previously mapped we must remove the old prefix mapping
       this.namespacesByPrefix.remove(previous.getPrefix());
     }
     Namespace matching = this.namespacesByPrefix.put(namespace.getPrefix(), namespace);
     if (matching != null) {
-      // If previously mapped we must removed the old prefix mapping
+      // If previously mapped we must remove the old prefix mapping
       this.namespacesByUri.remove(matching.getUri());
     }
-    // But if prefix already used, we need too remap but we cannot remap the null namespace
+    // But if prefix already used, we need to remap but we cannot remap the null namespace
     if (matching != null && !matching.getUri().equals(XMLConstants.NULL_NS_URI)) {
       // By adding it again, it will get a new prefix
       add(matching);

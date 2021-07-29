@@ -29,7 +29,7 @@ import java.util.List;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class Actions {
+public final class Actions {
 
   /**
    * Generates the list of tokens from the list of actions.

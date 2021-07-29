@@ -63,7 +63,7 @@ public final class CommandLine {
    * @param name The name of the command line switch.
    * @param args The command line arguments.
    *
-   * @return <code>true</code> if the switch if available; <code>false</code> otherwise.
+   * @return <code>true</code> if the switch is available; <code>false</code> otherwise.
    */
   public static boolean hasSwitch(String name, String[] args) {
     if (args == null || name == null) return false;

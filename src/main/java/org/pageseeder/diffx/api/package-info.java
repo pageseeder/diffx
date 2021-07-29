@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 /**
- * Objects used to record the result or hold the state of a diff.
+ * List of high-level API for the diff tool.
+ *
+ * <p>Implementations are available in separate packages.
  */
-package org.pageseeder.diffx.action;
+package org.pageseeder.diffx.api;

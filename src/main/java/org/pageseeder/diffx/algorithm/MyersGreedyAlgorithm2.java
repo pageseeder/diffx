@@ -134,7 +134,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
       int x = 0;
       int y = 0;
 
-      // We following the vectors to get the snakes
+      // We are following the vectors to get the snakes
       for (int d = vectors.size() - 1; target.x() < sizeA || target.y() > sizeB; d--) {
         Vector vector = vectors.get(d);
         int k = target.x() - target.y();

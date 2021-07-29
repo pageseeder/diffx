@@ -38,7 +38,7 @@ final class Tokenizers {
    *
    * @param s the char sequence to look at.
    *
-   * @return the number of whitespace characters at the beginning of the sequence..
+   * @return the number of whitespace characters at the beginning of the sequence.
    */
   public static int getLeadingWhiteSpace(CharSequence s) {
     int i = 0;
@@ -59,7 +59,7 @@ final class Tokenizers {
    *
    * @param s the char sequence to look at.
    *
-   * @return the number of whitespace characters at the end of the sequence..
+   * @return the number of whitespace characters at the end of the sequence.
    */
   public static int getTrailingWhiteSpace(CharSequence s) {
     int i = 0;

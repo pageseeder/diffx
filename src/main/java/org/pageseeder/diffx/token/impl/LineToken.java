@@ -92,7 +92,7 @@ public final class LineToken extends TokenBase implements TextToken {
   /**
    * Returns the characters that this line represents.
    *
-   * <p>Note: this method will return the characters as used by Java (ie. Unicode), they
+   * <p>Note: this method will return the characters as used by Java (i.e. Unicode), they
    * may not be suitable for writing to an XML string.
    *
    * @return The characters that this line represents.

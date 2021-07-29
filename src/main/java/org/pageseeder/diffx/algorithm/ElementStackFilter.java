@@ -34,7 +34,7 @@ import java.util.Deque;
  *
  * <p>This class has two purposes, firstly to provide an object that is more specialised
  * than the generic lists and stack for use by the DiffX algorithms. Second, to delegate
- * some of the complexity of algorithm.
+ * some of the complexity to the algorithm.
  *
  * <p>This class has several methods that are similar to <code>List</code> interface
  * but does not implement it.
@@ -163,8 +163,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   }
 
   /**
-   * Removes all of the elements from this list.  The list will
-   * be empty after this call returns.
+   * Removes all the elements from this list.
    */
   public void clear() {
     this.elements.clear();

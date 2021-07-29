@@ -38,7 +38,7 @@ import java.util.List;
  * Loads the SAX events in an {@link Sequence}.
  *
  * <p>It is possible to specify the name of the XML reader implementation class.
- * By default this class will try to use the Crimson parser
+ * By default, this class will try to use the Crimson parser
  * <code>org.apache.crimson.parser.XMLReaderImpl</code>.
  *
  * <p>The XML reader implementation must support the following features settings
@@ -243,7 +243,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       // this method is only useful if the XML provides a Schema or DTD
       // to define in which cases whitespaces can be considered ignorable.
       // By default, all white spaces are significant and therefore reported
-      // by the characters method.
+      // by the 'characters' method.
     }
 
     @Override

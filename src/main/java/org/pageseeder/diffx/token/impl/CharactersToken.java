@@ -18,7 +18,7 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.TextToken;
 
 /**
- * An token corresponds to the "characters" SAX event.
+ * A token corresponds to the "characters" SAX event.
  *
  * <p>
  * This token can be used to represent the text content of entire element. Typically, this would

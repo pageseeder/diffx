@@ -158,7 +158,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param m      The length of the first sequence.
      * @param n      The length of the second sequence.
      * @param p      The length of LCS between indexes startA and endA.
-     *               Similarly between indexes b_start and b_end
+     *               Similarly, between indexes b_start and b_end
      */
     private void computeLCS(int startA, int endA, int startB, int endB, int m, int n, int p) {
       if (m - p < 2) {
@@ -286,7 +286,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param sign   This is used to mark whether to start from the beginning of the string
      *               or from the end of the string.
      * @param x      The length of characters not included in the LCS between indexes startA and endA.
-     *               Similarly between indexes startB and endB.
+     *               Similarly, between indexes startB and endB.
      *
      * @return Array of 1-indexes of B in LCS
      */
@@ -369,7 +369,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
         }
       }
 
-      // possibly an token from the A subsequence to delete
+      // possibly a token from the A subsequence to delete
       if (i < m) {
         this.handler.handle(Operator.DEL, this.A.get(i + startA));
       }
