@@ -205,6 +205,20 @@ public abstract class AdvancedXMLDiffTest extends AlgorithmTest<XMLToken> {
     assertDiffXMLOK(xmlA, xmlB, WORD);
   }
 
+  @Test
+  public void testAdvanced_OutOfList() throws LoadingException {
+    String xmlA = "<body><h2>Title</h2><div><p>Subtitle</p><ul><li>A</li></ul></div></body>";
+    String xmlB = "<body><h2>Title</h2><h2>Subtitle</h2><div><ul><li>A</li></ul></div></body>";
+    assertDiffXMLOK(xmlA, xmlB, WORD);
+  }
+
+  @Test
+  public void testAdvanced_OutOfList2() throws LoadingException {
+    String xmlA = "<root><body><h2>Title</h2><div><p>Subtitle</p><ul><li>A</li></ul></div></body></root>";
+    String xmlB = "<root><body><h2>Title</h2><h2>Subtitle</h2><div><ul><li>A</li></ul></div></body></root>";
+    assertDiffXMLOK(xmlA, xmlB, WORD);
+  }
+
   // helpers
   // --------------------------------------------------------------------------
 
