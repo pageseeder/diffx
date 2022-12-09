@@ -141,7 +141,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         int startX = vector.getX(k);
         int startY = startX - k;
 
-        if (!target.isSame(startX, startY))
+        if (target.isNotSame(startX, startY))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + target + " V:( " + startX + ", " + startY + " )");
 
         boolean up = (k == d + delta || (k != -d + delta && vector.getX(k - 1) < vector.getX(k + 1)));

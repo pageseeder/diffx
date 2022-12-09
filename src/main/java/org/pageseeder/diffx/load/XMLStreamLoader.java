@@ -33,6 +33,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +63,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
   @Override
   public Sequence load(File file) throws LoadingException, IOException {
     XMLInputFactory factory = toFactory(this.config);
-    try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+    try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
       XMLStreamReader reader = factory.createXMLStreamReader(in);
       return load(reader);
     } catch (XMLStreamException ex) {
@@ -140,7 +141,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     return sequence;
   }
 
-  protected static XMLInputFactory toFactory(DiffConfig config) {
+  static XMLInputFactory toFactory(DiffConfig config) {
     XMLInputFactory factory = XMLInputFactory.newInstance();
     factory.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
     factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);

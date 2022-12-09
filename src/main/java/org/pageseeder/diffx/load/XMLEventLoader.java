@@ -30,6 +30,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +50,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   @Override
   public Sequence load(File file) throws LoadingException, IOException {
     XMLInputFactory factory = XMLStreamLoader.toFactory(this.config);
-    try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+    try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
       XMLEventReader reader = factory.createXMLEventReader(in);
       return load(reader);
     } catch (XMLStreamException ex) {

@@ -19,7 +19,7 @@ package org.pageseeder.diffx;
  * The mother of all Diff-X exceptions.
  *
  * <p>This class is provided for convenience to distinguish between the purely
- * DiffX exceptions and exceptions of a different origin.
+ * DiffX exceptions and other exceptions.
  *
  * @author Christophe Lauret
  * @version 0.9.0

@@ -34,7 +34,7 @@ import java.util.Deque;
  *
  * <p>This class has two purposes, firstly to provide an object that is more specialised
  * than the generic lists and stack for use by the DiffX algorithms. Second, to delegate
- * some of the complexity to the algorithm.
+ * some complexity to the algorithm.
  *
  * <p>This class has several methods that are similar to <code>List</code> interface
  * but does not implement it.
@@ -147,7 +147,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   /**
    * Indicates whether the first specified token has priority over the second element.
    * <p>
-   * It only seem to be the case when the algorithm has the choice between an attribute and another
+   * It only seems to be the case when the algorithm has the choice between an attribute and another
    * element.
    *
    * @param token1 The token assumed to have priority.
@@ -156,6 +156,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    * @return <code>true</code> if first specified token has priority over the second element;
    * <code>false</code> otherwise.
    */
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   public boolean hasPriorityOver(XMLToken token1, XMLToken token2) {
     return token1 instanceof AttributeToken
         && !(token2 instanceof AttributeToken)

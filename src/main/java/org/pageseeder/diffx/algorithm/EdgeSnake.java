@@ -60,6 +60,17 @@ public final class EdgeSnake {
   }
 
   /**
+   * Defines the edited characters are inserted or deleted.
+   */
+  public final Direction direction;
+
+  /**
+   * The difference in length between the first and second sequence. This value is used as an offset between
+   * the forward k lines to the reverse ones
+   */
+  public final int delta;
+
+  /**
    * The x-position of the starting point
    */
   public int x;
@@ -70,11 +81,6 @@ public final class EdgeSnake {
   public int y;
 
   /**
-   * Defines the edited characters are inserted or deleted.
-   */
-  public Direction direction;
-
-  /**
    * The number of edited (inserted or deleted) elements.
    */
   public int edited;
@@ -83,12 +89,6 @@ public final class EdgeSnake {
    * The number of matching elements
    */
   public int matching;
-
-  /**
-   * The difference in length between the first and second sequence. This value is used as an offset between
-   * the forward k lines to the reverse ones
-   */
-  public int delta;
 
   /**
    * A value of 0 or 1 indicate an edge, where 0 means both objects are equal while 1 means there is either one
@@ -240,6 +240,7 @@ public final class EdgeSnake {
    *
    * @return true if the snake could be appended to this snake; false otherwise
    */
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   boolean append(EdgeSnake snake) {
     if (this.direction != snake.direction) return false;
     // TODO We could also compute when diagonals match

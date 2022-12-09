@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * An action associated to a list of tokens.
+ * An action associated with a list of tokens.
  * <p>
  * Wraps a token and binds it with an operator.
  * <p>

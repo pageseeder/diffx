@@ -25,6 +25,7 @@ public class MuxHandler<T> implements DiffHandler<T> {
 
   private final DiffHandler<T>[] handlers;
 
+  @SafeVarargs
   public MuxHandler(DiffHandler<T>... handlers) {
     this.handlers = handlers;
   }

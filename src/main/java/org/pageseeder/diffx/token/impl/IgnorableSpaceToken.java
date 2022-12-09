@@ -106,7 +106,7 @@ public final class IgnorableSpaceToken implements TextToken {
    * Returns the characters that this token represents.
    *
    * <p>
-   * Note: this method will return the characters as used by Java (ie. Unicode), they may not be
+   * Note: this method will return the characters as used by Java (i.e. Unicode), they may not be
    * suitable for writing to an XML string.
    *
    * @return The characters that this token represents.

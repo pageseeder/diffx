@@ -34,6 +34,8 @@ import org.xml.sax.InputSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Utility class to centralise the access to this API from the command line.
@@ -301,6 +303,7 @@ public final class Main {
   /**
    * Displays the usage on the <code>System.err</code> console
    */
+  @SuppressWarnings("SpellCheckingInspection")
   public static void usage() {
     System.err.println("Compare the SAX events returned by two XML files.");
     System.err.println("usage:");

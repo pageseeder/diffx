@@ -74,7 +74,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * Indicates whether the given document is a fragment.
    *
    * <p>A fragment is a portion of XML that is not necessarily well-formed by itself, because the
-   * namespace has been declared higher in the hierarchy, in which if the DOM tree was serialised
+   * namespace has been declared higher in the hierarchy, i.e. if the DOM tree was serialised
    * it would not produce well-formed XML.
    *
    * <p>This option indicates that the loader should try to generate the prefix mapping without

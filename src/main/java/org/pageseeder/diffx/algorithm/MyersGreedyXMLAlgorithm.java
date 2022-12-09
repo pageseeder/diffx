@@ -40,7 +40,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
   public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
     Instance instance = new Instance(from, to);
     List<EdgeSnake> snakes = instance.computePath();
-    // Auto-correct (required until we can fix the attributes)
+    // Autocorrect (required until we can fix the attributes)
     PostXMLFixer correction = new PostXMLFixer(handler);
     correction.start();
     handleResults(from, to, correction, snakes);
@@ -174,12 +174,12 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
         int yEnd = xEnd - k;
         if (DEBUG) System.out.println("D=" + d + " k=" + k + " x=" + xEnd + " y=" + yEnd);
 
-        if (!p.isSame(xEnd, yEnd))
+        if (p.isNotSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
         EdgeSnake solution = createToPoint(p, vector, k, d);
 
-        if (!p.isSame(solution.getXEnd(), solution.getYEnd()))
+        if (p.isNotSame(solution.getXEnd(), solution.getYEnd()))
           throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
         if (snakes.size() > 0) {

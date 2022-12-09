@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @link https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf
+ * @link <a href="https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf">Algorithm for Computing Maximal Common Subsequences D.S. Hirschberg</a>
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
 

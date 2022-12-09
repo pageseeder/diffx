@@ -39,8 +39,8 @@ public final class Point {
     return this.y;
   }
 
-  public boolean isSame(int x, int y) {
-    return x == this.x && y == this.y;
+  public boolean isNotSame(int x, int y) {
+    return x != this.x || y != this.y;
   }
 
   public Point plus(int x, int y) {

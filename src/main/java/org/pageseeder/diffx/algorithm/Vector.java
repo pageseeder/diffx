@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 /**
  * Hold x-positions of end-points on a k-line.
- *
+ * <p>
  * <q>
  * An array, V, contains the endpoints of the furthest reaching D-paths in elements V[- D], V[-D+ 2], . . . , V[D-2],
  * V[D]. By Lemma 1 this set of elements is disjoint from those where the endpoints of the (D+1)-paths will be stored

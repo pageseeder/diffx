@@ -23,6 +23,7 @@ import org.xml.sax.InputSource;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 /**
  * Defines loaders that are specific to XML.
@@ -36,7 +37,7 @@ import java.nio.charset.Charset;
 public interface XMLLoader extends Loader<XMLToken> {
 
   /**
-   * Loads the from XML tokens from the specified input source.
+   * Loads the XML tokens from the specified input source.
    *
    * @param is The input source.
    *
@@ -59,7 +60,7 @@ public interface XMLLoader extends Loader<XMLToken> {
    */
   @Override
   default Sequence load(File file) throws LoadingException, IOException {
-    try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+    try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
       return load(new InputSource(in));
     }
   }
@@ -76,7 +77,7 @@ public interface XMLLoader extends Loader<XMLToken> {
    */
   @Override
   default Sequence load(File file, Charset charset) throws LoadingException, IOException {
-    try (Reader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
+    try (Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), charset))) {
       return load(new InputSource(reader));
     }
   }

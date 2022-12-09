@@ -19,7 +19,7 @@ package org.pageseeder.diffx.token;
  * Defines a token that can be processed for diffing.
  *
  * <p>As many equality checks are performed, implementations must provide efficient
- * {@link #equals(Object)} and {@link #hashCode()} methods.</p>
+ * {@link Object#equals(Object)} and {@link #hashCode()} methods.</p>
  *
  * <p>Most equality checks are performed against other unequal tokens, so equality checks
  * should generally precompute or cache the hashcode and use it in equality check to speed

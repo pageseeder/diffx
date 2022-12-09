@@ -154,7 +154,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
       // If previously mapped we must remove the old prefix mapping
       this.namespacesByUri.remove(matching.getUri());
     }
-    // But if prefix already used, we need to remap but we cannot remap the null namespace
+    // But if prefix already used, we need to remap, but we cannot remap the null namespace
     if (matching != null && !matching.getUri().equals(XMLConstants.NULL_NS_URI)) {
       // By adding it again, it will get a new prefix
       add(matching);

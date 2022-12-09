@@ -53,6 +53,7 @@ import java.util.List;
  * @version 0.9.0
  * @since 0.6.0
  */
+@SuppressWarnings("JavadocLinkAsPlainText")
 public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
   /**

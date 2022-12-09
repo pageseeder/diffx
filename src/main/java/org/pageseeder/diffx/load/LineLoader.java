@@ -20,6 +20,7 @@ import org.pageseeder.diffx.token.impl.LineToken;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public final class LineLoader implements Loader<LineToken> {
    */
   @Override
   public List<LineToken> load(File file, Charset charset) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), charset))) {
       return getLines(reader);
     }
   }
