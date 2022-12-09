@@ -24,9 +24,7 @@ import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
-import org.pageseeder.diffx.util.Constants;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -43,17 +41,7 @@ public final class StrictXMLDiffOutputTest {
   /**
    * The namespace declaration.
    */
-  private static final String XML_DECL = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-
-  /**
-   * The namespace declaration.
-   */
   private static final String NS_DECL = "xmlns:diff=\"https://www.pageseeder.org/diffx\"";
-
-  /**
-   * The namespace declaration.
-   */
-  private static final String LEGACY_NS_DECL = "xmlns:dfx=\"" + Constants.BASE_NS_URI + '"';
 
   /**
    * The loader being tested.
@@ -75,7 +63,6 @@ public final class StrictXMLDiffOutputTest {
     this.w = new StringWriter();
     this.output = new StrictXMLDiffOutput(this.w);
     this.output.setWriteXMLDeclaration(false);
-    //  this.output.useLegacyNamespaces = true;
   }
 
 //opening and closing elements ---------------------------------------------------------------
@@ -84,10 +71,9 @@ public final class StrictXMLDiffOutputTest {
    * Test open and closing an element.
    *
    * @throws DiffException Should an error occur whilst parsing one of the XML files.
-   * @throws IOException    Should an I/O error occur.
    */
   @Test
-  public void testOpenAndClose0() throws DiffException, IOException {
+  public void testOpenAndClose0() throws DiffException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLEndElement("a"));
@@ -103,10 +89,9 @@ public final class StrictXMLDiffOutputTest {
    * Test formatting an attribute.
    *
    * @throws DiffException Should an error occur whilst parsing one of the XML files.
-   * @throws IOException    Should an I/O error occur.
    */
   @Test
-  public void testAttributes0() throws DiffException, IOException {
+  public void testAttributes0() throws DiffException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLAttribute("", "x", "y"));
@@ -125,9 +110,8 @@ public final class StrictXMLDiffOutputTest {
    * @param xml The first XML to test.
    *
    * @throws DiffException Should an error occur whilst parsing one of the XML files.
-   * @throws IOException    Should an I/O error occur.
    */
-  private void assertEquivalentToXML(String xml) throws DiffException, IOException {
+  private void assertEquivalentToXML(String xml) throws DiffException {
     // process the XML to get the sequence
     Sequence exp = this.recorder.load(xml);
     // process the output of the formatter
