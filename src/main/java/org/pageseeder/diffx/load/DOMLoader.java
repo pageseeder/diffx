@@ -17,6 +17,7 @@ package org.pageseeder.diffx.load;
 
 import org.pageseeder.diffx.api.Loader;
 import org.pageseeder.diffx.api.LoadingException;
+import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
 import org.pageseeder.diffx.load.text.TokenizerFactory;
 import org.pageseeder.diffx.token.*;
@@ -30,6 +31,7 @@ import org.xml.sax.InputSource;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -98,10 +100,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   @Override
   public Sequence load(InputSource is) throws LoadingException {
     this.isFragment = false; // input source is not a fragment
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    dbFactory.setNamespaceAware(this.config.isNamespaceAware());
-    dbFactory.setExpandEntityReferences(true);
-    dbFactory.setValidating(false);
+    DocumentBuilderFactory dbFactory = newDocumentBuilderFactory(this.config);
     try {
       DocumentBuilder builder = dbFactory.newDocumentBuilder();
       Document document = builder.parse(is);
@@ -304,4 +303,21 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
+  private static DocumentBuilderFactory newDocumentBuilderFactory(DiffConfig config) {
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    if (!config.allowDoctypeDeclaration()) {
+      try {
+        // If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
+        dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+      } catch (ParserConfigurationException ex) {
+        // This should catch a failed setFeature feature
+        System.err.println("Disallowing doctype declaration is probably not supported by your XML processor.");
+      }
+    }
+    dbFactory.setNamespaceAware(config.isNamespaceAware());
+    dbFactory.setExpandEntityReferences(true);
+    dbFactory.setValidating(false);
+    return dbFactory;
+  }
 }

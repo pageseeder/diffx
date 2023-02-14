@@ -57,4 +57,13 @@ public final class SAXLoaderTest {
       return configureLoader(config);
     }
   }
+
+  @Nested
+  @DisplayName("XXE")
+  public class XXE extends XMLLoader_XXE {
+    @Override
+    public XMLLoader newXMLLoader(DiffConfig config) {
+      return configureLoader(config);
+    }
+  }
 }

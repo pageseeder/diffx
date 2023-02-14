@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE foo [
+  <!ELEMENT foo ANY >
+  <!ENTITY version SYSTEM  "https://raw.githubusercontent.com/pageseeder/diffx/master/version.txt" >]>
+<foo>&version;</foo>

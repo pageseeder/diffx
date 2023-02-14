@@ -40,14 +40,21 @@ public final class DiffConfig {
 
   private final TextGranularity granularity;
 
+  private final boolean allowDoctypeDeclaration;
+
   public DiffConfig(WhiteSpaceProcessing whitespace, TextGranularity granularity) {
-    this(true, whitespace, granularity);
+    this(true, whitespace, granularity, false);
   }
 
   public DiffConfig(boolean isNamespaceAware, WhiteSpaceProcessing whitespace, TextGranularity granularity) {
+    this(true, whitespace, granularity, false);
+  }
+
+  private DiffConfig(boolean isNamespaceAware, WhiteSpaceProcessing whitespace, TextGranularity granularity, boolean allowDoctypeDeclaration) {
     this.isNamespaceAware = isNamespaceAware;
     this.whitespace = whitespace;
     this.granularity = granularity;
+    this.allowDoctypeDeclaration = allowDoctypeDeclaration;
   }
 
   /**
@@ -55,6 +62,15 @@ public final class DiffConfig {
    */
   public boolean isNamespaceAware() {
     return this.isNamespaceAware;
+  }
+
+  /**
+   * Indicates whether Diffx allows doctype declarations.
+   *
+   * Note: Allowing doctype declaration potentially exposes to XML External Entity (XXE) attacks.
+   */
+  public boolean allowDoctypeDeclaration() {
+    return this.allowDoctypeDeclaration;
   }
 
   /**
@@ -93,7 +109,7 @@ public final class DiffConfig {
    * @return a new instance
    */
   public DiffConfig granularity(TextGranularity granularity) {
-    return new DiffConfig(this.isNamespaceAware, this.whitespace, granularity);
+    return new DiffConfig(this.isNamespaceAware, this.whitespace, granularity, this.allowDoctypeDeclaration);
   }
 
   /**
@@ -102,7 +118,7 @@ public final class DiffConfig {
    * @return a new instance
    */
   public DiffConfig whitespace(WhiteSpaceProcessing whitespace) {
-    return new DiffConfig(this.isNamespaceAware, whitespace, this.granularity);
+    return new DiffConfig(this.isNamespaceAware, whitespace, this.granularity, this.allowDoctypeDeclaration);
   }
 
   /**
@@ -111,7 +127,16 @@ public final class DiffConfig {
    * @return a new instance
    */
   public DiffConfig noNamespaces() {
-    return new DiffConfig(false, whitespace, this.granularity);
+    return new DiffConfig(false, whitespace, this.granularity, this.allowDoctypeDeclaration);
+  }
+
+  /**
+   * Create a new config to allow or disallow doctype declarations
+   *
+   * @return a new instance
+   */
+  public DiffConfig allowDoctypeDeclaration(boolean allow) {
+    return new DiffConfig(this.isNamespaceAware, this.whitespace, this.granularity, allow);
   }
 
   @Override

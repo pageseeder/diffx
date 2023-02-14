@@ -145,8 +145,17 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       reader.setFeature("http://xml.org/sax/features/validation", false);
       reader.setFeature("http://xml.org/sax/features/namespaces", config.isNamespaceAware());
       reader.setFeature("http://xml.org/sax/features/namespace-prefixes", !config.isNamespaceAware());
+      if (!config.allowDoctypeDeclaration()) {
+        // To prevent XXE
+        reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      }
+      reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+      // This may not be strictly required as DTDs shouldn't be allowed at all, per previous line.
+      reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+      reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
       return reader;
     } catch (SAXException ex) {
+      ex.printStackTrace();
       throw new LoadingException(ex);
     }
   }

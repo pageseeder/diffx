@@ -92,6 +92,7 @@ public final class MainTest {
     reader.setFeature("http://xml.org/sax/features/validation", false);
     reader.setFeature("http://xml.org/sax/features/namespaces", true);
     reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
+
   }
 
   /**

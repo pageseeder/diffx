@@ -146,6 +146,12 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     factory.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
     factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
     factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, config.isNamespaceAware() ? Boolean.TRUE : Boolean.FALSE);
+    // To prevent XXE
+    if (!config.allowDoctypeDeclaration()) {
+      factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+    }
+    factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+    factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
     return factory;
   }
 
