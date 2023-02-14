@@ -13,7 +13,7 @@ apply from: 'gradle/publish-mavencentral.gradle'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
   options.encoding = 'UTF-8'
 }
 
@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
 
-  compileOnly('org.jetbrains:annotations:21.0.1')
+  compileOnly('org.jetbrains:annotations:24.0.0')
 
   implementation('org.pageseeder.xmlwriter:pso-xmlwriter:1.0.4')
 
