@@ -34,6 +34,8 @@ import org.xml.sax.InputSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Utility class to centralise the access to this API from the command line.
@@ -251,8 +253,8 @@ public final class Main {
       boolean allowDoctype = CommandLine.hasSwitch("-allowdoctype", args);
 
       // get the files
-      File xmlA = new File(args[args.length - 2]);
-      File xmlB = new File(args[args.length - 1]);
+      File xmlA = toFile(args[args.length - 2]);
+      File xmlB = toFile(args[args.length - 1]);
 
       // loading
       // TODO Use nanotime for profiling
@@ -295,7 +297,7 @@ public final class Main {
         System.err.println("Executed algorithm files in " + (t2 - t1) + "ms");
       }
 
-    } catch (Throwable ex) {
+    } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
@@ -355,11 +357,11 @@ public final class Main {
    * @return The output to use.
    * @throws FileNotFoundException If the file does not exist.
    */
-  private static OutputStream getOutput(String[] args) throws FileNotFoundException {
+  private static OutputStream getOutput(String[] args) throws IOException {
     String outArg = CommandLine.getParameter("-o", args);
     if (outArg == null)
       return System.out;
-    return new BufferedOutputStream(new FileOutputStream(outArg));
+    return new BufferedOutputStream(Files.newOutputStream(Paths.get(outArg)));
   }
 
   /**
@@ -431,5 +433,16 @@ public final class Main {
       return TextGranularity.CHARACTER;
     usage();
     return null;
+  }
+
+  private static File toFile(String arg) {
+    try {
+      File f = new File(arg).getCanonicalFile();
+      if (!f.exists() || f.isDirectory() || !f.canRead())
+        throw new IllegalArgumentException("File does not exist, cannot be read or is a directory");
+      return f;
+    } catch (IOException ex) {
+      throw new IllegalArgumentException("Illegal file argument", ex);
+    }
   }
 }
