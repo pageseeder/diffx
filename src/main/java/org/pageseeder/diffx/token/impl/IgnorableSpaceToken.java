@@ -82,6 +82,7 @@ public final class IgnorableSpaceToken implements TextToken {
    */
   @Override
   public boolean equals(Object o) {
+    if (o == null) return false;
     return o.getClass() == this.getClass();
   }
 
