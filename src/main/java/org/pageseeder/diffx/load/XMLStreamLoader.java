@@ -64,6 +64,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
   public Sequence load(File file) throws LoadingException, IOException {
     XMLInputFactory factory = toFactory(this.config);
     try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
+      // XMLInputFactory should be configured to prevent XXE (unless explicitly requested by config)
       XMLStreamReader reader = factory.createXMLStreamReader(in);
       return load(reader);
     } catch (XMLStreamException ex) {
