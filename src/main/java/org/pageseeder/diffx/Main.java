@@ -34,8 +34,6 @@ import org.xml.sax.InputSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Utility class to centralise the access to this API from the command line.
@@ -250,6 +248,7 @@ public final class Main {
     try {
       boolean profile = CommandLine.hasSwitch("-profile", args);
       boolean quiet = CommandLine.hasSwitch("-quiet", args);
+      boolean allowDoctype = CommandLine.hasSwitch("-allowdoctype", args);
 
       // get the files
       File xmlA = new File(args[args.length - 2]);
@@ -270,7 +269,8 @@ public final class Main {
       // get the config
       DiffConfig config = DiffConfig.getDefault()
           .granularity(getTextGranularity(args))
-          .whitespace(getWhiteSpaceProcessing(args));
+          .whitespace(getWhiteSpaceProcessing(args))
+          .allowDoctypeDeclaration(allowDoctype);
       if (!quiet) {
         System.err.println("Whitespace processing: " + config.granularity() + " " + config.whitespace());
       }

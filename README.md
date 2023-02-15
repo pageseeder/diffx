@@ -71,6 +71,11 @@ Displays some profiling information on the error output
 
 Prevents Diff-X from "slicing" the XML. Diff-X uses slicing to remove common subsequences at the beginning and at the end of the sequence of XML events.
 
+### `-allowdoctype` option
+
+To prevent XML External Entity (XXE) attacks, doctype declarations are not allowed in the source XML. 
+Use this option, to override this setting. 
+
 ### `-A [algo]` option
 
 Choose a specific algorithm implementation to use. 
