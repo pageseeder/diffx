@@ -155,7 +155,6 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
       return reader;
     } catch (SAXException ex) {
-      ex.printStackTrace();
       throw new LoadingException(ex);
     }
   }
