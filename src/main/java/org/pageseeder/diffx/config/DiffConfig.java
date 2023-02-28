@@ -30,7 +30,8 @@ package org.pageseeder.diffx.config;
  * throughout the three steps of processing.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.1.0
+ * @since 0.9.0
  */
 public final class DiffConfig {
 
@@ -67,7 +68,7 @@ public final class DiffConfig {
   /**
    * Indicates whether Diffx allows doctype declarations.
    *
-   * Note: Allowing doctype declaration potentially exposes to XML External Entity (XXE) attacks.
+   * <p>Note: Allowing doctype declaration potentially exposes to XML External Entity (XXE) attacks.
    */
   public boolean allowDoctypeDeclaration() {
     return this.allowDoctypeDeclaration;

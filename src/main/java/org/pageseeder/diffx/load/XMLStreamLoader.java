@@ -46,7 +46,7 @@ import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
  * Loads the XML tokens using an {@link XMLStreamLoader}.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.1.0
  * @since 0.9.0
  */
 public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
@@ -62,9 +62,11 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
    */
   @Override
   public Sequence load(File file) throws LoadingException, IOException {
-    XMLInputFactory factory = toFactory(this.config);
     try (InputStream in = new BufferedInputStream(Files.newInputStream(file.toPath()))) {
-      // XMLInputFactory should be configured to prevent XXE (unless explicitly requested by config)
+      XMLInputFactory factory = toFactory(this.config);
+      factory.setProperty(XMLInputFactory.SUPPORT_DTD, this.config.allowDoctypeDeclaration());
+      factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
       XMLStreamReader reader = factory.createXMLStreamReader(in);
       return load(reader);
     } catch (XMLStreamException ex) {
@@ -144,15 +146,13 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
 
   static XMLInputFactory toFactory(DiffConfig config) {
     XMLInputFactory factory = XMLInputFactory.newInstance();
-    factory.setProperty(XMLInputFactory.IS_COALESCING, Boolean.TRUE);
-    factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
-    factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, config.isNamespaceAware() ? Boolean.TRUE : Boolean.FALSE);
+    factory.setProperty(XMLInputFactory.IS_COALESCING, true);
+    factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, true);
+    factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, config.isNamespaceAware());
     // To prevent XXE
-    if (!config.allowDoctypeDeclaration()) {
-      factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-    }
+    factory.setProperty(XMLInputFactory.SUPPORT_DTD, config.allowDoctypeDeclaration());
     factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-    factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+    factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
     return factory;
   }
 

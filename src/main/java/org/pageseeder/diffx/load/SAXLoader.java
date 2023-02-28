@@ -50,7 +50,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 0.9.0
+ * @version 1.1.0
  * @since 0.6.0
  */
 @SuppressWarnings("JavadocLinkAsPlainText")

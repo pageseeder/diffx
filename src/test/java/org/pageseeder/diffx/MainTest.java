@@ -31,10 +31,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -52,6 +54,7 @@ import java.util.Date;
  * 2. add the two files to compare as 'a.xml' and 'b.xml'
  *
  * @author Christophe Lauret
+ * @version 1.1.0
  * @version 0.9.0
  */
 public final class MainTest {
@@ -77,22 +80,24 @@ public final class MainTest {
       .granularity(TextGranularity.WORD);
 
   /**
-   * The XML reader.
-   */
-  private static XMLReader reader;
-
-  /**
    * Initialises the XML reader.
    *
    * @throws SAXException If one of the features could not be set.
    */
-  @BeforeAll
-  public static void setUpXMLReader() throws SAXException {
-    reader = XMLReaderFactory.createXMLReader();
+  private static XMLReader reader() throws SAXException {
+    XMLReader reader = XMLReaderFactory.createXMLReader();
     reader.setFeature("http://xml.org/sax/features/validation", false);
     reader.setFeature("http://xml.org/sax/features/namespaces", true);
     reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
-
+    if (!config.allowDoctypeDeclaration()) {
+      // To prevent XXE
+      reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+    }
+    reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    // This may not be strictly required as DTDs shouldn't be allowed at all, per previous line.
+    reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+    reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+    return reader;
   }
 
   /**
@@ -133,7 +138,7 @@ public final class MainTest {
       if (xml1.exists() && xml2.exists()) {
         // setup the info print writer
         File infoFile = new File(rc, "info.txt");
-        PrintStream info = new PrintStream(new BufferedOutputStream(new FileOutputStream(infoFile)), true);
+        PrintStream info = new PrintStream(new BufferedOutputStream(Files.newOutputStream(infoFile.toPath())), true);
         // print the sequences
         Sequence s1 = printSequence(xml1, info);
         Sequence s2 = printSequence(xml2, info);
@@ -164,7 +169,7 @@ public final class MainTest {
     File rc = new File(result, xml1.getParentFile().getName());
     File out = new File(rc, (x > 0) ? "a-b.xml" : "b-a.xml");
     PrintStream tmp = System.err;
-    try (Writer diff = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+    try (Writer diff = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(out.toPath()), StandardCharsets.UTF_8))) {
       info.println("  diff(" + xml1.getParent() + "," + xml2.getParent() + ") -> " + out.getName());
       long t0 = new Date().getTime();
       System.setErr(info);
@@ -237,7 +242,7 @@ public final class MainTest {
   private void verifyWellFormed(File xml, PrintStream info) throws IOException {
     // check that it is well-formed with SAX
     try {
-      reader.parse(new InputSource(xml.getCanonicalPath()));
+      reader().parse(new InputSource(xml.getCanonicalPath()));
     } catch (SAXException ex) {
       System.err.println(xml.getName() + " is not well formed.");
       info.println("[!] XML is NOT well-formed.");
@@ -257,6 +262,9 @@ public final class MainTest {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     factory.setNamespaceAware(isNSAware);
     try {
+      // If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
+      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       DocumentBuilder builder = factory.newDocumentBuilder();
       return builder.parse(xml);
     } catch (Exception ex) {
