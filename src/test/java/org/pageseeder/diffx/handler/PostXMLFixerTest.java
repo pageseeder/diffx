@@ -21,27 +21,88 @@ import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.test.TestOperations;
 import org.pageseeder.diffx.token.XMLToken;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 
-public class PostXMLFixerTest {
+public final class PostXMLFixerTest {
 
   @Test
   public void testNoChange() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
-    System.out.println(result);
+    assertEquals(operations, result);
   }
 
   @Test
-  public void testExample1() {
+  public void testExample1A() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "</a>", "+</b>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+<b>", "+</b>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
-    System.out.println(result);
+    assertEquals(expect, result);
   }
 
   @Test
-  public void testExample2() {
+  public void testExample1B() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("+<b>", "<a>", "+</b>", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("+<b>", "<a>", "</a>", "+</b>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
 
+  @Test
+  public void testExample2A() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "-<i>", "</a>", "+</b>", "-</i>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "+</b>", "-</i>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  public void testExample2B() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "</a>", "+</b>", "-</i>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "+</b>", "-</i>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  public void testAttribute1() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-Y", "+@m=x", "+X", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+@m=x", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  public void testAttribute2() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-@m=y", "-Y", "+@m=x", "+X", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  public void testExample2C() {
+    // (-) <f> <l><i> <b>x</b> <n/>        a</i></l></f>
+    // (+) <f> <p>    <b>x</b> </p><l><i>  a</i></l></f>
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations(
+      "<f>",
+        "-<l>", "-<i>", "+<p>",
+        "<b>", "x", "</b>",
+        "-<n>", "-</n>", "+</p>", "+<l>", "+<i>",
+        "a", "</i>", "</l>", "</f>"
+    );
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations(
+        "<f>",
+              "-<l>", "-<i>", "+<p>",
+              "<b>", "x", "</b>",
+              "+</p>", "+<l>", "+<i>", "-<n>", "-</n>",
+              "a", "+</i>", "+</l>", "-</i>", "-</l>",
+              "</f>"
+    );
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
   }
 
   private List<Operation<XMLToken>> fix(List<Operation<XMLToken>> source) {

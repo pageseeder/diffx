@@ -182,8 +182,10 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
   @Override
   public void end() {
     flushChanges();
-    // May be necessary if an unclosed unchanged element remains
-    sendMatchingEndElement();
+    // May be necessary if some unclosed unchanged element remains
+    while (!this.unclosed.isEmpty()) {
+      sendMatchingEndElement();
+    }
   }
 
   private static class NilToken implements XMLToken {
