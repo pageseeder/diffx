@@ -63,7 +63,6 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
     if (seq.length() == 0) return Collections.emptyList();
     // We assume that on average we generate 1 token per 4 chars
     List<TextToken> tokens = new ArrayList<>(seq.length() / 4);
-
     Pattern p = Pattern.compile("( ?[\\p{L}\\p{M}0-9_'@/$.-]*[\\p{L}\\p{M}0-9_%])|(\\S)|( ?[\"(][^ \\t\\r\\n\\f'\"()]+[\")])");
     Matcher m = p.matcher(seq);
     int index = 0;

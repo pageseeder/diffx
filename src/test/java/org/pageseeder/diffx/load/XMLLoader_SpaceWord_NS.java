@@ -167,6 +167,47 @@ public abstract class XMLLoader_SpaceWord_NS extends XMLLoaderTest {
   }
 
   @Test
+  @DisplayName("<t>Un caf\u00e9</t>")
+  public final void testUnicode1() throws LoadingException {
+    String xml = "<t>Un caf\u00e9</t>";
+    Sequence exp = new Sequence();
+    exp.addToken(new XMLStartElement("t"));
+    exp.addToken(new WordToken("Un"));
+    exp.addToken(new WordToken(" caf\u00e9"));
+    exp.addToken(new XMLEndElement("t"));
+    assertEquivalent(exp, xml, getConfig());
+  }
+
+  @Test
+  @DisplayName("<t>&gt;</t>")
+  public final void testUnicode2() throws LoadingException {
+    String xml = "<t>Als Gregor Samsa aus unruhigen Tr\u00e4umen erwachte</t>";
+    Sequence exp = new Sequence();
+    exp.addToken(new XMLStartElement("t"));
+    exp.addToken(new WordToken("Als"));
+    exp.addToken(new WordToken(" Gregor"));
+    exp.addToken(new WordToken(" Samsa"));
+    exp.addToken(new WordToken(" aus"));
+    exp.addToken(new WordToken(" unruhigen"));
+    exp.addToken(new WordToken(" Tr\u00e4umen"));
+    exp.addToken(new WordToken(" erwachte"));
+    exp.addToken(new XMLEndElement("t"));
+    assertEquivalent(exp, xml, getConfig());
+  }
+
+  @Test
+  @DisplayName("<t>\u00e7a!</t>")
+  public final void testUnicode3() throws LoadingException {
+    String xml = "<t>\u00e7a!</t>";
+    Sequence exp = new Sequence();
+    exp.addToken(new XMLStartElement("t"));
+    exp.addToken(new WordToken("\u00e7a"));
+    exp.addToken(new WordToken("!"));
+    exp.addToken(new XMLEndElement("t"));
+    assertEquivalent(exp, xml, getConfig());
+  }
+
+  @Test
   @DisplayName("<elt attr='value'/>")
   public final void testAttribute1() throws LoadingException {
     String xml = "<elt attr='value'/>";
