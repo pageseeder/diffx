@@ -41,7 +41,7 @@ import java.nio.file.Paths;
  * Utility class to centralise the access to this API from the command line.
  *
  * @author Christophe Lauret
- * @version 1.1.0
+ * @version 1.0.1
  * @version 0.9.0
  */
 public final class Main {

@@ -54,7 +54,7 @@ import java.util.Date;
  * 2. add the two files to compare as 'a.xml' and 'b.xml'
  *
  * @author Christophe Lauret
- * @version 1.1.0
+ * @version 1.0.1
  * @version 0.9.0
  */
 public final class MainTest {

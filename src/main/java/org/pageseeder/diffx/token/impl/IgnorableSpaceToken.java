@@ -33,7 +33,7 @@ import java.io.IOException;
  * algorithm ignores the differences.
  *
  * @author Christophe Lauret
- * @version 1.1.0
+ * @version 1.0.1
  * @version 0.9.0
  */
 public final class IgnorableSpaceToken implements TextToken {
