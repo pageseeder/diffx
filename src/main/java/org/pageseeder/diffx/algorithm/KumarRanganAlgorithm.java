@@ -227,7 +227,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       boolean over = false;
       this.R2[0] = n + 1;
 
-      while (i > 0 & !over) {
+      while (i > 0 && !over) {
         int lowerB = (j > this.R) ? 0 : this.R1[j];
         int posB = this.R2[j - 1] - 1;
 
