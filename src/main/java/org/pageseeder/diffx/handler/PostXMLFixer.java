@@ -23,10 +23,9 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
+import org.pageseeder.diffx.token.impl.NilToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
-import org.pageseeder.xmlwriter.XMLWriter;
 
-import javax.xml.stream.XMLStreamWriter;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -186,37 +185,6 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
     // May be necessary if some unclosed unchanged element remains
     while (!this.unclosed.isEmpty()) {
       sendMatchingEndElement();
-    }
-  }
-
-  private static class NilToken implements XMLToken {
-
-    @Override
-    public @NotNull XMLTokenType getType() {
-      return XMLTokenType.OTHER;
-    }
-
-    @Override
-    public boolean equals(XMLToken token) {
-      return token == this;
-    }
-
-    @Override
-    public void toXML(@NotNull XMLWriter xml) {
-    }
-
-    @Override
-    public void toXML(@NotNull XMLStreamWriter xml) {
-    }
-
-    @Override
-    public @NotNull String getName() {
-      return "";
-    }
-
-    @Override
-    public String getValue() {
-      return null;
     }
   }
 
