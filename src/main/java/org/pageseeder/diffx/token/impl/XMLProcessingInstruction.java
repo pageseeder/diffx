@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -64,7 +65,7 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   /**
    * @return The target of the processing instruction.
    */
-  public String getName() {
+  public @NotNull String getName() {
     return this.target;
   }
 
@@ -126,7 +127,7 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   }
 
   @Override
-  public XMLTokenType getType() {
+  public @NotNull XMLTokenType getType() {
     return XMLTokenType.PROCESSING_INSTRUCTION;
   }
 

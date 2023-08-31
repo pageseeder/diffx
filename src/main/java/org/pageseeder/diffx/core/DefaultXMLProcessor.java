@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.handler.CoalescingFilter;
@@ -53,7 +54,7 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
   }
 
   @Override
-  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
+  public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
     MatrixXMLAlgorithm algorithm = new MatrixXMLAlgorithm();
     algorithm.setThreshold(this.threshold);
     DiffHandler<XMLToken> actual = getFilter(handler);

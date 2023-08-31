@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 
@@ -42,6 +43,6 @@ public interface DiffProcessor<T> extends DiffAlgorithm<T> {
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler);
+  void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler);
 
 }

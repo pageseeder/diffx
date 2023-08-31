@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -37,7 +38,7 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The local name of the attribute.
    */
-  String getName();
+  @NotNull String getName();
 
   /**
    * Returns the value of the attribute.
@@ -56,10 +57,10 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The namespace URI the attribute belongs to or <code>null</code>.
    */
-  String getNamespaceURI();
+  @NotNull String getNamespaceURI();
 
   @Override
-  default XMLTokenType getType() {
+  default @NotNull XMLTokenType getType() {
     return XMLTokenType.ATTRIBUTE;
   }
 

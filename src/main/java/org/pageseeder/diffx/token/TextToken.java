@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
@@ -42,7 +43,7 @@ public interface TextToken extends XMLToken {
   String getCharacters();
 
   @Override
-  default String getName() {
+  default @NotNull String getName() {
     return "";
   }
 
@@ -52,12 +53,12 @@ public interface TextToken extends XMLToken {
   }
 
   @Override
-  default String getNamespaceURI() {
+  default @NotNull String getNamespaceURI() {
     return XMLConstants.NULL_NS_URI;
   }
 
   @Override
-  default XMLTokenType getType() {
+  default @NotNull XMLTokenType getType() {
     return XMLTokenType.TEXT;
   }
 

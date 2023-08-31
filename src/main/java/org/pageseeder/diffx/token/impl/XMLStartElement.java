@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -82,12 +83,12 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
   }
 
   @Override
-  public String getName() {
+  public @NotNull String getName() {
     return this.name;
   }
 
   @Override
-  public String getNamespaceURI() {
+  public @NotNull String getNamespaceURI() {
     return this.uri;
   }
 

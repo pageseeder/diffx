@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public interface ElementToken extends XMLToken {
@@ -22,12 +24,12 @@ public interface ElementToken extends XMLToken {
   /**
    * @return The local name of the element.
    */
-  String getName();
+  @NotNull String getName();
 
   /**
    * @return The namespace URI the element belongs to.
    */
-  String getNamespaceURI();
+  @NotNull String getNamespaceURI();
 
   /**
    * Returns all the tokens for this element, starting with the
@@ -38,7 +40,7 @@ public interface ElementToken extends XMLToken {
   List<XMLToken> getEvents();
 
   @Override
-  default XMLTokenType getType() {
+  default @NotNull XMLTokenType getType() {
     return XMLTokenType.ELEMENT;
   }
 

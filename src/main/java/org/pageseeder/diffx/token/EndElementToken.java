@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -35,7 +36,7 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The local name of the element.
    */
-  String getName();
+  @NotNull String getName();
 
   /**
    * Returns the namespace URI the element belongs to.
@@ -45,7 +46,7 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The namespace URI the element belongs to.
    */
-  String getNamespaceURI();
+  @NotNull String getNamespaceURI();
 
   /**
    * Returns the corresponding token element.
@@ -70,7 +71,7 @@ public interface EndElementToken extends XMLToken {
   boolean match(StartElementToken token);
 
   @Override
-  default XMLTokenType getType() {
+  default @NotNull XMLTokenType getType() {
     return XMLTokenType.END_ELEMENT;
   }
 

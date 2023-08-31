@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -31,7 +32,7 @@ import java.io.IOException;
 public interface StartElementToken extends XMLToken {
 
   @Override
-  default XMLTokenType getType() {
+  default @NotNull XMLTokenType getType() {
     return XMLTokenType.START_ELEMENT;
   }
 

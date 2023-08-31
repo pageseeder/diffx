@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
@@ -78,7 +79,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * @return Returns the name.
    */
   @Override
-  public String getName() {
+  public @NotNull String getName() {
     return this.open.getName();
   }
 
@@ -86,7 +87,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * @return Returns the namespace URI.
    */
   @Override
-  public String getNamespaceURI() {
+  public @NotNull String getNamespaceURI() {
     return this.open.getNamespaceURI();
   }
 

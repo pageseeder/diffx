@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -100,12 +101,12 @@ public final class XMLComment extends TokenBase implements XMLToken {
   }
 
   @Override
-  public XMLTokenType getType() {
+  public @NotNull XMLTokenType getType() {
     return XMLTokenType.COMMENT;
   }
 
   @Override
-  public String getName() {
+  public @NotNull String getName() {
     return "";
   }
 
