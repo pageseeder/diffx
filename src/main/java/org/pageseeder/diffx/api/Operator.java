@@ -39,6 +39,7 @@ public enum Operator {
     /**
      * @return "+"
      */
+    @Override
     public String toString() {
       return "+";
     }
@@ -60,6 +61,7 @@ public enum Operator {
     /**
      * @return "-"
      */
+    @Override
     public String toString() {
       return "-";
     }
@@ -81,6 +83,7 @@ public enum Operator {
     /**
      * @return "="
      */
+    @Override
     public String toString() {
       return "=";
     }
