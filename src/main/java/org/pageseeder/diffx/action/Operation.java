@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.Objects;
@@ -66,6 +67,10 @@ public final class Operation<T> {
     if (operation == this)
       return true;
     return operation.operator == this.operator && operation.token.equals(this.token);
+  }
+
+  public boolean equals(@NotNull Operator operator, @NotNull T token) {
+    return operator == this.operator && token.equals(this.token);
   }
 
   @Override
