@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Test case for Diff-X algorithm implementations.
  *
- * <p>This class extends the the level 1 tests, and expect algorithms to produce
+ * <p>This class extends the level 1 tests, and expect algorithms to produce
  * results of better quality, that is which serialised form always produce
  * well-formed XML.
  *
