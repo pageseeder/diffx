@@ -71,10 +71,10 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
   public final boolean equals(XMLToken token) {
     if (this == token)
       return true;
-    if (token.getClass() != this.getClass())
+    if (!(token instanceof TextToken))
       return false;
-    CharactersTokenBase ce = (CharactersTokenBase) token;
-    return ce.characters.equals(this.characters);
+    TextToken ce = (TextToken) token;
+    return ce.getCharacters().equals(this.getCharacters());
   }
 
   /**
