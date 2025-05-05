@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -44,7 +45,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
+  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
     Instance<T> instance = new Instance<>(from, to);
     instance.process(handler);
   }
