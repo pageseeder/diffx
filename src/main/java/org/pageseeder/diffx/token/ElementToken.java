@@ -35,9 +35,29 @@ public interface ElementToken extends XMLToken {
    * Returns all the tokens for this element, starting with the
    * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
    *
+   * @deprecated Use getTokens() instead.
+   *
    * @return the list of tokens making up this element
    */
+//  @Deprecated(since = "1.1.2", forRemoval = true)
+  @Deprecated
   List<XMLToken> getEvents();
+
+  /**
+   * Returns all the tokens for this element, starting with the
+   * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
+   *
+   * @return the list of tokens making up this element
+   */
+  List<XMLToken> tokens();
+
+  /**
+   * Returns all the tokens for this element, starting with the
+   * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
+   *
+   * @return the list of tokens making up this element
+   */
+  List<XMLToken> getChildren();
 
   @Override
   default @NotNull XMLTokenType getType() {
