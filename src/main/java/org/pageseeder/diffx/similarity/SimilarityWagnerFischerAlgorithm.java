@@ -32,6 +32,8 @@ import java.util.List;
  * @param <T> The type of token this algorithm operates on, which must extend the {@code Token} class.
  *
  * @author Christophe Lauret
+ * @version 1.1.2
+ * @since 1.1.2
  */
 public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements DiffAlgorithm<T> {
 

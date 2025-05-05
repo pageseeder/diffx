@@ -24,6 +24,8 @@ package org.pageseeder.diffx.similarity;
  * @param <T> the type of elements being compared
  *
  * @author Christophe Lauret
+ * @version 1.1.2
+ * @since 1.1.2
  */
 @FunctionalInterface
 public interface SimilarityFunction<T> {
