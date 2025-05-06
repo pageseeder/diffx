@@ -23,13 +23,30 @@ import org.pageseeder.xmlwriter.XMLWriter;
 import javax.xml.stream.XMLStreamWriter;
 
 /**
- * A utility XML token that does not represent any XML.
+ * Represents a singleton special token with no value or XML representation.
+ *
+ * <p>This token can be used to signify the absence of meaningful data or a placeholder
+ * in XML-related operations.
  *
  * @author Christophe Lauret
+ *
  * @version 1.1.2
  * @since 1.1.2
  */
 public final class NilToken implements XMLToken {
+
+  private static final XMLToken NIL = new NilToken();
+
+  private NilToken() {}
+
+  /**
+   * Provides a singleton instance of the NilToken.
+   *
+   * @return The singleton instance of NilToken that represents a special token with no value or XML representation.
+   */
+  public static XMLToken getInstance() {
+    return NIL;
+  }
 
   @Override
   public @NotNull XMLTokenType getType() {
@@ -38,7 +55,7 @@ public final class NilToken implements XMLToken {
 
   @Override
   public boolean equals(XMLToken token) {
-    return token instanceof NilToken;
+    return token == this;
   }
 
   @Override

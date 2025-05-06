@@ -36,12 +36,10 @@ import java.util.Queue;
  * in a valid XML result.
  *
  * @author Christophe Lauret
- * @version 1.0.1
+ * @version 1.1.2
  * @since 0.9.0
  */
 public final class PostXMLFixer extends DiffFilter<XMLToken> {
-
-  private static final XMLToken NIL = new NilToken();
 
   public PostXMLFixer(DiffHandler<XMLToken> handler) {
     super(handler);
@@ -70,7 +68,7 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
   /**
    * Last token (never null)
    */
-  private XMLToken lastToken = NIL;
+  private XMLToken lastToken = NilToken.getInstance();
 
   /**
    * Flag indicating when the handler is unable to fix the XML.
