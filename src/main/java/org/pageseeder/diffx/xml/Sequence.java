@@ -29,10 +29,12 @@ import java.util.List;
  *
  * <p>This class wraps a list of <code>XMLToken</code>s alongside the namespaces.
  *
- * @author Christophe Lauret
- * @version 0.9.0
  * @implNote we use an <code>ArrayList</code> to store the tokens because some algorithms
  * need random access. Other list implementations may affect performance.
+ *
+ * @author Christophe Lauret
+ *
+ * @version 0.9.0
  * @since 0.7
  */
 public final class Sequence extends AbstractList<XMLToken> implements List<XMLToken> {
@@ -61,6 +63,19 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
    */
   public Sequence(int size) {
     this.tokens = new ArrayList<>(size);
+  }
+
+  /**
+   * Creates a new token sequence of the specified size.
+   *
+   * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
+   *
+   * @param tokens The size of the sequence.
+   * @param namespaces The size of the sequence.
+   */
+  public Sequence(List<XMLToken> tokens, NamespaceSet namespaces) {
+    this.tokens = tokens;
+    this.namespaces.add(namespaces);
   }
 
   /**
@@ -282,7 +297,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   @Override
-  public Iterator<XMLToken> iterator() {
+  public @NotNull Iterator<XMLToken> iterator() {
     return this.tokens.iterator();
   }
 
