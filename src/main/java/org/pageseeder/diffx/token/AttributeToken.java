@@ -57,6 +57,7 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The namespace URI the attribute belongs to or <code>null</code>.
    */
+  @Override
   @NotNull String getNamespaceURI();
 
   @Override

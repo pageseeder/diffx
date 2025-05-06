@@ -39,10 +39,11 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
   }
 
   /**
-   * Set whether to consecutive text operations should be coalesced into a single operation.
+   * Set whether consecutive text operations should be coalesced into a single operation.
    *
    * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
    */
+  @Override
   public void setCoalesce(boolean coalesce) {
     this.coalesce = coalesce;
   }

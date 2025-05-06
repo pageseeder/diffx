@@ -47,6 +47,7 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The namespace URI the element belongs to.
    */
+  @Override
   @NotNull String getNamespaceURI();
 
   /**
