@@ -110,7 +110,7 @@ public final class Namespace {
     return COMMON_NAMESPACES.get(uri);
   }
 
-  private synchronized static void loadCommonNamespaces() {
+  private static synchronized void loadCommonNamespaces() {
     try {
       String resourceName = "namespaces.properties";
       Properties props = new Properties();

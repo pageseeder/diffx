@@ -34,7 +34,7 @@ import java.util.List;
  */
 public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> implements DiffAlgorithm<XMLToken> {
 
-  private final static boolean DEBUG = false;
+  private static final boolean DEBUG = false;
 
   @Override
   public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
@@ -182,7 +182,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
         if (p.isNotSame(solution.getXEnd(), solution.getYEnd()))
           throw new IllegalStateException("Missed solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");
 
-        if (snakes.size() > 0) {
+        if (!snakes.isEmpty()) {
           EdgeSnake snake = snakes.get(0);
           // Combine snakes if possible
           if (!snake.append(solution)) {
@@ -209,7 +209,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
     int yEnd = xEnd - k;
     int matching = Math.min(aEnd - xEnd, bEnd - yEnd);
 
-    // Create corresponding snake instance
+    // Create a corresponding snake instance
     EdgeSnake.Direction direction = down ? EdgeSnake.Direction.DOWN : EdgeSnake.Direction.RIGHT;
     return EdgeSnake.create(0, aEnd, 0, bEnd, direction, xStart, yStart, 1, matching);
   }

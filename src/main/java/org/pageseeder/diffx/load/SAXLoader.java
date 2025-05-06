@@ -170,7 +170,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    * @version 0.9.0
    * @since 0.6.0
    */
-  private final static class Handler extends DefaultHandler implements LexicalHandler {
+  private static final class Handler extends DefaultHandler implements LexicalHandler {
 
     /**
      * The sequence of token for this loader.

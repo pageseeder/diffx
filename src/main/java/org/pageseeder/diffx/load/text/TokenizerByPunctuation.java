@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
  */
 public final class TokenizerByPunctuation implements TextTokenizer {
 
-  private final static String PUNCTUATION_MARKS = ".,?!;";
+  private static final String PUNCTUATION_MARKS = ".,?!;";
 
   /**
    * Define the whitespace processing.
