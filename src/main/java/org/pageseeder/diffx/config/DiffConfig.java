@@ -48,7 +48,7 @@ public final class DiffConfig {
   }
 
   public DiffConfig(boolean isNamespaceAware, WhiteSpaceProcessing whitespace, TextGranularity granularity) {
-    this(true, whitespace, granularity, false);
+    this(isNamespaceAware, whitespace, granularity, false);
   }
 
   private DiffConfig(boolean isNamespaceAware, WhiteSpaceProcessing whitespace, TextGranularity granularity, boolean allowDoctypeDeclaration) {
