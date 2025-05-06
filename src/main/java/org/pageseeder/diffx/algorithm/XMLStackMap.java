@@ -29,7 +29,7 @@ import java.util.Map;
 
 /**
  * This class keeps track of the XML state so that we know whether to continue processing during the greedy phase
- * of Myer's greedy algorithm.
+ * of Myers greedy algorithm.
  *
  * @author Christophe Lauret
  * @version 0.9.0

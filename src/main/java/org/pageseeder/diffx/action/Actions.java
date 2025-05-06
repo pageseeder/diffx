@@ -165,6 +165,13 @@ public final class Actions {
     return true;
   }
 
+  /**
+   * Processes a list of actions by invoking a given diff handler for each token in each action.
+   *
+   * @param actions The list of actions to process.
+   * @param handler The diff handler to apply to each token and operator.
+   * @param <T>     The type of tokens in the actions.
+   */
   public static <T> void handle(List<Action<T>> actions, DiffHandler<T> handler) {
     for (Action<T> action : actions) {
       for (T token : action.tokens()) {
@@ -173,6 +180,14 @@ public final class Actions {
     }
   }
 
+  /**
+   * Processes a list of actions and applies the specified diff handler to each token in each action.
+   * The handler is notified at the start and end of processing, and for each operator-token pair in the actions.
+   *
+   * @param <T>     The type of tokens in the actions.
+   * @param actions The list of actions to process.
+   * @param handler The diff handler to apply to each token and operator.
+   */
   public static <T> void applyTo(List<Action<T>> actions, DiffHandler<T> handler) {
     handler.start();
     for (Action<T> action : actions) {

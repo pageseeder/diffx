@@ -21,6 +21,18 @@ import org.pageseeder.diffx.api.Operator;
 
 import java.util.Arrays;
 
+/**
+ * A {@code MuxHandler} acts as a multiplexer for multiple {@link DiffHandler} instances, forwarding
+ * diff operations to all the handlers it manages. This facilitates applying multiple handlers to
+ * the same diff processing.
+ *
+ * @param <T> The type of token this handler processes.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 1.0
+ * @version 1.0
+ */
 public class MuxHandler<T> implements DiffHandler<T> {
 
   private final DiffHandler<T>[] handlers;

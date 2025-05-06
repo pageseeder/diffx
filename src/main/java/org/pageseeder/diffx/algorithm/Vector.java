@@ -141,7 +141,7 @@ final class Vector {
   }
 
   /**
-   * Create a snapshot of V for D in forward direction (delta=0)
+   * Create a snapshot of V for D in a forward direction (delta=0)
    */
   public Vector snapshot(int d) {
     return snapshot(d, true, 0);

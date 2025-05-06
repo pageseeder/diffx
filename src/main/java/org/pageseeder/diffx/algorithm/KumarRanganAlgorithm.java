@@ -28,7 +28,7 @@ import java.util.Objects;
  * common subsequence (LCS).
  *
  * <p>For S. Kiran Kumar and C. Pandu Rangan. <i>A linear space algorithm for the LCS problem</i>,
- * Acta Informatica. Volume 24 ,  Issue 3  (June 1987); Copyright Springer-Verlag 1987
+ * Acta Informatica. Volume 24, Issue 3 (June 1987); Copyright Springer-Verlag 1987
  *
  * <p>The algorithm has been adjusted to generate the shortest edit script (SES)</p>
  *
@@ -64,7 +64,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * A stateful instance.
    * <p>
-   * Where possible, the name of the variables match the names used in the algorithm published in
+   * Where possible, the name of the variables matches the names used in the algorithm published in
    * "A Linear Space Algorithm for the LCS Problem".
    */
   private static class Instance<T> {

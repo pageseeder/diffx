@@ -23,7 +23,7 @@ import org.pageseeder.diffx.api.Operator;
 import java.util.List;
 
 /**
- * An implementation of the Wagner-Fisher algorithm with no optimisation.
+ * An implementation of the Wagner-Fisher algorithm with no optimization.
  *
  * @author Christophe Lauret
  * @version 0.9.0

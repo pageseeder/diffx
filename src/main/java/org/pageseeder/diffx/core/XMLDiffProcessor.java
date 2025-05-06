@@ -36,7 +36,7 @@ import java.util.List;
 public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
 
   /**
-   * Set whether to consecutive text operations should be coalesced into a single operation.
+   * Set whether consecutive text operations should be coalesced into a single operation.
    *
    * @param coalesce <code>true</code> to coalesce; <code>false</code> to leave a separate operations.
    */

@@ -26,7 +26,7 @@ import java.util.List;
  * A base class for algorithms based on Eugene W. Myers' paper 'An O(ND) Difference Algorithm and its Variations'.
  *
  * <p>These algorithms served as the basis for a new implementation of the UNIX diff program. They are much faster
- * in practice than other LCS algorithms especially when the number of differences between the two sequences to
+ * in practice than other LCS algorithms, especially when the number of differences between the two sequences to
  * compare is small.
  *
  * @param <T> The type of token being compared
@@ -54,7 +54,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   }
 
   /**
-   * Handles the results of the diff for a single snake in forward direction.
+   * Handles the results of the diff for a single snake in a forward direction.
    */
   private void handleForward(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake) {
     Point start = snake.getStartPoint();

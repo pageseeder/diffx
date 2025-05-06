@@ -42,7 +42,7 @@ import java.util.List;
 public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XMLDiffOutput {
 
   /**
-   * Underlying XML writer.
+   * The underlying XML writer.
    */
   private final XMLWriter xml;
 

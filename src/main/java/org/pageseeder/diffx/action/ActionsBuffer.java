@@ -68,7 +68,7 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
   }
 
   /**
-   * Sets up the action prior to handling the operation.
+   * Sets up the action before handling the operation.
    *
    * <p>If the action does not exist or is of a different type, create a new one
    * and add to the list of actions.

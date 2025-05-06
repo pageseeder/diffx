@@ -25,7 +25,6 @@ package org.pageseeder.diffx.algorithm;
  * @version 0.9.0
  */
 public final class MatrixShort extends MatrixShortBase {
-  // TODO: this class should probably not be public
 
   /**
    * @see Matrix#incrementPath(int, int)

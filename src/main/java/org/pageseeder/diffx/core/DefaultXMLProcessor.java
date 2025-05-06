@@ -28,7 +28,7 @@ public class DefaultXMLProcessor extends DiffProcessorBase implements DiffProces
   private int threshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 
   /**
-   * Set the maximum number of tokens comparisons that can be performed.
+   * Set the maximum number of token comparisons that can be performed.
    *
    * <p>If the number of tokens post-slicing is larger, it will throw an <code>IllegalArgumentException</code>.
    *

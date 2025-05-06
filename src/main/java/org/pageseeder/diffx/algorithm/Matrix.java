@@ -118,7 +118,7 @@ public interface Matrix {
   /**
    * Releases all the resources used only by this matrix object.
    *
-   * <p>This class is not usable, until after invoking this method, unless
+   * <p>This class is not usable until after invoking this method, unless
    * it is set up again.
    */
   void release();

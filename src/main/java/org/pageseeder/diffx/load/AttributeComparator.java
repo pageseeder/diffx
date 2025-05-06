@@ -21,7 +21,7 @@ import org.pageseeder.diffx.token.impl.XMLAttribute;
 import java.util.Comparator;
 
 /**
- * A comparator in order to put attributes in the correct order, that is in the alphabetical order
+ * A comparator to put attributes in the correct order, that is in the alphabetical order
  * of the attribute name and namespace URI.
  *
  * <p>Sorting attribute allows for more efficient diffing.</p>

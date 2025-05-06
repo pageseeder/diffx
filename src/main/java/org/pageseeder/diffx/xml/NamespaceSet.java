@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.xml;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.xml.XMLConstants;
 import java.util.*;
 
@@ -53,10 +55,10 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
   }
 
   /**
-   * Merge two prefix mapping and return a new prefix mapping
+   * Merge two prefix mappings and return a new prefix mapping
    *
    * <p>The first prefix mapping takes precedence over the second one, so if a namespace URI is mapped different
-   * prefixes, the prefix from first mapping is used.</p>
+   * prefixes, the prefix from the first mapping is used.</p>
    *
    * @return a new prefix mapping including namespaces from both mappings
    */
@@ -172,7 +174,9 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
   }
 
   /**
-   * Returns the size of the
+   * Returns the number of namespace mappings contained in this set.
+   *
+   * @return the number of namespace mappings in this set
    */
   @Override
   public int size() {
@@ -196,7 +200,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    * @return An iterator over the URIs used in this mapping.
    */
   @Override
-  public Iterator<Namespace> iterator() {
+  public @NotNull Iterator<Namespace> iterator() {
     return Collections.unmodifiableCollection(this.namespacesByUri.values()).iterator();
   }
 
@@ -255,7 +259,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    * Merge two sets of namespaces and return a set.
    *
    * <p>The first namespace takes precedence over the second one, so if a namespace URI is mapped different
-   * prefixes, the prefix from first mapping is used.</p>
+   * prefixes, the prefix from the first mapping is used.</p>
    *
    * @return a new set of namespaces including namespaces from both mappings
    */

@@ -44,7 +44,7 @@ import java.util.List;
  * {@link Loader#load(String)} for convenience, but is it much more efficient
  * to feed this loader directly with a {@link Node} or {@link Document}.
  *
- * <p>This class is not synchronised.
+ * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -76,7 +76,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * Indicates whether the given document is a fragment.
    *
    * <p>A fragment is a portion of XML that is not necessarily well-formed by itself, because the
-   * namespace has been declared higher in the hierarchy, i.e. if the DOM tree was serialised
+   * namespace has been declared higher in the hierarchy, i.e., if the DOM tree was serialized,
    * it would not produce well-formed XML.
    *
    * <p>This option indicates that the loader should try to generate the prefix mapping without

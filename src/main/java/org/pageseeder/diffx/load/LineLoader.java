@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loads the contents of a text file as list of line tokens.
+ * Loads the contents of a text file as a list of line tokens.
  *
  * @author Christophe Lauret
  * @version 0.9.0

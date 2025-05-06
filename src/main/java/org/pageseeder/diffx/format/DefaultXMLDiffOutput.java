@@ -33,7 +33,7 @@ import java.io.Writer;
  * <p>This class will always close the elements correctly by maintaining a stack of parent
  * elements.
  *
- * <p>Implementation note: this classes uses the namespace prefixes 'dfx' and 'del', in the
+ * <p>Implementation note: this class uses the namespace prefixes 'dfx' and 'del', in the
  * future it should be possible to configure which prefixes to use for each namespace, but
  * in this version the namespace prefix mapping is hardcoded.
  *

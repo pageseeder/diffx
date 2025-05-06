@@ -98,7 +98,7 @@ public final class Action<T> {
 
   /**
    * @return A new action using the opposite operator by swapping INS with DEL;
-   * or the same action if operator is MATCH.
+   * or the same action if the operator is MATCH.
    */
   public Action<T> flip() {
     return this.operator == Operator.MATCH ? this : new Action<>(this.operator.flip(), this.tokens);
