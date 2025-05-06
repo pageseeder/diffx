@@ -18,9 +18,7 @@ package org.pageseeder.diffx.xml;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.TextListToken;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * A utility class for token sequences.
@@ -47,21 +45,21 @@ public final class Sequences {
    */
   public static boolean isWellFormed(Sequence sequence) {
     if (sequence == null) return false;
-    Stack<XMLToken> open = new Stack<>();
+    Deque<XMLToken> open = new ArrayDeque<>();
     XMLToken token;
     for (int i = 0; i < sequence.size(); i++) {
       token = sequence.getToken(i);
       if (token.getType() == XMLTokenType.START_ELEMENT) {
         open.push(token);
       } else if (token.getType() == XMLTokenType.END_ELEMENT) {
-        if (open.empty()) return false;
+        if (open.isEmpty()) return false;
         StartElementToken o = (StartElementToken) open.peek();
         String lastOpenElementName = o.getName();
         String closeElementName = token.getName();
         if (!closeElementName.equals(lastOpenElementName)) return false;
       }
     }
-    return open.empty();
+    return open.isEmpty();
   }
 
   /**
