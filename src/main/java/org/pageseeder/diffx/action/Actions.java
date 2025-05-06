@@ -31,6 +31,8 @@ import java.util.List;
  */
 public final class Actions {
 
+  private Actions() {}
+
   /**
    * Generates the list of tokens from the list of actions.
    *
