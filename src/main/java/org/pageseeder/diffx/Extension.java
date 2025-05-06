@@ -98,7 +98,7 @@ public final class Extension {
     loader.setConfig(config);
     Sequence seq1 = loader.load(xml1);
     Sequence seq2 = loader.load(xml2);
-    if (seq1.size() == 0 && seq2.size() == 0) return null;
+    if (seq1.isEmpty() && seq2.isEmpty()) return null;
 
     // Start comparing
     StringWriter out = new StringWriter();

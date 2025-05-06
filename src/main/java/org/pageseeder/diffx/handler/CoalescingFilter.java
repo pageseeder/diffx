@@ -28,8 +28,6 @@ import java.util.List;
 /**
  * Coalesces consecutive text tokens for the same operation.
  *
- * <p>This handler is </p>
- *
  * @author Christophe Lauret
  * @version 0.9.0
  * @since 0.9.0
@@ -42,7 +40,7 @@ public final class CoalescingFilter extends DiffFilter<XMLToken> implements Diff
   private final List<TextToken> buffer = new ArrayList<>();
 
   /**
-   * Buffer of text token to coalesce using opposite operation of current.
+   * Buffer of text token to coalesce using the opposite operation of current.
    */
   private final List<TextToken> altBuffer = new ArrayList<>();
 
@@ -73,7 +71,7 @@ public final class CoalescingFilter extends DiffFilter<XMLToken> implements Diff
 
   private void handleText(@NotNull TextToken token, @NotNull Operator operator) {
     if (this.current == operator) {
-      // Same operator simply add the token
+      // The same operator simply adds the token
       this.buffer.add(token);
     } else {
       if (this.current == Operator.MATCH || operator == Operator.MATCH) {
@@ -92,7 +90,7 @@ public final class CoalescingFilter extends DiffFilter<XMLToken> implements Diff
    * Flush the text to the target handler and clear the buffer if there are any text tokens.
    */
   public void flushText() {
-    if (this.buffer.size() > 0) {
+    if (!this.buffer.isEmpty()) {
       TextToken text = coalesceText(this.buffer);
       this.target.handle(this.current, text);
       this.buffer.clear();

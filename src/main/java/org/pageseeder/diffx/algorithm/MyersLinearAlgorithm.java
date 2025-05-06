@@ -75,7 +75,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       // Only deletions
       if (sizeB == 0 && sizeA > 0) {
         EdgeSnake right = EdgeSnake.create(startA, sizeA, startB, sizeB, RIGHT, startA, startB, sizeA, 0);
-        if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(right)) {
+        if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(right)) {
           snakes.add(right);
         }
       }
@@ -83,7 +83,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       // Only insertions
       if (sizeA == 0 && sizeB > 0) {
         EdgeSnake down = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, sizeB, 0);
-        if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(down)) {
+        if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(down)) {
           snakes.add(down);
         }
       }
@@ -104,7 +104,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
         computePath(recursion + 1, snakes, null, null, startA, xy.x() - startA, startB, xy.y() - startB, VForward, VReverse);
 
         // Add middle snake to results
-        if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(middle.snake())) {
+        if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(middle.snake())) {
           snakes.add(middle.snake());
         }
 
@@ -122,18 +122,18 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
               throw new IllegalStateException("Missed D0 forward");
 
             EdgeSnake snake = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, startA, startB, 0, middle.snake().x - startA);
-            if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(snake)) {
+            if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(snake)) {
               snakes.add(snake);
             }
           }
 
-          // Add middle snake to results
-          if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(middle.snake())) {
+          // Add the middle snake to results
+          if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(middle.snake())) {
             snakes.add(middle.snake());
           }
         } else {
-          // Add middle snake to results
-          if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(middle.snake())) {
+          // Add the middle snake to results
+          if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(middle.snake())) {
             snakes.add(middle.snake());
           }
 
@@ -142,7 +142,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
               throw new IllegalStateException("Missed D0 reverse");
 
             EdgeSnake snake = EdgeSnake.create(startA, sizeA, startB, sizeB, DOWN, middle.snake().x, middle.snake().y, 0, startA + sizeA - middle.snake().x);
-            if (snakes.size() == 0 || !snakes.get(snakes.size() - 1).append(snake)) {
+            if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(snake)) {
               snakes.add(snake);
             }
           }

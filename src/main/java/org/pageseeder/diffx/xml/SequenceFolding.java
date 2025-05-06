@@ -43,7 +43,7 @@ public class SequenceFolding {
   public static SequenceFolding forElements(String... elements) {
     // Only keep distinct non-null element names
     List<String> list = Arrays.stream(elements)
-        .filter(i -> i != null && i.length() > 0)
+        .filter(i -> i != null && !i.isEmpty())
         .distinct()
         .collect(Collectors.toList());
     return new SequenceFolding(list);
@@ -106,7 +106,7 @@ public class SequenceFolding {
     }
 
     private boolean hasCurrent() {
-      return this.stack.size() > 0;
+      return !this.stack.isEmpty();
     }
 
     void add(XMLToken token) {
