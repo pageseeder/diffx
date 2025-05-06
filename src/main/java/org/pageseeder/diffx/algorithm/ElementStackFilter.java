@@ -32,17 +32,18 @@ import java.util.Deque;
  * Maintains the state of open and closed elements during the processing the Diff-X
  * algorithm.
  *
- * <p>This class has two purposes, firstly to provide an object that is more specialised
+ * <p>This class has two purposes, first to provide an object more specialized
  * than the generic lists and stack for use by the DiffX algorithms. Second, to delegate
  * some complexity to the algorithm.
  *
  * <p>This class has several methods that are similar to <code>List</code> interface
  * but does not implement it.
  *
- * <p>This class is not synchronised and is not meant to be serializable.
+ * <p>This class is not synchronized and is not meant to be serializable.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.1.2
  * @since 0.7.0
  */
 public final class ElementStackFilter extends DiffFilter<XMLToken> {
@@ -123,8 +124,8 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   public boolean isAllowed(Operator operator, XMLToken token) {
     // Only check for end element tokens
     if (!(token instanceof EndElementToken)) return true;
-    // Check that it matches the
-    StartElementToken start = ((EndElementToken) token).getOpenElement();
+    // Check that it matches the start element
+    StartElementToken start = ((EndElementToken) token).getStartElement();
     return matchCurrent(operator, start);
   }
 

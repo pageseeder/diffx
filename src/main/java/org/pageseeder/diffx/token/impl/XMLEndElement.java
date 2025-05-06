@@ -24,14 +24,16 @@ import org.pageseeder.diffx.token.XMLToken;
  * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.1.2
+ * @since 0.7.0
  */
 public final class XMLEndElement extends TokenBase implements EndElementToken {
 
   /**
    * The corresponding open element token.
    */
-  private final StartElementToken open;
+  private final StartElementToken start;
 
   /**
    * Creates a new close element token on the default namespace URI.
@@ -43,7 +45,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   public XMLEndElement(String name) throws NullPointerException {
     if (name == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new XMLStartElement(name);
+    this.start = new XMLStartElement(name);
   }
 
   /**
@@ -59,7 +61,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
       throw new NullPointerException("The URI cannot be null, use \"\".");
     if (localName == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = new XMLStartElement(uri, localName);
+    this.start = new XMLStartElement(uri, localName);
   }
 
   /**
@@ -72,7 +74,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   public XMLEndElement(StartElementToken token) throws NullPointerException {
     if (token == null)
       throw new NullPointerException("Element must have a name.");
-    this.open = token;
+    this.start = token;
   }
 
   /**
@@ -80,7 +82,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    */
   @Override
   public @NotNull String getName() {
-    return this.open.getName();
+    return this.start.getName();
   }
 
   /**
@@ -88,12 +90,17 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    */
   @Override
   public @NotNull String getNamespaceURI() {
-    return this.open.getNamespaceURI();
+    return this.start.getNamespaceURI();
   }
 
   @Override
   public StartElementToken getOpenElement() {
-    return this.open;
+    return this.start;
+  }
+
+  @Override
+  public StartElementToken getStartElement() {
+    return this.start;
   }
 
   @Override
@@ -104,14 +111,14 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   @Override
   public boolean match(StartElementToken token) {
     if (token == null) return false;
-    if (token == this.open) return true;
+    if (token == this.start) return true;
     return token.getNamespaceURI().equals(getNamespaceURI())
         && token.getName().equals(getName());
   }
 
   @Override
   public int hashCode() {
-    return 89 + this.open.hashCode();
+    return 89 + this.start.hashCode();
   }
 
   /**
@@ -133,7 +140,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
 
   @Override
   public String toString() {
-    if (open.getNamespaceURI().isEmpty()) {
+    if (start.getNamespaceURI().isEmpty()) {
       return "</" + getName() + '>';
     } else {
       return "</{" + getNamespaceURI() + "}:" + getName() + '>';

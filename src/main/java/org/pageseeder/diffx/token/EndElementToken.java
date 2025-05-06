@@ -26,7 +26,8 @@ import java.io.IOException;
  * The token corresponding to the <code>endElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.1.2
  * @since 0.5.0
  */
 public interface EndElementToken extends XMLToken {
@@ -42,7 +43,7 @@ public interface EndElementToken extends XMLToken {
    * Returns the namespace URI the element belongs to.
    *
    * <p>This method should return <code>null</code> if the implementation
-   * is not namespace aware.
+   * is not namespace-aware.
    *
    * @return The namespace URI the element belongs to.
    */
@@ -51,16 +52,28 @@ public interface EndElementToken extends XMLToken {
   /**
    * Returns the corresponding token element.
    *
+   * @deprecated Use {@link #getStartElement()} instead.
+   *
    * @return The corresponding token element.
    */
+  @Deprecated
   StartElementToken getOpenElement();
+
+  /**
+   * Returns the corresponding start element.
+   *
+   * @return The corresponding start element.
+   */
+  default StartElementToken getStartElement() {
+    return this.getOpenElement();
+  }
 
   /**
    * Indicates whether the specified open element token matches this close
    * element token.
    *
    * <p>This method first checks whether the open element token is the same as
-   * token returned by the {@link #getOpenElement()} method, if not it simply
+   * token returned by the {@link #getStartElement()} method, if not it simply
    * compares the name of the element and the namespace URI it belongs to.
    *
    * @param token The open element token to test.
