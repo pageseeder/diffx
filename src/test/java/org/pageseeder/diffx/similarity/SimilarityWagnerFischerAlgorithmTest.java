@@ -33,7 +33,7 @@ import org.pageseeder.diffx.token.impl.LineToken;
 public final class SimilarityWagnerFischerAlgorithmTest {
 
   private <T extends Token> SimilarityWagnerFischerAlgorithm<T> newAlgorithm() {
-    SimilarityFunction<T> equality = (a, b) -> a.equals(b) ? 1f : 0f;
+    Similarity<T> equality = (a, b) -> a.equals(b) ? 1f : 0f;
     return new SimilarityWagnerFischerAlgorithm<>(equality, .5f);
   }
 

@@ -42,7 +42,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
   private static final byte DELETE = 1;
   private static final byte INSERT = 2;
 
-  private final SimilarityFunction<T> similarityFunction;
+  private final Similarity<T> similarity;
   private final float minThreshold;
 
   /**
@@ -51,8 +51,8 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
    * @param similarity The similarity function to use to compute the similarity between two tokens.
    * @param minThreshold The minimum similarity threshold to consider a token as a match.
    */
-  public SimilarityWagnerFischerAlgorithm(SimilarityFunction<T> similarity, float minThreshold) {
-    this.similarityFunction = similarity;
+  public SimilarityWagnerFischerAlgorithm(Similarity<T> similarity, float minThreshold) {
+    this.similarity = similarity;
     this.minThreshold = minThreshold;
   }
 
@@ -76,7 +76,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
     if (from.size() == 1 && to.size() == 1) {
       T fromToken = from.get(0);
       T toToken = to.get(0);
-      float similarity = this.similarityFunction.score(fromToken, toToken);
+      float similarity = this.similarity.score(fromToken, toToken);
       if (similarity >= this.minThreshold) {
         handler.handle(Operator.MATCH, fromToken);
       } else {
@@ -87,7 +87,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
     }
 
     Instance<T> instance = new Instance<>(from, to);
-    instance.process(handler, this.similarityFunction, this.minThreshold);
+    instance.process(handler, this.similarity, this.minThreshold);
   }
 
   /**
@@ -106,8 +106,8 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
       this.to = to;
     }
 
-    public void process(DiffHandler<T> handler, SimilarityFunction<T> similarityFunction, float minThreshold) {
-      byte[][] decisions = computeDecisions(similarityFunction, minThreshold);
+    public void process(DiffHandler<T> handler, Similarity<T> similarity, float minThreshold) {
+      byte[][] decisions = computeDecisions(similarity, minThreshold);
       handle(decisions, handler);
     }
 
@@ -116,7 +116,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
      * operations (insert, delete, or match) between two sequences based
      * on similarity scores and a minimum similarity threshold.
      *
-     * @param similarityFunction A function to compute the similarity score
+     * @param similarity A function to compute the similarity score
      *                           between elements of the two sequences.
      * @param minThreshold       A minimum similarity score required to
      *                           consider two elements as matching.
@@ -125,7 +125,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
      *         of the sequences. The values indicate the operations:
      *         MATCH, DELETE, or INSERT.
      */
-    private byte[][] computeDecisions(SimilarityFunction<T> similarityFunction, float minThreshold) {
+    private byte[][] computeDecisions(Similarity<T> similarity, float minThreshold) {
       final int fromSize = from.size();
       final int toSize = to.size();
 
@@ -150,15 +150,15 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
       for (int i = fromSize - 1; i >= 0; i--) {
         // Start from the end of the second sequence
         for (int j = toSize - 1; j >= 0; j--) {
-          // Calculate similarity on demand
-          float similarity = similarityFunction.score(from.get(i), to.get(j));
+          // Calculate score on demand
+          float score = similarity.score(from.get(i), to.get(j));
 
-          float matchScore = prevRow[j+1] + (similarity >= minThreshold ? similarity : 0);
+          float matchScore = prevRow[j+1] + (score >= minThreshold ? score : 0);
           float deleteScore = prevRow[j];
           float insertScore = currRow[j+1];
 
           // Choose the action with the highest score
-          if (matchScore >= deleteScore && matchScore >= insertScore && similarity >= minThreshold) {
+          if (matchScore >= deleteScore && matchScore >= insertScore && score >= minThreshold) {
             currRow[j] = matchScore;
             decisions[i][j] = MATCH;
           } else if (deleteScore >= insertScore) {

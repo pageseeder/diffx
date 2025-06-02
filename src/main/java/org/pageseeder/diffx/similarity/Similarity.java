@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.similarity;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Calculates similarity between two elements.
  *
@@ -23,14 +25,17 @@ package org.pageseeder.diffx.similarity;
  *
  * @param <T> the type of elements being compared
  *
- * @deprecated Use Similarity instead
- *
  * @author Christophe Lauret
- * @version 1.1.2
- * @since 1.1.2
+ * @version 1.1.3
+ * @since 1.1.3
  */
-@Deprecated
 @FunctionalInterface
-public interface SimilarityFunction<T> extends Similarity<T> {
+public interface Similarity<T> {
+
+  /**
+   * Computes the similarity between two tokens.
+   * @return A value between 0.0 (completely different) and 1.0 (identical)
+   */
+  float score(@NotNull T a, @NotNull T b);
 
 }
