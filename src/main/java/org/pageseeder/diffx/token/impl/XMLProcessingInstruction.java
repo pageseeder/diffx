@@ -122,7 +122,7 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   }
 
   @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     xml.writeProcessingInstruction(this.target, this.data);
   }
 

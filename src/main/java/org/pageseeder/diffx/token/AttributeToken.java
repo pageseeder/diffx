@@ -81,7 +81,7 @@ public interface AttributeToken extends XMLToken {
   }
 
   @Override
-  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.getNamespaceURI().isEmpty())
       xml.writeAttribute(this.getName(), this.getValue());

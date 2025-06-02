@@ -95,7 +95,7 @@ public interface EndElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     xml.writeEndElement();
   }
 

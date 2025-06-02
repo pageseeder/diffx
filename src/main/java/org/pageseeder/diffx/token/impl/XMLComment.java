@@ -96,7 +96,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
   }
 
   @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     xml.writeComment(this.comment);
   }
 

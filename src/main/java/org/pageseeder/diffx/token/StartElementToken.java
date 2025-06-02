@@ -42,7 +42,7 @@ public interface StartElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.getNamespaceURI().isEmpty()) {
       xml.writeStartElement(this.getName());

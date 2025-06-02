@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -125,7 +126,7 @@ public final class IgnorableSpaceToken implements TextToken {
   }
 
   @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.characters);
   }
 
