@@ -78,9 +78,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
-  public boolean add(String uri, String prefix) throws NullPointerException {
-    assert uri != null;
-    assert prefix != null;
+  public boolean add(@NotNull String uri, @NotNull String prefix) throws NullPointerException {
     if (!this.namespacesByUri.containsKey(uri)) {
       int count = 0;
       String actualPrefix = prefix;
