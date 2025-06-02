@@ -55,9 +55,25 @@ public enum XMLTokenType {
   COMMENT,
 
   /**
-   * Any other type.
+   * Represents an XML processing instruction in the context of token processing.
    */
   PROCESSING_INSTRUCTION,
+
+  /**
+   * Represents the start of an XML document or sequence in the context of token processing.
+   *
+   * <p>This token type is used to signify the beginning of an XML document
+   * particularly in scenarios involving XML token comparison or processing.
+   */
+  START_DOCUMENT,
+
+  /**
+   * Represents the end of an XML document or sequence in the context of token processing.
+   *
+   * <p>This token type is used to signify the conclusion of an XML document,
+   * particularly in scenarios involving XML token comparison or processing.
+   */
+  END_DOCUMENT,
 
   /**
    * Any other type.
