@@ -1,9 +1,9 @@
 package org.pageseeder.diffx.similarity;
 
 import org.jetbrains.annotations.NotNull;
+import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
-import org.pageseeder.diffx.token.impl.XMLElement;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -19,8 +19,10 @@ import java.util.stream.Stream;
  * the similarity of their children, while other token types are compared for equality.
  *
  * @author Christophe Lauret
+ * @version 1.2.0
+ * @since 1.2.0
  */
-public class XMLElementSimilarity implements Similarity<XMLToken> {
+public class ElementSimilarity implements Similarity<XMLToken> {
 
   /**
    * A `StreamSimilarity` instance used to determine the similarity between
@@ -35,7 +37,7 @@ public class XMLElementSimilarity implements Similarity<XMLToken> {
   private final double k;
 
   /**
-   * Constructs an instance of XMLElementSimilarity, which calculates similarity scores
+   * Constructs an instance of ElementSimilarity, which calculates similarity scores
    * for XML elements using a specified stream-based similarity metric.
    *
    * @param similarity A stream similarity implementation used to compute the similarity score
@@ -43,7 +45,7 @@ public class XMLElementSimilarity implements Similarity<XMLToken> {
    * @param k          A boosting factor used to adjust the similarity score based on
    *                   additional criteria, such as element length or other contextual factors.
    */
-  public XMLElementSimilarity(@NotNull StreamSimilarity<String> similarity, double k) {
+  public ElementSimilarity(@NotNull StreamSimilarity<String> similarity, double k) {
     this.similarity = Objects.requireNonNull(similarity);
     this.k = k;
   }
@@ -51,24 +53,24 @@ public class XMLElementSimilarity implements Similarity<XMLToken> {
   @Override
   public final float score(@NotNull XMLToken a, @NotNull XMLToken b) {
     if (a.getType() == XMLTokenType.ELEMENT && b.getType() == XMLTokenType.ELEMENT) {
-      return scoreForElement((XMLElement) a, (XMLElement) b);
+      return scoreForElement((ElementToken) a, (ElementToken) b);
     }
     return a.equals(b) ? 1.0f : 0;
   }
 
-  private float scoreForElement(XMLElement a, XMLElement b) {
+  private float scoreForElement(ElementToken a, ElementToken b) {
     boolean sameElementName = a.getStart().equals(b.getStart());
     // Don't bother if the first token is different
     if (!sameElementName) return 0;
 
     // Empty it's a match
-    if (a.getChildren().isEmpty() && b.getChildren().isEmpty())
+    if (a.getContent().isEmpty() && b.getContent().isEmpty())
       return 1;
 
     float score = this.similarity.score(toTextStream(a), toTextStream(b));
     if (this.k <= 0) return score;
 
-    int length = Math.min(a.getChildren().size(), b.getChildren().size());
+    int length = Math.min(a.getContent().size(), b.getContent().size());
     return lengthBoostedSimilarity(score, length);
   }
 
@@ -86,8 +88,8 @@ public class XMLElementSimilarity implements Similarity<XMLToken> {
     return (float) Math.pow(score, 1.0 / Math.pow(length, k));
   }
 
-  private Stream<String> toTextStream(XMLElement element) {
-    return element.getChildren().stream()
+  private Stream<String> toTextStream(ElementToken element) {
+    return element.getContent().stream()
         .filter(t -> t.getType() == XMLTokenType.TEXT)
         .map(t -> t.getValue().trim());
   }

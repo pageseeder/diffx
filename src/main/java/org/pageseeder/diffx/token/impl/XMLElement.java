@@ -28,27 +28,43 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an XML element token with its corresponding start, end, and content tokens.
+ * This class extends {@code TokenBase} and implements the {@code ElementToken} interface,
+ * encapsulating the structure of an XML element including its associated data and behaviors.
+ *
+ * <p>The {@code XMLElement} provides methods to retrieve the start and end tokens, the element's
+ * name and namespace URI, and the list of content tokens. Additionally, it implements methods
+ * for hashing, equality checks, and XML writing.
+ *
+ * @author Christophe Lauret
+ *
+ * @version 1.2.0
+ * @since 0.7.0
+ */
 public class XMLElement extends TokenBase implements ElementToken {
 
   private final StartElementToken start;
 
   private final EndElementToken end;
 
-  private final List<XMLToken> children;
+  private final List<XMLToken> content;
 
   private final int hashCode;
 
-  public XMLElement(StartElementToken start, EndElementToken end, List<XMLToken> children) {
+  public XMLElement(StartElementToken start, EndElementToken end, List<XMLToken> content) {
     this.start = start;
     this.end = end;
-    this.children = children;
-    this.hashCode = toHashCode(start, this.children);
+    this.content = content;
+    this.hashCode = toHashCode(start, this.content);
   }
 
+  @Override
   public StartElementToken getStart() {
     return start;
   }
 
+  @Override
   public EndElementToken getEnd() {
     return end;
   }
@@ -69,22 +85,29 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
+  @Deprecated
   public List<XMLToken> getEvents() {
     return this.tokens();
   }
 
   @Override
   public List<XMLToken> tokens() {
-    List<XMLToken> tokens = new ArrayList<>(1 + children.size() + 1);
+    List<XMLToken> tokens = new ArrayList<>(1 + content.size() + 1);
     tokens.add(start);
-    tokens.addAll(children);
+    tokens.addAll(content);
     tokens.add(end);
     return tokens;
   }
 
   @Override
+  @Deprecated
   public List<XMLToken> getChildren() {
-    return this.children;
+    return this.content;
+  }
+
+  @Override
+  public List<XMLToken> getContent() {
+    return this.content;
   }
 
   @Override
@@ -106,8 +129,8 @@ public class XMLElement extends TokenBase implements ElementToken {
     XMLElement element = (XMLElement) token;
     if (element.hashCode != this.hashCode) return false;
     if (!element.start.equals(this.start)) return false;
-    if (element.children.size() != this.children.size()) return false;
-    return element.children.equals(this.children);
+    if (element.content.size() != this.content.size()) return false;
+    return element.content.equals(this.content);
   }
 
   @Override
@@ -118,16 +141,16 @@ public class XMLElement extends TokenBase implements ElementToken {
   @Override
   public void toXML(XMLWriter xml) throws IOException {
     start.toXML(xml);
-    for (XMLToken token : this.children) {
+    for (XMLToken token : this.content) {
       token.toXML(xml);
     }
     end.toXML(xml);
   }
 
   @Override
-  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
     start.toXML(xml);
-    for (XMLToken token : this.children) {
+    for (XMLToken token : this.content) {
       token.toXML(xml);
     }
     end.toXML(xml);
@@ -137,14 +160,14 @@ public class XMLElement extends TokenBase implements ElementToken {
    * Calculates the hashcode for this token.
    *
    * @param start The start element
-   * @param children List of tokens
+   * @param content List of tokens
    *
    * @return a number suitable as a hashcode.
    */
-  private static int toHashCode(StartElementToken start, List<XMLToken> children) {
+  private static int toHashCode(StartElementToken start, List<XMLToken> content) {
     int result = 1;
     result = 31 * result + start.hashCode();
-    for (XMLToken token : children)
+    for (XMLToken token : content)
       result = 31 * result + (token == null ? 0 : token.hashCode());
     return result;
   }
