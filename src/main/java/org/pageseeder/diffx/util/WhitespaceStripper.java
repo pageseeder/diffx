@@ -1,5 +1,6 @@
 package org.pageseeder.diffx.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
@@ -8,6 +9,7 @@ import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.Sequence;
+import org.pageseeder.diffx.xml.SequenceProcessor;
 
 import java.util.*;
 
@@ -27,8 +29,11 @@ import java.util.*;
  * is required.
  *
  * @author Christophe Lauret
+ *
+ * @version 1.2.0
+ * @since 1.1.0
  */
-public class WhitespaceStripper {
+public class WhitespaceStripper implements SequenceProcessor {
 
   private final Set<StartElementToken> elementsToIgnore;
 
@@ -60,7 +65,41 @@ public class WhitespaceStripper {
    * @param sequence The XML sequence to process and strip of ignorable whitespace.
    * @return A new {@link Sequence} instance containing the filtered tokens without ignorable whitespace.
    */
-  public Sequence strip(Sequence sequence) {
+  @Override
+  public @NotNull Sequence process(@NotNull Sequence sequence) {
+    return new Sequence(strip(sequence.tokens()), sequence.getNamespaces());
+  }
+
+  /**
+   * Removes ignorable whitespace tokens from the given list of XML tokens.
+   *
+   * <p>The method processes the list of XML tokens and identifies ignorable whitespace
+   * based on the specified context of start and end elements. It traverses the tokens
+   * while maintaining a context stack, filtering out whitespace if it is deemed
+   * ignorable in the current context. Only tokens that are not ignorable are included
+   * in the resulting list.
+   *
+   * @param tokens The list of {@link XMLToken} objects representing the XML sequence
+   *               to process and strip of ignorable whitespace.
+   * @return A new list of {@link XMLToken} objects that excludes ignorable whitespace based on context.
+   */
+  @Override
+  public @NotNull List<XMLToken> process(@NotNull List<XMLToken> tokens) {
+    return strip(tokens);
+  }
+
+  /**
+   * Removes ignorable whitespace from the given XML sequence based on the defined set of elements to ignore.
+   *
+   * <p>The method traverses through the sequence of XML tokens, checks the context of each token,
+   * and filters out whitespace tokens as needed. Start and end elements are used to manage the context
+   * stack, determining whether the current context is ignorable. Only the tokens that are not ignorable
+   * in the given context are included in the new stripped sequence.
+   *
+   * @param sequence The XML sequence to process and strip of ignorable whitespace.
+   * @return A new {@link Sequence} instance containing the filtered tokens without ignorable whitespace.
+   */
+  public @NotNull Sequence strip(@NotNull Sequence sequence) {
     return new Sequence(strip(sequence.tokens()), sequence.getNamespaces());
   }
 
