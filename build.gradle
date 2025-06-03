@@ -10,10 +10,13 @@ description = "$title"
 
 apply from: 'gradle/publish-mavencentral.gradle'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+// Use Java toolchain to ensure the correct JVM is used by Gradle
+java.toolchain {
+  languageVersion.set(JavaLanguageVersion.of(11))
+}
 
 tasks.withType(JavaCompile).configureEach {
+  options.release = 11 // Target Java 11 compatibility
   options.encoding = 'UTF-8'
 }
 
@@ -25,12 +28,12 @@ repositories {
 
 dependencies {
 
-  compileOnly('org.jetbrains:annotations:24.0.0')
+  compileOnly('org.jetbrains:annotations:26.0.2')
 
   implementation('org.pageseeder.xmlwriter:pso-xmlwriter:1.0.4')
 
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.2")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.12.2")
 
 }
 
