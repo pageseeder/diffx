@@ -2,7 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'io.codearte.nexus-staging'
 
-task sourceJar(type: Jar) {
+tasks.register('sourceJar', Jar) {
   description 'Packages up the source in a Jar for Maven publishing'
   from sourceSets.main.allJava
   from sourceSets.main.resources
@@ -10,7 +10,8 @@ task sourceJar(type: Jar) {
 
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+tasks.register('javadocJar', Jar) {
+  dependsOn javadoc
   description 'Packages up the javadoc in a Jar for Maven publishing'
   from javadoc.destinationDir
 }
@@ -25,11 +26,11 @@ publishing {
       from components.java
 
       artifact sourceJar {
-        classifier "sources"
+        archiveClassifier = 'sources'
       }
 
       artifact javadocJar {
-        classifier 'javadoc'
+        archiveClassifier = 'javadoc'
       }
 
       pom.withXml {
