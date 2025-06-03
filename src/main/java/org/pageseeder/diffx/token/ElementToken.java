@@ -75,8 +75,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens making up this element
    */
-//  @Deprecated(since = "1.1.2", forRemoval = true)
-  @Deprecated
+  @Deprecated(since = "1.1.2", forRemoval = true)
   List<XMLToken> getEvents();
 
   /**
@@ -93,8 +92,10 @@ public interface ElementToken extends XMLToken {
    * <p>If this element has attributes, these are returned first.</p>
    *
    * @return the list of tokens between the start and end element tokens.
+   *
+   * @deprecated Use getContent() instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.2.0", forRemoval = true)
   List<XMLToken> getChildren();
 
   /**

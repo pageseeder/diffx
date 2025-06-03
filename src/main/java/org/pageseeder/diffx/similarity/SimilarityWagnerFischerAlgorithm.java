@@ -32,7 +32,7 @@ import java.util.List;
  * @param <T> The type of token this algorithm operates on, which must extend the {@code Token} class.
  *
  * @author Christophe Lauret
- * @version 1.1.2
+ * @version 1.2.0
  * @since 1.1.2
  */
 public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements DiffAlgorithm<T> {
@@ -76,8 +76,8 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
     if (from.size() == 1 && to.size() == 1) {
       T fromToken = from.get(0);
       T toToken = to.get(0);
-      float similarity = this.similarity.score(fromToken, toToken);
-      if (similarity >= this.minThreshold) {
+      float score = this.similarity.score(fromToken, toToken);
+      if (score >= this.minThreshold) {
         handler.handle(Operator.MATCH, fromToken);
       } else {
         handler.handle(Operator.DEL, fromToken);

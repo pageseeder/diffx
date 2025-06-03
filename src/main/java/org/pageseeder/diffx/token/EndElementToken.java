@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
+ * @version 1.2.0
  * @since 0.5.0
  */
 public interface EndElementToken extends XMLToken {
@@ -57,7 +57,7 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The corresponding token element.
    */
-  @Deprecated
+  @Deprecated(since = "1.1.2", forRemoval = true)
   StartElementToken getOpenElement();
 
   /**

@@ -39,11 +39,10 @@ import java.util.List;
  * counterpart, we get the solution more efficiently.</p>
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.2.0
+ * @since 0.9.0
  */
 public final class OptimisticXMLProcessor extends DiffProcessorBase implements XMLDiffProcessor {
-
-  private static final boolean DEBUG = false;
 
   private int fallbackThreshold = MatrixXMLAlgorithm.DEFAULT_THRESHOLD;
 
@@ -72,8 +71,6 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
     if (successful) {
       buffer.applyTo(getFilter(handler));
     } else {
-      // Fallback on default diff
-      if (DEBUG) System.err.println("Fast diff failed! Falling back on default diff");
       try {
         fallbackDiffMyers(from, to, getFilter(handler));
       } catch (IllegalStateException ex) {
@@ -110,7 +107,6 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
       algorithm.diff(from, to, actual);
       actual.end();
     } else if (!coalesced && this.isDownscaleAllowed) {
-      if (DEBUG) System.err.println("Coalescing content to");
       List<? extends XMLToken> a = CoalescingFilter.coalesce(from);
       List<? extends XMLToken> b = CoalescingFilter.coalesce(to);
       fallbackDiffMatrix(a, b, handler, true);

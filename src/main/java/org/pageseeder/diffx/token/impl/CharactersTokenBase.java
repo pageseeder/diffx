@@ -28,7 +28,8 @@ import java.io.IOException;
  * A base class for all the characters tokens "characters" SAX event.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.2.0
+ * @since 0.9.0
  */
 public abstract class CharactersTokenBase extends TokenBase implements TextToken {
 
@@ -49,7 +50,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public CharactersTokenBase(CharSequence seq) throws NullPointerException {
+  protected CharactersTokenBase(CharSequence seq) throws NullPointerException {
     if (seq == null)
       throw new NullPointerException("The characters cannot be null, use \"\"");
     this.characters = seq.toString();

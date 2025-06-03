@@ -26,10 +26,10 @@ package org.pageseeder.diffx.similarity;
  * @deprecated Use Similarity instead
  *
  * @author Christophe Lauret
- * @version 1.1.2
+ * @version 1.2.0
  * @since 1.1.2
  */
-@Deprecated
+@Deprecated(since = "1.2.0", forRemoval = true)
 @FunctionalInterface
 public interface SimilarityFunction<T> extends Similarity<T> {
 

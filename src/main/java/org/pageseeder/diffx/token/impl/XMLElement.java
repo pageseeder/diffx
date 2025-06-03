@@ -84,8 +84,11 @@ public class XMLElement extends TokenBase implements ElementToken {
     return null;
   }
 
+  /**
+   * @deprecated As of version 1.1.2, replaced by {@link #getContent()}
+   */
   @Override
-  @Deprecated
+  @Deprecated(since = "1.1.2", forRemoval = true)
   public List<XMLToken> getEvents() {
     return this.tokens();
   }
@@ -100,7 +103,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  @Deprecated
+  @Deprecated(since = "1.2.0", forRemoval = true)
   public List<XMLToken> getChildren() {
     return this.content;
   }

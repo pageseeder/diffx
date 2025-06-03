@@ -31,20 +31,19 @@ import java.util.List;
  *
  * @param <T> The type of token being compared
  *
- * @author Christophe Lauret
- * @version 0.9.0
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
+ *
+ * @author Christophe Lauret
+ * @version 1.2.0
+ * @since 0.9.0
  */
 abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
-
-  private static final boolean DEBUG = false;
 
   /**
    * Handles the results of the diff.
    */
   protected void handleResults(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<EdgeSnake> snakes) {
     for (EdgeSnake snake : snakes) {
-      if (DEBUG) System.err.println(snake);
       if (snake.isForward()) {
         handleForward(a, b, handler, snake);
       } else {

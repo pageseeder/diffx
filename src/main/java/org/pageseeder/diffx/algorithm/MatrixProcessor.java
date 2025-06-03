@@ -24,14 +24,10 @@ import java.util.List;
  * Build the matrix for the specified tokens using dynamic programming.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.2.0
+ * @since 0.9.0
  */
 public final class MatrixProcessor<T> {
-
-  /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = false;
 
   private boolean inverse = false;
 
@@ -46,11 +42,7 @@ public final class MatrixProcessor<T> {
    * @return the matrix using dynamic programming
    */
   public Matrix process(Sequence first, Sequence second) {
-    Matrix matrix = this.inverse ? computeInverse(first.tokens(), second.tokens()) : compute(first.tokens(), second.tokens());
-    if (DEBUG) {
-      printDebug(first.tokens(), second.tokens(), matrix, System.err);
-    }
-    return matrix;
+    return this.inverse ? computeInverse(first.tokens(), second.tokens()) : compute(first.tokens(), second.tokens());
   }
 
   /**
@@ -60,11 +52,7 @@ public final class MatrixProcessor<T> {
    * @return the matrix using dynamic programming
    */
   public Matrix process(List<? extends T> first, List<? extends T> second) {
-    Matrix matrix = this.inverse ? computeInverse(first, second) : compute(first, second);
-    if (DEBUG) {
-      printDebug(first, second, matrix, System.err);
-    }
-    return matrix;
+    return this.inverse ? computeInverse(first, second) : compute(first, second);
   }
 
   private static <T> Matrix compute(List<? extends T> first, List<? extends T> second) {
@@ -72,7 +60,7 @@ public final class MatrixProcessor<T> {
     int length1 = first.size();
     int length2 = second.size();
     matrix.setup(length1 + 1, length2 + 1);
-    // allocate storage for array L;
+    // allocate storage for array L
     for (int i = 0; i < length1 + 1; i++) {
       for (int j = 0; j < length2 + 1; j++) {
         // we reach the end of the sequence (fill with 0)
@@ -97,7 +85,7 @@ public final class MatrixProcessor<T> {
     int length1 = first.size();
     int length2 = second.size();
     matrix.setup(length1 + 1, length2 + 1);
-    // allocate storage for array L;
+    // allocate storage for array L
     for (int i = length1; i >= 0; i--) {
       for (int j = length2; j >= 0; j--) {
         // we reach the end of the sequence (fill with 0)
