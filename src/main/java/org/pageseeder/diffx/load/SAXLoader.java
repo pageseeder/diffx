@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
@@ -29,10 +30,14 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Loads the SAX events in an {@link Sequence}.
@@ -50,32 +55,16 @@ import java.util.List;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 1.0.1
+ * @version 1.2.0
  * @since 0.6.0
  */
 @SuppressWarnings("JavadocLinkAsPlainText")
 public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
   /**
-   * The default XML reader in use.
-   */
-  private static final String DEFAULT_XML_READER;
-
-  static {
-    String className;
-    try {
-      className = XMLReaderFactory.createXMLReader().getClass().getName();
-    } catch (SAXException ex) {
-      System.err.println("org.pageseeder.diffx.SAXLoader cannot find a default XML loader!");
-      className = "";
-    }
-    DEFAULT_XML_READER = className;
-  }
-
-  /**
    * The XML reader class in use (set to the default XML reader).
    */
-  private static String readerClassName = DEFAULT_XML_READER;
+  private static @NotNull String readerClassName = "";
 
   /**
    * Runs the loader on the specified input source.
@@ -125,13 +114,11 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    *
    * @param className The name of the XML reader class to use;
    *                  or <code>null</code> to reset the XML reader.
+   * @deprecated To be removed, with no replacement
    */
+  @Deprecated(forRemoval = true, since = "1.2.0")
   public static void setXMLReaderClass(String className) {
-    // if the className is null reset to default
-    if (className == null) {
-      className = DEFAULT_XML_READER;
-    }
-    readerClassName = className;
+    readerClassName = Objects.toString(className, "");
   }
 
   /**
@@ -141,7 +128,16 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    */
   private static XMLReader newReader(DiffConfig config) throws LoadingException {
     try {
-      XMLReader reader = XMLReaderFactory.createXMLReader(readerClassName);
+      XMLReader reader;
+      if (readerClassName.isEmpty()) {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(config.isNamespaceAware());
+        factory.setValidating(false);
+        SAXParser parser = factory.newSAXParser();
+        reader = parser.getXMLReader();
+      } else {
+        reader = XMLReaderFactory.createXMLReader(readerClassName);
+      }
       reader.setFeature("http://xml.org/sax/features/validation", false);
       reader.setFeature("http://xml.org/sax/features/namespaces", config.isNamespaceAware());
       reader.setFeature("http://xml.org/sax/features/namespace-prefixes", !config.isNamespaceAware());
@@ -154,7 +150,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
       reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
       return reader;
-    } catch (SAXException ex) {
+    } catch (ParserConfigurationException | SAXException ex) {
       throw new LoadingException(ex);
     }
   }
@@ -183,7 +179,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     private final StringBuilder ch = new StringBuilder();
 
     /**
-     * The comparator in order to sort attribute correctly.
+     * The comparator to sort attribute correctly.
      */
     private final AttributeComparator comparator = new AttributeComparator();
 
@@ -324,26 +320,32 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
     @Override
     public void startDTD(String name, String publicId, String systemId) {
+      // We don't load external DTDs
     }
 
     @Override
     public void endDTD() {
+      // We don't load external DTDs
     }
 
     @Override
     public void startEntity(String name) {
+      // We don't report entities as a token, but as a text token
     }
 
     @Override
     public void endEntity(String name) {
+      // We don't report entities as a token, but as a text token
     }
 
     @Override
     public void startCDATA() {
+      // We don't report CDATA as a token, but as a text token
     }
 
     @Override
     public void endCDATA() {
+      // We don't report CDATA as a token, but as a text token
     }
 
     @Override
