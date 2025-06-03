@@ -102,6 +102,9 @@ public class XMLElement extends TokenBase implements ElementToken {
     return tokens;
   }
 
+  /**
+   * @deprecated As of version 1.2.0, replaced by {@link #getContent()}
+   */
   @Override
   @Deprecated(since = "1.2.0", forRemoval = true)
   public List<XMLToken> getChildren() {
