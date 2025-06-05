@@ -3,7 +3,7 @@ apply plugin: 'signing'
 apply plugin: 'io.codearte.nexus-staging'
 
 tasks.register('sourceJar', Jar) {
-  description 'Packages up the source in a Jar for Maven publishing'
+  description = 'Packages up the source in a Jar for Maven publishing'
   from sourceSets.main.allJava
   from sourceSets.main.resources
 }
@@ -12,7 +12,7 @@ javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
 tasks.register('javadocJar', Jar) {
   dependsOn javadoc
-  description 'Packages up the javadoc in a Jar for Maven publishing'
+  description = 'Packages up the javadoc in a Jar for Maven publishing'
   from javadoc.destinationDir
 }
 
@@ -90,8 +90,8 @@ publishing {
       url = version.endsWith("SNAPSHOT") ? snapshotRepoUrl : releaseRepoUrl
       name = "sonatype"
       credentials {
-        username findProperty('sonatypeUsername')
-        password findProperty('sonatypePassword')
+        username = findProperty('sonatypeUsername')
+        password = findProperty('sonatypePassword')
       }
     }
   }
