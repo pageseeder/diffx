@@ -1,0 +1,12 @@
+[versions]
+junit = "5.10.2"
+
+[libraries]
+jetbrains-annotations = { module = "org.jetbrains:annotations", version = "26.0.2" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+pso-xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version = "1.0.4" }
+
+[plugins]
+jreleaser = { id = "org.jreleaser", version = "1.18.0" }
