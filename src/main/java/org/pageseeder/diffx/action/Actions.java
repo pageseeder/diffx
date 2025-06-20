@@ -33,12 +33,15 @@ public final class Actions {
 
   private Actions() {}
 
+
   /**
-   * Generates the list of tokens from the list of actions.
+   * Generates a list of tokens by processing a list of actions based on their operators and the specified direction.
    *
-   * @param actions The list of actions.
-   * @param forward <code>true</code> for generating the new sequence (A to B);
-   *                <code>false</code> for generating the old sequence (B to A).
+   * @param <T>     The type of tokens in the actions.
+   * @param actions The list of actions to process. Each action contains an operator and a list of tokens.
+   * @param forward A boolean specifying the processing direction. If true, actions with the operator INS will be included.
+   *                If false, actions with the operator DEL will be included instead.
+   * @return A list of tokens extracted from the specified actions based on their operators.
    */
   public static <T> List<T> generate(List<Action<T>> actions, boolean forward) {
     List<T> generated = new ArrayList<>();
@@ -53,9 +56,13 @@ public final class Actions {
   }
 
   /**
-   * Converts the list of actions into a list of atomic operations.
+   * Converts a list of actions into a list of operations. For each action, all associated tokens
+   * are transformed into operations using the action's operator.
    *
-   * @param actions The list of actions.
+   * @param <T>     The type of tokens in the actions.
+   * @param actions The list of actions to convert. Each action contains an operator and a list of tokens.
+   * @return A list of operations where each operation corresponds to a token from the actions paired
+   *         with its associated operator.
    */
   public static <T> List<Operation<T>> toOperations(List<Action<T>> actions) {
     List<Operation<T>> operations = new ArrayList<>();
@@ -69,9 +76,12 @@ public final class Actions {
   }
 
   /**
-   * Flip operator on the actions by swapping the INS and DEL.
+   * Reverses the operators of a list of actions by invoking the {@code flip} method
+   * on each action, returning a new list of flipped actions.
    *
-   * @return A new list of actions.
+   * @param <T>     The type of tokens in the actions.
+   * @param actions The list of actions to be flipped.
+   * @return A new list of actions where each action has its operator reversed.
    */
   public static <T> List<Action<T>> flip(List<Action<T>> actions) {
     List<Action<T>> reverse = new ArrayList<>(actions.size());
@@ -82,7 +92,16 @@ public final class Actions {
   }
 
   /**
-   * Apply the specified list of actions to the input sequence and return the corresponding output.
+   * Applies a list of actions to the input sequence and returns a new sequence based on
+   * the processed tokens.
+   *
+   * This method processes the tokens in the input sequence using the provided actions
+   * and generates a new sequence reflecting the result of applying these actions.
+   *
+   * @param input   The input sequence to which the actions will be applied.
+   * @param actions A list of actions defining the operations to be performed on the tokens
+   *                of the input sequence.
+   * @return A new sequence resulting from applying the specified actions to the input sequence.
    */
   public static Sequence apply(Sequence input, List<Action<XMLToken>> actions) {
     List<XMLToken> tokens = apply(input.tokens(), actions);
@@ -92,12 +111,17 @@ public final class Actions {
   }
 
   /**
-   * Apply the specified list of actions to the input and return the corresponding output.
+   * Applies a list of actions to the given input list and produces a new list of tokens
+   * based on the specified operations defined in the actions.
    *
-   * <p>This method can be used to generate A from B.</p>
+   * @param <T>     The type of elements in the input list and tokens in the actions.
+   * @param input   The input list of tokens to process.
+   * @param actions The list of actions defining modifications to apply to the input.
    *
-   * @return The corresponding output.
-   * @throws IllegalArgumentException If the list of actions cannot be applied to the specified input
+   * @return A new list of tokens resulting from applying the actions to the input list.
+   *
+   * @throws IllegalArgumentException If the actions cannot be fully applied or
+   *                                  if they do not align with the input list.
    */
   public static <T> List<T> apply(List<T> input, List<Action<T>> actions) {
     List<T> out = new ArrayList<>(input.size());
@@ -137,7 +161,10 @@ public final class Actions {
    * @param a       List of tokens that may be deleted or matched
    * @param b       List of tokens that may be deleted of matched
    * @param actions List of actions to check
+   *
    * @param <T>     The type of token
+   *
+   * @return true if applicable; false otherwise.
    */
   public static <T> boolean isApplicable(List<? extends T> a, List<? extends T> b, List<Action<T>> actions) {
     int i = 0; // Index of A

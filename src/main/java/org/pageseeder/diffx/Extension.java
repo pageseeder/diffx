@@ -84,6 +84,8 @@ public final class Extension {
    * @param whitespace  The white space processing (a valid {@link WhiteSpaceProcessing} value).
    * @param granularity The text granularity (a valid {@link TextGranularity} value).
    *
+   * @return The diff as a Node
+   *
    * @throws DiffException Should a Diff exception occur.
    * @throws IOException   Should an I/O exception occur.
    */

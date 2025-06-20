@@ -65,6 +65,7 @@ public final class Action<T> {
    * Creates a new action from a list of tokens.
    *
    * @param operator The type of action.
+   * @param tokens The tokens part of the action.
    *
    * @throws NullPointerException If either parameter is null.
    */

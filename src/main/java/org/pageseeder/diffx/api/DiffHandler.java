@@ -35,7 +35,7 @@ public interface DiffHandler<T> {
   /**
    * Receives notification of the start of the processing.
    *
-   * @apiNote This method is called before any other method. Implementations can use this method to initialize
+   * <p><b>Implementation note:</b> This method is called before any other method. Implementations can use this method to initialize
    * objects required by the handler. The default implementation does nothing.
    */
   default void start() {
@@ -56,7 +56,7 @@ public interface DiffHandler<T> {
   /**
    * Receives notification of the end of the processing.
    *
-   * @apiNote This method is called after any other method. Implementations can use this method to initialise
+   * <p><b>Implementation note:</b> This method is called after any other method. Implementations can use this method to initialise
    * objects required by the handler. The default implementation does nothing.
    */
   default void end() {

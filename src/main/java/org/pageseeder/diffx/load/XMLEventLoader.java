@@ -80,11 +80,13 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
+
   /**
-   * Loads the XML tokens from the specified XML event reader.
+   * Loads an XML sequence from an {@link XMLEventReader}.
    *
-   * @return the corresponding sequence.
-   * @throws LoadingException Wraps any parsing {@link XMLStreamException}
+   * @param reader The {@code XMLEventReader} providing the XML input to load.
+   * @return A {@code Sequence} object representing the loaded XML structure.
+   * @throws LoadingException If an error occurs while processing the XML events.
    */
   public Sequence load(XMLEventReader reader) throws LoadingException {
     XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());

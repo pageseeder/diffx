@@ -47,11 +47,11 @@ import java.util.Objects;
  * <code>org.apache.crimson.parser.XMLReaderImpl</code>.
  *
  * <p>The XML reader implementation must support the following features settings
- * <pre>
+ * <pre>{@code
  *   http://xml.org/sax/features/validation         => false
  *   http://xml.org/sax/features/namespaces         => true | false
  *   http://xml.org/sax/features/namespace-prefixes => true | false
- * </pre>
+ * }</pre>
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure

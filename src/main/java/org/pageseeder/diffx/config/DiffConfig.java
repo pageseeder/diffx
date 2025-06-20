@@ -59,16 +59,20 @@ public final class DiffConfig {
   }
 
   /**
-   * Indicates whether the namespaces should be handled or ignored when processing XML.
+   * Indicates whether namespace awareness is enabled in the Diff configuration.
+   *
+   * @return true if namespace processing is enabled, false otherwise
    */
   public boolean isNamespaceAware() {
     return this.isNamespaceAware;
   }
 
   /**
-   * Indicates whether Diffx allows doctype declarations.
+   * Determines whether the configuration allows the usage of DOCTYPE declarations.
    *
    * <p>Note: Allowing doctype declaration potentially exposes to XML External Entity (XXE) attacks.
+   *
+   * @return true if DOCTYPE declarations are allowed, false otherwise.
    */
   public boolean allowDoctypeDeclaration() {
     return this.allowDoctypeDeclaration;
@@ -91,6 +95,8 @@ public final class DiffConfig {
   /**
    * Create a default config that is namespace aware, preserves whitespaces and
    * report differences within text at word level (including spaces, but excluding punctuation)
+   *
+   * @return A new instance with the default configuration
    */
   public static DiffConfig getDefault() {
     return new DiffConfig(true, WhiteSpaceProcessing.COMPARE, TextGranularity.SPACE_WORD);
@@ -99,24 +105,32 @@ public final class DiffConfig {
   /**
    * Create a default config that is namespace aware, preserves whitespaces and
    * report differences within text at word level (including spaces, but excluding punctuation)
+   *
+   * @return A new instance with the legacy default configuration
    */
   public static DiffConfig legacyDefault() {
     return new DiffConfig(true, WhiteSpaceProcessing.COMPARE, TextGranularity.WORD);
   }
 
   /**
-   * Create a new config with the specified granularity.
+   * Creates a new configuration with the specified text granularity.
    *
-   * @return a new instance
+   * @param granularity The level of granularity to be used when determining text differences.
+   *                    This defines how text is tokenized and compared
+   *                    (e.g., at the character, word, space-word, punctuation, or text level).
+   * @return A new {@code DiffConfig} instance with the specified text granularity.
    */
   public DiffConfig granularity(TextGranularity granularity) {
     return new DiffConfig(this.isNamespaceAware, this.whitespace, granularity, this.allowDoctypeDeclaration);
   }
 
   /**
-   * Create a new config with the specified whitespace processing.
+   * Creates a new DiffConfig instance with the specified whitespace processing configuration.
    *
-   * @return a new instance
+   * @param whitespace The whitespace processing mode to be applied. This determines how
+   *                   whitespace differences are handled during the diffing process.
+   *                   Options include ignoring, preserving, or comparing whitespaces.
+   * @return A new DiffConfig instance configured with the specified whitespace processing.
    */
   public DiffConfig whitespace(WhiteSpaceProcessing whitespace) {
     return new DiffConfig(this.isNamespaceAware, whitespace, this.granularity, this.allowDoctypeDeclaration);
@@ -132,9 +146,11 @@ public final class DiffConfig {
   }
 
   /**
-   * Create a new config to allow or disallow doctype declarations
+   * Configures whether DOCTYPE declarations are allowed in the Diff configuration.
    *
-   * @return a new instance
+   * @param allow A boolean indicating if DOCTYPE declarations should be allowed.
+   *              Setting it to true permits DOCTYPE declarations, while setting it to false disallows them.
+   * @return A new {@code DiffConfig} instance with the specified DOCTYPE declaration setting.
    */
   public DiffConfig allowDoctypeDeclaration(boolean allow) {
     return new DiffConfig(this.isNamespaceAware, this.whitespace, this.granularity, allow);

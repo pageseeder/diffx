@@ -111,7 +111,19 @@ public final class EdgeSnake {
   }
 
   /**
-   * Create a new EdgeSnake within the rectangle.
+   * Creates an instance of {@code EdgeSnake} within the rectangle and removes
+   * stubs from it based on the provided parameters.
+   *
+   * @param aStart    The starting index in the first array to compare.
+   * @param aEnd      The ending index in the first array to compare.
+   * @param bStart    The starting index in the second array to compare.
+   * @param bEnd      The ending index in the second array to compare.
+   * @param direction The direction of the {@code EdgeSnake}.
+   * @param xStart    The initial x-coordinate of the {@code EdgeSnake}.
+   * @param yStart    The initial y-coordinate of the {@code EdgeSnake}.
+   * @param edited    Indicates if the snake has been edited.
+   * @param matching  Indicates the number of matches.
+   * @return A newly created and configured {@code EdgeSnake} instance.
    */
   public static EdgeSnake create(int aStart, int aEnd, int bStart, int bEnd, Direction direction, int xStart, int yStart, int edited, int matching) {
     EdgeSnake snake = new EdgeSnake(xStart, yStart, direction, edited, matching);

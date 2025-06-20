@@ -47,7 +47,10 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
   }
 
   /**
-   * Create a new prefix mapping with the specified namespace.
+   * Constructs a new {@code NamespaceSet} and initializes it with a single {@link Namespace}.
+   * The provided namespace is added to the set, mapping its URI and prefix accordingly.
+   *
+   * @param namespace the {@link Namespace} to be added to the set; must not be null
    */
   public NamespaceSet(Namespace namespace) {
     this.namespacesByUri.put(namespace.getUri(), namespace);
@@ -67,16 +70,16 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
   }
 
   /**
-   * Add the specified mapping if the namespace URI has not been mapped before.
+   * Adds a namespace URI and its corresponding prefix to the namespace set.
+   * If the URI is not already present in the set, it is added along with the
+   * given prefix or a computed unique prefix in case of a prefix clash.
    *
-   * <p>This method will ensure that the mapping is actually unique, that is that
-   * the namespace URI correspond to one and only one prefix and that the prefix only
-   * corresponds to one and only one namespace URI.
+   * @param uri the namespace URI to be added; must not be null
+   * @param prefix the prefix to assign to the namespace URI; must not be null
+   * @return true if the namespace is added successfully, false if the URI
+   *         already exists in the set
    *
-   * @param uri    The namespace URI to map.
-   * @param prefix The prefix to use.
-   *
-   * @throws NullPointerException if the URI or prefix is <code>null</code>
+   * @throws NullPointerException if the URI or prefix is null
    */
   public boolean add(@NotNull String uri, @NotNull String prefix) throws NullPointerException {
     if (!this.namespacesByUri.containsKey(uri)) {
@@ -106,7 +109,13 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
   }
 
   /**
-   * Add the specified mappings if the namespace URI has not been mapped before.
+   * Adds a namespace to the set. This method delegates the addition to the
+   * {@link #add(String, String)} method by using the URI and prefix from
+   * the provided {@link Namespace} instance.
+   *
+   * @param namespace the {@link Namespace} object to be added; must not be null
+   * @return true if the namespace is added successfully, false if the URI
+   *         already exists in the set
    */
   @Override
   public boolean add(Namespace namespace) {
@@ -122,6 +131,8 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @param uri    The namespace URI to map.
    * @param prefix The prefix to use.
+   *
+   * @return the previous namespace mapped to this URI
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
@@ -258,6 +269,9 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * <p>The first namespace takes precedence over the second one, so if a namespace URI is mapped different
    * prefixes, the prefix from the first mapping is used.</p>
+   *
+   * @param a The first namespace to merge
+   * @param b The second namespace to merge
    *
    * @return a new set of namespaces including namespaces from both mappings
    */

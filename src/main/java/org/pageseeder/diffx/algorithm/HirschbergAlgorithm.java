@@ -34,9 +34,10 @@ import java.util.List;
  *
  * <p>The algorithm has been altered slightly to be able to compute the Shortest Edit Script (SES).
  *
+ * @see <a href="https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf">Algorithm for Computing Maximal Common Subsequences D.S. Hirschberg</a>
+ *
  * @author Christophe Lauret
  * @version 0.9.0
- * @link <a href="https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf">Algorithm for Computing Maximal Common Subsequences D.S. Hirschberg</a>
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
 

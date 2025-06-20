@@ -38,9 +38,12 @@ public final class Operations {
   /**
    * Generates the list of tokens from the list of operations.
    *
+   * @param <T> The type of token associated with the operations.
    * @param operations The list of operations.
    * @param forward    <code>true</code> for generating the new sequence (INS or MATCH);
    *                   <code>false</code> for generating the old sequence (DEL or MATCH).
+   *
+   * @return The resulting list of operations
    */
   public static <T> List<T> generate(List<Operation<T>> operations, boolean forward) {
     List<T> generated = new LinkedList<>();
@@ -55,7 +58,15 @@ public final class Operations {
   }
 
   /**
-   * Flip the operations by swapping the INS and DEL.
+   * Reverses a list of operations by flipping each operation. Flipping
+   * transforms the operation's operator (e.g., INS to DEL or vice versa),
+   * or leaves it unchanged if the operator is MATCH.
+   *
+   * @param <T> The type of token associated with the operations.
+   * @param operations The list of operations to be flipped.
+   *                   Must not be null, and all operations must provide a valid flip implementation.
+   * @return A new list of operations where each operation is the flipped version
+   *         of the corresponding operation in the provided list.
    */
   public static <T> List<Operation<T>> flip(List<Operation<T>> operations) {
     List<Operation<T>> reverse = new ArrayList<>(operations.size());
@@ -66,7 +77,16 @@ public final class Operations {
   }
 
   /**
-   * Apply the specified list of operations to the input sequence and return the corresponding output.
+   * Applies a series of operations to a given sequence of tokens and generates a new sequence.
+   * Each operation transforms the tokens of the input sequence, and the resulting tokens
+   * are used to construct the output sequence.
+   *
+   * @param input The input sequence to which the operations will be applied. Must not be null.
+   * @param operations A list of operations detailing how to transform the input sequence.
+   *                   Each operation must have a valid operator and token. Must not be null.
+   * @return A new sequence of tokens resulting from applying the operations to the input sequence.
+   * @throws IllegalArgumentException If the operations cannot be successfully applied
+   *                                  to the input sequence.
    */
   public static Sequence apply(Sequence input, List<Operation<XMLToken>> operations) {
     List<XMLToken> tokens = apply(input.tokens(), operations);
@@ -76,7 +96,18 @@ public final class Operations {
   }
 
   /**
-   * Apply the specified list of action to the input sequence and return the corresponding output.
+   * Applies a list of operations to the input list and generates the corresponding output list.
+   * This method processes each operation in the specified order, modifying the input list
+   * according to the operation's type (MATCH, INS, DEL).
+   *
+   * @param <T> The type of elements in the input list and operations.
+   * @param input The input list of elements to which the operations will be applied.
+   *              Cannot be null.
+   * @param operations The list of operations describing how to transform the input list.
+   *                   Each operation must have a valid operator and token. Cannot be null.
+   * @return A new list of elements resulting from applying the operations to the input list.
+   * @throws IllegalArgumentException If the operations cannot be applied to the input list
+   *                                  (e.g., due to mismatched lengths or invalid operations).
    */
   public static <T> List<T> apply(List<T> input, List<Operation<T>> operations) {
     List<T> out = new ArrayList<>(input.size());

@@ -129,6 +129,8 @@ public final class TokenListSlicer {
    * <p>The common end sequence will be stored in the class until the next
    * {@link #handleEnd(DiffHandler)} is called.
    *
+   * @param start The index from which we can start slicing
+   *
    * @return The number of common elements at the end of the sequences.
    * @throws IllegalStateException If the end buffer is not empty.
    */

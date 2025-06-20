@@ -40,7 +40,14 @@ import java.util.List;
 abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
 
   /**
-   * Handles the results of the diff.
+   * Processes the results of the diff operation by iterating through a collection of snakes
+   * and delegating handling to forward or reverse methods based on the direction of each snake.
+   *
+   * @param a       The first list being compared.
+   * @param b       The second list being compared.
+   * @param handler The handler responsible for processing the diff results.
+   * @param snakes  A list of snakes representing the differences between the two sequences.
+   *                Each snake contains information about changes and matches.
    */
   protected void handleResults(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, List<EdgeSnake> snakes) {
     for (EdgeSnake snake : snakes) {

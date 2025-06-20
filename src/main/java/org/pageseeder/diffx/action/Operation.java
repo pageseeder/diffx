@@ -33,9 +33,12 @@ public final class Operation<T> {
   private final T token;
 
   /**
-   * Create an operation.
+   * Constructs a new {@code Operation} instance with the specified operator and token.
    *
-   * @throws NullPointerException If either parameter is null.
+   * @param operator The operator representing the type of operation (e.g., insertion, deletion, or match).
+   *                 Must not be null.
+   * @param token    The token associated with this operation. Must not be null.
+   * @throws NullPointerException If {@code operator} or {@code token} is null.
    */
   public Operation(Operator operator, T token) {
     this.operator = Objects.requireNonNull(operator);

@@ -43,7 +43,9 @@ public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
   void setCoalesce(boolean coalesce);
 
   /**
-   * Indicates whether the processor will coalesce consecutive text insertions and deletions
+   * Determines whether consecutive text operations are being coalesced into a single operation.
+   *
+   * @return true if coalescing is enabled, false otherwise.
    */
   boolean isCoalescing();
 
@@ -52,6 +54,7 @@ public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
    *
    * @param from    The original list of tokens to compare (deleted)
    * @param to      The target list of tokens to compare (inserted)
+   * @param config  The diff config to use
    * @param handler The handler for the results of the comparison
    *
    * @throws DiffException Wrap any error occurring during processing.

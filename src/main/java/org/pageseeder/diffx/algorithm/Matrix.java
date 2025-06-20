@@ -78,7 +78,7 @@ public interface Matrix {
   /**
    * Returns <code>true</code> we should move on the X direction.
    *
-   * <p>if value(i+1, j) > value(i, j+1)
+   * <p>if {@code value(i+1, j) > value(i, j+1)}
    *
    * @param i The column index.
    * @param j The row index.

@@ -29,7 +29,7 @@ import java.util.List;
  *
  * <p>This class wraps a list of <code>XMLToken</code>s alongside the namespaces.
  *
- * @implNote we use an <code>ArrayList</code> to store the tokens because some algorithms
+ * <p><b>Implementation note:</b> we use an <code>ArrayList</code> to store the tokens because some algorithms
  * need random access. Other list implementations may affect performance.
  *
  * @author Christophe Lauret

@@ -27,12 +27,14 @@ import java.util.List;
  * An implementation of the greedy algorithm as outlined in Eugene Myers' paper
  * "An O(ND) Difference Algorithm and its Variations".
  *
+ * <p><b>Implementation note:</b> this alternative version does not compute te snakes: it computes backwards first
+ * and reports to the handler during backtrace.
+ *
  * @param <T> The type of token being compared
  *
  * @author Christophe Lauret
  * @version 0.9.0
- * @implNote This alternative version does not compute te snakes: it computes backwards first
- * and reports to the handler during backtrace.
+ *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial1">Myers' Diff Algorithm: The basic greedy algorithm</a>
  */

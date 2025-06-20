@@ -32,10 +32,11 @@ import java.util.Objects;
  *
  * <p>The algorithm has been adjusted to generate the shortest edit script (SES)</p>
  *
+ * <p><b>Implementation note:</b> this algorithm effectively detects the correct changes in the sequences, but cannot be used on
+ * XML sequences as it cannot always produce well-formed XML.
+ *
  * @author Christophe Lauret
  * @version 0.9.0
- * @implNote this algorithm effectively detects the correct changes in the sequences, but cannot be used on
- * XML sequences as it cannot always produce well-formed XML.
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 

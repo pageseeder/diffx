@@ -33,8 +33,14 @@ import org.jetbrains.annotations.NotNull;
 public interface Similarity<T> {
 
   /**
-   * Computes the similarity between two tokens.
-   * @return A value between 0.0 (completely different) and 1.0 (identical)
+   * Calculates the similarity score between two elements.
+   *
+   * <p>The score represents how similar the two elements are, ranging from 0.0 to 1.0,
+   * where 0.0 indicates completely different and 1.0 indicates identical.
+   *
+   * @param a the first element to compare, must not be null
+   * @param b the second element to compare, must not be null
+   * @return a float value between 0.0 and 1.0 representing the similarity score
    */
   float score(@NotNull T a, @NotNull T b);
 

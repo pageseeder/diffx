@@ -54,7 +54,9 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   private final Deque<Operation<StartElementToken>> elements;
 
   /**
-   * Constructs a new filter.
+   * Constructs a new ElementStackFilter with a specified target handler.
+   *
+   * @param target The target handler that will be used to process XML tokens.
    */
   public ElementStackFilter(DiffHandler<XMLToken> target) {
     super(target);
@@ -116,6 +118,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    *   <li>OR the token is an END_ELEMENT token that matches the last START_ELEMENT token and operator</li>
    * </ul>
    *
+   * @param operator The operator to check
    * @param token The token to check.
    *
    * @return <code>true</code> if it matches the current element;

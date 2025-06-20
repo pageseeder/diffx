@@ -74,11 +74,13 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
   }
 
   /**
-   * Indicates whether the diff between the two sequences can be computed.
+   * Determines whether the differences between two lists of {@link XMLToken} objects can be computed
+   * based on the configured threshold and optional slicing.
    *
-   * <p>This method from checks that size of (A) x size of B is below the threshold.
-   *
-   * <p>If it is above the threshold, it checks again after slicing.
+   * @param from The list of {@link XMLToken} objects representing the original sequence.
+   * @param to The list of {@link XMLToken} objects representing the modified sequence.
+   * @return {@code true} if the differences between the two lists can be computed;
+   *         {@code false} otherwise.
    */
   public boolean isDiffComputable(List<? extends XMLToken> from, List<? extends XMLToken> to) {
     // Check without slicer from

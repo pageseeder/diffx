@@ -57,7 +57,12 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
   }
 
   /**
-   * Set the maximum amount of comparison in case the fast algorithm fails.
+   * Sets the threshold value for falling back to a slower or alternative diff algorithm.
+   *
+   * <p>Effectively, set the maximum amount of comparison in case the fast algorithm fails.
+   *
+   * @param fallbackThreshold The threshold value indicating the point at which
+   *                          a fallback algorithm should be used.
    */
   public void setFallbackThreshold(int fallbackThreshold) {
     this.fallbackThreshold = fallbackThreshold;
