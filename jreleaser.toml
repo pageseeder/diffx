@@ -1,0 +1,47 @@
+[project]
+name = "diffx"
+description = "A Java library for comparing and identifying differences between XML and text documents."
+longDescription = """
+DiffX is a comprehensive Java library for comparing XML and text documents.
+ It implements efficient differencing algorithms specifically optimized for
+ XML structures, allowing for detailed comparison of document content and
+ structure.
+
+The library provides multiple output formats, fine-grained control over the
+ comparison process, and tools for analyzing and representing differences
+ between documents.
+"""
+tags = ["xml", "diff", "java"]
+authors = ["Christophe Lauret", "Philip Rutherford"]
+license = "Apache-2.0"
+inceptionYear = "2007"
+vendor = "Allette Systems"
+
+# Organization info
+[project.links]
+homepage = "https://github.com/pageseeder/diffx"
+license = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+
+# Java-specific configuration
+[project.languages.java]
+groupId = "org.pageseeder.diffx"
+mainClass = "org.pageseeder.diffx.Main"
+
+# Git configuration
+[release.github]
+owner = "pageseeder"
+name = "diffx"
+username = "pageseeder"
+branch = "main"
+
+# Signing configuration
+[signing]
+active = "ALWAYS"
+armored = true
+mode = "FILE"
+
+# Maven deployment configuration
+[deploy.maven.mavenCentral.sonatype]
+active = "ALWAYS"
+url = "https://central.sonatype.com/api/v1/publisher"
+stagingRepositories = ["build/staging-deploy"]

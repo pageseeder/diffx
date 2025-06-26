@@ -1,6 +1,3 @@
-import org.jreleaser.model.Active
-import org.jreleaser.model.Signing
-
 plugins {
     id("java-library")
     id("maven-publish")
@@ -13,7 +10,7 @@ val website: String by project
 
 group = "org.pageseeder.diffx"
 version = file("version.txt").readText().trim()
-description = title
+description = "A Java library for comparing and identifying differences between XML and text documents."
 
 repositories {
     mavenCentral()
@@ -46,7 +43,13 @@ tasks.test {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "org.pageseeder.diffx.Main"
+            "Main-Class" to "org.pageseeder.diffx.Main",
+            "Implementation-Title" to project.name,
+            "Implementation-Version" to project.version,
+            "Implementation-Vendor" to "Allette Systems",
+            "Specification-Title" to project.description,
+            "Specification-Version" to project.version,
+            "Specification-Vendor" to "Allette Systems"
         )
     }
 }
@@ -96,22 +99,5 @@ publishing {
 }
 
 jreleaser {
-
-    signing {
-        active = Active.ALWAYS
-        armored = true
-        mode = Signing.Mode.FILE
-    }
-
-    deploy {
-        maven {
-            mavenCentral {
-                register("sonatype") {
-                    active = Active.ALWAYS
-                    url = "https://central.sonatype.com/api/v1/publisher"
-                    stagingRepository("build/staging-deploy")
-                }
-            }
-        }
-    }
+    configFile.set(file("jreleaser.toml"))
 }
