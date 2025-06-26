@@ -3,7 +3,6 @@ package org.pageseeder.diffx.handler;
 import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
-import org.pageseeder.diffx.handler.DiffFilter;
 
 /**
  * A no-operation implementation of a {@link DiffFilter}, which transparently forwards all
