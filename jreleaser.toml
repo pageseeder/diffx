@@ -32,7 +32,7 @@ mainClass = "org.pageseeder.diffx.Main"
 owner = "pageseeder"
 name = "diffx"
 username = "pageseeder"
-branch = "main"
+branch = "master"
 
 # Signing configuration
 [signing]
