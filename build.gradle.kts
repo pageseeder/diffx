@@ -32,7 +32,7 @@ dependencies {
     implementation(libs.pso.xmlwriter)
 
     testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.bundles.junit.testing)
     testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
