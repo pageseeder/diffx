@@ -2,8 +2,9 @@ package org.pageseeder.diffx.util;
 
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.api.LoadingException;
+import org.pageseeder.diffx.config.DiffConfig;
+import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.load.SAXLoader;
-import org.pageseeder.diffx.load.XMLLoader;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Sequence;
 
@@ -18,17 +19,40 @@ class ExtendedWhitespaceStripperTest {
   void testStrip_ForElement() {
     ExtendedWhitespaceStripper stripper = newStripper();
     assertEquals(ExtendedWhitespaceStripper.StripWhitespace.ALWAYS, stripper.forElement(new XMLStartElement("table")));
-    assertEquals(ExtendedWhitespaceStripper.StripWhitespace.MAYBE, stripper.forElement(new XMLStartElement("td")));
+    assertEquals(ExtendedWhitespaceStripper.StripWhitespace.LEADING, stripper.forElement(new XMLStartElement("td")));
     assertEquals(ExtendedWhitespaceStripper.StripWhitespace.NEVER, stripper.forElement(new XMLStartElement("span")));
   }
 
   @Test
   void testStrip_RemovesWhitespaceInIgnoredElements() {
-    Sequence input = load("<ul>  <li>test</li>  </ul>");
-    Sequence expect = load("<ul><li>test</li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  <li>test</li>  </ul>",
+        "<ul><li>test</li></ul>"
+    );
+  }
+
+  @Test
+  void testStrip_RemovesWhitespaceInIgnoredElements2() {
+    assertStrippedInto(
+        "<ul>  <li>  test  </li>  </ul>",
+        "<ul><li>test</li></ul>"
+    );
+  }
+
+  @Test
+  void testStrip_RemovesWhitespaceInIgnoredElements3() {
+    assertStrippedInto(
+        "<ul>  <li>  multiple  words  </li>  </ul>",
+        "<ul><li>multiple  words</li></ul>"
+    );
+  }
+
+  @Test
+  void testStrip_RemovesWhitespaceInIgnoredElements4() {
+    assertStrippedInto(
+        "<ul>  <li>  multiple  words  </li>  <li>  <p> test </p>  </li></ul>",
+        "<ul><li>multiple  words</li><li><p>test</p></li></ul>"
+    );
   }
 
   /**
@@ -36,10 +60,10 @@ class ExtendedWhitespaceStripperTest {
    */
   @Test
   void testStrip_PreservesWhitespaceOutsideIgnoredElements() {
-    Sequence input = load("<p>Do not <i>remove</i>  </p>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(input, result);
+    assertStrippedInto(
+        "<p>Do not <i>remove</i>  </p>",
+        "<p>Do not <i>remove</i></p>"
+    );
   }
 
   /**
@@ -47,81 +71,82 @@ class ExtendedWhitespaceStripperTest {
    */
   @Test
   void testStrip_DoesNotAffectElementsOutsideIgnoreList() {
-    Sequence input = load("<ul>  \n<li>  </li>\n</ul>");
-    Sequence expect = load("<ul><li></li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  \n<li>  </li>\n</ul>",
+        "<ul><li></li></ul>"
+    );
   }
 
   @Test
   void testStrip_MixedContent1() {
-    Sequence input = load("<ul>  <li> <p>test</p> </li>  </ul>");
-    Sequence expect = load("<ul><li><p>test</p></li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  <li> <p>test</p> </li>  </ul>",
+        "<ul><li><p>test</p></li></ul>"
+    );
   }
 
   @Test
   void testStrip_MixedContent2() {
-    Sequence input = load("<ul>  <li> <b>test</b> </li>  </ul>");
-    Sequence expect = load("<ul><li> <b>test</b> </li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  <li> <b>test</b> </li>  </ul>",
+        "<ul><li><b>test</b></li></ul>"
+    );
   }
 
   @Test
   void testStrip_MixedContent3() {
-    Sequence input = load("<ul>  <li> <b>test</b> <i>again</i> </li>  </ul>");
-    Sequence expect = load("<ul><li> <b>test</b> <i>again</i> </li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  <li> <b>test</b> <i>again</i> </li>  </ul>",
+        "<ul><li><b>test</b> <i>again</i></li></ul>"
+    );
   }
 
   @Test
   void testStrip_MixedContent4() {
-    Sequence input = load("<ul>  <li> <p>test</p> keep </li>  </ul>");
-    Sequence expect = load("<ul><li><p>test</p> keep </li></ul>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<ul>  <li> <p>test</p> keep </li>  </ul>",
+        "<ul><li><p>test</p> keep</li></ul>"
+    );
   }
 
   @Test
   void testStrip_MixedContent5() {
-    Sequence input = load("<p>A <i>Simple</i> example.</p>");
-    Sequence expect = load("<p>A <i>Simple</i> example.</p>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<p>A <i>Simple</i> example.</p>",
+        "<p>A <i>Simple</i> example.</p>"
+    );
   }
 
   @Test
   void testStrip_MixedContent6() {
-    Sequence input = load("<p> A <i>Simple</i> example.\n</p>");
-    Sequence expect = load("<p> A <i>Simple</i> example.\n</p>");
-    ExtendedWhitespaceStripper stripper = newStripper();
-    Sequence result = stripper.process(input);
-    assertEquals(expect, result);
+    assertStrippedInto(
+        "<p> A <i>Simple</i> example.\n</p>",
+        "<p>A <i>Simple</i> example.</p>"
+    );
   }
 
   private ExtendedWhitespaceStripper newStripper() {
     ExtendedWhitespaceStripper stripper = new ExtendedWhitespaceStripper();
     stripper.setAlwaysIgnore("article", "ol", "section", "table", "ul");
-    stripper.setMaybeIgnore("li", "td", "th", "div", "p");
+    stripper.setMaybeIgnore("div", "li", "td", "th", "p");
     return stripper;
   }
 
   private Sequence load(String xml) {
     try {
-      XMLLoader loader = new SAXLoader();
+      SAXLoader loader = new SAXLoader();
+      loader.setConfig(DiffConfig.getDefault().granularity(TextGranularity.SPACE_WORD));
       return loader.load(new StringReader(xml));
     } catch (LoadingException | IOException ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  private void assertStrippedInto(String source, String expect) {
+    Sequence input = load(source);
+    Sequence exp = load(expect);
+    Sequence got = newStripper().process(input);
+    assertEquals(exp.tokens(), got.tokens());
   }
 
 }

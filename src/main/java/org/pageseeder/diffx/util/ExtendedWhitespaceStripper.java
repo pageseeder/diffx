@@ -21,9 +21,9 @@ import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
+import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Namespace;
-import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.xml.SequenceProcessor;
 
 import java.util.*;
@@ -41,14 +41,56 @@ import java.util.*;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.2.1
  * @since 1.1.0
  */
 public class ExtendedWhitespaceStripper implements SequenceProcessor {
 
-  public enum StripWhitespace {
-    ALWAYS, MAYBE, NEVER
+  /**
+   * An enumeration that defines the rules for stripping whitespace in various contexts.
+   */
+  enum StripWhitespace {
+
+    /**
+     * Whitespace will always be stripped since this context only supports elements as
+     * child nodes so whitespaces are only used for indentation.
+     *
+     * <p>For example, for the following HTML elements {@code <table>}, {@code <ul>},
+     * {@code <ol>}
+     */
+    ALWAYS,
+
+    /**
+     * Leading whitespace can be removed as this context supports mixed
+     * content but does not render leading or trailing spaces.
+     *
+     * <p>For example, for the following HTML elements {@code <p>}, {@code <li>},
+     * {@code <td>}
+     */
+    LEADING,
+
+    /**
+     * Trailing whitespace can be removed as this context supports mixed
+     * content but does not render leading or trailing spaces.
+     *
+     * <p>For example, for the following HTML elements {@code <p>}, {@code <li>},
+     * {@code <td>}
+     */
+    TRAILING,
+
+    /**
+     * Whitespace will never be stripped either because the element naturally preserves
+     * whitespaces as they are significant or because the element is used for inline
+     * markup.
+     *
+     * <p>This is the default.
+     *
+     * <p>For example, for the following HTML elements {@code <pre>}, {@code <i>},
+     * {@code <em>}
+     */
+    NEVER
   }
+
 
   private final Set<StartElementToken> alwaysIgnore = new HashSet<>();
   private final Set<StartElementToken> maybeIgnore = new HashSet<>();
@@ -71,26 +113,10 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
     this.maybeIgnore.addAll(toSet(names, ns));
   }
 
-  public StripWhitespace forElement(StartElementToken start) {
+  StripWhitespace forElement(StartElementToken start) {
     if (this.alwaysIgnore.contains(start)) return StripWhitespace.ALWAYS;
-    if (this.maybeIgnore.contains(start)) return StripWhitespace.MAYBE;
+    if (this.maybeIgnore.contains(start)) return StripWhitespace.LEADING;
     return StripWhitespace.NEVER;
-  }
-
-  /**
-   * Removes ignorable whitespace from the given XML sequence based on the defined set of elements to ignore.
-   *
-   * <p>The method traverses through the sequence of XML tokens, checks the context of each token,
-   * and filters out whitespace tokens as needed. Start and end elements are used to manage the context
-   * stack, determining whether the current context is ignorable. Only the tokens that are not ignorable
-   * in the given context are included in the new stripped sequence.
-   *
-   * @param sequence The XML sequence to process and strip of ignorable whitespace.
-   * @return A new {@link Sequence} instance containing the filtered tokens without ignorable whitespace.
-   */
-  @Override
-  public @NotNull Sequence process(@NotNull Sequence sequence) {
-    return new Sequence(process(sequence.tokens()), sequence.getNamespaces());
   }
 
   /**
@@ -115,8 +141,16 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
         context.push(sc);
       } else if (type == XMLTokenType.END_ELEMENT) {
         context.pop();
-      } else if (type == XMLTokenType.TEXT && isWhiteSpace(token)) {
-        include = includeWhitespace(context, tokens, i);
+      } else if (type == XMLTokenType.TEXT) {
+        if (isWhiteSpace(token)) {
+          include = includeWhitespace(context, tokens, i);
+        } else if (context.peek() == StripWhitespace.LEADING) {
+          if (token.getValue().startsWith(" ")) {
+            out.add(new WordToken(token.getValue().substring(1)));
+            include = false;
+          }
+          replaceHead(context, StripWhitespace.TRAILING);
+        }
       }
 
       // Include
@@ -127,34 +161,26 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
     return out;
   }
 
-  /**
-   * Determines whether whitespace should be included in a given context within a sequence of XML tokens.
-   * The method evaluates the context stack and the subsequent XML token to make its determination.
-   *
-   * @param context A stack representing the current state of whitespace stripping rules.
-   *                The stack contains {@link StripWhitespace} values to dictate how whitespace is handled
-   *                within the current scope.
-   * @param tokens A list of {@link XMLToken} objects representing the sequence of XML tokens being evaluated.
-   * @param i The index of the current XML token in the tokens list.
-   * @return true if whitespace should be included based on the context and subsequent XML tokens,
-   *         false if whitespace should be excluded.
-   */
   private boolean includeWhitespace(Deque<StripWhitespace> context, List<XMLToken> tokens, int i) {
     StripWhitespace stripContext = context.peek();
     if (stripContext == StripWhitespace.ALWAYS) {
       return false;
-    } else if (stripContext == StripWhitespace.MAYBE) {
+    } else if (stripContext == StripWhitespace.LEADING) {
       XMLToken next = tokens.get(i+1);
       if (next.getType() == XMLTokenType.TEXT) {
-        context.pop();
-        context.push(StripWhitespace.NEVER);
+        return false;
       } else if (next.getType() == XMLTokenType.START_ELEMENT) {
+        replaceHead(context, StripWhitespace.TRAILING);
         StripWhitespace sc = forElement((StartElementToken)next);
-        if (sc == StripWhitespace.NEVER) {
-          context.pop();
-          context.push(StripWhitespace.NEVER);
-        } else return false;
+        if (sc == StripWhitespace.NEVER)
+          replaceHead(context, StripWhitespace.TRAILING);
+        return false;
       } else if (next.getType() == XMLTokenType.END_ELEMENT) {
+        return false;
+      }
+    } else if (stripContext == StripWhitespace.TRAILING) {
+      XMLToken next = tokens.get(i+1);
+      if (next.getType() == XMLTokenType.END_ELEMENT) {
         return false;
       }
     }
@@ -187,6 +213,11 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
       elements.add(new XMLStartElement(ns.getUri(), name));
     }
     return elements;
+  }
+
+  private static void replaceHead(Deque<StripWhitespace> context, StripWhitespace value) {
+    context.pop();
+    context.push(value);
   }
 
 }
