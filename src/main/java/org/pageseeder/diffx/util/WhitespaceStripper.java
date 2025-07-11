@@ -144,7 +144,7 @@ public class WhitespaceStripper implements SequenceProcessor {
       } else if (type == XMLTokenType.END_ELEMENT) {
         context.pop();
         ignorableContext = this.elementsToIgnore.contains(context.peek());
-      } else if (type == XMLTokenType.TEXT && ignorableContext && isWhiteSpace(token)) {
+      } else if (type == XMLTokenType.TEXT && ignorableContext && token.isWhitespace()) {
         include = false;
       }
       // Include
@@ -153,23 +153,6 @@ public class WhitespaceStripper implements SequenceProcessor {
       }
     }
     return stripped;
-  }
-
-  /**
-   * Determines if the given XML token consists entirely of whitespace.
-   *
-   * @param token The XML token to evaluate for whitespace.
-   * @return true if the token consists entirely of whitespace, false otherwise.
-   */
-  private boolean isWhiteSpace(XMLToken token) {
-    if (token instanceof IgnorableSpaceToken || token instanceof SpaceToken) return true;
-    String value = token.getValue();
-    for (int i = 0; i < value.length(); i++) {
-      if (!Character.isWhitespace(value.charAt(i))) {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**

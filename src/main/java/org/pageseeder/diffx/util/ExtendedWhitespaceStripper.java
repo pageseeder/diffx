@@ -19,8 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
-import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
-import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.WordToken;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Namespace;
@@ -142,7 +140,7 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
       } else if (type == XMLTokenType.END_ELEMENT) {
         context.pop();
       } else if (type == XMLTokenType.TEXT) {
-        if (isWhiteSpace(token)) {
+        if (token.isWhitespace()) {
           include = includeWhitespace(context, tokens, i);
         } else if (context.peek() == StripWhitespace.LEADING) {
           if (token.getValue().startsWith(" ")) {
@@ -181,23 +179,6 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
     } else if (stripContext == StripWhitespace.TRAILING) {
       XMLToken next = tokens.get(i+1);
       if (next.getType() == XMLTokenType.END_ELEMENT) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Determines if the given XML token consists entirely of whitespace.
-   *
-   * @param token The XML token to evaluate for whitespace.
-   * @return true if the token consists entirely of whitespace, false otherwise.
-   */
-  private boolean isWhiteSpace(XMLToken token) {
-    if (token instanceof IgnorableSpaceToken || token instanceof SpaceToken) return true;
-    String value = token.getValue();
-    for (int i = 0; i < value.length(); i++) {
-      if (!Character.isWhitespace(value.charAt(i))) {
         return false;
       }
     }
