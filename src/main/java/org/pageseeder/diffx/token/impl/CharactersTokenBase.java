@@ -23,13 +23,15 @@ import org.pageseeder.xmlwriter.XMLWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A base class for all the characters tokens "characters" SAX event.
  *
  * @author Christophe Lauret
- * @version 1.2.0
+ *
  * @since 0.9.0
+ * @version 1.2.0
  */
 public abstract class CharactersTokenBase extends TokenBase implements TextToken {
 
@@ -51,9 +53,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    * @throws NullPointerException If the given String is <code>null</code>.
    */
   protected CharactersTokenBase(CharSequence seq) throws NullPointerException {
-    if (seq == null)
-      throw new NullPointerException("The characters cannot be null, use \"\"");
-    this.characters = seq.toString();
+    this.characters = Objects.requireNonNull(seq.toString(), "The characters cannot be null, use \"\"");
     this.hashCode = toHashCode(seq);
   }
 

@@ -24,24 +24,27 @@ import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.2.2
+ * @since 0.9.0
  */
 public final class XMLStartElement extends TokenBase implements XMLToken, StartElementToken {
 
   /**
    * The namespace URI of the element.
    */
-  private final String uri;
+  private final @NotNull String uri;
 
   /**
    * The local name of the element.
    */
-  private final String name;
+  private final @NotNull String name;
 
   /**
    * Hashcode value for this token.
@@ -56,11 +59,9 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    * @throws NullPointerException if the name is <code>null</code>.
    * @see XMLConstants#NULL_NS_URI
    */
-  public XMLStartElement(String name) throws NullPointerException {
-    if (name == null)
-      throw new NullPointerException("Element must have a name.");
+  public XMLStartElement(@NotNull String name) throws NullPointerException {
     this.uri = XMLConstants.NULL_NS_URI;
-    this.name = name;
+    this.name = Objects.requireNonNull(name, "Element must have a name.");
     this.hashCode = toHashCode(XMLConstants.NULL_NS_URI, name);
   }
 
@@ -72,13 +73,9 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLStartElement(String uri, String localName) throws NullPointerException {
-    if (uri == null)
-      throw new NullPointerException("The URI cannot be null, use \"\".");
-    if (localName == null)
-      throw new NullPointerException("Element must have a name.");
-    this.uri = uri;
-    this.name = localName;
+  public XMLStartElement(@NotNull String uri, @NotNull  String localName) throws NullPointerException {
+    this.uri = Objects.requireNonNull(uri, "The URI cannot be null, use \"\".");
+    this.name = Objects.requireNonNull(localName, "Element must have a name.");
     this.hashCode = toHashCode(uri, localName);
   }
 
@@ -124,7 +121,7 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
   }
 
   @Override
-  public void toXML(XMLWriter xml) throws IOException {
+  public void toXML(@NotNull XMLWriter xml) throws IOException {
     xml.openElement(this.uri, this.name, false);
   }
 
@@ -136,11 +133,6 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
     } else {
       xml.writeStartElement(this.uri, this.name);
     }
-  }
-
-  @Override
-  public String getValue() {
-    return null;
   }
 
   /**

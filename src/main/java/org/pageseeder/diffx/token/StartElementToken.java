@@ -26,8 +26,9 @@ import java.io.IOException;
  * The token corresponding to the <code>startElement</code> SAX event.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
  * @since 0.5.0
+ * @version 1.2.2
  */
 public interface StartElementToken extends XMLToken {
 
@@ -37,7 +38,31 @@ public interface StartElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(XMLWriter xml) throws IOException {
+  default @NotNull String getValue() {
+    return "";
+  }
+
+  /**
+   * Indicates whether the specified token is equal to this start element token.
+   *
+   * <p>Two start element tokens are considered equal if they have the same namespace URI
+   * and name.</p>
+   *
+   * @param token The token to compare it with this one.
+   *
+   * @return <code>true</code> if considered equals; <code>false</code> otherwise.
+   */
+  @Override
+  default boolean equals(XMLToken token) {
+    if (token == this) return true;
+    if (!(token instanceof StartElementToken)) return false;
+    StartElementToken other = (StartElementToken) token;
+    return getNamespaceURI().equals(other.getNamespaceURI()) &&
+        getName().equals(other.getName());
+  }
+
+  @Override
+  default void toXML(@NotNull XMLWriter xml) throws IOException {
     xml.openElement(this.getNamespaceURI(), this.getName(), false);
   }
 

@@ -19,8 +19,9 @@ package org.pageseeder.diffx.token;
  * Assign a type of token that can affect processing of the diff.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
  * @since 0.9.0
+ * @version 1.2.0
  */
 public enum XMLTokenType {
 

@@ -40,10 +40,10 @@ import java.io.IOException;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
  * @since 1.2.0
+ * @version 1.2.0
  */
-public class EndDocumentToken implements XMLToken {
+public final class EndDocumentToken implements XMLToken {
 
   @Override
   public @NotNull String getName() {
@@ -51,7 +51,7 @@ public class EndDocumentToken implements XMLToken {
   }
 
   @Override
-  public String getValue() {
+  public @NotNull String getValue() {
     return "";
   }
 

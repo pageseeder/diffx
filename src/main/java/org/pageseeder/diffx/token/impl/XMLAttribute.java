@@ -24,31 +24,33 @@ import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * A namespace aware implementation of the attribute token for XML.
+ * An implementation of the attribute token for XML.
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 0.9.0
+ *
  * @since 0.5.0
+ * @version 0.9.0
  */
 public final class XMLAttribute extends TokenBase implements AttributeToken {
 
   /**
    * The namespace URI this attribute belongs to.
    */
-  private final String uri;
+  private final @NotNull String uri;
 
   /**
    * The name of the attribute.
    */
-  private final String name;
+  private final @NotNull String name;
 
   /**
    * The value of the attribute.
    */
-  private final String value;
+  private final @NotNull String value;
 
   /**
    * A suitable hashcode value.
@@ -63,15 +65,8 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLAttribute(String name, String value) throws NullPointerException {
-    if (name == null)
-      throw new NullPointerException("Attribute must have a name.");
-    if (value == null)
-      throw new NullPointerException("The attribute value cannot be null, use \"\".");
-    this.name = name;
-    this.value = value;
-    this.uri = XMLConstants.NULL_NS_URI;
-    this.hashCode = toHashCode(this.uri, name, value);
+  public XMLAttribute(@NotNull String name, @NotNull String value) {
+    this(XMLConstants.NULL_NS_URI, name, value);
   }
 
   /**
@@ -83,16 +78,10 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLAttribute(String uri, String name, String value) throws NullPointerException {
-    if (name == null)
-      throw new NullPointerException("Attribute must have a name.");
-    if (value == null)
-      throw new NullPointerException("The attribute value cannot be null, use \"\".");
-    if (uri == null)
-      throw new NullPointerException("The uri value cannot be null, use \"\".");
-    this.name = name;
-    this.value = value;
-    this.uri = uri;
+  public XMLAttribute(@NotNull String uri, @NotNull String name, @NotNull String value) {
+    this.name = Objects.requireNonNull(name, "Attribute must have a name.");
+    this.value = Objects.requireNonNull(value, "The attribute value cannot be null, use \"\".");
+    this.uri = Objects.requireNonNull(uri, "The uri value cannot be null, use \"\".");
     this.hashCode = toHashCode(uri, name, value);
   }
 

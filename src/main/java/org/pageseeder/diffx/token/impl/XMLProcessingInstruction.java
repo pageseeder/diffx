@@ -29,7 +29,9 @@ import java.util.Objects;
  * A processing instruction token.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @since 0.9.0
+ * @version 1.2.2
  */
 public final class XMLProcessingInstruction extends TokenBase implements XMLToken {
 
@@ -56,7 +58,7 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLProcessingInstruction(String target, String data) throws NullPointerException {
+  public XMLProcessingInstruction(String target, String data) {
     this.target = Objects.requireNonNull(target, "Processing instruction target must not be null, use \"\" instead");
     this.data = Objects.requireNonNull(data, "Processing instruction data must not be null, use \"\" instead");
     this.hashCode = toHashCode(target, data);
@@ -72,14 +74,14 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   /**
    * @return The data of the processing instruction.
    */
-  public String getValue() {
+  public @NotNull String getValue() {
     return this.data;
   }
 
   /**
    * @return The target of the processing instruction.
    */
-  public String getTarget() {
+  public @NotNull String getTarget() {
     return this.target;
   }
 

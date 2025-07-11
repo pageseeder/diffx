@@ -56,7 +56,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The StartElementToken representing the beginning of the element.
    */
-  StartElementToken getStart();
+  @NotNull StartElementToken getStart();
 
   /**
    * Retrieves the ending element token that corresponds to the end of this
@@ -65,7 +65,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The EndElementToken representing the end of the element.
    */
-  EndElementToken getEnd();
+  @NotNull EndElementToken getEnd();
 
   /**
    * Returns all the tokens for this element, starting with the
@@ -84,7 +84,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens making up this element
    */
-  List<XMLToken> tokens();
+  @NotNull List<XMLToken> tokens();
 
   /**
    * Returns all the tokens between the start and end element tokens.
@@ -107,7 +107,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens that are present between the start and end element tokens.
    */
-  List<XMLToken> getContent();
+  @NotNull List<XMLToken> getContent();
 
   @Override
   default @NotNull XMLTokenType getType() {

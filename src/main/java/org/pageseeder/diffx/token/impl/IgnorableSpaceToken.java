@@ -23,6 +23,7 @@ import org.pageseeder.xmlwriter.XMLWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A particular type of token reserved for ignored white spaces.
@@ -34,8 +35,9 @@ import java.io.IOException;
  * algorithm ignores the differences.
  *
  * @author Christophe Lauret
- * @version 1.0.1
- * @version 0.9.0
+ *
+ * @since 0.9.0
+ * @version 1.2.2
  */
 public final class IgnorableSpaceToken implements TextToken {
 
@@ -51,10 +53,8 @@ public final class IgnorableSpaceToken implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public IgnorableSpaceToken(CharSequence seq) throws NullPointerException {
-    if (seq == null)
-      throw new NullPointerException("The characters cannot be null, use \"\"");
-    this.characters = seq.toString();
+  public IgnorableSpaceToken(@NotNull CharSequence seq) {
+    this.characters = Objects.requireNonNull(seq.toString(), "The characters cannot be null, use \"\"");
   }
 
   /**
@@ -103,6 +103,16 @@ public final class IgnorableSpaceToken implements TextToken {
       return true;
     return token.getClass() == this.getClass();
     // always return true
+  }
+
+  /**
+   * Always returns true.
+   *
+   * @return true if the token represents whitespace
+   */
+  @Override
+  public boolean isWhitespace() {
+    return true;
   }
 
   /**

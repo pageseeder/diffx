@@ -18,23 +18,21 @@ package org.pageseeder.diffx.token.impl;
 import org.pageseeder.diffx.token.XMLToken;
 
 /**
- * A base class for DiffX tokens.
+ * An abstract base implementation of the {@link XMLToken} interface,
+ * providing foundational implementations for token comparison and equality.
  *
- * <p>
- * This class is purely provided for convenience and consistency, it is best, although not strictly
- * required, that most <code>XMLToken</code> implementations extend this class.
+ * <p>This class serves as a base type for different kinds of XML tokens,
+ * ensuring consistent behavior for equality and hash code operations.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
  * @since 0.6.0
+ * @version 1.2.2
  */
 abstract class TokenBase implements XMLToken {
 
   @Override
   public abstract int hashCode();
-
-  @Override
-  public abstract boolean equals(XMLToken token);
 
   /**
    * Invokes the {@link XMLToken#equals(XMLToken)} method if the specified object if not

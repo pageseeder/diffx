@@ -20,6 +20,8 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 
+import java.util.Objects;
+
 /**
  * The token corresponding to the <code>startElement</code> SAX event.
  *
@@ -42,9 +44,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public XMLEndElement(String name) throws NullPointerException {
-    if (name == null)
-      throw new NullPointerException("Element must have a name.");
+  public XMLEndElement(@NotNull String name) {
     this.start = new XMLStartElement(name);
   }
 
@@ -56,11 +56,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLEndElement(String uri, String localName) throws NullPointerException {
-    if (uri == null)
-      throw new NullPointerException("The URI cannot be null, use \"\".");
-    if (localName == null)
-      throw new NullPointerException("Element must have a name.");
+  public XMLEndElement(@NotNull String uri, @NotNull String localName) {
     this.start = new XMLStartElement(uri, localName);
   }
 
@@ -71,10 +67,8 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public XMLEndElement(StartElementToken token) throws NullPointerException {
-    if (token == null)
-      throw new NullPointerException("Element must have a name.");
-    this.start = token;
+  public XMLEndElement(@NotNull StartElementToken token) {
+    this.start = Objects.requireNonNull(token, "Element must have a name.");
   }
 
   /**
@@ -140,7 +134,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
 
   @Override
   public String toString() {
-    if (start.getNamespaceURI().isEmpty()) {
+    if (this.start.getNamespaceURI().isEmpty()) {
       return "</" + getName() + '>';
     } else {
       return "</{" + getNamespaceURI() + "}:" + getName() + '>';

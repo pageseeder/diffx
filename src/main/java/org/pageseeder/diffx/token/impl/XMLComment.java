@@ -30,7 +30,8 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  * @author Jason Harrop
- * @version 0.9.0
+ *
+ * @version 1.2.2
  * @since 0.6.0
  */
 public final class XMLComment extends TokenBase implements XMLToken {
@@ -38,7 +39,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
   /**
    * The comment string.
    */
-  private final String comment;
+  private final @NotNull String comment;
 
   /**
    * Hashcode value for this token.
@@ -52,7 +53,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
    *
    * @throws NullPointerException if the comment is <code>null</code>.
    */
-  public XMLComment(String comment) throws NullPointerException {
+  public XMLComment(@NotNull String comment) {
     this.comment = Objects.requireNonNull(comment, "Comment must not be null, use \"\" instead");
     this.hashCode = toHashcode(comment);
   }
@@ -60,7 +61,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
   /**
    * @return the comment string.
    */
-  public String getComment() {
+  public @NotNull String getComment() {
     return this.comment;
   }
 

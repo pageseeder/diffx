@@ -30,8 +30,8 @@ import javax.xml.stream.XMLStreamWriter;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
  * @since 1.1.2
+ * @version 1.2.2
  */
 public final class NilToken implements XMLToken {
 
@@ -74,7 +74,5 @@ public final class NilToken implements XMLToken {
   }
 
   @Override
-  public String getValue() {
-    return null;
-  }
+  public @NotNull String getValue() { return ""; }
 }

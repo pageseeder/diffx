@@ -31,8 +31,9 @@ import java.util.List;
  * A single text token containing a list of text tokens.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
  * @since 0.9.0
+ * @version 0.9.0
  */
 public final class TextListToken implements TextToken {
 

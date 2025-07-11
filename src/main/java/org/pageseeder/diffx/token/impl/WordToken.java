@@ -21,6 +21,8 @@ import org.pageseeder.diffx.token.TextToken;
  * A text token representing a word.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.9.0
  * @version 0.9.0
  */
 public final class WordToken extends CharactersTokenBase implements TextToken {
@@ -32,7 +34,7 @@ public final class WordToken extends CharactersTokenBase implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public WordToken(CharSequence w) throws NullPointerException {
+  public WordToken(CharSequence w) {
     super(w);
   }
 

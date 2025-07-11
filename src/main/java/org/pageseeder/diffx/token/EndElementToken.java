@@ -39,6 +39,11 @@ public interface EndElementToken extends XMLToken {
    */
   @NotNull String getName();
 
+  @Override
+  default @NotNull String getValue() {
+    return "";
+  }
+
   /**
    * Returns the namespace URI the element belongs to.
    *
@@ -83,6 +88,25 @@ public interface EndElementToken extends XMLToken {
    * <code>false</code> otherwise.
    */
   boolean match(StartElementToken token);
+
+  /**
+   * Compares this {@code EndElementToken} instance with the specified {@code XMLToken} for equality.
+   *
+   * <p>This method first checks if the given token is the same instance as this token. If not, it verifies
+   * whether the given token is an instance of {@code EndElementToken} and compares their namespace URIs
+   * and element names for equality.
+   *
+   * @param token The {@code XMLToken} to compare with this token.
+   * @return {@code true} if the specified token is equal to this token; {@code false} otherwise.
+   */
+  @Override
+  default boolean equals(XMLToken token) {
+    if (token == this) return true;
+    if (!(token instanceof EndElementToken)) return false;
+    EndElementToken other = (EndElementToken) token;
+    return getNamespaceURI().equals(other.getNamespaceURI()) &&
+        getName().equals(other.getName());
+  }
 
   @Override
   default @NotNull XMLTokenType getType() {

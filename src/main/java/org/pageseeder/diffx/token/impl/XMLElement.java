@@ -27,6 +27,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents an XML element token with its corresponding start, end, and content tokens.
@@ -39,33 +40,58 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.2.2
  * @since 0.7.0
  */
 public class XMLElement extends TokenBase implements ElementToken {
 
-  private final StartElementToken start;
+  /**
+   * Represents the starting token of an XML element.
+   */
+  private final @NotNull StartElementToken start;
 
-  private final EndElementToken end;
+  /**
+   * Represents the token corresponding to the end of an XML element.
+   */
+  private final @NotNull EndElementToken end;
 
-  private final List<XMLToken> content;
+  /**
+   * A collection of {@link XMLToken} instances representing the child tokens
+   * contained within an XML element.
+   *
+   * <p>This list encapsulates all XML content, including child elements,
+   * attributes, and character data that belongs to this element.</p>
+   *
+   * <p>Immutability is enforced to ensure thread safety and the structural
+   * consistency of the {@link XMLElement} class.</p>
+   */
+  private final @NotNull List<XMLToken> content;
 
+  /**
+   * The precalculated hash code for this element, based on its start element token
+   * and content tokens. This value is computed during the construction of the
+   * XMLElement instance to ensure efficient retrieval of the hash code during
+   * hash-based operations.
+   *
+   * This variable is final, indicating that the computed hash code for the
+   * object is immutable and does not change after initialization.
+   */
   private final int hashCode;
 
-  public XMLElement(StartElementToken start, EndElementToken end, List<XMLToken> content) {
-    this.start = start;
-    this.end = end;
-    this.content = content;
+  public XMLElement(@NotNull StartElementToken start, @NotNull EndElementToken end, @NotNull List<XMLToken> content) {
+    this.start = Objects.requireNonNull(start, "The start element must not be null.");
+    this.end = Objects.requireNonNull(end, "The end element must not be null.");
+    this.content = Objects.requireNonNull(content, "The content must not be null.");
     this.hashCode = toHashCode(start, this.content);
   }
 
   @Override
-  public StartElementToken getStart() {
+  public @NotNull StartElementToken getStart() {
     return start;
   }
 
   @Override
-  public EndElementToken getEnd() {
+  public @NotNull EndElementToken getEnd() {
     return end;
   }
 
@@ -94,7 +120,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public List<XMLToken> tokens() {
+  public @NotNull List<XMLToken> tokens() {
     List<XMLToken> tokens = new ArrayList<>(1 + content.size() + 1);
     tokens.add(start);
     tokens.addAll(content);
@@ -112,7 +138,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public List<XMLToken> getContent() {
+  public @NotNull List<XMLToken> getContent() {
     return this.content;
   }
 

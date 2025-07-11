@@ -33,8 +33,8 @@ import java.io.IOException;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
  * @since 1.2.0
+ * @version 1.2.0
  */
 public class StartDocumentToken implements XMLToken {
 
@@ -44,7 +44,7 @@ public class StartDocumentToken implements XMLToken {
   }
 
   @Override
-  public String getValue() {
+  public @NotNull String getValue() {
     return "";
   }
 

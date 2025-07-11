@@ -28,6 +28,8 @@ import java.io.IOException;
  * A text token representing a single line.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.9.0
  * @version 0.9.0
  */
 public final class LineToken extends TokenBase implements TextToken {

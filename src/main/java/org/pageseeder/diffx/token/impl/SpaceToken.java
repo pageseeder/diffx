@@ -15,13 +15,16 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.TextToken;
 
 /**
  * A particular type of token reserved for white spaces.
  *
  * @author Christophe Lauret
- * @version 27 March 2010
+ *
+ * @since 0.9.0
+ * @version 1.2.2
  */
 public final class SpaceToken extends CharactersTokenBase implements TextToken {
 
@@ -60,7 +63,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public SpaceToken(CharSequence s) throws NullPointerException {
+  public SpaceToken(@NotNull CharSequence s) {
     super(s);
   }
 
@@ -84,6 +87,16 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
     if ("\t".contentEquals(space)) return TAB;
     // create a new instance
     return new SpaceToken(space);
+  }
+
+  /**
+   * Always returns true.
+   *
+   * @return true if the token represents whitespace
+   */
+  @Override
+  public boolean isWhitespace() {
+    return true;
   }
 
   /**

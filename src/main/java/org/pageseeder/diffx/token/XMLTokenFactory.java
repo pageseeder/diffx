@@ -39,7 +39,7 @@ public final class XMLTokenFactory {
   private final boolean isNamespaceAware;
 
   /**
-   * Creates a new namespace aware factory for tokens.
+   * Creates a new namespace-aware factory for tokens.
    */
   public XMLTokenFactory() {
     this.isNamespaceAware = true;
@@ -133,10 +133,10 @@ public final class XMLTokenFactory {
   /**
    * Returns the attribute token from the name and value given.
    *
-   * <p>If the factory is namespace aware, it returns an attribute implementation
+   * <p>If the factory is namespace-aware, it returns an attribute implementation
    * using the namespace URI and the name.
    *
-   * <p>If the factory is NOT namespace aware, it returns an attribute implementation
+   * <p>If the factory is NOT namespace-aware, it returns an attribute implementation
    * using the specified name.
    *
    * <p>Use this implementation if the name of the element is determined prior to the
@@ -155,10 +155,10 @@ public final class XMLTokenFactory {
   /**
    * Returns the attribute token from the name and value given.
    *
-   * <p>If the factory is namespace aware, it returns an attribute implementation
+   * <p>If the factory is namespace-aware, it returns an attribute implementation
    * using the namespace URI and the local name.
    *
-   * <p>If the factory is NOT namespace aware, it returns an attribute implementation
+   * <p>If the factory is NOT namespace-aware, it returns an attribute implementation
    * using the qName (namespace-prefixed name).
    *
    * @param uri       The namespace URI of the attribute (ignored if not namespace aware)

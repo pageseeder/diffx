@@ -26,8 +26,9 @@ import java.io.IOException;
  * A token for attributes.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
  * @since 0.5.0
+ * @version 1.2.2
  */
 public interface AttributeToken extends XMLToken {
 
@@ -47,15 +48,15 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The value of the attribute.
    */
-  String getValue();
+  @NotNull String getValue();
 
   /**
-   * Returns the namespace URI the attribute belongs to.
+   * Returns the namespace URI of the attribute.
    *
-   * <p>This method should return <code>null</code> if the implementation
-   * is not namespace aware or if the attribute is not bound to any namespace.
+   * <p>This method should return an empty string if the implementation
+   * is not namespace-aware or if the attribute is not bound to any namespace.
    *
-   * @return The namespace URI the attribute belongs to or <code>null</code>.
+   * @return The namespace URI the attribute belongs to, or an empty string if none.
    */
   @Override
   @NotNull String getNamespaceURI();
@@ -65,14 +66,24 @@ public interface AttributeToken extends XMLToken {
     return XMLTokenType.ATTRIBUTE;
   }
 
+  /**
+   * Indicates whether the specified token is equal to this attribute token.
+   *
+   * <p>Two attribute tokens are considered equal if they have the same namespace URI,
+   * name, and value.</p>
+   *
+   * @param token The token to compare it with this one.
+   *
+   * @return <code>true</code> if considered equals; <code>false</code> otherwise.
+   */
   @Override
   default boolean equals(XMLToken token) {
+    if (token == this) return true;
     if (!(token instanceof AttributeToken)) return false;
-    if (token.hashCode() != this.hashCode()) return false;
     AttributeToken other = (AttributeToken) token;
-    return other.getName().equals(this.getName())
-        && other.getValue().equals(this.getValue())
-        && other.getNamespaceURI().equals(this.getNamespaceURI());
+    return getNamespaceURI().equals(other.getNamespaceURI()) &&
+        getName().equals(other.getName()) &&
+        getValue().equals(other.getValue());
   }
 
   @Override
