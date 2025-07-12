@@ -19,8 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
-import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
-import org.pageseeder.diffx.token.impl.SpaceToken;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.Sequence;
