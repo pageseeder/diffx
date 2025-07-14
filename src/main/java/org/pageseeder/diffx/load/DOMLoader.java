@@ -55,7 +55,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   /**
    * The factory that will produce tokens according to the configuration.
    */
-  private XMLTokenFactory tokenFactory;
+  private XMLTokenProvider tokenFactory;
 
   /**
    * The text tokenizer used by this loader.

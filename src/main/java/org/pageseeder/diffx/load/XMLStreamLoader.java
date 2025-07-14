@@ -117,7 +117,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   public Sequence load(XMLStreamReader reader) throws LoadingException {
-    XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
+    XMLTokenProvider tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
     Sequence sequence = new Sequence();
@@ -156,7 +156,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     return factory;
   }
 
-  private static void processStartElement(XMLStreamReader stream, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processStartElement(XMLStreamReader stream, Sequence sequence, XMLTokenProvider factory, List<StartElementToken> startElements) {
     assert stream.isStartElement();
     QName name = stream.getName();
     StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
@@ -194,7 +194,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processEndElement(XMLStreamReader stream, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processEndElement(XMLStreamReader stream, Sequence sequence, XMLTokenProvider factory, List<StartElementToken> startElements) {
     assert stream.isEndElement();
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
     EndElementToken endElement = factory.newEndElement(startElement);

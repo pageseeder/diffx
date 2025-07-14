@@ -89,7 +89,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
    * @throws LoadingException If an error occurs while processing the XML events.
    */
   public Sequence load(XMLEventReader reader) throws LoadingException {
-    XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
+    XMLTokenProvider tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
     TextTokenizer tokenizer = TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
@@ -125,7 +125,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processStartElement(StartElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processStartElement(StartElement event, Sequence sequence, XMLTokenProvider factory, List<StartElementToken> startElements) {
     QName name = event.getName();
     StartElementToken startElement = factory.newStartElement(name.getNamespaceURI(), name.getLocalPart());
     sequence.addToken(startElement);
@@ -150,7 +150,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-  private static void processEndElement(EndElement event, Sequence sequence, XMLTokenFactory factory, List<StartElementToken> startElements) {
+  private static void processEndElement(EndElement event, Sequence sequence, XMLTokenProvider factory, List<StartElementToken> startElements) {
     StartElementToken startElement = startElements.remove(startElements.size() - 1);
     EndElementToken endElement = factory.newEndElement(startElement);
     sequence.addToken(endElement);

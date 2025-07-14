@@ -42,10 +42,6 @@ import java.util.Objects;
 /**
  * Loads the SAX events in an {@link Sequence}.
  *
- * <p>It is possible to specify the name of the XML reader implementation class.
- * By default, this class will try to use the Crimson parser
- * <code>org.apache.crimson.parser.XMLReaderImpl</code>.
- *
  * <p>The XML reader implementation must support the following features settings
  * <pre>{@code
  *   http://xml.org/sax/features/validation         => false
@@ -58,7 +54,6 @@ import java.util.Objects;
  * @version 1.2.0
  * @since 0.6.0
  */
-@SuppressWarnings("JavadocLinkAsPlainText")
 public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
   /**
@@ -77,8 +72,13 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    */
   @Override
   public Sequence load(InputSource is) throws LoadingException, IOException {
+    XMLTokenProvider factory = new XMLTokenFactory(config.isNamespaceAware());
+    return load(is, factory);
+  }
+
+  public Sequence load(InputSource is, XMLTokenProvider provider) throws LoadingException, IOException {
     XMLReader reader = newReader(this.config);
-    Handler handler = new Handler(this.config);
+    Handler handler = new Handler(this.config, provider);
     reader.setContentHandler(handler);
     reader.setErrorHandler(handler);
 
@@ -95,6 +95,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     }
     return handler.sequence;
   }
+
 
   /**
    * Returns the name XMLReader class used by the SAXRecorders.
@@ -191,15 +192,15 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     /**
      * The factory that will produce tokens according to the configuration.
      */
-    private final XMLTokenFactory tokenFactory;
+    private final XMLTokenProvider tokenFactory;
 
     /**
      * The text tokenizer according to the configuration.
      */
     private final TextTokenizer tokenizer;
 
-    Handler(DiffConfig config) {
-      this.tokenFactory = new XMLTokenFactory(config.isNamespaceAware());
+    Handler(DiffConfig config, XMLTokenProvider tokenFactory) {
+      this.tokenFactory = tokenFactory;
       this.tokenizer = TokenizerFactory.get(config);
     }
 
