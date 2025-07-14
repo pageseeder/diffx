@@ -125,6 +125,14 @@ class ExtendedWhitespaceStripperTest {
     );
   }
 
+  @Test
+  void testStrip_MixedContent7() {
+    assertStrippedInto(
+        "<p><i>A Simple</i> example.\n</p>",
+        "<p><i>A Simple</i> example.</p>"
+    );
+  }
+
   private ExtendedWhitespaceStripper newStripper() {
     ExtendedWhitespaceStripper stripper = new ExtendedWhitespaceStripper();
     stripper.setAlwaysIgnore("article", "ol", "section", "table", "ul");

@@ -26,12 +26,13 @@ package org.pageseeder.diffx.config;
  *   <li>and the {@link org.pageseeder.diffx.format.XMLDiffOutput} implementations.<li>
  * </ul>
  *
- * <p>In order to produce the correct results, the configuration must be applied
+ * <p>To produce the correct results, the configuration must be applied
  * throughout the three steps of processing.
  *
  * @author Christophe Lauret
- * @version 1.0.1
+ *
  * @since 0.9.0
+ * @version 1.3.0
  */
 public final class DiffConfig {
 
@@ -158,19 +159,20 @@ public final class DiffConfig {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     DiffConfig that = (DiffConfig) o;
-    if (this.isNamespaceAware != that.isNamespaceAware) return false;
-    if (this.whitespace != that.whitespace) return false;
-    return this.granularity == that.granularity;
+    return isNamespaceAware == that.isNamespaceAware
+        && allowDoctypeDeclaration == that.allowDoctypeDeclaration
+        && whitespace == that.whitespace
+        && granularity == that.granularity;
   }
 
   @Override
   public int hashCode() {
-    int result = (this.isNamespaceAware ? 1 : 0);
-    result = 31 * result + this.whitespace.hashCode();
-    result = 31 * result + this.granularity.hashCode();
+    int result = Boolean.hashCode(isNamespaceAware);
+    result = 31 * result + whitespace.hashCode();
+    result = 31 * result + granularity.hashCode();
+    result = 31 * result + Boolean.hashCode(allowDoctypeDeclaration);
     return result;
   }
 }

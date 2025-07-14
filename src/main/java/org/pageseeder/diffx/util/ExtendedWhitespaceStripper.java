@@ -147,7 +147,9 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
             out.add(new WordToken(token.getValue().substring(1)));
             include = false;
           }
-          replaceHead(context, StripWhitespace.TRAILING);
+          replaceByTrailing(context);
+        } else if (context.peek() == StripWhitespace.NEVER) {
+          replaceByTrailing(context);
         }
       }
 
@@ -168,10 +170,10 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
       if (next.getType() == XMLTokenType.TEXT) {
         return false;
       } else if (next.getType() == XMLTokenType.START_ELEMENT) {
-        replaceHead(context, StripWhitespace.TRAILING);
+        replaceByTrailing(context);
         StripWhitespace sc = forElement((StartElementToken)next);
         if (sc == StripWhitespace.NEVER)
-          replaceHead(context, StripWhitespace.TRAILING);
+          replaceByTrailing(context);
         return false;
       } else if (next.getType() == XMLTokenType.END_ELEMENT) {
         return false;
@@ -196,9 +198,13 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
     return elements;
   }
 
-  private static void replaceHead(Deque<StripWhitespace> context, StripWhitespace value) {
-    context.pop();
-    context.push(value);
+  void replaceByTrailing(Deque<StripWhitespace> context) {
+    Object[] items = context.toArray();
+    context.clear();
+    for (int i = items.length - 1; i >= 0; i--) {
+      StripWhitespace item = (StripWhitespace) items[i];
+      context.push(item == StripWhitespace.LEADING ? StripWhitespace.TRAILING : item);
+    }
   }
 
 }
