@@ -73,7 +73,7 @@ public class XMLElement extends TokenBase implements ElementToken {
    * XMLElement instance to ensure efficient retrieval of the hash code during
    * hash-based operations.
    *
-   * This variable is final, indicating that the computed hash code for the
+   * <p>This variable is final, indicating that the computed hash code for the
    * object is immutable and does not change after initialization.
    */
   private final int hashCode;
@@ -108,15 +108,6 @@ public class XMLElement extends TokenBase implements ElementToken {
   @Override
   public @Nullable String getValue() {
     return null;
-  }
-
-  /**
-   * @deprecated As of version 1.1.2, replaced by {@link #getContent()}
-   */
-  @Override
-  @Deprecated(since = "1.1.2", forRemoval = true)
-  public List<XMLToken> getEvents() {
-    return this.tokens();
   }
 
   @Override
