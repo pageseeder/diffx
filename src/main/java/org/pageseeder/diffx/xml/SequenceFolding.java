@@ -23,7 +23,6 @@ import org.pageseeder.diffx.token.impl.XMLElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
  */
 public class SequenceFolding {
 
-  public static final List<String> ALL = Collections.singletonList("*");
+  public static final List<String> ALL = List.of("*");
 
   public final List<String> elements;
 
