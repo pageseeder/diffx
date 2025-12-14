@@ -46,9 +46,8 @@ public final class Actions {
   public static <T> List<T> generate(List<Action<T>> actions, boolean forward) {
     List<T> generated = new ArrayList<>();
     for (Action<T> action : actions) {
-      if (forward ? action.operator() == Operator.INS : action.operator() == Operator.DEL) {
-        generated.addAll(action.tokens());
-      } else if (action.operator() == Operator.MATCH) {
+      Operator op = action.operator();
+      if (op == Operator.MATCH || (forward ? op == Operator.INS : op == Operator.DEL)) {
         generated.addAll(action.tokens());
       }
     }
