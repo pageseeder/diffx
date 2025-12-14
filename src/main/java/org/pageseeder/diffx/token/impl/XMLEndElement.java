@@ -88,11 +88,6 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   }
 
   @Override
-  public StartElementToken getOpenElement() {
-    return this.start;
-  }
-
-  @Override
   public StartElementToken getStartElement() {
     return this.start;
   }

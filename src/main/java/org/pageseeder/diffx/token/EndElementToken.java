@@ -56,23 +56,11 @@ public interface EndElementToken extends XMLToken {
   String getNamespaceURI();
 
   /**
-   * Returns the corresponding token element.
-   *
-   * @deprecated Use {@link #getStartElement()} instead.
-   *
-   * @return The corresponding token element.
-   */
-  @Deprecated(since = "1.1.2", forRemoval = true)
-  StartElementToken getOpenElement();
-
-  /**
    * Returns the corresponding start element.
    *
    * @return The corresponding start element.
    */
-  default StartElementToken getStartElement() {
-    return this.getOpenElement();
-  }
+  StartElementToken getStartElement();
 
   /**
    * Indicates whether the specified open element token matches this close
