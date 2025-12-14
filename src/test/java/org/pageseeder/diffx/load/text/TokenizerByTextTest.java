@@ -33,14 +33,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TokenizerByTextTest {
+final class TokenizerByTextTest {
 
   /**
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
   @Test
-  public void testNull() {
+  void testNull() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertThrows(NullPointerException.class, () -> t.tokenize(null));
   }
@@ -49,7 +49,7 @@ public final class TokenizerByTextTest {
    * Tests that an empty array is returned for empty string.
    */
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     List<TextToken> e = t.tokenize("");
     assertEquals(0, e.size());
@@ -59,7 +59,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
-  public void testCountToken1() {
+  void testCountToken1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, t.tokenize(" ").size());
     assertEquals(1, t.tokenize(" a").size());
@@ -76,7 +76,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
-  public void testCountToken2() {
+  void testCountToken2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, t.tokenize(" ").size());
     assertEquals(1, t.tokenize("  a").size());
@@ -93,7 +93,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
-  public void testCountToken3() {
+  void testCountToken3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(2, t.tokenize("  \na").size());
@@ -110,7 +110,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer counts the correct number of tokens.
    */
   @Test
-  public void testCountToken4() {
+  void testCountToken4() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize("\n").size());
     assertEquals(1, t.tokenize("\n \n").size());
@@ -122,7 +122,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds a space token as token.
    */
   @Test
-  public void testSpace1() {
+  void testSpace1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
@@ -135,7 +135,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds a space token as token.
    */
   @Test
-  public void testSpace2() {
+  void testSpace2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("  ");
     assertEquals(1, e.size());
@@ -148,7 +148,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds a space token as token.
    */
   @Test
-  public void testSpace3() {
+  void testSpace3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("\n");
     assertEquals(1, e.size());
@@ -161,7 +161,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds a word token as token.
    */
   @Test
-  public void testWord1() {
+  void testWord1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("x");
     assertEquals(1, e.size());
@@ -172,7 +172,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
-  public void testSeq1() {
+  void testSeq1() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("xx  ");
     assertEquals(2, e.size());
@@ -184,7 +184,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
-  public void testSeq2() {
+  void testSeq2() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("  xx");
     assertEquals(2, e.size());
@@ -196,7 +196,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
-  public void testSeq3() {
+  void testSeq3() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("  xx\n");
     assertEquals(3, e.size());
@@ -209,7 +209,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
-  public void testSeq4() {
+  void testSeq4() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.COMPARE);
     List<TextToken> e = t.tokenize("  xx\n\n");
     assertEquals(3, e.size());
@@ -221,7 +221,7 @@ public final class TokenizerByTextTest {
    * Tests that the tokenizer finds the correct sequence of tokens.
    */
   @Test
-  public void testSeq5() {
+  void testSeq5() {
     TextTokenizer t = new TokenizerByText(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("  \n\nxx");
     assertEquals(2, e.size());

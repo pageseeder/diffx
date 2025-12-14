@@ -31,27 +31,27 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TokenizerByCharTest {
+final class TokenizerByCharTest {
 
   /**
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
   @Test
-  public void testNull() {
+  void testNull() {
     TokenizerByChar t = new TokenizerByChar();
     assertThrows(NullPointerException.class, () -> t.tokenize(null));
   }
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextToken> e = t.tokenize("");
     assertEquals(0, e.size());
   }
 
   @Test
-  public void testCountToken1() {
+  void testCountToken1() {
     TokenizerByChar t = new TokenizerByChar();
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(2, t.tokenize(" a").size());
@@ -65,7 +65,7 @@ public final class TokenizerByCharTest {
   }
 
   @Test
-  public void testCountToken2() {
+  void testCountToken2() {
     TokenizerByChar t = new TokenizerByChar();
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(3, t.tokenize("  a").size());
@@ -79,7 +79,7 @@ public final class TokenizerByCharTest {
   }
 
   @Test
-  public void testSpace1() {
+  void testSpace1() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
@@ -89,7 +89,7 @@ public final class TokenizerByCharTest {
   }
 
   @Test
-  public void testSpace3() {
+  void testSpace3() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextToken> e = t.tokenize("\n");
     assertEquals(1, e.size());
@@ -99,7 +99,7 @@ public final class TokenizerByCharTest {
   }
 
   @Test
-  public void testWord1() {
+  void testWord1() {
     TokenizerByChar t = new TokenizerByChar();
     List<TextToken> e = t.tokenize("x");
     assertEquals(1, e.size());

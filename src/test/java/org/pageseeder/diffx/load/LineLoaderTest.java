@@ -27,12 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class LineLoaderTest {
+final class LineLoaderTest {
 
   final LineLoader loader = new LineLoader();
 
   @Test
-  public void testSimpleLine0() {
+  void testSimpleLine0() {
     String text = "line 1\n"
         + "line2\n";
     List<LineToken> exp = new ArrayList<>();
@@ -42,7 +42,7 @@ public final class LineLoaderTest {
   }
 
   @Test
-  public void testSimpleLine2() {
+  void testSimpleLine2() {
     String text = "line #1\n"
         + "line #2\n"
         + "line #3\n"
@@ -56,7 +56,7 @@ public final class LineLoaderTest {
   }
 
   @Test
-  public void testEmptyLine() {
+  void testEmptyLine() {
     String text = "line #1\n"
         + "\n"
         + "line #3\n"
@@ -70,7 +70,7 @@ public final class LineLoaderTest {
   }
 
   @Test
-  public void testXMLLine0() {
+  void testXMLLine0() {
     String text = "<a>XX</a>";
     List<LineToken> exp = new ArrayList<>();
     exp.add(new LineToken("<a>XX</a>", 1));
@@ -78,7 +78,7 @@ public final class LineLoaderTest {
   }
 
   @Test
-  public void testEncoding1() {
+  void testEncoding1() {
     String text = "&lt;";
     List<LineToken> exp = new ArrayList<>();
     exp.add(new LineToken("&lt;", 1));
@@ -86,7 +86,7 @@ public final class LineLoaderTest {
   }
 
   @Test
-  public void testEncoding3() {
+  void testEncoding3() {
     String xml = "&#x8012;";
     List<LineToken> exp = new ArrayList<>();
     exp.add(new LineToken("&#x8012;", 1));

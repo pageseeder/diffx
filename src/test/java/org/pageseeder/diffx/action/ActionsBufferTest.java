@@ -30,17 +30,17 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ActionsBufferTest {
+class ActionsBufferTest {
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     ActionsBuffer handler = new ActionsBuffer();
     List<Action> actions = handler.getActions();
     assertTrue(actions.isEmpty());
   }
 
   @Test
-  public void testSingle() {
+  void testSingle() {
     XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
       ActionsBuffer handler = new ActionsBuffer();
@@ -55,7 +55,7 @@ public class ActionsBufferTest {
   }
 
   @Test
-  public void testDouble() {
+  void testDouble() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator : Operator.values()) {
@@ -73,7 +73,7 @@ public class ActionsBufferTest {
   }
 
   @Test
-  public void testMixed() {
+  void testMixed() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {

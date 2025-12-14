@@ -27,17 +27,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OperationsBufferTest {
+class OperationsBufferTest {
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     OperationsBuffer<Object> handler = new OperationsBuffer<>();
     List<Operation<Object>> Operations = handler.getOperations();
     assertTrue(Operations.isEmpty());
   }
 
   @Test
-  public void testSingle() {
+  void testSingle() {
     XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
       OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
@@ -51,7 +51,7 @@ public class OperationsBufferTest {
   }
 
   @Test
-  public void testMixed() {
+  void testMixed() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {

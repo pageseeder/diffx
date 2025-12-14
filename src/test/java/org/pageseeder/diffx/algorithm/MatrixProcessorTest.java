@@ -22,7 +22,7 @@ import org.pageseeder.diffx.token.impl.CharToken;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MatrixProcessorTest {
+class MatrixProcessorTest {
 
   private static Sequence asSequenceOfCharTokens(String string) {
     Sequence s = new Sequence();
@@ -33,7 +33,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testBothEmpty() {
+  void testBothEmpty() {
     Sequence s1 = new Sequence();
     Sequence s2 = new Sequence();
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -42,7 +42,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testFirstEmpty() {
+  void testFirstEmpty() {
     Sequence s1 = new Sequence();
     Sequence s2 = asSequenceOfCharTokens("y");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -51,7 +51,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testSecondEmpty() {
+  void testSecondEmpty() {
     Sequence s1 = asSequenceOfCharTokens("x");
     Sequence s2 = new Sequence();
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -61,7 +61,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testOneByOne() {
+  void testOneByOne() {
     Sequence s1 = asSequenceOfCharTokens("x");
     Sequence s2 = asSequenceOfCharTokens("x");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -71,7 +71,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testTwoByTwo() {
+  void testTwoByTwo() {
     Sequence s1 = asSequenceOfCharTokens("xy");
     Sequence s2 = asSequenceOfCharTokens("xy");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -81,7 +81,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testIdentical() {
+  void testIdentical() {
     Sequence s1 = asSequenceOfCharTokens("xyz");
     Sequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -91,7 +91,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testDifference1() {
+  void testDifference1() {
     Sequence s1 = asSequenceOfCharTokens("xyz");
     Sequence s2 = asSequenceOfCharTokens("xuz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -100,7 +100,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testDifference2() {
+  void testDifference2() {
     Sequence s1 = asSequenceOfCharTokens("xyz");
     Sequence s2 = asSequenceOfCharTokens("xuv");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -109,7 +109,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testNoCommon() {
+  void testNoCommon() {
     Sequence s1 = asSequenceOfCharTokens("abc");
     Sequence s2 = asSequenceOfCharTokens("xyz");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -124,7 +124,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testExample1() {
+  void testExample1() {
     Sequence s1 = asSequenceOfCharTokens("GCCCTAGCG");
     Sequence s2 = asSequenceOfCharTokens("GCGCAATG");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);
@@ -133,7 +133,7 @@ public class MatrixProcessorTest {
   }
 
   @Test
-  public void testExample2() {
+  void testExample2() {
     Sequence s1 = asSequenceOfCharTokens("acbdeacbed");
     Sequence s2 = asSequenceOfCharTokens("debabb");
     Matrix matrix = new MatrixProcessor<XMLToken>().process(s1, s2);

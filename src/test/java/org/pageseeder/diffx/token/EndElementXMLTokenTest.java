@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class EndElementXMLTokenTest {
+class EndElementXMLTokenTest {
 
   @Test
   void testEquals() {
@@ -49,7 +49,7 @@ public class EndElementXMLTokenTest {
   }
 
   @Test
-  public void testHashcodeCollisions() {
+  void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<EndElementToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -62,7 +62,7 @@ public class EndElementXMLTokenTest {
 
 
   @Test
-  public void testPerformance() {
+  void testPerformance() {
     String[] uris = new String[]{"", "https://example.org", "https://example.net"};
     String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "hidden"};
     List<EndElementToken> tokens1 = new ArrayList<>();

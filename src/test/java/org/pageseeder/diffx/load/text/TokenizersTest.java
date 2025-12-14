@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public class TokenizersTest {
+class TokenizersTest {
 
   @Test
-  public void testGetLeadingWhiteSpace() {
+  void testGetLeadingWhiteSpace() {
     assertEquals(0, Tokenizers.getLeadingWhiteSpace(""));
     assertEquals(0, Tokenizers.getLeadingWhiteSpace("x"));
     assertEquals(0, Tokenizers.getLeadingWhiteSpace("x "));
@@ -43,7 +43,7 @@ public class TokenizersTest {
   }
 
   @Test
-  public void testGetTrailingWhiteSpace() {
+  void testGetTrailingWhiteSpace() {
     assertEquals(0, Tokenizers.getTrailingWhiteSpace(""));
     assertEquals(0, Tokenizers.getTrailingWhiteSpace("x"));
     assertEquals(0, Tokenizers.getTrailingWhiteSpace(" x"));

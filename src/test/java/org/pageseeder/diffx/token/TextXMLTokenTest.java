@@ -18,11 +18,11 @@ package org.pageseeder.diffx.token;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.token.impl.WordToken;
 
-public class TextXMLTokenTest {
+class TextXMLTokenTest {
 
 
   @Test
-  public void testWordToken() {
+  void testWordToken() {
     WordToken a = new WordToken("a");
     WordToken b = new WordToken("b");
     WordToken c = new WordToken("c");

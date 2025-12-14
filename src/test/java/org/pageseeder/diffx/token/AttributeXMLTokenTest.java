@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public final class AttributeXMLTokenTest {
+final class AttributeXMLTokenTest {
 
   @Test
   void testEquals() {
@@ -51,7 +51,7 @@ public final class AttributeXMLTokenTest {
   }
 
   @Test
-  public void testHashcodeCollisions() {
+  void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<AttributeToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -65,7 +65,7 @@ public final class AttributeXMLTokenTest {
 
 
   @Test
-  public void testPerformance() {
+  void testPerformance() {
     String[] uris = new String[]{"", "https://example.org", "https://example.net"};
     String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
     String[] values = new String[]{"",

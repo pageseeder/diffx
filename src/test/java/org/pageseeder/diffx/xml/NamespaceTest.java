@@ -19,13 +19,13 @@ package org.pageseeder.diffx.xml;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public final class NamespaceTest {
+final class NamespaceTest {
 
   /**
    * Not an exhaustive test, just a sanity check.
    */
   @Test
-  public void testEquals() {
+  void testEquals() {
     Namespace example = new Namespace("http://example.org", "example");
     Namespace copy = new Namespace("http://example.org", "example");
     Namespace other1 = new Namespace("http://example.com", "example");
@@ -44,7 +44,7 @@ public final class NamespaceTest {
   }
 
   @Test
-  public void testGetCommonNamespace() {
+  void testGetCommonNamespace() {
     Namespace svg = new Namespace("http://www.w3.org/2000/svg", "svg");
     Namespace xlink = new Namespace("http://www.w3.org/1999/xlink", "xlink");
     Assertions.assertNull(Namespace.getCommon("https://example.org/1999/does_not_exists"));

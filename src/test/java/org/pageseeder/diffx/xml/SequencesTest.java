@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class SequencesTest {
+final class SequencesTest {
 
   /**
    * Test the maximum depth.
@@ -41,7 +41,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth1() throws LoadingException {
+  void testMaxDepth1() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a/>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(1, max);
@@ -53,7 +53,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth2() throws LoadingException {
+  void testMaxDepth2() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a><a/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
@@ -65,7 +65,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth3() throws LoadingException {
+  void testMaxDepth3() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a><b/><b/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(2, max);
@@ -77,7 +77,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxDepth4() throws LoadingException {
+  void testMaxDepth4() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a><b><c/></b><b/></a>");
     int max = Sequences.getMaxDepth(seq);
     assertEquals(3, max);
@@ -89,7 +89,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent0() throws LoadingException {
+  void testMaxElementContent0() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a/>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(0, max);
@@ -101,7 +101,7 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent1() throws LoadingException {
+  void testMaxElementContent1() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a>x</a>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(1, max);
@@ -113,28 +113,28 @@ public final class SequencesTest {
    * @throws LoadingException If the loader cannot load the XML.
    */
   @Test
-  public void testMaxElementContent2() throws LoadingException {
+  void testMaxElementContent2() throws LoadingException {
     Sequence seq = new SAXLoader().load("<a>x y</a>");
     int max = Sequences.getMaxElementContent(seq);
     assertEquals(3, max);
   }
 
   @Test
-  public void testFoldText1() throws LoadingException {
+  void testFoldText1() throws LoadingException {
     Sequence input = TestTokens.loadSequence("<a/>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText2() throws LoadingException {
+  void testFoldText2() throws LoadingException {
     Sequence input = TestTokens.loadSequence("<a>black</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText3() throws LoadingException {
+  void testFoldText3() throws LoadingException {
     Sequence input = TestTokens.loadSequence("<a>black cat</a>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input.size() - 1, output.size());
@@ -143,14 +143,14 @@ public final class SequencesTest {
   }
 
   @Test
-  public void testFoldText4() throws LoadingException {
+  void testFoldText4() throws LoadingException {
     Sequence input = TestTokens.loadSequence("<p>a<b> black</b> cat</p>", TextGranularity.SPACE_WORD);
     Sequence output = Sequences.foldText(input);
     assertEquals(input, output);
   }
 
   @Test
-  public void testFoldText5() throws LoadingException {
+  void testFoldText5() throws LoadingException {
     Sequence input = TestTokens.loadSequence("<p>a black<b> cat</b></p>", TextGranularity.TEXT);
     Sequence output = Sequences.foldText(input);
     assertEquals(input.size() - 1, output.size());

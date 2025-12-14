@@ -20,17 +20,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.pageseeder.diffx.api.Operator.*;
 
-public class OperatorTest {
+class OperatorTest {
 
   @Test
-  public void testFlip() {
+  void testFlip() {
     assertEquals(DEL, INS.flip());
     assertEquals(INS, DEL.flip());
     assertEquals(MATCH, MATCH.flip());
   }
 
   @Test
-  public void testIsEdit() {
+  void testIsEdit() {
     assertTrue(INS.isEdit());
     assertTrue(DEL.isEdit());
     assertFalse(MATCH.isEdit());

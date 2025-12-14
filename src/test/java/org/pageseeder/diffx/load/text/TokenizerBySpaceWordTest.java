@@ -31,19 +31,19 @@ import static org.pageseeder.diffx.test.TestTokens.toTextTokens;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TokenizerBySpaceWordTest {
+final class TokenizerBySpaceWordTest {
 
   /**
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
   @Test
-  public void testNullConstructor() {
+  void testNullConstructor() {
     assertThrows(NullPointerException.class, () -> new TokenizerBySpaceWord(null));
   }
 
   @Test
-  public void testNull() {
+  void testNull() {
     TextTokenizer tokenizer = new TokenizerBySpaceWord(WhiteSpaceProcessing.PRESERVE);
     assertThrows(NullPointerException.class, () -> tokenizer.tokenize(null));
   }
@@ -52,181 +52,181 @@ public final class TokenizerBySpaceWordTest {
    * Tests that an empty array is returned for empty string.
    */
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("", WhiteSpaceProcessing.PRESERVE);
     assertEquals(0, tokens.size());
   }
 
   @Test
-  public void testChar() {
+  void testChar() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("a", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("a"), tokens);
   }
 
   @Test
-  public void testCharWithLeadingSpace() {
+  void testCharWithLeadingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" a", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" a"), tokens);
   }
 
   @Test
-  public void testCharWithTrailingSpace() {
+  void testCharWithTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("a ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("a", " "), tokens);
   }
 
   @Test
-  public void testCharWithLeadingTrailingSpace() {
+  void testCharWithLeadingTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" a ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" a", " "), tokens);
   }
 
   @Test
-  public void testWord() {
+  void testWord() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("story", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("story"), tokens);
   }
 
   @Test
-  public void testWordWithLeadingSpace() {
+  void testWordWithLeadingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" story", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" story"), tokens);
   }
 
   @Test
-  public void testWordWithTrailingSpace() {
+  void testWordWithTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("story ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("story", " "), tokens);
   }
 
   @Test
-  public void testWordWithLeadingTrailingSpace() {
+  void testWordWithLeadingTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" story ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" story", " "), tokens);
   }
 
   @Test
-  public void testWords() {
+  void testWords() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A great story", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("A", " great", " story"), tokens);
   }
 
   @Test
-  public void testWordsWithLeadingSpace() {
+  void testWordsWithLeadingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" A", " great", " story"), tokens);
   }
 
   @Test
-  public void testWordsWithTrailingSpace() {
+  void testWordsWithTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A great story ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("A", " great", " story", " "), tokens);
   }
 
   @Test
-  public void testWordsWithLeadingTrailingSpace() {
+  void testWordsWithLeadingTrailingSpace() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story ", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" A", " great", " story", " "), tokens);
   }
 
   @Test
-  public void testWordsWithPunctuation1() {
+  void testWordsWithPunctuation1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize(" A great story!", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens(" A", " great", " story", "!"), tokens);
   }
 
   @Test
-  public void testWordsWithPunctuation2() {
+  void testWordsWithPunctuation2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("Blue, white, and red.", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("Blue", ",", " white", ",", " and", " red", "."), tokens);
   }
 
   @Test
-  public void testNumbers1() {
+  void testNumbers1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("1", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("1"), tokens);
   }
 
   @Test
-  public void testNumbers2() {
+  void testNumbers2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("1.0", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("1.0"), tokens);
   }
 
   @Test
-  public void testNumbersUnit1() {
+  void testNumbersUnit1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("10mg", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("10mg"), tokens);
   }
 
   @Test
-  public void testNumbersUnit2() {
+  void testNumbersUnit2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("1.25g", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("1.25g"), tokens);
   }
 
   @Test
-  public void testNumbersPrice() {
+  void testNumbersPrice() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("$1.25", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("$1.25"), tokens);
   }
 
   @Test
-  public void testNumbersPercent() {
+  void testNumbersPercent() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("33.33%", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("33.33%"), tokens);
   }
 
   @Test
-  public void testEmail() {
+  void testEmail() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("john.obrien@example.com", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("john.obrien@example.com"), tokens);
   }
 
   @Test
-  public void testMix1() {
+  void testMix1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("My email is bill@example.com. 10% of 24 is 2.4!", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("My", " email", " is", " bill@example.com", ".", " 10%", " of", " 24", " is", " 2.4", "!"), tokens);
   }
 
   @Test
-  public void testMix2() {
+  void testMix2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("I'm Joe (joe@example.org)", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("I'm", " Joe", " (joe@example.org)"), tokens);
   }
 
   @Test
-  public void testQuoted1() {
+  void testQuoted1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("This is a \"test\"", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("This", " is", " a", " \"test\""), tokens);
   }
 
   @Test
-  public void testQuoted2() {
+  void testQuoted2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("This is a \"test", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("This", " is", " a", " ", "\"", "test"), tokens);
   }
 
   @Test
-  public void testQuoted3() {
+  void testQuoted3() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("This is a test\"", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("This", " is", " a", " test", "\""), tokens);
   }
 
   @Test
-  public void testBracket1() {
+  void testBracket1() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A (test)", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("A", " (test)"), tokens);
   }
 
   @Test
-  public void testBracket2() {
+  void testBracket2() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A (test", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("A", " ", "(", "test"), tokens);
   }
 
   @Test
-  public void testBracket3() {
+  void testBracket3() {
     List<TextToken> tokens = TokenizerBySpaceWord.tokenize("A test)", WhiteSpaceProcessing.PRESERVE);
     assertEquals(toTextTokens("A", " test", ")"), tokens);
   }

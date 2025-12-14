@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class StrictXMLDiffOutputTest {
+final class StrictXMLDiffOutputTest {
 
   /**
    * The namespace declaration.
@@ -59,7 +59,7 @@ public final class StrictXMLDiffOutputTest {
   private StringWriter w = null;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     this.w = new StringWriter();
     this.output = new StrictXMLDiffOutput(this.w);
     this.output.setWriteXMLDeclaration(false);
@@ -73,7 +73,7 @@ public final class StrictXMLDiffOutputTest {
    * @throws DiffException Should an error occur whilst parsing one of the XML files.
    */
   @Test
-  public void testOpenAndClose0() throws DiffException {
+  void testOpenAndClose0() throws DiffException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLEndElement("a"));
@@ -91,7 +91,7 @@ public final class StrictXMLDiffOutputTest {
    * @throws DiffException Should an error occur whilst parsing one of the XML files.
    */
   @Test
-  public void testAttributes0() throws DiffException {
+  void testAttributes0() throws DiffException {
     this.output.start();
     this.output.handle(Operator.MATCH, new XMLStartElement("a"));
     this.output.handle(Operator.MATCH, new XMLAttribute("", "x", "y"));

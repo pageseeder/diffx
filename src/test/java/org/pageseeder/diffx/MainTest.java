@@ -57,7 +57,7 @@ import java.util.Date;
  * @version 1.0.1
  * @version 0.9.0
  */
-public final class MainTest {
+final class MainTest {
 
   /**
    * The source files to test
@@ -104,7 +104,7 @@ public final class MainTest {
    * Ensures that all required folders are created.
    */
   @BeforeAll
-  public static void setUpFolders() {
+  static void setUpFolders() {
     if (!result.exists()) result.mkdirs();
   }
 
@@ -117,7 +117,7 @@ public final class MainTest {
    * @throws IOException Should an I/O error occur.
    */
   @Test
-  public void testAll() throws IOException {
+  void testAll() throws IOException {
     // list all use cases
     File[] usecases = source.listFiles(f -> f.isDirectory() && f.getName().startsWith("UC-"));
     Arrays.sort(usecases, Comparator.comparing(File::getName));
