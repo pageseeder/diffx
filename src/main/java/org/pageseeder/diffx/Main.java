@@ -409,7 +409,7 @@ public final class Main {
    *
    * @return The formatter to use.
    */
-  private static @Nullable WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) {
+  private static WhiteSpaceProcessing getWhiteSpaceProcessing(String[] args) {
     String formatArg = CommandLine.getParameter("-w", args);
     if (formatArg == null || "preserve".equals(formatArg))
       return WhiteSpaceProcessing.PRESERVE;
@@ -418,7 +418,8 @@ public final class Main {
     if ("ignore".equals(formatArg))
       return WhiteSpaceProcessing.IGNORE;
     usage();
-    return null;
+    // usage() causes exit so what we return doesn't matter
+    return WhiteSpaceProcessing.COMPARE;
   }
 
   /**
@@ -426,7 +427,7 @@ public final class Main {
    *
    * @return The formatter to use.
    */
-  private static @Nullable TextGranularity getTextGranularity(String[] args) {
+  private static TextGranularity getTextGranularity(String[] args) {
     String formatArg = CommandLine.getParameter("-g", args);
     if (formatArg == null || "word".equals(formatArg))
       return TextGranularity.SPACE_WORD;
@@ -435,7 +436,8 @@ public final class Main {
     if ("character".equals(formatArg))
       return TextGranularity.CHARACTER;
     usage();
-    return null;
+    // usage() causes exit so what we return doesn't matter
+    return TextGranularity.SPACE_WORD;
   }
 
   private static File toFile(String arg) {
