@@ -96,7 +96,7 @@ public final class DiffConfig {
   }
 
   /**
-   * Create a default config that is namespace aware, preserves whitespaces and
+   * Create a default config that is namespace-aware, preserves whitespaces, and
    * report differences within text at word level (including spaces, but excluding punctuation)
    *
    * @return A new instance with the default configuration
@@ -106,7 +106,7 @@ public final class DiffConfig {
   }
 
   /**
-   * Create a default config that is namespace aware, preserves whitespaces and
+   * Create a default config that is namespace-aware, preserves whitespaces, and
    * report differences within text at word level (including spaces, but excluding punctuation)
    *
    * @return A new instance with the legacy default configuration
