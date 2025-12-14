@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -93,7 +92,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
   }
 
   @Override
-  public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     final int lengthA = from.size();
     final int lengthB = to.size();
 
@@ -136,6 +135,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     }
   }
 
+  @SuppressWarnings("java:S106")
   private void processDiff(List<? extends XMLToken> A, List<? extends XMLToken> B, ElementStackFilter handler) {
     final int lengthA = A.size();
     final int lengthB = B.size();
@@ -301,6 +301,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
    * @param i The X position.
    * @param j The Y position.
    */
+  @SuppressWarnings("java:S106")
   private void printLost(int i, int j, Matrix matrix, ElementStackFilter estate, List<? extends XMLToken> first, List<? extends XMLToken> second) {
     XMLToken tokenA = first.get(i);
     XMLToken tokenB = second.get(j);

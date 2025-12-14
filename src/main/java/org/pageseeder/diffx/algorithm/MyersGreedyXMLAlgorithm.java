@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -29,15 +28,19 @@ import java.util.List;
  * An implementation of Myers' greedy algorithm adjusted for XML.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
+ *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  */
+@SuppressWarnings("java:S106")
 public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> implements DiffAlgorithm<XMLToken> {
 
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     Instance instance = new Instance(from, to);
     List<EdgeSnake> snakes = instance.computePath();
     // Autocorrect (required until we can fix the attributes)
@@ -121,26 +124,26 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
 
           if (editToken != null) {
             Operator op = down ? Operator.INS : Operator.DEL;
-            if (DEBUG) System.out.print(" " + op + editToken);
+            if (DEBUG) System.err.print(" " + op + editToken);
             elements.update(k, op, editToken);
           }
 
           // Follow diagonals
           while (x < sizeA && y < sizeB && a.get(x).equals(b.get(y))
               && elements.isAllowed(k, Operator.MATCH, a.get(x))) {
-            if (DEBUG) System.out.print(" =" + a.get(x));
+            if (DEBUG) System.err.print(" =" + a.get(x));
             elements.update(k, Operator.MATCH, a.get(x));
             x++;
             y++;
           }
 
         } else {
-          if (DEBUG) System.out.print(" !" + (down ? Operator.INS : Operator.DEL) + editToken);
+          if (DEBUG) System.err.print(" !" + (down ? Operator.INS : Operator.DEL) + editToken);
           x = down ? x : x - 1;
           y = down ? y - 1 : y;
         }
 
-        if (DEBUG) System.out.println(" -> (" + x + "," + y + ")");
+        if (DEBUG) System.err.println(" -> (" + x + "," + y + ")");
 
         // Save end points
         vector.setX(k, x);
@@ -172,7 +175,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
         int k = p.x() - p.y();
         int xEnd = vector.getX(k);
         int yEnd = xEnd - k;
-        if (DEBUG) System.out.println("D=" + d + " k=" + k + " x=" + xEnd + " y=" + yEnd);
+        if (DEBUG) System.err.println("D=" + d + " k=" + k + " x=" + xEnd + " y=" + yEnd);
 
         if (p.isNotSame(xEnd, yEnd))
           throw new IllegalStateException("No solution for d:" + d + " k:" + k + " p:" + p + " V:( " + xEnd + ", " + yEnd + " )");

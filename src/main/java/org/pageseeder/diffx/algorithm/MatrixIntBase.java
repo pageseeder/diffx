@@ -26,7 +26,7 @@ public abstract class MatrixIntBase implements Matrix {
   /**
    * The actual matrix storing the values.
    */
-  protected int[][] matrix;
+  protected int [][] matrix;
 
   @Override
   public void setup(int width, int height) {

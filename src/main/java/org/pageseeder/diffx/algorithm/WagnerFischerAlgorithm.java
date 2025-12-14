@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -31,7 +30,7 @@ import java.util.List;
 public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
 
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // calculate the LCS length to fill the matrix
     MatrixProcessor<T> builder = new MatrixProcessor<>();
     builder.setInverse(true);

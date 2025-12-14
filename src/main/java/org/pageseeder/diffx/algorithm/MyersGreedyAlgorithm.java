@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -38,7 +37,7 @@ import java.util.List;
 public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
 
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     MyersGreedyAlgorithm.Instance<T> instance = new MyersGreedyAlgorithm.Instance<>(from, to);
     List<Snake> snakes = instance.computePath();
     handle(from, to, handler, snakes);
@@ -152,7 +151,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
     /**
      * @throws IllegalStateException If no solution could be found
      */
-    private @NotNull List<Snake> solve(@NotNull List<Vector> vectors) {
+    private List<Snake> solve(List<Vector> vectors) {
       LinkedList<Snake> snakes = new LinkedList<>();
       Point target = new Point(this.sizeA, this.sizeB);
 

@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.algorithm;
 
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -43,7 +44,7 @@ import java.util.Deque;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public final class ElementStackFilter extends DiffFilter<XMLToken> {
@@ -85,7 +86,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    *
    * @return The current open element; or <code>null</code> if none.
    */
-  public Operation<StartElementToken> current() {
+  public @Nullable Operation<StartElementToken> current() {
     return this.elements.peek();
   }
 
@@ -100,7 +101,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    * @param operator The corresponding operator
    */
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
+  public void handle(Operator operator, XMLToken token) {
     this.target.handle(operator, token);
     if (token instanceof StartElementToken) {
       this.elements.push(new Operation<>(operator, (StartElementToken) token));

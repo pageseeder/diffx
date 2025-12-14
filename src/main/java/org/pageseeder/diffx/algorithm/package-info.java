@@ -16,4 +16,5 @@
 /**
  * Implementations of {@link org.pageseeder.diffx.api.DiffAlgorithm} and supporting classes.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.algorithm;

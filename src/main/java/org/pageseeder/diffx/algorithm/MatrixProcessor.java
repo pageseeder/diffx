@@ -105,6 +105,7 @@ public final class MatrixProcessor<T> {
     return matrix;
   }
 
+  @SuppressWarnings("unused")
   private static <T> void printDebug(List<? extends T> first, List<? extends T> second, Matrix matrix, PrintStream out) {
     out.print("A:");
     for (T token : first) {

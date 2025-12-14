@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -62,7 +61,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Handles the results of the diff for a single snake in a forward direction.
    */
-  private void handleForward(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake) {
+  private void handleForward(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, EdgeSnake snake) {
     Point start = snake.getStartPoint();
     Point mid = snake.getMidPoint();
     Point end = snake.getEndPoint();
@@ -77,7 +76,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Handles the results of the diff for a single snake in reverse direction.
    */
-  private void handleReverse(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake) {
+  private void handleReverse(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, EdgeSnake snake) {
     Point start = snake.getEndPoint();
     Point mid = snake.getMidPoint();
     Point end = snake.getStartPoint();
@@ -89,7 +88,7 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
     handleEdited(a, b, handler, snake, mid, end);
   }
 
-  private void handleEdited(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, @NotNull EdgeSnake snake, Point start, Point mid) {
+  private void handleEdited(List<? extends T> a, List<? extends T> b, DiffHandler<T> handler, EdgeSnake snake, Point start, Point mid) {
     if (snake.deleted() > 0) {
       for (int i = start.x(); i < mid.x(); i++) {
         handler.handle(Operator.DEL, a.get(i));

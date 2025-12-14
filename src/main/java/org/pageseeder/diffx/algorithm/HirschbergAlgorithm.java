@@ -37,7 +37,9 @@ import java.util.List;
  * @see <a href="https://www.ics.uci.edu/~dan/pubs/p341-hirschberg.pdf">Algorithm for Computing Maximal Common Subsequences D.S. Hirschberg</a>
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
 
@@ -47,7 +49,7 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
   private static final boolean DEBUG = false;
 
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // It is more efficient to supply the sizes than retrieve from lists
     algorithmC(from.size(), to.size(), from, to, handler);
   }
@@ -111,6 +113,7 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
   /**
    * Algorithm C as described by Hirschberg
    */
+  @SuppressWarnings("java:S106")
   private static <T> void algorithmC(int m, int n, List<? extends T> a, List<? extends T> b, DiffHandler<T> handler) {
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 

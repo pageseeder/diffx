@@ -512,6 +512,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       }
     }
 
+    @SuppressWarnings("java:S106")
     private void printLL() {
       System.err.print(" LL={");
       for (int element : this.LL) {
