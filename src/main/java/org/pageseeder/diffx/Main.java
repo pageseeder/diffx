@@ -243,6 +243,7 @@ public final class Main {
    *
    * @param args The command-line arguments
    */
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     if (args.length < 2) {
       usage();
