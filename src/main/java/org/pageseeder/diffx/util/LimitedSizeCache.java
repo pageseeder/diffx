@@ -79,6 +79,8 @@ public class LimitedSizeCache<K, V> {
 
   /**
    * Get the current size of the cache
+   *
+   * @return the size of the cache
    */
   public int size() {
     return cache.size();
