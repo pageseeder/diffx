@@ -168,22 +168,25 @@ public final class Actions {
   public static <T> boolean isApplicable(List<? extends T> a, List<? extends T> b, List<Action<T>> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
+    final int aSize = a.size();
+    final int bSize = b.size();
     for (Action<T> action : actions) {
-      if (action.operator() == Operator.MATCH) {
+      final Operator op = action.operator();
+      if (op == Operator.MATCH) {
         for (T token : action.tokens()) {
-          if (i >= a.size() || !token.equals(a.get(i))) return false;
-          if (j >= b.size() || !token.equals(b.get(j))) return false;
+          if (i >= aSize || !token.equals(a.get(i))) return false;
+          if (j >= bSize || !token.equals(b.get(j))) return false;
           i++;
           j++;
         }
-      } else if (action.operator() == Operator.DEL) {
+      } else if (op == Operator.DEL) {
         for (T token : action.tokens()) {
-          if (i >= a.size() || !token.equals(a.get(i))) return false;
+          if (i >= aSize || !token.equals(a.get(i))) return false;
           i++;
         }
-      } else if (action.operator() == Operator.INS) {
+      } else if (op == Operator.INS) {
         for (T token : action.tokens()) {
-          if (j >= b.size() || !token.equals(b.get(j))) return false;
+          if (j >= bSize || !token.equals(b.get(j))) return false;
           j++;
         }
       }
