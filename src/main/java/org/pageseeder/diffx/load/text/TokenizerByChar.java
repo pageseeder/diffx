@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load.text;
 
-import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -41,7 +40,7 @@ public final class TokenizerByChar implements TextTokenizer {
   @Override
   public List<TextToken> tokenize(CharSequence text) {
     Objects.requireNonNull(text, "Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    if (text.length() == 0) return List.of();
     List<TextToken> tokens = new ArrayList<>(text.length());
     char c;
     for (int i = 0; i < text.length(); i++) {

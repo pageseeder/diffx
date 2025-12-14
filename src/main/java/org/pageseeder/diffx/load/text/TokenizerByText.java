@@ -58,7 +58,7 @@ public final class TokenizerByText implements TextTokenizer {
   @Override
   public List<TextToken> tokenize(CharSequence text) {
     Objects.requireNonNull(text, "Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    if (text.length() == 0) return List.of();
     int x = Tokenizers.getLeadingWhiteSpace(text);
     int y = Tokenizers.getTrailingWhiteSpace(text);
     // no leading or trailing spaces return a singleton in all configurations
@@ -74,7 +74,7 @@ public final class TokenizerByText implements TextTokenizer {
         case PRESERVE:
           return Collections.singletonList(new IgnorableSpaceToken(text.toString()));
         case IGNORE:
-          return Collections.emptyList();
+          return List.of();
         default:
       }
       TextToken token = new CharactersToken(text);

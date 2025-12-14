@@ -22,7 +22,6 @@ import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -63,7 +62,7 @@ public final class TokenizerByPunctuation implements TextTokenizer {
   @Override
   public List<TextToken> tokenize(CharSequence text) {
     Objects.requireNonNull(text, "Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    if (text.length() == 0) return List.of();
     List<TextToken> tokens = new ArrayList<>(text.length());
 
     Pattern p = Pattern.compile("[.,?!;]+");
