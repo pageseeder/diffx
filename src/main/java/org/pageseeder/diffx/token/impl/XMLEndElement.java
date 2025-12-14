@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public final class XMLEndElement extends TokenBase implements EndElementToken {
@@ -90,11 +90,6 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   @Override
   public StartElementToken getStartElement() {
     return this.start;
-  }
-
-  @Override
-  public @Nullable String getValue() {
-    return null;
   }
 
   @Override

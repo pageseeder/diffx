@@ -40,7 +40,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public class XMLElement extends TokenBase implements ElementToken {
@@ -103,11 +103,6 @@ public class XMLElement extends TokenBase implements ElementToken {
   @Override
   public String getNamespaceURI() {
     return this.start.getNamespaceURI();
-  }
-
-  @Override
-  public @Nullable String getValue() {
-    return null;
   }
 
   @Override
