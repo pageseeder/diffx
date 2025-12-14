@@ -28,7 +28,6 @@ java {
 
 dependencies {
     compileOnly(libs.jspecify)
-    compileOnly(libs.jetbrains.annotations)
 
     implementation(libs.pso.xmlwriter)
 
