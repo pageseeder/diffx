@@ -16,4 +16,5 @@
 /**
  * Sequences and sequence utility tools.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.sequence;

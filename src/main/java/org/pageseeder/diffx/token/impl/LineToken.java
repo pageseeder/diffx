@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -23,14 +23,15 @@ import org.pageseeder.xmlwriter.XMLWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A text token representing a single line.
  *
  * @author Christophe Lauret
  *
+ * @version 1.3.0
  * @since 0.9.0
- * @version 0.9.0
  */
 public final class LineToken extends TokenBase implements TextToken {
 
@@ -57,9 +58,8 @@ public final class LineToken extends TokenBase implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public LineToken(CharSequence line, int lineNumber) throws NullPointerException {
-    if (line == null)
-      throw new NullPointerException("The line cannot be null, use \"\"");
+  public LineToken(CharSequence line, int lineNumber) {
+    Objects.requireNonNull(line, "The line cannot be null, use \"\"");
     this.characters = line;
     this.lineNumber = lineNumber;
     this.hashCode = toHashCode(line);
@@ -84,7 +84,7 @@ public final class LineToken extends TokenBase implements TextToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == null) return false;
     if (this == token) return true;
     if (token.getClass() != LineToken.class) return false;
@@ -118,7 +118,7 @@ public final class LineToken extends TokenBase implements TextToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.characters.toString());
   }
 
@@ -129,7 +129,7 @@ public final class LineToken extends TokenBase implements TextToken {
    *
    * @return a number suitable as a hashcode.
    */
-  private int toHashCode(CharSequence line) {
+  private int toHashCode(@Nullable CharSequence line) {
     assert line != null;
     return 29 * 59 + line.hashCode();
   }

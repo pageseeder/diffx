@@ -21,12 +21,14 @@ import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
 import java.util.EnumMap;
+import java.util.Objects;
 
 /**
  * A base class for XML diff output implementations.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
  * @since 0.9.0
  */
 abstract class XMLDiffOutputBase implements XMLDiffOutput {
@@ -73,7 +75,7 @@ abstract class XMLDiffOutputBase implements XMLDiffOutput {
 
   @Override
   public final void setNamespaces(NamespaceSet namespaces) {
-    this.namespaces = namespaces;
+    this.namespaces = Objects.requireNonNull(namespaces);
   }
 
   public Namespace getDiffNamespace() {

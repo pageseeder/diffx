@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -49,30 +49,30 @@ public final class NilToken implements XMLToken {
   }
 
   @Override
-  public @NotNull XMLTokenType getType() {
+  public XMLTokenType getType() {
     return XMLTokenType.OTHER;
   }
 
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     return token == this;
   }
 
   @Override
-  public void toXML(@NotNull XMLWriter xml) {
+  public void toXML(XMLWriter xml) {
     // This token has no XML representation
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) {
+  public void toXML(XMLStreamWriter xml) {
     // This token has no XML representation
   }
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return "";
   }
 
   @Override
-  public @NotNull String getValue() { return ""; }
+  public String getValue() { return ""; }
 }

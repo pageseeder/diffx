@@ -16,7 +16,7 @@
 
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -61,7 +61,7 @@ public final class TextListToken implements TextToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     for (TextToken text : tokens) {
       text.toXML(xml);
     }
@@ -78,7 +78,7 @@ public final class TextListToken implements TextToken {
   }
 
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof TextToken)) return false;
     if (this.hashCode() != token.hashCode()) return false;

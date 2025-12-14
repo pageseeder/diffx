@@ -49,6 +49,7 @@ public interface Loader<T> {
    * @param source The string to process.
    *
    * @return The corresponding sequence of tokens.
+   *
    * @throws LoadingException     If thrown while parsing.
    * @throws UncheckedIOException Should I/O error occur.
    */
@@ -61,6 +62,7 @@ public interface Loader<T> {
    * @param charset The charset to use when reading the file.
    *
    * @return The corresponding sequence of tokens.
+   *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */
@@ -72,6 +74,7 @@ public interface Loader<T> {
    * @param file The file to process.
    *
    * @return The corresponding sequence of tokens.
+   *
    * @throws LoadingException If thrown while parsing.
    * @throws IOException      Should I/O error occur.
    */

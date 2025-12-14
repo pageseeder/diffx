@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.xml.XMLStreamable;
 import org.pageseeder.xmlwriter.XMLWritable;
 
@@ -50,7 +50,7 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
   /**
    * @return The type of token.
    */
-  @NotNull XMLTokenType getType();
+  XMLTokenType getType();
 
   /**
    * Returns the name of the token.
@@ -66,7 +66,7 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
    *
    * @return The name of the token.
    */
-  @NotNull String getName();
+  String getName();
 
   /**
    * Returns the value of the token.
@@ -85,7 +85,7 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
    *
    * @return The value of the token.
    */
-  @NotNull String getValue();
+  String getValue();
 
   /**
    * Returns the namespace URI the token.
@@ -95,7 +95,7 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
    *
    * @return The namespace URI the attribute belongs to or <code>""</code>.
    */
-  default @NotNull String getNamespaceURI() {
+  default String getNamespaceURI() {
     return XMLConstants.NULL_NS_URI;
   }
 
@@ -122,6 +122,6 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
    *
    * @return <code>true</code> if considered equals; <code>false</code> otherwise.
    */
-  boolean equals(XMLToken token);
+  boolean equals(@Nullable XMLToken token);
 
 }

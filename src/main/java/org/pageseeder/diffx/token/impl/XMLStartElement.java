@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -31,7 +31,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.2
+ * @version 1.3.0
  * @since 0.9.0
  */
 public final class XMLStartElement extends TokenBase implements XMLToken, StartElementToken {
@@ -39,12 +39,12 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
   /**
    * The namespace URI of the element.
    */
-  private final @NotNull String uri;
+  private final String uri;
 
   /**
    * The local name of the element.
    */
-  private final @NotNull String name;
+  private final String name;
 
   /**
    * Hashcode value for this token.
@@ -59,7 +59,7 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    * @throws NullPointerException if the name is <code>null</code>.
    * @see XMLConstants#NULL_NS_URI
    */
-  public XMLStartElement(@NotNull String name) throws NullPointerException {
+  public XMLStartElement(String name) throws NullPointerException {
     this.uri = XMLConstants.NULL_NS_URI;
     this.name = Objects.requireNonNull(name, "Element must have a name.");
     this.hashCode = toHashCode(XMLConstants.NULL_NS_URI, name);
@@ -73,19 +73,19 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLStartElement(@NotNull String uri, @NotNull  String localName) throws NullPointerException {
+  public XMLStartElement(String uri, String localName) throws NullPointerException {
     this.uri = Objects.requireNonNull(uri, "The URI cannot be null, use \"\".");
     this.name = Objects.requireNonNull(localName, "Element must have a name.");
     this.hashCode = toHashCode(uri, localName);
   }
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return this.name;
   }
 
   @Override
-  public @NotNull String getNamespaceURI() {
+  public String getNamespaceURI() {
     return this.uri;
   }
 
@@ -103,7 +103,7 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof StartElementToken)) return false;
     if (this.hashCode != token.hashCode()) return false;
@@ -121,12 +121,12 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
   }
 
   @Override
-  public void toXML(@NotNull XMLWriter xml) throws IOException {
+  public void toXML(XMLWriter xml) throws IOException {
     xml.openElement(this.uri, this.name, false);
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.uri.isEmpty()) {
       xml.writeStartElement(this.name);
@@ -144,8 +144,6 @@ public final class XMLStartElement extends TokenBase implements XMLToken, StartE
    * @return a number suitable as a hashcode.
    */
   private int toHashCode(String uri, String name) {
-    assert uri != null;
-    assert name != null;
     int hash = 107;
     hash = hash * 13 + uri.hashCode();
     hash = hash * 13 + name.hashCode();

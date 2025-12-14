@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.api;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.Token;
 
 import java.util.List;
@@ -36,7 +35,7 @@ public interface TokenProcessor<T extends Token> {
    * @return A filtered list of tokens that meet the specified criteria.
    * If no tokens meet the criteria, returns an empty list.
    */
-  @NotNull List<T> process(@NotNull List<T> tokens);
+  List<T> process(List<T> tokens);
 
   /**
    * Returns a composite {@code TokenProcessor} that sequentially processes
@@ -50,7 +49,7 @@ public interface TokenProcessor<T extends Token> {
    * @return A composite {@code TokenProcessor} that applies this processor followed by the given {@code after} processor.
    * @throws NullPointerException If the {@code after} processor is null.
    */
-  default TokenProcessor<T> andThen(@NotNull TokenProcessor<T> after) {
+  default TokenProcessor<T> andThen(TokenProcessor<T> after) {
     return tokens -> after.process(this.process(tokens));
   }
 

@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -41,13 +39,13 @@ public interface ElementToken extends XMLToken {
   /**
    * @return The local name of the element.
    */
-  @NotNull String getName();
+  String getName();
 
   /**
    * @return The namespace URI the element belongs to.
    */
   @Override
-  @NotNull String getNamespaceURI();
+  String getNamespaceURI();
 
   /**
    * Retrieves the starting element token that corresponds to the beginning
@@ -56,7 +54,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The StartElementToken representing the beginning of the element.
    */
-  @NotNull StartElementToken getStart();
+  StartElementToken getStart();
 
   /**
    * Retrieves the ending element token that corresponds to the end of this
@@ -65,7 +63,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The EndElementToken representing the end of the element.
    */
-  @NotNull EndElementToken getEnd();
+  EndElementToken getEnd();
 
   /**
    * Returns all the tokens for this element, starting with the
@@ -84,7 +82,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens making up this element
    */
-  @NotNull List<XMLToken> tokens();
+  List<XMLToken> tokens();
 
   /**
    * Returns all the tokens between the start and end element tokens.
@@ -107,10 +105,10 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens that are present between the start and end element tokens.
    */
-  @NotNull List<XMLToken> getContent();
+  List<XMLToken> getContent();
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.ELEMENT;
   }
 

@@ -16,4 +16,5 @@
 /**
  * Similarity function and similarity-based algorithms used for diffing
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.similarity;

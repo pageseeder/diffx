@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.config;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An immutable configuration object for the diff.
  *
@@ -158,7 +160,7 @@ public final class DiffConfig {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (o == null || getClass() != o.getClass()) return false;
     DiffConfig that = (DiffConfig) o;
     return isNamespaceAware == that.isNamespaceAware

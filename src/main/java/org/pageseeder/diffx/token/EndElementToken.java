@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -37,10 +37,10 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The local name of the element.
    */
-  @NotNull String getName();
+  String getName();
 
   @Override
-  default @NotNull String getValue() {
+  default String getValue() {
     return "";
   }
 
@@ -53,7 +53,7 @@ public interface EndElementToken extends XMLToken {
    * @return The namespace URI the element belongs to.
    */
   @Override
-  @NotNull String getNamespaceURI();
+  String getNamespaceURI();
 
   /**
    * Returns the corresponding token element.
@@ -100,7 +100,7 @@ public interface EndElementToken extends XMLToken {
    * @return {@code true} if the specified token is equal to this token; {@code false} otherwise.
    */
   @Override
-  default boolean equals(XMLToken token) {
+  default boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof EndElementToken)) return false;
     EndElementToken other = (EndElementToken) token;
@@ -109,7 +109,7 @@ public interface EndElementToken extends XMLToken {
   }
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.END_ELEMENT;
   }
 
@@ -119,7 +119,7 @@ public interface EndElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeEndElement();
   }
 

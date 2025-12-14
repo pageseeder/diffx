@@ -16,4 +16,5 @@
 /**
  * Utility classes.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.util;

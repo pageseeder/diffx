@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.xml;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.TextListToken;
 
@@ -43,7 +44,7 @@ public final class Sequences {
    * @return <code>true</code> if the sequence is "well-formed";
    * <code>false</code> otherwise.
    */
-  public static boolean isWellFormed(Sequence sequence) {
+  public static boolean isWellFormed(@Nullable Sequence sequence) {
     if (sequence == null) return false;
     Deque<XMLToken> open = new ArrayDeque<>();
     XMLToken token;

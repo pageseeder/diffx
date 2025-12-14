@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.Loader;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
@@ -240,10 +241,10 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @param uri    The namespace URI.
    * @param prefix The prefix used for the namespace.
    */
-  private void handlePrefixMapping(String uri, String prefix) {
+  private void handlePrefixMapping(String uri, @Nullable String prefix) {
     if (this.isFragment) {
       if (this.namespaces.getPrefix(uri) != null) return;
-      if (prefix == null && !"".equals(uri)) {
+      if (prefix == null && !uri.isEmpty()) {
         this.namespaces.add(uri, "");
       } else if (prefix != null && !"xmlns".equals(prefix)) {
         this.namespaces.add(uri, prefix);
@@ -286,7 +287,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    *
    * @param attr The W3C DOM attribute node to load.
    */
-  private AttributeToken toAttribute(Attr attr) {
+  private @Nullable AttributeToken toAttribute(Attr attr) {
     String uri = attr.getNamespaceURI();
     if (uri == null) uri = XMLConstants.NULL_NS_URI;
     handlePrefixMapping(uri, attr.getPrefix());

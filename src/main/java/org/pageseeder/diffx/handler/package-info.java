@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * The token interfaces used by the Diff-X algorithm.
+ * Diff handlers and filter implementations.
  */
 @org.jspecify.annotations.NullMarked
-package org.pageseeder.diffx.token;
+package org.pageseeder.diffx.handler;

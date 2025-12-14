@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.xml;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.PrintWriter;
@@ -106,7 +106,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
    *
    * @param sequence The sequence of tokens to be added.
    */
-  public void addSequence(@NotNull Sequence sequence) {
+  public void addSequence(Sequence sequence) {
     this.tokens.addAll(sequence.tokens);
     this.namespaces.add(sequence.namespaces);
   }
@@ -215,7 +215,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
    * @return <code>true</code> if the specified token sequence is equal to this one;
    * <code>false</code> otherwise.
    */
-  public boolean equals(Sequence seq) {
+  public boolean equals(@Nullable Sequence seq) {
     if (seq == null) return false;
     return equals(this.tokens, seq.tokens);
   }
@@ -297,7 +297,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   @Override
-  public @NotNull Iterator<XMLToken> iterator() {
+  public Iterator<XMLToken> iterator() {
     return this.tokens.iterator();
   }
 

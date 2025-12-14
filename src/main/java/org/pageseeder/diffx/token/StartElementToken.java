@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -33,12 +33,12 @@ import java.io.IOException;
 public interface StartElementToken extends XMLToken {
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.START_ELEMENT;
   }
 
   @Override
-  default @NotNull String getValue() {
+  default String getValue() {
     return "";
   }
 
@@ -53,7 +53,7 @@ public interface StartElementToken extends XMLToken {
    * @return <code>true</code> if considered equals; <code>false</code> otherwise.
    */
   @Override
-  default boolean equals(XMLToken token) {
+  default boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof StartElementToken)) return false;
     StartElementToken other = (StartElementToken) token;
@@ -62,12 +62,12 @@ public interface StartElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(@NotNull XMLWriter xml) throws IOException {
+  default void toXML(XMLWriter xml) throws IOException {
     xml.openElement(this.getNamespaceURI(), this.getName(), false);
   }
 
   @Override
-  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.getNamespaceURI().isEmpty()) {
       xml.writeStartElement(this.getName());

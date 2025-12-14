@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.util;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A set of utility methods to help with command-line interface.
  *
@@ -42,7 +44,7 @@ public final class CommandLine {
    *
    * @return The value of the parameter or <code>null</code>.
    */
-  public static String getParameter(String name, String[] args) {
+  public static @Nullable String getParameter(@Nullable String name, String @Nullable [] args) {
     if (args == null || args.length < 2 || name == null) return null;
     // find the argument
     for (int i = 0; i < args.length; i++) {
@@ -65,7 +67,7 @@ public final class CommandLine {
    *
    * @return <code>true</code> if the switch is available; <code>false</code> otherwise.
    */
-  public static boolean hasSwitch(String name, String[] args) {
+  public static boolean hasSwitch(@Nullable String name, String @Nullable [] args) {
     if (args == null || name == null) return false;
     for (String arg : args) {
       if (name.equals(arg)) return true;

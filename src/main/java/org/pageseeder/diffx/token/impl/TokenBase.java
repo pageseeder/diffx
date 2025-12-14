@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 
 /**
@@ -44,7 +45,7 @@ abstract class TokenBase implements XMLToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public final boolean equals(Object o) {
+  public final boolean equals(@Nullable Object o) {
     if (!(o instanceof XMLToken)) return false;
     return equals((XMLToken) o);
   }

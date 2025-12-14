@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;

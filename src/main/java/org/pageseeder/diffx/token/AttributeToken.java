@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -39,7 +39,7 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The local name of the attribute.
    */
-  @NotNull String getName();
+  String getName();
 
   /**
    * Returns the value of the attribute.
@@ -48,7 +48,7 @@ public interface AttributeToken extends XMLToken {
    *
    * @return The value of the attribute.
    */
-  @NotNull String getValue();
+  String getValue();
 
   /**
    * Returns the namespace URI of the attribute.
@@ -59,10 +59,10 @@ public interface AttributeToken extends XMLToken {
    * @return The namespace URI the attribute belongs to, or an empty string if none.
    */
   @Override
-  @NotNull String getNamespaceURI();
+  String getNamespaceURI();
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.ATTRIBUTE;
   }
 
@@ -77,7 +77,7 @@ public interface AttributeToken extends XMLToken {
    * @return <code>true</code> if considered equals; <code>false</code> otherwise.
    */
   @Override
-  default boolean equals(XMLToken token) {
+  default boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof AttributeToken)) return false;
     AttributeToken other = (AttributeToken) token;
@@ -92,7 +92,7 @@ public interface AttributeToken extends XMLToken {
   }
 
   @Override
-  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // We shouldn't specify a namespace URI if empty on an XMLStreamWriter
     if (this.getNamespaceURI().isEmpty())
       xml.writeAttribute(this.getName(), this.getValue());

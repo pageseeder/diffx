@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.token.impl.SpaceToken;
@@ -85,7 +84,7 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
   }
 
   @Override
-  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     if (this.level == 0) {
       declareNamespaces();
     }

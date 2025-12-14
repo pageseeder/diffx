@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.load;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
@@ -64,7 +63,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   /**
    * The XML reader class in use (set to the default XML reader).
    */
-  private static @NotNull String readerClassName = "";
+  private static String readerClassName = "";
 
   /**
    * Runs the loader on the specified input source.

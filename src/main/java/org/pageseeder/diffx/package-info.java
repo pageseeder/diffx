@@ -21,4 +21,5 @@
  * of two XML documents, it there best to use one of the two <code>Main.diff</code> methods, it
  * will be plugged to the most stable algorithm implementation and formatter.</p>
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx;

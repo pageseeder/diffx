@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.handler;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -36,14 +36,14 @@ public final class CompareReplaceFilter extends DiffFilter<XMLToken> implements 
   /**
    * The previous text operation.
    */
-  private Operation<XMLToken> previous = null;
+  private @Nullable Operation<XMLToken> previous = null;
 
   public CompareReplaceFilter(DiffHandler<XMLToken> target) {
     super(target);
   }
 
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
+  public void handle(Operator operator, XMLToken token) {
     if (token instanceof TextToken && operator.isEdit()) {
       if (this.previous != null) {
         diff((TextToken) token, (TextToken) this.previous.token(), operator == Operator.INS);

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -67,21 +67,21 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   /**
    * @return The target of the processing instruction.
    */
-  public @NotNull String getName() {
+  public String getName() {
     return this.target;
   }
 
   /**
    * @return The data of the processing instruction.
    */
-  public @NotNull String getValue() {
+  public String getValue() {
     return this.data;
   }
 
   /**
    * @return The target of the processing instruction.
    */
-  public @NotNull String getTarget() {
+  public String getTarget() {
     return this.target;
   }
 
@@ -106,7 +106,7 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
     XMLProcessingInstruction pi = (XMLProcessingInstruction) token;
@@ -124,12 +124,12 @@ public final class XMLProcessingInstruction extends TokenBase implements XMLToke
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeProcessingInstruction(this.target, this.data);
   }
 
   @Override
-  public @NotNull XMLTokenType getType() {
+  public XMLTokenType getType() {
     return XMLTokenType.PROCESSING_INSTRUCTION;
   }
 

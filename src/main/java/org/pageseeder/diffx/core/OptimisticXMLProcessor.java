@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.algorithm.DataLengthException;
 import org.pageseeder.diffx.algorithm.MatrixXMLAlgorithm;
@@ -69,7 +68,7 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
   }
 
   @Override
-  public void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler) {
+  public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
     // Try with fast diff
     OperationsBuffer<XMLToken> buffer = new OperationsBuffer<>();
     boolean successful = fastDiff(from, to, buffer);

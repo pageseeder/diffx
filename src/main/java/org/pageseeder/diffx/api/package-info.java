@@ -18,4 +18,5 @@
  *
  * <p>Implementations are available in separate packages.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.api;

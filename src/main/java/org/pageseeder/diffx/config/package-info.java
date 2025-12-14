@@ -16,4 +16,5 @@
 /**
  * Configuration options for Diff-X.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.config;
