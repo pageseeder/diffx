@@ -66,7 +66,7 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
    */
   public int countEdits() {
     int edits = 0;
-    for (Action<?> action : this.actions) if (action.operator().isEdit()) edits += action.tokens().size();
+    for (Action<?> a : this.actions) if (a.operator().isEdit()) edits += a.tokens().size();
     return edits;
   }
 
@@ -94,9 +94,9 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
    */
   public void applyTo(DiffHandler<T> handler) {
     handler.start();
-    for (Action<T> action : this.actions) {
-      for (T token : action.tokens()) {
-        handler.handle(action.operator(), token);
+    for (Action<T> a : this.actions) {
+      for (T token : a.tokens()) {
+        handler.handle(a.operator(), token);
       }
     }
     handler.end();
