@@ -9,7 +9,7 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit-platform" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-pso-xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version = "1.0.4" }
+pso-xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version = "1.1.1" }
 
 [bundles]
 junit-testing = [
