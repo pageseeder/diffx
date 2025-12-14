@@ -39,7 +39,7 @@ final class AttributeXMLTokenTest {
 
   @Test
   void testNotEquals() {
-    List<AttributeToken> tokens = Arrays.asList(
+    List<AttributeToken> tokens = List.of(
         new XMLAttribute("title", "test"),
         new XMLAttribute("title", "test2"),
         new XMLAttribute("title2", "test"),
