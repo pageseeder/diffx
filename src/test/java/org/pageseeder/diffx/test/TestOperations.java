@@ -33,7 +33,7 @@ public class TestOperations {
   public static List<Operation<XMLToken>> toXMLOperations(String... ops) {
     OperationsBuffer<XMLToken> source = new OperationsBuffer<>();
     for (String op : ops) {
-      String t = op.toString();
+      String t = op;
       // Identify the operator
       Operator o = Operator.MATCH;
       if (op.startsWith("+")) o = Operator.INS;

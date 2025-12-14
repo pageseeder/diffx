@@ -21,8 +21,6 @@ import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.TextToken;
-import org.pageseeder.diffx.xml.Sequence;
-import org.pageseeder.diffx.xml.Sequences;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

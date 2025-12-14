@@ -29,11 +29,11 @@ public class RandomHTMLFactory {
 
   private final DocumentBuilder builder;
 
-  private final List<String> BLOCK_ELEMENT_NAMES = List.of("p", "div", "h1", "h2", "h3", "table", "ol", "ul");
+  private static final List<String> BLOCK_ELEMENT_NAMES = List.of("p", "div", "h1", "h2", "h3", "table", "ol", "ul");
 
-  private final List<String> INLINE_ELEMENT_NAMES = List.of("b", "i", "u", "span");
+  private static final List<String> INLINE_ELEMENT_NAMES = List.of("b", "i", "u", "span");
 
-  private final List<String> ATTRIBUTE_NAMES = List.of("id", "name", "title", "dir", "hidden", "class");
+  private static final List<String> ATTRIBUTE_NAMES = List.of("id", "name", "title", "dir", "hidden", "class");
 
   private final RandomStringFactory stringFactory = new RandomStringFactory();
 

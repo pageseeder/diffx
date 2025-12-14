@@ -25,7 +25,6 @@ import org.pageseeder.diffx.profile.ProfileInfo;
 import org.pageseeder.diffx.profile.Profilers;
 import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
-import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.RandomXMLFactory;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.XMLToken;
