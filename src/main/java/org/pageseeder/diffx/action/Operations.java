@@ -50,9 +50,8 @@ public final class Operations {
   public static <T> List<T> generate(List<Operation<T>> operations, boolean forward) {
     List<T> generated = new LinkedList<>();
     for (Operation<T> operation : operations) {
-      if (forward ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
-        generated.add(operation.token());
-      } else if (operation.operator() == Operator.MATCH) {
+      Operator op = operation.operator();
+      if (op == Operator.MATCH || forward ? op == Operator.INS : op == Operator.DEL) {
         generated.add(operation.token());
       }
     }
