@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @since 0.5.0
  */
 public interface EndElementToken extends XMLToken {

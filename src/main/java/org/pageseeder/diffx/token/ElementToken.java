@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @since 0.7.0
  */
 public interface ElementToken extends XMLToken {
