@@ -106,7 +106,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public String getValue() {
+  public @Nullable String getValue() {
     return null;
   }
 

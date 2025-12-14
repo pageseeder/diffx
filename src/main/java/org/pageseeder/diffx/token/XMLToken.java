@@ -77,8 +77,6 @@ public interface XMLToken extends Token, XMLWritable, XMLStreamable {
    *
    * <p>For processing instructions, this is the data.</p>
    *
-   * <p>For processing instructions, this is the data.</p>
-   *
    * <p>Other tokens, including elements, should generally return an empty string.</p>
    *
    * <p>This method should never return <code>null</code>.

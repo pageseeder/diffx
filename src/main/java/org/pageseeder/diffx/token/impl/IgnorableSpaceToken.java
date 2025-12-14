@@ -99,8 +99,8 @@ public final class IgnorableSpaceToken implements TextToken {
    */
   @Override
   public boolean equals(@Nullable XMLToken token) {
-    if (this == token)
-      return true;
+    if (token == null) return false;
+    if (this == token) return true;
     return token.getClass() == this.getClass();
     // always return true
   }
