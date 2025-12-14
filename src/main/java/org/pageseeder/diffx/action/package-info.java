@@ -16,4 +16,5 @@
 /**
  * Objects used to record the result or hold the state of a diff.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.action;

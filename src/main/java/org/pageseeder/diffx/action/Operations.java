@@ -28,7 +28,9 @@ import java.util.List;
  * Utility class for operations.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class Operations {
 

@@ -95,7 +95,7 @@ public final class Actions {
    * Applies a list of actions to the input sequence and returns a new sequence based on
    * the processed tokens.
    *
-   * This method processes the tokens in the input sequence using the provided actions
+   * <p>This method processes the tokens in the input sequence using the provided actions
    * and generates a new sequence reflecting the result of applying these actions.
    *
    * @param input   The input sequence to which the actions will be applied.
