@@ -21,7 +21,6 @@ import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -39,7 +38,7 @@ final class StartElementXMLTokenTest {
 
   @Test
   void testNotEquals() {
-    List<StartElementToken> tokens = Arrays.asList(
+    List<StartElementToken> tokens = List.of(
         new XMLStartElement("test"),
         new XMLStartElement("test2"),
         new XMLStartElement("https://example.org", "test"),

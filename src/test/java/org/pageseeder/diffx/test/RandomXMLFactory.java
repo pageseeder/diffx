@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.pageseeder.diffx.test;
 
 
@@ -36,11 +35,11 @@ import java.util.Random;
 
 public class RandomXMLFactory {
 
-  private final List<String> BLOCK_ELEMENT_NAMES = Arrays.asList("p", "div", "h1", "h2", "h3");
+  private final List<String> BLOCK_ELEMENT_NAMES = List.of("p", "div", "h1", "h2", "h3");
 
-  private final List<String> INLINE_ELEMENT_NAMES = Arrays.asList("b", "i", "u", "span");
+  private final List<String> INLINE_ELEMENT_NAMES = List.of("b", "i", "u", "span");
 
-  private final List<String> ATTRIBUTE_NAMES = Arrays.asList("id", "name", "title", "dir", "hidden", "is");
+  private final List<String> ATTRIBUTE_NAMES = List.of("id", "name", "title", "dir", "hidden", "is");
 
   private final Random random = new Random();
 
