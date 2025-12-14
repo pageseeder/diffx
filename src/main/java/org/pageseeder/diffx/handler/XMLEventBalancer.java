@@ -1,6 +1,5 @@
 package org.pageseeder.diffx.handler;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
@@ -41,7 +40,6 @@ import java.util.Queue;
  * @since 1.2.1
  * @version 1.2.1
  */
-@ApiStatus.Experimental
 public class XMLEventBalancer extends DiffFilter<XMLToken> {
 
   /**
