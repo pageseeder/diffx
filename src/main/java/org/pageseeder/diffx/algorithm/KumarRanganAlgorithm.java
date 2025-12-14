@@ -68,6 +68,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
    * Where possible, the name of the variables matches the names used in the algorithm published in
    * "A Linear Space Algorithm for the LCS Problem".
    */
+  @SuppressWarnings("java:S116") // Variable names reflect use in paper
   private static class Instance<T> {
 
     // Global integer arrays needed in the computation of the LCS
