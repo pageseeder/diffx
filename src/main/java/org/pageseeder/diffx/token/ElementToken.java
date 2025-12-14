@@ -101,4 +101,20 @@ public interface ElementToken extends XMLToken {
     return XMLTokenType.ELEMENT;
   }
 
+  /**
+   * Retrieves the concatenated string value of all relevant XML tokens
+   * contained within the element. Only tokens of type TEXT or ELEMENT
+   * are considered for inclusion in the resulting string.
+   *
+   * @return The concatenated string value of all TEXT and ELEMENT tokens within the element content.
+   */
+  default String getValue() {
+    StringBuilder value = new StringBuilder();
+    for (XMLToken token : getContent()) {
+      if (token.getType() == XMLTokenType.TEXT || token.getType() == XMLTokenType.ELEMENT) {
+        value.append(token.getValue());
+      }
+    }
+    return value.toString();
+  }
 }
