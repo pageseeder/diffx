@@ -16,8 +16,6 @@
 package org.pageseeder.diffx.action;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.action.Operation;
-import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
@@ -27,17 +25,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OperationsBufferTest {
+class OperationsBufferTest {
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     OperationsBuffer<Object> handler = new OperationsBuffer<>();
-    List<Operation<Object>> Operations = handler.getOperations();
-    assertTrue(Operations.isEmpty());
+    List<Operation<Object>> operations = handler.getOperations();
+    assertTrue(operations.isEmpty());
   }
 
   @Test
-  public void testSingle() {
+  void testSingle() {
     XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
       OperationsBuffer<XMLToken> handler = new OperationsBuffer<>();
@@ -51,7 +49,7 @@ public class OperationsBufferTest {
   }
 
   @Test
-  public void testMixed() {
+  void testMixed() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
@@ -61,10 +59,10 @@ public class OperationsBufferTest {
         handler.handle(operator2, token2);
         List<Operation<XMLToken>> operations = handler.getOperations();
         assertEquals(2, operations.size());
-        Operation<XMLToken> Operation1 = operations.get(0);
-        Operation<XMLToken> Operation2 = operations.get(1);
-        assertEquals(new Operation<>(operator1, token1), Operation1);
-        assertEquals(new Operation<>(operator2, token2), Operation2);
+        Operation<XMLToken> operation1 = operations.get(0);
+        Operation<XMLToken> operation2 = operations.get(1);
+        assertEquals(new Operation<>(operator1, token1), operation1);
+        assertEquals(new Operation<>(operator2, token2), operation2);
       }
     }
   }

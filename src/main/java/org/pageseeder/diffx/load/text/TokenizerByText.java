@@ -22,8 +22,8 @@ import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 import org.pageseeder.diffx.token.impl.SpaceToken;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The tokenizer for characters tokens.
@@ -31,7 +31,9 @@ import java.util.List;
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class TokenizerByText implements TextTokenizer {
 
@@ -48,34 +50,34 @@ public final class TokenizerByText implements TextTokenizer {
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerByText(WhiteSpaceProcessing whitespace) {
-    if (whitespace == null) throw new NullPointerException("the white space processing must be specified.");
+    Objects.requireNonNull(whitespace, "the white space processing must be specified.");
     this.whitespace = whitespace;
   }
 
   @Override
   public List<TextToken> tokenize(CharSequence text) {
-    if (text == null) throw new NullPointerException("Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    Objects.requireNonNull(text, "Character sequence is null");
+    if (text.length() == 0) return List.of();
     int x = Tokenizers.getLeadingWhiteSpace(text);
     int y = Tokenizers.getTrailingWhiteSpace(text);
     // no leading or trailing spaces return a singleton in all configurations
     if (x == 0 && y == 0) {
       TextToken token = new CharactersToken(text);
-      return Collections.singletonList(token);
+      return List.of(token);
     }
     // The text node is only white space (white space = leading space)
     if (x == text.length()) {
       switch (this.whitespace) {
         case COMPARE:
-          return Collections.singletonList(SpaceToken.getInstance(text.toString()));
+          return List.of(SpaceToken.getInstance(text.toString()));
         case PRESERVE:
-          return Collections.singletonList(new IgnorableSpaceToken(text.toString()));
+          return List.of(new IgnorableSpaceToken(text.toString()));
         case IGNORE:
-          return Collections.emptyList();
+          return List.of();
         default:
       }
       TextToken token = new CharactersToken(text);
-      return Collections.singletonList(token);
+      return List.of(token);
     }
     // some trailing or leading whitespace, behaviour changes depending on whitespace processing
     List<TextToken> tokens = null;
@@ -102,7 +104,7 @@ public final class TokenizerByText implements TextTokenizer {
         break;
       case IGNORE:
         TextToken token = new CharactersToken(text.subSequence(x, text.length() - y));
-        tokens = Collections.singletonList(token);
+        tokens = List.of(token);
         break;
       default:
     }

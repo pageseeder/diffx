@@ -31,7 +31,9 @@ import java.util.regex.Pattern;
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class TokenizerByWord implements TextTokenizer {
 
@@ -53,14 +55,14 @@ public final class TokenizerByWord implements TextTokenizer {
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerByWord(WhiteSpaceProcessing whitespace) {
-    if (whitespace == null) throw new NullPointerException("the white space processing must be specified.");
+    Objects.requireNonNull(whitespace, "the white space processing must be specified.");
     this.whitespace = whitespace;
   }
 
   @Override
   public List<TextToken> tokenize(CharSequence text) {
-    if (text == null) throw new NullPointerException("Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    Objects.requireNonNull(text, "Character sequence is null");
+    if (text.length() == 0) return List.of();
     List<TextToken> tokens = new ArrayList<>(text.length());
 
     Pattern p = Pattern.compile("\\s+");

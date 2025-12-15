@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
@@ -127,7 +126,7 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
    *         based on the context of each token.
    */
   @Override
-  public @NotNull List<XMLToken> process(@NotNull List<XMLToken> tokens) {
+  public List<XMLToken> process(List<XMLToken> tokens) {
     Deque<StripWhitespace> context = new ArrayDeque<>();
     List<XMLToken> out = new ArrayList<>(tokens.size());
     for (int i = 0; i < tokens.size(); i++) {

@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
@@ -79,7 +78,7 @@ public class WhitespaceStripper implements SequenceProcessor {
    * @return A new {@link Sequence} instance containing the filtered tokens without ignorable whitespace.
    */
   @Override
-  public @NotNull Sequence process(@NotNull Sequence sequence) {
+  public Sequence process(Sequence sequence) {
     return new Sequence(strip(sequence.tokens()), sequence.getNamespaces());
   }
 
@@ -97,7 +96,7 @@ public class WhitespaceStripper implements SequenceProcessor {
    * @return A new list of {@link XMLToken} objects that excludes ignorable whitespace based on context.
    */
   @Override
-  public @NotNull List<XMLToken> process(@NotNull List<XMLToken> tokens) {
+  public List<XMLToken> process(List<XMLToken> tokens) {
     return strip(tokens);
   }
 
@@ -112,7 +111,7 @@ public class WhitespaceStripper implements SequenceProcessor {
    * @param sequence The XML sequence to process and strip of ignorable whitespace.
    * @return A new {@link Sequence} instance containing the filtered tokens without ignorable whitespace.
    */
-  public @NotNull Sequence strip(@NotNull Sequence sequence) {
+  public Sequence strip(Sequence sequence) {
     return new Sequence(strip(sequence.tokens()), sequence.getNamespaces());
   }
 

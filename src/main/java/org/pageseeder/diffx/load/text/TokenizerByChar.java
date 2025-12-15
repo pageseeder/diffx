@@ -22,6 +22,7 @@ import org.pageseeder.diffx.token.impl.SpaceToken;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Tokenizes text creating a text token instance of every character.
@@ -30,14 +31,16 @@ import java.util.List;
  * short strings or testing.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class TokenizerByChar implements TextTokenizer {
 
   @Override
   public List<TextToken> tokenize(CharSequence text) {
-    if (text == null) throw new NullPointerException("Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    Objects.requireNonNull(text, "Character sequence is null");
+    if (text.length() == 0) return List.of();
     List<TextToken> tokens = new ArrayList<>(text.length());
     char c;
     for (int i = 0; i < text.length(); i++) {

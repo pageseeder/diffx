@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -39,27 +39,27 @@ import java.io.IOException;
 public class StartDocumentToken implements XMLToken {
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return "";
   }
 
   @Override
-  public @NotNull String getValue() {
+  public String getValue() {
     return "";
   }
 
   @Override
-  public @NotNull XMLTokenType getType() {
+  public XMLTokenType getType() {
     return XMLTokenType.START_DOCUMENT;
   }
 
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     return token != null && token.getType() == XMLTokenType.START_DOCUMENT;
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     // Does nothing
   }
 

@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
@@ -33,7 +31,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @since 0.7.0
  */
 public interface ElementToken extends XMLToken {
@@ -41,13 +39,13 @@ public interface ElementToken extends XMLToken {
   /**
    * @return The local name of the element.
    */
-  @NotNull String getName();
+  String getName();
 
   /**
    * @return The namespace URI the element belongs to.
    */
   @Override
-  @NotNull String getNamespaceURI();
+  String getNamespaceURI();
 
   /**
    * Retrieves the starting element token that corresponds to the beginning
@@ -56,7 +54,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The StartElementToken representing the beginning of the element.
    */
-  @NotNull StartElementToken getStart();
+  StartElementToken getStart();
 
   /**
    * Retrieves the ending element token that corresponds to the end of this
@@ -65,18 +63,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return The EndElementToken representing the end of the element.
    */
-  @NotNull EndElementToken getEnd();
-
-  /**
-   * Returns all the tokens for this element, starting with the
-   * <code>StartElementToken</code> and ending with the <code>EndElementToken</code>.
-   *
-   * @deprecated Use tokens() instead.
-   *
-   * @return the list of tokens making up this element
-   */
-  @Deprecated(since = "1.1.2", forRemoval = true)
-  List<XMLToken> getEvents();
+  EndElementToken getEnd();
 
   /**
    * Returns all the tokens for this element, starting with the
@@ -84,7 +71,7 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens making up this element
    */
-  @NotNull List<XMLToken> tokens();
+  List<XMLToken> tokens();
 
   /**
    * Returns all the tokens between the start and end element tokens.
@@ -107,11 +94,27 @@ public interface ElementToken extends XMLToken {
    *
    * @return the list of tokens that are present between the start and end element tokens.
    */
-  @NotNull List<XMLToken> getContent();
+  List<XMLToken> getContent();
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.ELEMENT;
   }
 
+  /**
+   * Retrieves the concatenated string value of all relevant XML tokens
+   * contained within the element. Only tokens of type TEXT or ELEMENT
+   * are considered for inclusion in the resulting string.
+   *
+   * @return The concatenated string value of all TEXT and ELEMENT tokens within the element content.
+   */
+  default String getValue() {
+    StringBuilder value = new StringBuilder();
+    for (XMLToken token : getContent()) {
+      if (token.getType() == XMLTokenType.TEXT || token.getType() == XMLTokenType.ELEMENT) {
+        value.append(token.getValue());
+      }
+    }
+    return value.toString();
+  }
 }

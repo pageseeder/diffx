@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,7 +42,7 @@ import java.util.stream.Stream;
 public final class JaccardSimilarity<T> implements StreamSimilarity<T> {
 
   @Override
-  public float score(@NotNull Stream<T> a, @NotNull Stream<T> b) {
+  public float score(Stream<T> a,Stream<T> b) {
     Set<T> setA = a.collect(Collectors.toSet());
     Set<T> setB = b.collect(Collectors.toSet());
     // Use the smaller set for iteration to maximize efficiency

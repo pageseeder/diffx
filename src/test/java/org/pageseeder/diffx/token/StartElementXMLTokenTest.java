@@ -21,11 +21,10 @@ import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public final class StartElementXMLTokenTest {
+final class StartElementXMLTokenTest {
 
   @Test
   void testEquals() {
@@ -39,7 +38,7 @@ public final class StartElementXMLTokenTest {
 
   @Test
   void testNotEquals() {
-    List<StartElementToken> tokens = Arrays.asList(
+    List<StartElementToken> tokens = List.of(
         new XMLStartElement("test"),
         new XMLStartElement("test2"),
         new XMLStartElement("https://example.org", "test"),
@@ -49,7 +48,7 @@ public final class StartElementXMLTokenTest {
   }
 
   @Test
-  public void testHashcodeCollisions() {
+  void testHashcodeCollisions() {
     RandomStringFactory factory = new RandomStringFactory();
     List<StartElementToken> tokens = new ArrayList<>();
     for (int i = 0; i < 10_000; i++) {
@@ -61,7 +60,7 @@ public final class StartElementXMLTokenTest {
   }
 
   @Test
-  public void testPerformance() {
+  void testPerformance() {
     String[] uris = new String[]{"", "https://example.org", "https://example.net"};
     String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "xml:title", "hidden"};
     List<StartElementToken> tokens1 = new ArrayList<>();

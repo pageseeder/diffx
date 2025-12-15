@@ -31,27 +31,27 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class TokenizerByPunctuationTest {
+final class TokenizerByPunctuationTest {
 
   /**
    * Tests that a <code>NullPointerException</code> is thrown for a </code>null</code>
    * character sequence.
    */
   @Test
-  public void testNull() {
+  void testNull() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.IGNORE);
     assertThrows(NullPointerException.class, () -> t.tokenize(null));
   }
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.IGNORE);
     List<TextToken> e = t.tokenize("");
     assertEquals(0, e.size());
   }
 
   @Test
-  public void testCountTokenIgnore() {
+  void testCountTokenIgnore() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.IGNORE);
     assertEquals(0, t.tokenize(" ").size());
     assertEquals(1, t.tokenize(" a").size());
@@ -65,7 +65,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testCountTokenPreserve() {
+  void testCountTokenPreserve() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     assertEquals(1, t.tokenize(" ").size());
     assertEquals(1, t.tokenize("  \na").size());
@@ -79,7 +79,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testSpace1() {
+  void testSpace1() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize(" ");
     assertEquals(1, e.size());
@@ -88,7 +88,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testPunctuation1() {
+  void testPunctuation1() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat");
     assertEquals(1, e.size());
@@ -97,7 +97,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testPunctuation2() {
+  void testPunctuation2() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat, a white hat!");
     assertEquals(2, e.size());
@@ -106,7 +106,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testPunctuation3() {
+  void testPunctuation3() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat, a white hat...");
     assertEquals(2, e.size());
@@ -115,7 +115,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testPunctuation4() {
+  void testPunctuation4() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat, a white hat");
     assertEquals(2, e.size());
@@ -124,7 +124,7 @@ public final class TokenizerByPunctuationTest {
   }
 
   @Test
-  public void testPunctuation5() {
+  void testPunctuation5() {
     TextTokenizer t = new TokenizerByPunctuation(WhiteSpaceProcessing.PRESERVE);
     List<TextToken> e = t.tokenize("A black cat; a white hat? a black rat! a white bat, and a black mat.");
     assertEquals(5, e.size());

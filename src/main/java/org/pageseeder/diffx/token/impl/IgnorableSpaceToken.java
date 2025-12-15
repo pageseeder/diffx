@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -53,7 +53,7 @@ public final class IgnorableSpaceToken implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public IgnorableSpaceToken(@NotNull CharSequence seq) {
+  public IgnorableSpaceToken(CharSequence seq) {
     this.characters = Objects.requireNonNull(seq.toString(), "The characters cannot be null, use \"\"");
   }
 
@@ -83,7 +83,7 @@ public final class IgnorableSpaceToken implements TextToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (o == null) return false;
     return o.getClass() == this.getClass();
   }
@@ -98,9 +98,9 @@ public final class IgnorableSpaceToken implements TextToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
-    if (this == token)
-      return true;
+  public boolean equals(@Nullable XMLToken token) {
+    if (token == null) return false;
+    if (this == token) return true;
     return token.getClass() == this.getClass();
     // always return true
   }
@@ -136,7 +136,7 @@ public final class IgnorableSpaceToken implements TextToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.characters);
   }
 

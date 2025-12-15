@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
@@ -72,8 +72,15 @@ public class XMLDiffReporter extends XMLDiffOutputBase implements XMLDiffOutput 
     }
   }
 
+  /**
+   *
+   * @param operator The operator
+   * @param token    The token to handle
+   *
+   * @throws UncheckedIOException Wraps any occurring I/O exception.
+   */
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, XMLToken token) {
     try {
       xml.openElement(toElementName(operator));
       xml.attribute("type", token.getType().toString());
@@ -94,7 +101,7 @@ public class XMLDiffReporter extends XMLDiffOutputBase implements XMLDiffOutput 
     }
   }
 
-  private static String toElementName(Operator operator) {
+  private static String toElementName(@Nullable Operator operator) {
     assert operator != null;
     switch (operator) {
       case DEL:

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.pageseeder.diffx.test;
 
 import org.w3c.dom.*;
@@ -21,7 +20,6 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -31,11 +29,11 @@ public class RandomHTMLFactory {
 
   private final DocumentBuilder builder;
 
-  private final List<String> BLOCK_ELEMENT_NAMES = Arrays.asList("p", "div", "h1", "h2", "h3", "table", "ol", "ul");
+  private static final List<String> BLOCK_ELEMENT_NAMES = List.of("p", "div", "h1", "h2", "h3", "table", "ol", "ul");
 
-  private final List<String> INLINE_ELEMENT_NAMES = Arrays.asList("b", "i", "u", "span");
+  private static final List<String> INLINE_ELEMENT_NAMES = List.of("b", "i", "u", "span");
 
-  private final List<String> ATTRIBUTE_NAMES = Arrays.asList("id", "name", "title", "dir", "hidden", "class");
+  private static final List<String> ATTRIBUTE_NAMES = List.of("id", "name", "title", "dir", "hidden", "class");
 
   private final RandomStringFactory stringFactory = new RandomStringFactory();
 

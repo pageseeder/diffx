@@ -19,9 +19,9 @@ import java.util.Random;
 
 public class RandomStringFactory {
 
-  private final Random R = new Random();
+  private static final Random R = new Random();
 
-  private final String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
+  private static final String LOWER_ALPHA = "abcdefghijklmnopqrstuvwxyz";
 
   private final char[] vocabulary;
 

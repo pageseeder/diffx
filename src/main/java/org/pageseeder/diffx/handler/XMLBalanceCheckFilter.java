@@ -1,6 +1,5 @@
 package org.pageseeder.diffx.handler;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -52,7 +51,7 @@ public final class XMLBalanceCheckFilter extends DiffFilter<XMLToken> {
   }
 
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
+  public void handle(Operator operator, XMLToken token) {
     if (token.getType() == XMLTokenType.START_ELEMENT) {
       this.stack.push(new Operation<>(operator, token));
     } else if (token.getType() == XMLTokenType.END_ELEMENT) {

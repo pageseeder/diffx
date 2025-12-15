@@ -37,7 +37,7 @@ import static org.pageseeder.diffx.api.Operator.*;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class DefaultXMLDiffOutputTest {
+final class DefaultXMLDiffOutputTest {
 
   /**
    * The output being tested.
@@ -50,7 +50,7 @@ public final class DefaultXMLDiffOutputTest {
   StringWriter w = null;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     this.w = new StringWriter();
     this.output = new DefaultXMLDiffOutput(this.w);
     this.output.start();
@@ -60,7 +60,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test open and closing an element.
    */
   @Test
-  public void testOpenAndClose0() throws LoadingException {
+  void testOpenAndClose0() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(MATCH, new XMLEndElement("a"));
     assertEquivalentToXML("<a/>");
@@ -70,7 +70,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test open and closing mismatching elements.
    */
   @Test
-  public void testOpenAndClose1() throws LoadingException {
+  void testOpenAndClose1() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(MATCH, new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
@@ -80,7 +80,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test open and closing mismatching elements.
    */
   @Test
-  public void testOpenAndClose2() throws LoadingException {
+  void testOpenAndClose2() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(INS, new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
@@ -90,7 +90,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test open and closing mismatching elements.
    */
   @Test
-  public void testOpenAndClose3() throws DiffException {
+  void testOpenAndClose3() throws DiffException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(DEL, new XMLEndElement("b"));
     assertEquivalentToXML("<a/>");
@@ -100,7 +100,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test formatting an attribute.
    */
   @Test
-  public void testAttributes0() throws LoadingException {
+  void testAttributes0() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(MATCH, new XMLAttribute("", "x", "y"));
     this.output.handle(MATCH, new XMLEndElement("a"));
@@ -111,7 +111,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test formatting an attribute.
    */
   @Test
-  public void testAttributes1() throws LoadingException {
+  void testAttributes1() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(INS, new XMLAttribute("", "x", "y"));
     this.output.handle(MATCH, new XMLEndElement("a"));
@@ -122,7 +122,7 @@ public final class DefaultXMLDiffOutputTest {
    * Test formatting an attribute.
    */
   @Test
-  public void testAttributes2() throws LoadingException {
+  void testAttributes2() throws LoadingException {
     this.output.handle(MATCH, new XMLStartElement("a"));
     this.output.handle(DEL, new XMLAttribute("", "x", "y"));
     this.output.handle(MATCH, new XMLEndElement("a"));
@@ -130,7 +130,7 @@ public final class DefaultXMLDiffOutputTest {
   }
 
   @Test
-  public void testDoubleRoot() throws LoadingException {
+  void testDoubleRoot() throws LoadingException {
     // If XML are completely different, they may result in multiple document elements
     this.output.handle(INS, new XMLStartElement("b"));
     this.output.handle(INS, new XMLEndElement("b"));

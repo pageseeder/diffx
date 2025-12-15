@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -39,7 +39,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
   /**
    * The comment string.
    */
-  private final @NotNull String comment;
+  private final String comment;
 
   /**
    * Hashcode value for this token.
@@ -53,7 +53,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
    *
    * @throws NullPointerException if the comment is <code>null</code>.
    */
-  public XMLComment(@NotNull String comment) {
+  public XMLComment(String comment) {
     this.comment = Objects.requireNonNull(comment, "Comment must not be null, use \"\" instead");
     this.hashCode = toHashcode(comment);
   }
@@ -61,7 +61,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
   /**
    * @return the comment string.
    */
-  public @NotNull String getComment() {
+  public String getComment() {
     return this.comment;
   }
 
@@ -79,7 +79,7 @@ public final class XMLComment extends TokenBase implements XMLToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
     XMLComment other = (XMLComment) token;
@@ -97,17 +97,17 @@ public final class XMLComment extends TokenBase implements XMLToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeComment(this.comment);
   }
 
   @Override
-  public @NotNull XMLTokenType getType() {
+  public XMLTokenType getType() {
     return XMLTokenType.COMMENT;
   }
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return "";
   }
 

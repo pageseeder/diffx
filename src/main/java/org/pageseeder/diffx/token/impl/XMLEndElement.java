@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public final class XMLEndElement extends TokenBase implements EndElementToken {
@@ -44,7 +44,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public XMLEndElement(@NotNull String name) {
+  public XMLEndElement(String name) {
     this.start = new XMLStartElement(name);
   }
 
@@ -56,7 +56,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLEndElement(@NotNull String uri, @NotNull String localName) {
+  public XMLEndElement(String uri, String localName) {
     this.start = new XMLStartElement(uri, localName);
   }
 
@@ -67,7 +67,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    *
    * @throws NullPointerException If the name is <code>null</code>.
    */
-  public XMLEndElement(@NotNull StartElementToken token) {
+  public XMLEndElement(StartElementToken token) {
     this.start = Objects.requireNonNull(token, "Element must have a name.");
   }
 
@@ -75,7 +75,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * @return Returns the name.
    */
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return this.start.getName();
   }
 
@@ -83,13 +83,8 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * @return Returns the namespace URI.
    */
   @Override
-  public @NotNull String getNamespaceURI() {
+  public String getNamespaceURI() {
     return this.start.getNamespaceURI();
-  }
-
-  @Override
-  public StartElementToken getOpenElement() {
-    return this.start;
   }
 
   @Override
@@ -98,12 +93,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
   }
 
   @Override
-  public String getValue() {
-    return null;
-  }
-
-  @Override
-  public boolean match(StartElementToken token) {
+  public boolean match(@Nullable StartElementToken token) {
     if (token == null) return false;
     if (token == this.start) return true;
     return token.getNamespaceURI().equals(getNamespaceURI())
@@ -124,7 +114,7 @@ public final class XMLEndElement extends TokenBase implements EndElementToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof EndElementToken)) return false;
     if (this.hashCode() != token.hashCode()) return false;

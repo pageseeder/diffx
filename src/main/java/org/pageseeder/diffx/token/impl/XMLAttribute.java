@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.AttributeToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -40,17 +40,17 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   /**
    * The namespace URI this attribute belongs to.
    */
-  private final @NotNull String uri;
+  private final String uri;
 
   /**
    * The name of the attribute.
    */
-  private final @NotNull String name;
+  private final String name;
 
   /**
    * The value of the attribute.
    */
-  private final @NotNull String value;
+  private final String value;
 
   /**
    * A suitable hashcode value.
@@ -65,7 +65,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLAttribute(@NotNull String name, @NotNull String value) {
+  public XMLAttribute(String name, String value) {
     this(XMLConstants.NULL_NS_URI, name, value);
   }
 
@@ -78,7 +78,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    *
    * @throws NullPointerException if any of the argument is <code>null</code>.
    */
-  public XMLAttribute(@NotNull String uri, @NotNull String name, @NotNull String value) {
+  public XMLAttribute(String uri, String name, String value) {
     this.name = Objects.requireNonNull(name, "Attribute must have a name.");
     this.value = Objects.requireNonNull(value, "The attribute value cannot be null, use \"\".");
     this.uri = Objects.requireNonNull(uri, "The uri value cannot be null, use \"\".");
@@ -86,17 +86,17 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   }
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return this.name;
   }
 
   @Override
-  public @NotNull String getNamespaceURI() {
+  public String getNamespaceURI() {
     return this.uri;
   }
 
   @Override
-  public @NotNull String getValue() {
+  public String getValue() {
     return this.value;
   }
 
@@ -114,7 +114,7 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof AttributeToken)) return false;
     if (this.hashCode != token.hashCode()) return false;
@@ -134,12 +134,12 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLWriter xml) throws IOException {
+  public void toXML(XMLWriter xml) throws IOException {
     xml.attribute(this.uri, this.name, this.value);
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     if (this.uri.isEmpty())
       xml.writeAttribute(this.name, this.value);
     else
@@ -156,9 +156,6 @@ public final class XMLAttribute extends TokenBase implements AttributeToken {
    * @return a number suitable as a hashcode.
    */
   private static int toHashCode(String uri, String name, String value) {
-    assert uri != null;
-    assert name != null;
-    assert value != null;
     // Code below follows from Objects#hash method
     int hash = 17;
     hash = hash * 31 + uri.hashCode();

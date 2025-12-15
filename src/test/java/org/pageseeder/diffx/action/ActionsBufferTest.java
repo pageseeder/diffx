@@ -16,38 +16,35 @@
 package org.pageseeder.diffx.action;
 
 import org.junit.jupiter.api.Test;
-import org.pageseeder.diffx.action.Action;
-import org.pageseeder.diffx.action.ActionsBuffer;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ActionsBufferTest {
+class ActionsBufferTest {
 
   @Test
-  public void testEmpty() {
-    ActionsBuffer handler = new ActionsBuffer();
-    List<Action> actions = handler.getActions();
+  void testEmpty() {
+    ActionsBuffer<String> handler = new ActionsBuffer<>();
+    List<Action<String>> actions = handler.getActions();
     assertTrue(actions.isEmpty());
   }
 
   @Test
-  public void testSingle() {
+  void testSingle() {
     XMLToken token = new CharToken('x');
     for (Operator operator : Operator.values()) {
-      ActionsBuffer handler = new ActionsBuffer();
+      ActionsBuffer<XMLToken> handler = new ActionsBuffer<>();
       handler.handle(operator, token);
-      List<Action> actions = handler.getActions();
+      List<Action<XMLToken>> actions = handler.getActions();
       assertEquals(1, actions.size());
-      Action action = actions.get(0);
+      Action<XMLToken> action = actions.get(0);
       assertEquals(operator, action.operator());
       assertEquals(1, action.tokens().size());
       assertEquals(token, action.tokens().get(0));
@@ -55,16 +52,16 @@ public class ActionsBufferTest {
   }
 
   @Test
-  public void testDouble() {
+  void testDouble() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator : Operator.values()) {
-      ActionsBuffer handler = new ActionsBuffer();
+      ActionsBuffer<XMLToken> handler = new ActionsBuffer<>();
       handler.handle(operator, token1);
       handler.handle(operator, token2);
-      List<Action> actions = handler.getActions();
+      List<Action<XMLToken>> actions = handler.getActions();
       assertEquals(1, actions.size());
-      Action action = actions.get(0);
+      Action<XMLToken> action = actions.get(0);
       assertEquals(operator, action.operator());
       assertEquals(2, action.tokens().size());
       assertEquals(token1, action.tokens().get(0));
@@ -73,21 +70,21 @@ public class ActionsBufferTest {
   }
 
   @Test
-  public void testMixed() {
+  void testMixed() {
     XMLToken token1 = new CharToken('x');
     XMLToken token2 = new CharToken('y');
     for (Operator operator1 : Operator.values()) {
       Iterable<Operator> others = Arrays.stream(Operator.values()).filter(o -> o != operator1).collect(Collectors.toSet());
       for (Operator operator2 : others) {
-        ActionsBuffer handler = new ActionsBuffer();
+        ActionsBuffer<XMLToken> handler = new ActionsBuffer<>();
         handler.handle(operator1, token1);
         handler.handle(operator2, token2);
-        List<Action> actions = handler.getActions();
+        List<Action<XMLToken>> actions = handler.getActions();
         assertEquals(2, actions.size());
-        Action action1 = actions.get(0);
-        Action action2 = actions.get(1);
-        assertEquals(new Action(operator1, Collections.singletonList(token1)), action1);
-        assertEquals(new Action(operator2, Collections.singletonList(token2)), action2);
+        Action<XMLToken> action1 = actions.get(0);
+        Action<XMLToken> action2 = actions.get(1);
+        assertEquals(new Action<>(operator1, List.of(token1)), action1);
+        assertEquals(new Action<>(operator2, List.of(token2)), action2);
       }
     }
   }

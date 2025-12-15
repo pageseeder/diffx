@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ import java.util.Objects;
  * @param <T> The type of token.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class Action<T> {
 
@@ -106,7 +109,7 @@ public final class Action<T> {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Action<?> action = (Action<?>) o;

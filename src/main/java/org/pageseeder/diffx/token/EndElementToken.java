@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.stream.XMLStreamException;
@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.0
+ * @version 1.3.0
  * @since 0.5.0
  */
 public interface EndElementToken extends XMLToken {
@@ -37,10 +37,10 @@ public interface EndElementToken extends XMLToken {
    *
    * @return The local name of the element.
    */
-  @NotNull String getName();
+  String getName();
 
   @Override
-  default @NotNull String getValue() {
+  default String getValue() {
     return "";
   }
 
@@ -53,26 +53,14 @@ public interface EndElementToken extends XMLToken {
    * @return The namespace URI the element belongs to.
    */
   @Override
-  @NotNull String getNamespaceURI();
-
-  /**
-   * Returns the corresponding token element.
-   *
-   * @deprecated Use {@link #getStartElement()} instead.
-   *
-   * @return The corresponding token element.
-   */
-  @Deprecated(since = "1.1.2", forRemoval = true)
-  StartElementToken getOpenElement();
+  String getNamespaceURI();
 
   /**
    * Returns the corresponding start element.
    *
    * @return The corresponding start element.
    */
-  default StartElementToken getStartElement() {
-    return this.getOpenElement();
-  }
+  StartElementToken getStartElement();
 
   /**
    * Indicates whether the specified open element token matches this close
@@ -100,7 +88,7 @@ public interface EndElementToken extends XMLToken {
    * @return {@code true} if the specified token is equal to this token; {@code false} otherwise.
    */
   @Override
-  default boolean equals(XMLToken token) {
+  default boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof EndElementToken)) return false;
     EndElementToken other = (EndElementToken) token;
@@ -109,7 +97,7 @@ public interface EndElementToken extends XMLToken {
   }
 
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.END_ELEMENT;
   }
 
@@ -119,7 +107,7 @@ public interface EndElementToken extends XMLToken {
   }
 
   @Override
-  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeEndElement();
   }
 

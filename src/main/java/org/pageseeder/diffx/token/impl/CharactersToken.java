@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.TextToken;
 
 /**
@@ -39,7 +38,7 @@ public final class CharactersToken extends CharactersTokenBase implements TextTo
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public CharactersToken(@NotNull CharSequence text) {
+  public CharactersToken(CharSequence text) {
     super(text);
   }
 

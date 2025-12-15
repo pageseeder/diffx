@@ -15,9 +15,10 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.handler.DiffFilter;
 import org.pageseeder.diffx.token.AttributeToken;
@@ -43,7 +44,7 @@ import java.util.Deque;
  *
  * @author Christophe Lauret
  *
- * @version 1.1.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public final class ElementStackFilter extends DiffFilter<XMLToken> {
@@ -53,6 +54,20 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    */
   private final Deque<Operation<StartElementToken>> elements;
 
+  private final Equality<XMLToken> eq;
+
+  /**
+   * Constructs a new ElementStackFilter with a specified target handler.
+   *
+   * @param target The target handler that will be used to process XML tokens.
+   * @param eq The strategy to compare elements for equality.
+   */
+  public ElementStackFilter(DiffHandler<XMLToken> target, Equality<XMLToken> eq) {
+    super(target);
+    this.elements = new ArrayDeque<>(16);
+    this.eq = eq;
+  }
+
   /**
    * Constructs a new ElementStackFilter with a specified target handler.
    *
@@ -61,6 +76,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   public ElementStackFilter(DiffHandler<XMLToken> target) {
     super(target);
     this.elements = new ArrayDeque<>(16);
+    this.eq = XMLToken::equals;
   }
 
   /**
@@ -85,7 +101,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    *
    * @return The current open element; or <code>null</code> if none.
    */
-  public Operation<StartElementToken> current() {
+  public @Nullable Operation<StartElementToken> current() {
     return this.elements.peek();
   }
 
@@ -100,7 +116,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
    * @param operator The corresponding operator
    */
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) {
+  public void handle(Operator operator, XMLToken token) {
     this.target.handle(operator, token);
     if (token instanceof StartElementToken) {
       this.elements.push(new Operation<>(operator, (StartElementToken) token));
@@ -145,7 +161,7 @@ public final class ElementStackFilter extends DiffFilter<XMLToken> {
   public boolean matchCurrent(Operator operator, StartElementToken start) {
     Operation<StartElementToken> current = this.current();
     if (current == null) return false;
-    return operator == current.operator() && start.equals(current.token());
+    return operator == current.operator() && this.eq.equals(start, current.token());
   }
 
   /**

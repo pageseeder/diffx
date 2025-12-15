@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
@@ -120,7 +121,7 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Node xmlA, Node xmlB, Writer out, DiffConfig config)
+  public static void diff(Node xmlA, Node xmlB, Writer out, @Nullable DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
@@ -146,7 +147,7 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(NodeList xmlA, NodeList xmlB, Writer out, DiffConfig config)
+  public static void diff(NodeList xmlA, NodeList xmlB, Writer out, @Nullable DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     DOMLoader loader = new DOMLoader();
@@ -170,7 +171,7 @@ public final class Main {
    * @throws DiffException Should a Diff-X exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static void diff(Reader xmlA, Reader xmlB, Writer out, DiffConfig config)
+  public static void diff(Reader xmlA, Reader xmlB, Writer out, @Nullable DiffConfig config)
       throws DiffException, IOException {
     // records the tokens from the XML
     SAXLoader loader = new SAXLoader();
@@ -243,6 +244,7 @@ public final class Main {
    *
    * @param args The command-line arguments
    */
+  @SuppressWarnings("java:S106")
   public static void main(String[] args) {
     if (args.length < 2) {
       usage();
@@ -306,7 +308,7 @@ public final class Main {
   /**
    * Displays the usage on the <code>System.err</code> console
    */
-  @SuppressWarnings("SpellCheckingInspection")
+  @SuppressWarnings({"SpellCheckingInspection", "java:S106"})
   public static void usage() {
     System.err.println("Compare the SAX events returned by two XML files.");
     System.err.println("usage:");
@@ -336,7 +338,7 @@ public final class Main {
    *
    * @return The loader to use.
    */
-  private static XMLLoader getLoader(String[] args) {
+  private static @Nullable XMLLoader getLoader(String[] args) {
     String loaderArg = CommandLine.getParameter("-l", args);
     if (loaderArg == null || "sax".equals(loaderArg))
       return new SAXLoader();
@@ -370,7 +372,7 @@ public final class Main {
    *
    * @return The algorithm to use.
    */
-  private static DiffProcessor<XMLToken> getProcessor(String[] args) {
+  private static @Nullable DiffProcessor<XMLToken> getProcessor(String[] args) {
     String loaderArg = CommandLine.getParameter("-p", args);
     if (loaderArg == null || "optimistic".equals(loaderArg))
       return new DefaultXMLProcessor();
@@ -388,7 +390,7 @@ public final class Main {
    *
    * @return The formatter to use.
    */
-  private static XMLDiffOutput getOutputFormat(String[] args, Writer out) {
+  private static @Nullable XMLDiffOutput getOutputFormat(String[] args, Writer out) {
     String formatArg = CommandLine.getParameter("-f", args);
     if (formatArg == null || "default".equals(formatArg))
       return new DefaultXMLDiffOutput(out);
@@ -416,7 +418,8 @@ public final class Main {
     if ("ignore".equals(formatArg))
       return WhiteSpaceProcessing.IGNORE;
     usage();
-    return null;
+    // usage() causes exit so what we return doesn't matter
+    return WhiteSpaceProcessing.COMPARE;
   }
 
   /**
@@ -433,7 +436,8 @@ public final class Main {
     if ("character".equals(formatArg))
       return TextGranularity.CHARACTER;
     usage();
-    return null;
+    // usage() causes exit so what we return doesn't matter
+    return TextGranularity.SPACE_WORD;
   }
 
   private static File toFile(String arg) {

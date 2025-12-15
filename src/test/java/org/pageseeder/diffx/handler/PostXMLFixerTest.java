@@ -25,17 +25,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-public final class PostXMLFixerTest {
+final class PostXMLFixerTest {
 
   @Test
-  public void testNoChange() {
+  void testNoChange() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
     assertEquals(operations, result);
   }
 
   @Test
-  public void testExample1A() {
+  void testExample1A() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "</a>", "+</b>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+<b>", "+</b>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -43,7 +43,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testExample1B() {
+  void testExample1B() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("+<b>", "<a>", "+</b>", "</a>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("+<b>", "<a>", "</a>", "+</b>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -51,7 +51,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testExample2A() {
+  void testExample2A() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "-<i>", "</a>", "+</b>", "-</i>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "+</b>", "-</i>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -59,7 +59,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testExample2B() {
+  void testExample2B() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "</a>", "+</b>", "-</i>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<i>", "+<b>", "+</b>", "-</i>", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -67,7 +67,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testAttribute1() {
+  void testAttribute1() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-Y", "+@m=x", "+X", "</a>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+@m=x", "+X", "-Y", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -75,7 +75,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testAttribute2() {
+  void testAttribute2() {
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-@m=y", "-Y", "+@m=x", "+X", "</a>");
     List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
     List<Operation<XMLToken>> result = fix(operations);
@@ -83,7 +83,7 @@ public final class PostXMLFixerTest {
   }
 
   @Test
-  public void testExample2C() {
+  void testExample2C() {
     // (-) <f> <l><i> <b>x</b> <n/>        a</i></l></f>
     // (+) <f> <p>    <b>x</b> </p><l><i>  a</i></l></f>
     List<Operation<XMLToken>> operations = TestOperations.toXMLOperations(

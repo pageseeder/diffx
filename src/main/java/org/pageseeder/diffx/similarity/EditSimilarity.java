@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.algorithm.MyersGreedyAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -44,7 +43,7 @@ import java.util.stream.Stream;
 public final class EditSimilarity<T> implements StreamSimilarity<T> {
 
   @Override
-  public float score(@NotNull Stream<T> a, @NotNull Stream<T> b) {
+  public float score(Stream<T> a, Stream<T> b) {
     MyersGreedyAlgorithm<T> alg = new MyersGreedyAlgorithm<>();
     EditCounter<T> counter = new EditCounter<>();
     alg.diff(a.collect(Collectors.toList()), b.collect(Collectors.toList()), counter);

@@ -55,4 +55,16 @@ public final class MyersLinearAlgorithmTest {
     }
   }
 
+  @Nested
+  public class EqualityDiff extends BasicEqualityAlgorithmTest {
+
+    EqualityDiff() {
+      super(MyersLinearAlgorithm::new);
+    }
+
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 }

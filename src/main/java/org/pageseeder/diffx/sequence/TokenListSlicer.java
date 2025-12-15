@@ -21,7 +21,6 @@ import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -216,7 +215,7 @@ public final class TokenListSlicer {
    * @return The common sublist at the start of the sequence.
    */
   public List<? extends XMLToken> getStart() {
-    if (this.startCount <= 0) return Collections.emptyList();
+    if (this.startCount <= 0) return List.of();
     return this.sequence1.subList(0, this.startCount);
   }
 
@@ -224,7 +223,7 @@ public final class TokenListSlicer {
    * @return The common sublist at the end of the sequence.
    */
   public List<? extends XMLToken> getEnd() {
-    if (this.endCount <= 0) return Collections.emptyList();
+    if (this.endCount <= 0) return List.of();
     int size = this.sequence1.size();
     return this.sequence1.subList(size - this.endCount, size);
   }

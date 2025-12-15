@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
@@ -59,7 +58,7 @@ public final class TextOnlyProcessor<T> implements DiffProcessor<T> {
   }
 
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
     if (from.isEmpty() || to.isEmpty()) {

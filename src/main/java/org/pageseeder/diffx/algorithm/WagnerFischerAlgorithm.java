@@ -15,9 +15,9 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -26,16 +26,40 @@ import java.util.List;
  * An implementation of the Wagner-Fisher algorithm with no optimization.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.1
+ * @since 0.9.0
  */
 public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
 
+
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public WagnerFischerAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public WagnerFischerAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
+
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // calculate the LCS length to fill the matrix
     MatrixProcessor<T> builder = new MatrixProcessor<>();
     builder.setInverse(true);
-    Matrix matrix = builder.process(from, to);
+    Matrix matrix = builder.process(from, to, this.eq);
     final int length1 = from.size();
     final int length2 = to.size();
     int i = 0;
@@ -54,7 +78,7 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
         handler.handle(Operator.INS, t2);
         j++;
       } else if (matrix.isSameXY(i, j)) {
-        if (t1.equals(t2)) {
+        if (this.eq.equals(t1, t2)) {
           handler.handle(Operator.MATCH, t1);
           i++;
           j++;

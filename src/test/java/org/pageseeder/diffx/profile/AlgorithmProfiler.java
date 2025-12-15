@@ -18,7 +18,6 @@ package org.pageseeder.diffx.profile;
 
 import org.pageseeder.diffx.algorithm.*;
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.text.DecimalFormat;

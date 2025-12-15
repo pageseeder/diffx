@@ -27,7 +27,7 @@ java {
 }
 
 dependencies {
-    compileOnly(libs.jetbrains.annotations)
+    compileOnly(libs.jspecify)
 
     implementation(libs.pso.xmlwriter)
 

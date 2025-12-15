@@ -15,14 +15,15 @@
  */
 package org.pageseeder.diffx.load.text;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.IgnorableSpaceToken;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,11 +36,11 @@ import java.util.regex.Pattern;
  * Using the punctuation provides a compromise.</p>
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class TokenizerByPunctuation implements TextTokenizer {
-
-  private static final String PUNCTUATION_MARKS = ".,?!;";
 
   /**
    * Define the whitespace processing.
@@ -54,14 +55,14 @@ public final class TokenizerByPunctuation implements TextTokenizer {
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerByPunctuation(WhiteSpaceProcessing whitespace) {
-    if (whitespace == null) throw new NullPointerException("the white space processing must be specified.");
+    Objects.requireNonNull(whitespace, "the white space processing must be specified.");
     this.whitespace = whitespace;
   }
 
   @Override
   public List<TextToken> tokenize(CharSequence text) {
-    if (text == null) throw new NullPointerException("Character sequence is null");
-    if (text.length() == 0) return Collections.emptyList();
+    Objects.requireNonNull(text, "Character sequence is null");
+    if (text.length() == 0) return List.of();
     List<TextToken> tokens = new ArrayList<>(text.length());
 
     Pattern p = Pattern.compile("[.,?!;]+");
@@ -87,7 +88,7 @@ public final class TokenizerByPunctuation implements TextTokenizer {
     return tokens;
   }
 
-  private static TextToken toToken(CharSequence text, WhiteSpaceProcessing whitespace) {
+  private static @Nullable TextToken toToken(CharSequence text, WhiteSpaceProcessing whitespace) {
     if (Tokenizers.isWhitespace(text))
       return whitespace == WhiteSpaceProcessing.IGNORE ? null : new IgnorableSpaceToken(text);
     return new CharactersToken(text);

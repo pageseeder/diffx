@@ -31,7 +31,8 @@ import java.util.regex.Pattern;
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 1.0.1
+ *
+ * @version 1.3.0
  * @since 0.9.0
  */
 public final class TokenizerBySpaceWord implements TextTokenizer {
@@ -54,14 +55,14 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
    * @throws NullPointerException if the white space processing is not specified.
    */
   public TokenizerBySpaceWord(WhiteSpaceProcessing whitespace) {
-    if (whitespace == null) throw new NullPointerException("the white space processing must be specified.");
+    Objects.requireNonNull(whitespace, "the white space processing must be specified.");
     this.whitespace = whitespace;
   }
 
   @Override
   public List<TextToken> tokenize(CharSequence seq) {
-    if (seq == null) throw new NullPointerException("Character sequence is null");
-    if (seq.length() == 0) return Collections.emptyList();
+    Objects.requireNonNull(seq, "Character sequence is null");
+    if (seq.length() == 0) return List.of();
     // We assume that on average we generate 1 token per 4 chars
     List<TextToken> tokens = new ArrayList<>(seq.length() / 4);
     Pattern p = Pattern.compile("( ?[\\p{L}\\p{M}0-9_'@/$.-]*[\\p{L}\\p{M}0-9_%])|(\\S)|( ?[\"(][^ \\t\\r\\n\\f'\"()]+[\")])");

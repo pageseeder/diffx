@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NamespaceSetTest {
+class NamespaceSetTest {
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     NamespaceSet namespaces = new NamespaceSet();
     assertTrue(namespaces.isEmpty());
     assertEquals(0, namespaces.size());
@@ -34,7 +34,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testAddSingle() {
+  void testAddSingle() {
     NamespaceSet namespaces = new NamespaceSet();
     namespaces.add("https://ns.example", "ns");
     assertFalse(namespaces.isEmpty());
@@ -52,7 +52,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testAddSingle2() {
+  void testAddSingle2() {
     NamespaceSet namespaces = new NamespaceSet();
     Namespace namespace = new Namespace("https://ns.example", "ns");
     boolean added = namespaces.add(namespace);
@@ -73,7 +73,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testAddMultiple() {
+  void testAddMultiple() {
     NamespaceSet namespaces = new NamespaceSet();
     namespaces.add("https://ns1.example", "ns1");
     namespaces.add("https://ns2.example", "ns2");
@@ -95,7 +95,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testOverrideUri() {
+  void testOverrideUri() {
     NamespaceSet namespaces = new NamespaceSet();
     Namespace namespace = new Namespace("https://ns.example", "ns");
     Namespace override = new Namespace("https://ns.example", "os");
@@ -118,7 +118,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testOverridePrefix() {
+  void testOverridePrefix() {
     NamespaceSet namespaces = new NamespaceSet();
     Namespace namespace = new Namespace("https://ns.example", "ns");
     Namespace override = new Namespace("https://os.example", "ns");
@@ -145,7 +145,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testOverrideDefaultPrefix() {
+  void testOverrideDefaultPrefix() {
     NamespaceSet namespaces = new NamespaceSet();
     Namespace namespace = new Namespace("https://ns.example", "");
     Namespace override = new Namespace("https://os.example", "");
@@ -169,7 +169,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testReplaceEmpty() {
+  void testReplaceEmpty() {
     Namespace replacement = new Namespace("https://ns.example", "ns-bis");
     NamespaceSet namespaces = new NamespaceSet();
     namespaces.replace(replacement);
@@ -180,7 +180,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testReplaceUri() {
+  void testReplaceUri() {
     Namespace namespace = new Namespace("https://ns.example", "ns");
     Namespace replacement = new Namespace("https://ns.example", "ns-bis");
     NamespaceSet namespaces = new NamespaceSet();
@@ -195,7 +195,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testReplacePrefix() {
+  void testReplacePrefix() {
     Namespace namespace = new Namespace("https://os.example", "ns");
     Namespace replacement = new Namespace("https://ns.example", "ns");
     NamespaceSet namespaces = new NamespaceSet();
@@ -210,7 +210,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testReplaceDefault1() {
+  void testReplaceDefault1() {
     Namespace replacement = new Namespace("https://ns.example", "");
     NamespaceSet namespaces = NamespaceSet.noNamespace();
     namespaces.replace(replacement);
@@ -222,7 +222,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testReplaceDefault2() {
+  void testReplaceDefault2() {
     Namespace namespace = new Namespace("https://default.example", "");
     Namespace replacement = new Namespace("https://ns.example", "");
     NamespaceSet namespaces = new NamespaceSet();
@@ -237,7 +237,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testAddDefault3() {
+  void testAddDefault3() {
     Namespace namespace = new Namespace("https://example.org", "");
     Namespace svg = new Namespace("http://www.w3.org/2000/svg", "");
     Namespace xlink = new Namespace("http://www.w3.org/1999/xlink", "");
@@ -255,7 +255,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testClear() {
+  void testClear() {
     NamespaceSet namespaces = new NamespaceSet();
     namespaces.add("https://ns1.example", "ns1");
     namespaces.add("https://ns2.example", "ns2");
@@ -270,7 +270,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testMergeSame() {
+  void testMergeSame() {
     Namespace namespace1 = new Namespace("https://ns1.example", "ns1");
     NamespaceSet namespaces1 = new NamespaceSet(namespace1);
     NamespaceSet namespaces2 = new NamespaceSet(namespace1);
@@ -281,7 +281,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testMerge1() {
+  void testMerge1() {
     Namespace namespace1 = new Namespace("https://ns1.example", "ns1");
     Namespace namespace2 = new Namespace("https://ns2.example", "ns2");
     NamespaceSet namespaces1 = new NamespaceSet(namespace1);
@@ -294,7 +294,7 @@ public class NamespaceSetTest {
   }
 
   @Test
-  public void testMerge2() {
+  void testMerge2() {
     Namespace namespace1 = new Namespace("https://ns1.example", "ns1");
     NamespaceSet namespaces1 = new NamespaceSet(namespace1);
     NamespaceSet namespaces2 = new NamespaceSet(namespace1);

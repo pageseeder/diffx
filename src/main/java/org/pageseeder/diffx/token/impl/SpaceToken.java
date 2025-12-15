@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.TextToken;
 
 /**
@@ -63,7 +62,7 @@ public final class SpaceToken extends CharactersTokenBase implements TextToken {
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  public SpaceToken(@NotNull CharSequence s) {
+  public SpaceToken(CharSequence s) {
     super(s);
   }
 

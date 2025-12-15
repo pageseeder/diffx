@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +40,7 @@ import java.util.stream.Stream;
 public final class CosineSimilarity<T> implements StreamSimilarity<T> {
 
   @Override
-  public float score(@NotNull Stream<T> a, @NotNull Stream<T> b) {
+  public float score(Stream<T> a, Stream<T> b) {
     Map<T, Integer> freqA = toFreqMap(a);
     Map<T, Integer> freqB = toFreqMap(b);
 

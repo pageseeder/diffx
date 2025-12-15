@@ -16,4 +16,5 @@
 /**
  * Classes for formatting and text processing.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.format;

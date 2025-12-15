@@ -25,11 +25,8 @@ import org.pageseeder.diffx.token.impl.CharactersToken;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
 import org.pageseeder.diffx.token.impl.XMLStartElement;
 import org.pageseeder.diffx.xml.Sequence;
-import org.xml.sax.InputSource;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Christophe Lauret
  * @version 0.9.0
  */
-public final class XMLTokenListSlicerTest {
+final class XMLTokenListSlicerTest {
 
   /**
    * The loader used for the tests.
@@ -61,7 +58,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart0() throws IOException, DiffException {
+  void testStart0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -77,7 +74,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart1() throws IOException, DiffException {
+  void testStart1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -91,7 +88,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart2() throws IOException, DiffException {
+  void testStart2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -106,7 +103,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart3() throws IOException, DiffException {
+  void testStart3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -122,7 +119,7 @@ public final class XMLTokenListSlicerTest {
    */
   @Test
   @Disabled
-  public void testStart4() throws IOException, DiffException {
+  void testStart4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -137,7 +134,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart5() throws IOException, DiffException {
+  void testStart5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -151,7 +148,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart6() throws IOException, DiffException {
+  void testStart6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -164,7 +161,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart7() throws IOException, DiffException {
+  void testStart7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -177,7 +174,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStart8() throws IOException, DiffException {
+  void testStart8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -190,7 +187,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd0() throws IOException, DiffException {
+  void testEnd0() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -203,7 +200,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd1() throws IOException, DiffException {
+  void testEnd1() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>yyy</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -217,7 +214,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd2() throws IOException, DiffException {
+  void testEnd2() throws IOException, DiffException {
     String xml1 = "<a>XXX </a>";
     String xml2 = "<a>XXX</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -231,7 +228,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd3() throws IOException, DiffException {
+  void testEnd3() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX </a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -245,7 +242,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd4() throws IOException, DiffException {
+  void testEnd4() throws IOException, DiffException {
     String xml1 = "<a>XXX</a>";
     String xml2 = "<a>XXX YYY</a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -259,7 +256,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd5() throws IOException, DiffException {
+  void testEnd5() throws IOException, DiffException {
     String xml1 = "<a><b/></a>";
     String xml2 = "<a><c/></a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -273,7 +270,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd6() throws IOException, DiffException {
+  void testEnd6() throws IOException, DiffException {
     String xml1 = "<a/>";
     String xml2 = "<b/>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -286,7 +283,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd7() throws IOException, DiffException {
+  void testEnd7() throws IOException, DiffException {
     String xml1 = "<a>X</a>";
     String xml2 = "<b>X</b>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -299,7 +296,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testEnd8() throws IOException, DiffException {
+  void testEnd8() throws IOException, DiffException {
     String xml1 = "<a><b>X</b></a>";
     String xml2 = "<b><a>X</a></b>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -312,7 +309,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStartEnd0() throws IOException, DiffException {
+  void testStartEnd0() throws IOException, DiffException {
     String xml1 = "<a><b>WWW</b></a>";
     String xml2 = "<a><b>VVV</b></a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -329,7 +326,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStartEnd1() throws IOException, DiffException {
+  void testStartEnd1() throws IOException, DiffException {
     String xml1 = "<a><b/><b>WWW</b></a>";
     String xml2 = "<a><b/><b>VVV</b></a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -348,7 +345,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStartEnd2() throws IOException, DiffException {
+  void testStartEnd2() throws IOException, DiffException {
     String xml1 = "<a><e>tt</e><b>WWW</b><c>xxx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
     TokenListSlicer slicer = init(xml1, xml2);
@@ -371,7 +368,7 @@ public final class XMLTokenListSlicerTest {
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
   @Test
-  public void testStartEnd3() throws IOException, DiffException {
+  void testStartEnd3() throws IOException, DiffException {
     String xml1 = "<a><e>t</e><b>WWW</b><c>xx</c></a>";
     String xml2 = "<a><e>tt</e><b>VVV</b><c>xxx</c></a>";
     TokenListSlicer slicer = init(xml1, xml2);

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.Objects;
@@ -64,7 +64,7 @@ public final class Operation<T> {
     return false;
   }
 
-  public boolean equals(Operation<?> operation) {
+  public boolean equals(@Nullable Operation<?> operation) {
     if (operation == null)
       return false;
     if (operation == this)
@@ -72,7 +72,16 @@ public final class Operation<T> {
     return operation.operator == this.operator && operation.token.equals(this.token);
   }
 
-  public boolean equals(@NotNull Operator operator, @NotNull T token) {
+  /**
+   * Compares the specified operator and token with the operator and token of this {@code Operation} instance
+   * for equality.
+   *
+   * @param operator The operator to be compared.
+   * @param token    The token to be compared.
+   * @return {@code true} if the specified operator and token match the operator and token of this instance;
+   *         {@code false} otherwise.
+   */
+  public boolean equals(Operator operator, T token) {
     return operator == this.operator && token.equals(this.token);
   }
 

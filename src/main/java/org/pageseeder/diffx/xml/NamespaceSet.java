@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.xml;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import javax.xml.XMLConstants;
 import java.util.*;
@@ -81,7 +81,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @throws NullPointerException if the URI or prefix is null
    */
-  public boolean add(@NotNull String uri, @NotNull String prefix) throws NullPointerException {
+  public boolean add(String uri, String prefix) throws NullPointerException {
     if (!this.namespacesByUri.containsKey(uri)) {
       int count = 0;
       String actualPrefix = prefix;
@@ -136,7 +136,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
-  public Namespace replace(String uri, String prefix) throws NullPointerException {
+  public @Nullable Namespace replace(String uri, String prefix) throws NullPointerException {
     return this.replace(new Namespace(uri, prefix));
   }
 
@@ -152,7 +152,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    * @return the previous namespace mapped to this URI
    * @throws NullPointerException if the URI or prefix is <code>null</code>
    */
-  public Namespace replace(Namespace namespace) throws NullPointerException {
+  public @Nullable Namespace replace(Namespace namespace) throws NullPointerException {
     if (contains(namespace)) return namespace;
     // Always replace the mapping for namespace URI directly
     Namespace previous = this.namespacesByUri.put(namespace.getUri(), namespace);
@@ -209,7 +209,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    * @return An iterator over the URIs used in this mapping.
    */
   @Override
-  public @NotNull Iterator<Namespace> iterator() {
+  public Iterator<Namespace> iterator() {
     return Collections.unmodifiableCollection(this.namespacesByUri.values()).iterator();
   }
 
@@ -229,7 +229,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @return The corresponding prefix or <code>null</code> if not mapped.
    */
-  public String getPrefix(String uri) {
+  public @Nullable String getPrefix(String uri) {
     Namespace namespace = this.namespacesByUri.get(uri);
     return namespace != null ? namespace.getPrefix() : null;
   }
@@ -241,7 +241,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @return The corresponding URI or <code>null</code> if not mapped.
    */
-  public String getUri(String prefix) {
+  public @Nullable String getUri(String prefix) {
     Namespace namespace = this.namespacesByPrefix.get(prefix);
     return namespace != null ? namespace.getUri() : null;
   }

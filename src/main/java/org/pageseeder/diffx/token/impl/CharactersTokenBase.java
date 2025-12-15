@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.TextToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.xmlwriter.XMLWriter;
@@ -52,7 +52,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    *
    * @throws NullPointerException If the given String is <code>null</code>.
    */
-  protected CharactersTokenBase(CharSequence seq) throws NullPointerException {
+  protected CharactersTokenBase(CharSequence seq) {
     this.characters = Objects.requireNonNull(seq.toString(), "The characters cannot be null, use \"\"");
     this.hashCode = toHashCode(seq);
   }
@@ -70,7 +70,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    * @return <code>true</code> if considered equal; <code>false</code> otherwise.
    */
   @Override
-  public final boolean equals(XMLToken token) {
+  public final boolean equals(@Nullable XMLToken token) {
     if (this == token)
       return true;
     if (!(token instanceof TextToken))
@@ -99,7 +99,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.characters);
   }
 
@@ -110,7 +110,7 @@ public abstract class CharactersTokenBase extends TokenBase implements TextToken
    *
    * @return a suitable hashcode value.
    */
-  private static int toHashCode(CharSequence s) {
+  private static int toHashCode(@Nullable CharSequence s) {
     assert s != null;
     return 13 * 47 + s.hashCode();
   }

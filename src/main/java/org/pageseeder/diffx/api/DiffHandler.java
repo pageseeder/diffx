@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.api;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.UncheckedIOException;
 
 /**
@@ -51,7 +49,7 @@ public interface DiffHandler<T> {
    * @throws IllegalStateException If the handler is not in a state to run this method.
    * @throws IllegalStateException If the handler is not in a state to run this method.
    */
-  void handle(@NotNull Operator operator, @NotNull T token);
+  void handle(Operator operator, T token);
 
   /**
    * Receives notification of the end of the processing.

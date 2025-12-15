@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.config.WhiteSpaceProcessing;
@@ -155,7 +156,7 @@ public final class Extension {
    *
    * @return the corresponding document node.
    */
-  private static Node toNode(String xml, DiffConfig config, String factory) throws IOException, ParserConfigurationException, SAXException {
+  private static Node toNode(String xml, DiffConfig config, @Nullable String factory) throws IOException, ParserConfigurationException, SAXException {
     DocumentBuilderFactory dbFactory = factory == null ? DocumentBuilderFactory.newInstance()
         : DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
     dbFactory.setNamespaceAware(config.isNamespaceAware());
@@ -172,7 +173,7 @@ public final class Extension {
    * @param xml1 the first node list.
    * @param xml2 the second node list.
    */
-  private static String getFactoryClass(Node xml1, Node xml2) {
+  private static @Nullable String getFactoryClass(@Nullable Node xml1, @Nullable Node xml2) {
     Package pkg = xml1 != null ? xml1.getClass().getPackage()
         : xml2 != null ? xml2.getClass().getPackage()
         : null;

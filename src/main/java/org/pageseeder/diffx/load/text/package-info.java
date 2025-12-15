@@ -16,4 +16,5 @@
 /**
  * The set of classes to load characters / text data specifically.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.load.text;

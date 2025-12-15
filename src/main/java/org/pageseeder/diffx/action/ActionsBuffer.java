@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.action;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
 
@@ -24,11 +24,15 @@ import java.util.List;
 
 /**
  * Generates a list of actions from the output of the algorithms.
- * <p>
- * This handler is useful to capture the operations resulting from a diff and generate and edit script.
+ *
+ * <p>This handler is useful to capture the operations resulting from a diff
+ * and generate and edit script.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
+ *
  * @see OperationsBuffer
  */
 public class ActionsBuffer<T> implements DiffHandler<T> {
@@ -41,11 +45,12 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
   /**
    * The action used in the last operation.
    */
-  private Action<T> action = null;
+  private @Nullable Action<T> action = null;
 
   @Override
-  public void handle(@NotNull Operator operator, @NotNull T token) {
+  public void handle(Operator operator, T token) {
     setupAction(operator);
+    assert this.action != null; // setupAction ensures it
     this.action.add(token);
   }
 
@@ -63,7 +68,7 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
    */
   public int countEdits() {
     int edits = 0;
-    for (Action<?> action : this.actions) if (action.operator().isEdit()) edits += action.tokens().size();
+    for (Action<?> a : this.actions) if (a.operator().isEdit()) edits += a.tokens().size();
     return edits;
   }
 
@@ -91,9 +96,9 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
    */
   public void applyTo(DiffHandler<T> handler) {
     handler.start();
-    for (Action<T> action : this.actions) {
-      for (T token : action.tokens()) {
-        handler.handle(action.operator(), token);
+    for (Action<T> a : this.actions) {
+      for (T token : a.tokens()) {
+        handler.handle(a.operator(), token);
       }
     }
     handler.end();

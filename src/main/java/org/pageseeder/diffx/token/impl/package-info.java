@@ -16,4 +16,5 @@
 /**
  * The tokens implementations used by the Diff-X.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.token.impl;

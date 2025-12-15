@@ -28,7 +28,9 @@ import java.util.List;
  * Utility class for operations.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.0
+ * @since 0.9.0
  */
 public final class Operations {
 
@@ -48,9 +50,8 @@ public final class Operations {
   public static <T> List<T> generate(List<Operation<T>> operations, boolean forward) {
     List<T> generated = new LinkedList<>();
     for (Operation<T> operation : operations) {
-      if (forward ? operation.operator() == Operator.INS : operation.operator() == Operator.DEL) {
-        generated.add(operation.token());
-      } else if (operation.operator() == Operator.MATCH) {
+      Operator op = operation.operator();
+      if (op == Operator.MATCH || forward ? op == Operator.INS : op == Operator.DEL) {
         generated.add(operation.token());
       }
     }

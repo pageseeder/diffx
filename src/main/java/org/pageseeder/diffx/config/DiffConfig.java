@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.config;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An immutable configuration object for the diff.
  *
@@ -94,7 +96,7 @@ public final class DiffConfig {
   }
 
   /**
-   * Create a default config that is namespace aware, preserves whitespaces and
+   * Create a default config that is namespace-aware, preserves whitespaces, and
    * report differences within text at word level (including spaces, but excluding punctuation)
    *
    * @return A new instance with the default configuration
@@ -104,7 +106,7 @@ public final class DiffConfig {
   }
 
   /**
-   * Create a default config that is namespace aware, preserves whitespaces and
+   * Create a default config that is namespace-aware, preserves whitespaces, and
    * report differences within text at word level (including spaces, but excluding punctuation)
    *
    * @return A new instance with the legacy default configuration
@@ -158,7 +160,7 @@ public final class DiffConfig {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (o == null || getClass() != o.getClass()) return false;
     DiffConfig that = (DiffConfig) o;
     return isNamespaceAware == that.isNamespaceAware

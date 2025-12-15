@@ -1,7 +1,6 @@
 package org.pageseeder.diffx.handler;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -41,7 +40,6 @@ import java.util.Queue;
  * @since 1.2.1
  * @version 1.2.1
  */
-@ApiStatus.Experimental
 public class XMLEventBalancer extends DiffFilter<XMLToken> {
 
   /**
@@ -49,7 +47,7 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
    *
    * @param handler The {@link DiffHandler} to be used for processing XML tokens. Must not be null.
    */
-  public XMLEventBalancer(@NotNull DiffHandler<XMLToken> handler) {
+  public XMLEventBalancer(DiffHandler<XMLToken> handler) {
     super(handler);
   }
 
@@ -84,7 +82,7 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
   private boolean hasError = false;
 
   @Override
-  public void handle(@NotNull Operator operator, @NotNull XMLToken token) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     if (operator == Operator.DEL) {
       this.deletions.add(token);
     } else if (operator == Operator.INS) {
@@ -172,7 +170,7 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
     return this.hasError;
   }
 
-  private boolean followedByMatchingStart(@NotNull Queue<XMLToken> queue, @NotNull EndElementToken endElement) {
+  private boolean followedByMatchingStart(Queue<XMLToken> queue, EndElementToken endElement) {
     XMLToken following = followingPeek(queue);
     if (following == null) return false;
     return following.getType() == XMLTokenType.START_ELEMENT
@@ -180,22 +178,22 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
         && endElement.getNamespaceURI().equals(following.getNamespaceURI());
   }
 
-  private static XMLToken followingPeek(@NotNull Queue<XMLToken> queue) {
+  private static @Nullable XMLToken followingPeek(Queue<XMLToken> queue) {
     if (queue.size() >= 2) {
       return queue.stream().skip(1).findFirst().orElse(null);
     }
     return null;
   }
 
-  private static boolean isEndElement(XMLToken token) {
+  private static boolean isEndElement(@Nullable XMLToken token) {
     return token != null && token.getType() == XMLTokenType.END_ELEMENT;
   }
 
-  private static boolean isAttribute(XMLToken token) {
+  private static boolean isAttribute(@Nullable XMLToken token) {
     return token != null && token.getType() == XMLTokenType.ATTRIBUTE;
   }
 
-  private boolean matchStart(@NotNull Operator operator, @NotNull EndElementToken token) {
+  private boolean matchStart(Operator operator, EndElementToken token) {
     Operation<StartElementToken> op = this.unclosed.peek();
     if (op == null) return false;
     return op.operator() == operator && token.match(op.token());
@@ -212,11 +210,11 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
     }
   }
 
-  private EndElementToken toEndElementToken(@NotNull StartElementToken token) {
+  private EndElementToken toEndElementToken(StartElementToken token) {
     return new XMLEndElement(token);
   }
 
-  private void send(@NotNull Operator operator, @NotNull XMLToken token) {
+  private void send(Operator operator, XMLToken token) {
     this.target.handle(operator, token);
     this.lastOperator = operator;
     this.lastToken = token;

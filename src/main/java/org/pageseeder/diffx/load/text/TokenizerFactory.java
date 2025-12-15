@@ -18,13 +18,17 @@ package org.pageseeder.diffx.load.text;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.config.TextGranularity;
 
+import java.util.Objects;
+
 /**
  * Factory for tokenizers.
  *
  * <p>This class is designed to returned tokenizers that corresponds to the given configuration.
  *
  * @author Christophe Lauret
- * @version 0.7.0
+ *
+ * @version 1.3.0
+ * @since 0.7.0
  */
 public final class TokenizerFactory {
 
@@ -43,7 +47,7 @@ public final class TokenizerFactory {
    * @throws NullPointerException If the configuration is <code>null</code>.
    */
   public static TextTokenizer get(DiffConfig config) {
-    if (config == null) throw new NullPointerException("The config should be specified");
+    Objects.requireNonNull(config, "The config should be specified");
     TextGranularity granularity = config.granularity();
     switch (granularity) {
       case CHARACTER:

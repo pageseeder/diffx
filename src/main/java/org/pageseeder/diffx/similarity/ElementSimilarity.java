@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.XMLTokenType;
@@ -60,13 +59,13 @@ public class ElementSimilarity implements Similarity<XMLToken> {
    * @param k          A boosting factor used to adjust the similarity score based on
    *                   additional criteria, such as element length or other contextual factors.
    */
-  public ElementSimilarity(@NotNull StreamSimilarity<String> similarity, double k) {
+  public ElementSimilarity(StreamSimilarity<String> similarity, double k) {
     this.similarity = Objects.requireNonNull(similarity);
     this.k = k;
   }
 
   @Override
-  public final float score(@NotNull XMLToken a, @NotNull XMLToken b) {
+  public final float score(XMLToken a, XMLToken b) {
     if (a.getType() == XMLTokenType.ELEMENT && b.getType() == XMLTokenType.ELEMENT) {
       return scoreForElement((ElementToken) a, (ElementToken) b);
     }

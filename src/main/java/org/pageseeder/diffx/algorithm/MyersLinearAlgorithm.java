@@ -15,9 +15,10 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +34,39 @@ import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.*;
  * @param <T> The type of token being compared
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.1
+ * @since 0.9.0
+ *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial2">Myers' Diff Algorithm: The linear space refinement</a>
  */
 public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements DiffAlgorithm<T> {
 
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MyersLinearAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public MyersLinearAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
+
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
-    Instance<T> instance = new Instance<>(from, to);
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
+    Instance<T> instance = new Instance<>(from, to, this.eq);
     List<EdgeSnake> snakes = instance.computePath();
     handleResults(from, to, handler, snakes);
   }
@@ -51,26 +76,29 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
     private final List<? extends T> a;
     private final List<? extends T> b;
 
-    Instance(List<? extends T> a, List<? extends T> b) {
+    private final Equality<T> eq;
+
+    Instance(List<? extends T> a, List<? extends T> b, Equality<T> eq) {
       this.a = a;
       this.b = b;
+      this.eq = eq;
     }
 
     public List<EdgeSnake> computePath() {
-      Vector VForward = Vector.createLinear(this.a.size(), this.b.size(), true);
-      Vector VReverse = Vector.createLinear(this.a.size(), this.b.size(), false);
+      Vector vForward = Vector.createLinear(this.a.size(), this.b.size(), true);
+      Vector vReverse = Vector.createLinear(this.a.size(), this.b.size(), false);
       List<EdgeSnake> snakes = new ArrayList<>();
       List<Vector> forwardVs = new ArrayList<>();
       List<Vector> reverseVs = new ArrayList<>();
-      computePath(0, snakes, forwardVs, reverseVs, 0, this.a.size(), 0, this.b.size(), VForward, VReverse);
+      computePath(0, snakes, forwardVs, reverseVs, 0, this.a.size(), 0, this.b.size(), vForward, vReverse);
       return snakes;
     }
 
     private void computePath(int recursion, List<EdgeSnake> snakes,
-                             List<Vector> forwardVs, List<Vector> reverseVs,
+                             @Nullable List<Vector> forwardVs, @Nullable List<Vector> reverseVs,
                              int startA, int sizeA,
                              int startB, int sizeB,
-                             Vector VForward, Vector VReverse) {
+                             Vector vForward, Vector vReverse) {
 
       // Only deletions
       if (sizeB == 0 && sizeA > 0) {
@@ -94,14 +122,14 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       }
 
       // Calculate middle snake
-      MiddleSnake middle = middleSnake(startA, sizeA, startB, sizeB, VForward, VReverse, forwardVs, reverseVs);
+      MiddleSnake middle = middleSnake(startA, sizeA, startB, sizeB, vForward, vReverse, forwardVs, reverseVs);
 
       if (middle.getDiff() > 1) {
         // Middle snake (D > 1)
 
         // Solve top left rectangle
         Point xy = middle.isForward() ? middle.snake().getStartPoint() : middle.snake().getEndPoint();
-        computePath(recursion + 1, snakes, null, null, startA, xy.x() - startA, startB, xy.y() - startB, VForward, VReverse);
+        computePath(recursion + 1, snakes, null, null, startA, xy.x() - startA, startB, xy.y() - startB, vForward, vReverse);
 
         // Add middle snake to results
         if (snakes.isEmpty() || !snakes.get(snakes.size() - 1).append(middle.snake())) {
@@ -111,7 +139,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
         // Solve bottom right rectangle
         Point uv = !middle.isForward() ? middle.snake().getStartPoint() : middle.snake().getEndPoint();
         computePath(recursion + 1, snakes, null, null, uv.x(), startA + sizeA - uv.x(), uv.y(), startB + sizeB - uv.y(),
-            VForward, VReverse);
+            vForward, vReverse);
 
       } else {
         // Edge case D=0 (identical) or D=1 (1 insertion or deletion)
@@ -153,14 +181,16 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * Calculate the middle snake
      */
-    private MiddleSnake middleSnake(int startA, int sizeA, int startB, int sizeB,
-                                    Vector VForward, Vector VReverse,
-                                    List<Vector> forwardVs, List<Vector> reverseVs) {
+    private MiddleSnake middleSnake(int startA, int sizeA,
+                                    int startB, int sizeB,
+                                    Vector vForward, Vector vReverse,
+                                    @Nullable List<Vector> forwardVs,
+                                    @Nullable List<Vector> reverseVs) {
       final int max = (sizeA + sizeB + 1) / 2;
       final int delta = sizeA - sizeB;
 
-      VForward.init(sizeA, sizeB);
-      VReverse.init(sizeA, sizeB);
+      vForward.init(sizeA, sizeB);
+      vReverse.init(sizeA, sizeB);
 
       final boolean deltaIsEven = (delta % 2) == 0;
 
@@ -169,18 +199,19 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
         for (int k = -d; k <= d; k += 2) {
 
           // Find the end of the furthest reaching forward D-path in diagonal k
-          boolean down = (k == -d || (k != d && VForward.getX(k - 1) < VForward.getX(k + 1)));
-          int xStart = down ? VForward.getX(k + 1) : VForward.getX(k - 1);
+          boolean down = (k == -d || (k != d && vForward.getX(k - 1) < vForward.getX(k + 1)));
+          int xStart = down ? vForward.getX(k + 1) : vForward.getX(k - 1);
           int yStart = xStart - (down ? k + 1 : k - 1);
           int xEnd = down ? xStart : xStart + 1;
           int yEnd = xEnd - k;
           int matching = 0;
-          while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd + startA).equals(b.get(yEnd + startB))) {
+          while (xEnd < sizeA && yEnd < sizeB &&
+              eq.equals(a.get(xEnd + startA), b.get(yEnd + startB))) {
             xEnd++;
             yEnd++;
             matching++;
           }
-          VForward.setX(k, xEnd);
+          vForward.setX(k, xEnd);
 
           // If delta is odd and k within [ delta - ( D - 1 ), delta + ( D - 1 ) ]
           if (deltaIsEven || k < delta - (d - 1) || k > delta + (d - 1)) {
@@ -188,7 +219,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           }
 
           // If the path overlaps the furthest reaching reverse (D- 1)-path in diagonal k
-          if (VForward.getX(k) < VReverse.getX(k)) {
+          if (vForward.getX(k) < vReverse.getX(k)) {
             continue;
           }
 
@@ -198,25 +229,26 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           return new MiddleSnake((2 * d) - 1, forward);
         }
         if (forwardVs != null) {
-          forwardVs.add(VForward.snapshot(d, true, 0));
+          forwardVs.add(vForward.snapshot(d, true, 0));
         }
 
         // For k in -D to D in steps of 2 Do
         for (int k = -d + delta; k <= d + delta; k += 2) {
 
           // Find the end of the furthest reaching reverse D-path in diagonal k + delta
-          boolean up = (k == d + delta || (k != -d + delta && VReverse.getX(k - 1) < VReverse.getX(k + 1)));
-          int xStart = up ? VReverse.getX(k - 1) : VReverse.getX(k + 1);
+          boolean up = (k == d + delta || (k != -d + delta && vReverse.getX(k - 1) < vReverse.getX(k + 1)));
+          int xStart = up ? vReverse.getX(k - 1) : vReverse.getX(k + 1);
           int yStart = xStart - (up ? k - 1 : k + 1);
           int xEnd = up ? xStart : xStart - 1;
           int yEnd = xEnd - k;
           int matching = 0;
-          while (xEnd > 0 && yEnd > 0 && a.get(xEnd + startA - 1).equals(b.get(yEnd + startB - 1))) {
+          while (xEnd > 0 && yEnd > 0 &&
+              eq.equals(a.get(xEnd + startA - 1), b.get(yEnd + startB - 1))) {
             xEnd--;
             yEnd--;
             matching++;
           }
-          VReverse.setX(k, xEnd);
+          vReverse.setX(k, xEnd);
 
           // If delta is even and k + delta within [ -D, D ]
           if (!deltaIsEven || k < -d || k > d) {
@@ -224,7 +256,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           }
 
           // If the path overlaps the furthest reaching forward D-path in diagonal k+D
-          if (VReverse.getX(k) > VForward.getX(k)) {
+          if (vReverse.getX(k) > vForward.getX(k)) {
             continue;
           }
 
@@ -234,7 +266,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           return new MiddleSnake(2 * d, reverse);
         }
         if (reverseVs != null) {
-          reverseVs.add(VReverse.snapshot(d, false, delta));
+          reverseVs.add(vReverse.snapshot(d, false, delta));
         }
       }
 
@@ -251,18 +283,18 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
 
     private final EdgeSnake snake;
 
-    public MiddleSnake(int diff, @NotNull EdgeSnake snake) {
+    public MiddleSnake(int diff, EdgeSnake snake) {
       this.diff = diff;
       this.snake = snake;
     }
 
     /**
      * Returns the number of differences for both calculation directions.
-     * <p>
-     * A value of 0 indicates that compared elements from the first and the second object are equal. A value of 1
-     * indicates either an insertion from the second object or a deletion from the first object.
-     * <p>
-     * Moreover, a value of 0 must be a reverse segment, while a value of 1 results from a forward segment.
+     *
+     * <p>A value of 0 indicates that compared elements from the first and the second object are equal.
+     * A value of 1 indicates either an insertion from the second object or a deletion from the first object.
+     *
+     * <p>Moreover, a value of 0 must be a reverse segment, while a value of 1 results from a forward segment.
      *
      * @return The number of differences for both calculation directions
      */

@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.xmlwriter.XMLWriter;
 
 import javax.xml.XMLConstants;
@@ -51,7 +51,7 @@ public interface TextToken extends XMLToken {
    * @return The type of this XML token, which is always {@code XMLTokenType.TEXT}.
    */
   @Override
-  default @NotNull XMLTokenType getType() {
+  default XMLTokenType getType() {
     return XMLTokenType.TEXT;
   }
 
@@ -61,7 +61,7 @@ public interface TextToken extends XMLToken {
    * @return An empty string if not applicable.
    */
   @Override
-  default @NotNull String getName() {
+  default String getName() {
     return "";
   }
 
@@ -74,7 +74,7 @@ public interface TextToken extends XMLToken {
    * @return The value of the token, as represented by the character data.
    */
   @Override
-  default @NotNull String getValue() {
+  default String getValue() {
     return getCharacters();
   }
 
@@ -105,7 +105,7 @@ public interface TextToken extends XMLToken {
    * @return {@code true} if the specified token is equal to this token; {@code false} otherwise.
    */
   @Override
-  default boolean equals(XMLToken token) {
+  default boolean equals(@Nullable XMLToken token) {
     if (token == this) return true;
     if (!(token instanceof TextToken)) return false;
     TextToken other = (TextToken) token;
@@ -121,7 +121,7 @@ public interface TextToken extends XMLToken {
    * @return An empty string ("") representing the namespace URI.
    */
   @Override
-  default @NotNull String getNamespaceURI() {
+  default String getNamespaceURI() {
     return XMLConstants.NULL_NS_URI;
   }
 
@@ -131,7 +131,7 @@ public interface TextToken extends XMLToken {
   }
 
   @Override
-  default void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  default void toXML(XMLStreamWriter xml) throws XMLStreamException {
     xml.writeCharacters(this.getCharacters());
   }
 

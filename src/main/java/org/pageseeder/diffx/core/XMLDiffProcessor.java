@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.core;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.config.DiffConfig;
@@ -72,6 +71,6 @@ public interface XMLDiffProcessor extends DiffProcessor<XMLToken> {
    * @throws IllegalStateException    If thrown by the algorithm or handler.
    * @throws IllegalArgumentException If the algorithm is unable to process to the list of tokens.
    */
-  void diff(@NotNull List<? extends XMLToken> from, @NotNull List<? extends XMLToken> to, @NotNull DiffHandler<XMLToken> handler);
+  void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler);
 
 }

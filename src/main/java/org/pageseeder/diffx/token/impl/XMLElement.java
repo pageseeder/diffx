@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.token.impl;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.ElementToken;
 import org.pageseeder.diffx.token.EndElementToken;
 import org.pageseeder.diffx.token.StartElementToken;
@@ -40,7 +40,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.2.2
+ * @version 1.3.0
  * @since 0.7.0
  */
 public class XMLElement extends TokenBase implements ElementToken {
@@ -48,12 +48,12 @@ public class XMLElement extends TokenBase implements ElementToken {
   /**
    * Represents the starting token of an XML element.
    */
-  private final @NotNull StartElementToken start;
+  private final StartElementToken start;
 
   /**
    * Represents the token corresponding to the end of an XML element.
    */
-  private final @NotNull EndElementToken end;
+  private final EndElementToken end;
 
   /**
    * A collection of {@link XMLToken} instances representing the child tokens
@@ -65,7 +65,7 @@ public class XMLElement extends TokenBase implements ElementToken {
    * <p>Immutability is enforced to ensure thread safety and the structural
    * consistency of the {@link XMLElement} class.</p>
    */
-  private final @NotNull List<XMLToken> content;
+  private final List<XMLToken> content;
 
   /**
    * The precalculated hash code for this element, based on its start element token
@@ -73,12 +73,12 @@ public class XMLElement extends TokenBase implements ElementToken {
    * XMLElement instance to ensure efficient retrieval of the hash code during
    * hash-based operations.
    *
-   * This variable is final, indicating that the computed hash code for the
+   * <p>This variable is final, indicating that the computed hash code for the
    * object is immutable and does not change after initialization.
    */
   private final int hashCode;
 
-  public XMLElement(@NotNull StartElementToken start, @NotNull EndElementToken end, @NotNull List<XMLToken> content) {
+  public XMLElement(StartElementToken start, EndElementToken end, List<XMLToken> content) {
     this.start = Objects.requireNonNull(start, "The start element must not be null.");
     this.end = Objects.requireNonNull(end, "The end element must not be null.");
     this.content = Objects.requireNonNull(content, "The content must not be null.");
@@ -86,41 +86,27 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public @NotNull StartElementToken getStart() {
+  public StartElementToken getStart() {
     return start;
   }
 
   @Override
-  public @NotNull EndElementToken getEnd() {
+  public EndElementToken getEnd() {
     return end;
   }
 
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return this.start.getName();
   }
 
   @Override
-  public @NotNull String getNamespaceURI() {
+  public String getNamespaceURI() {
     return this.start.getNamespaceURI();
   }
 
   @Override
-  public String getValue() {
-    return null;
-  }
-
-  /**
-   * @deprecated As of version 1.1.2, replaced by {@link #getContent()}
-   */
-  @Override
-  @Deprecated(since = "1.1.2", forRemoval = true)
-  public List<XMLToken> getEvents() {
-    return this.tokens();
-  }
-
-  @Override
-  public @NotNull List<XMLToken> tokens() {
+  public List<XMLToken> tokens() {
     List<XMLToken> tokens = new ArrayList<>(1 + content.size() + 1);
     tokens.add(start);
     tokens.addAll(content);
@@ -138,7 +124,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public @NotNull List<XMLToken> getContent() {
+  public List<XMLToken> getContent() {
     return this.content;
   }
 
@@ -156,7 +142,8 @@ public class XMLElement extends TokenBase implements ElementToken {
    * <code>false</code> otherwise.
    */
   @Override
-  public boolean equals(XMLToken token) {
+  public boolean equals(@Nullable XMLToken token) {
+    if (token == null) return false;
     if (token.getClass() != this.getClass()) return false;
     XMLElement element = (XMLElement) token;
     if (element.hashCode != this.hashCode) return false;
@@ -180,7 +167,7 @@ public class XMLElement extends TokenBase implements ElementToken {
   }
 
   @Override
-  public void toXML(@NotNull XMLStreamWriter xml) throws XMLStreamException {
+  public void toXML(XMLStreamWriter xml) throws XMLStreamException {
     start.toXML(xml);
     for (XMLToken token : this.content) {
       token.toXML(xml);

@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.format;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.*;
 import org.pageseeder.diffx.xml.Namespace;
@@ -116,7 +115,7 @@ public final class StrictXMLDiffOutput extends XMLDiffOutputBase implements XMLD
   }
 
   @Override
-  public void handle(@NotNull Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
+  public void handle(Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
       if (token.getType() != XMLTokenType.ATTRIBUTE) {
         // close any ins / del tag that don't match the current operator

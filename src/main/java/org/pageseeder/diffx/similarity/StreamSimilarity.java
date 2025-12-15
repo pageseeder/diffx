@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.stream.Stream;
 
 /**
@@ -43,6 +41,6 @@ public interface StreamSimilarity<T> extends Similarity<Stream<T>> {
    *         the two streams, where the range and interpretation of the value
    *         depend on the specific implementation.
    */
-  float score(@NotNull Stream<T> a, @NotNull Stream<T> b);
+  float score(Stream<T> a, Stream<T> b);
 
 }

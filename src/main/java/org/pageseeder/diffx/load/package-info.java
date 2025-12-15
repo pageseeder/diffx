@@ -16,4 +16,5 @@
 /**
  * The set of classes used to produce the sequences of tokens to process.
  */
+@org.jspecify.annotations.NullMarked
 package org.pageseeder.diffx.load;

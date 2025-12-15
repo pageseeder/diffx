@@ -25,7 +25,6 @@ import org.pageseeder.diffx.profile.ProfileInfo;
 import org.pageseeder.diffx.profile.Profilers;
 import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.test.DOMUtils;
-import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.RandomXMLFactory;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.XMLToken;
@@ -34,7 +33,7 @@ import org.w3c.dom.Document;
 
 import java.util.*;
 
-public class PerformanceTest {
+class PerformanceTest {
 
   private static void generateXML(StringBuilder xmlA, StringBuilder xmlB, int elements) {
     // Generate content
@@ -54,7 +53,7 @@ public class PerformanceTest {
 
   @Test
   @DisplayName("General algorithm / 500 to 10,000 chars / 5% variation")
-  public void compareGeneralAlgorithms_var5pct() {
+  void compareGeneralAlgorithms_var5pct() {
     int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
     for (int length : lengths) {
       Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .05);
@@ -69,7 +68,7 @@ public class PerformanceTest {
 
   @Test
   @DisplayName("General algorithm / 500 to 10,000 chars / 25% variation")
-  public void compareGeneralAlgorithms_var25pct() {
+  void compareGeneralAlgorithms_var25pct() {
     int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
     for (int length : lengths) {
       Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .25);
@@ -84,7 +83,7 @@ public class PerformanceTest {
 
   @Test
   @DisplayName("XML processors / 1,000 chars / 10% variation")
-  public void compareRandomString_1000_10() {
+  void compareRandomString_1000_10() {
     Pair<List<CharToken>> p = Profilers.getRandomStringPair(1_000, false, .10);
     ProfileInfo.profileX(new DefaultXMLProcessor(), p.a, p.b, 10);
     ProfileInfo.profileX(new TextOnlyProcessor<>(), p.a, p.b, 10);
@@ -93,7 +92,7 @@ public class PerformanceTest {
 
   @Test
   @DisplayName("XML processors / 1,000 chars / 50% variation")
-  public void compareRandomString_1000_50() {
+  void compareRandomString_1000_50() {
     Pair<List<CharToken>> p = Profilers.getRandomStringPair(1_000, false, .50);
     ProfileInfo.profileX(new DefaultXMLProcessor(), p.a, p.b, 10);
     ProfileInfo.profileX(new TextOnlyProcessor<>(), p.a, p.b, 10);
@@ -102,7 +101,7 @@ public class PerformanceTest {
 
   @Test
   @DisplayName("XML processors / Single element 1,000 chars / 5% variation")
-  public void compareSingleElement_1000_20() throws DiffException {
+  void compareSingleElement_1000_20() throws DiffException {
     String from = Profilers.getRandomString(1000, true);
     String to = Profilers.vary(from, .05);
     List<XMLToken> a = TestTokens.loadTokens("<root>" + from + "</root>", TextGranularity.SPACE_WORD);
@@ -112,7 +111,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareShallowXML() throws DiffException {
+  void compareShallowXML() throws DiffException {
     // Generate content
     StringBuilder xmlA = new StringBuilder();
     StringBuilder xmlB = new StringBuilder();
@@ -135,7 +134,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareXMLProcessors() throws DiffException {
+  void compareXMLProcessors() throws DiffException {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
       // Generate content
@@ -153,7 +152,7 @@ public class PerformanceTest {
 
 
   @Test
-  public void compareXMLAlgorithms() throws DiffException {
+  void compareXMLAlgorithms() throws DiffException {
     int[] lengths = new int[]{ 500, 1000, 2000, 5000, 10000 };
     for (int length : lengths) {
       // Generate content
@@ -169,7 +168,7 @@ public class PerformanceTest {
   }
 
   @Test
-  public void compareCoalesce() throws DiffException {
+  void compareCoalesce() throws DiffException {
     // Generate content
     StringBuilder xmlA = new StringBuilder();
     StringBuilder xmlB = new StringBuilder();

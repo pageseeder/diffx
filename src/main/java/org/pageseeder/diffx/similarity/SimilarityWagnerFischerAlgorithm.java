@@ -15,7 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
@@ -57,7 +56,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
   }
 
   @Override
-  public void diff(@NotNull List<? extends T> from, @NotNull List<? extends T> to, @NotNull DiffHandler<T> handler) {
+  public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // Early termination for empty lists
     if (from.isEmpty()) {
       for (T t : to) {

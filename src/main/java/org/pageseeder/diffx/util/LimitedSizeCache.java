@@ -57,8 +57,14 @@ public class LimitedSizeCache<K, V> {
   }
 
   /**
-   * Gets an existing value from the cache or creates a new one.
-   * If the cache is at capacity, the new value is created but not stored.
+   * Retrieves a value associated with the given key from the cache, or creates it using the provided
+   * factory function if it is not present. If the cache has reached its maximum size and the key is
+   * not present, the value will be created using the factory but will not be stored in the cache.
+   *
+   * @param key          The key whose associated value is to be retrieved or created.
+   * @param valueFactory A function that generates a value for the key if it is not already present.
+   *
+   * @return The value associated with the key, either retrieved from the cache or created using the factory function.
    */
   public V getOrCreate(K key, Function<K, V> valueFactory) {
     // Check if the cache is at capacity and key is not present
@@ -73,6 +79,8 @@ public class LimitedSizeCache<K, V> {
 
   /**
    * Get the current size of the cache
+   *
+   * @return the size of the cache
    */
   public int size() {
     return cache.size();

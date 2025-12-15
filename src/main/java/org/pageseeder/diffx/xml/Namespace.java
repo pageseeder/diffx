@@ -15,7 +15,7 @@
  */
 package org.pageseeder.diffx.xml;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import javax.xml.XMLConstants;
 import java.io.InputStream;
@@ -70,16 +70,16 @@ public final class Namespace {
     this.prefix = Objects.requireNonNull(prefix);
   }
 
-  public @NotNull String getUri() {
+  public String getUri() {
     return this.uri;
   }
 
-  public @NotNull String getPrefix() {
+  public String getPrefix() {
     return this.prefix;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Namespace namespace = (Namespace) o;
@@ -105,7 +105,7 @@ public final class Namespace {
     return !(XML_NAMESPACE.equals(namespace) || XMLNS_ATTRIBUTE.equals(namespace) || NO_NAMESPACE.equals(namespace));
   }
 
-  public static Namespace getCommon(String uri) {
+  public static @Nullable Namespace getCommon(String uri) {
     if (COMMON_NAMESPACES.isEmpty()) loadCommonNamespaces();
     return COMMON_NAMESPACES.get(uri);
   }

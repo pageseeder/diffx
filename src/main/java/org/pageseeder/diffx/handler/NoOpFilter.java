@@ -1,6 +1,5 @@
 package org.pageseeder.diffx.handler;
 
-import org.jetbrains.annotations.NotNull;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
 
@@ -21,7 +20,7 @@ public class NoOpFilter<T> extends DiffFilter<T> {
    * @param target The target {@link DiffHandler} to which all operations will be forwarded.
    *               Must not be null.
    */
-  public NoOpFilter(@NotNull DiffHandler<T> target) {
+  public NoOpFilter(DiffHandler<T> target) {
     super(target);
   }
 
@@ -36,7 +35,7 @@ public class NoOpFilter<T> extends DiffFilter<T> {
    * @throws IllegalStateException If the handler is in an invalid state to process this method.
    */
   @Override
-  public void handle(@NotNull Operator operator, @NotNull T token) {
+  public void handle(Operator operator, T token) {
     this.target.handle(operator, token);
   }
 

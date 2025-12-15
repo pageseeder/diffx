@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.similarity;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Calculates similarity between two elements.
  *
@@ -42,6 +40,6 @@ public interface Similarity<T> {
    * @param b the second element to compare, must not be null
    * @return a float value between 0.0 and 1.0 representing the similarity score
    */
-  float score(@NotNull T a, @NotNull T b);
+  float score(T a, T b);
 
 }

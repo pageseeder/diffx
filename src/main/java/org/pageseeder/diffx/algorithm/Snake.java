@@ -15,8 +15,6 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * A Snake as defined by Myers is a continuous sequence of diagonal edges.
  *
@@ -30,7 +28,7 @@ public final class Snake {
 
   private final int length;
 
-  public Snake(@NotNull Point start, int length) {
+  public Snake(Point start, int length) {
     this.start = start;
     this.length = length;
   }
