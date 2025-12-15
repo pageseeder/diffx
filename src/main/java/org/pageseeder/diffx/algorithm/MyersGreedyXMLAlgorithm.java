@@ -15,8 +15,10 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.handler.PostXMLFixer;
 import org.pageseeder.diffx.token.XMLToken;
@@ -29,7 +31,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.0
+ * @version 1.4.0
  * @since 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
@@ -39,9 +41,30 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
 
   private static final boolean DEBUG = false;
 
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<XMLToken> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MyersGreedyXMLAlgorithm() {
+    this.eq = XMLToken::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public MyersGreedyXMLAlgorithm(Equality<XMLToken> eq) {
+    this.eq = eq;
+  }
+
   @Override
   public void diff(List<? extends XMLToken> from, List<? extends XMLToken> to, DiffHandler<XMLToken> handler) {
-    Instance instance = new Instance(from, to);
+    Instance instance = new Instance(from, to, this.eq);
     List<EdgeSnake> snakes = instance.computePath();
     // Autocorrect (required until we can fix the attributes)
     PostXMLFixer correction = new PostXMLFixer(handler);
@@ -62,11 +85,14 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
     private final int sizeA;
     private final int sizeB;
 
-    Instance(List<? extends XMLToken> a, List<? extends XMLToken> b) {
+    private final Equality<XMLToken> eq;
+
+    Instance(List<? extends XMLToken> a, List<? extends XMLToken> b, Equality<XMLToken> eq) {
       this.a = a;
       this.b = b;
       this.sizeA = a.size();
       this.sizeB = b.size();
+      this.eq = eq;
     }
 
     /**
@@ -129,7 +155,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
           }
 
           // Follow diagonals
-          while (x < sizeA && y < sizeB && a.get(x).equals(b.get(y))
+          while (x < sizeA && y < sizeB && this.eq.equals(a.get(x), b.get(y))
               && elements.isAllowed(k, Operator.MATCH, a.get(x))) {
             if (DEBUG) System.err.print(" =" + a.get(x));
             elements.update(k, Operator.MATCH, a.get(x));
@@ -157,7 +183,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
       return false;
     }
 
-    private XMLToken getEditToken(boolean down, int x, int y) {
+    private @Nullable XMLToken getEditToken(boolean down, int x, int y) {
       boolean hasEdit = down ? y > 0 && y <= sizeB : x > 0 && x <= sizeA;
       if (!hasEdit) return null;
       return down ? this.b.get(y - 1) : this.a.get(x - 1);

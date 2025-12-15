@@ -15,6 +15,8 @@
  */
 package org.pageseeder.diffx.algorithm;
 
+import org.pageseeder.diffx.api.Equality;
+import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.Sequence;
 
 import java.io.PrintStream;
@@ -24,7 +26,8 @@ import java.util.List;
  * Build the matrix for the specified tokens using dynamic programming.
  *
  * @author Christophe Lauret
- * @version 1.2.0
+ *
+ * @version 1.4.0
  * @since 0.9.0
  */
 public final class MatrixProcessor<T> {
@@ -42,7 +45,18 @@ public final class MatrixProcessor<T> {
    * @return the matrix using dynamic programming
    */
   public Matrix process(Sequence first, Sequence second) {
-    return this.inverse ? computeInverse(first.tokens(), second.tokens()) : compute(first.tokens(), second.tokens());
+    return process(first, second, XMLToken::equals);
+  }
+
+  /**
+   * @param first  The first sequence of tokens to test.
+   * @param second The second sequence of tokens to test.
+   * @param eq The strategy to compare elements for equality.
+   *
+   * @return the matrix using dynamic programming
+   */
+  public Matrix process(Sequence first, Sequence second, Equality<XMLToken> eq) {
+    return this.inverse ? computeInverse(first.tokens(), second.tokens(), eq) : compute(first.tokens(), second.tokens(), eq);
   }
 
   /**
@@ -52,10 +66,21 @@ public final class MatrixProcessor<T> {
    * @return the matrix using dynamic programming
    */
   public Matrix process(List<? extends T> first, List<? extends T> second) {
-    return this.inverse ? computeInverse(first, second) : compute(first, second);
+    return process(first, second, T::equals);
   }
 
-  private static <T> Matrix compute(List<? extends T> first, List<? extends T> second) {
+  /**
+   * @param first  The first sequence of tokens to test.
+   * @param second The second sequence of tokens to test.
+   * @param eq The strategy to compare elements for equality.
+   *
+   * @return the matrix using dynamic programming
+   */
+  public Matrix process(List<? extends T> first, List<? extends T> second, Equality<T> eq) {
+    return this.inverse ? computeInverse(first, second, eq) : compute(first, second, eq);
+  }
+
+  private static <T> Matrix compute(List<? extends T> first, List<? extends T> second, Equality<T> eq) {
     Matrix matrix = getMatrix(first, second, false);
     int length1 = first.size();
     int length2 = second.size();
@@ -67,7 +92,7 @@ public final class MatrixProcessor<T> {
         if (i == 0 || j == 0) {
           matrix.set(i, j, 0);
         } else {
-          if (first.get(i - 1).equals(second.get(j - 1))) {
+          if (eq.equals(first.get(i - 1), second.get(j - 1))) {
             // the tokens are the same
             matrix.incrementPath(i, j);
           } else {
@@ -80,7 +105,7 @@ public final class MatrixProcessor<T> {
     return matrix;
   }
 
-  private static <T> Matrix computeInverse(List<? extends T> first, List<? extends T> second) {
+  private static <T> Matrix computeInverse(List<? extends T> first, List<? extends T> second, Equality<T> eq) {
     Matrix matrix = getMatrix(first, second, true);
     int length1 = first.size();
     int length2 = second.size();
@@ -92,7 +117,7 @@ public final class MatrixProcessor<T> {
         if (i >= length1 || j >= length2) {
           matrix.set(i, j, 0);
         } else {
-          if (first.get(i).equals(second.get(j))) {
+          if (eq.equals(first.get(i), second.get(j))) {
             // the tokens are the same
             matrix.incrementPath(i, j);
           } else {

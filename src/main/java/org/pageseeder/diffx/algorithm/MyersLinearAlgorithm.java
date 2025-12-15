@@ -18,6 +18,7 @@ package org.pageseeder.diffx.algorithm;
 import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.*;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.0
+ * @version 1.4.0
  * @since 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
@@ -42,9 +43,30 @@ import static org.pageseeder.diffx.algorithm.EdgeSnake.Direction.*;
  */
 public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements DiffAlgorithm<T> {
 
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MyersLinearAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public MyersLinearAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
+
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    Instance<T> instance = new Instance<>(from, to);
+    Instance<T> instance = new Instance<>(from, to, this.eq);
     List<EdgeSnake> snakes = instance.computePath();
     handleResults(from, to, handler, snakes);
   }
@@ -54,9 +76,12 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
     private final List<? extends T> a;
     private final List<? extends T> b;
 
-    Instance(List<? extends T> a, List<? extends T> b) {
+    private final Equality<T> eq;
+
+    Instance(List<? extends T> a, List<? extends T> b, Equality<T> eq) {
       this.a = a;
       this.b = b;
+      this.eq = eq;
     }
 
     public List<EdgeSnake> computePath() {
@@ -178,7 +203,8 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           int xEnd = down ? xStart : xStart + 1;
           int yEnd = xEnd - k;
           int matching = 0;
-          while (xEnd < sizeA && yEnd < sizeB && a.get(xEnd + startA).equals(b.get(yEnd + startB))) {
+          while (xEnd < sizeA && yEnd < sizeB &&
+              eq.equals(a.get(xEnd + startA), b.get(yEnd + startB))) {
             xEnd++;
             yEnd++;
             matching++;

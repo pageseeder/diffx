@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -33,7 +34,8 @@ import java.util.List;
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  *
  * @author Christophe Lauret
- * @version 1.2.0
+ *
+ * @version 1.4.0
  * @since 0.9.0
  */
 abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {

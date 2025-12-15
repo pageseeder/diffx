@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -35,9 +36,32 @@ import java.util.Objects;
  * XML sequences as it cannot always produce well-formed XML.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.4.0
+ * @since 0.9.0
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
+
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public KumarRanganAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public KumarRanganAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
 
   /**
    * Set to <code>true</code> to show debug info.
@@ -46,7 +70,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    Instance<T> instance = new Instance<>(from, to);
+    Instance<T> instance = new Instance<>(from, to, eq);
     instance.process(handler);
   }
 
@@ -78,6 +102,8 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
     private int R;
     private int S;
 
+    private final Equality<T> eq;
+
     /**
      * A counter for the index of the second sequence when generating the diff.
      */
@@ -91,9 +117,10 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      */
     private DiffHandler<T> handler;
 
-    Instance(List<? extends T> from, List<? extends T> to) {
+    Instance(List<? extends T> from, List<? extends T> to, Equality<T> eq) {
       this.A = Objects.requireNonNull(from);
       this.B = Objects.requireNonNull(to);
+      this.eq = eq;
     }
 
     /**
@@ -235,8 +262,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
         // The real index in the global char table is:
         // current_index * sign + beginning index of the sub-char array
-        while (posB > lowerB && !this.A.get((i - 1) * sign + startA)
-            .equals(this.B.get((posB - 1) * sign + startB))) {
+        while (posB > lowerB && !this.eq.equals(this.A.get((i - 1) * sign + startA), this.B.get((posB - 1) * sign + startB))) {
           posB--;
         }
         int temp = Math.max(posB, lowerB);
@@ -361,7 +387,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       int i = 0;
 
       // 2. Start in order for the A subsequence and get the index of the B subsequence
-      while (i < p && this.A.get(i + startA).equals(this.B.get(this.LL[p - i] - 1 + startB))) {
+      while (i < p && this.eq.equals(this.A.get(i + startA), this.B.get(this.LL[p - i] - 1 + startB))) {
         this.handler.handle(Operator.MATCH, this.A.get(i + startA));
         this.J++;
         i++;
@@ -385,7 +411,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
         this.J++;
         i++;
 
-        while (i < m && this.J < endB && !this.A.get(i + startA).equals(this.B.get(this.J))) {
+        while (i < m && this.J < endB && !this.eq.equals(this.A.get(i + startA), this.B.get(this.J))) {
           insertUpTo(this.J + 1);
         }
       }

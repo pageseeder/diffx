@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.sequence.TokenListSlicer;
 import org.pageseeder.diffx.token.AttributeToken;
@@ -30,7 +31,9 @@ import java.util.List;
  * <p>This algorithm uses a matrix to compute the edit path and a stack to eliminate invalid paths.</p>
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.4.0
+ * @since 0.9.0
  */
 public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
 
@@ -50,6 +53,27 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
   private boolean slice = true;
 
   private int threshold = DEFAULT_THRESHOLD;
+
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<XMLToken> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MatrixXMLAlgorithm() {
+    this.eq = XMLToken::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public MatrixXMLAlgorithm(Equality<XMLToken> eq) {
+    this.eq = eq;
+  }
 
   /**
    * Set whether common tokens at the beginning or the end of the sequences can be removed from the diff.
@@ -110,7 +134,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     }
 
     // Initialize state
-    ElementStackFilter estate = new ElementStackFilter(handler);
+    ElementStackFilter estate = new ElementStackFilter(handler, this.eq);
     diff(from, to, estate);
   }
 
@@ -147,7 +171,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     // calculate the LCS length to fill the matrix
     MatrixProcessor<XMLToken> builder = new MatrixProcessor<>();
     builder.setInverse(true);
-    Matrix matrix = builder.process(A, B);
+    Matrix matrix = builder.process(A, B, this.eq);
 
     int i = 0;
     int j = 0;
@@ -168,7 +192,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + tokenA);
           }
@@ -203,7 +227,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + tokenA);
           }
@@ -231,7 +255,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
         // we have to make a choice for where we are going
       } else if (matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (tokenA.equals(tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
           if (DEBUG) {
             System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + tokenA);
           }
@@ -311,7 +335,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     System.err.println(" current=" + estate.current());
     System.err.println(" value in X+1=" + matrix.get(i + 1, j));
     System.err.println(" value in Y+1=" + matrix.get(i, j + 1));
-    System.err.println(" equals=" + tokenA.equals(tokenB));
+    System.err.println(" equals=" + this.eq.equals(tokenA, tokenB));
     System.err.println(" greaterX=" + matrix.isGreaterX(i, j));
     System.err.println(" greaterY=" + matrix.isGreaterY(i, j));
     System.err.println(" sameXY=" + matrix.isSameXY(i, j));

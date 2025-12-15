@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
@@ -36,9 +37,30 @@ import java.util.List;
  */
 public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
 
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MyersGreedyAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  MyersGreedyAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
+
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    MyersGreedyAlgorithm.Instance<T> instance = new MyersGreedyAlgorithm.Instance<>(from, to);
+    MyersGreedyAlgorithm.Instance<T> instance = new MyersGreedyAlgorithm.Instance<>(from, to, this.eq);
     List<Snake> snakes = instance.computePath();
     handle(from, to, handler, snakes);
   }
@@ -79,11 +101,14 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
     private final int sizeA;
     private final int sizeB;
 
-    Instance(List<? extends T> a, List<? extends T> b) {
+    private final Equality<T> eq;
+
+    Instance(List<? extends T> a, List<? extends T> b, Equality<T> eq) {
       this.a = a;
       this.b = b;
       this.sizeA = a.size();
       this.sizeB = b.size();
+      this.eq = eq;
     }
 
     /**
@@ -131,7 +156,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
         int y = x - k;
 
         // Follow diagonals
-        while (x < this.sizeA && y < this.sizeB && this.a.get(x).equals(this.b.get(y))) {
+        while (x < this.sizeA && y < this.sizeB && this.eq.equals(this.a.get(x), this.b.get(y))) {
           x++;
           y++;
         }
