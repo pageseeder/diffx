@@ -27,7 +27,6 @@ import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.xml.NamespaceSet;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
