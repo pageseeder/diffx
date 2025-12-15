@@ -57,7 +57,7 @@ abstract class BasicEqualityAlgorithmTest extends AlgorithmTest<XMLToken> {
     List<TextToken> a = TokenizerBySpaceWord.tokenize("an illogical step", WhiteSpaceProcessing.PRESERVE);
     List<TextToken> b = TokenizerBySpaceWord.tokenize("A Logical Step", WhiteSpaceProcessing.PRESERVE);
 
-    DiffAlgorithm<XMLToken> algorithm = algorithmFunction.apply(XMLToken::equals);
+    DiffAlgorithm<XMLToken> algorithm = algorithmFunction.apply(CASE_INSENSITIVE);
     ActionsBuffer<XMLToken> result = new ActionsBuffer<>();
     algorithm.diff(a, b, result);
     System.out.println(result.getActions());
