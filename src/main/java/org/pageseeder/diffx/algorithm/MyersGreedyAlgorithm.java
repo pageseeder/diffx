@@ -54,7 +54,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * @param eq The strategy to compare elements for equality.
    */
-  MyersGreedyAlgorithm(Equality<T> eq) {
+  public MyersGreedyAlgorithm(Equality<T> eq) {
     this.eq = eq;
   }
 
