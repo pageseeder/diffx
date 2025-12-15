@@ -17,7 +17,6 @@
 package org.pageseeder.diffx.profile;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.core.TextOnlyProcessor;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.test.TestTokens;
 import org.pageseeder.diffx.token.impl.CharToken;

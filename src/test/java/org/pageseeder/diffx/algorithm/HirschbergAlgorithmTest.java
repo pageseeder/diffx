@@ -55,4 +55,17 @@ public final class HirschbergAlgorithmTest {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class EqualityDiff extends BasicEqualityAlgorithmTest {
+
+    EqualityDiff() {
+      super(HirschbergAlgorithm::new);
+    }
+
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 }

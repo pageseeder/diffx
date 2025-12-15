@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import java.util.List;
  * @param <T> The type of token being compared
  *
  * @author Christophe Lauret
+ *
+ * @version 1.3.1
  * @version 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
@@ -39,9 +42,31 @@ import java.util.List;
  */
 public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
 
+
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public MyersGreedyAlgorithm2() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public MyersGreedyAlgorithm2(Equality<T> eq) {
+    this.eq = eq;
+  }
+
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    MyersGreedyAlgorithm2.Instance<T> instance = new MyersGreedyAlgorithm2.Instance<>(from, to);
+    MyersGreedyAlgorithm2.Instance<T> instance = new MyersGreedyAlgorithm2.Instance<>(from, to, eq);
     instance.diff(handler);
   }
 
@@ -57,11 +82,14 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
     private final int sizeA;
     private final int sizeB;
 
-    Instance(List<? extends T> a, List<? extends T> b) {
+    private final Equality<T> eq;
+
+    Instance(List<? extends T> a, List<? extends T> b, Equality<T> eq) {
       this.a = a;
       this.b = b;
       this.sizeA = a.size();
       this.sizeB = b.size();
+      this.eq = eq;
     }
 
     /**
@@ -109,7 +137,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         int y = x - k;
 
         // Follow diagonals
-        while (x > 0 && y > 0 && a.get(x - 1).equals(b.get(y - 1))) {
+        while (x > 0 && y > 0 && this.eq.equals(a.get(x - 1), b.get(y - 1))) {
           x--;
           y--;
         }

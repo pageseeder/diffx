@@ -24,8 +24,9 @@ import java.util.List;
 
 /**
  * Generates a list of actions from the output of the algorithms.
- * <p>
- * This handler is useful to capture the operations resulting from a diff and generate and edit script.
+ *
+ * <p>This handler is useful to capture the operations resulting from a diff
+ * and generate and edit script.
  *
  * @author Christophe Lauret
  *
@@ -49,6 +50,7 @@ public class ActionsBuffer<T> implements DiffHandler<T> {
   @Override
   public void handle(Operator operator, T token) {
     setupAction(operator);
+    assert this.action != null; // setupAction ensures it
     this.action.add(token);
   }
 

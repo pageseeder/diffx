@@ -17,6 +17,7 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
+import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -37,7 +38,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.0
+ * @version 1.3.1
  * @since 0.9.0
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
@@ -46,6 +47,27 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    * Set to <code>true</code> to show debug info.
    */
   private static final boolean DEBUG = false;
+
+  /**
+   * Determines the strategy to compare elements for equality within the diff algorithm.
+   */
+  private final Equality<T> eq;
+
+  /**
+   * Default constructor using token equality.
+   */
+  public HirschbergAlgorithm() {
+    this.eq = T::equals;
+  }
+
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
+  public HirschbergAlgorithm(Equality<T> eq) {
+    this.eq = eq;
+  }
 
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
@@ -58,12 +80,12 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * @return the last line of the Needleman-Wunsch score matrix
    */
-  private static <T> int[] algorithmB(int m, int n, List<? extends T> a, List<? extends T> b) {
+  private int[] algorithmB(int m, int n, List<? extends T> a, List<? extends T> b) {
     int[][] k = new int[2][n + 1];
     for (int i = 1; i <= m; i++) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
       for (int j = 1; j <= n; j++) {
-        if (a.get(i - 1).equals(b.get(j - 1))) {
+        if (this.eq.equals(a.get(i - 1), b.get(j - 1))) {
           k[1][j] = k[0][j - 1] + 1;
         } else {
           k[1][j] = Math.max(k[1][j - 1], k[0][j]);
@@ -78,12 +100,12 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * <p>Implementation note: we traverse the list in reverse, it is more efficient than reversing the lists.
    */
-  private static <T> int[] algorithmBRev(int m, int n, List<? extends T> a, List<? extends T> b) {
+  private int[] algorithmBRev(int m, int n, List<? extends T> a, List<? extends T> b) {
     int[][] k = new int[2][n + 1];
     for (int i = m - 1; i >= 0; i--) {
       if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
       for (int j = n - 1; j >= 0; j--) {
-        if (a.get(i).equals(b.get(j))) {
+        if (this.eq.equals(a.get(i), b.get(j))) {
           k[1][n - j] = k[0][n - j - 1] + 1;
         } else {
           k[1][n - j] = Math.max(k[1][n - j - 1], k[0][n - j]);
@@ -113,7 +135,7 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    * Algorithm C as described by Hirschberg
    */
   @SuppressWarnings("java:S106")
-  private static <T> void algorithmC(int m, int n, List<? extends T> a, List<? extends T> b, DiffHandler<T> handler) {
+  private void algorithmC(int m, int n, List<? extends T> a, List<? extends T> b, DiffHandler<T> handler) {
     if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
 
     if (n == 0) {
@@ -133,7 +155,7 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
       boolean match = false;
       T a0 = a.get(0);
       for (int j = 0; j < n; j++) {
-        if (a0.equals(b.get(j)) && !match) {
+        if (this.eq.equals(a0, b.get(j)) && !match) {
           handler.handle(Operator.MATCH, a0);
           match = true;
         } else {
