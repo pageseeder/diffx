@@ -55,4 +55,17 @@ public final class KumarRanganAlgorithmTest {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class EqualityDiff extends BasicEqualityAlgorithmTest {
+
+    EqualityDiff() {
+      super(KumarRanganAlgorithm::new);
+    }
+
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 }

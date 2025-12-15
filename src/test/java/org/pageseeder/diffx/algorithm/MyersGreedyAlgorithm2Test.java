@@ -56,4 +56,16 @@ public final class MyersGreedyAlgorithm2Test {
     }
   }
 
+  @Nested
+  public class EqualityDiff extends BasicEqualityAlgorithmTest {
+
+    EqualityDiff() {
+      super(MyersGreedyAlgorithm2::new);
+    }
+
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 }

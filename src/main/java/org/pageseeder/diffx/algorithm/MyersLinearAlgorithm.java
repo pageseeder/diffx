@@ -181,9 +181,11 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * Calculate the middle snake
      */
-    private MiddleSnake middleSnake(int startA, int sizeA, int startB, int sizeB,
+    private MiddleSnake middleSnake(int startA, int sizeA,
+                                    int startB, int sizeB,
                                     Vector vForward, Vector vReverse,
-                                    @Nullable List<Vector> forwardVs, @Nullable List<Vector> reverseVs) {
+                                    @Nullable List<Vector> forwardVs,
+                                    @Nullable List<Vector> reverseVs) {
       final int max = (sizeA + sizeB + 1) / 2;
       final int delta = sizeA - sizeB;
 
@@ -240,7 +242,8 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
           int xEnd = up ? xStart : xStart - 1;
           int yEnd = xEnd - k;
           int matching = 0;
-          while (xEnd > 0 && yEnd > 0 && a.get(xEnd + startA - 1).equals(b.get(yEnd + startB - 1))) {
+          while (xEnd > 0 && yEnd > 0 &&
+              eq.equals(a.get(xEnd + startA - 1), b.get(yEnd + startB - 1))) {
             xEnd--;
             yEnd--;
             matching++;

@@ -55,4 +55,17 @@ public final class WagnerFischerAlgorithmTest {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class EqualityDiff extends BasicEqualityAlgorithmTest {
+
+    EqualityDiff() {
+      super(WagnerFischerAlgorithm::new);
+    }
+
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
 }
