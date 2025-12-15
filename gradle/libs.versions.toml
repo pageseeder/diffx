@@ -1,6 +1,6 @@
 [versions]
-junit = "5.13.2"
-junit-platform = "1.13.2"
+junit = "5.14.1"
+junit-platform = "1.14.1"
 
 [libraries]
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
@@ -19,4 +19,4 @@ junit-testing = [
 ]
 
 [plugins]
-jreleaser = { id = "org.jreleaser", version = "1.18.0" }
+jreleaser = { id = "org.jreleaser", version = "1.21.0" }
