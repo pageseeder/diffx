@@ -37,7 +37,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.4.0
+ * @version 1.3.1
  * @since 0.9.0
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {

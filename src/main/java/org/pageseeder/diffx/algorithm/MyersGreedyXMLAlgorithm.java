@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.4.0
+ * @version 1.3.1
  * @since 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>

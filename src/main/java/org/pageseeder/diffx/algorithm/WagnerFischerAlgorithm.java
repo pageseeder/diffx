@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.4.0
+ * @version 1.3.1
  * @since 0.9.0
  */
 public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
