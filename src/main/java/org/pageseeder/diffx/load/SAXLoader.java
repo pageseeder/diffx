@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.api.LoadingException;
 import org.pageseeder.diffx.config.DiffConfig;
 import org.pageseeder.diffx.load.text.TextTokenizer;
@@ -26,17 +27,18 @@ import org.pageseeder.diffx.xml.Sequence;
 import org.xml.sax.*;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Loads the SAX events in an {@link Sequence}.
@@ -54,7 +56,8 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  * @author Jean-Baptiste Reure
- * @version 1.2.0
+ *
+ * @version 1.3.2
  * @since 0.6.0
  */
 @SuppressWarnings("JavadocLinkAsPlainText")
@@ -64,6 +67,12 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    * The XML reader class in use (set to the default XML reader).
    */
   private static String readerClassName = "";
+
+  /**
+   * Optional supplier for custom XMLReader instances. If set, it takes precedence over
+   * {@link #readerClassName}.
+   */
+  private static @Nullable Function<DiffConfig, XMLReader> readerFactory = null;
 
   /**
    * Runs the loader on the specified input source.
@@ -96,12 +105,36 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   /**
-   * Returns the name XMLReader class used by the SAXRecorders.
+   * Returns the name XMLReader class to use or "" when not in use.
    *
-   * @return the name XMLReader class used by the SAXRecorders.
+   * @return the name XMLReader class used by the SAXLoader.
    */
   public static String getXMLReaderClass() {
     return readerClassName;
+  }
+
+  /**
+   * Returns the factory used to create XMLReader instances.
+   *
+   * @return the current factory, or {@code null} if none is set.
+   */
+  public static @Nullable Function<DiffConfig, XMLReader> getXMLReaderFactory() {
+    return readerFactory;
+  }
+
+  /**
+   * Sets a factory used to create XMLReader instances.
+   *
+   * <p>Pass {@code null} to clear and use the default JAXP-backed reader selection.
+   *
+   * <p>The factory will be called for each parse to produce a fresh reader instance.
+   *
+   * <p>If a factory is set, {@link #getXMLReaderClass()} will be reset to {@code ""}.
+   */
+  public static void setXMLReaderFactory(@Nullable Function<DiffConfig, ? extends XMLReader> factory) {
+    readerFactory = factory == null ? null : factory::apply;
+    // Clear any legacy override so we truly go back to the JAXP default selection.
+    readerClassName = "";
   }
 
   /**
@@ -113,11 +146,13 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
    *
    * @param className The name of the XML reader class to use;
    *                  or <code>null</code> to reset the XML reader.
-   * @deprecated To be removed, with no replacement
+   * @deprecated Prefer {@link #setXMLReaderFactory(Function)}.
    */
   @Deprecated(forRemoval = true, since = "1.2.0")
   public static void setXMLReaderClass(String className) {
     readerClassName = Objects.toString(className, "");
+    // Always reset the factory
+    readerFactory = null;
   }
 
   /**
@@ -128,14 +163,19 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   private static XMLReader newReader(DiffConfig config) throws LoadingException {
     try {
       XMLReader reader;
-      if (readerClassName.isEmpty()) {
+      Function<DiffConfig, XMLReader> customFactory = readerFactory;
+      if (customFactory != null) {
+        reader = customFactory.apply(config);
+        //noinspection ConstantValue (Defensive code to avoid an NPE)
+        if (reader == null) throw new LoadingException("XMLReader factory returned null");
+      } else if (!readerClassName.isEmpty()) {
+        reader = createXMLReader(readerClassName);
+      } else {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(config.isNamespaceAware());
         factory.setValidating(false);
         SAXParser parser = factory.newSAXParser();
         reader = parser.getXMLReader();
-      } else {
-        reader = XMLReaderFactory.createXMLReader(readerClassName);
       }
       reader.setFeature("http://xml.org/sax/features/validation", false);
       reader.setFeature("http://xml.org/sax/features/namespaces", config.isNamespaceAware());
@@ -150,6 +190,36 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
       return reader;
     } catch (ParserConfigurationException | SAXException ex) {
+      throw new LoadingException(ex);
+    }
+  }
+
+  /**
+   * Creates a new instance of an {@code XMLReader} using the given class name.
+   *
+   * @param className The fully qualified name of the class that implements the {@code XMLReader} interface.
+   *
+   * @return A new instance of the specified {@code XMLReader} implementation.
+   *
+   * @throws LoadingException If the class cannot be found, is not accessible, does
+   *                          not implement the {@code XMLReader} interface, or if
+   *                          an error occurs during instantiation.
+   */
+  private static XMLReader createXMLReader(String className) throws LoadingException {
+    try {
+      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      Class<?> raw = Class.forName(className, true, cl);
+      if (!XMLReader.class.isAssignableFrom(raw)) {
+        throw new LoadingException("Class " + className + " does not implement " + XMLReader.class.getName());
+      }
+      @SuppressWarnings("unchecked")
+      Class<? extends XMLReader> type = (Class<? extends XMLReader>) raw;
+      return type.getDeclaredConstructor().newInstance();
+    } catch (ClassNotFoundException |
+             NoSuchMethodException |
+             InstantiationException |
+             IllegalAccessException |
+             InvocationTargetException ex) {
       throw new LoadingException(ex);
     }
   }
@@ -257,6 +327,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
     @Override
     public void endDocument() {
+      // Nothing to do
     }
 
     /**
