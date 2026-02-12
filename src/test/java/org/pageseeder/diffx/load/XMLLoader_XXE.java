@@ -73,7 +73,7 @@ public abstract class XMLLoader_XXE extends XMLLoaderTest {
     try (Reader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
       return loaded.load(reader);
     } catch (Exception ex) {
-      ex.printStackTrace();
+      System.err.println("Failed to load resource: " + ex.getMessage());
       throw ex;
     }
   }
