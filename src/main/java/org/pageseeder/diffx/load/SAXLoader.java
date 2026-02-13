@@ -112,9 +112,40 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   private static Function<DiffConfig, XMLReader> readerFactory = DEFAULT_READER_FACTORY;
 
   /**
+   * Default text tokenizer factory.
+   */
+  private static final Function<DiffConfig, TextTokenizer> DEFAULT_TEXT_TOKENIZER_FACTORY =
+      TokenizerFactory::get;
+
+  /**
    * The XML reader class in use (set to the default XML reader).
    */
   private static String readerClassName = "";
+
+  /**
+   * Factory for creating TextTokenizer instances.
+   */
+  private static Function<DiffConfig, TextTokenizer> textTokenizerFactory = DEFAULT_TEXT_TOKENIZER_FACTORY;
+
+  /**
+   * The {@code textTokenizer} variable represents an instance of a {@link TextTokenizer} used for tokenizing text in the context of the SAXLoader.
+   *
+   * <p>This variable is managed internally in the SAXLoader class and is used to facilitate
+   * text processing operations during XML loading and parsing.
+   *
+   * <p>Note that the value of this variable can be {@code null}, indicating that no tokenizer has
+   * been explicitly set or initialized.
+   */
+  private @Nullable TextTokenizer textTokenizer;
+
+  @Override
+  public void setConfig(DiffConfig config) {
+    // We reset the text tokenizer if the configuration changes
+    if (!config.equals(this.config)) {
+      this.textTokenizer = null;
+    }
+    super.setConfig(config);
+  }
 
   /**
    * Runs the loader on the specified input source.
@@ -128,7 +159,11 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   @Override
   public Sequence load(InputSource is) throws LoadingException, IOException {
     XMLReader reader = newReader(this.config);
-    Handler handler = new Handler(this.config);
+
+    TextTokenizer tokenizer = ensureTextTokenizer();
+
+    Handler handler = new Handler(this.config, tokenizer);
+
     reader.setContentHandler(handler);
     reader.setErrorHandler(handler);
 
@@ -147,6 +182,46 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       throw new LoadingException(ex);
     }
     return handler.sequence;
+  }
+
+  /**
+   * Configures the {@link TextTokenizer} used by this loader.
+   *
+   * <p>The {@link TextTokenizer} is responsible for splitting text into tokens as part of
+   * the loading process. By setting a specific instance of {@link TextTokenizer},
+   * custom tokenization logic can be applied during processing.
+   *
+   * <p>Passing {@code null} will reset the tokenizer, and any subsequent processing will rely
+   * on a default tokenizer (if applicable).
+   *
+   * @param textTokenizer The {@link TextTokenizer} instance to use for tokenizing text,
+   *                      or {@code null} to reset and use the default tokenizer.
+   */
+  public void setTextTokenizer(@Nullable TextTokenizer textTokenizer) {
+    this.textTokenizer = textTokenizer;
+  }
+
+  /**
+   * Returns the factory used to create TextTokenizer instances.
+   *
+   * @return the factory used by the SAXLoader to generate new TextTokenizer instances.
+   */
+  public static Function<DiffConfig, TextTokenizer> getTextTokenizerFactory() {
+    return textTokenizerFactory;
+  }
+
+  /**
+   * Sets a factory used to create TextTokenizer instances.
+   *
+   * <p>Pass {@code null} to clear and use the default tokenizer selection.
+   *
+   * <p>The factory is called to lazy-initialise the tokenizer, so that the same tokenizer is used
+   * by the SAXLoader for each parse operation.
+   *
+   * @param factory The factory used to create TextTokenizer instances.
+   */
+  public static void setTextTokenizerFactory(@Nullable Function<DiffConfig, ? extends TextTokenizer> factory) {
+    textTokenizerFactory = factory == null ? DEFAULT_TEXT_TOKENIZER_FACTORY : factory::apply;
   }
 
   /**
@@ -264,6 +339,30 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   /**
+   * Ensures that a {@link TextTokenizer} instance is initialized and available for use.
+   *
+   * <p>If the {@link TextTokenizer} instance is not already initialized, this method attempts
+   * to create one using the tokenizer factory. If the factory returns {@code null} or
+   * throws an exception during tokenizer creation, a {@link LoadingException} is thrown.
+   *
+   * @return The initialized {@link TextTokenizer} instance.
+   * @throws LoadingException If the tokenizer factory returns {@code null} or throws an exception.
+   */
+  private TextTokenizer ensureTextTokenizer() throws LoadingException {
+    TextTokenizer tokenizer = this.textTokenizer;
+    if (tokenizer == null) {
+      try {
+        this.textTokenizer = tokenizer = textTokenizerFactory.apply(this.config);
+        //noinspection ConstantValue (Defensive null check)
+        if (tokenizer == null) throw new LoadingException("TextTokenizer factory returned null");
+      } catch (Exception ex) {
+        throw new LoadingException("TextTokenizer factory threw an exception: " + ex.getMessage(), ex);
+      }
+    }
+    return tokenizer;
+  }
+
+  /**
    * A SAX2 handler that generates a list of XML tokens.
    *
    * <p>This class is an inner class as there is no reason to expose its method to the
@@ -301,9 +400,9 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
      */
     private final TextTokenizer tokenizer;
 
-    Handler(DiffConfig config) {
+    Handler(DiffConfig config, TextTokenizer tokenizer) {
       this.tokenFactory = new XMLTokenFactory(config.isNamespaceAware());
-      this.tokenizer = TokenizerFactory.get(config);
+      this.tokenizer = Objects.requireNonNull(tokenizer, "tokenizer");
     }
 
     public Sequence getSequence() {
