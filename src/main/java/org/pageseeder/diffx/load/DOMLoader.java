@@ -54,38 +54,6 @@ import java.util.List;
  */
 public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
 
-  /**
-   * The factory that will produce tokens according to the configuration.
-   */
-  private XMLTokenFactory tokenFactory;
-
-  /**
-   * The text tokenizer used by this loader.
-   */
-  private TextTokenizer tokenizer;
-
-  /**
-   * The sequence of token for this loader.
-   */
-  private Sequence sequence;
-
-  /**
-   * The sequence of token for this loader.
-   */
-  private NamespaceSet namespaces;
-
-  /**
-   * Indicates whether the given document is a fragment.
-   *
-   * <p>A fragment is a portion of XML that is not necessarily well-formed by itself, because the
-   * namespace has been declared higher in the hierarchy, i.e., if the DOM tree was serialized,
-   * it would not produce well-formed XML.
-   *
-   * <p>This option indicates that the loader should try to generate the prefix mapping without
-   * the declaration.
-   */
-  private boolean isFragment = true;
-
   @Override
   public Sequence load(String xml) throws LoadingException {
     return load(new InputSource(new StringReader(xml)));
@@ -101,7 +69,6 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    */
   @Override
   public Sequence load(InputSource is) throws LoadingException {
-    this.isFragment = false; // input source is not a fragment
     DocumentBuilderFactory dbFactory = newDocumentBuilderFactory(this.config);
     try {
       DocumentBuilder builder = dbFactory.newDocumentBuilder();
@@ -121,15 +88,11 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    * @throws LoadingException If thrown while parsing.
    */
   public Sequence load(Node node) throws LoadingException {
-    // initialise the state variables.
-    this.tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
-    this.tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
-    this.sequence = new Sequence();
-    this.namespaces = this.sequence.getNamespaces();
+    boolean isFragment = node.getNodeType() != Node.DOCUMENT_NODE;
+    LoadSession session = new LoadSession(this.config, this.textTokenizer, isFragment);
     // start processing the nodes
-    loadNode(node);
-    this.isFragment = node.getNodeType() != Node.DOCUMENT_NODE;
-    return this.sequence;
+    session.loadNode(node);
+    return session.sequence;
   }
 
   /**
@@ -149,165 +112,14 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
     return load(node.item(0));
   }
 
-  // specific loaders ---------------------------------------------------------------------
-
-  private static class LoadSession {
-
-  }
   /**
-   * Loads the given node in the current sequence.
+   * Creates and configures a new instance of {@link DocumentBuilderFactory} based on the provided {@link DiffConfig}.
+   * The configuration depends on the security and namespace awareness settings defined in the given configuration.
    *
-   * @param node The W3C DOM node to load.
-   *
-   * @throws LoadingException If thrown while parsing.
+   * @param config The {@link DiffConfig} instance specifying the settings for the factory,
+   *               such as whether to allow DOCTYPE declarations and namespace awareness.
+   * @return A newly created and configured {@link DocumentBuilderFactory} instance.
    */
-  private void loadNode(Node node) throws LoadingException {
-    // dispatch to the correct loader performance: order by frequency of occurrence
-    if (node instanceof Element) {
-      loadElement((Element) node);
-    } else if (node instanceof Text) {
-      loadText((Text) node);
-    } else if (node instanceof Document) {
-      loadDocument((Document) node);
-    } else if (node instanceof ProcessingInstruction) {
-      loadPI((ProcessingInstruction) node);
-    } else if (node instanceof Comment) {
-      loadComment((Comment) node);
-    }
-    // all other node types are ignored (attributes loaded as part of Element)
-  }
-
-  /**
-   * Loads the given document in the current sequence.
-   *
-   * @param document The W3C DOM document node to load.
-   *
-   * @throws LoadingException If thrown while parsing.
-   */
-  private void loadDocument(Document document) throws LoadingException {
-    loadElement(document.getDocumentElement());
-  }
-
-  /**
-   * Loads the given element in the current sequence.
-   *
-   * @param element The W3C DOM element node to load.
-   *
-   * @throws LoadingException If thrown while parsing.
-   */
-  private void loadElement(Element element) throws LoadingException {
-    StartElementToken start = toStartElement(element);
-    this.sequence.addToken(start);
-    loadAttributes(element);
-    NodeList list = element.getChildNodes();
-    for (int i = 0; i < list.getLength(); i++) {
-      loadNode(list.item(i));
-    }
-    EndElementToken close = this.tokenFactory.newEndElement(start);
-    this.sequence.addToken(close);
-  }
-
-  /**
-   * Loads the given text in the current sequence depending on the configuration.
-   *
-   * @param text The W3C DOM text node to load.
-   */
-  private void loadText(Text text) {
-    List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
-    for (TextToken token : tokens) {
-      this.sequence.addToken(token);
-    }
-  }
-
-  /**
-   * Loads the given processing instruction in the current sequence.
-   *
-   * @param pi The W3C DOM PI node to load.
-   */
-  private void loadPI(ProcessingInstruction pi) {
-    this.sequence.addToken(new XMLProcessingInstruction(pi.getTarget(), pi.getData()));
-  }
-
-  /**
-   * Add the comment attribute in the current sequence.
-   *
-   * @param comment The W3C DOM comment node to load.
-   */
-  private void loadComment(Comment comment) {
-    this.sequence.addToken(new XMLComment(comment.getTextContent()));
-  }
-
-  /**
-   * Handles the prefix mapping.
-   * <p>
-   * If the current process is working on a fragment,
-   *
-   * @param uri    The namespace URI.
-   * @param prefix The prefix used for the namespace.
-   */
-  private void handlePrefixMapping(String uri, @Nullable String prefix) {
-    if (this.isFragment) {
-      if (this.namespaces.getPrefix(uri) != null) return;
-      if (prefix == null && !uri.isEmpty()) {
-        this.namespaces.add(uri, "");
-      } else if (prefix != null && !"xmlns".equals(prefix)) {
-        this.namespaces.add(uri, prefix);
-      }
-    }
-  }
-
-  private StartElementToken toStartElement(Element element) {
-    if (this.config.isNamespaceAware()) {
-      String uri = element.getNamespaceURI() != null ? element.getNamespaceURI() : XMLConstants.NULL_NS_URI;
-      handlePrefixMapping(uri, element.getPrefix());
-      return this.tokenFactory.newStartElement(uri, element.getLocalName());
-    }
-    return this.tokenFactory.newStartElement(XMLConstants.NULL_NS_URI, element.getNodeName());
-  }
-
-  private void loadAttributes(Element element) {
-    NamedNodeMap attributes = element.getAttributes();
-    // only 1 attribute, just load it
-    if (attributes.getLength() == 1) {
-      AttributeToken token = toAttribute((Attr) attributes.item(0));
-      if (token != null) {
-        this.sequence.addToken(token);
-      }
-    } else if (attributes.getLength() > 1) {
-      List<AttributeToken> tokens = new ArrayList<>();
-      for (int i = 0; i < attributes.getLength(); i++) {
-        AttributeToken token = toAttribute((Attr) attributes.item(i));
-        if (token != null) {
-          tokens.add(token);
-        }
-      }
-      tokens.sort(new AttributeComparator());
-      this.sequence.addTokens(tokens);
-    }
-  }
-
-  /**
-   * Loads the given attribute in the current sequence.
-   *
-   * @param attr The W3C DOM attribute node to load.
-   */
-  private @Nullable AttributeToken toAttribute(Attr attr) {
-    String uri = attr.getNamespaceURI();
-    if (uri == null) uri = XMLConstants.NULL_NS_URI;
-    handlePrefixMapping(uri, attr.getPrefix());
-    // a namespace declaration, translate the token into a prefix mapping
-    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(uri)) {
-      // FIXME Handle default namespace declaration on root element
-      this.sequence.addNamespace(attr.getValue(), attr.getLocalName());
-      return null;
-    } else {
-      if (this.config.isNamespaceAware()) {
-        return this.tokenFactory.newAttribute(uri, attr.getLocalName(), attr.getValue());
-      }
-      return this.tokenFactory.newAttribute(attr.getNodeName(), attr.getValue());
-    }
-  }
-
   private static DocumentBuilderFactory newDocumentBuilderFactory(DiffConfig config) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     if (!config.allowDoctypeDeclaration()) {
@@ -325,4 +137,214 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
     dbFactory.setValidating(false);
     return dbFactory;
   }
+
+  /**
+   * LoadSession is a utility class designed for processing and loading
+   * W3C DOM nodes into a token-based sequence representation. It handles
+   * different node types (e.g., elements, text, comments) and ensures proper
+   * handling of namespaces and attributes during tokenization.
+   */
+  private static class LoadSession {
+
+    /**
+     * The configuration to use.
+     */
+    private final DiffConfig config;
+
+    /**
+     * The factory that will produce tokens according to the configuration.
+     */
+    private final XMLTokenFactory tokenFactory;
+
+    /**
+     * The text tokenizer used by this loader.
+     */
+    private final TextTokenizer tokenizer;
+
+    /**
+     * The sequence of token for this loader.
+     */
+    private final Sequence sequence;
+
+    /**
+     * The sequence of token for this loader.
+     */
+    private final NamespaceSet namespaces;
+
+    /**
+     * Indicates whether the given document is a fragment.
+     *
+     * <p>A fragment is a portion of XML that is not necessarily well-formed by itself, because the
+     * namespace has been declared higher in the hierarchy, i.e., if the DOM tree was serialized,
+     * it would not produce well-formed XML.
+     *
+     * <p>This option indicates that the loader should try to generate the prefix mapping without
+     * the declaration.
+     */
+    private boolean isFragment = true;
+
+    public LoadSession(DiffConfig config, @Nullable TextTokenizer tokenizer, boolean isFragment) {
+      this.config = config;
+      this.tokenFactory = new XMLTokenFactory(config.isNamespaceAware());
+      this.tokenizer = tokenizer != null ? tokenizer : TokenizerFactory.get(config);
+      this.sequence = new Sequence();
+      this.namespaces = this.sequence.getNamespaces();
+      this.isFragment = isFragment;
+    }
+
+    /**
+     * Loads the given node in the current sequence.
+     *
+     * @param node The W3C DOM node to load.
+     *
+     * @throws LoadingException If thrown while parsing.
+     */
+    private void loadNode(Node node) throws LoadingException {
+      // dispatch to the correct loader performance: order by frequency of occurrence
+      if (node instanceof Element) {
+        loadElement((Element) node);
+      } else if (node instanceof Text) {
+        loadText((Text) node);
+      } else if (node instanceof Document) {
+        loadDocument((Document) node);
+      } else if (node instanceof ProcessingInstruction) {
+        loadPI((ProcessingInstruction) node);
+      } else if (node instanceof Comment) {
+        loadComment((Comment) node);
+      }
+      // all other node types are ignored (attributes loaded as part of Element)
+    }
+
+    /**
+     * Loads the given document in the current sequence.
+     *
+     * @param document The W3C DOM document node to load.
+     *
+     * @throws LoadingException If thrown while parsing.
+     */
+    private void loadDocument(Document document) throws LoadingException {
+      loadElement(document.getDocumentElement());
+    }
+
+    /**
+     * Loads the given element in the current sequence.
+     *
+     * @param element The W3C DOM element node to load.
+     *
+     * @throws LoadingException If thrown while parsing.
+     */
+    private void loadElement(Element element) throws LoadingException {
+      StartElementToken start = toStartElement(element);
+      this.sequence.addToken(start);
+      loadAttributes(element);
+      NodeList list = element.getChildNodes();
+      for (int i = 0; i < list.getLength(); i++) {
+        loadNode(list.item(i));
+      }
+      EndElementToken close = this.tokenFactory.newEndElement(start);
+      this.sequence.addToken(close);
+    }
+
+    /**
+     * Loads the given text in the current sequence depending on the configuration.
+     *
+     * @param text The W3C DOM text node to load.
+     */
+    private void loadText(Text text) {
+      List<TextToken> tokens = this.tokenizer.tokenize(text.getData());
+      for (TextToken token : tokens) {
+        this.sequence.addToken(token);
+      }
+    }
+
+    /**
+     * Loads the given processing instruction in the current sequence.
+     *
+     * @param pi The W3C DOM PI node to load.
+     */
+    private void loadPI(ProcessingInstruction pi) {
+      this.sequence.addToken(new XMLProcessingInstruction(pi.getTarget(), pi.getData()));
+    }
+
+    /**
+     * Add the comment attribute in the current sequence.
+     *
+     * @param comment The W3C DOM comment node to load.
+     */
+    private void loadComment(Comment comment) {
+      this.sequence.addToken(new XMLComment(comment.getTextContent()));
+    }
+
+    /**
+     * Handles the prefix mapping.
+     * <p>
+     * If the current process is working on a fragment,
+     *
+     * @param uri    The namespace URI.
+     * @param prefix The prefix used for the namespace.
+     */
+    private void handlePrefixMapping(String uri, @Nullable String prefix) {
+      if (this.isFragment) {
+        if (this.namespaces.getPrefix(uri) != null) return;
+        if (prefix == null && !uri.isEmpty()) {
+          this.namespaces.add(uri, "");
+        } else if (prefix != null && !"xmlns".equals(prefix)) {
+          this.namespaces.add(uri, prefix);
+        }
+      }
+    }
+
+    private StartElementToken toStartElement(Element element) {
+      if (this.config.isNamespaceAware()) {
+        String uri = element.getNamespaceURI() != null ? element.getNamespaceURI() : XMLConstants.NULL_NS_URI;
+        handlePrefixMapping(uri, element.getPrefix());
+        return this.tokenFactory.newStartElement(uri, element.getLocalName());
+      }
+      return this.tokenFactory.newStartElement(XMLConstants.NULL_NS_URI, element.getNodeName());
+    }
+
+    private void loadAttributes(Element element) {
+      NamedNodeMap attributes = element.getAttributes();
+      // only 1 attribute, just load it
+      if (attributes.getLength() == 1) {
+        AttributeToken token = toAttribute((Attr) attributes.item(0));
+        if (token != null) {
+          this.sequence.addToken(token);
+        }
+      } else if (attributes.getLength() > 1) {
+        List<AttributeToken> tokens = new ArrayList<>();
+        for (int i = 0; i < attributes.getLength(); i++) {
+          AttributeToken token = toAttribute((Attr) attributes.item(i));
+          if (token != null) {
+            tokens.add(token);
+          }
+        }
+        tokens.sort(new AttributeComparator());
+        this.sequence.addTokens(tokens);
+      }
+    }
+
+    /**
+     * Loads the given attribute in the current sequence.
+     *
+     * @param attr The W3C DOM attribute node to load.
+     */
+    private @Nullable AttributeToken toAttribute(Attr attr) {
+      String uri = attr.getNamespaceURI();
+      if (uri == null) uri = XMLConstants.NULL_NS_URI;
+      handlePrefixMapping(uri, attr.getPrefix());
+      // a namespace declaration, translate the token into a prefix mapping
+      if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(uri)) {
+        // FIXME Handle default namespace declaration on root element
+        this.sequence.addNamespace(attr.getValue(), attr.getLocalName());
+        return null;
+      } else {
+        if (this.config.isNamespaceAware()) {
+          return this.tokenFactory.newAttribute(uri, attr.getLocalName(), attr.getValue());
+        }
+        return this.tokenFactory.newAttribute(attr.getNodeName(), attr.getValue());
+      }
+    }
+  }
+
 }
