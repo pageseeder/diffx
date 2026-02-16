@@ -124,16 +124,16 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     if (!config.allowDoctypeDeclaration()) {
       try {
+        dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         // If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
         dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-        dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       } catch (ParserConfigurationException ex) {
         // This should catch a failed setFeature feature
         System.err.println("Disallowing doctype declaration is probably not supported by your XML processor.");
       }
     }
     dbFactory.setNamespaceAware(config.isNamespaceAware());
-    dbFactory.setExpandEntityReferences(true);
+    dbFactory.setExpandEntityReferences(false);
     dbFactory.setValidating(false);
     return dbFactory;
   }
