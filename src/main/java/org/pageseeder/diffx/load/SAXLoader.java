@@ -112,20 +112,9 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   private static Function<DiffConfig, XMLReader> readerFactory = DEFAULT_READER_FACTORY;
 
   /**
-   * Default text tokenizer factory.
-   */
-  private static final Function<DiffConfig, TextTokenizer> DEFAULT_TEXT_TOKENIZER_FACTORY =
-      TokenizerFactory::get;
-
-  /**
    * The XML reader class in use (set to the default XML reader).
    */
   private static String readerClassName = "";
-
-  /**
-   * Factory for creating TextTokenizer instances.
-   */
-  private static Function<DiffConfig, TextTokenizer> textTokenizerFactory = DEFAULT_TEXT_TOKENIZER_FACTORY;
 
   /**
    * Runs the loader on the specified input source.
@@ -140,7 +129,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   public Sequence load(InputSource is) throws LoadingException, IOException {
     XMLReader reader = newReader(this.config);
 
-    TextTokenizer tokenizer = ensureTextTokenizer();
+    TextTokenizer tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
 
     Handler handler = new Handler(this.config, tokenizer);
 
@@ -162,29 +151,6 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
       throw new LoadingException(ex);
     }
     return handler.sequence;
-  }
-
-  /**
-   * Returns the factory used to create TextTokenizer instances.
-   *
-   * @return the factory used by the SAXLoader to generate new TextTokenizer instances.
-   */
-  public static Function<DiffConfig, TextTokenizer> getTextTokenizerFactory() {
-    return textTokenizerFactory;
-  }
-
-  /**
-   * Sets a factory used to create TextTokenizer instances.
-   *
-   * <p>Pass {@code null} to clear and use the default tokenizer selection.
-   *
-   * <p>The factory is called to lazy-initialise the tokenizer, so that the same tokenizer is used
-   * by the SAXLoader for each parse operation.
-   *
-   * @param factory The factory used to create TextTokenizer instances.
-   */
-  public static void setTextTokenizerFactory(@Nullable Function<DiffConfig, ? extends TextTokenizer> factory) {
-    textTokenizerFactory = factory == null ? DEFAULT_TEXT_TOKENIZER_FACTORY : factory::apply;
   }
 
   /**
@@ -302,30 +268,6 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
   }
 
   /**
-   * Ensures that a {@link TextTokenizer} instance is initialized and available for use.
-   *
-   * <p>If the {@link TextTokenizer} instance is not already initialized, this method attempts
-   * to create one using the tokenizer factory. If the factory returns {@code null} or
-   * throws an exception during tokenizer creation, a {@link LoadingException} is thrown.
-   *
-   * @return The initialized {@link TextTokenizer} instance.
-   * @throws LoadingException If the tokenizer factory returns {@code null} or throws an exception.
-   */
-  private TextTokenizer ensureTextTokenizer() throws LoadingException {
-    TextTokenizer tokenizer = this.textTokenizer;
-    if (tokenizer == null) {
-      try {
-        this.textTokenizer = tokenizer = textTokenizerFactory.apply(this.config);
-        //noinspection ConstantValue (Defensive null check)
-        if (tokenizer == null) throw new LoadingException("TextTokenizer factory returned null");
-      } catch (Exception ex) {
-        throw new LoadingException("TextTokenizer factory threw an exception: " + ex.getMessage(), ex);
-      }
-    }
-    return tokenizer;
-  }
-
-  /**
    * A SAX2 handler that generates a list of XML tokens.
    *
    * <p>This class is an inner class as there is no reason to expose its method to the
@@ -336,7 +278,7 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
     /**
      * The sequence of token for this loader.
      */
-    private Sequence sequence;
+    private final Sequence sequence = new Sequence();
 
     /**
      * A buffer for character data.
@@ -374,7 +316,6 @@ public final class SAXLoader extends XMLLoaderBase implements XMLLoader {
 
     @Override
     public void startDocument() {
-      this.sequence = new Sequence();
       this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
       this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
     }
