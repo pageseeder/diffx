@@ -23,7 +23,9 @@ import org.pageseeder.diffx.load.text.TextTokenizer;
  * Base class for XML loaders.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
+ * @since 0.9.0
  */
 abstract class XMLLoaderBase implements XMLLoader {
 
