@@ -81,7 +81,6 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-
   /**
    * Loads an XML sequence from an {@link XMLEventReader}.
    *
@@ -92,7 +91,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   public Sequence load(XMLEventReader reader) throws LoadingException {
     XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
-    TextTokenizer tokenizer = TokenizerFactory.get(this.config);
+    TextTokenizer tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
     Sequence sequence = new Sequence();
     sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
