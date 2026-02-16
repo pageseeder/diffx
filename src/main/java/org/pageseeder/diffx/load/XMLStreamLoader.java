@@ -46,7 +46,8 @@ import static javax.xml.stream.XMLStreamConstants.PROCESSING_INSTRUCTION;
  * Loads the XML tokens using an {@link XMLStreamLoader}.
  *
  * @author Christophe Lauret
- * @version 1.0.1
+ *
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
@@ -118,7 +119,7 @@ public final class XMLStreamLoader extends XMLLoaderBase implements XMLLoader {
 
   public Sequence load(XMLStreamReader reader) throws LoadingException {
     XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
-    TextTokenizer tokenizer = TokenizerFactory.get(this.config);
+    TextTokenizer tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
     Sequence sequence = new Sequence();
     sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);

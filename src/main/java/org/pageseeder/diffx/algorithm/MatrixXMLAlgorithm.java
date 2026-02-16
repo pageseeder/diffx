@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
@@ -192,11 +192,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
           i++;
 
           // if we can format checking at the stack, let's do it
-        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenB)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + tokenA);
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] >f " + tokenB);
           }
-          handler.handle(Operator.MATCH, tokenA);
+          handler.handle(Operator.MATCH, tokenB);
           i++;
           j++;
 
@@ -227,11 +227,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
           j++;
 
           // if we can format checking at the stack, let's do it
-        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        } else if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenB)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + tokenA);
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] <f " + tokenB);
           }
-          handler.handle(Operator.MATCH, tokenA);
+          handler.handle(Operator.MATCH, tokenB);
           i++;
           j++;
 
@@ -255,11 +255,11 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
         // we have to make a choice for where we are going
       } else if (matrix.isSameXY(i, j)) {
         // if we can format checking at the stack, let's do it
-        if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenA)) {
+        if (this.eq.equals(tokenA, tokenB) && handler.isAllowed(Operator.MATCH, tokenB)) {
           if (DEBUG) {
-            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + tokenA);
+            System.err.print("[" + i + "," + j + "]->[" + (i + 1) + "," + (j + 1) + "] =f " + tokenB);
           }
-          handler.handle(Operator.MATCH, tokenA);
+          handler.handle(Operator.MATCH, tokenB);
           i++;
           j++;
 

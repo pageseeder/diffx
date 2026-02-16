@@ -34,14 +34,13 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @version 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial1">Myers' Diff Algorithm: The basic greedy algorithm</a>
  */
 public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
-
 
   /**
    * Determines the strategy to compare elements for equality within the diff algorithm.
@@ -180,7 +179,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
         int matching = Math.min(endX - startX, endY - startY);
         // Reverse: matching first
         for (int i = 0; i < matching; i++) {
-          handler.handle(Operator.MATCH, a.get(x));
+          handler.handle(Operator.MATCH, b.get(y));
           x++;
           y++;
         }

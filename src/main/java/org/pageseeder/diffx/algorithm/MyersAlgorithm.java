@@ -17,7 +17,6 @@ package org.pageseeder.diffx.algorithm;
 
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
-import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  */
 abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
@@ -69,8 +68,8 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
     Point end = snake.getEndPoint();
     handleEdited(a, b, handler, snake, start, mid);
     if (snake.matching > 0) {
-      for (int i = mid.x(); i < end.x(); i++) {
-        handler.handle(Operator.MATCH, a.get(i));
+      for (int j = mid.y(); j < end.y(); j++) {
+        handler.handle(Operator.MATCH, b.get(j));
       }
     }
   }
@@ -83,8 +82,8 @@ abstract class MyersAlgorithm<T> implements DiffAlgorithm<T> {
     Point mid = snake.getMidPoint();
     Point end = snake.getStartPoint();
     if (snake.matching > 0) {
-      for (int i = start.x(); i < mid.x(); i++) {
-        handler.handle(Operator.MATCH, a.get(i));
+      for (int j = start.y(); j < mid.y(); j++) {
+        handler.handle(Operator.MATCH, b.get(j));
       }
     }
     handleEdited(a, b, handler, snake, mid, end);

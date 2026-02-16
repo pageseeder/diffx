@@ -36,7 +36,8 @@ import java.util.List;
  * that helps the Diff-X algorithm ensuring that the XML is well-formed.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
  * @since 0.7.0
  */
 public final class TokenListSlicer {
@@ -175,7 +176,7 @@ public final class TokenListSlicer {
    */
   public void handleStart(DiffHandler<XMLToken> handler) {
     for (int i = 0; i < this.startCount; i++) {
-      handler.handle(Operator.MATCH, this.sequence1.get(i));
+      handler.handle(Operator.MATCH, this.sequence2.get(i));
     }
   }
 
@@ -190,10 +191,10 @@ public final class TokenListSlicer {
    * @throws NullPointerException If the specified formatter is <code>null</code>.
    */
   public void handleEnd(DiffHandler<XMLToken> handler) {
-    int from = this.sequence1.size() - this.endCount;
-    int to = this.sequence1.size();
+    int from = this.sequence2.size() - this.endCount;
+    int to = this.sequence2.size();
     for (int i = from; i < to; i++) {
-      handler.handle(Operator.MATCH, this.sequence1.get(i));
+      handler.handle(Operator.MATCH, this.sequence2.get(i));
     }
   }
 

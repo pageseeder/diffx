@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
@@ -156,7 +156,7 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
       T a0 = a.get(0);
       for (int j = 0; j < n; j++) {
         if (this.eq.equals(a0, b.get(j)) && !match) {
-          handler.handle(Operator.MATCH, a0);
+          handler.handle(Operator.MATCH, b.get(j));
           match = true;
         } else {
           handler.handle(Operator.INS, b.get(j));

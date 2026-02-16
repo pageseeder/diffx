@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
@@ -156,9 +156,9 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
 
           // Follow diagonals
           while (x < sizeA && y < sizeB && this.eq.equals(a.get(x), b.get(y))
-              && elements.isAllowed(k, Operator.MATCH, a.get(x))) {
-            if (DEBUG) System.err.print(" =" + a.get(x));
-            elements.update(k, Operator.MATCH, a.get(x));
+              && elements.isAllowed(k, Operator.MATCH, b.get(y))) {
+            if (DEBUG) System.err.print(" =" + b.get(y));
+            elements.update(k, Operator.MATCH, b.get(y));
             x++;
             y++;
           }

@@ -31,7 +31,10 @@ import java.util.List;
  * @param <T> The type of token being compared
  *
  * @author Christophe Lauret
+ *
+ * @version 1.3.2
  * @version 0.9.0
+ *
  * @see <a href="https://neil.fraser.name/writing/diff/myers.pdf">An O(ND) Difference Algorithm and its Variations</a>
  * @see <a href="http://simplygenius.net/Article/DiffTutorial1">Myers' Diff Algorithm: The basic greedy algorithm</a>
  */
@@ -82,7 +85,7 @@ public final class MyersGreedyAlgorithm<T> implements DiffAlgorithm<T> {
         y++;
       }
       for (int i = 0; i < snake.length(); i++) {
-        handler.handle(Operator.MATCH, a.get(x));
+        handler.handle(Operator.MATCH, b.get(y));
         x++;
         y++;
       }

@@ -42,7 +42,8 @@ import static javax.xml.stream.XMLStreamConstants.COMMENT;
  * Loads the XML tokens using an {@link XMLEventReader}.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
@@ -80,7 +81,6 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
     }
   }
 
-
   /**
    * Loads an XML sequence from an {@link XMLEventReader}.
    *
@@ -91,7 +91,7 @@ public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {
   public Sequence load(XMLEventReader reader) throws LoadingException {
     XMLTokenFactory tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
     AttributeComparator comparator = new AttributeComparator();
-    TextTokenizer tokenizer = TokenizerFactory.get(this.config);
+    TextTokenizer tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
     List<StartElementToken> startElements = new ArrayList<>();
     Sequence sequence = new Sequence();
     sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);

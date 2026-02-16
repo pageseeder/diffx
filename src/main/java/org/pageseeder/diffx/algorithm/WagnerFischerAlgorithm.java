@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
@@ -79,7 +79,7 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
         j++;
       } else if (matrix.isSameXY(i, j)) {
         if (this.eq.equals(t1, t2)) {
-          handler.handle(Operator.MATCH, t1);
+          handler.handle(Operator.MATCH, t2);
           i++;
           j++;
         } else {

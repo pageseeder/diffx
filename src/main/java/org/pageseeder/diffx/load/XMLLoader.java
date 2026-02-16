@@ -28,7 +28,11 @@ import java.nio.file.Files;
 /**
  * Defines loaders that are specific to XML.
  *
- * <p>Default implementations are provided to read the contents to load from a files or a string.</p>
+ * <p>Default implementations are provided to read the contents to load from a file or a string.
+ *
+ * <p>Loaders should be implemented so that they can be reused when performing a comparison,
+ * for example, to load the contents of the files or strings to compare. But they are not
+ * expected to be thread safe.
  *
  * @author Christophe Lauret
  * @version 0.9.0
@@ -82,6 +86,15 @@ public interface XMLLoader extends Loader<XMLToken> {
     }
   }
 
+  /**
+   * Loads the content of the specified reader as a sequence of XML tokens.
+   *
+   * @param reader The reader to process.
+   *
+   * @return The recorded sequence of tokens.
+   * @throws LoadingException If thrown while parsing.
+   * @throws IOException      Should an I/O error occur.
+   */
   @Override
   default Sequence load(Reader reader) throws LoadingException, IOException {
     return this.load(new InputSource(reader));
