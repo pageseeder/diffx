@@ -42,7 +42,8 @@ import static javax.xml.stream.XMLStreamConstants.COMMENT;
  * Loads the XML tokens using an {@link XMLEventReader}.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class XMLEventLoader extends XMLLoaderBase implements XMLLoader {

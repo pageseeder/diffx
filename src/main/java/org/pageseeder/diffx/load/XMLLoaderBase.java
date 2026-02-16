@@ -15,7 +15,9 @@
  */
 package org.pageseeder.diffx.load;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.config.DiffConfig;
+import org.pageseeder.diffx.load.text.TextTokenizer;
 
 /**
  * Base class for XML loaders.
@@ -29,6 +31,17 @@ abstract class XMLLoaderBase implements XMLLoader {
    * The Diff configuration to use
    */
   protected DiffConfig config = DiffConfig.legacyDefault();
+
+  /**
+   * The {@code textTokenizer} variable represents an instance of a {@link TextTokenizer} used for tokenizing text in the context of the SAXLoader.
+   *
+   * <p>This variable is managed internally in the SAXLoader class and is used to facilitate
+   * text processing operations during XML loading and parsing.
+   *
+   * <p>Note that the value of this variable can be {@code null}, indicating that no tokenizer has
+   * been explicitly set or initialized.
+   */
+  protected @Nullable TextTokenizer textTokenizer;
 
   /**
    * Returns the configuration used by this loader.
@@ -48,4 +61,33 @@ abstract class XMLLoaderBase implements XMLLoader {
     this.config = config;
   }
 
+  /**
+   * Configures the {@link TextTokenizer} used by this loader.
+   *
+   * <p>The {@link TextTokenizer} is responsible for splitting text into tokens as part of
+   * the loading process. By setting a specific instance of {@link TextTokenizer},
+   * custom tokenization logic can be applied during processing.
+   *
+   * <p>Passing {@code null} will reset the tokenizer, and any subsequent processing will rely
+   * on a default tokenizer (if applicable).
+   *
+   * @param textTokenizer The {@link TextTokenizer} instance to use for tokenizing text,
+   *                      or {@code null} to reset and use the default tokenizer.
+   */
+  public void setTextTokenizer(@Nullable TextTokenizer textTokenizer) {
+    this.textTokenizer = textTokenizer;
+  }
+
+  /**
+   * Retrieves the {@link TextTokenizer} instance used by this loader.
+   *
+   * <p>The {@link TextTokenizer} is responsible for splitting text into tokens during XML processing.
+   * This method may return {@code null} if no tokenizer has been explicitly set or initialized.
+   *
+   * @return the {@link TextTokenizer} instance currently configured for text tokenization,
+   *         or {@code null} if none is set.
+   */
+  public @Nullable TextTokenizer getTextTokenizer() {
+    return textTokenizer;
+  }
 }

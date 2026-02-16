@@ -48,7 +48,8 @@ import java.util.List;
  * <p>This class is not synchronized.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
  * @since 0.7
  */
 public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
@@ -122,7 +123,7 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
   public Sequence load(Node node) throws LoadingException {
     // initialise the state variables.
     this.tokenFactory = new XMLTokenFactory(this.config.isNamespaceAware());
-    this.tokenizer = TokenizerFactory.get(this.config);
+    this.tokenizer = this.textTokenizer != null ? this.textTokenizer : TokenizerFactory.get(this.config);
     this.sequence = new Sequence();
     this.namespaces = this.sequence.getNamespaces();
     // start processing the nodes
@@ -150,6 +151,9 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
 
   // specific loaders ---------------------------------------------------------------------
 
+  private static class LoadSession {
+
+  }
   /**
    * Loads the given node in the current sequence.
    *
