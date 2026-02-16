@@ -37,7 +37,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.1
+ * @version 1.3.2
  * @since 0.9.0
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
@@ -388,7 +388,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 2. Start in order for the A subsequence and get the index of the B subsequence
       while (i < p && this.eq.equals(this.A.get(i + startA), this.B.get(this.LL[p - i] - 1 + startB))) {
-        this.handler.handle(Operator.MATCH, this.A.get(i + startA));
+        this.handler.handle(Operator.MATCH, this.B.get(this.LL[p - i] - 1 + startB));
         this.J++;
         i++;
         if (i < p) {
@@ -407,7 +407,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 4. The second part of the A subsequence
       while (i < m) {
-        this.handler.handle(Operator.MATCH, this.A.get(i + startA));
+        this.handler.handle(Operator.MATCH, this.B.get(this.J));
         this.J++;
         i++;
 

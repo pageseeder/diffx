@@ -23,7 +23,9 @@ import org.pageseeder.diffx.token.XMLToken;
  * Test case for the default XML algorithm.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.2
+ * @since 0.9.0
  */
 public final class MatrixXMLAlgorithmTest {
 
@@ -67,4 +69,13 @@ public final class MatrixXMLAlgorithmTest {
       return newAlgorithm();
     }
   }
+
+  @Nested
+  public class ConsistentDiff extends ConsistentOutputTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return newAlgorithm();
+    }
+  }
+
 }
