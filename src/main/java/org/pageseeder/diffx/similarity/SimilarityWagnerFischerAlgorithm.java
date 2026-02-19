@@ -194,7 +194,7 @@ public final class SimilarityWagnerFischerAlgorithm<T extends Token> implements 
       while (i < from.size() && j < to.size()) {
         byte decision = decisions[i][j];
         if (decision == MATCH) {
-          handler.handle(Operator.MATCH, from.get(i));
+          handler.handle(Operator.MATCH, to.get(j));
           i++;
           j++;
         } else if (decision == DELETE) {
