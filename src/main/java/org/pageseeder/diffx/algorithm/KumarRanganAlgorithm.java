@@ -96,17 +96,6 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
   }
 
   /**
-   * Copies the first array into the second one up to the specified index (included).
-   *
-   * @param a   The first array.
-   * @param b   The second array.
-   * @param len The 0-based index of the last copied value.
-   */
-  private static void copyUpTo(int[] a, int[] b, int len) {
-    System.arraycopy(a, 0, b, 0, len + 1);
-  }
-
-  /**
    * A stateful instance.
    * <p>
    * Where possible, the name of the variables matches the names used in the algorithm published in
@@ -265,18 +254,15 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * <p>The procedure uses only linear arrays R1, R2, so the space complexity is O(n+m).</p>
      *
      * @param startA The start index of the first sequence.
-     * @param endA   The last index of the first sequence.
      * @param startB The start index of the second sequence.
-     * @param endB   The last index of the second sequence.
-     * @param m      The length of the first sequence.
      * @param n      The length of the second sequence.
      * @param sign   This is used to mark whether to start from the beginning of the string
      *               or from the end of the string.
      */
-    private void fillOne(int startA, int endA, int startB, int endB, int m, int n, int sign) {
-      final List<? extends T> A = this.A;
-      final List<? extends T> B = this.B;
-      final Equality<T> eq = this.eq;
+    private void fillOne(int startA, int startB, int n, int sign) {
+      final List<? extends T> a = this.A;
+      final List<? extends T> b = this.B;
+      final Equality<T> e = this.eq;
       int i = this.S;
       int j = 1;
       boolean over = false;
@@ -288,7 +274,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
         // The real index in the global char table is:
         // current_index * sign + beginning index of the sub-char array
-        while (posB > lowerB && !eq.equals(A.get((i - 1) * sign + startA), B.get((posB - 1) * sign + startB))) {
+        while (posB > lowerB && !e.equals(a.get((i - 1) * sign + startA), b.get((posB - 1) * sign + startB))) {
           posB--;
         }
         int temp = Math.max(posB, lowerB);
@@ -344,17 +330,17 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      *
      * @return Array of 1-indexes of B in LCS
      */
+    @SuppressWarnings("java:S107")
     private int[] calMid(int startA, int endA, int startB, int endB, int m, int n, int sign, int x) {
       this.LL = new int[n + 1];
       this.R = 0;
       for (this.S = m; this.S >= m - x; this.S--) {
-        fillOne(startA, endA, startB, endB, m, n, sign);
+        fillOne(startA, startB, n, sign);
         copyUpTo(this.R2, this.R1, this.R);
       }
       copyUpTo(this.R1, this.LL, this.R);
       return this.LL;
     }
-
 
     /**
      * Computes the longest common subsequence for the specified boundaries when the waste
@@ -395,10 +381,11 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param n      The length of the second sequence.
      * @param p      The length of LCS between indexes startA and endA.
      */
+    @SuppressWarnings("java:S106") // System.err only when if DEBUG is true
     private void computeLCSBaseCase(int startA, int endA, int startB, int endB, int m, int n, int p) {
-      final List<? extends T> A = this.A;
-      final List<? extends T> B = this.B;
-      final Equality<T> eq = this.eq;
+      final List<? extends T> a = this.A;
+      final List<? extends T> b = this.B;
+      final Equality<T> e = this.eq;
 
       // 1. Compute LL
       // `LL` contains the relative 1-based index of the token in the second sequence in reverse order
@@ -416,8 +403,8 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       int i = 0;
 
       // 2. Start in order for the A subsequence and get the index of the B subsequence
-      while (i < p && eq.equals(A.get(i + startA), B.get(this.LL[p - i] - 1 + startB))) {
-        this.handler.handle(Operator.MATCH, this.preferFrom ? A.get(i + startA) : B.get(this.LL[p - i] - 1 + startB));
+      while (i < p && e.equals(a.get(i + startA), b.get(this.LL[p - i] - 1 + startB))) {
+        this.handler.handle(Operator.MATCH, this.preferFrom ? a.get(i + startA) : b.get(this.LL[p - i] - 1 + startB));
         this.J++;
         i++;
         if (i < p) {
@@ -428,7 +415,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // possibly a token from the A subsequence to delete
       if (i < m) {
-        this.handler.handle(Operator.DEL, A.get(i + startA));
+        this.handler.handle(Operator.DEL, a.get(i + startA));
       }
 
       // 3.
@@ -436,11 +423,11 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 4. The second part of the A subsequence
       while (i < m) {
-        this.handler.handle(Operator.MATCH, this.preferFrom ? A.get(i + startA) : B.get(this.J));
+        this.handler.handle(Operator.MATCH, this.preferFrom ? a.get(i + startA) : b.get(this.J));
         this.J++;
         i++;
 
-        while (i < m && this.J < endB && !eq.equals(A.get(i + startA), B.get(this.J))) {
+        while (i < m && this.J < endB && !e.equals(a.get(i + startA), b.get(this.J))) {
           insertUpTo(this.J + 1);
         }
       }
@@ -536,14 +523,8 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      *
      * @return The LCS length.
      */
+    @SuppressWarnings("java:S106")
     private int calculateLength(int m, int n) {
-      if (m == 0 || n == 0) {
-        init(n);
-        if (DEBUG) {
-          System.err.println("LCS length=0");
-        }
-        return 0;
-      }
       init(n);
       this.R = 0;
       this.S = m + 1;
@@ -551,7 +532,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       while (this.S > this.R) {
         this.S--;
         // fill up R2 up to the first difference using the entire sequences
-        fillOne(0, m - 1, 0, n - 1, m, n, 1);
+        fillOne(0, 0, n, 1);
         // copy the content of R2 to R1 up to R
         copyUpTo(this.R2, this.R1, this.R);
       }
@@ -568,9 +549,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param jSeq2 The index of the LL array for the next token of the second sequence.
      */
     private void insertUpTo(int jSeq2) {
-      if (jSeq2 <= this.J) {
-        return;
-      }
+      if (jSeq2 <= this.J) return;
       while (jSeq2 > this.J) {
         this.handler.handle(Operator.INS, this.B.get(this.J++));
       }
@@ -588,6 +567,17 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
         System.err.print(" " + (this.LL[i] - 1));
       }
       System.err.println(" }");
+    }
+
+    /**
+     * Copies the first array into the second one up to the specified index (included).
+     *
+     * @param a   The first array.
+     * @param b   The second array.
+     * @param len The 0-based index of the last copied value.
+     */
+    private static void copyUpTo(int[] a, int[] b, int len) {
+      System.arraycopy(a, 0, b, 0, len + 1);
     }
 
   }
