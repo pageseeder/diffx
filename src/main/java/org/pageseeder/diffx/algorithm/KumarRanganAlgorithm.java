@@ -48,6 +48,11 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
   private final Equality<T> eq;
 
   /**
+   * Determines which side's element to emit when elements match.
+   */
+  private boolean preferFrom = false;
+
+  /**
    * Default constructor using token equality.
    */
   public KumarRanganAlgorithm() {
@@ -64,13 +69,29 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
   }
 
   /**
+   * Whether to keep matching elements from the from list (true) or to list (false).
+   */
+  public boolean isPreferFrom() {
+    return this.preferFrom;
+  }
+
+  /**
+   * Whether to keep matching elements from the from list (true) or to list (false).
+   *
+   * @param preferFrom True to keep matching elements from the from list, false to keep from the to list.
+   */
+  public void setPreferFrom(boolean preferFrom) {
+    this.preferFrom = preferFrom;
+  }
+
+  /**
    * Set to <code>true</code> to show debug info.
    */
   private static final boolean DEBUG = false;
 
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
-    Instance<T> instance = new Instance<>(from, to, eq);
+    Instance<T> instance = new Instance<>(from, to, eq, this.preferFrom);
     instance.process(handler);
   }
 
@@ -103,6 +124,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
     private int S;
 
     private final Equality<T> eq;
+    private final boolean preferFrom;
 
     /**
      * A counter for the index of the second sequence when generating the diff.
@@ -117,10 +139,11 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      */
     private DiffHandler<T> handler;
 
-    Instance(List<? extends T> from, List<? extends T> to, Equality<T> eq) {
+    Instance(List<? extends T> from, List<? extends T> to, Equality<T> eq, boolean preferFrom) {
       this.A = Objects.requireNonNull(from);
       this.B = Objects.requireNonNull(to);
       this.eq = eq;
+      this.preferFrom = preferFrom;
     }
 
     /**
@@ -394,7 +417,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 2. Start in order for the A subsequence and get the index of the B subsequence
       while (i < p && eq.equals(A.get(i + startA), B.get(this.LL[p - i] - 1 + startB))) {
-        this.handler.handle(Operator.MATCH, B.get(this.LL[p - i] - 1 + startB));
+        this.handler.handle(Operator.MATCH, this.preferFrom ? A.get(i + startA) : B.get(this.LL[p - i] - 1 + startB));
         this.J++;
         i++;
         if (i < p) {
@@ -413,7 +436,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 4. The second part of the A subsequence
       while (i < m) {
-        this.handler.handle(Operator.MATCH, B.get(this.J));
+        this.handler.handle(Operator.MATCH, this.preferFrom ? A.get(i + startA) : B.get(this.J));
         this.J++;
         i++;
 
