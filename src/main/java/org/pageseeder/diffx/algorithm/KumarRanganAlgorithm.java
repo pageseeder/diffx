@@ -70,6 +70,9 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
   /**
    * Whether to keep matching elements from the from list (true) or to list (false).
+   *
+   * @return <code>true</code> if matching elements should be kept from the "from" list,
+   *         <code>false</code> otherwise.
    */
   public boolean isPreferFrom() {
     return this.preferFrom;
