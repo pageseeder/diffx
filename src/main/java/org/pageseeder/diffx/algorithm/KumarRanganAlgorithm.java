@@ -37,7 +37,7 @@ import java.util.Objects;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.2
+ * @version 1.3.3
  * @since 0.9.0
  */
 public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
@@ -251,6 +251,9 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      *               or from the end of the string.
      */
     private void fillOne(int startA, int endA, int startB, int endB, int m, int n, int sign) {
+      final List<? extends T> A = this.A;
+      final List<? extends T> B = this.B;
+      final Equality<T> eq = this.eq;
       int i = this.S;
       int j = 1;
       boolean over = false;
@@ -262,7 +265,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
         // The real index in the global char table is:
         // current_index * sign + beginning index of the sub-char array
-        while (posB > lowerB && !this.eq.equals(this.A.get((i - 1) * sign + startA), this.B.get((posB - 1) * sign + startB))) {
+        while (posB > lowerB && !eq.equals(A.get((i - 1) * sign + startA), B.get((posB - 1) * sign + startB))) {
           posB--;
         }
         int temp = Math.max(posB, lowerB);
@@ -370,6 +373,9 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param p      The length of LCS between indexes startA and endA.
      */
     private void computeLCSBaseCase(int startA, int endA, int startB, int endB, int m, int n, int p) {
+      final List<? extends T> A = this.A;
+      final List<? extends T> B = this.B;
+      final Equality<T> eq = this.eq;
 
       // 1. Compute LL
       // `LL` contains the relative 1-based index of the token in the second sequence in reverse order
@@ -387,8 +393,8 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
       int i = 0;
 
       // 2. Start in order for the A subsequence and get the index of the B subsequence
-      while (i < p && this.eq.equals(this.A.get(i + startA), this.B.get(this.LL[p - i] - 1 + startB))) {
-        this.handler.handle(Operator.MATCH, this.B.get(this.LL[p - i] - 1 + startB));
+      while (i < p && eq.equals(A.get(i + startA), B.get(this.LL[p - i] - 1 + startB))) {
+        this.handler.handle(Operator.MATCH, B.get(this.LL[p - i] - 1 + startB));
         this.J++;
         i++;
         if (i < p) {
@@ -399,7 +405,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // possibly a token from the A subsequence to delete
       if (i < m) {
-        this.handler.handle(Operator.DEL, this.A.get(i + startA));
+        this.handler.handle(Operator.DEL, A.get(i + startA));
       }
 
       // 3.
@@ -407,11 +413,11 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       // 4. The second part of the A subsequence
       while (i < m) {
-        this.handler.handle(Operator.MATCH, this.B.get(this.J));
+        this.handler.handle(Operator.MATCH, B.get(this.J));
         this.J++;
         i++;
 
-        while (i < m && this.J < endB && !this.eq.equals(this.A.get(i + startA), this.B.get(this.J))) {
+        while (i < m && this.J < endB && !eq.equals(A.get(i + startA), B.get(this.J))) {
           insertUpTo(this.J + 1);
         }
       }
@@ -451,7 +457,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
 
       int r1, r2;
 
-      int waste1 = (int) Math.ceil((m - p) / 2.0f);
+      int waste1 = (m - p + 1) / 2;
       this.LL1 = calMid(endA, startA, endB, startB, m, n, -1, waste1);
 
       // Saves the value changed in calmid from global variable R to variable r1
@@ -460,7 +466,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
         this.LL1[j] = n + 1 - this.LL1[j];
       }
 
-      int waste2 = (int) Math.floor((m - p) / 2.0f);
+      int waste2 = (m - p) / 2;
       this.LL2 = calMid(startA, endA, startB, endB, m, n, 1, waste2);
 
       // Saves the value changed in calmid from global variable R to variable r2
@@ -508,6 +514,13 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @return The LCS length.
      */
     private int calculateLength(int m, int n) {
+      if (m == 0 || n == 0) {
+        init(n);
+        if (DEBUG) {
+          System.err.println("LCS length=0");
+        }
+        return 0;
+      }
       init(n);
       this.R = 0;
       this.S = m + 1;
@@ -532,6 +545,9 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
      * @param jSeq2 The index of the LL array for the next token of the second sequence.
      */
     private void insertUpTo(int jSeq2) {
+      if (jSeq2 <= this.J) {
+        return;
+      }
       while (jSeq2 > this.J) {
         this.handler.handle(Operator.INS, this.B.get(this.J++));
       }
