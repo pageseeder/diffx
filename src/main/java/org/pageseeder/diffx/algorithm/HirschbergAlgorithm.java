@@ -20,7 +20,9 @@ import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Equality;
 import org.pageseeder.diffx.api.Operator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.RandomAccess;
 
 /**
  * An implementation of the Hirschberg algorithm to find the longest common subsequence (LCS).
@@ -38,7 +40,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.2
+ * @version 1.3.3
  * @since 0.9.0
  */
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
@@ -72,7 +74,9 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // It is more efficient to supply the sizes than retrieve from lists
-    algorithmC(from.size(), to.size(), from, to, handler);
+    List<? extends T> a = (from instanceof RandomAccess) ? from : new ArrayList<>(from);
+    List<? extends T> b = (to instanceof RandomAccess) ? to : new ArrayList<>(to);
+    algorithmC(a.size(), b.size(), a, b, handler);
   }
 
   /**
@@ -80,19 +84,24 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * @return the last line of the Needleman-Wunsch score matrix
    */
-  private int[] algorithmB(int m, int n, List<? extends T> a, List<? extends T> b) {
-    int[][] k = new int[2][n + 1];
+  private int[] algorithmB(int m, int n, List<? extends T> a, int aOffset, List<? extends T> b, int bOffset) {
+    int[] prev = new int[n + 1];
+    int[] curr = new int[n + 1];
     for (int i = 1; i <= m; i++) {
-      if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
+      curr[0] = 0;
+      T ai = a.get(aOffset + i - 1);
       for (int j = 1; j <= n; j++) {
-        if (this.eq.equals(a.get(i - 1), b.get(j - 1))) {
-          k[1][j] = k[0][j - 1] + 1;
+        if (this.eq.equals(ai, b.get(bOffset + j - 1))) {
+          curr[j] = prev[j - 1] + 1;
         } else {
-          k[1][j] = Math.max(k[1][j - 1], k[0][j]);
+          curr[j] = Math.max(curr[j - 1], prev[j]);
         }
       }
+      int[] tmp = prev;
+      prev = curr;
+      curr = tmp;
     }
-    return k[1];
+    return prev;
   }
 
   /**
@@ -100,19 +109,25 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * <p>Implementation note: we traverse the list in reverse, it is more efficient than reversing the lists.
    */
-  private int[] algorithmBRev(int m, int n, List<? extends T> a, List<? extends T> b) {
-    int[][] k = new int[2][n + 1];
+  private int[] algorithmBRev(int m, int n, List<? extends T> a, int aOffset, List<? extends T> b, int bOffset) {
+    int[] prev = new int[n + 1];
+    int[] curr = new int[n + 1];
     for (int i = m - 1; i >= 0; i--) {
-      if (n + 1 >= 0) System.arraycopy(k[1], 0, k[0], 0, n + 1);
+      curr[0] = 0;
+      T ai = a.get(aOffset + i);
       for (int j = n - 1; j >= 0; j--) {
-        if (this.eq.equals(a.get(i), b.get(j))) {
-          k[1][n - j] = k[0][n - j - 1] + 1;
+        int idx = n - j;
+        if (this.eq.equals(ai, b.get(bOffset + j))) {
+          curr[idx] = prev[idx - 1] + 1;
         } else {
-          k[1][n - j] = Math.max(k[1][n - j - 1], k[0][n - j]);
+          curr[idx] = Math.max(curr[idx - 1], prev[idx]);
         }
       }
+      int[] tmp = prev;
+      prev = curr;
+      curr = tmp;
     }
-    return k[1];
+    return prev;
   }
 
   /**
@@ -136,45 +151,62 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
    */
   @SuppressWarnings("java:S106")
   private void algorithmC(int m, int n, List<? extends T> a, List<? extends T> b, DiffHandler<T> handler) {
-    if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "," + a + "," + b + "] ->");
+    algorithmC(m, n, a, 0, b, 0, handler);
+  }
+
+  @SuppressWarnings("java:S106")
+  private void algorithmC(int m, int n, List<? extends T> a, int aOffset, List<? extends T> b, int bOffset,
+                          DiffHandler<T> handler) {
+    if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "] ->");
 
     if (n == 0) {
       if (DEBUG) System.out.println(" Step1 N=0");
-      for (T token : a) {
-        handler.handle(Operator.DEL, token);
+      for (int i = 0; i < m; i++) {
+        handler.handle(Operator.DEL, a.get(aOffset + i));
       }
 
     } else if (m == 0) {
       if (DEBUG) System.out.println(" Step1 M=0");
-      for (T token : b) {
-        handler.handle(Operator.INS, token);
+      for (int j = 0; j < n; j++) {
+        handler.handle(Operator.INS, b.get(bOffset + j));
       }
 
     } else if (m == 1) {
       if (DEBUG) System.out.println(" Step1 M=1");
-      boolean match = false;
-      T a0 = a.get(0);
+      int matchIndex = -1;
+      T a0 = a.get(aOffset);
       for (int j = 0; j < n; j++) {
-        if (this.eq.equals(a0, b.get(j)) && !match) {
-          handler.handle(Operator.MATCH, b.get(j));
-          match = true;
-        } else {
-          handler.handle(Operator.INS, b.get(j));
+        if (this.eq.equals(a0, b.get(bOffset + j))) {
+          matchIndex = j;
+          break;
         }
       }
-      if (!match) handler.handle(Operator.DEL, a0);
+      if (matchIndex == -1) {
+        for (int j = 0; j < n; j++) {
+          handler.handle(Operator.INS, b.get(bOffset + j));
+        }
+        handler.handle(Operator.DEL, a0);
+      } else {
+        for (int j = 0; j < matchIndex; j++) {
+          handler.handle(Operator.INS, b.get(bOffset + j));
+        }
+        handler.handle(Operator.MATCH, b.get(bOffset + matchIndex));
+        for (int j = matchIndex + 1; j < n; j++) {
+          handler.handle(Operator.INS, b.get(bOffset + j));
+        }
+      }
 
     } else {
       if (DEBUG) System.out.println(" Step2");
-      int h = (int) Math.floor(((double) m) / 2);
+      int h = m / 2;
 
-      int[] l1 = algorithmB(h, n, a.subList(0, h), b);
-      int[] l2 = algorithmBRev(m - h, n, a.subList(h, a.size()), b);
+      int[] l1 = algorithmB(h, n, a, aOffset, b, bOffset);
+      int[] l2 = algorithmBRev(m - h, n, a, aOffset + h, b, bOffset);
       int k = findK(l1, l2, n);
 
       // Recursive call
-      algorithmC(h, k, a.subList(0, h), b.subList(0, k), handler);
-      algorithmC(m - h, n - k, a.subList(h, a.size()), b.subList(k, b.size()), handler);
+      algorithmC(h, k, a, aOffset, b, bOffset, handler);
+      algorithmC(m - h, n - k, a, aOffset + h, b, bOffset + k, handler);
     }
   }
 
