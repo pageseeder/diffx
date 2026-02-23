@@ -15,10 +15,7 @@
  */
 package org.pageseeder.diffx.algorithm;
 
-import org.pageseeder.diffx.api.DiffAlgorithm;
-import org.pageseeder.diffx.api.DiffHandler;
-import org.pageseeder.diffx.api.Equality;
-import org.pageseeder.diffx.api.Operator;
+import org.pageseeder.diffx.api.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +37,7 @@ import java.util.Objects;
  * @version 1.3.3
  * @since 0.9.0
  */
-public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
+public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T>, MatchPreferenceConfigurable {
 
   /**
    * Determines the strategy to compare elements for equality within the diff algorithm.
@@ -74,6 +71,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
    * @return <code>true</code> if matching elements should be kept from the "from" list,
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean isPreferFrom() {
     return this.preferFrom;
   }
@@ -83,6 +81,7 @@ public final class KumarRanganAlgorithm<T> implements DiffAlgorithm<T> {
    *
    * @param preferFrom True to keep matching elements from the from list, false to keep from the to list.
    */
+  @Override
   public void setPreferFrom(boolean preferFrom) {
     this.preferFrom = preferFrom;
   }
