@@ -46,11 +46,6 @@ import java.util.RandomAccess;
 public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
 
   /**
-   * Set to <code>true</code> to show debug info.
-   */
-  private static final boolean DEBUG = false;
-
-  /**
    * Determines the strategy to compare elements for equality within the diff algorithm.
    */
   private final Equality<T> eq;
@@ -157,22 +152,18 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
   @SuppressWarnings("java:S106")
   private void algorithmC(int m, int n, List<? extends T> a, int aOffset, List<? extends T> b, int bOffset,
                           DiffHandler<T> handler) {
-    if (DEBUG) System.out.print("[m=" + m + ",n=" + n + "] ->");
 
     if (n == 0) {
-      if (DEBUG) System.out.println(" Step1 N=0");
       for (int i = 0; i < m; i++) {
         handler.handle(Operator.DEL, a.get(aOffset + i));
       }
 
     } else if (m == 0) {
-      if (DEBUG) System.out.println(" Step1 M=0");
       for (int j = 0; j < n; j++) {
         handler.handle(Operator.INS, b.get(bOffset + j));
       }
 
     } else if (m == 1) {
-      if (DEBUG) System.out.println(" Step1 M=1");
       int matchIndex = -1;
       T a0 = a.get(aOffset);
       for (int j = 0; j < n; j++) {
@@ -197,7 +188,6 @@ public final class HirschbergAlgorithm<T> implements DiffAlgorithm<T> {
       }
 
     } else {
-      if (DEBUG) System.out.println(" Step2");
       int h = m / 2;
 
       int[] l1 = algorithmB(h, n, a, aOffset, b, bOffset);
