@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.algorithm.*;
+import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.config.TextGranularity;
 import org.pageseeder.diffx.profile.Pair;
 import org.pageseeder.diffx.profile.ProfileInfo;
@@ -32,6 +33,7 @@ import org.pageseeder.diffx.token.impl.CharToken;
 import org.w3c.dom.Document;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 class PerformanceTest {
 
@@ -186,5 +188,56 @@ class PerformanceTest {
     ProfileInfo.profileX(noCoalesceProcessor, firstText, secondText, 10);
   }
 
+
+  public static void main(String[] args) {
+    double[] variations = new double[]{.01, .05, .10, .25, .5};
+    int[] lengths = new int[]{ 100, 500, 1_000, 2_000, 5_000, 10_000 };
+    List<Supplier<DiffAlgorithm<CharToken>>> algorithms = List.of(
+//        MyersGreedyAlgorithm::new,
+//        MyersGreedyAlgorithm2::new,
+//        MyersLinearAlgorithm::new
+        KumarRanganAlgorithm::new,
+        KumarRanganAlgorithm2::new
+//        HirschbergAlgorithm3::new,
+//        HirschbergAlgorithm2::new,
+//        HirschbergAlgorithm::new
+//        WagnerFischerAlgorithm::new
+    );
+    Map<String, Long> global = new HashMap<>();
+    for (double variation : variations) {
+      for (int length : lengths) {
+        Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, variation);
+        Map<String, Long> local = new HashMap<>();
+        for (int i=0; i< algorithms.size(); i++) {
+          for (int j=0; j< algorithms.size(); j++) {
+            Supplier<DiffAlgorithm<CharToken>> a = algorithms.get((i+j) % algorithms.size());
+            ProfileInfo info = ProfileInfo.profileX(a.get(), p.a, p.b, 20);
+            long pr = local.computeIfAbsent(info.algorithm(), k -> 0L);
+            local.put(info.algorithm(), pr + info.average());
+          }
+        }
+        System.out.println(local);
+        long min = local.values().stream().min(Long::compare).orElse(Long.MAX_VALUE);
+        Map<String, Long> local2 = new HashMap<>();
+        for (Map.Entry<String, Long> e : local.entrySet()) {
+          local2.put(e.getKey(), e.getValue()*1000 / min);
+        }
+        System.out.println(local2);
+        System.out.println("==========================");
+        local2.forEach((k, v) -> global.merge(k, v, Long::sum));
+      }
+    }
+    System.out.println(global);
+    long min = global.values().stream().min(Long::compare).orElse(Long.MAX_VALUE);
+    Map<String, Long> global2 = new HashMap<>();
+    for (Map.Entry<String, Long> e : global.entrySet()) {
+      global2.put(e.getKey(), e.getValue()*1000 / min);
+    }
+    List<Map.Entry<String, Long>> sorted = new ArrayList<>(global2.entrySet());
+    sorted.sort(Comparator.comparingLong(Map.Entry::getValue));
+    for (Map.Entry<String, Long> e : sorted) {
+      System.out.println(e);
+    }
+  }
 }
 
