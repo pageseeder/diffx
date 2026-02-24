@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.2
+ * @version 1.3.3
  * @since 0.9.0
  */
 public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T>, MatchPreferenceConfigurable {
@@ -83,9 +83,9 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T>, MatchP
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // calculate the LCS length to fill the matrix
-    MatrixProcessor<T> builder = new MatrixProcessor<>();
+    DirectionMatrixProcessor<T> builder = new DirectionMatrixProcessor<>();
     builder.setInverse(true);
-    Matrix matrix = builder.process(from, to, this.eq);
+    DirectionMatrix matrix = builder.process(from, to, this.eq);
     final int length1 = from.size();
     final int length2 = to.size();
     int i = 0;
