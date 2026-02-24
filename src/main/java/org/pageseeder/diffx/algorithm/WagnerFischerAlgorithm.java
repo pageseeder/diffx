@@ -18,6 +18,7 @@ package org.pageseeder.diffx.algorithm;
 import org.pageseeder.diffx.api.DiffAlgorithm;
 import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Equality;
+import org.pageseeder.diffx.api.MatchPreferenceConfigurable;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.List;
@@ -30,13 +31,17 @@ import java.util.List;
  * @version 1.3.2
  * @since 0.9.0
  */
-public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
-
+public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T>, MatchPreferenceConfigurable {
 
   /**
    * Determines the strategy to compare elements for equality within the diff algorithm.
    */
   private final Equality<T> eq;
+
+  /**
+   * Determines which side's element to emit when elements match.
+   */
+  private boolean preferFrom = false;
 
   /**
    * Default constructor using token equality.
@@ -52,6 +57,27 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
    */
   public WagnerFischerAlgorithm(Equality<T> eq) {
     this.eq = eq;
+  }
+
+  /**
+   * Whether to keep matching elements from the from list (true) or to list (false).
+   *
+   * @return <code>true</code> if matching elements should be kept from the "from" list,
+   *         <code>false</code> otherwise.
+   */
+  @Override
+  public boolean isPreferFrom() {
+    return this.preferFrom;
+  }
+
+  /**
+   * Whether to keep matching elements from the from list (true) or to list (false).
+   *
+   * @param preferFrom True to keep matching elements from the from list, false to keep from the to list.
+   */
+  @Override
+  public void setPreferFrom(boolean preferFrom) {
+    this.preferFrom = preferFrom;
   }
 
   @Override
@@ -79,7 +105,7 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T> {
         j++;
       } else if (matrix.isSameXY(i, j)) {
         if (this.eq.equals(t1, t2)) {
-          handler.handle(Operator.MATCH, t2);
+          handler.handle(Operator.MATCH, this.preferFrom ? t1 : t2);
           i++;
           j++;
         } else {
