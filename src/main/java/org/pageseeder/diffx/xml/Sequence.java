@@ -19,10 +19,7 @@ import org.jspecify.annotations.Nullable;
 import org.pageseeder.diffx.token.XMLToken;
 
 import java.io.PrintWriter;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A sequence of XML tokens.
@@ -34,10 +31,10 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 0.9.0
+ * @version 1.3.3
  * @since 0.7
  */
-public final class Sequence extends AbstractList<XMLToken> implements List<XMLToken> {
+public final class Sequence extends AbstractList<XMLToken> implements List<XMLToken>, RandomAccess {
 
   /**
    * The prefix mapping for the elements in this sequence.
@@ -74,7 +71,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
    * @param namespaces The size of the sequence.
    */
   public Sequence(List<XMLToken> tokens, NamespaceSet namespaces) {
-    this.tokens = tokens;
+    this.tokens = new ArrayList<>(tokens);
     this.namespaces.add(namespaces);
   }
 
@@ -98,7 +95,7 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
    * @param tokens The size of the sequence.
    */
   public Sequence(List<XMLToken> tokens) {
-    this.tokens = tokens;
+    this.tokens = new ArrayList<>(tokens);
   }
 
   /**
