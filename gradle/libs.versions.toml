@@ -20,3 +20,4 @@ junit-testing = [
 
 [plugins]
 jreleaser = { id = "org.jreleaser", version = "1.21.0" }
+jmh = { id = "me.champeau.jmh", version = "0.7.3" }

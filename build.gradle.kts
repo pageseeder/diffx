@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("maven-publish")
+    alias(libs.plugins.jmh)
     alias(libs.plugins.jreleaser)
 }
 
@@ -24,6 +25,14 @@ java {
     }
     withJavadocJar()
     withSourcesJar()
+}
+
+jmh {
+    jmhVersion.set("1.37")
+    fork.set(2)
+    warmupIterations.set(5)
+    iterations.set(10)
+    profilers.add("gc")
 }
 
 dependencies {
