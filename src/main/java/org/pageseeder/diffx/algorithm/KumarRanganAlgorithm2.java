@@ -153,11 +153,11 @@ public final class KumarRanganAlgorithm2<T> implements DiffAlgorithm<T>, MatchPr
       final int m = this.A.size();
       final int n = this.B.size();
       if (m == 0) {
-        for (int j = 0; j < n; j++) handler.handle(Operator.INS, this.B.get(j));
+        for (T t : this.B) handler.handle(Operator.INS, t);
         return;
       }
       if (n == 0) {
-        for (int i = 0; i < m; i++) handler.handle(Operator.DEL, this.A.get(i));
+        for (T t : this.A) handler.handle(Operator.DEL, t);
         return;
       }
       int p = calculateLength(m, n);
