@@ -84,6 +84,22 @@ class PerformanceTest {
   }
 
   @Test
+  @DisplayName("General algorithm / Patterns 500 to 10,000 chars / 25% variation")
+  void compareGeneralAlgorithms_patternVar25pct() {
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
+    for (int length : lengths) {
+      Pair<List<CharToken>> p = Profilers.getRandomPatternStringPair(length, 10, .125);
+      ProfileInfo.profileX(new WuAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersGreedyAlgorithm2<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new MyersLinearAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new KumarRanganAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new HirschbergAlgorithm<>(), p.a, p.b, 10);
+      ProfileInfo.profileX(new WagnerFischerAlgorithm<>(), p.a, p.b, 10);
+    }
+  }
+
+  @Test
   @DisplayName("XML processors / 1,000 chars / 10% variation")
   void compareRandomString_1000_10() {
     Pair<List<CharToken>> p = Profilers.getRandomStringPair(1_000, false, .10);
@@ -191,16 +207,19 @@ class PerformanceTest {
 
   public static void main(String[] args) {
     double[] variations = new double[]{.01, .05, .10, .25, .5};
-    int[] lengths = new int[]{ 100, 500, 1_000, 2_000, 5_000, 10_000 };
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
     List<Supplier<DiffAlgorithm<CharToken>>> algorithms = List.of(
 //        MyersGreedyAlgorithm::new,
 //        MyersGreedyAlgorithm2::new,
-//        MyersLinearAlgorithm::new
+//        MyersLinearAlgorithm::new,
+//        KumarRanganAlgorithm2::new,
         KumarRanganAlgorithm::new,
-        KumarRanganAlgorithm2::new
 //        HirschbergAlgorithm3::new,
 //        HirschbergAlgorithm2::new,
-//        HirschbergAlgorithm::new
+//        HirschbergAlgorithm::new,
+        WuAlgorithm::new
+//        PatienceAlgorithm::new,
+//        HistogramAlgorithm::new,
 //        WagnerFischerAlgorithm::new
     );
     Map<String, Long> global = new HashMap<>();
