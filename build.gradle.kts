@@ -62,7 +62,7 @@ publishing {
             pom {
                 name.set(title)
                 description.set(project.description)
-                url.set(website)
+                url.set("https://github.com/pageseeder/${gitName}")
                 licenses {
                     license {
                         name.set("The Apache Software License, Version 2.0")
