@@ -48,7 +48,7 @@ dependencies {
 
 sonar {
     properties {
-        property("sonar.projectKey", "pageseeder_berlioz-plus")
+        property("sonar.projectKey", "pageseeder_diffx")
         property("sonar.organization", "pageseeder")
         // Tell SonarCloud where the JaCoCo XML report is
         property(
