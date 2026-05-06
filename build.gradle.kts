@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jmh)
     alias(libs.plugins.jreleaser)
     alias(libs.plugins.sonar)
+    alias(libs.plugins.cyclonedx)
 }
 
 val title: String by project
@@ -58,6 +59,14 @@ sonar {
     }
 }
 
+tasks.cyclonedxBom {
+    includeConfigs.set(listOf("runtimeClasspath"))
+}
+
+tasks.assemble {
+    dependsOn(tasks.cyclonedxBom)
+}
+
 tasks.test {
     useJUnitPlatform()
     // make sure report generation happens after tests when requested
@@ -91,6 +100,13 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+
+            artifact(layout.buildDirectory.file("reports/bom.xml")) {
+                classifier = "cyclonedx"
+                extension = "xml"
+                builtBy(tasks.cyclonedxBom)
+            }
+
             groupId = group.toString()
             pom {
                 name.set(title)

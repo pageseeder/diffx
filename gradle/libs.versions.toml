@@ -19,6 +19,7 @@ junit-testing = [
 ]
 
 [plugins]
-jreleaser = { id = "org.jreleaser", version = "1.21.0" }
-sonar = { id = "org.sonarqube", version = "7.1.0.6387" }
+cyclonedx = { id = "org.cyclonedx.bom", version = "2.4.1" }
+jreleaser = { id = "org.jreleaser", version = "1.24.0" }
+sonar = { id = "org.sonarqube", version = "7.3.0.8198" }
 jmh = { id = "me.champeau.jmh", version = "0.7.3" }
