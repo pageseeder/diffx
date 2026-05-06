@@ -100,13 +100,11 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
-
-            artifact(layout.buildDirectory.file("reports/bom.xml")) {
+            artifact(layout.buildDirectory.file("reports/bom.json")) {
                 classifier = "cyclonedx"
-                extension = "xml"
+                extension = "json"
                 builtBy(tasks.cyclonedxBom)
             }
-
             groupId = group.toString()
             pom {
                 name.set(title)
