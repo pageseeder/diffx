@@ -6,17 +6,21 @@ import org.pageseeder.diffx.token.impl.CharToken;
 
 import java.util.List;
 
-public class Datasets {
+public final class Datasets {
+
+  private Datasets() {
+    /* This utility class should not be instantiated */
+  }
 
   public static DiffAlgorithmBench.ListPairSpec<CharToken> getRandomStringPair(int length, double variation) {
     String from = Profilers.getRandomString(length, false);
     String to = Profilers.vary(from, variation);
     List<CharToken> a = TestTokens.toCharTokens(from);
     List<CharToken> b = TestTokens.toCharTokens(to);
-    return new DiffAlgorithmBench.ListPairSpec(a.toArray(), b.toArray());
+    return new DiffAlgorithmBench.ListPairSpec<>(a.toArray(new CharToken[0]), b.toArray(new CharToken[0]));
   }
 
-  public static <T> DiffAlgorithmBench.ListPairSpec<T> getPatternStringPair(int length, double variation) {
+  public static DiffAlgorithmBench.ListPairSpec<CharToken> getPatternStringPair(int length, double variation) {
     String pattern = Profilers.getRandomString(20, false);
     StringBuilder from = new StringBuilder();
     while (from.length() < length) {
@@ -25,7 +29,7 @@ public class Datasets {
     String to = Profilers.vary(from.toString(), variation);
     List<CharToken> a = TestTokens.toCharTokens(from.toString());
     List<CharToken> b = TestTokens.toCharTokens(to);
-    return new DiffAlgorithmBench.ListPairSpec(a.toArray(), b.toArray());
+    return new DiffAlgorithmBench.ListPairSpec<>(a.toArray(new CharToken[0]), b.toArray(new CharToken[0]));
   }
 
 }
