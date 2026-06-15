@@ -7,6 +7,7 @@ import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +104,10 @@ public class DiffAlgorithmBench {
   }
 
   public static final class CountingHandler<T> implements DiffHandler<T> {
-    private long ins, del, eq, other;
+    private long ins;
+    private long del;
+    private long eq;
+    private long other;
 
     @Override
     public void handle(Operator operator, T token) {
@@ -135,13 +139,13 @@ public class DiffAlgorithmBench {
 
     public List<T> freshFrom() {
       List<T> out = new ArrayList<>(fromArray.length);
-      for (T t : fromArray) out.add(t);
+      Collections.addAll(out, fromArray);
       return out;
     }
 
     public List<T> freshTo() {
       List<T> out = new ArrayList<>(toArray.length);
-      for (T t : toArray) out.add(t);
+      Collections.addAll(out, toArray);
       return out;
     }
   }
