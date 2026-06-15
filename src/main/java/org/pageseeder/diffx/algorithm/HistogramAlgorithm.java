@@ -186,7 +186,10 @@ public final class HistogramAlgorithm<T> implements DiffAlgorithm<T> {
 
     if (matches.isEmpty()) return Collections.emptyList();
 
-    matches.sort((m1, m2) -> Integer.compare(m1.aIndex, m2.aIndex));
+    matches.sort((m1, m2) -> {
+      int byA = Integer.compare(m1.aIndex, m2.aIndex);
+      return byA != 0 ? byA : Integer.compare(m2.bIndex, m1.bIndex);
+    });
     return longestIncreasingByB(matches);
   }
 
