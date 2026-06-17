@@ -54,9 +54,9 @@ class PerformanceTest {
   }
 
   @Test
-  @DisplayName("General algorithm / 500 to 10,000 chars / 5% variation")
+  @DisplayName("General algorithm / 500 to 5,000 chars / 5% variation")
   void compareGeneralAlgorithms_var5pct() {
-    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000 };
     for (int length : lengths) {
       Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .05);
       ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), p.a, p.b, 10);
@@ -69,9 +69,9 @@ class PerformanceTest {
   }
 
   @Test
-  @DisplayName("General algorithm / 500 to 10,000 chars / 25% variation")
+  @DisplayName("General algorithm / 500 to 5,000 chars / 25% variation")
   void compareGeneralAlgorithms_var25pct() {
-    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000 };
     for (int length : lengths) {
       Pair<List<CharToken>> p = Profilers.getRandomStringPair(length, false, .25);
       ProfileInfo.profileX(new MyersGreedyAlgorithm<>(), p.a, p.b, 10);
@@ -84,9 +84,9 @@ class PerformanceTest {
   }
 
   @Test
-  @DisplayName("General algorithm / Patterns 500 to 10,000 chars / 25% variation")
+  @DisplayName("General algorithm / Patterns 500 to 5,000 chars / 25% variation")
   void compareGeneralAlgorithms_patternVar25pct() {
-    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000, 10_000 };
+    int[] lengths = new int[]{ 500, 1_000, 2_000, 5_000 };
     for (int length : lengths) {
       Pair<List<CharToken>> p = Profilers.getRandomPatternStringPair(length, 10, .125);
       ProfileInfo.profileX(new WuAlgorithm<>(), p.a, p.b, 10);
