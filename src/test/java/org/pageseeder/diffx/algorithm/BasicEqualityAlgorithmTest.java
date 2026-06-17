@@ -47,7 +47,6 @@ abstract class BasicEqualityAlgorithmTest extends AlgorithmTest<XMLToken> {
     DiffAlgorithm<XMLToken> algorithm = algorithmFunction.apply(CASE_INSENSITIVE);
     ActionsBuffer<XMLToken> result = new ActionsBuffer<>();
     algorithm.diff(a, b, result);
-    System.out.println(result.getActions());
     Assertions.assertEquals(0, result.countEdits());
   }
 
@@ -59,7 +58,6 @@ abstract class BasicEqualityAlgorithmTest extends AlgorithmTest<XMLToken> {
     DiffAlgorithm<XMLToken> algorithm = algorithmFunction.apply(CASE_INSENSITIVE);
     ActionsBuffer<XMLToken> result = new ActionsBuffer<>();
     algorithm.diff(a, b, result);
-    System.out.println(result.getActions());
     Assertions.assertEquals(4, result.countEdits());
   }
 
