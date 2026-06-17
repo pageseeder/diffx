@@ -258,7 +258,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.namespacesByUri.values());
+    return this.namespacesByUri.hashCode();
   }
 
   @Override
