@@ -212,10 +212,7 @@ class PerformanceTest {
 //        MyersGreedyAlgorithm::new,
 //        MyersGreedyAlgorithm2::new,
 //        MyersLinearAlgorithm::new,
-//        KumarRanganAlgorithm2::new,
         KumarRanganAlgorithm::new,
-//        HirschbergAlgorithm3::new,
-//        HirschbergAlgorithm2::new,
 //        HirschbergAlgorithm::new,
         WuAlgorithm::new
 //        PatienceAlgorithm::new,

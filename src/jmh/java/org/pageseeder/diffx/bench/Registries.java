@@ -18,11 +18,9 @@ public final class Registries {
     m.put("MyersGreedy2", MyersGreedyAlgorithm2::new);
     m.put("MyersLinear", MyersLinearAlgorithm::new);
     m.put("KumarRangan", KumarRanganAlgorithm::new);
-    m.put("KumarRangan2", KumarRanganAlgorithm2::new);
     m.put("Histogram", HistogramAlgorithm::new);
     m.put("Patience", PatienceAlgorithm::new);
     m.put("Hirschberg", HirschbergAlgorithm::new);
-    m.put("Hirschberg2", HirschbergAlgorithm2::new);
     m.put("WagnerFischer", WagnerFischerAlgorithm::new);
     return m;
   }
