@@ -34,10 +34,13 @@ owner = "pageseeder"
 name = "diffx"
 username = "pageseeder"
 branch = "main"
+skipTag = true
+skipRelease = true
 
-# Signing configuration
 [signing]
 active = "ALWAYS"
+
+[signing.pgp]
 armored = true
 mode = "FILE"
 
