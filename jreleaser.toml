@@ -29,7 +29,6 @@ mainClass = "org.pageseeder.diffx.Main"
 
 # Git configuration
 [release.github]
-active = "NEVER"
 owner = "pageseeder"
 name = "diffx"
 username = "pageseeder"
