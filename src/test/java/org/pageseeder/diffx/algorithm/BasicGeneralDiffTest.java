@@ -581,6 +581,7 @@ public abstract class BasicGeneralDiffTest extends AlgorithmTest<XMLToken> {
         "+T+h-A+e -b+li-g- t+t+l+e+ -r+ca-i-n+r",
         "+T+h+e-A +l-bi-g- t+t+l+e+ +c-ra+r-i-n",
         "-A+T+h+e -b+li-g- +tt-r+l+e+ +ca-i-n+r",
+        "-A+T+h+e -b+li-g+t+t+l+e -t-r+ca-i-n+r",
         "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i-n+r",
         "-A+T+h+e -b+li-g- t-r+t+l+e+ +ca-i+r-n"
     };

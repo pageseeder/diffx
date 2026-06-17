@@ -17,6 +17,8 @@ package org.pageseeder.diffx.xml;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NamespaceSetTest {
@@ -302,6 +304,75 @@ class NamespaceSetTest {
     assertFalse(merged.isEmpty());
     assertEquals(1, merged.size());
     assertTrue(merged.contains(namespace1));
+  }
+
+  @Test
+  void testReplaceUriPrefixOverload() {
+    NamespaceSet namespaces = new NamespaceSet();
+    namespaces.add("https://ns.example", "ns");
+    Namespace previous = namespaces.replace("https://ns.example", "ns-bis");
+    assertEquals(new Namespace("https://ns.example", "ns"), previous);
+    assertEquals(1, namespaces.size());
+    assertEquals("ns-bis", namespaces.getPrefix("https://ns.example"));
+  }
+
+  @Test
+  void testReplaceAlreadyContained() {
+    Namespace namespace = new Namespace("https://ns.example", "ns");
+    NamespaceSet namespaces = new NamespaceSet(namespace);
+    Namespace result = namespaces.replace(new Namespace("https://ns.example", "ns"));
+    assertEquals(namespace, result);
+    assertEquals(1, namespaces.size());
+    assertTrue(namespaces.contains(namespace));
+  }
+
+  @Test
+  void testAddCommonPrefixClash() {
+    NamespaceSet namespaces = new NamespaceSet();
+    // Claim the default prefix "" so the SVG namespace below falls back to its common prefix "svg"...
+    namespaces.add("https://taken.example", "");
+    // ...and claim "svg" too, so that fallback also clashes and must be incremented to "svg1"
+    namespaces.add("https://other.example", "svg");
+    Namespace svg = new Namespace("http://www.w3.org/2000/svg", "");
+    boolean added = namespaces.add(svg);
+    assertTrue(added);
+    assertEquals("svg1", namespaces.getPrefix("http://www.w3.org/2000/svg"));
+    assertEquals("http://www.w3.org/2000/svg", namespaces.getUri("svg1"));
+  }
+
+  @Test
+  void testToMap() {
+    NamespaceSet namespaces = new NamespaceSet();
+    namespaces.add("https://ns1.example", "ns1");
+    namespaces.add("https://ns2.example", "ns2");
+    Map<String, String> map = namespaces.toMap();
+    assertEquals(2, map.size());
+    assertEquals("ns1", map.get("https://ns1.example"));
+    assertEquals("ns2", map.get("https://ns2.example"));
+  }
+
+  @Test
+  void testEquals() {
+    NamespaceSet namespaces = new NamespaceSet();
+    namespaces.add("https://ns.example", "ns");
+    NamespaceSet same = new NamespaceSet();
+    same.add("https://ns.example", "ns");
+    NamespaceSet different = new NamespaceSet();
+    different.add("https://other.example", "other");
+    assertEquals(namespaces, namespaces);
+    assertEquals(namespaces, same);
+    assertNotEquals(namespaces, different);
+    assertNotEquals(namespaces, null);
+    assertNotEquals(namespaces, "https://ns.example");
+  }
+
+  @Test
+  void testHashCode() {
+    NamespaceSet namespaces = new NamespaceSet();
+    namespaces.add("https://ns.example", "ns");
+    NamespaceSet same = new NamespaceSet();
+    same.add("https://ns.example", "ns");
+    assertEquals(namespaces.hashCode(), same.hashCode());
   }
 
 }

@@ -28,8 +28,9 @@ import java.util.*;
  * <p>Note that for each namespace URI there can only be one prefix.
  *
  * @author Christophe Lauret
- * @version 0.9.0
- * @since 0.7
+ *
+ * @version 1.3.3
+ * @since 0.7.0
  */
 public final class NamespaceSet extends AbstractCollection<Namespace> implements Collection<Namespace> {
 
@@ -81,6 +82,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
    *
    * @throws NullPointerException if the URI or prefix is null
    */
+  @SuppressWarnings("java:S3824") // key changes each iteration; putIfAbsent would create spurious Namespace objects
   public boolean add(String uri, String prefix) throws NullPointerException {
     if (!this.namespacesByUri.containsKey(uri)) {
       int count = 0;
@@ -256,7 +258,7 @@ public final class NamespaceSet extends AbstractCollection<Namespace> implements
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.namespacesByUri.values());
+    return this.namespacesByUri.hashCode();
   }
 
   @Override

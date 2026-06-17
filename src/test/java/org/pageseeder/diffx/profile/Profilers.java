@@ -66,4 +66,19 @@ public final class Profilers {
     return new Pair(a, b);
   }
 
+  public static Pair<List<CharToken>> getRandomPatternStringPair(int length, int patternLength, double variation) {
+    StringBuilder sb = new StringBuilder();
+    String from = Profilers.getRandomString(patternLength, false);
+    while (sb.length() < length) {
+      sb.append(Profilers.vary(from, variation));
+    }
+    sb.setLength(length);
+    from = sb.toString();
+    String to = Profilers.vary(from, variation);
+    List<CharToken> a = TestTokens.toCharTokens(from);
+    List<CharToken> b = TestTokens.toCharTokens(to);
+    return new Pair(a, b);
+  }
+
+
 }

@@ -1,12 +1,15 @@
 plugins {
     id("java-library")
     id("maven-publish")
+    jacoco
+    alias(libs.plugins.jmh)
     alias(libs.plugins.jreleaser)
+    alias(libs.plugins.sonar)
+    alias(libs.plugins.cyclonedx)
 }
 
 val title: String by project
 val gitName: String by project
-val website: String by project
 
 group = "org.pageseeder.diffx"
 version = file("version.txt").readText().trim()
@@ -26,6 +29,14 @@ java {
     withSourcesJar()
 }
 
+jmh {
+    jmhVersion.set("1.37")
+    fork.set(2)
+    warmupIterations.set(5)
+    iterations.set(10)
+    profilers.add("gc")
+}
+
 dependencies {
     compileOnly(libs.jspecify)
 
@@ -36,8 +47,39 @@ dependencies {
     testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
+sonar {
+    properties {
+        property("sonar.projectKey", "pageseeder_diffx")
+        property("sonar.organization", "pageseeder")
+        // Tell SonarCloud where the JaCoCo XML report is
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile.absolutePath
+        )
+    }
+}
+
+tasks.cyclonedxBom {
+    includeConfigs.set(listOf("runtimeClasspath"))
+}
+
+tasks.assemble {
+    dependsOn(tasks.cyclonedxBom)
+}
+
 tasks.test {
     useJUnitPlatform()
+    // make sure report generation happens after tests when requested
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)   // Sonar reads this
+        html.required.set(true)  // nice to have for CI artifacts/debugging
+        csv.required.set(false)
+    }
 }
 
 tasks.jar {
@@ -58,11 +100,16 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            artifact(layout.buildDirectory.file("reports/bom.json")) {
+                classifier = "cyclonedx"
+                extension = "json"
+                builtBy(tasks.cyclonedxBom)
+            }
             groupId = group.toString()
             pom {
                 name.set(title)
                 description.set(project.description)
-                url.set(website)
+                url.set("https://github.com/pageseeder/${gitName}")
                 licenses {
                     license {
                         name.set("The Apache Software License, Version 2.0")

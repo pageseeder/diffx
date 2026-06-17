@@ -38,7 +38,11 @@ public final class ProfileInfo {
     this.sizeB = sizeB;
   }
 
-  long average() {
+  public String algorithm() {
+    return this.algorithm;
+  }
+
+  public long average() {
     return this.total / this.times;
   }
 
