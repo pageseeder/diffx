@@ -63,12 +63,12 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Creates a new token sequence of the specified size.
+   * Creates a new token sequence from the given tokens and namespace set.
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
-   * @param tokens The size of the sequence.
-   * @param namespaces The size of the sequence.
+   * @param tokens     The initial tokens for this sequence.
+   * @param namespaces The namespace mappings for tokens in this sequence.
    */
   public Sequence(List<XMLToken> tokens, NamespaceSet namespaces) {
     this.tokens = new ArrayList<>(tokens);
@@ -76,11 +76,11 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Creates a new token sequence of the specified size.
+   * Creates a new empty token sequence with the given namespace set.
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
-   * @param namespaces The size of the sequence.
+   * @param namespaces The namespace mappings for tokens in this sequence.
    */
   public Sequence(NamespaceSet namespaces) {
     this.tokens = new ArrayList<>();
@@ -88,11 +88,11 @@ public final class Sequence extends AbstractList<XMLToken> implements List<XMLTo
   }
 
   /**
-   * Creates a new token sequence of the specified size.
+   * Creates a new token sequence from the given tokens.
    *
    * <p>Use a <code>List</code> implementation with that provide good random access performance.</p>
    *
-   * @param tokens The size of the sequence.
+   * @param tokens The initial tokens for this sequence.
    */
   public Sequence(List<XMLToken> tokens) {
     this.tokens = new ArrayList<>(tokens);
