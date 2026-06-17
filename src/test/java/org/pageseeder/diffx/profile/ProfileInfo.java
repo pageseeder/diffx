@@ -23,7 +23,7 @@ import java.util.List;
 
 public final class ProfileInfo {
 
-  private final String algorithm;
+  final String algorithm;
   private final int times;
   private final int sizeA;
   private final int sizeB;
