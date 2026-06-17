@@ -33,23 +33,58 @@ public final class DirectionMatrixProcessor<T> {
 
   private boolean inverse = false;
 
+  /**
+   * Sets whether to compute the matrix in reverse (from the end of both sequences).
+   *
+   * @param inverse {@code true} to compute the matrix in reverse order
+   */
   public void setInverse(boolean inverse) {
     this.inverse = inverse;
   }
 
+  /**
+   * Computes a direction matrix for two XML token sequences using default token equality.
+   *
+   * @param first  the first sequence
+   * @param second the second sequence
+   * @return the computed direction matrix
+   */
   public DirectionMatrix process(Sequence first, Sequence second) {
     return process(first, second, XMLToken::equals);
   }
 
+  /**
+   * Computes a direction matrix for two XML token sequences using a custom equality strategy.
+   *
+   * @param first  the first sequence
+   * @param second the second sequence
+   * @param eq     the equality strategy to use when comparing tokens
+   * @return the computed direction matrix
+   */
   public DirectionMatrix process(Sequence first, Sequence second, Equality<XMLToken> eq) {
     return this.inverse ? computeInverse(first.tokens(), second.tokens(), eq)
         : throwUnsupported();
   }
 
+  /**
+   * Computes a direction matrix for two token lists using default token equality.
+   *
+   * @param first  the first list of tokens
+   * @param second the second list of tokens
+   * @return the computed direction matrix
+   */
   public DirectionMatrix process(List<? extends T> first, List<? extends T> second) {
     return process(first, second, T::equals);
   }
 
+  /**
+   * Computes a direction matrix for two token lists using a custom equality strategy.
+   *
+   * @param first  the first list of tokens
+   * @param second the second list of tokens
+   * @param eq     the equality strategy to use when comparing tokens
+   * @return the computed direction matrix
+   */
   public DirectionMatrix process(List<? extends T> first, List<? extends T> second, Equality<T> eq) {
     return this.inverse ? computeInverse(first, second, eq) : throwUnsupported();
   }

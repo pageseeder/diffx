@@ -54,10 +54,18 @@ public final class HirschbergAlgorithm2<T> implements DiffAlgorithm<T>, MatchPre
    */
   private boolean preferFrom = false;
 
+  /**
+   * Default constructor using token equality.
+   */
   public HirschbergAlgorithm2() {
     this.eq = T::equals;
   }
 
+  /**
+   * Constructor specifying the equality strategy.
+   *
+   * @param eq The strategy to compare elements for equality.
+   */
   public HirschbergAlgorithm2(Equality<T> eq) {
     this.eq = eq;
   }
