@@ -120,6 +120,7 @@ final class MainTest {
   void testAll() throws IOException {
     // list all use cases
     File[] usecases = source.listFiles(f -> f.isDirectory() && f.getName().startsWith("UC-"));
+    if (usecases == null) throw new FileNotFoundException("Test data directory not found: " + source.getAbsolutePath());
     Arrays.sort(usecases, Comparator.comparing(File::getName));
     // iterate over the use cases.
     for (File uc : usecases) {
