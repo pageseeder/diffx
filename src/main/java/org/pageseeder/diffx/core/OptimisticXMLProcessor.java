@@ -111,8 +111,8 @@ public final class OptimisticXMLProcessor extends DiffProcessorBase implements X
       algorithm.diff(from, to, actual);
       actual.end();
     } else if (!coalesced && this.isDownscaleAllowed) {
-      List<? extends XMLToken> a = CoalescingFilter.coalesce(from);
-      List<? extends XMLToken> b = CoalescingFilter.coalesce(to);
+      List<XMLToken> a = CoalescingFilter.coalesce(from);
+      List<XMLToken> b = CoalescingFilter.coalesce(to);
       fallbackDiffMatrix(a, b, handler, true);
     } else {
       throw new DataLengthException(from.size() * to.size(), this.fallbackThreshold);

@@ -28,7 +28,8 @@ import java.util.List;
  * Coalesces consecutive text tokens for the same operation.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.4
  * @since 0.9.0
  */
 public final class CoalescingFilter extends DiffFilter<XMLToken> implements DiffHandler<XMLToken> {
@@ -126,9 +127,9 @@ public final class CoalescingFilter extends DiffFilter<XMLToken> implements Diff
    *
    * @return A list of tokens with text tokens coalesced.
    */
-  public static List<? extends XMLToken> coalesce(List<? extends XMLToken> tokens) {
+  public static List<XMLToken> coalesce(List<? extends XMLToken> tokens) {
     // If there's only one token, no need to coalesce
-    if (tokens.size() <= 1) return tokens;
+    if (tokens.size() <= 1) return new ArrayList<>(tokens);
     List<XMLToken> coalesced = new ArrayList<>();
     CoalescingFilter filter = new CoalescingFilter((operator, token) -> coalesced.add(token));
     for (XMLToken token : tokens) filter.handle(Operator.MATCH, token);
