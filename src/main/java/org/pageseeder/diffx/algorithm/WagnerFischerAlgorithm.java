@@ -80,6 +80,7 @@ public final class WagnerFischerAlgorithm<T> implements DiffAlgorithm<T>, MatchP
     this.preferFrom = preferFrom;
   }
 
+  @SuppressWarnings("java:S3776") // Complexity is inherent to the Wagner-Fischer matrix backtrack
   @Override
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     // calculate the LCS length to fill the matrix
