@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.0
+ * @version 1.3.4
  * @since 0.9.0
  */
 public final class TokenizerByWord implements TextTokenizer {
@@ -105,12 +105,7 @@ public final class TokenizerByWord implements TextTokenizer {
    * @return the corresponding word token
    */
   private TextToken getWordEvent(String word) {
-    TextToken token = this.recycling.get(word);
-    if (token == null) {
-      token = new WordToken(word);
-      this.recycling.put(word, token);
-    }
-    return token;
+    return this.recycling.computeIfAbsent(word, WordToken::new);
   }
 
   /**

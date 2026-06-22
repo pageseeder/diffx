@@ -103,12 +103,7 @@ public final class TokenizerBySpaceWord implements TextTokenizer {
    * @return the corresponding word token
    */
   private TextToken getWordEvent(String word) {
-    TextToken token = this.recycling.get(word);
-    if (token == null) {
-      token = new WordToken(word);
-      this.recycling.put(word, token);
-    }
-    return token;
+    return this.recycling.computeIfAbsent(word, WordToken::new);
   }
 
   /**
