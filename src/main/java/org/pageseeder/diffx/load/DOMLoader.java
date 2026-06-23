@@ -37,6 +37,8 @@ import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Loads a sequence of tokens from the DOM.
@@ -53,6 +55,8 @@ import java.util.List;
  * @since 0.7
  */
 public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
+
+  private static final Logger LOGGER = Logger.getLogger(DOMLoader.class.getName());
 
   @Override
   public Sequence load(String xml) throws LoadingException {
@@ -120,16 +124,22 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
    *               such as whether to allow DOCTYPE declarations and namespace awareness.
    * @return A newly created and configured {@link DocumentBuilderFactory} instance.
    */
+  @SuppressWarnings("java:S2755") // XXE: when allowDoctypeDeclaration is true, external DTD access is intentional
   private static DocumentBuilderFactory newDocumentBuilderFactory(DiffConfig config) {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     if (!config.allowDoctypeDeclaration()) {
       try {
         dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        // If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
         dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
       } catch (ParserConfigurationException ex) {
-        // This should catch a failed setFeature feature
-        System.err.println("Disallowing doctype declaration is probably not supported by your XML processor.");
+        // Xerces-specific feature not supported (e.g. Android); fall back to JAXP 1.5 restrictions
+        LOGGER.log(Level.FINE, "disallow-doctype-decl not supported, falling back to JAXP 1.5 access restrictions", ex);
+        try {
+          dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+          dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        } catch (IllegalArgumentException ignored) {
+          LOGGER.log(Level.WARNING, "XML processor supports neither disallow-doctype-decl nor JAXP 1.5 external access restrictions");
+        }
       }
     }
     dbFactory.setNamespaceAware(config.isNamespaceAware());
