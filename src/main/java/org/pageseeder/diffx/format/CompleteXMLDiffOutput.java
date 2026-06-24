@@ -30,11 +30,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This XML output returns a complete representation of the differences.
+ * An XML diff output that produces a complete representation of the differences between two XML
+ * documents, including enough information to reconstruct both inputs.
  *
- * <p>It is a bit more verbose than the default output, but can be used to produce both input XML.
+ * <h2>Output format</h2>
  *
- * @author Christophe LAuret
+ * <p>This output uses a diff namespace (by default {@code https://www.pageseeder.org/diffx}
+ * with prefix {@code diff}) to annotate differences. The format varies by token type:
+ *
+ * <h3>Elements</h3>
+ * <p>Matching elements are output as-is. Inserted or deleted elements are output with a
+ * {@code diff:ins="true"} or {@code diff:del="true"} attribute on the start element tag.
+ *
+ * <h3>Text</h3>
+ * <p>Matching text is output as-is. Inserted or deleted text is wrapped in a {@code <diff:ins>}
+ * or {@code <diff:del>} element respectively.
+ *
+ * <h3>Attributes</h3>
+ * <p>Matching attributes are output as-is. Inserted attributes are written on the element
+ * and also listed in a {@code diff:ins-attributes} attribute. Deleted attributes are listed
+ * in a {@code diff:del-attributes} attribute. Both inserted and deleted attributes are also
+ * output as attributes on a child {@code <diff:ins>} or {@code <diff:del>} element for
+ * completeness.
+ *
+ * <h3>Comments and processing instructions</h3>
+ * <p>Inserted comments and processing instructions are output as-is. Deleted comments and
+ * processing instructions are omitted. There is no diff markup for these token types as
+ * XML provides no mechanism to annotate them.
+ *
+ * <h3>New lines</h3>
+ * <p>Matching new lines are output as-is. Inserted new lines are output without diff markup.
+ * Deleted new lines are omitted.
+ *
+ * @author Christophe Lauret
  * @version 0.9.0
  * @since 0.9.0
  */
@@ -104,6 +132,7 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
     token.toXML(this.xml);
   }
 
+  @SuppressWarnings("java:S3776") // Flat dispatch on token type, splitting would reduce clarity
   private void handleEdit(Operator operator, XMLToken token) throws IOException {
     if (token instanceof StartElementToken) {
       token.toXML(this.xml);
@@ -134,7 +163,6 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
       token.toXML(this.xml);
 
     } else {
-      // TODO comments and processing instructions, wrap in <ins> / <del> like text ?
       if (operator == Operator.INS) {
         token.toXML(this.xml);
       }
@@ -196,7 +224,8 @@ public final class CompleteXMLDiffOutput extends XMLDiffOutputBase implements XM
   }
 
   private static String getQName(AttributeToken attribute, NamespaceSet namespaces) {
-    if (attribute.getName().indexOf(':') > 0) return attribute.getName();
+    // Colon cannot be at index 0 in a valid XML attribute name
+    if (attribute.getName().indexOf(':') > 0) return attribute.getName(); //NOSONAR java:S2692
     String prefix = namespaces.getPrefix(attribute.getNamespaceURI());
     return prefix != null && !prefix.isEmpty() ? prefix + ":" + attribute.getName() : attribute.getName();
   }
