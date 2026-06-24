@@ -44,6 +44,7 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.junit.testing)
+    testImplementation(libs.saxon.he)
     testRuntimeOnly(libs.junit.jupiter.engine)
 }
 

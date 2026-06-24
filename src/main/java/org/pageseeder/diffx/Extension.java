@@ -29,14 +29,15 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -55,25 +56,32 @@ import java.util.Map;
  * <pre>{@code
  * <xsl:copy-of select="diffx:diff(/node1/to/compare, /node2/to/compare, 'IGNORE', 'TEXT')"/>
  * }</pre>
- * <p>
- * Note: the method signatures requires DOM arguments, include the <code>Saxon-DOM</code> jar
- * on your classpath to use this extension function with Saxon.
+ *
+ * <p>Note: the reflexive Java extension function mechanism used above requires
+ * <b>Saxon-PE or Saxon-EE</b> (reflexive extensions were removed from Saxon-HE in version 9.8).
+ * With Saxon-HE, register this function explicitly using the s9api
+ * {@code Processor.registerExtensionFunction()} API.
+ *
+ * <p>The method signature requires DOM arguments; include the <code>Saxon-DOM</code> jar
+ * on your classpath when using this extension function with Saxon.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.4
+ * @since 0.9.0
  */
 public final class Extension {
+
+  private Extension() {}
 
   /**
    * Maps the DOM builder factory to use with the given DOM package.
    *
    * <p>This is because some XSLT processors will only accept certain types DOM objects.
    */
-  private static final Map<String, String> BUILDERS = new Hashtable<>();
-
-  static {
-    BUILDERS.put("net.sf.saxon.dom", "net.sf.saxon.dom.DocumentBuilderFactoryImpl");
-  }
+  private static final Map<String, String> BUILDERS = Map.of(
+      "net.sf.saxon.dom", "net.sf.saxon.dom.DocumentBuilderFactoryImpl"
+  );
 
   /**
    * Compares the two specified <code>Node</code>s and returns the diff as a node.
@@ -90,7 +98,7 @@ public final class Extension {
    * @throws DiffException Should a Diff exception occur.
    * @throws IOException   Should an I/O exception occur.
    */
-  public static Node diff(Node xml1, Node xml2, String whitespace, String granularity)
+  public static @Nullable Node diff(Node xml1, Node xml2, String whitespace, String granularity)
       throws DiffException, IOException {
 
     // Get the config
@@ -157,14 +165,33 @@ public final class Extension {
    * @return the corresponding document node.
    */
   private static Node toNode(String xml, DiffConfig config, @Nullable String factory) throws IOException, ParserConfigurationException, SAXException {
-    DocumentBuilderFactory dbFactory = factory == null ? DocumentBuilderFactory.newInstance()
-        : DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
-    dbFactory.setNamespaceAware(config.isNamespaceAware());
-    dbFactory.setExpandEntityReferences(true);
-    dbFactory.setValidating(false);
+    DocumentBuilderFactory dbFactory = newDocumentBuilderFactory(factory, config);
     DocumentBuilder builder = dbFactory.newDocumentBuilder();
     Document document = builder.parse(new InputSource(new StringReader(xml)));
     return document.getDocumentElement();
+  }
+
+  private static DocumentBuilderFactory newDocumentBuilderFactory(@Nullable String factory, DiffConfig config) throws ParserConfigurationException {
+    DocumentBuilderFactory dbFactory;
+    if (factory != null) {
+      try {
+        dbFactory = DocumentBuilderFactory.newInstance(factory, Extension.class.getClassLoader());
+      } catch (FactoryConfigurationError ex) {
+        dbFactory = DocumentBuilderFactory.newInstance();
+      }
+    } else {
+      dbFactory = DocumentBuilderFactory.newInstance();
+    }
+    dbFactory.setNamespaceAware(config.isNamespaceAware());
+    dbFactory.setValidating(false);
+    dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    if (!config.allowDoctypeDeclaration()) {
+      dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+    }
+    dbFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+    dbFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+    dbFactory.setExpandEntityReferences(false);
+    return dbFactory;
   }
 
   /**
