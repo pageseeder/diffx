@@ -51,7 +51,7 @@ import java.util.logging.Logger;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.2
+ * @version 1.3.4
  * @since 0.7
  */
 public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
@@ -193,6 +193,8 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
      */
     private boolean isFragment = true;
 
+    private int depth = 0;
+
     public LoadSession(DiffConfig config, @Nullable TextTokenizer tokenizer, boolean isFragment) {
       this.config = config;
       this.tokenFactory = new XMLTokenFactory(config.isNamespaceAware());
@@ -233,6 +235,8 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
      * @throws LoadingException If thrown while parsing.
      */
     private void loadDocument(Document document) throws LoadingException {
+      this.sequence.addNamespace(XMLConstants.XML_NS_URI, XMLConstants.XML_NS_PREFIX);
+      this.sequence.addNamespace(XMLConstants.NULL_NS_URI, XMLConstants.DEFAULT_NS_PREFIX);
       loadElement(document.getDocumentElement());
     }
 
@@ -247,10 +251,12 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
       StartElementToken start = toStartElement(element);
       this.sequence.addToken(start);
       loadAttributes(element);
+      this.depth++;
       NodeList list = element.getChildNodes();
       for (int i = 0; i < list.getLength(); i++) {
         loadNode(list.item(i));
       }
+      this.depth--;
       EndElementToken close = this.tokenFactory.newEndElement(start);
       this.sequence.addToken(close);
     }
@@ -345,8 +351,10 @@ public final class DOMLoader extends XMLLoaderBase implements XMLLoader {
       handlePrefixMapping(uri, attr.getPrefix());
       // a namespace declaration, translate the token into a prefix mapping
       if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(uri)) {
-        // FIXME Handle default namespace declaration on root element
-        this.sequence.addNamespace(attr.getValue(), attr.getLocalName());
+        String localName = attr.getLocalName();
+        String nsPrefix = XMLConstants.XMLNS_ATTRIBUTE.equals(localName) ? XMLConstants.DEFAULT_NS_PREFIX : localName;
+        boolean isRoot = this.depth == 0;
+        this.sequence.addNamespace(attr.getValue(), nsPrefix, isRoot);
         return null;
       } else {
         if (this.config.isNamespaceAware()) {
