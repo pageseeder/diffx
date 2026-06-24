@@ -94,6 +94,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
       return snakes;
     }
 
+    @SuppressWarnings("java:S3776") // Complexity is inherent to the linear divide-and-conquer
     private void computePath(int recursion, List<EdgeSnake> snakes,
                              @Nullable List<Vector> forwardVs, @Nullable List<Vector> reverseVs,
                              int startA, int sizeA,
@@ -181,6 +182,7 @@ public final class MyersLinearAlgorithm<T> extends MyersAlgorithm<T> implements 
     /**
      * Calculate the middle snake
      */
+    @SuppressWarnings("java:S3776") // Complexity is inherent to the bidirectional snake search
     private MiddleSnake middleSnake(int startA, int sizeA,
                                     int startB, int sizeB,
                                     Vector vForward, Vector vReverse,

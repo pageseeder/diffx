@@ -129,6 +129,7 @@ public final class MyersGreedyXMLAlgorithm extends MyersAlgorithm<XMLToken> impl
     /**
      * @return the last snake when a solution has been found.
      */
+    @SuppressWarnings("java:S3776") // Complexity is inherent to the XML-aware diagonal sweep
     private boolean forward(Vector vector, XMLStackMap elements, int d) {
       elements.nextDiff();
       for (int k = -d; k <= d; k += 2) {

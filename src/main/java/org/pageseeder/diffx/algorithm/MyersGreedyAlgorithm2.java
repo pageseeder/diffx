@@ -156,6 +156,7 @@ public final class MyersGreedyAlgorithm2<T> implements DiffAlgorithm<T> {
     /**
      * @throws IllegalStateException If no solution could be found
      */
+    @SuppressWarnings("java:S3776") // Complexity is inherent to the reverse path reconstruction
     private void solve(List<Vector> vectors, DiffHandler<T> handler) {
       Point target = new Point(0, 0);
       final int delta = this.sizeA - this.sizeB;

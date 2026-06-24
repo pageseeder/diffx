@@ -159,7 +159,7 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     }
   }
 
-  @SuppressWarnings("java:S106")
+  @SuppressWarnings({"java:S106", "java:S3776"}) // Complexity is inherent to the XML-aware matrix walk
   private void processDiff(List<? extends XMLToken> A, List<? extends XMLToken> B, ElementStackFilter handler) {
     final int lengthA = A.size();
     final int lengthB = B.size();
