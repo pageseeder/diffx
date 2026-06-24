@@ -1,11 +1,14 @@
 package org.pageseeder.diffx.action;
 
 import org.junit.jupiter.api.Test;
+import org.pageseeder.diffx.api.DiffHandler;
 import org.pageseeder.diffx.api.Operator;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -222,5 +225,171 @@ class ActionsTest {
 
     assertTrue(resultForward.isEmpty(), "Generated list should be empty for DEL tokens when forward is true.");
     assertEquals(List.of("del1", "del2"), resultBackward, "Generated list should include all DEL tokens when forward is false.");
+  }
+
+  // --- Tests for isApplicable ---
+
+  @Test
+  void testIsApplicable_WithValidActions() {
+    List<String> a = List.of("a", "b", "c");
+    List<String> b = List.of("a", "x", "c");
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.MATCH, List.of("a")),
+        new Action<>(Operator.DEL, List.of("b")),
+        new Action<>(Operator.INS, List.of("x")),
+        new Action<>(Operator.MATCH, List.of("c"))
+    );
+    assertTrue(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_WithEmptyInputsAndActions() {
+    assertTrue(Actions.isApplicable(List.of(), List.of(), List.of()));
+  }
+
+  @Test
+  void testIsApplicable_MatchMismatchInA() {
+    List<String> a = List.of("a");
+    List<String> b = List.of("a");
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.MATCH, List.of("b"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_MatchMismatchInB() {
+    List<String> a = List.of("a");
+    List<String> b = List.of("x");
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.MATCH, List.of("a"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_DelMismatch() {
+    List<String> a = List.of("a");
+    List<String> b = List.of();
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.DEL, List.of("b"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_InsMismatch() {
+    List<String> a = List.of();
+    List<String> b = List.of("a");
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.INS, List.of("b"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_OverflowA() {
+    List<String> a = List.of();
+    List<String> b = List.of();
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.DEL, List.of("a"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_OverflowB() {
+    List<String> a = List.of();
+    List<String> b = List.of();
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.INS, List.of("a"))
+    );
+    assertFalse(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_AllInserts() {
+    List<String> a = List.of();
+    List<String> b = List.of("x", "y");
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.INS, List.of("x", "y"))
+    );
+    assertTrue(Actions.isApplicable(a, b, actions));
+  }
+
+  @Test
+  void testIsApplicable_AllDeletes() {
+    List<String> a = List.of("x", "y");
+    List<String> b = List.of();
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.DEL, List.of("x", "y"))
+    );
+    assertTrue(Actions.isApplicable(a, b, actions));
+  }
+
+  // --- Tests for handle ---
+
+  @Test
+  void testHandle_WithMixedActions() {
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.MATCH, List.of("a")),
+        new Action<>(Operator.INS, List.of("b", "c")),
+        new Action<>(Operator.DEL, List.of("d"))
+    );
+    List<Map.Entry<Operator, String>> received = new ArrayList<>();
+    DiffHandler<String> handler = (op, token) -> received.add(new SimpleEntry<>(op, token));
+
+    Actions.handle(actions, handler);
+
+    assertEquals(List.of(
+        new SimpleEntry<>(Operator.MATCH, "a"),
+        new SimpleEntry<>(Operator.INS, "b"),
+        new SimpleEntry<>(Operator.INS, "c"),
+        new SimpleEntry<>(Operator.DEL, "d")
+    ), received);
+  }
+
+  @Test
+  void testHandle_WithEmptyActions() {
+    List<Map.Entry<Operator, String>> received = new ArrayList<>();
+    DiffHandler<String> handler = (op, token) -> received.add(new SimpleEntry<>(op, token));
+
+    Actions.handle(Collections.emptyList(), handler);
+
+    assertTrue(received.isEmpty());
+  }
+
+  // --- Tests for applyTo ---
+
+  @Test
+  void testApplyTo_CallsStartHandleEnd() {
+    List<Action<String>> actions = List.of(
+        new Action<>(Operator.MATCH, List.of("a")),
+        new Action<>(Operator.INS, List.of("b"))
+    );
+    List<String> events = new ArrayList<>();
+    DiffHandler<String> handler = new DiffHandler<>() {
+      @Override public void start() { events.add("START"); }
+      @Override public void handle(Operator operator, String token) { events.add(operator + ":" + token); }
+      @Override public void end() { events.add("END"); }
+    };
+
+    Actions.applyTo(actions, handler);
+
+    assertEquals(List.of("START", "=:a", "+:b", "END"), events);
+  }
+
+  @Test
+  void testApplyTo_WithEmptyActions() {
+    List<String> events = new ArrayList<>();
+    DiffHandler<String> handler = new DiffHandler<>() {
+      @Override public void start() { events.add("START"); }
+      @Override public void handle(Operator operator, String token) { events.add(operator + ":" + token); }
+      @Override public void end() { events.add("END"); }
+    };
+
+    Actions.applyTo(Collections.emptyList(), handler);
+
+    assertEquals(List.of("START", "END"), events);
   }
 }

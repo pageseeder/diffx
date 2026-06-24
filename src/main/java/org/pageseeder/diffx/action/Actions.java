@@ -27,12 +27,13 @@ import java.util.List;
  * Utility class for actions.
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ *
+ * @version 1.3.4
+ * @since 0.9.0
  */
 public final class Actions {
 
   private Actions() {}
-
 
   /**
    * Generates a list of tokens by processing a list of actions based on their operators and the specified direction.
@@ -165,30 +166,36 @@ public final class Actions {
    *
    * @return true if applicable; false otherwise.
    */
+  @SuppressWarnings("java:S3776") // Complexity is from repetitive per-operator branches, not actual difficulty
   public static <T> boolean isApplicable(List<? extends T> a, List<? extends T> b, List<Action<T>> actions) {
     int i = 0; // Index of A
     int j = 0; // Index of B
     final int aSize = a.size();
     final int bSize = b.size();
     for (Action<T> action : actions) {
-      final Operator op = action.operator();
-      if (op == Operator.MATCH) {
-        for (T token : action.tokens()) {
-          if (i >= aSize || !token.equals(a.get(i))) return false;
-          if (j >= bSize || !token.equals(b.get(j))) return false;
-          i++;
-          j++;
-        }
-      } else if (op == Operator.DEL) {
-        for (T token : action.tokens()) {
-          if (i >= aSize || !token.equals(a.get(i))) return false;
-          i++;
-        }
-      } else if (op == Operator.INS) {
-        for (T token : action.tokens()) {
-          if (j >= bSize || !token.equals(b.get(j))) return false;
-          j++;
-        }
+      switch (action.operator()) {
+        case MATCH:
+          for (T token : action.tokens()) {
+            if (i >= aSize || !token.equals(a.get(i))) return false;
+            if (j >= bSize || !token.equals(b.get(j))) return false;
+            i++;
+            j++;
+          }
+          break;
+        case DEL:
+          for (T token : action.tokens()) {
+            if (i >= aSize || !token.equals(a.get(i))) return false;
+            i++;
+          }
+          break;
+        case INS:
+          for (T token : action.tokens()) {
+            if (j >= bSize || !token.equals(b.get(j))) return false;
+            j++;
+          }
+          break;
+        default:
+          break;
       }
     }
     return true;
