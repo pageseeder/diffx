@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.3
+ * @version 1.3.4
  * @since 1.3.3
  */
 public final class PatienceAlgorithm<T> implements DiffAlgorithm<T> {
@@ -79,6 +79,9 @@ public final class PatienceAlgorithm<T> implements DiffAlgorithm<T> {
     diffRange(from, 0, from.size(), to, 0, to.size(), handler);
   }
 
+  // Cognitive complexity is inherent to the algorithm's sequential stages (base cases, prefix/suffix
+  // stripping, anchor recursion); splitting would scatter the control flow without improving clarity.
+  @SuppressWarnings("java:S3776")
   private void diffRange(List<? extends T> a, int aStart, int aEnd,
                          List<? extends T> b, int bStart, int bEnd,
                          DiffHandler<T> handler) {
@@ -144,6 +147,7 @@ public final class PatienceAlgorithm<T> implements DiffAlgorithm<T> {
     }
   }
 
+  @SuppressWarnings("java:S3776")
   private List<Match> uniqueAnchors(List<? extends T> a, int aStart, int aEnd,
                                     List<? extends T> b, int bStart, int bEnd) {
     Map<T, Occurrence> aOcc = new HashMap<>();
