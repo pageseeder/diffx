@@ -126,6 +126,7 @@ public class ExtendedWhitespaceStripper implements SequenceProcessor {
    *         based on the context of each token.
    */
   @Override
+  @SuppressWarnings("java:S3776") // Not worth splitting
   public List<XMLToken> process(List<XMLToken> tokens) {
     Deque<StripWhitespace> context = new ArrayDeque<>();
     List<XMLToken> out = new ArrayList<>(tokens.size());
