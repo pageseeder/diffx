@@ -22,7 +22,6 @@ import org.pageseeder.diffx.xml.Namespace;
 import org.pageseeder.xmlwriter.XMLWriterNSImpl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.io.Writer;
 
@@ -53,15 +52,6 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
    * Required to keep track of namespaces
    */
   private int level = 0;
-
-  /**
-   * Creates a new output on the standard output.
-   *
-   * @see System#out
-   */
-  public DefaultXMLDiffOutput() {
-    this(new PrintWriter(System.out));
-  }
 
   /**
    * Creates a new formatter using the specified writer.
@@ -116,6 +106,7 @@ public final class DefaultXMLDiffOutput extends XMLDiffOutputBase implements XML
     token.toXML(this.xml);
   }
 
+  @SuppressWarnings("java:S3776")
   void handleEdit(Operator operator, XMLToken token) throws IOException {
     if (token.getType() == XMLTokenType.START_ELEMENT) {
       token.toXML(this.xml);
