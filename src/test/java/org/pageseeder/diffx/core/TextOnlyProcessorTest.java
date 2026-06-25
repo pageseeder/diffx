@@ -16,12 +16,16 @@
 package org.pageseeder.diffx.core;
 
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.algorithm.BasicGeneralDiffTest;
 import org.pageseeder.diffx.algorithm.BasicLinesDiffTest;
 import org.pageseeder.diffx.algorithm.RandomGeneralDiffTest;
 import org.pageseeder.diffx.api.DiffAlgorithm;
+import org.pageseeder.diffx.core.TextOnlyProcessor.Algorithm;
 import org.pageseeder.diffx.token.XMLToken;
 import org.pageseeder.diffx.token.impl.LineToken;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test case for text only algorithm.
@@ -31,15 +35,22 @@ import org.pageseeder.diffx.token.impl.LineToken;
  */
 public final class TextOnlyProcessorTest {
 
-  private <T> DiffAlgorithm<T> newProcessor() {
-    return new TextOnlyProcessor<>();
+  private static <T> DiffAlgorithm<T> processor(Algorithm algorithm) {
+    return new TextOnlyProcessor<>(algorithm);
+  }
+
+  @Test
+  public void testToString() {
+    String result = new TextOnlyProcessor<>().toString();
+    assertTrue(result.startsWith("TextOnlyProcessor{algo="));
+    assertTrue(result.endsWith("}"));
   }
 
   @Nested
-  public class GeneralDiff extends BasicGeneralDiffTest {
+  public class KumarRanganDiff extends BasicGeneralDiffTest {
     @Override
     public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
-      return newProcessor();
+      return processor(Algorithm.KUMAR_RANGAN);
     }
   }
 
@@ -47,7 +58,7 @@ public final class TextOnlyProcessorTest {
   public class RandomGeneralDiff extends RandomGeneralDiffTest {
     @Override
     public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
-      return newProcessor();
+      return processor(Algorithm.KUMAR_RANGAN);
     }
   }
 
@@ -55,7 +66,71 @@ public final class TextOnlyProcessorTest {
   public class LinesDiff extends BasicLinesDiffTest {
     @Override
     public DiffAlgorithm<LineToken> getDiffAlgorithm() {
-      return newProcessor();
+      return processor(Algorithm.KUMAR_RANGAN);
+    }
+  }
+
+  @Nested
+  public class HirschbergDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.HIRSCHBERG);
+    }
+  }
+
+  @Nested
+  public class HistogramDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.HISTOGRAM);
+    }
+  }
+
+  @Nested
+  public class MyerGreedyDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.MYER_GREEDY);
+    }
+  }
+
+  @Nested
+  public class MyerGreedy2Diff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.MYER_GREEDY2);
+    }
+  }
+
+  @Nested
+  public class MyerLinearDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.MYER_LINEAR);
+    }
+  }
+
+  @Nested
+  public class PatienceDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.PATIENCE);
+    }
+  }
+
+  @Nested
+  public class WagnerFischerDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.WAGNER_FISCHER);
+    }
+  }
+
+  @Nested
+  public class WuDiff extends BasicGeneralDiffTest {
+    @Override
+    public DiffAlgorithm<XMLToken> getDiffAlgorithm() {
+      return processor(Algorithm.WU);
     }
   }
 }

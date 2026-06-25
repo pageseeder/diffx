@@ -24,40 +24,60 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A processors for the text only tokens.
- * <p>
- * It is designed for text only and designed for simple sequences of tokens.
+ * A diff processor for simple, flat sequences of tokens that do not require XML-aware handling.
+ *
+ * <p>This processor slices common prefixes and suffixes from the input sequences before delegating
+ * to a configurable {@link Algorithm}. It is suitable for text, lines, or any token type that does
+ * not carry structural (XML) constraints.</p>
+ *
+ * <p>The default algorithm is {@link Algorithm#KUMAR_RANGAN}. Use the {@link #TextOnlyProcessor(Algorithm)}
+ * constructor to select an alternative.</p>
+ *
+ * @param <T> the type of token being compared
  *
  * @author Christophe Lauret
- * @version 0.9.0
+ * @version 1.3.4
+ * @since 0.9.0
+ *
+ * @see OptimisticXMLProcessor
  */
 public final class TextOnlyProcessor<T> implements DiffProcessor<T> {
 
   /**
-   * The main algorithms to choose from.
+   * The available diff algorithms for non-XML token sequences.
    */
   public enum Algorithm {
     HIRSCHBERG,
-    WAGNER_FISCHER,
+    HISTOGRAM,
     KUMAR_RANGAN,
     MYER_GREEDY,
+    MYER_GREEDY2,
     MYER_LINEAR,
+    PATIENCE,
+    WAGNER_FISCHER,
+    WU,
   }
 
   private final Algorithm algo;
 
   /**
-   * Create a text only processor using Kumar-Rangan's algorithm.
+   * Creates a text-only processor using the default algorithm ({@link Algorithm#KUMAR_RANGAN}).
    */
   public TextOnlyProcessor() {
     this(Algorithm.KUMAR_RANGAN);
   }
 
+  /**
+   * Creates a text-only processor using the specified algorithm.
+   *
+   * @param algorithm the diff algorithm to use
+   */
   public TextOnlyProcessor(Algorithm algorithm) {
     this.algo = algorithm;
   }
 
   @Override
+  @SuppressWarnings("java:S3776") // Complexity is inherent to the slice-and-diff pipeline
   public void diff(List<? extends T> from, List<? extends T> to, DiffHandler<T> handler) {
     handler.start();
     // handle the case when one of the two sequences is empty
@@ -112,14 +132,22 @@ public final class TextOnlyProcessor<T> implements DiffProcessor<T> {
     switch (this.algo) {
       case HIRSCHBERG:
         return new HirschbergAlgorithm<>();
-      case WAGNER_FISCHER:
-        return new WagnerFischerAlgorithm<>();
+      case HISTOGRAM:
+        return new HistogramAlgorithm<>();
       case KUMAR_RANGAN:
         return new KumarRanganAlgorithm<>();
       case MYER_GREEDY:
         return new MyersGreedyAlgorithm<>();
+      case MYER_GREEDY2:
+        return new MyersGreedyAlgorithm2<>();
       case MYER_LINEAR:
         return new MyersLinearAlgorithm<>();
+      case PATIENCE:
+        return new PatienceAlgorithm<>();
+      case WAGNER_FISCHER:
+        return new WagnerFischerAlgorithm<>();
+      case WU:
+        return new WuAlgorithm<>();
       default:
         throw new IllegalStateException("No algorithm defined");
     }
