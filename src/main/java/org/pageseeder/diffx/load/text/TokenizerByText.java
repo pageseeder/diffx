@@ -26,7 +26,17 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The tokenizer for characters tokens.
+ * Tokenizer that treats the entire text content as a single token, separating only leading
+ * and trailing white space based on the configured {@link WhiteSpaceProcessing}.
+ *
+ * <ul>
+ *   <li>{@code COMPARE} — leading/trailing white space becomes {@link SpaceToken}s,
+ *       the non-space content becomes a {@link CharactersToken}.</li>
+ *   <li>{@code PRESERVE} — leading/trailing white space becomes {@link IgnorableSpaceToken}s
+ *       (present in output but not compared), the non-space content becomes a {@link CharactersToken}.</li>
+ *   <li>{@code IGNORE} — leading/trailing white space is discarded;
+ *       only the non-space content is returned as a {@link CharactersToken}.</li>
+ * </ul>
  *
  * <p>This class is not synchronized.
  *
@@ -55,6 +65,7 @@ public final class TokenizerByText implements TextTokenizer {
   }
 
   @Override
+  @SuppressWarnings("java:S3776") // Flat switch logic; splitting into methods would obscure the flow without reducing real complexity
   public List<TextToken> tokenize(CharSequence text) {
     Objects.requireNonNull(text, "Character sequence is null");
     if (text.length() == 0) return List.of();
