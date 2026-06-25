@@ -37,7 +37,7 @@ import java.util.List;
  *
  * @author Christophe Lauret
  *
- * @version 1.3.2
+ * @version 1.3.4
  * @since 0.7.0
  */
 public final class TokenListSlicer {
@@ -45,12 +45,12 @@ public final class TokenListSlicer {
   /**
    * The first sequence of tokens to test.
    */
-  final List<? extends XMLToken> sequence1;
+  final List<XMLToken> sequence1;
 
   /**
    * The second sequence of tokens to test.
    */
-  final List<? extends XMLToken> sequence2;
+  final List<XMLToken> sequence2;
 
   /**
    * The common start between the two sequences.
@@ -68,9 +68,10 @@ public final class TokenListSlicer {
    * @param seq0 The first sequence to slice.
    * @param seq1 The second sequence to slice.
    */
+  @SuppressWarnings("unchecked")
   public TokenListSlicer(List<? extends XMLToken> seq0, List<? extends XMLToken> seq1) {
-    this.sequence1 = seq0;
-    this.sequence2 = seq1;
+    this.sequence1 = (List<XMLToken>) seq0;
+    this.sequence2 = (List<XMLToken>) seq1;
   }
 
   /**
@@ -96,8 +97,8 @@ public final class TokenListSlicer {
   public int computeStart() throws IllegalStateException {
     int toBeRemoved = 0; // the number of tokens to be removed
     int depth = 0;       // the depth of the XML or number of open elements
-    Iterator<? extends XMLToken> i = this.sequence1.iterator();
-    Iterator<? extends XMLToken> j = this.sequence2.iterator();
+    Iterator<XMLToken> i = this.sequence1.iterator();
+    Iterator<XMLToken> j = this.sequence2.iterator();
     int counter = 0;
     // calculate the max possible index for slicing.
     while (i.hasNext() && j.hasNext()) {
@@ -215,7 +216,7 @@ public final class TokenListSlicer {
   /**
    * @return The common sublist at the start of the sequence.
    */
-  public List<? extends XMLToken> getStart() {
+  public List<XMLToken> getStart() {
     if (this.startCount <= 0) return List.of();
     return this.sequence1.subList(0, this.startCount);
   }
@@ -223,18 +224,18 @@ public final class TokenListSlicer {
   /**
    * @return The common sublist at the end of the sequence.
    */
-  public List<? extends XMLToken> getEnd() {
+  public List<XMLToken> getEnd() {
     if (this.endCount <= 0) return List.of();
     int size = this.sequence1.size();
     return this.sequence1.subList(size - this.endCount, size);
   }
 
-  public List<? extends XMLToken> getSubSequence1() {
+  public List<XMLToken> getSubSequence1() {
     if (this.startCount <= 0 && this.endCount <= 0) return this.sequence1;
     return this.sequence1.subList(this.startCount, this.sequence1.size() - this.endCount);
   }
 
-  public List<? extends XMLToken> getSubSequence2() {
+  public List<XMLToken> getSubSequence2() {
     if (this.startCount <= 0 && this.endCount <= 0) return this.sequence2;
     return this.sequence2.subList(this.startCount, this.sequence2.size() - this.endCount);
   }

@@ -145,8 +145,8 @@ public final class MatrixXMLAlgorithm implements DiffAlgorithm<XMLToken> {
     // Check the end
     if (common > 0) {
       slicer.handleStart(handler);
-      List<? extends XMLToken> subA = slicer.getSubSequence1();
-      List<? extends XMLToken> subB = slicer.getSubSequence2();
+      List<XMLToken> subA = slicer.getSubSequence1();
+      List<XMLToken> subB = slicer.getSubSequence2();
       if (subA.isEmpty() || subB.isEmpty()) {
         for (XMLToken token : subB) handler.handle(Operator.INS, token);
         for (XMLToken token : subA) handler.handle(Operator.DEL, token);
