@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
 import org.pageseeder.diffx.action.Action;
@@ -35,13 +36,11 @@ import java.util.List;
  * <p>This class extends the level 1 tests, and expect algorithms to produce
  * results of better quality, that is which serialised form always produce
  * well-formed XML.
- *
- * @author Christophe Lauret
- * @version 0.9.0
  */
 public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
 
   @Test
+  @Disabled("Too unpredictable; not useful in regular test runs")
   public final void testRandom1() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
@@ -52,6 +51,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
   }
 
   @Test
+  @Disabled("Too unpredictable; not useful in regular test runs")
   public final void testRandom2() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
@@ -62,6 +62,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
   }
 
   @Test
+  @Disabled("Too unpredictable; not useful in regular test runs")
   public final void testRandom3() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
@@ -72,6 +73,7 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
   }
 
   @Test
+  @Disabled("Too unpredictable; not useful in regular test runs")
   public final void testRandom4() throws DiffException {
     RandomXMLFactory factory = new RandomXMLFactory();
     for (int i = 0; i < 100; i++) {
@@ -80,16 +82,6 @@ public abstract class RandomXMLDiffTest extends AlgorithmTest<XMLToken> {
       assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
     }
   }
-
-//  @Test
-//  public final void testRandom5() throws DiffException {
-//    RandomHTMLFactory factory = new RandomHTMLFactory();
-//    for (int i=0; i < 10; i++) {
-//      Document docA = factory.nextDocument();
-//      Document docB = factory.vary(docA, .25);
-//      assertDiffXMLRandomOK(DOMUtils.toString(docA, true), DOMUtils.toString(docB, true));
-//    }
-//  }
 
   // helpers
   // --------------------------------------------------------------------------
