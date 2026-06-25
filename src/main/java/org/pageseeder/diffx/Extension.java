@@ -38,12 +38,17 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Map;
+
 
 /**
- * To use Diff-X as an XSLT extension.
+ * Provides Diff-X as a Saxon XSLT extension function.
  *
- * <p>In Saxon, declare the namespace as:
+ * <p>This class is designed for use with Saxon. While the {@link #diff} method accepts
+ * standard DOM {@link Node} arguments, the DOM factory handling is Saxon-specific and
+ * this extension has only been tested with Saxon.
+ *
+ * <h3>Usage with Saxon-PE / Saxon-EE (reflexive extensions)</h3>
+ * <p>Declare the namespace in your stylesheet:
  * <pre>{@code
  * <xsl:stylesheet version="2.0"
  *    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -52,18 +57,18 @@ import java.util.Map;
  * >
  * }</pre>
  *
- * <p>Diff-X can be called within XSLT with:
+ * <p>Then call the diff function:
  * <pre>{@code
  * <xsl:copy-of select="diffx:diff(/node1/to/compare, /node2/to/compare, 'IGNORE', 'TEXT')"/>
  * }</pre>
  *
- * <p>Note: the reflexive Java extension function mechanism used above requires
- * <b>Saxon-PE or Saxon-EE</b> (reflexive extensions were removed from Saxon-HE in version 9.8).
- * With Saxon-HE, register this function explicitly using the s9api
- * {@code Processor.registerExtensionFunction()} API.
+ * <h3>Usage with Saxon-HE</h3>
+ * <p>Reflexive Java extension functions were removed from Saxon-HE in version 9.8.
+ * Register this function explicitly using the s9api
+ * {@code Processor.registerExtensionFunction()} API instead.
  *
  * <p>The method signature requires DOM arguments; include the <code>Saxon-DOM</code> jar
- * on your classpath when using this extension function with Saxon.
+ * on your classpath when using this extension function.
  *
  * @author Christophe Lauret
  *
@@ -74,14 +79,8 @@ public final class Extension {
 
   private Extension() {}
 
-  /**
-   * Maps the DOM builder factory to use with the given DOM package.
-   *
-   * <p>This is because some XSLT processors will only accept certain types DOM objects.
-   */
-  private static final Map<String, String> BUILDERS = Map.of(
-      "net.sf.saxon.dom", "net.sf.saxon.dom.DocumentBuilderFactoryImpl"
-  );
+  private static final String SAXON_DOM_PACKAGE = "net.sf.saxon.dom";
+  private static final String SAXON_DOM_BUILDER_FACTORY = "net.sf.saxon.dom.DocumentBuilderFactoryImpl";
 
   /**
    * Compares the two specified <code>Node</code>s and returns the diff as a node.
@@ -200,11 +199,10 @@ public final class Extension {
    * @param xml1 the first node list.
    * @param xml2 the second node list.
    */
-  private static @Nullable String getFactoryClass(@Nullable Node xml1, @Nullable Node xml2) {
-    Package pkg = xml1 != null ? xml1.getClass().getPackage()
-        : xml2 != null ? xml2.getClass().getPackage()
-        : null;
-    return pkg == null ? null : BUILDERS.get(pkg.getName());
+  private static @Nullable String getFactoryClass(Node xml1, Node xml2) {
+    if (SAXON_DOM_PACKAGE.equals(xml1.getClass().getPackageName())) return SAXON_DOM_BUILDER_FACTORY;
+    if (SAXON_DOM_PACKAGE.equals(xml2.getClass().getPackageName())) return SAXON_DOM_BUILDER_FACTORY;
+    return null;
   }
 
 }
