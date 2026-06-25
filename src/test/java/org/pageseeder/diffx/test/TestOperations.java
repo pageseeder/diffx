@@ -19,7 +19,6 @@ import org.pageseeder.diffx.action.Operation;
 import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.token.XMLToken;
-import org.pageseeder.diffx.token.XMLTokenFactory;
 import org.pageseeder.diffx.token.impl.CharToken;
 import org.pageseeder.diffx.token.impl.XMLAttribute;
 import org.pageseeder.diffx.token.impl.XMLEndElement;

@@ -22,7 +22,6 @@ import org.w3c.dom.Node;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

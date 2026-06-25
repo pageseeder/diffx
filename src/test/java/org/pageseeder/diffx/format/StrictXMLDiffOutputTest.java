@@ -18,7 +18,6 @@ package org.pageseeder.diffx.format;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
-import org.pageseeder.diffx.api.Operator;
 import org.pageseeder.diffx.load.SAXLoader;
 import org.pageseeder.diffx.xml.Sequence;
 import org.pageseeder.diffx.token.impl.*;
