@@ -97,6 +97,7 @@ public class XMLEventBalancer extends DiffFilter<XMLToken> {
     }
   }
 
+  @SuppressWarnings("java:S3776") // Complexity is inherent to the dual-queue XML balancing state machine
   private void flushChanges() {
     while (!this.insertions.isEmpty() || !this.deletions.isEmpty()) {
       // Flush attributes if the last token sent was an open element or attribute
