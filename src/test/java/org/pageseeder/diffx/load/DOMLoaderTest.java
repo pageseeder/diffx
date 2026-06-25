@@ -129,7 +129,9 @@ public final class DOMLoaderTest {
       Sequence sequence = load("<root><child xmlns='https://child.org'/></root>");
       NamespaceSet namespaces = sequence.getNamespaces();
       String prefix = namespaces.getPrefix("https://child.org");
-      // Child-level default ns should not replace the root-level empty prefix
+      // Child-level default namespace should be assigned an automatic prefix instead of
+      // replacing the root-level empty namespace mapping.
+      assertEquals("ns0", prefix);
       assertEquals("", namespaces.getPrefix(""), "Root empty namespace should keep empty prefix");
     }
   }
