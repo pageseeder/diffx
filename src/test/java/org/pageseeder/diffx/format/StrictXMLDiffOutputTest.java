@@ -324,7 +324,7 @@ final class StrictXMLDiffOutputTest {
   }
 
   @Test
-  void testMixedOperatorsOnElements() throws DiffException {
+  void testMixedOperatorsOnElements() {
     this.output.start();
     this.output.handle(MATCH, new XMLStartElement("root"));
     this.output.handle(DEL, new XMLStartElement("old"));

@@ -75,7 +75,7 @@ public final class DOMLoaderTest {
 
   @Nested
   @DisplayName("Namespace mappings")
-  public class NamespaceMappings {
+  class NamespaceMappings {
 
     private Sequence load(String xml) throws LoadingException {
       return configureLoader(DiffConfig.getDefault()).load(xml);
@@ -83,7 +83,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Default namespace on root maps to empty prefix")
-    public void testDefaultNamespaceOnRoot() throws LoadingException {
+    void testDefaultNamespaceOnRoot() throws LoadingException {
       Sequence sequence = load("<root xmlns='https://example.org'/>");
       NamespaceSet namespaces = sequence.getNamespaces();
       assertEquals("", namespaces.getPrefix("https://example.org"));
@@ -91,7 +91,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Prefixed namespace on root maps to declared prefix")
-    public void testPrefixedNamespaceOnRoot() throws LoadingException {
+    void testPrefixedNamespaceOnRoot() throws LoadingException {
       Sequence sequence = load("<x:root xmlns:x='https://example.org'/>");
       NamespaceSet namespaces = sequence.getNamespaces();
       assertEquals("x", namespaces.getPrefix("https://example.org"));
@@ -99,7 +99,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Default namespace on root replaces initial empty-prefix mapping")
-    public void testDefaultNamespaceReplacesInitialMapping() throws LoadingException {
+    void testDefaultNamespaceReplacesInitialMapping() throws LoadingException {
       Sequence sequence = load("<root xmlns='https://example.org'><child/></root>");
       NamespaceSet namespaces = sequence.getNamespaces();
       assertEquals("", namespaces.getPrefix("https://example.org"));
@@ -107,7 +107,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Multiple prefixed namespaces are all mapped")
-    public void testMultiplePrefixedNamespaces() throws LoadingException {
+    void testMultiplePrefixedNamespaces() throws LoadingException {
       Sequence sequence = load("<root xmlns:a='https://a.org' xmlns:b='https://b.org'><a:x/><b:y/></root>");
       NamespaceSet namespaces = sequence.getNamespaces();
       assertEquals("a", namespaces.getPrefix("https://a.org"));
@@ -116,7 +116,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Default namespace with prefixed namespace on same root")
-    public void testDefaultAndPrefixedNamespaceOnRoot() throws LoadingException {
+    void testDefaultAndPrefixedNamespaceOnRoot() throws LoadingException {
       Sequence sequence = load("<root xmlns='https://default.org' xmlns:x='https://x.org'><x:child/></root>");
       NamespaceSet namespaces = sequence.getNamespaces();
       assertEquals("", namespaces.getPrefix("https://default.org"));
@@ -125,7 +125,7 @@ public final class DOMLoaderTest {
 
     @Test
     @DisplayName("Child element default namespace is not mapped to empty prefix")
-    public void testChildDefaultNamespaceNotEmpty() throws LoadingException {
+    void testChildDefaultNamespaceNotEmpty() throws LoadingException {
       Sequence sequence = load("<root><child xmlns='https://child.org'/></root>");
       NamespaceSet namespaces = sequence.getNamespaces();
       String prefix = namespaces.getPrefix("https://child.org");

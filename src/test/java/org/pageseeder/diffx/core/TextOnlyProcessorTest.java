@@ -29,18 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test case for text only algorithm.
- *
- * @author Christophe Lauret
- * @version 0.9.0
  */
-public final class TextOnlyProcessorTest {
+final class TextOnlyProcessorTest {
 
   private static <T> DiffAlgorithm<T> processor(Algorithm algorithm) {
     return new TextOnlyProcessor<>(algorithm);
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     String result = new TextOnlyProcessor<>().toString();
     assertTrue(result.startsWith("TextOnlyProcessor{algo="));
     assertTrue(result.endsWith("}"));

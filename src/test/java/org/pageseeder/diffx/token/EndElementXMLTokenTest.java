@@ -16,6 +16,7 @@
 package org.pageseeder.diffx.token;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.test.RandomStringFactory;
 import org.pageseeder.diffx.token.impl.XMLEndElement;
@@ -59,8 +60,8 @@ class EndElementXMLTokenTest {
     TokenTest.assertHashCollisionLessThan(tokens, .001);
   }
 
-
   @Test
+  @Disabled("Performance test - not useful in regular test runs")
   void testPerformance() {
     String[] uris = new String[]{"", "https://example.org", "https://example.net"};
     String[] names = new String[]{"alt", "title", "id", "value", "option", "name", "hidden"};

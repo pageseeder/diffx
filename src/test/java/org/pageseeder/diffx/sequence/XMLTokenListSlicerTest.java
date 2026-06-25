@@ -32,9 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test case for the sequence slicer.
- *
- * @author Christophe Lauret
- * @version 0.9.0
  */
 final class XMLTokenListSlicerTest {
 
@@ -393,7 +390,7 @@ final class XMLTokenListSlicerTest {
    * @throws IOException   Should an I/O exception occur.
    * @throws DiffException Should an error occur while parsing XML with SAX.
    */
-  private TokenListSlicer init(String xmlA, String xmlB) throws IOException, DiffException {
+  private TokenListSlicer init(String xmlA, String xmlB) throws DiffException {
     this.loader.setConfig(DiffConfig.getDefault().granularity(TextGranularity.TEXT));
     this.seqA = this.loader.load(xmlA);
     this.seqB = this.loader.load(xmlB);
