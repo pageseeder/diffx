@@ -115,6 +115,7 @@ public final class StrictXMLDiffOutput extends XMLDiffOutputBase implements XMLD
   }
 
   @Override
+  @SuppressWarnings("java:S3776") // Flat token-type dispatch; extracting methods would add call overhead on a hot path
   public void handle(Operator operator, XMLToken token) throws UncheckedIOException, IllegalStateException {
     try {
       if (token.getType() != XMLTokenType.ATTRIBUTE) {
