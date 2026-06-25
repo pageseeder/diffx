@@ -174,12 +174,15 @@ Diff-X provides static methods which can be used in XSLT as extension functions.
 
 Ensure that **saxon-dom.jar** is included in your classpath as Diff-X will compare DOM nodes.
 
+With Saxon-PE or Saxon-EE reflexive Java extension functions, declare the extension namespace as
+the Java class name:
+
 In your XSLT, declare the namespace as:
 
 ```xml
 <xsl:stylesheet version="2.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:diffx="java:org.pageseeder.diffx.Extension"
+    xmlns:diffx="org.pageseeder.diffx.Extension"
     extension-element-prefixes="diffx">
 ```
 
@@ -189,11 +192,15 @@ Then call Diff-X within your XSLT:
 <xsl:copy-of select="diffx:diff(/node1/to/compare, /node2/to/compare, 'IGNORE', 'WORD')"/>
 ```
 
+Saxon-HE no longer supports reflexive Java extension functions. With Saxon-HE 9.8 and later,
+including Saxon-HE 12.x, register the Diff-X function explicitly with Saxon's s9api
+`Processor.registerExtensionFunction()` API.
+
 Parameters:
 - `node1` — the first node to compare (Node)
 - `node2` — the second node to compare (Node)
 - `whitespace` — `COMPARE`, `PRESERVE`, or `IGNORE`
-- `granularity` — `TEXT` or `WORD`
+- `granularity` — `TEXT`, `PUNCTUATION`, `SPACE_WORD`, `WORD`, or `CHARACTER`
 
 ## Building
 
