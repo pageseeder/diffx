@@ -19,14 +19,14 @@ Diff-X targets **Java 11+** and is published on Maven Central as `org.pageseeder
 <dependency>
   <groupId>org.pageseeder.diffx</groupId>
   <artifactId>pso-diffx</artifactId>
-  <version>1.3.3</version>
+  <version>1.3.4</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```kotlin
-implementation("org.pageseeder.diffx:pso-diffx:1.3.3")
+implementation("org.pageseeder.diffx:pso-diffx:1.3.4")
 ```
 
 ## Packages
