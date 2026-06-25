@@ -15,6 +15,7 @@
  */
 package org.pageseeder.diffx.core;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.pageseeder.diffx.DiffException;
@@ -152,6 +153,7 @@ class PerformanceTest {
   }
 
   @Test
+  @Disabled("Too slow / unpredictable; not useful in regular test runs")
   void compareXMLProcessors() throws DiffException {
     int[] lengths = new int[]{500, 1000, 2000, 5000, 10000};
     for (int length : lengths) {
@@ -168,8 +170,8 @@ class PerformanceTest {
     }
   }
 
-
   @Test
+  @Disabled("Too slow / unpredictable; not useful in regular test runs")
   void compareXMLAlgorithms() throws DiffException {
     int[] lengths = new int[]{ 500, 1000, 2000, 5000, 10000 };
     for (int length : lengths) {
