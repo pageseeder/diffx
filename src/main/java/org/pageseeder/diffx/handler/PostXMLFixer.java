@@ -91,6 +91,7 @@ public final class PostXMLFixer extends DiffFilter<XMLToken> {
     }
   }
 
+  @SuppressWarnings("java:S3776") // Complexity is inherent to the token-type dispatch for XML well-formedness
   private void flushChanges() {
     while (!this.insertions.isEmpty() || !this.deletions.isEmpty()) {
 

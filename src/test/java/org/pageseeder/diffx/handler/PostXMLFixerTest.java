@@ -21,11 +21,13 @@ import org.pageseeder.diffx.action.OperationsBuffer;
 import org.pageseeder.diffx.test.TestOperations;
 import org.pageseeder.diffx.token.XMLToken;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
 final class PostXMLFixerTest {
+
+  // --- Pass-through ---
 
   @Test
   void testNoChange() {
@@ -33,6 +35,13 @@ final class PostXMLFixerTest {
     List<Operation<XMLToken>> result = fix(operations);
     assertEquals(operations, result);
   }
+
+  @Test
+  void testNoChangeHasNoError() {
+    assertFalse(fixAndReturnFixer(TestOperations.toXMLOperations("<a>", "</a>")).hasError());
+  }
+
+  // --- Element reordering ---
 
   @Test
   void testExample1A() {
@@ -67,22 +76,6 @@ final class PostXMLFixerTest {
   }
 
   @Test
-  void testAttribute1() {
-    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-Y", "+@m=x", "+X", "</a>");
-    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+@m=x", "+X", "-Y", "</a>");
-    List<Operation<XMLToken>> result = fix(operations);
-    assertEquals(expect, result);
-  }
-
-  @Test
-  void testAttribute2() {
-    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-@m=y", "-Y", "+@m=x", "+X", "</a>");
-    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
-    List<Operation<XMLToken>> result = fix(operations);
-    assertEquals(expect, result);
-  }
-
-  @Test
   void testExample2C() {
     // (-) <f> <l><i> <b>x</b> <n/>        a</i></l></f>
     // (+) <f> <p>    <b>x</b> </p><l><i>  a</i></l></f>
@@ -105,8 +98,217 @@ final class PostXMLFixerTest {
     assertEquals(expect, result);
   }
 
+  // --- Attribute flushing ---
+
+  @Test
+  void testAttribute1() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-Y", "+@m=x", "+X", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+@m=x", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testAttribute2() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-@m=y", "-Y", "+@m=x", "+X", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testAttributeAfterAttribute() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "@n=v", "-@m=y", "+@m=x", "X", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "@n=v", "-@m=y", "+@m=x", "X", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  // --- Insertions only ---
+
+  @Test
+  void testInsertionsOnlyText() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+X", "+Y", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+X", "+Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testInsertionsOnlyElement() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "+</b>", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+<b>", "+</b>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  // --- Deletions only ---
+
+  @Test
+  void testDeletionsOnlyText() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-X", "-Y", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testDeletionsOnlyElement() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-<b>", "-</b>", "</a>");
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<b>", "-</b>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    assertEquals(expect, result);
+  }
+
+  // --- Operator preference in else branch ---
+
+  @Test
+  void testLastOperatorPrefersInsViaAttributes() {
+    // After flushing attributes (DEL then INS), lastOperator=INS, so INS text is preferred next
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "@n=v", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "@n=v", "-@m=y", "+@m=x", "+X", "-Y", "</a>");
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testLastOperatorPrefersDel() {
+    // Default preference sends DEL first; with multiple DELs, they stay grouped
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-X", "-Y", "+Z", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-X", "-Y", "+Z", "</a>");
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testDefaultPrefersDeletions() {
+    // When lastOperator is MATCH and both queues have non-end-element tokens, DEL is preferred
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "M", "+X", "-Y", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "M", "-Y", "+X", "</a>");
+    assertEquals(expect, result);
+  }
+
+  // --- hasError flag ---
+
+  @Test
+  void testHasErrorOnMismatchedDeletedEndElement() {
+    // Deleted end element that doesn't match the last unclosed deleted start
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-<b>", "-</c>", "</a>");
+    PostXMLFixer fixer = fixAndReturnFixer(operations);
+    assertTrue(fixer.hasError());
+  }
+
+  @Test
+  void testHasErrorOnMismatchedInsertedEndElement() {
+    // Inserted end element that doesn't match the last unclosed inserted start
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "+</c>", "</a>");
+    PostXMLFixer fixer = fixAndReturnFixer(operations);
+    assertTrue(fixer.hasError());
+  }
+
+  @Test
+  void testNoErrorWhenEndElementsMatch() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+<b>", "+</b>", "-<c>", "-</c>", "</a>");
+    PostXMLFixer fixer = fixAndReturnFixer(operations);
+    assertFalse(fixer.hasError());
+  }
+
+  // --- MATCH end element mismatch ---
+
+  @Test
+  void testMatchEndElementMismatchSendsMatchingEnd() {
+    // MATCH </c> doesn't match the last unclosed MATCH <a>, so fixer sends </a> instead
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "</c>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "</a>");
+    assertEquals(expect, result);
+  }
+
+  // --- end() flushes pending edits ---
+
+  @Test
+  void testEndFlushesPendingInsertions() {
+    // No trailing MATCH to trigger flush — end() must flush
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
+    PostXMLFixer fixer = new PostXMLFixer(target);
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+X");
+    fixer.start();
+    for (Operation<XMLToken> o : operations) {
+      fixer.handle(o.operator(), o.token());
+    }
+    fixer.end();
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "+X", "</a>");
+    assertEquals(expect, target.getOperations());
+  }
+
+  @Test
+  void testEndFlushesPendingDeletions() {
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
+    PostXMLFixer fixer = new PostXMLFixer(target);
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-X");
+    fixer.start();
+    for (Operation<XMLToken> o : operations) {
+      fixer.handle(o.operator(), o.token());
+    }
+    fixer.end();
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-X", "</a>");
+    assertEquals(expect, target.getOperations());
+  }
+
+  // --- end() closes unclosed elements ---
+
+  @Test
+  void testEndClosesUnclosedMatchedElements() {
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
+    PostXMLFixer fixer = new PostXMLFixer(target);
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "<b>");
+    fixer.start();
+    for (Operation<XMLToken> o : operations) {
+      fixer.handle(o.operator(), o.token());
+    }
+    fixer.end();
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "<b>", "</b>", "</a>");
+    assertEquals(expect, target.getOperations());
+  }
+
+  @Test
+  void testEndClosesUnclosedNestedElements() {
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
+    PostXMLFixer fixer = new PostXMLFixer(target);
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "<b>", "<c>");
+    fixer.start();
+    for (Operation<XMLToken> o : operations) {
+      fixer.handle(o.operator(), o.token());
+    }
+    fixer.end();
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "<b>", "<c>", "</c>", "</b>", "</a>");
+    assertEquals(expect, target.getOperations());
+  }
+
+  // --- Mixed text and element edits ---
+
+  @Test
+  void testInsertedTextBeforeDeletedElement() {
+    // DEL preferred from MATCH default; DEL <b> sent first, then its matching </b>, then INS X
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "+X", "-<b>", "-</b>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-<b>", "-</b>", "+X", "</a>");
+    assertEquals(expect, result);
+  }
+
+  @Test
+  void testDeletedTextBeforeInsertedElement() {
+    List<Operation<XMLToken>> operations = TestOperations.toXMLOperations("<a>", "-X", "+<b>", "+</b>", "</a>");
+    List<Operation<XMLToken>> result = fix(operations);
+    List<Operation<XMLToken>> expect = TestOperations.toXMLOperations("<a>", "-X", "+<b>", "+</b>", "</a>");
+    assertEquals(expect, result);
+  }
+
+  // --- Helpers ---
+
   private List<Operation<XMLToken>> fix(List<Operation<XMLToken>> source) {
-    OperationsBuffer<org.pageseeder.diffx.token.XMLToken> target = new OperationsBuffer<>();
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
     PostXMLFixer fixer = new PostXMLFixer(target);
     fixer.start();
     for (Operation<XMLToken> o : source) {
@@ -114,6 +316,17 @@ final class PostXMLFixerTest {
     }
     fixer.end();
     return target.getOperations();
+  }
+
+  private PostXMLFixer fixAndReturnFixer(List<Operation<XMLToken>> source) {
+    OperationsBuffer<XMLToken> target = new OperationsBuffer<>();
+    PostXMLFixer fixer = new PostXMLFixer(target);
+    fixer.start();
+    for (Operation<XMLToken> o : source) {
+      fixer.handle(o.operator(), o.token());
+    }
+    fixer.end();
+    return fixer;
   }
 
 }
